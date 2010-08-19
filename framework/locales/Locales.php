@@ -146,8 +146,8 @@ function _f($t) {
 // _t() follows the admin panel locale setting, however _text() follows the skin locale setting.
 function _text($t) {
 	$locale = Locales::getInstance();
-	if(isset($locale->resource['blog']) && isset($locale->resource['blog'][$t])) {
-		return $locale->resource['blog'][$t];	
+	if(isset($locale->resource[$locale->domain]) && isset($locale->resource[$locale->domain][$t])) {
+		return $locale->resource[$locale->domain][$t];	
 	} else return $t;
 }
 

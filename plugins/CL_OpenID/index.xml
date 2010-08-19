@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="ko">OpenID(일본어판)</title>
-  <title xml:lang="en">OpenID(Japanese)</title>
-  <title xml:lang="ja">OpenID(日本語版)</title>
+  <title xml:lang="ko">OpenID</title>
+  <title xml:lang="en">OpenID</title>
+  <title xml:lang="ja">OpenID</title>
   <link>http://www.needlworks.org/</link>
   <version>1.0</version>
   <description xml:lang="en">This plugin enables OpenID facility.</description>

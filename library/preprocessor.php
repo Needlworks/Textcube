@@ -191,7 +191,6 @@ if (!defined('NO_INITIALIZAION')) {
 	if(!defined('NO_LOCALE')) {
 		if($context->getProperty('uri.interfaceType') == 'reader') { $languageDomain = 'owner'; }
 		else $languageDomain = $context->getProperty('uri.interfaceType');
-		
 		if($languageDomain == 'owner') {
 			$language = $context->getProperty('blog.language') !== null ?  $context->getProperty('blog.language') : $context->getProperty('service.language');
 		} else {
@@ -244,11 +243,15 @@ if(in_array($context->getProperty('uri.interfaceType'), array('blog','owner','re
     -----------------------------------
     Checks privilege setting and block user (or connection).
 */
-
 if($context->getProperty('uri.interfaceType') == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
 	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
-	if($blogVisibility == 0) requireOwnership();
-	else if($blogVisibility == 1) requireMembership();
+	if($context->getProperty('service.requirelogin',false) == true) {
+		if($blogVisibility == 0) requireOwnership();
+		else requireMembership();
+	} else {
+		if($blogVisibility == 0) requireOwnership();
+		else if($blogVisibility == 1) requireMembership();
+	}
 }
 
 if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))) {

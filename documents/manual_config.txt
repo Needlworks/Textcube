@@ -51,4 +51,6 @@ $database['port'] = 3639;            // Database port number
 $database['dbms'] = 'MySQL';         // DBMS. (MySQL, MySQLi, PostgreSQL, Cubrid.)
 $service['memcached'] = false;       // Using memcache to handle session and cache
 $memcached['server'] = 'localhost';  // Where memcache server is.
+// From Textcube 1.8.4
+$service['requirelogin'] = false;    // Force log-in process to every blogs. (for private blog service)
 ?>

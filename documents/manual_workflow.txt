@@ -15,6 +15,8 @@ Dispatching                                           +------+------+
                                                       +------+------+
                                                              |
                                                         rewrite.php
+														     |
+													/framework/Dispatcher.php
                                                              |  + /config.php
                                             (Context / URL / configuration loading)
                                                              |
@@ -23,9 +25,11 @@ Dispatching                                           +------+------+
                                                              |
            -------------------------------------- library/preprocessor.php   (Preprocessing) -----------------
                                                              |
-                                          Base components loading
+                                          Base components loading ( /framework/boot )
                                               + Environment Normalization (Unification)
                                               + Core component loading
+											  + Component / library autoload setting
+											  + Authenticating settings
                                                              |
                                           Validation
                                               + Basic POST/GET value validation
@@ -44,22 +48,20 @@ Dispatching                                           +------+------+
                                                     /library/include.php
                                                              |     + /library/config.php
                                                              |     + /config.php (override)
-                                                             |     + /library/component/~
-                                                             |      [Loading mandatory models / views]
                                                              |     + /library/model/~
                                                              |     + /library/view/~
 ------------                                                 |     
 Initializing                                                 |
                                                              |
                                                     If database needed,
-                              +------------------------------+--------------=====----------+
+                              +------------------------------+-----------------------------+
                               |                                                            |
                               |  Initializing database I/O                                 |
-                              |    + /library/components/Needlworks.DBMS.XXX.php           |
+                              |    + /framework/data/DBModel.php                           |
                               |                                                            |
                               |  Loading memcache module (if use)                          |
                               |  Creating Session (if requested)                           |
-                              |     +  /library/components/Textcube.Data.Session.XXX.php   |
+                              |     +  /framework/legacy/Textcube.Data.Session.XXX.php     |
                               +------------------------------+-----------------------------+
                                                              |
                                                  If initialization needed,

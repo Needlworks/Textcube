@@ -357,7 +357,7 @@ CREATE TABLE [##_dbPrefix_##]RemoteResponseLogs (
   blogid integer NOT NULL default 0,
   id integer NOT NULL,
   entry integer NOT NULL default 0,
-  type varchar(10) NOT NULL default 'trackback',
+  responsetype varchar(10) NOT NULL default 'trackback',
   url varchar(255) NOT NULL default '',
   written integer NOT NULL default 0,
   PRIMARY KEY  (blogid, entry, id)

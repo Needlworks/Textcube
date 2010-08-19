@@ -359,7 +359,7 @@ CREATE TABLE [##_dbPrefix_##]RemoteResponseLogs (
   blogid int(11) NOT NULL default '0',
   id int(11) NOT NULL,
   entry int(11) NOT NULL default '0',
-  type enum('trackback','pingback') NOT NULL default 'trackback',
+  responsetype enum('trackback','pingback') NOT NULL default 'trackback',
   url varchar(255) NOT NULL default '',
   written int(11) NOT NULL default '0',
   PRIMARY KEY  (blogid, entry, id),

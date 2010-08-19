@@ -71,10 +71,59 @@ dl#toolbox-googlemap dd.command-box a.button:hover {
 	text-decoration: none;
 }
 
-dl#toolbox-googlemap dd.command-box #gmap-insertMap {
-	background-image: url(./images/toolbox-map.png);
+dl#toolbox-googlemap dd.command-box #googlemap-insertMap {
+	background-image: url(../images/toolbox-map.png);
 }
 
-dl#toolbox-googlemap dd.command-box #gmap-getLocation {
-	background-image: url(./images/toolbox-location.png);
+dl#toolbox-googlemap dd.command-box #googlemap-attachLocation {
+	background-image: url(../images/toolbox-location.png);
+}
+
+#googlemap-geolocation-container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+}
+
+#googlemap-geolocation-container-arrow {
+	position: relative;
+	left: 88px;
+	top: 0;
+	margin: 0;
+	z-index: 200;
+}
+
+#googlemap-geolocation-preview {
+	position: relative;
+	top: -4px;
+	border: 1px solid #aaa;
+	background: white;
+	color: #999;
+	margin: 0;
+	padding: 4px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0px 2px 5px rgba(0,0,0,0.3);
+	text-align: right;
+	line-height: 1.0;
+	z-index: 100;
+}
+
+#googlemap-geolocation-preview a#googlemap-geolocation-preview-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	display: inline-block;
+	padding: 3px;
+	background: white;
+	color: #c00;
+}
+
+#googlemap-geolocation-preview img {
+	border: 0 none;
+	margin: 0;
+	padding: 0;
 }

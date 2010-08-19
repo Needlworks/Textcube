@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Recent Replies(Japanese)</title>
-  <title xml:lang="ko">최근 댓글(일본어판)</title>
-  <title xml:lang="ja">新着コメント(日本語版)</title>
+  <title xml:lang="en">Recent Replies</title>
+  <title xml:lang="ko">최근 댓글</title>
+  <title xml:lang="ja">新着コメント</title>
   <link>http://needlworks.org/</link>
   <version>1.8</version>
   <description xml:lang="en">Shows recent replies</description>

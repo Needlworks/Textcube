@@ -17,7 +17,6 @@
   </requirements>
   <binding>
     <listener event="/plugin/GMapCustomInsert/" handler="GoogleMapUI_InsertMap" scope="owner" />
-    <listener event="/plugin/GMapGetLocation/" handler="GoogleMapUI_GetLocation" scope="owner" />
     <listener event="/plugin/GMapCache/" handler="GoogleMap_Cache" />
     <listener event="ViewPostContent" handler="GoogleMap_View" />
     <listener event="ViewNoticeContent" handler="GoogleMap_View" />
@@ -30,9 +29,6 @@
     <config xml:lang="ko" dataValHandler="GoogleMap_ConfigHandler">
       <window width="500" height="550" />
       <fieldset legend="설정">
-        <field title="API 키" name="apiKey" type="text" size="42" value="">
-          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">구글맵 API 키 얻기</a> (구글 계정 필요)]]></caption>
-        </field>
         <field title="Sensor :" name="sensors" type="checkbox">
 		  <op name="useSensor" value="1"><![CDATA[위치 센서 사용 여부]]></op>
           <caption><![CDATA[모바일 기기 등에서 GPS와 같은 위치 센서를 사용할 경우 체크하세요.]]></caption>
@@ -54,9 +50,6 @@
     </config>
     <config xml:lang="en" dataValHandler="GoogleMap_ConfigHandler">
       <fieldset legend="Settings">
-        <field title="API Key" name="apiKey" type="text" size="42" value="">
-          <caption><![CDATA[<a href="http://code.google.com/apis/maps/signup.html" target="_blank">Get your API key for Google Maps</a> (Google Account needed)]]></caption>
-        </field>
         <field title="Sensor :" name="sensors" type="checkbox">
 		  <op name="useSensor" value="1"><![CDATA[Use any location sensor?]]></op>
           <caption><![CDATA[Check if youa are using location sensor like GPS.]]></caption>

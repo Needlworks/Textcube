@@ -12,11 +12,12 @@ $entry['id'] = $suri['id'];
 $entry['slogan'] = getSloganById($blogid, $entry['id']);
 $IV = array(
 	'POST' => array(
-		'page' => array('int',1)
+		'page' => array('int',1),
+		'listOnly' => array('int',0,1)
 	)
 );
 $result['error'] = 0;
-$result['commentBlock'] = revertTempTags(removeAllTags(getCommentView($entry, $skin, true, $_POST['page'], 20)));
-
+$result['commentBlock'] = revertTempTags(removeAllTags(getCommentView($entry, $skin, ($_POST['listOnly'] ? false:true),
+	$_POST['page'], 20,true)));
 Respond::PrintResult($result);
 ?>

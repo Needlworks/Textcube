@@ -29,8 +29,8 @@ dress('meta_http_equiv_keywords', $totalTagsView, $view);
 $searchView = $skin->search;
 dress('search_name', 'search', $searchView);
 dress('search_text', isset($search) ? htmlspecialchars($search) : '', $searchView);
-dress('search_onclick_submit', 'searchBlog()', $searchView);
-dress('search', '<form id="TTSearchForm" action="'.$context->getProperty('uri.blog').'/search/" method="get" onsubmit="return searchBlog()">'.$searchView.'</form>', $view);
+dress('search_onclick_submit', 'searchBlog();return false;', $searchView);
+dress('search', '<form id="TTSearchForm" name="TTSearchForm" action="'.$context->getProperty('uri.blog').'/search/" method="get" onsubmit="return searchBlog();return false;">'.$searchView.'</form>', $view);
 
 $totalPosts = getEntriesTotalCount($blogid);
 $categories = getCategories($blogid);

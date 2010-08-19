@@ -46,18 +46,21 @@ function getBlogTags($blogid) {
 
 function removeBlogLogo($blogid) {
 	$context = Model_Context::getInstance();
+	$skin = new Skin($context->getProperty('skin.skin'));
 	requireModel('blog.attachment');
 	
 	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
 		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
 		$context->setProperty('blog.logo','');
+		$skin->purgeCache();
 		return true;
 	}
 }
 
 function changeBlogLogo($blogid, $file) {
 	$context = Model_Context::getInstance();
+	$skin = new Skin($context->getProperty('skin.skin'));
 	requireModel('blog.attachment');
 	if (($attachment = addAttachment($blogid, - 1, $file)) === false) {
 		return false;
@@ -68,6 +71,7 @@ function changeBlogLogo($blogid, $file) {
 	}
 	if(Setting::setBlogSettingGlobal('logo',$attachment['name'])) {
 		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
+		$skin->purgeCache();
 		return true;
 	}
 	return false;
@@ -157,9 +161,9 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 		) {
 		return false;
 	}*/
-	setBlogSetting('useSloganOnPost',$useSloganOnPost);
-	setBlogSetting('useSloganOnCategory',$useSloganOnCategory);
-	setBlogSetting('useSloganOnTag',$useSloganOnTag);
+	Setting::setBlogSettingGlobal('useSloganOnPost',$useSloganOnPost);
+	Setting::setBlogSettingGlobal('useSloganOnCategory',$useSloganOnCategory);
+	Setting::setBlogSettingGlobal('useSloganOnTag',$useSloganOnTag);
 
 	$blog['useSloganOnPost'] = $useSloganOnPost;
 	$blog['useSloganOnCategory'] = $useSloganOnCategory;
@@ -173,12 +177,12 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 }
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
-	global $blog;
+	$context = Model_Context::getInstance();
 	requireModel('blog.feed');
-	if ($entriesOnRSS == $blog['entriesOnRSS'])
+	if ($entriesOnRSS == $context->getProperty('blog.entriesOnRSS'))
 		return true;
 	if(Setting::setBlogSettingGlobal('entriesOnRSS',$entriesOnRSS) === false) return false;
-	$blog['entriesOnRSS'] = $entriesOnRSS;
+	$context->setProperty('blog.entriesOnRSS',$entriesOnRSS);
 	clearFeed();
 	return true;
 }
@@ -571,12 +575,12 @@ function removeBlog($blogid) {
 
 function setSmtpServer( $useCustomSMTP, $smtpHost, $smtpPort ) {
 	if( empty($useCustomSMTP) ) {
-		setServiceSetting( 'useCustomSMTP', 0 );
+		Setting::setServiceSettingGlobal( 'useCustomSMTP', 0 );
 		return true;
 	}
-	if( !setServiceSetting( 'useCustomSMTP', 1 ) ) return false;
-	if( !setServiceSetting( 'smtpHost', $smtpHost ) ) return false;
-	if( !setServiceSetting( 'smtpPort', $smtpPort ) ) return false;
+	if( !Setting::setServiceSettingGlobal( 'useCustomSMTP', 1 ) ) return false;
+	if( !Setting::setServiceSettingGlobal( 'smtpHost', $smtpHost ) ) return false;
+	if( !Setting::setServiceSettingGlobal( 'smtpPort', $smtpPort ) ) return false;
 	return true;
 }
 
@@ -584,7 +588,7 @@ function setDefaultBlog( $blogid ) {
 	if(!Acl::check("group.creators")) {
 		return false;
 	}
-	$result = setServiceSetting("defaultBlogId", $_GET['blogid']);
+	$result = Setting::setServiceSettingGlobal("defaultBlogId", $_GET['blogid']);
 	return $result;
 }
 ?>

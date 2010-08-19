@@ -229,6 +229,22 @@ function toggleLayer(id) {
 	}
 	return true;
 }
+
+function focusLayer(id, others) {
+	try {
+		var obj = document.getElementById(id);
+		obj.style.display = "block";
+		for (x in others) {
+			if(others[x] != id) {
+				var obj = document.getElementById(others[x]);
+				obj.style.display = "none";
+			}
+		}
+	} catch (e) {
+	}
+	return true;
+}
+
 function showLayer(id) {
 	document.getElementById(id).style.display = "block";
 	return true;
@@ -1014,6 +1030,7 @@ function addComment(caller, entryId) {
 	}
 	var request = new HTTPRequest("POST", oForm.action);
 	request.onSuccess = function () {
+		PM.removeRequest(this);
 		commentSavingNow = false;
 		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
 		if(getObject("recentComments") != null)
@@ -1024,6 +1041,7 @@ function addComment(caller, entryId) {
 			document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
 	}
 	request.onError = function() {
+		PM.removeRequest(this);
 		commentSavingNow = false;
 		alert(this.getText("/response/description"));
 	}
@@ -1102,6 +1120,7 @@ function addComment(caller, entryId) {
 		}
 	}
 	commentSavingNow = true;
+	PM.addRequest(request,"Saving Comments...");
 	request.send(queryString);
 }
 
@@ -1234,9 +1253,16 @@ function recallLastComment(caller,entryId) {
 	}
 }
 
-function loadComment(entryId, page, force) {
+function loadComment(entryId, page, force, listOnly) {
+	var listView;
+	if(listOnly == true) {
+		listView = 1;
+		var o = document.getElementById("entry" + entryId + "CommentList");
+	} else {
+		listView = 0;
+		var o = document.getElementById("entry" + entryId + "Comment");
+	}
 	var request = new HTTPRequest("POST", blogURL + '/comment/load/' + entryId);
-	var o = document.getElementById("entry" + entryId + "Comment");
 	if ((!force && o.style.display == 'none') || force) {
 		request.onSuccess = function () {
 			PM.removeRequest(this);
@@ -1248,7 +1274,7 @@ function loadComment(entryId, page, force) {
 			PM.showErrorMessage("Loading Failed.","center","bottom");
 		};
 		PM.addRequest(request,"Loading Comments...");
-		request.send('&page='+page);
+		request.send('&page='+page+'&listOnly='+listView);
 	}
 	if (!force)
 		o.style.display = (o.style.display == 'none') ? 'block' : 'none';

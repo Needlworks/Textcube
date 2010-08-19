@@ -38,7 +38,6 @@ function SB_Spacer($target)
 }
 
 function SB_Spacer_DataSet($data){
-	requireComponent('Textcube.Function.misc');
 	if(!is_integer(intval($data['height']))) return false;
 	$cfg = Setting::fetchConfigVal($data);
 	return true;

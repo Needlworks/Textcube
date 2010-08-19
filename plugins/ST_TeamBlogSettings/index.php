@@ -221,10 +221,10 @@ function getTeamBlogSettings() {
 								<img id="teamImage" src="<?php echo $image;?>" width="80" height="80" border="1" alt="<?php echo _t('프로필 사진');?>" /><br />(Size : <?php echo $data['imageSize']?> x <?php echo $data['imageSize']?>)<br />
 								<form id="file_upload_form" method="post" target="uploadTarget" enctype="multipart/form-data" action="<?php echo $blogURL;?>/plugin/teamFileUpload/">
 									<input type="hidden" name="type" value="" />
-									<input type="file" name="teamImageFile" id="teamImageFile" size="35" onchange="uploadimage(this.form, 'upload');" /> <a href="http://mypictr.com/?size=<?php echo $data['imageSize']?>x<?php echo $data['imageSize']?>" onclick="window.open(this.href); return false;"><font color="#527A98"><u>mypictr.com</u></font></a>에서 사진 편집.<br />
+									<input type="file" name="teamImageFile" id="teamImageFile" size="35" onchange="uploadImage(this.form, 'upload');" /> <a href="http://mypictr.com/?size=<?php echo $data['imageSize']?>x<?php echo $data['imageSize']?>" onclick="window.open(this.href); return false;"><font color="#527A98"><u>mypictr.com</u></font></a>에서 사진 편집.<br />
 									<div class="tip"><?php echo _t('(찾아보기를 이용하여 사진을 선택하시면 바로 <b>변경</b> 저장됩니다)'); ?></div>
 									<div class="tip">
-										<input type="checkbox" name="imageRemove" id="imageRemove" onclick="uploadimage(this.form, 'delete');" <?php echo $imageRemoveCheck;?> />
+										<input type="checkbox" name="imageRemove" id="imageRemove" onclick="uploadImage(this.form, 'delete');" <?php echo $imageRemoveCheck;?> />
 										<label for="imageRemove"><?php echo _t('프로필 사진 초기화');?></label>
 									</div>
 									<iframe id="uploadTarget" name="uploadTarget" style="width:0;height:0;border:0px solid;"></iframe>

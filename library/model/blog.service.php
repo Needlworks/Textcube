@@ -30,7 +30,7 @@ function getSkinSettings($blogid, $forceReload = false) {
 
 function getDefaultURL($blogid) {
 	$context = Model_Context::getInstance();
-	$blog = Setting::getBlogSettingsGlobal($blogid);
+	$blog = Setting::getBlogSettingsGlobal($blogid);	// Load specific blog's setting
 	switch ($context->getProperty('service.type')) {
 		case 'domain':
 			if (!empty($blog['defaultDomain']) && !empty($blog['secondaryDomain']))

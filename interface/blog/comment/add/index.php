@@ -25,7 +25,7 @@ if(!Validator::validate($IV))
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
 if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php')) || !Setting::getBlogSettingGlobal('acceptComments',1)) {
-	print ("<?xml version=\"1.0\" encoding=\"utf-8\"?><response><error>0</error><commentBlock></commentBlock><recentCommentBlock></recentCommentBlock></response>");
+	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
 	exit;
 }
 $userName = isset($_POST["name_$entryId"]) ? trim($_POST["name_$entryId"]) : '';
@@ -34,9 +34,11 @@ $userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
 $userHomepage = isset($_POST["homepage_$entryId"]) ? trim($_POST["homepage_$entryId"]) : '';
 $userComment = isset($_POST["comment_$entryId"]) ? trim($_POST["comment_$entryId"]) : '';
 if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
-	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('이름을 입력해 주십시오.'), ']]></description></response>';
+	Respond::PrintResult(array('error' => 2, 'description' => _text('이름을 입력해 주십시오.')));
+	exit;
 } else if ($userComment == '') {
-	echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('본문을 입력해 주십시오.'), ']]></description></response>';
+	Respond::PrintResult(array('error' => 2, 'description' => _text('본문을 입력해 주십시오.')));
+	exit;
 } else {
 	if (!empty($userName)) {
 		setcookie('guestName', $userName, time() + 2592000, $context->getProperty('uri.blog')."/");
@@ -82,9 +84,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 				$errorString = _text('귀하는 차단되었으므로 사용하실 수 없습니다.');
 				break;
 		}
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>1</error><description><![CDATA[', $errorString, ']]></description></response>';
+		Respond::PrintResult(array('error' => 1, 'description' => $errorString));
+		exit;
+		
 	} else if ($result === false) {
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>2</error><description><![CDATA[', _text('댓글을 달 수 없습니다.'), ']]></description></response>';
+		Respond::PrintResult(array('error' => 2, 'description' => _text('댓글을 달 수 없습니다.')));
+		exit;
 	} else {
 		$entry = array();
 		$entry['id'] = $entryId;
@@ -119,7 +124,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$commentCount = 0;
 			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComment, $skin->recentCommentItem)));
 		}
-		echo '<?xml version="1.0" encoding="utf-8"?><response><error>0</error><commentView><![CDATA['.$commentView.']]></commentView><commentCount>'.$commentCount.'</commentCount><commentBlock><![CDATA[', $commentBlock, ']]></commentBlock><recentCommentBlock><![CDATA[', $recentCommentBlock, ']]></recentCommentBlock></response>';
+		Respond::PrintResult(array('error' => 0, 
+			'commentView'        => $commentView,
+			'commentCount'       => $commentCount,
+			'commentBlock'       => $commentBlock,
+			'recentCommentBlock' => $recentCommentBlock));
+		exit;	
 	}
 }
 ?>

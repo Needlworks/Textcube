@@ -1,41 +1,63 @@
 // Google Map Plugin Common Library
 // depends on Google Maps API
 
-var geocoder = null;
+window.plugin = window.plugin || {};
+plugin.gmap = {
+	activeInfoWindow: null,
+	geocoder: null,
+	closeActiveInfoWindow: function() {
+		if (this.activeInfoWindow)
+			this.activeInfoWindow.close();
+		this.activeInfoWindow = null;
+	},
+	detectMobileSafari: function() {
+		return navigator.userAgent.indexOf('iPhone') != -1 || navigator.userAgent.indexOf('iPod') != -1 || navigator.userAgent.indexOf('iPad') != -1;
+	},
+	normalizeAddress: function(address) {
+		return address.split('/').join(' ');
+	},
+	sendCache: function(original_path, path, lat, lng) {
+		jQuery.ajax({
+			'type': 'POST',
+			'url': servicePath + '/plugin/GMapCache/',
+			'data': {
+				'original_path': original_path,
+				'path': path,
+				'lat': lat,
+				'lng': lng
+			}
+		});
+		// Here, we don't need the cache result actually.
+	}
+};
 
-function GMap_normalizeAddress(address) {
-	return address.split('/').join(' ');
-}
-
-function GMap_sendCache(original_path, path, lat, lng) {
-	var xh = GXmlHttp.create();
-	xh.open('POST', servicePath + '/plugin/GMapCache/', true);
-	xh.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	xh.send('original_path=' + encodeURIComponent(original_path) + '&path=' + encodeURIComponent(path) + (lat != null ? '&lat='+lat+'&lng='+lng : ''));
-	// Here, we don't need the cache result actually.
-}
 
 /**
  * @brief 지역로그와 연동되어 특정 위치와 연관된 엔트리 정보를 marker 형태로 맵에 추가한다.
- * @param Object response	GGlientGeocoder::getLocations() 메소드 호출에 의한 서버 응답 오브젝트
- * @param GMap2 gmap		GMap2 타입의 오브젝트
+ * @param Array.<GeocodeResults> results	Geocoder::geocode() 메소드 호출의 결과
+ * @param GeocodeStatus status				Geocoder::geocode() 메소드 호출에 의한 서버 응답
+ * @param Map gmap			Map object
  * @param string address	화면에 표시될 주소 문자열
  * @param string title		화면에 표시될 링크 이름 문자열
  * @param string link		엔트리의 링크 URL
- * @param GLatLngBounds boundary	모든 marker를 포함하는 최소 영역을 알기 위한 GLatLngBounds 객체
+ * @param LatLngBounds boundary	모든 marker를 포함하는 최소 영역을 알기 위한 LatLngBounds 객체
  * @param Array locations			같은 위치에 여러 엔트리가 관련된 경우를 처리하기 위해 이미 처리된 엔트리들과 marker 정보를 담은 배열
  */
 function GMap_addLocationMark(gmap, location_path, title, link, boundary, locations) {
-	if (!geocoder)
-		geocoder = new GClientGeocoder();
-	var address = GMap_normalizeAddress(location_path);
-	geocoder.getLocations(address, function(response) {GMap_findLocationCallback(response, gmap, {'address': address, 'path': location_path, 'original_path': location_path}, title, link, boundary, locations);});
+	if (!plugin.gmap.geocoder)
+		plugin.gmap.geocoder = new google.maps.Geocoder();
+	var address = plugin.gmap.normalizeAddress(location_path);
+	plugin.gmap.geocoder.geocode({
+		'address': address
+	}, function(results, status) {
+		GMap_findLocationCallback(results, status, gmap, {'address': address, 'path': location_path, 'original_path': location_path}, title, link, boundary, locations);
+	});
 }
 
 function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, boundary, locations, cache) {
 	var prev = null;
 	var i;
-	// Check duplicated locations
+	// Retrieve if any duplicated location exists for the given.
 	for (i = 0; i < locations.length; i++) {
 		if (locations[i].point.equals(point)) {
 			prev = locations[i];
@@ -43,27 +65,38 @@ function GMap_addLocationMarkDirect(gmap, location_info, title, link, point, bou
 		}
 	}
 	if (prev == null) {
-		// Create a new marker for this location
-		var marker = new GMarker(point, {'title': location_info.address.split(' ').pop()});
+		// Create a new marker for this location.
+		var marker = new google.maps.Marker({
+			'position': point,
+			'title': location_info.address.split(' ').pop(),
+			'map': gmap
+		});
+		var info = new google.maps.InfoWindow({
+			'position': point
+		});
 		var locative = {
 			'point': point,
 			'marker': marker,
+			'infoWindow': info,
 			'address': location_info.address,
 			'address_parts': location_info.path.split('/'),
 			'entries': new Array({'title': title, 'link': link})
 		};
 		locations.push(locative);
-		marker.bindInfoWindowHtml(GMap_buildLocationInfoHTML(locative));
-		gmap.addOverlay(marker);
+		info.setContent(GMap_buildLocationInfoHTML(locative));
+		google.maps.event.addListener(marker, 'click', function() {
+			plugin.gmap.closeActiveInfoWindow();
+			info.open(marker.getMap(), marker);
+			plugin.gmap.activeInfoWindow = info;
+		});
 		boundary.extend(point);
 	} else {
-		// Add information to the existing marker for here
+		// Add information to the existing marker for here.
 		prev.entries.push({'title': title, 'link': link});
-		prev.marker.bindInfoWindowHtml(null);
-		prev.marker.bindInfoWindowHtml(GMap_buildLocationInfoHTML(prev));
+		prev.infoWindow.setContent(GMap_buildLocationInfoHTML(prev));
 	}
 	if (cache)
-		GMap_sendCache(location_info.original_path, location_info.path, point.lat(), point.lng());
+		plugin.gmap.sendCache(location_info.original_path, location_info.path, point.lat(), point.lng());
 	if (process_count != undefined)
 		process_count++;
 }
@@ -85,12 +118,12 @@ function GMap_buildLocationInfoHTML(locative) {
 /**
  * @brief (내부용 함수) geocoder.getLocations()에 의해 호출되는 비동기 콜백 함수
  */
-function GMap_findLocationCallback(response, gmap, location_info, title, link, boundary, locations) {
-	if (!response || response.Status.code != 200) {
+function GMap_findLocationCallback(results, status, gmap, location_info, title, link, boundary, locations) {
+	if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
 		var new_path_parts = location_info.path.split('/').slice(0,-1);
 		if (new_path_parts.length < 2) {
 			// give up search...
-			GMap_sendCache(location_info.original_path, location_info.path, null, null);
+			plugin.gmap.sendCache(location_info.original_path, location_info.path, null, null);
 			if (process_count != undefined)
 				process_count++;
 		} else {
@@ -98,13 +131,14 @@ function GMap_findLocationCallback(response, gmap, location_info, title, link, b
 			var new_address = new_path_parts.join(' ');
 			var new_path = new_path_parts.join('/');
 			if (new_path[0] != '/') new_path = '/' + new_path;
-			geocoder.getLocations(new_address, function(response) {
-				GMap_findLocationCallback(response, gmap, {'address': new_address, 'path': new_path, 'original_path': location_info.original_path}, title, link, boundary, locations);
+			geocoder.geocode({
+				'address': new_address
+			}, function(results, status) {
+				GMap_findLocationCallback(results, status, gmap, {'address': new_address, 'path': new_path, 'original_path': location_info.original_path}, title, link, boundary, locations);
 			});
 		}
-	} else {
-		var place = response.Placemark[0];
-		var point = new GLatLng(place.Point.coordinates[1], place.Point.coordinates[0]);
+	} else if (status == google.maps.GeocoderStatus.OK) {
+		var point = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
 		GMap_addLocationMarkDirect(gmap, location_info, title, link, point, boundary, locations, true);
 	}
 }
@@ -112,26 +146,39 @@ function GMap_findLocationCallback(response, gmap, location_info, title, link, b
 function GMap_CreateMap(container, options) {
 	container.style.width = options.width + 'px';
 	container.style.height = options.height + 'px';
-	var map = new GMap2(container);
+	var map = new google.maps.Map(container, {
+		'center': new google.maps.LatLng(options.center.latitude, options.center.longitude),
+		'zoom': options.zoom,
+		'mapTypeId': eval('google.maps.MapTypeId.' + options.type) || google.maps.MapTypeId.ROADMAP,
+		'mapTypeControl': true,
+		'navigationControl': true,
+		'scaleControl': true
+	});
 	var i;
-	map.setMapType(eval(options.type) || G_HYBRID_MAP);
-	map.addMapType(G_PHYSICAL_MAP);
-	map.addControl(new GHierarchicalMapTypeControl());
-	map.addControl(new GLargeMapControl());
-	map.addControl(new GScaleControl());
-	map.setCenter(new GLatLng(options.center.latitude, options.center.longitude), options.zoom);
 	if (options.user_markers != undefined) {
 		for (i = 0; i < options.user_markers.length; i++) {
 			var um = options.user_markers[i];
-			var marker = new GMarker(new GLatLng(um.lat, um.lng));
-			if (um.title.trim() != '')
-				marker.bindInfoWindowHtml('<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>');
-			map.addOverlay(marker);
+			var marker = new google.maps.Marker({
+				'position': new google.maps.LatLng(um.lat, um.lng)
+			});
+			if (um.title.trim() != '') {
+				var info = new google.maps.InfoWindow({
+					'content': '<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>',
+					'map': map
+				});
+				google.maps.event.addListener(marker, 'click', function() {
+					plugin.gmap.closeActiveInfoWindow();
+					info.open(marker.getMap(), marker);
+					plugin.gmap.activeInfoWindow = info;
+				});
+			}
 		}
 	}
 	return map;
 }
 
+/*
+//TODO:v3
 GProgressControl = function() {}
 GProgressControl.prototype = new GControl();
 GProgressControl.prototype.initialize = function(map) {
@@ -176,5 +223,6 @@ GProgressControl.prototype.setLabel = function(text) {
 GProgressControl.prototype.setProgress = function(val) { // val in 0..1
 	this._progress_meter.style.width = parseInt(val * 100) + '%';
 }
+*/
 
 /* vim: set noet ts=4 sts=4 sw=4: */

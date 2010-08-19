@@ -13,7 +13,7 @@ requireStrictRoute();
 requirePrivilege('group.creators');
 
 $authtoken = md5(User::__generatePassword());
-$result = POD::query("INSERT INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".$_GET['userid']."', 'AuthToken', '$authtoken')");
+$result = POD::query("REPLACE INTO `{$database['prefix']}UserSettings` (userid, name, value) VALUES ('".$_GET['userid']."', 'AuthToken', '$authtoken')");
 if ($result) {
 	Respond::PrintResult(array('error' => 0));
 	echo "s";

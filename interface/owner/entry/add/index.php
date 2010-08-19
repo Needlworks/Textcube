@@ -48,7 +48,7 @@ $entry['published'] = empty($_POST['published']) ? 1 : $_POST['published'];
 $entry['draft'] = empty($_POST['draft']) ? 0 : $_POST['draft'];
 if ($id = addEntry($blogid, $entry)) {
 	fireEvent('AddPost', $id, $entry);
-	setBlogSetting('LatestEditedEntry_user'.getUserId(),$id);
+	Setting::setBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),$id);
 }
 $result = array();
 $result['error'] = (($id !== false) === true ? 0 : 1);

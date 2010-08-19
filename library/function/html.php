@@ -123,7 +123,7 @@ function str_tag_off($str) {
 }
 
 function str_tag_truncate($str) {
-	return strip_tags(preg_replace('/\[##.+##\]/', '', $str));
+	return strip_tags(preg_replace('/\[##(.+?)##\]/', '', $str));
 }
 
 function str_cut($str, $maxlen, $type) {

@@ -260,7 +260,6 @@ class Acl {
 		$data->setQualifier('userid','equals',intval($userid));
 		$data->setAttribute('lastLogin',Timestamp::getUNIXtime());
 		$data->update();
-//		POD::execute("UPDATE {$this->context->getProperty('database.prefix')}Privileges SET lastLogin = ".Timestamp::getUNIXtime()." WHERE blogid = $blogid AND userid = $userid");
 		return;
 	}
 

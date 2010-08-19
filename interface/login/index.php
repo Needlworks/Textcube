@@ -58,6 +58,10 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		if (!doesHaveMembership() && isLoginId(getBlogId(), $_POST['loginid'])){
 			$showPasswordReset = true;
 		}
+	} else {
+		if (!doesHaveOwnership()) {
+			$message = _text('서비스의 회원이지만 이 블로그의 구성원이 아닙니다. 주소를 확인해 주시기 바랍니다.');
+		}
 	}
 }
 $authResult = fireEvent('LOGIN_try_auth', false);

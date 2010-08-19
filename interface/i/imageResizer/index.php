@@ -17,7 +17,7 @@ if ($fp = @fopen($imagePath, 'r')) {
 		if (file_exists($imagePath)) {
 			$imageInfo = getimagesize($imagePath);
 			$cropSize = $_GET['m'];
-			$objThumbnail = new Image();
+			$objThumbnail = new Utils_Image();
 			if ($imageInfo[0] > $imageInfo[1])
 				list($tempWidth, $tempHeight) = $objThumbnail->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $cropSize);
 			else

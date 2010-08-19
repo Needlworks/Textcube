@@ -224,7 +224,7 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 	return $trackbacksView;
 }
 
-function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = null) {
+function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = null, $listBlock = true) {
 	global $contentContainer, $skinSetting, $skin;
 	static $dressCommentBlock = false;
 	$context = Model_Context::getInstance();
@@ -237,12 +237,12 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 	}
 	if(!isset($entry)) $entry['id'] = 0;
 	$blogid = getBlogId();
-	$useAjaxBlock = $context->getProperty('blog.useAjaxComment',true);
 	requireModel("common.setting");
 	requireModel("blog.entry");
 	requireModel("blog.comment");
 	requireLibrary('blog.skin');
 	$authorized = doesHaveOwnership();
+	$useAjaxBlock = $context->getProperty('blog.useAjaxComment',true);
 	$useMicroformat = $context->getProperty('blog.useMicroformat',3);
 	$fn = '';
 	$fn_nickname = '';
@@ -259,140 +259,144 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 	}
 	$commentView = ($isComment ? $skin->comment : $skin->guest);
 	$commentItemsView = '';
-	if ($isComment == false) {
-		global $comments;
-		if(!isset($comments)) {
-			list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $context->getProperty('suri.page'), $skinSetting['commentsOnGuestbook']);
-		}
-		foreach ($comments as $key => $value) {
-			if ($value['secret'] == 1) {
-				if (!$authorized) {
-					if( !doesHaveOpenIDPriv($value) ) {
-						$comments[$key]['name'] = _text('비밀방문자');
-						$comments[$key]['homepage'] = '';
-						$comments[$key]['comment'] = _text('관리자만 볼 수 있는 방명록입니다.');
-					} else {
-						$comments[$key]['name'] = _text('비밀방문자') .' '. $comments[$key]['name'];
+	if ($listBlock === true) {
+		if ($isComment == false) {
+			global $comments;
+			if(!isset($comments)) {
+				list($comments, $paging) = getCommentsWithPagingForGuestbook($blogid, $context->getProperty('suri.page'), $skinSetting['commentsOnGuestbook']);
+			}
+			foreach ($comments as $key => $value) {
+				if ($value['secret'] == 1) {
+					if (!$authorized) {
+						if( !doesHaveOpenIDPriv($value) ) {
+							$comments[$key]['name'] = _text('비밀방문자');
+							$comments[$key]['homepage'] = '';
+							$comments[$key]['comment'] = _text('관리자만 볼 수 있는 방명록입니다.');
+						} else {
+							$comments[$key]['name'] = _text('비밀방문자') .' '. $comments[$key]['name'];
+						}
 					}
 				}
 			}
-		}
-	} else {
-		if($useAjaxBlock) {
-			list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true);return false;');
 		} else {
-			$comments = getComments($entry['id']);	
+			if($useAjaxBlock) {
+				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true,true);return false;');
+			} else {
+				$comments = getComments($entry['id']);	
+			}
 		}
-	}
-	if(empty($skin->dressCommentBlock)) {
-		if( $dressCommentBlock ) {
-			if($isComment) $skin->commentGuest = $dressCommentBlock;
-			else $skin->guestGuest = $dressCommentBlock;
-		} else {
-			if($isComment) $dressCommentBlock = $skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
-			else $dressCommentBlock = $skin->guestGuest = addOpenIDPannel( $skin->guestGuest, 'guest' );
+		if(empty($skin->dressCommentBlock)) {
+			if( $dressCommentBlock ) {
+				if($isComment) $skin->commentGuest = $dressCommentBlock;
+				else $skin->guestGuest = $dressCommentBlock;
+			} else {
+				if($isComment) $dressCommentBlock = $skin->commentGuest = addOpenIDPannel( $skin->commentGuest, 'rp' );
+				else $dressCommentBlock = $skin->guestGuest = addOpenIDPannel( $skin->guestGuest, 'guest' );
+			}
+			$skin->dressCommentBlock = true;
 		}
-		$skin->dressCommentBlock = true;
-	}
-	foreach ($comments as $commentItem) {
-		$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
-		$commentSubItemsView = '';
-		$subComments = getCommentComments($commentItem['id'],$commentItem);
-		foreach ($subComments as $commentSubItem) {
-			$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
+		/// Dressing comments
+		foreach ($comments as $commentItem) {
+			$commentItemView = ($isComment ? $skin->commentItem : $skin->guestItem);
+			$commentSubItemsView = '';
+			$subComments = getCommentComments($commentItem['id'],$commentItem);
+			foreach ($subComments as $commentSubItem) {
+				$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
+				
+				$commentSubItem['name'] = htmlspecialchars($commentSubItem['name']);
+				$commentSubItem['comment'] = htmlspecialchars($commentSubItem['comment']);
+				
+				$rp_class = $prefix1 . '_general';
+				if ($blogid == $commentSubItem['replier'])
+					$rp_class = $prefix1 . '_admin';
+				else if ($commentSubItem['secret'] == 1) {
+					$rp_class = $prefix1 . '_secret';
+					if ($authorized) {
+						$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentSubItem['comment'];
+					} else {
+						$rp_class .= ' hiddenComment';
+						$commentSubItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentSubItem)?' '.$commentSubItem['name']:'');
+					}
+				}
+				dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
+	
+				if (dress($prefix1 . '_rep_id',($entry['id'] == 0 ? 'guestbook' : 'comment') . $commentSubItem['id'], $commentSubItemView) == false) {
+					$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
+				}
+				if (empty($commentSubItem['homepage']) || 
+					(($commentSubItem['secret'] == 1) && !doesHaveOwnership())) {
+					dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentSubItem['name']."</span>", $commentSubItem), $commentSubItemView);
+				} else {
+					dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentSubItem['name'] . '</a>', $commentSubItem), $commentSubItemView);
+				}
+				$contentContainer["{$prefix1}_{$commentSubItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentSubItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem);
+				dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentSubItem['id']}"), $commentSubItemView);
+				dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written']), $commentSubItem['written']), $commentSubItemView);
+				dress($prefix1 . '_rep_link',$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentSubItem['id']}" : ($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."#comment{$commentSubItem['id']}"), $commentSubItemView);
+				dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
+				
+				$commentSubItemsView .= $commentSubItemView;
+			}
+			$commentSubContainer = ($isComment ? $skin->commentSubContainer : $skin->guestSubContainer);
+			dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentSubContainer);
+			if (count($subComments) > 0) {
+				dress(($isComment ? 'rp2_container' : 'guest_reply_container'), $commentSubContainer, $commentItemView);
+			}
 			
-			$commentSubItem['name'] = htmlspecialchars($commentSubItem['name']);
-			$commentSubItem['comment'] = htmlspecialchars($commentSubItem['comment']);
+			$commentItem['name'] = htmlspecialchars($commentItem['name']);
+			$commentItem['comment'] = htmlspecialchars($commentItem['comment']);
 			
 			$rp_class = $prefix1 . '_general';
-			if ($blogid == $commentSubItem['replier'])
+			if ($blogid == $commentItem['replier'])
 				$rp_class = $prefix1 . '_admin';
-			else if ($commentSubItem['secret'] == 1) {
+			else if ($commentItem['secret'] == 1) {
 				$rp_class = $prefix1 . '_secret';
 				if ($authorized) {
-					$commentSubItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentSubItem['comment'];
+					$commentItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentItem['comment'];
 				} else {
 					$rp_class .= ' hiddenComment';
-					$commentSubItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentSubItem)?' '.$commentSubItem['name']:'');
+					$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentItem)?' '.$commentItem['name']:'');
 				}
 			}
-			dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
-
-			if (dress($prefix1 . '_rep_id',($entry['id'] == 0 ? 'guestbook' : 'comment') . $commentSubItem['id'], $commentSubItemView) == false) {
-				$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
+			dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
+			if (dress($prefix1 . '_rep_id', ($entry['id'] == 0 ? 'guestbook' : 'comment') . $commentItem['id'], $commentItemView) == false) {
+				$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
 			}
-			if (empty($commentSubItem['homepage']) || 
-				(($commentSubItem['secret'] == 1) && !doesHaveOwnership())) {
-				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentSubItem['name']."</span>", $commentSubItem), $commentSubItemView);
+			if (empty($commentItem['homepage']) ||
+				(($commentItem['secret'] == 1) && !doesHaveOwnership())) {
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentItem['name']."</span>", $commentItem), $commentItemView);
 			} else {
-				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentSubItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentSubItem['name'] . '</a>', $commentSubItem), $commentSubItemView);
+				dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentItem['name'] . '</a>', $commentItem), $commentItemView);
 			}
-			$contentContainer["{$prefix1}_{$commentSubItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentSubItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentSubItem);
-			dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentSubItem['id']}"), $commentSubItemView);
-			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written']), $commentSubItem['written']), $commentSubItemView);
-			dress($prefix1 . '_rep_link',$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentSubItem['id']}" : ($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."#comment{$commentSubItem['id']}"), $commentSubItemView);
-			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
+			$contentContainer["{$prefix1}_{$commentItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentItem);
+			dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentItem['id']}"), $commentItemView);
+			dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written']), $commentItem['written']), $commentItemView);
+			if ($prefix1 == 'guest' && $authorized != true && $context->getProperty('blog.allowWriteDblCommentOnGuestbook') == 0) {
+				$doubleCommentPermissionScript = 'alert(\'' . _text('댓글을 사용할 수 없습니다.') . '\'); return false;';
+			} else {
+				$doubleCommentPermissionScript = '';
+			}
+			dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
+			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
+			dress($prefix1 . '_rep_link',
+				$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : 
+				($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."?commentId=".$commentItem['id']."#comment{$commentItem['id']}"), $commentItemView);
 			
-			$commentSubItemsView .= $commentSubItemView;
+			$commentItemsView .= $commentItemView;
 		}
-		$commentSubContainer = ($isComment ? $skin->commentSubContainer : $skin->guestSubContainer);
-		dress(($isComment ? 'rp2_rep' : 'guest_reply_rep'), $commentSubItemsView, $commentSubContainer);
-		if (count($subComments) > 0) {
-			dress(($isComment ? 'rp2_container' : 'guest_reply_container'), $commentSubContainer, $commentItemView);
+		/// Merging comments with its paging links.
+		$commentContainer = ($isComment ? $skin->commentContainer : $skin->guestContainer);
+		dress(($isComment ? 'rp_rep' : 'guest_rep'), $commentItemsView, $commentContainer);
+		if (count($comments) > 0) {
+			if($isComment && $useAjaxBlock) {
+				$pagingView = Paging::getPagingView($paging, $skin->paging, $skin->pagingItem, false, 'onclick');
+			} else $pagingView = '';
+			dress($prefix1 . '_container', "<div id=\"entry".$entry['id']."CommentList\">".$commentContainer.$pagingView."</div>", $commentView);		
 		}
-		
-		$commentItem['name'] = htmlspecialchars($commentItem['name']);
-		$commentItem['comment'] = htmlspecialchars($commentItem['comment']);
-		
-		$rp_class = $prefix1 . '_general';
-		if ($blogid == $commentItem['replier'])
-			$rp_class = $prefix1 . '_admin';
-		else if ($commentItem['secret'] == 1) {
-			$rp_class = $prefix1 . '_secret';
-			if ($authorized) {
-				$commentItem['comment'] = '<span class="hiddenCommentTag_content">' . _text('[비밀댓글]') . '</span> ' . $commentItem['comment'];
-			} else {
-				$rp_class .= ' hiddenComment';
-				$commentItem['name'] = '<span class="hiddenCommentTag_name">' . _text('비밀방문자') . '</span>'.(doesHaveOpenIDPriv($commentItem)?' '.$commentItem['name']:'');
-			}
-		}
-		dress($prefix1 . '_rep_class', $rp_class, $commentItemView);
-		if (dress($prefix1 . '_rep_id', ($entry['id'] == 0 ? 'guestbook' : 'comment') . $commentItem['id'], $commentItemView) == false) {
-			$commentItemView = "<a id=\"comment{$commentItem['id']}\"></a>" . $commentItemView;
-		}
-		if (empty($commentItem['homepage']) ||
-			(($commentItem['secret'] == 1) && !doesHaveOwnership())) {
-			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentItem['name']."</span>", $commentItem), $commentItemView);
-		} else {
-			dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), '<a '.$fn.'rel="external nofollow" href="' . htmlspecialchars(addProtocolSense($commentItem['homepage'])) . '" onclick="return openLinkInNewWindow(this)">' . $commentItem['name'] . '</a>', $commentItem), $commentItemView);
-		}
-		$contentContainer["{$prefix1}_{$commentItem['id']}"] = fireEvent(($isComment ? 'ViewCommentContent' : 'ViewGuestCommentContent'), nl2br(addLinkSense($commentItem['comment'], ' onclick="return openLinkInNewWindow(this)"')), $commentItem);
-		dress($prefix1 . '_rep_desc', setTempTag("{$prefix1}_{$commentItem['id']}"), $commentItemView);
-		dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentItem['written']), $commentItem['written']), $commentItemView);
-		if ($prefix1 == 'guest' && $authorized != true && $context->getProperty('blog.allowWriteDblCommentOnGuestbook') == 0) {
-			$doubleCommentPermissionScript = 'alert(\'' . _text('댓글을 사용할 수 없습니다.') . '\'); return false;';
-		} else {
-			$doubleCommentPermissionScript = '';
-		}
-		dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
-		dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
-		dress($prefix1 . '_rep_link',
-			$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : 
-			($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."?commentId=".$commentItem['id']."#comment{$commentItem['id']}"), $commentItemView);
-		
-		$commentItemsView .= $commentItemView;
+	} else {
+		dress($prefix1 . '_container', '', $commentView);
 	}
-
-	$commentContainer = ($isComment ? $skin->commentContainer : $skin->guestContainer);
-	dress(($isComment ? 'rp_rep' : 'guest_rep'), $commentItemsView, $commentContainer);
-	if (count($comments) > 0) {
-		if($isComment && $useAjaxBlock) {
-			$pagingView = Paging::getPagingView($paging, $skin->paging, $skin->pagingItem, false, 'onclick');
-		} else $pagingView = '';
-		dress($prefix1 . '_container', $commentContainer.$pagingView, $commentView);		
-	}
-
-	// Comment write block
+	/// Comment write block
 	if($inputBlock == true) {
 		if(!empty($entry['acceptcomment'])) {
 			$acceptcomment = $entry['acceptcomment'];
@@ -408,8 +412,8 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 		$openid_identity = Acl::getIdentity('openid');
 		if ($isComment) {
 			if (!($skin->commentForm == '')) {
-				$commentRrevView = $commentView;
-				$commentView = $skin->commentForm;
+				$commentRrevView = $commentView;	/// Comment Lists.
+				$commentView = $skin->commentForm;	/// Comment write block.
 				$useForm = true;
 			}
 		} else {
@@ -470,7 +474,10 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 		} else {
 			$commentView = "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"".$context->getProperty('uri.blog')."/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 		}
+	} else {
+		dress($prefix1 . '_input_form', "", $commentView);		
 	}
+	/// Adding feed links.
 	dress('article_rep_rp_atomurl', $context->getProperty('uri.default').'/atom/comment/'.$entry['id'], $commentView);
 	dress('article_rep_rp_rssurl', $context->getProperty('uri.default').'/rss/comment/'.$entry['id'], $commentView);
 	return $commentView;
@@ -1230,7 +1237,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 					$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
 					$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
 					if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width']))
-						$newImage = resampleImage($images[$i][0], ROOT . "/attach/{$blogid}/{$tempFileName}", $useAbsolutePath);
+						$newImage = resampleImage($images[$i][0], $tempFileName, $useAbsolutePath);
 					else
 						$newImage = $images[$i][0];
 				} else {
