@@ -18,12 +18,12 @@ function getNoticesWithPaging($blogid, $search, $page, $count) {
 function getNotice($blogid, $id) {
 	$query = getDefaultDBModelOnNotice($blogid);
 	$query->setQualifier('id','equals',$id);
-	return $query->getAll('id, title, slogan, published');
+	return $query->getAll('id, title, slogan, published, userid');
 }
 
 function getNotices($blogid) {
 	$query = getDefaultDBModelOnNotice($blogid);
-	return $query->getAll('id, title, slogan, published');
+	return $query->getAll('id, title, slogan, published, userid');
 }
 
 function getRecentNotices($blogid) {
