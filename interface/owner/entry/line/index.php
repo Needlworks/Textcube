@@ -17,7 +17,7 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
-
+//fireEvent('Cron10m',null,null);
 if(isset($_GET['category'])) $_POST['category'] = $_GET['category'];
 
 if(isset($_POST['search'])) $searchKeyword = $_POST['search'];
