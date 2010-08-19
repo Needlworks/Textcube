@@ -85,9 +85,11 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 				break;
 		}
 		Respond::PrintResult(array('error' => 1, 'description' => $errorString));
+		exit;
 		
 	} else if ($result === false) {
 		Respond::PrintResult(array('error' => 2, 'description' => _text('댓글을 달 수 없습니다.')));
+		exit;
 	} else {
 		$entry = array();
 		$entry['id'] = $entryId;
