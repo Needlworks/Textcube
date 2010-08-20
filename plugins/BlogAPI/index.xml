@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="ko">Blog API(일본어판)</title>
-  <title xml:lang="en">Blog API(Japanese)</title>
-  <title xml:lang="ja">Blog API(日本語版)</title>
+  <title xml:lang="ko">Blog API</title>
+  <title xml:lang="en">Blog API</title>
+  <title xml:lang="ja">Blog API</title>
   <link>http://needlworks.org/</link>
   <version>1.8</version>
   <description xml:lang="en">This helps blog editor discover automatically blog's profile</description>

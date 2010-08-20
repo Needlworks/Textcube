@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Keyword Statistics(Japanese)</title>
-  <title xml:lang="ko">리퍼러 검색어 통계(일본어판)</title>
-  <title xml:lang="ja">キーワード統計(日本語版)</title>
+  <title xml:lang="en">Keyword Statistics</title>
+  <title xml:lang="ko">리퍼러 검색어 통계</title>
+  <title xml:lang="ja">キーワード統計</title>
   <link>http://forum.tattersite.com/ko/</link>
   <version>1.2+</version>
   <description xml:lang="en">Keyword Statistics</description>
