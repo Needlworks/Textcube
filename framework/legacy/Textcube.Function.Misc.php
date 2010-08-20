@@ -161,17 +161,22 @@ class Misc {
 	}
 
 	function getContentWidth() {
-		global $skinSetting, $service;
 		
-		$contentWidth = 400;			
-		if ($xml = @file_get_contents(ROOT."/skin/blog/{$skinSetting['skin']}/index.xml")) {
-			$xmls = new XMLStruct();
-			$xmls->open($xml,$service['encoding']);
-			if ($xmls->getValue('/skin/default/contentWidth')) {
-				$contentWidth = $xmls->getValue('/skin/default/contentWidth');
+		$context = Model_Context::getInstance();
+		
+		if($context->getProperty('skin.contentWidth') == NULL) {	// Legacy code. ( < 1.8.4 does not have contentWidth information in DB)
+			$contentWidth = 450;			
+			if($skin = $context->getProperty('skin.skin')) {
+				if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
+					$xmls = new XMLStruct();
+					$xmls->open($xml, $context->getProperty('service.encoding'));
+					if ($xmls->getValue('/skin/default/contentWidth')) {
+						$contentWidth = $xmls->getValue('/skin/default/contentWidth');
+					}
+				}
 			}
-		}
-		return $contentWidth;
+			Setting::setSkinSetting('contentWidth',$contentWidth);
+		} else return $context->getProperty('skin.contentWidth');
 	}
 	
 	function getFileListByRegExp($path, $pattern, $deepScan=false) {
