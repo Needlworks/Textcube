@@ -77,6 +77,8 @@ function printOwnerEditorScript($entryId = false) {
 	if($browser->isMobile()) {
 		$contentWidth = 270;
 	} else {
+		$contentWidth = Misc::getContentWidth();
+		/*
 		if($skin = $context->getProperty('skin.skin')) {
 			if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
 				$xmls = new XMLStruct();
@@ -85,7 +87,7 @@ function printOwnerEditorScript($entryId = false) {
 					$contentWidth = $xmls->getValue('/skin/default/contentWidth');
 				}
 			}
-		}
+		}*/
 	}
 
 ?>
