@@ -7,9 +7,13 @@ global $__gCacheBlogSettings, $__serviceSetting; // share blog.service.php
 $__serviceSetting = array();
 class Setting {
 	function fetchConfigVal( $DATA ){
-		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.
-		if (is_array($DATA)) return $DATA;
+		return unserialize($DATA);
+//		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.		
+//		if (is_array($DATA)) return $DATA;
+//		return Setting::fetchConfigVal_Legacy($DATA);
+	}
 
+	function fetchConfigXML( $DATA ){
 		$xmls = new XMLStruct();		// else, parse them...
 		$outVal = array();
 		if( ! $xmls->open($DATA) ) {
@@ -30,7 +34,7 @@ class Setting {
 		unset($xmls);	
 		return ( $outVal);
 	}
-
+	
 	// For Blog-scope setting
 	function getBlogSettingGlobal($name, $default = null, $blogid = null, $directAccess = false) {
 		if(is_null($blogid)) $blogid = getBlogId();
