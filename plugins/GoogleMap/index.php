@@ -196,11 +196,7 @@ function GoogleMap_View($target, $mother) {
 		//<![CDATA[
 		GMapOnLoadCallbacks.push(function() {
 			var c = document.getElementById('<?php echo $id;?>');
-			if (true) { // (GBrowserIsCompatible()) {
-				var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
-			} else {
-				c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
-			}
+			var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
 		});
 		//]]>
 		</script>
@@ -263,34 +259,31 @@ function GoogleMap_LocationLogView($target) {
 	}
 	function locationFetchPoller(target_count) {
 		if (process_count != target_count) {
-			//progress.setProgress(process_count / target_count);
+			progress.setProgress(process_count / target_count);
 			window.setTimeout('locationFetchPoller('+target_count+');', polling_interval);
 			return;
 		}
-		//progress.setProgress(1.0);
-		//window.setTimeout(function() {locationMap.removeControl(progress);}, 200); // eyecandy
+		progress.setProgress(1.0);
+		window.setTimeout(function() {progress.remove();}, 200); // eyecandy
 		locationMap.fitBounds(boundary);
 	}
 	GMapOnLoadCallbacks.push(function() {
 		var c = document.getElementById('<?php echo $id;?>');
 		c.style.width = "<?php echo $width;?>px"
 		c.style.height = "<?php echo $height;?>px";
-		if (true) { // (GBrowserIsCompatible()) {
-			locationMap = new google.maps.Map(c, {
-				'center': new google.maps.LatLng(<?php echo $lat;?>, <?php echo $lng;?>),
-				'zoom': <?php echo $zoom;?>,
-				'mapTypeId': google.maps.MapTypeId.<?php echo $default_type;?>,
-				'mapTypeControl': true,
-				'navigationControl': true,
-				'scaleControl': true
-			});
-			//locationMap.enableContinuousZoom();
-			//progress = new GProgressControl();
-			//locationMap.addControl(progress);
-			google.maps.event.addListenerOnce(locationMap, 'idle', function() {
-				boundary = locationMap.getBounds();
-				var locations = new Array();
-				var tofind = new Array();
+		locationMap = new google.maps.Map(c, {
+			'center': new google.maps.LatLng(<?php echo $lat;?>, <?php echo $lng;?>),
+			'zoom': <?php echo $zoom;?>,
+			'mapTypeId': google.maps.MapTypeId.<?php echo $default_type;?>,
+			'mapTypeControl': true,
+			'navigationControl': true,
+			'scaleControl': true
+		});
+		progress = new GProgressControl(locationMap);
+		google.maps.event.addListenerOnce(locationMap, 'idle', function() {
+			boundary = locationMap.getBounds();
+			var locations = new Array();
+			var tofind = new Array();
 <?php
 	$count = 0;
 	$countRemoteQuery = 0;
@@ -316,19 +309,16 @@ function GoogleMap_LocationLogView($target) {
 			}
 		}
 		if ($found) // found, just output
-			echo "\t\t\t\tGMap_addLocationMarkDirect(locationMap, {address:plugin.gmap.normalizeAddress('{$locative['location']}'), path:'{$locative['location']}', original_path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new google.maps.LatLng($lat, $lng), boundary, locations, false);\n";
+			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:plugin.gmap.normalizeAddress('{$locative['location']}'), path:'{$locative['location']}', original_path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new google.maps.LatLng($lat, $lng), boundary, locations, false);\n";
 		else // try to find in the client
-			echo "\t\t\t\ttofind.push([locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations]);\n";
+			echo "\t\t\ttofind.push([locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations]);\n";
 		$count++;
 	}
 ?>
-				//progress.setLabel('Loading locations...');
-				query_interval_handle = window.setInterval(function() {locationFetch(tofind);}, query_interval);
-				window.setTimeout(function() {locationFetchPoller(<?php echo $count;?>);}, polling_interval);
-			});
-		} else {
-			c.innerHTML = '<p style="text-align:center; color:#c99;"><?php echo _t("이 웹브라우저는 구글맵과 호환되지 않습니다.");?></p>';
-		}
+			progress.setLabel('Loading locations...');
+			query_interval_handle = window.setInterval(function() {locationFetch(tofind);}, query_interval);
+			window.setTimeout(function() {locationFetchPoller(<?php echo $count;?>);}, polling_interval);
+		});
 	});
 	//]]>
 	</script>
