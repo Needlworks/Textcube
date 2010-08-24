@@ -66,6 +66,7 @@ function clearCache() {
 	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like 'TextcubeNotice%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else echo '<span class="result fail">', _text('실패'), '</span></li>';
+	
 	$isCleared = true;
 }
 
@@ -779,6 +780,29 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else
 			showCheckupMessage(false);
 	}
+	
+	if(Setting::getServiceSetting('useNewPluginSetting',false,true) != true) {
+		$changed = true;
+		echo '<li>', _text('플러그인 환경 설정 저장 방식을 변경합니다.'), ': ';
+		$query = DBModel::getInstance();
+		$query->reset('Plugins');
+		if($candidates = $query->getAll()) {
+			foreach ($candidates as $c) {
+				if(!is_null($c['settings'])) {
+					$query->reset('Plugins');
+					$query->setQualifier('blogid','equals',$c['blogid']);
+					$query->setQualifier('name','equals',$c['name'],true);
+					$query->setAttribute('settings',serialize(Setting::fetchConfigXML($c['settings'])),true);
+					$query->update();
+				} 
+			}	
+			Setting::setServiceSetting('useNewPluginSetting',true,true);
+			showCheckupMessage(true);
+		} else {
+			showCheckupMessage(false);
+		}
+	}
+	
 }
 
 /***** Common parts. *****/

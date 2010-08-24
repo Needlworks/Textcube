@@ -75,8 +75,8 @@
  * @access private
  * @package OpenID
  * @author JanRain, Inc. <openid@janrain.com>
- * @copyright 2005 Janrain, Inc.
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
+ * @copyright 2005-2008 Janrain, Inc.
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache
  */
 
 /**
@@ -95,19 +95,22 @@ class Auth_OpenID_Parse {
      * Stuff to remove before we start looking for tags
      */
     var $_removed_re =
-           "<!--.*?-->|<!\\[CDATA\\[.*?\\]\\]>|<script\\b(?!:)[^>]*>.*?<\\/script>";
+           "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
 
     /**
      * Starts with the tag name at a word boundary, where the tag name
      * is not a namespace
      */
-    var $_tag_expr = "<%s\\b(?!:)([^>]*?)(?:\\/>|>(.*?)(?:<\\/?%s\\s*>|\\Z))";
+    var $_tag_expr = "<%s\b(?!:)([^>]*?)(?:\/>|>(.*)(?:<\/?%s\s*>|\Z))";
 
     var $_attr_find = '\b(\w+)=("[^"]*"|\'[^\']*\'|[^\'"\s\/<>]+)';
 
+    var $_open_tag_expr = "<%s\b";
+    var $_close_tag_expr = "<((\/%s\b)|(%s[^>\/]*\/))>";
+
     function Auth_OpenID_Parse()
     {
-        $this->_link_find = sprintf("/<link\\b(?!:)([^>]*)(?!<)>/%s",
+        $this->_link_find = sprintf("/<link\b(?!:)([^>]*)(?!<)>/%s",
                                     $this->_re_flags);
 
         $this->_entity_replacements = array(
@@ -136,6 +139,8 @@ class Auth_OpenID_Parse {
      */
     function tagMatcher($tag_name, $close_tags = null)
     {
+        $expr = $this->_tag_expr;
+
         if ($close_tags) {
             $options = implode("|", array_merge(array($tag_name), $close_tags));
             $closer = sprintf("(?:%s)", $options);
@@ -143,18 +148,49 @@ class Auth_OpenID_Parse {
             $closer = $tag_name;
         }
 
-        $expr = sprintf($this->_tag_expr, $tag_name, $closer);
+        $expr = sprintf($expr, $tag_name, $closer);
         return sprintf("/%s/%s", $expr, $this->_re_flags);
     }
 
-    function htmlFind()
+    function openTag($tag_name)
     {
-        return $this->tagMatcher('html');
+        $expr = sprintf($this->_open_tag_expr, $tag_name);
+        return sprintf("/%s/%s", $expr, $this->_re_flags);
+    }
+
+    function closeTag($tag_name)
+    {
+        $expr = sprintf($this->_close_tag_expr, $tag_name, $tag_name);
+        return sprintf("/%s/%s", $expr, $this->_re_flags);
+    }
+
+    function htmlBegin($s)
+    {
+        $matches = array();
+        $result = preg_match($this->openTag('html'), $s,
+                             $matches, PREG_OFFSET_CAPTURE);
+        if ($result === false || !$matches) {
+            return false;
+        }
+        // Return the offset of the first match.
+        return $matches[0][1];
+    }
+
+    function htmlEnd($s)
+    {
+        $matches = array();
+        $result = preg_match($this->closeTag('html'), $s,
+                             $matches, PREG_OFFSET_CAPTURE);
+        if ($result === false || !$matches) {
+            return false;
+        }
+        // Return the offset of the first match.
+        return $matches[count($matches) - 1][1];
     }
 
     function headFind()
     {
-        return $this->tagMatcher('head', array('body'));
+        return $this->tagMatcher('head', array('body', 'html'));
     }
 
     function replaceEntities($str)
@@ -169,7 +205,7 @@ class Auth_OpenID_Parse {
     {
         $matches = array();
         $double = '/^"(.*)"$/';
-        $single = "/^'(.*)'$/";
+        $single = "/^\'(.*)\'$/";
 
         if (preg_match($double, $str, $matches)) {
             return $matches[1];
@@ -179,10 +215,30 @@ class Auth_OpenID_Parse {
             return $str;
         }
     }
+    
+    function match($regexp, $text, &$match)
+    {
+        if (!is_callable('mb_ereg_search_init')) {
+            return preg_match($regexp, $text, $match);
+        }
+
+        $regexp = substr($regexp, 1, strlen($regexp) - 2 - strlen($this->_re_flags));
+        mb_ereg_search_init($text);
+        if (!mb_ereg_search($regexp)) {
+            return false;
+        }
+        list($match) = mb_ereg_search_getregs();
+        return true;
+    }
 
     /**
      * Find all link tags in a string representing a HTML document and
      * return a list of their attributes.
+     *
+     * @todo This is quite ineffective and may fail with the default
+     *       pcre.backtrack_limit of 100000 in PHP 5.2, if $html is big.
+     *       It should rather use stripos (in PHP5) or strpos()+strtoupper()
+     *       in PHP4 to manage this.
      *
      * @param string $html The text to parse
      * @return array $list An array of arrays of attributes, one for each
@@ -194,25 +250,37 @@ class Auth_OpenID_Parse {
                                  "",
                                  $html);
 
-        // Try to find the <HTML> tag.
-        $html_re = $this->htmlFind();
-        $html_matches = array();
-        if (!preg_match($html_re, $stripped, $html_matches)) {
+        $html_begin = $this->htmlBegin($stripped);
+        $html_end = $this->htmlEnd($stripped);
+
+        if ($html_begin === false) {
             return array();
         }
 
+        if ($html_end === false) {
+            $html_end = strlen($stripped);
+        }
+
+        $stripped = substr($stripped, $html_begin,
+                           $html_end - $html_begin);
+
+        // Workaround to prevent PREG_BACKTRACK_LIMIT_ERROR:
+        $old_btlimit = ini_set( 'pcre.backtrack_limit', -1 );
+
         // Try to find the <HEAD> tag.
         $head_re = $this->headFind();
-        $head_matches = array();
-        if (!preg_match($head_re, $html_matches[0], $head_matches)) {
-            return array();
+        $head_match = '';
+        if (!$this->match($head_re, $stripped, $head_match)) {
+                     ini_set( 'pcre.backtrack_limit', $old_btlimit );
+                     return array();
         }
 
         $link_data = array();
         $link_matches = array();
 
-        if (!preg_match_all($this->_link_find, $head_matches[0],
+        if (!preg_match_all($this->_link_find, $head_match,
                             $link_matches)) {
+            ini_set( 'pcre.backtrack_limit', $old_btlimit );
             return array();
         }
 
@@ -230,6 +298,7 @@ class Auth_OpenID_Parse {
             $link_data[] = $link_attrs;
         }
 
+        ini_set( 'pcre.backtrack_limit', $old_btlimit );
         return $link_data;
     }
 
@@ -306,4 +375,3 @@ function Auth_OpenID_legacy_discover($html_text, $server_rel,
     }
 }
 
-?>

@@ -1,5 +1,5 @@
 <?php
-/* Statistics plugin for Textcube 1.6
+/* Statistics plugin for Textcube 1.8
    ----------------------------------
    Version 1.6
    Tatter Network Foundation development team / Needlworks.
@@ -8,7 +8,7 @@
    Maintainer       : inureyes, gendoh
 
    Created at       : 2006.8.15
-   Last modified at : 2006.10.10
+   Last modified at : 2010.8.24
 
  This plugin adds simple statistics information panel on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -25,7 +25,6 @@
 */
 function CT_Statistics_Default($target) {
 	$blogid = getBlogId();
-	requireComponent( "Textcube.Model.Statistics");
 	$stats = Statistics::getStatistics($blogid);
 	
 	$target .= '<ul class="CT_Statistics_Default">';

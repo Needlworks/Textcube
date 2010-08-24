@@ -11,8 +11,8 @@
  * @access private
  * @package OpenID
  * @author JanRain, Inc. <openid@janrain.com>
- * @copyright 2005 Janrain, Inc.
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
+ * @copyright 2005-2008 Janrain, Inc.
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache
  */
 
 if (!defined('Auth_OpenID_RAND_SOURCE')) {
@@ -37,7 +37,7 @@ class Auth_OpenID_CryptUtil {
      * @param int $num_bytes The length of the return value
      * @return string $bytes random bytes
      */
-    function getBytes($num_bytes)
+    static function getBytes($num_bytes)
     {
         static $f = null;
         $bytes = '';
@@ -77,7 +77,7 @@ class Auth_OpenID_CryptUtil {
      * @return string $result A string of randomly-chosen characters
      * from $chrs
      */
-    function randomString($length, $population = null)
+    static function randomString($length, $population = null)
     {
         if ($population === null) {
             return Auth_OpenID_CryptUtil::getBytes($length);
@@ -106,4 +106,3 @@ class Auth_OpenID_CryptUtil {
     }
 }
 
-?>

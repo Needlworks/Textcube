@@ -10,8 +10,8 @@
  *
  * @package OpenID
  * @author JanRain, Inc. <openid@janrain.com>
- * @copyright 2005 Janrain, Inc.
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
+ * @copyright 2005-2008 Janrain, Inc.
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache
  */
 
 /**
@@ -27,7 +27,7 @@ require_once 'Auth/OpenID/KVForm.php';
 /**
  * @access private
  */
-require_once 'Auth/OpenID/HMACSHA1.php';
+require_once 'Auth/OpenID/HMAC.php';
 
 /**
  * This class represents an association between a server and a
@@ -64,6 +64,11 @@ class Auth_OpenID_Association {
                             'assoc_type'
                             );
 
+    var $_macs = array(
+                       'HMAC-SHA1' => 'Auth_OpenID_HMACSHA1',
+                       'HMAC-SHA256' => 'Auth_OpenID_HMACSHA256'
+                       );
+
     /**
      * This is an alternate constructor (factory method) used by the
      * OpenID consumer library to create associations.  OpenID store
@@ -82,14 +87,14 @@ class Auth_OpenID_Association {
      * generated for this association.
      *
      * @param assoc_type This is the type of association this
-     * instance represents.  The only valid value of this field at
-     * this time is 'HMAC-SHA1', but new types may be defined in the
-     * future.
+     * instance represents.  The only valid values of this field at
+     * this time is 'HMAC-SHA1' and 'HMAC-SHA256', but new types may
+     * be defined in the future.
      *
      * @return association An {@link Auth_OpenID_Association}
      * instance.
      */
-    function fromExpiresIn($expires_in, $handle, $secret, $assoc_type)
+    static function fromExpiresIn($expires_in, $handle, $secret, $assoc_type)
     {
         $issued = time();
         $lifetime = $expires_in;
@@ -119,15 +124,15 @@ class Auth_OpenID_Association {
      * association was issued.
      *
      * @param string $assoc_type This is the type of association this
-     * instance represents.  The only valid value of this field at
-     * this time is 'HMAC-SHA1', but new types may be defined in the
-     * future.
+     * instance represents.  The only valid values of this field at
+     * this time is 'HMAC-SHA1' and 'HMAC-SHA256', but new types may
+     * be defined in the future.
      */
     function Auth_OpenID_Association(
         $handle, $secret, $issued, $lifetime, $assoc_type)
     {
         if (!in_array($assoc_type,
-                      Auth_OpenID_getSupportedAssociationTypes())) {
+                      Auth_OpenID_getSupportedAssociationTypes(), true)) {
             $fmt = 'Unsupported association type (%s)';
             trigger_error(sprintf($fmt, $assoc_type), E_USER_ERROR);
         }
@@ -201,7 +206,7 @@ class Auth_OpenID_Association {
      * @param string $assoc_s Association as serialized by serialize()
      * @return Auth_OpenID_Association $result instance of this class
      */
-    function deserialize($class_name, $assoc_s)
+    static function deserialize($class_name, $assoc_s)
     {
         $pairs = Auth_OpenID_KVForm::toArray($assoc_s, $strict = true);
         $keys = array();
@@ -258,7 +263,11 @@ class Auth_OpenID_Association {
     function sign($pairs)
     {
         $kv = Auth_OpenID_KVForm::fromArray($pairs);
-        return Auth_OpenID_HMACSHA1($this->secret, $kv);
+
+        /* Invalid association types should be caught at constructor */
+        $callback = $this->_macs[$this->assoc_type];
+
+        return call_user_func_array($callback, array($this->secret, $kv));
     }
 
     /**
@@ -318,10 +327,10 @@ class Auth_OpenID_Association {
      *
      * @access private
      */
-    function _makePairs(&$message)
+    function _makePairs($message)
     {
         $signed = $message->getArg(Auth_OpenID_OPENID_NS, 'signed');
-        if (!$signed) {
+        if (!$signed || Auth_OpenID::isFailure($signed)) {
             // raise ValueError('Message has no signed list: %s' % (message,))
             return null;
         }
@@ -343,7 +352,7 @@ class Auth_OpenID_Association {
      *
      * @access private
      */
-    function getMessageSignature(&$message)
+    function getMessageSignature($message)
     {
         $pairs = $this->_makePairs($message);
         return base64_encode($this->sign($pairs));
@@ -355,12 +364,12 @@ class Auth_OpenID_Association {
      *
      * @access private
      */
-    function checkMessageSignature(&$message)
+    function checkMessageSignature($message)
     {
         $sig = $message->getArg(Auth_OpenID_OPENID_NS,
                                 'sig');
 
-        if (!$sig) {
+        if (!$sig || Auth_OpenID::isFailure($sig)) {
             return false;
         }
 
@@ -460,18 +469,16 @@ function Auth_OpenID_getOnlyEncryptedOrder()
     return $result;
 }
 
-function &Auth_OpenID_getDefaultNegotiator()
+function Auth_OpenID_getDefaultNegotiator()
 {
-    $x = new Auth_OpenID_SessionNegotiator(
+    return new Auth_OpenID_SessionNegotiator(
                  Auth_OpenID_getDefaultAssociationOrder());
-    return $x;
 }
 
-function &Auth_OpenID_getEncryptedNegotiator()
+function Auth_OpenID_getEncryptedNegotiator()
 {
-    $x = new Auth_OpenID_SessionNegotiator(
+    return new Auth_OpenID_SessionNegotiator(
                  Auth_OpenID_getOnlyEncryptedOrder());
-    return $x;
 }
 
 /**
@@ -601,4 +608,3 @@ class Auth_OpenID_SessionNegotiator {
     }
 }
 
-?>

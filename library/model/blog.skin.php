@@ -126,6 +126,10 @@ function selectSkin($blogid, $skinName) {
 		if (!empty($value) || is_numeric($value))
 			$assignments['linkLength'] = $value;
 
+		$value = $xmls->getValue('/skin/default/contentWidth');
+		if (!empty($value) || is_numeric($value))
+			$assignments['contentWidth'] = $value;
+
 		$value = $xmls->getValue('/skin/default/showListOnCategory');
 		if (isset($value))
 			$assignments['showListOnCategory'] = $value;

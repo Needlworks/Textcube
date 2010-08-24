@@ -9,8 +9,8 @@
  *
  * @package OpenID
  * @author JanRain, Inc. <openid@janrain.com>
- * @copyright 2005 Janrain, Inc.
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
+ * @copyright 2005-2008 Janrain, Inc.
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache
  */
 
 /**
@@ -31,7 +31,7 @@ class Auth_Yadis_ParseHTML {
      * @access private
      */
     var $_removed_re =
-           "<!--.*?-->|<!\\[CDATA\\[.*?\\]\\]>|<script\\b(?!:)[^>]*>.*?<\\/script>";
+           "<!--.*?-->|<!\[CDATA\[.*?\]\]>|<script\b(?!:)[^>]*>.*?<\/script>";
 
     /**
      * @access private
@@ -41,7 +41,7 @@ class Auth_Yadis_ParseHTML {
     /**
      * @access private
      */
-    var $_attr_find = '\b([-\w]+)=(".*?"|\'.*?\'|.+?)[\s>]';
+    var $_attr_find = '\b([-\w]+)=(".*?"|\'.*?\'|.+?)[\/\s>]';
 
     function Auth_Yadis_ParseHTML()
     {
@@ -101,7 +101,7 @@ class Auth_Yadis_ParseHTML {
     {
         $matches = array();
         $double = '/^"(.*)"$/';
-        $single = "/^'(.*)'$/";
+        $single = "/^\'(.*)\'$/";
 
         if (preg_match($double, $str, $matches)) {
             return $matches[1];
@@ -256,4 +256,3 @@ class Auth_Yadis_ParseHTML {
     }
 }
 
-?>

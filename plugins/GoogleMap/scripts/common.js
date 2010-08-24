@@ -177,11 +177,7 @@ function GMap_CreateMap(container, options) {
 	return map;
 }
 
-/*
-//TODO:v3
-GProgressControl = function() {}
-GProgressControl.prototype = new GControl();
-GProgressControl.prototype.initialize = function(map) {
+GProgressControl = function(map) {
 	var container = document.createElement('div');
 	var label = document.createElement('p');
 	var progress = document.createElement('div');
@@ -211,11 +207,8 @@ GProgressControl.prototype.initialize = function(map) {
 	this._label = label;
 	this._progress = progress;
 	this._progress_meter = progress_meter;
-	map.getContainer().appendChild(container);
-	return container;
-}
-GProgressControl.prototype.getDefaultPosition = function() {
-	return new GControlPosition(G_ANCHOR_TOP_RIGHT, new GSize(10, 50));
+	this._map = map;
+	this._inserted_index = map.controls[google.maps.ControlPosition.RIGHT].push(container) - 1;
 }
 GProgressControl.prototype.setLabel = function(text) {
 	this._label.innerHTML = text;
@@ -223,6 +216,8 @@ GProgressControl.prototype.setLabel = function(text) {
 GProgressControl.prototype.setProgress = function(val) { // val in 0..1
 	this._progress_meter.style.width = parseInt(val * 100) + '%';
 }
-*/
+GProgressControl.prototype.remove = function() {
+	this._map.controls[google.maps.ControlPosition.RIGHT].removeAt(this._inserted_index);
+}
 
 /* vim: set noet ts=4 sts=4 sw=4: */

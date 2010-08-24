@@ -14,6 +14,9 @@ function clearPluginSettingCache()
 	if( !empty($pluginSetting) ) {
 		$pluginSetting = array();
 	}
+	$pageCache = pageCache::getInstance();
+	$pageCache->reset('PluginSettings');
+	$pageCache->purge();
 }
 
 function activatePlugin($name) {
@@ -100,24 +103,23 @@ function isActivePlugin( $name ) {
 }
 
 function updatePluginConfig( $name , $setVal) {
-	global $database,  $activePlugins;
+	global $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
 	$name = POD::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
-	$setVal = POD::escapeString( $setVal ) ;
-	$count = POD::queryCount(
-		"UPDATE {$database['prefix']}Plugins 
-			SET settings = '$setVal' 
-			WHERE blogid = ".getBlogId()."
-			AND name = '$name'"
-		);
-	if( $count == 1 )
-		$result = '0';
+	$setting = serialize(Setting::fetchConfigXML($setVal));
+	$pool = DBModel::getInstance();
+	$pool->reset('Plugins');
+	$pool->setQualifier('blogid','eq',getBlogId());
+	$pool->setQualifier('name','eq',$name,true);
+	$pool->setAttribute('settings',$setting,true);
+
+	if( $pool->update() ) $result = '0';
+	else $result = '1';
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
-	if(isset($result) && $result = '0') return $result;
-	return (POD::error() == '') ? '0' : '1';
+	return $result;
 }
 
 function getPluginInformation($plugin) {

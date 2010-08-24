@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="en">Team Blog Settings(Japanese)</title>
-  <title xml:lang="ko">팀블로그 설정(일본어판)</title>
-  <title xml:lang="ja">チームブログ設定(日本語版)</title>
+  <title xml:lang="en">Team Blog Settings</title>
+  <title xml:lang="ko">팀블로그 설정</title>
+  <title xml:lang="ja">チームブログ設定</title>
   <link>http://needlworks.org/</link>
   <version>1.7</version>
   <description xml:lang="en"><![CDATA[Adds some detail settings for team blog use.]]></description>
