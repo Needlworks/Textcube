@@ -14,6 +14,9 @@ function clearPluginSettingCache()
 	if( !empty($pluginSetting) ) {
 		$pluginSetting = array();
 	}
+	$pageCache = pageCache::getInstance();
+	$pageCache->reset('PluginSettings');
+	$pageCache->purge();
 }
 
 function activatePlugin($name) {
