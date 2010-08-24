@@ -66,6 +66,11 @@ function clearCache() {
 	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like 'TextcubeNotice%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else echo '<span class="result fail">', _text('실패'), '</span></li>';
+	
+	echo '<li>', _textf('플러그인 캐시를 초기화합니다.'), ': ';
+	if(POD::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE name = 'PluginSettings'"))
+		echo '<span class="result success">', _text('성공'), '</span></li>';
+	else echo '<span class="result fail">', _text('실패'), '</span></li>';
 	$isCleared = true;
 }
 
