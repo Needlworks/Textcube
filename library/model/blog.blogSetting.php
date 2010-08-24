@@ -499,7 +499,7 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 		$pool->reset('UserSettings');
 		$pool->setQualifier('userid','eq',$userid);
 		$pool->setQualifier('name','eq','AuthToken',true);
-		@pool->delete(1);
+		@$pool->delete(1);
 		$pool->reset('Users');
 		$pool->setAttribute('password',$pwd,true);
 		$pool->setQualifier('userid','eq',$userid);
@@ -513,8 +513,14 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
-	@POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1");
-	return POD::execute("UPDATE {$database['prefix']}Users SET password = '$pwd' WHERE userid = $userid");
+	$pool->reset('UserSettings');
+	$pool->setQualifier('userid','eq',$userid);
+	$pool->setQualifier('name','eq','AuthToken',true);
+	@$pool->delete(1);
+	$pool->reset('Users');
+	$pool->setQualifier('userid','eq',$userid);
+	$pool->setAttribute('password',$pwd,true);
+	return $pool->update();
 }
 
 function changeAPIKey($userid, $key) {
@@ -523,59 +529,38 @@ function changeAPIKey($userid, $key) {
 }
 
 function deleteBlog($blogid) {
-	global $database;
 	if($blogid == 1) return false;
-	if (POD::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid")
-		&& POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid")
-		&& POD::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid")
-		&& POD::execute("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid")
-		&& POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid = $blogid")
-	)
-	{
-		return true;
-	} 
-	return false;
+	$pool = DBModel::getInstance();
+	$targets = array('BlogSettings','SkinSettings','FeedSettings','FeedGroups','Privileges');
+	$result = true;
+	foreach($targets as $t) {
+		$pool->reset($t);
+		$pool->setQualifier('blogid','eq',$blogid);
+		$result = $pool->delete() && $result;
+	}
+	return $result;
 }
 
 function removeBlog($blogid) {
+	$pool = DBModel::getInstance();
 	global $database;
-	if (getServiceSetting("defaultBlogId",1) == $blogid) {
+	if (Setting::getServiceSetting("defaultBlogId",1,true) == $blogid) {
 		return false;
 	}
-	$tags = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
-	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
-
-	//Clear Tables
-	POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}EntriesArchive WHERE blogid = $blogid");
-//	POD::execute("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid"); 
-	POD::execute("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Filters WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}LinkCategories WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}PageCacheLog WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Plugins WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}SkinSettings WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid = $blogid");
-	POD::execute("DELETE FROM {$database['prefix']}XMLRPCPingSettings WHERE blogid = $blogid");
+	
+	$targets = array('Attachments','BlogSettings','BlogStatistics','Categories','Comments','CommentsNotified',
+		'CommentsNotifiedQueue','DailyStatistics','Entries','EntriesArchive','FeedGroups','FeedReads','FeedStarred',
+		'FeedSettings','Filters','Links','LinkCategories','PageCacheLog','Plugins','RefererLogs', 'RefererStatistics',
+		'RemoteResponses','RemoteResponseLogs','SkinSettings','TagRelations','Privileges','XMLRPCPingSettings');
+	//Clear Tables	
+	foreach($targets as $t) {
+		$pool->reset($t);
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->delete();
+	}	
 	
 	//Delete Tags
+	$tags = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 	if (count($tags) > 0) 
 	{
 		$tagliststr = implode(', ', $tags);	// Tag id used at deleted blog.
@@ -587,7 +572,9 @@ function removeBlog($blogid) {
 			POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) ");
 		}
 	}
-	//Delete Feeds
+	
+	//Delete Feeds	
+	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
 	if (count($feeds) > 0) 
 	{
 		foreach($feeds as $feedId)

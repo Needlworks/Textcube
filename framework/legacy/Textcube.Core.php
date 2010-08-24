@@ -37,14 +37,13 @@ class User {
 
 	static function getUserNamesOfBlog($blogid) {
 		// TODO : Caching with global cache component. (Usually it is not changing easily.)
-		global $database;
-		$authorIds = POD::queryColumn("SELECT userid
-			FROM {$database['prefix']}Privileges
-			WHERE blogid = $blogid");
-		$authorInfo = POD::queryAll("SELECT userid, name
-			FROM {$database['prefix']}Users
-			WHERE userid IN (".implode(",",$authorIds).")");
-		return $authorInfo;
+		$pool = DBModel::getInstance();
+		$pool->reset('Privileges');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$authorIds = $pool->getColumn('userid');
+		$pool->reset('Users');
+		$pool->setQualifier('userid','hasOneOf',$authorIds);
+		return $pool->getAll('userid,name');
 	}
 
 	static function getBlogOwnerName($blogid) {

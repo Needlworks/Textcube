@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.2.20100429 */
+/* 1.3.20100824 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved, $param;
@@ -147,15 +147,28 @@ class DBModel extends Singleton implements IModel {
 				case '<=':
 					$this->_relations[$name] = '<=';
 					break;
-				//case 'hasOneOf':
-				//case 'hasAnyOf':
-				//case 'hasNoneOf':
+				case 'hasoneof':
+				case 'hasanyof':
+				case 'hasnoneof':
+					$this->_relations[$name] = strtolower($condition);
+					break;
 				case 'like':
 				default:
 					$this->_relations[$name] = 'LIKE';
 			}
-			if($name == 'blogid') {	// Legacy support for plugins (with string-type blogid)
+			if(in_array($name,array('blogid','userid'))) {	// Legacy support for plugins (with string-type blogid)
 				$this->_qualifiers[$name] = intval($value);
+			} else if (in_array(strtolower($condition),array('hasoneof','hasanyof','hasnoneof'))) {
+				if($escape !== false) {
+					$escapedCandidates = array();
+					if(is_array($value)) {
+						foreach ($value as $c) {
+							array_push($escapedCandidates,'\''.POD::escapeString($c).'\'');
+						}
+					} else array_push($escapedCandidates,$value); 
+					$value = $escapedCandidates;
+				}
+				$this->_qualifiers[$name] = $value;
 			} else {
 				$this->_qualifiers[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? 
 					$value : ($escape ? '\'' . 
@@ -332,6 +345,22 @@ class DBModel extends Singleton implements IModel {
 		$clause = '';
 		
 		foreach ($this->_qualifiers as $name => $value) {
+			if(in_array($this->_relations[$name],array('hasoneof','hasanyof','hasnoneof'))) {
+				switch($this->_relations[$name]) {
+					case 'hasoneof':
+						$this->_relations[$name] = ' IN';
+						break; 
+					case 'hasanyof':
+					case 'hasnoneof':
+					default:
+						$this->_relations[$name] = ' NOT IN';
+						break;
+				}
+				if(is_array($value)) {
+					$value = implode(',',$value);
+				}
+				$value = '('.$value.')';	
+			}		
 			$clause .= (strlen($clause) ? ' AND ' : '') . 
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
 				' '.(is_null($value) ? ' IS NULL' : $this->_relations[$name] . ' ' . $value);

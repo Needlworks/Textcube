@@ -20,7 +20,6 @@ $__requireLibrary = array(
 $__requireModel = array(
 	'blog.service',			// Models
 	'blog.blogSetting',
-	'blog.user',
 	'blog.category',
 	'blog.skin',
 	'blog.tag',
