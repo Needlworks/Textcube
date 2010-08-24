@@ -42,7 +42,6 @@ else $_POST['refererURI'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REF
 $message = '';
 $showPasswordReset = false;
 if (isset($_GET['session']) && isset($_GET['requestURI'])) {
-	global $service;
 	setcookie( Session::getName(), $_GET['session'], 0, $context->getProperty('service.session_cookie_path'), $context->getProperty('service.session_cookie_domain'));
 	header('Location: ' . $_GET['requestURI']);
 	exit;

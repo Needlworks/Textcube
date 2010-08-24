@@ -21,7 +21,7 @@ function doesExistTable($tablename) {
 			$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 			$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
 		} else $dbCaseInsensitive = 1;
-		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
+		Setting::setServiceSetting('lowercaseTableNames',$dbCaseInsensitive,true);
 	}
 	if($dbCaseInsensitive == 1) $tablename = strtolower($tablename);
 	if( in_array( $tablename, $tables ) ) {

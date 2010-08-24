@@ -257,12 +257,12 @@ if($context->getProperty('uri.interfaceType') == 'blog' && !defined('__TEXTCUBE_
 if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))) {
 	requireOwnership();     // Check access control list
 	if(!empty($_SESSION['acl'])) {
-		$requiredPriv = Aco::getRequiredPrivFromUrl( $suri['directive'] );
+		$requiredPriv = Aco::getRequiredPrivFromUrl( $context->getProperty('suri.directive') );
 		if( !empty($requiredPriv) && !Acl::check($requiredPriv) ) {
 			if( in_array( 'group.administrators', $requiredPriv ) ) {
-				header("location:".$blogURL ."/owner/center/dashboard"); exit;
+				header("location:".$context->getProperty('uri.blog')."/owner/center/dashboard"); exit;
 			} else {
-				header("location:".$blogURL ."/owner/entry"); exit;
+				header("location:".$context->getProperty('uri.blog')."/owner/entry"); exit;
 			}
 		}
 	

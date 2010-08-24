@@ -33,18 +33,18 @@ function logout() {
 }
 
 function requireLogin() {
-	global $service, $hostURL, $blogURL;
+	$context = Model_Context::getInstance();
 	if(isset($_POST['refererURI'])) $_GET['refererURI'] = $_POST['refererURI'];
 	else if(isset($_SESSION['refererURI'])) { 
 		$_GET['refererURI'] = $_SESSION['refererURI'];
 		unset($_SESSION['refererURI']);
 	}
-	if (!empty($service['loginURL'])) {
-		header("Location: {$service['loginURL']}?requestURI=" . rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") . (isset($_GET['refererURI']) && !empty($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
+	if ($context->getProperty('service.loginURL',null)) {
+		header("Location: ".$context->getProperty('service.loginURL')."?requestURI=" . rawurlencode($context->getProperty('uri.host').$_SERVER['REQUEST_URI']) . (isset($_GET['refererURI']) && !empty($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : ''));
 	} else {
-		$requestURI = rawurlencode("$hostURL{$_SERVER['REQUEST_URI']}") .  (isset($_GET['refererURI']) && !empty($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : '');
+		$requestURI = rawurlencode($context->getProperty('uri.host').$_SERVER['REQUEST_URI']) .  (isset($_GET['refererURI']) && !empty($_GET['refererURI']) ? "&refererURI=". rawurlencode($_GET['refererURI']) : '');
 
-		header ("Location: $hostURL$blogURL/login?requestURI=" . $requestURI );
+		header ("Location: ".$context->getProperty('uri.host').$context->getProperty('uri.blog')."/login?requestURI=" . $requestURI );
 	}
 	exit;
 }
@@ -54,9 +54,9 @@ function doesHaveMembership() {
 }
 
 function requireMembership() {
-	global $hostURL;
+	$context = Model_Context::getInstance();
 	if( doesHaveMembership() ) return true;
-	$_SESSION['refererURI'] = $hostURL.$_SERVER['REQUEST_URI'];
+	$_SESSION['refererURI'] = $context->getProperty('uri.host').$_SERVER['REQUEST_URI'];
 	requireLogin();
 }
 
@@ -121,7 +121,6 @@ function requirePrivilege($AC) {
 }
 
 function validateAPIKey($blogid, $loginid, $key) {
-	global $service;
 	$loginid = POD::escapeString($loginid);
 	$key = POD::escapeString($key);
 	$userid = User::getUserIdByEmail($loginid);
@@ -160,8 +159,9 @@ function generatePassword() {
 	return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
 }
 
-function resetPassword($blogid, $loginid) {
-	global $service, $blog, $hostURL, $blogURL, $serviceURL;
+function resetPassword($blogid, $loginid) {	
+	$ctx = Model_Context::getInstance();
+	
 	if (!isLoginId($blogid, $loginid))
 		return false;
 	$userid = User::getUserIdByEmail($loginid);
@@ -184,11 +184,11 @@ function resetPassword($blogid, $loginid) {
 	$message = file_get_contents(ROOT . "/resources/style/letter/letter.html");
 	$message = str_replace('[##_title_##]', _text('텍스트큐브 블로그 로그인 정보'), $message);
 	$message = str_replace('[##_content_##]', _text('블로그 로그인을 위한 임시 암호가 생성 되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다.'), $message);
-	$message = str_replace('[##_images_##]', $serviceURL."/resources/style/letter", $message);
-	$message = str_replace('[##_link_##]', "$hostURL$blogURL/login?loginid=" . rawurlencode($loginid) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode("$hostURL$blogURL/owner/setting/account?password=" . rawurlencode($password)), $message);
+	$message = str_replace('[##_images_##]', $ctx->getProperty('uri.service')."/resources/style/letter", $message);
+	$message = str_replace('[##_link_##]', $ctx->getProperty('uri.host').$ctx->getProperty('uri.blog')."/login?loginid=" . rawurlencode($loginid) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode($ctx->getProperty('uri.host').$ctx->getProperty('uri.blog')."/owner/setting/account?password=" . rawurlencode($password)), $message);
 	$message = str_replace('[##_link_title_##]', _text('여기를 클릭하시면 로그인하여 암호를 변경하실 수 있습니다.'), $message);
 	$message = str_replace('[##_sender_##]', '', $message);
-	$ret = sendEmail('Your Textcube Blog',"textcube@{$service['domain']}",'',$loginid, encodeMail(_text('블로그 로그인 암호가 초기화되었습니다.')), $message );
+	$ret = sendEmail('Your Textcube Blog',"textcube@".$ctx->getProperty('service.domain'),'',$loginid, encodeMail(_text('블로그 로그인 암호가 초기화되었습니다.')), $message );
 	if (true !== $ret) {
 		return false;
 	}

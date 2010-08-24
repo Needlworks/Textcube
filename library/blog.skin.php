@@ -92,11 +92,14 @@ class Skin {
 	var $dressTags = array();
 
 	function __construct($name, $previewMode = false) {
-		global $service, $blogURL, $suri, $blog, $__gDressTags, $serviceURL;
+		global $__gDressTags;
+		
+		$context = Model_Context::getInstance();
+		
 		$this->cache = new pageCache;
 		$this->cache->reset('skinCache');
 		$__gDressTags = array();
-		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
+		if($previewMode == true || ($context->getProperty('service.skincache') != true) || !$this->loadCache()) {
 			$this->noneCommentMessage = Setting::getBlogSettingGlobal('noneCommentMessage',null);
 			$this->singleCommentMessage = Setting::getBlogSettingGlobal('singleCommentMessage',null);
 			$this->noneTrackbackMessage = Setting::getBlogSettingGlobal('noneTrackbackMessage',null);
@@ -106,7 +109,6 @@ class Skin {
 			//$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
 			//$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
 			$this->microformatDebug = array();
-			
 			if (strncmp($name, 'customize/', 10) == 0) {
 				$name = "customize/".getBlogId();
 			} else {
@@ -114,17 +116,17 @@ class Skin {
 			}
 			
 			if (($name == '.') || ($name == '..')) {
-				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
+				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
 			}
 			
 			$filename = ROOT . "/skin/blog/$name/skin.html";
 			
 			if (!is_file($filename)) {
-				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
+				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
 			}
 			
 			if (!$sval = file_get_contents($filename))
-				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
+				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
 	
 			replaceSkinTag($sval, 'html');
 			replaceSkinTag($sval, 'head');
@@ -190,12 +192,12 @@ class Skin {
 			$this->coverpageBasicModules[0] = array();
 			$this->coverpageName[0] =_t('표지');
 	
-			$sval = str_replace('./', "{$serviceURL}/skin/blog/$name/", $sval);
+			$sval = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $sval);
 	
-			$this->noneCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneCommentMessage);
-			$this->singleCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleCommentMessage);
-			$this->noneTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneTrackbackMessage);
-			$this->singleTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleTrackbackMessage);
+			$this->noneCommentMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->noneCommentMessage);
+			$this->singleCommentMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->singleCommentMessage);
+			$this->noneTrackbackMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->noneTrackbackMessage);
+			$this->singleTrackbackMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->singleTrackbackMessage);
 	
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);

@@ -53,7 +53,6 @@ function reloadSkin($blogid)
 
 function selectSkin($blogid, $skinName) {
 	global $database, $service;
-	requireComponent('Needlworks.Cache.PageCache');
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (empty($skinName))

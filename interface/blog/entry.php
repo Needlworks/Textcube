@@ -45,7 +45,7 @@ if(empty($suri['value'])) {
 fireEvent('OBStart');
 require ROOT . '/interface/common/blog/begin.php';
 
-$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+$automaticLink = "<link rel=\"stylesheet\" href=\"".$context->getProperty('uri.service')."/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
 if (empty($suri['value'])) {
