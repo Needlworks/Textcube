@@ -514,6 +514,7 @@ h3
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
+	display                          : none;
 	background-color                 : #FFF;
 	margin                           : 10px 20px 2px 0;
 	position                         : relative;
@@ -521,10 +522,10 @@ h3
 /*	width                            : 550px;*/
 /*	float                            : left;*/
 	border:1px solid #F2F2F2;
-       -moz-border-radius-topleft       : 8px;
-       -moz-border-radius-topright      : 8px;
-       -webkit-border-top-left-radius   : 8px;
-       -webkit-border-top-right-radius  : 8px;	
+    -moz-border-radius-topleft       : 8px;
+    -moz-border-radius-topright      : 8px;
+    -webkit-border-top-left-radius   : 8px;
+    -webkit-border-top-right-radius  : 8px;	
 }
 
 #upload-section h3
@@ -532,10 +533,10 @@ h3
 	background-color                 : #F2F2F2;
 	display                          : block;
 	padding                          : 10px 10px 3px 10px;
-       -moz-border-radius-topleft       : 8px;
-       -moz-border-radius-topright      : 8px;
-       -webkit-border-top-left-radius   : 8px;
-       -webkit-border-top-right-radius  : 8px;
+    -moz-border-radius-topleft       : 8px;
+    -moz-border-radius-topright      : 8px;
+    -webkit-border-top-left-radius   : 8px;
+    -webkit-border-top-right-radius  : 8px;
 }
 
 #upload-detail
