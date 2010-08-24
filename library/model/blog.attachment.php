@@ -117,7 +117,7 @@ function addAttachment($blogid, $parent, $file) {
 	$pool->setQualifier('parent','equals',$parent);
 	$pool->setQualifier('label','equals',$file['name'], true);
 	
-	if($pool->getCell('count(*)') > 0) {
+	if($pool->getCount() > 0) {
 		return false;
 	}
 	$attachment = array();

@@ -514,8 +514,8 @@ if ($service['type'] != 'single') {
 											<dt><span class="label"><?php echo _t('로고 그림');?></span></dt>
 											<dd>
 <?php
-if (!empty($context->getProperty('blog.logo')) && file_exists(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}")) {
-	$logoInfo = @getimagesize(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}");
+if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/".$context->getProperty('blog.logo'))) {
+	$logoInfo = @getimagesize(ROOT."/attach/$blogid/".$context->getProperty('blog.logo'));
 	if ($logoInfo[0] > 150) {
 ?>
 												<a href="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/<?php echo $context->getProperty('blog.logo');?>" onclick="window.open(this.href); return false;"><img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/<?php echo $context->getProperty('blog.logo');?>" width="150" border="1" alt="<?php echo _t('사용자 로고');?>" /></a>
@@ -529,7 +529,7 @@ if (!empty($context->getProperty('blog.logo')) && file_exists(ROOT."/attach/$blo
 ?>
 
 												<input type="file" class="input-file" name="logo" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo empty($context->getProperty('blog.logo')) ? ' disabled="disabled"' : '';?> /><label for="deleteLogo"><?php echo _t('로고를 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteLogo" name="deleteLogo" value="yes"<?php echo !$context->getProperty('blog.logo') ? ' disabled="disabled"' : '';?> /><label for="deleteLogo"><?php echo _t('로고를 초기화합니다.');?></label></div>
 											</dd>
 										</dl>
 										<dl id="favicon-line" class="line">

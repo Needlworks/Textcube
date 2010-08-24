@@ -415,7 +415,7 @@ $hptype = User::getHomepageType();
 $blogs = User::getBlogs();
 $hptype = empty($blogs)?"default":$hptype;
 if ($hptype == 'internal' || 'author') {
-	$blogidforhomepage = getUserSetting("blogidforhomepage"); 
+	$blogidforhomepage = Setting::getUserSetting("blogidforhomepage",null,true);
 }
 ?>
 								<form id="homepage-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/setting/account/homepage">
@@ -549,7 +549,7 @@ if( isActivePlugin( 'CL_OpenID' ) || Acl::check('group.administrators') ) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 주소를 오픈아이디로 사용하기')?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _f('블로그 주소(%1)를 현재 아이디와 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.', "$context->getProperty('uri.host')$context->getProperty('uri.blog')").' '._t('위임을 통하여 이후 오픈아이디를 사용하는 다른 서비스에서 이 블로그 주소를 오픈아이디로 사용할 수 있습니다.');?></p>
+								<p class="explain"><?php echo _f('블로그 주소(%1)를 현재 아이디와 연결된 오픈아이디 중 하나에 위임하여 오픈아이디로 사용할 수 있습니다.', $context->getProperty('uri.host').$context->getProperty('uri.blog')).' '._t('위임을 통하여 이후 오픈아이디를 사용하는 다른 서비스에서 이 블로그 주소를 오픈아이디로 사용할 수 있습니다.');?></p>
 							</div>
 							
 							<div class="data-inbox">
@@ -590,7 +590,7 @@ if ($service['type'] != 'single' && Acl::check("group.creators")):
 						<div id="part-setting-invite" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('친구를 초대합니다');?></span></h2>
 							
-<?php if( !function_exists( 'mail' ) && !getServiceSetting( 'useCustomSMTP', 0 )  ) { ?>
+<?php if( !function_exists( 'mail' ) && !Setting::getServiceSetting( 'useCustomSMTP', 0 ,true)  ) { ?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('시스템에 자체에서 메일을 보낼 수가 없습니다. 외부 메일 서버를 지정해주세요.');?> <a href="<?php echo $context->getProperty('uri.blog') ?>/owner/control/server"><?php echo _t('메일 서버 설정 바로가기')?></a></p>
 							</div>
