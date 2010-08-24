@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-	<title xml:lang="en">Date Format Changer(Japanese)</title>
-	<title xml:lang="ko">날짜 언어/형식 변경 플러그인(일본어판)</title>
-	<title xml:lang="ja">日付形式変更(日本語版)</title>
+	<title xml:lang="en">Date Format Changer</title>
+	<title xml:lang="ko">날짜 언어/형식 변경 플러그인</title>
+	<title xml:lang="ja">日付形式変更</title>
 	<link>http://needlworks.org/</link>
 	<version>1.6</version>
 	<description xml:lang="en">Change all date format in this blog</description>
