@@ -19,8 +19,8 @@ $configPost  = '';
 $configVal   = '';
 $typeSchema  = null;
 
-$formatterMapping = array('html' => array('name' => _t('HTML'), 'editors' => array('plain' => '')));
-$editorMapping    = array('plain' => array('name' => _t('편집기 없음')));
+$formatterMappings = array('html' => array('name' => _t('HTML'), 'editors' => array('plain' => '')));
+$editorMappings    = array('plain' => array('name' => _t('편집기 없음')));
 list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 
 if (getBlogId()) {
@@ -40,7 +40,8 @@ if (getBlogId()) {
 
 	$storageList = array('activePlugins','eventMappings','tagMappings',
 		'sidebarMappings','coverpageMappings','centerMappings','storageMappings','storageKeymappings',
-		'adminMenuMappings','adminHandlerMappings','configMappings');
+		'adminMenuMappings','adminHandlerMappings','configMappings','editorMappings','formatterMappings',
+		'editorCount','formatterCount');
 
 	$p = array();
 	if(!empty($pluginSettings)) {
@@ -324,7 +325,7 @@ if (getBlogId()) {
 											$formatterinfo['editors'][$usedFor['.attributes']['editor']] = @$usedFor['.value'];
 										}
 									}
-									$formatterMapping[$formatterid] = $formatterinfo;
+									$formatterMappings[$formatterid] = $formatterinfo;
 								}
 								unset($formatter);
 								unset($formatterid);
@@ -342,11 +343,11 @@ if (getBlogId()) {
 									if (isset($editor['usedFor'])) {
 										foreach ($editor['usedFor'] as $usedFor) {
 											if (!isset($usedFor['.attributes']['formatter'])) continue;
-											if(isset($formatterMapping[$usedFor['.attributes']['formatter']]))
-												$formatterMapping[$usedFor['.attributes']['formatter']]['editors'][$editorid] = @$usedFor['.value'];
+											if(isset($formatterMappings[$usedFor['.attributes']['formatter']]))
+												$formatterMappings[$usedFor['.attributes']['formatter']]['editors'][$editorid] = @$usedFor['.value'];
 										}
 									}
-									$editorMapping[$editorid] = $editorinfo;
+									$editorMappings[$editorid] = $editorinfo;
 								}
 								unset($editor);
 								unset($editorid);
@@ -381,8 +382,8 @@ if (getBlogId()) {
 	}
 	// sort mapping by its name, with exception for default formatter and editor
 	if (doesHaveOwnership()) {
-		$_fMapping = $formatterMapping;
-		$_eMapping = $editorMapping;
+		$_fMapping = $formatterMappings;
+		$_eMapping = $editorMappings;
 		function _cmpfuncByFormatterName($x, $y) {
 			global $_fMapping;
 			if ($x == 'html') return -1;
@@ -395,9 +396,9 @@ if (getBlogId()) {
 			if ($y == 'plain') return +1;
 			return strcmp($_eMapping[$x]['name'], $_eMapping[$y]['name']);
 		}
-		uksort($editorMapping, '_cmpfuncByEditorName');
-		uksort($formatterMapping, '_cmpfuncByFormatterName');
-		foreach ($formatterMapping as $formatterid => $formatterentry) {
+		uksort($editorMappings, '_cmpfuncByEditorName');
+		uksort($formatterMappings, '_cmpfuncByFormatterName');
+		foreach ($formatterMappings as $formatterid => $formatterentry) {
 //			uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
 		}
 	}

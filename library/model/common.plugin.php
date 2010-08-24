@@ -103,24 +103,18 @@ function isActivePlugin( $name ) {
 }
 
 function updatePluginConfig( $name , $setVal) {
-	global $database,  $activePlugins;
+	global $activePlugins;
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
 	$name = POD::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
 	$setting = serialize(Setting::fetchConfigXML($setVal));
-//	$setVal = POD::escapeString( $setVal ) ;
 	$pool = DBModel::getInstance();
 	$pool->reset('Plugins');
 	$pool->setQualifier('blogid','eq',getBlogId());
 	$pool->setQualifier('name','eq',$name,true);
 	$pool->setAttribute('settings',$setting,true);
-//	$count = POD::queryCount(
-//		"UPDATE {$database['prefix']}Plugins 
-//			SET settings = '$setVal' 
-//			WHERE blogid = ".getBlogId()."
-//			AND name = '$name'"
-//		);
+
 	if( $pool->update() ) $result = '0';
 	else $result = '1';
 	clearPluginSettingCache();
