@@ -47,7 +47,6 @@ if (!is_null($entry)) {
 	$entry['acceptcomment'] = empty($_POST['acceptcomment']) ? 0 : 1;
 	$entry['accepttrackback'] = empty($_POST['accepttrackback']) ? 0 : 1;
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
-
 	if($id = updateEntry($blogid, $entry, $updateDraft)) {
 		fireEvent('UpdatePost', $id, $entry);
 		setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
