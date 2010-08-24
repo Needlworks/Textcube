@@ -24,7 +24,7 @@ $page = $_GET['page'];
 			<fieldset>
 				<dl>
 					<dt><label for="bi-owner-loginid"><?php echo _t('소유자'); ?></label>
-					<dd id="suggestContainer"><input id="bi-owner-loginid" class="input-text" name="location" value="<?php echo getUserEmail(1);?>" /></dd>
+					<dd id="suggestContainer"><input id="bi-owner-loginid" class="input-text" name="location" value="<?php echo User::getEmail(1);?>" /></dd>
 					<dt><label for="bi-identify"><?php echo _t('블로그 구분자'); ?></label></dt>
 					<dd><input type="text" id="bi-identify" name="bi-identify" /></dd>
 				</dl>
@@ -120,7 +120,7 @@ require ROOT . '/interface/common/control/footer.php';
 	try {
 		document.getElementById("suggestContainer").innerHTML = '';
 		var ctlUserSuggestObj = new ctlUserSuggest(document.getElementById("suggestContainer"),  false);
-		ctlUserSuggestObj.setValue("<?php echo getUserEmail(1);?>");	
+		ctlUserSuggestObj.setValue("<?php echo User::getEmail(1);?>");	
 	} catch (e) {
 		document.getElementById("suggestContainer").innerHTML = '<input type="text" id="bi-owner-loginid" name="location" value="" />';
 	}

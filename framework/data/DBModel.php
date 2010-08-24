@@ -191,8 +191,8 @@ class DBModel extends Singleton implements IModel {
 		$this->_limit = array();	
 	}
 	
-	public function doesExist() {
-		return POD::queryExistence('SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+	public function doesExist($field = '*') {
+		return POD::queryExistence('SELECT '. $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
 	public function getCell($field = '*') {
@@ -282,9 +282,10 @@ class DBModel extends Singleton implements IModel {
 		}
 	}
 	
-	public function delete() {
+	public function delete($count = null) {
 		if (empty($this->table))
 			return false;
+		if(!is_null($count)) $this->setLimit($count);
 		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
 		if (POD::query($this->_query))
 			return true;

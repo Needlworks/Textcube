@@ -373,7 +373,7 @@ class Auth {
 		$blogApiPassword = Setting::getBlogSettingGlobal("blogApiPassword", "");
 
 		if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
-			$userid = getUserIdByEmail($loginid);
+			$userid = User::getUserIdByEmail($loginid);
 			if(!empty($userid) && !is_null($userid)) {
 				$query = DBModel::getInstance();
 				$query->reset('UserSettings');

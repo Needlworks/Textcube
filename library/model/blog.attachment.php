@@ -200,7 +200,6 @@ function deleteAttachment($blogid, $parent, $name) {
 }
 
 function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
-	global $database;
 	$path = ROOT . "/attach/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
