@@ -7,48 +7,48 @@
 
 /* Editor */
 function getDefaultEditor() {
-	global $editorMapping;
-	reset($editorMapping);
-	return Setting::getBlogSettingGlobal('defaultEditor', key($editorMapping));
+	global $editorMappings;
+	reset($editorMappings);
+	return Setting::getBlogSettingGlobal('defaultEditor', key($editorMappings));
 }
 
-function& getAllEditors() { global $editorMapping; return $editorMapping; }
+function& getAllEditors() { global $editorMappings; return $editorMappings; }
 
 function getEditorInfo($editor) {
-	global $editorMapping, $pluginURL, $pluginName;
+	global $editorMappings, $pluginURL, $pluginName;
 	$context = Model_Context::getInstance();
-	if (!isset($editorMapping[$editor])) {
-		reset($editorMapping);
-		$editor = key($editorMapping); // gives first declared (thought to be default) editor
+	if (!isset($editorMappings[$editor])) {
+		reset($editorMappings);
+		$editor = key($editorMappings); // gives first declared (thought to be default) editor
 	}
-	if (isset($editorMapping[$editor]['plugin'])) {
-		$pluginURL = $context->getProperty('service.path').'/plugins/'.$editorMapping[$editor]['plugin'];
-		$pluginName = $editorMapping[$editor]['plugin'];
-		include_once ROOT . "/plugins/{$editorMapping[$editor]['plugin']}/index.php";
+	if (isset($editorMappings[$editor]['plugin'])) {
+		$pluginURL = $context->getProperty('service.path').'/plugins/'.$editorMappings[$editor]['plugin'];
+		$pluginName = $editorMappings[$editor]['plugin'];
+		include_once ROOT . "/plugins/{$editorMappings[$editor]['plugin']}/index.php";
 	}
-	return $editorMapping[$editor];
+	return $editorMappings[$editor];
 }
 
 
 /* Formatter */
 // default formatter functions.
 function getDefaultFormatter() {
-	global $formatterMapping;
-	reset($formatterMapping);
-	return Setting::getBlogSettingGlobal('defaultFormatter', key($formatterMapping));
+	global $formatterMappings;
+	reset($formatterMappings);
+	return Setting::getBlogSettingGlobal('defaultFormatter', key($formatterMappings));
 }
 
-function& getAllFormatters() { global $formatterMapping; return $formatterMapping; }
+function& getAllFormatters() { global $formatterMappings; return $formatterMappings; }
 function getFormatterInfo($formatter) {
-	global $formatterMapping;
-	if (!isset($formatterMapping[$formatter])) {
-		reset($formatterMapping);
-		$formatter = key($formatterMapping); // gives first declared (thought to be default) formatter
+	global $formatterMappings;
+	if (!isset($formatterMappings[$formatter])) {
+		reset($formatterMappings);
+		$formatter = key($formatterMappings); // gives first declared (thought to be default) formatter
 	}
-	if (isset($formatterMapping[$formatter]['plugin'])) {
-		include_once ROOT . "/plugins/{$formatterMapping[$formatter]['plugin']}/index.php";
+	if (isset($formatterMappings[$formatter]['plugin'])) {
+		include_once ROOT . "/plugins/{$formatterMappings[$formatter]['plugin']}/index.php";
 	}
-	return $formatterMapping[$formatter];
+	return $formatterMappings[$formatter];
 }
 
 function getEntryFormatterInfo($id) {
