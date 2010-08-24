@@ -32,13 +32,18 @@ if (getBlogId()) {
 		$activePlugins = $pool->getColumn('name');
 		$gCacheStorage->setContent('activePlugins',$activePlugins);
 	}
-	$pluginSettings = Setting::getBlogSettingGlobal('PluginSettings',NULL);
+	$pageCache = pageCache::getInstance();
+	$pageCache->reset('PluginSettings');
+	$pageCache->load();
+	
+	$pluginSettings = $pageCache->contents;	
+
 	$storageList = array('activePlugins','eventMappings','tagMappings',
 		'sidebarMappings','coverpageMappings','centerMappings','storageMappings','storageKeymappings',
 		'adminMenuMappings','adminHandlerMappings','configMappings');
 
 	$p = array();
-	if(!is_null($pluginSettings)) {
+	if(!empty($pluginSettings)) {
 		$p = unserialize($pluginSettings);
 		foreach ($storageList as $s) {
 			${$s} = $p[$s];	
@@ -364,7 +369,9 @@ if (getBlogId()) {
 		foreach ($storageList as $s) {
 			$p[$s] = ${$s};	
 		}
-		Setting::setBlogSettingGlobal('PluginSettings',serialize($p));
+		$pageCache->contents = serialize($p);	
+		$pageCache->update();
+		//Setting::setBlogSettingGlobal('PluginSettings',serialize($p));
 	}
 	if(empty($formatterCount)) { // Any formatter is used, add the ttml formatter.
 		activatePlugin('FM_TTML');
