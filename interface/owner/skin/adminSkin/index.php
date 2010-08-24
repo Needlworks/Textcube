@@ -29,7 +29,7 @@ foreach(new DirectoryIterator(ROOT.'/skin/admin/') as $skinFile) {
 
 	if(!$skinFile->isDir()) continue;
 	if(strpos($skinFile->getFilename(),'.') === 0) continue;
-
+	if($skinFile->getFilename() == 'mobile') continue;
 	if (!file_exists($skinFile->getPathname()."/index.xml")) continue;
 	
 	$skin = array();
