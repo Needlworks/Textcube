@@ -8,6 +8,10 @@ require ROOT . '/interface/common/owner/header.php';
 
 requireModel('common.plugin');
 
+$pageCache = pageCache::getInstance();
+$pageCache->reset('PluginSettings');
+$pageCache->purge();
+
 // set the selected tab.
 if (isset($_GET['visibility'])) {
 	$_POST['visibility'] = $_GET['visibility'];
