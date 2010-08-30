@@ -1207,47 +1207,58 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
-	$content = fireEvent('Format' . $type . 'Content', $content, $id);
-	$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
-	$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
-	if (defined('__TEXTCUBE_MOBILE__'))
-		$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
-	if(!$useAbsolutePath)
-		$view = avoidFlashBorder($view);
-
-	if (!empty($keywords) && is_array($keywords)) $view = bindKeywords($keywords, $view);
-	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	
-	// image resampling
-	if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
-		preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
-		$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
-		$contentWidth = Misc::getContentWidth();
-			
-		if (count($images) > 0) {
-			for ($i=0; $i<count($images); $i++) {
-				if (strtolower(Misc::getFileExtension($images[$i][1])) == 'gif') {
-					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
-					continue;
-				}
-				
-				$tempFileName = array_pop(explode('/', $images[$i][1]));
+	$cacheKey = 'entry-'.$id.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').(defined('__TEXTCUBE_MOBILE__') ? 'mobile' : '');
+	$cache = pageCache::getInstance();
+	$cache->name = $cacheKey;
+	if($cache->load()) {	// If cached content exists.
+		$view = $cache->contents;
+	} else {	// No cache is found.
+		$content = fireEvent('Format' . $type . 'Content', $content, $id);
+		$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
+		$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
+		if (defined('__TEXTCUBE_MOBILE__'))
+			$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
+		if(!$useAbsolutePath)
+			$view = avoidFlashBorder($view);
 
-				if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
-					$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
-					$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
-					if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width']))
-						$newImage = resampleImage($images[$i][0], $tempFileName, $useAbsolutePath);
-					else
+		if (!empty($keywords) && is_array($keywords)) $view = bindKeywords($keywords, $view);
+
+		
+		// image resampling
+		if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
+			preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
+			$contentWidth = Misc::getContentWidth();
+			
+			if (count($images) > 0) {
+				for ($i=0; $i<count($images); $i++) {
+					if (strtolower(Misc::getFileExtension($images[$i][1])) == 'gif') {
+						$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
+						continue;
+					}
+				
+					$tempFileName = array_pop(explode('/', $images[$i][1]));
+
+					if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
+						$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
+						$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
+						if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width']))
+							$newImage = resampleImage($images[$i][0], $tempFileName, $useAbsolutePath);
+						else
+							$newImage = $images[$i][0];
+					} else {
 						$newImage = $images[$i][0];
-				} else {
-					$newImage = $images[$i][0];
+					}
+					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
 				}
-				$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
 			}
 		}
+		$cache->contents = $view;
+		$cache->update();
 	}
 	
+	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	return $view;
 }
 
