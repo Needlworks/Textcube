@@ -245,7 +245,25 @@ if ($service['type'] != 'single') {
 								var publishWholeOnRSS     = "<?php echo $blog['publishWholeOnRSS'];?>";
 								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
 								var blogVisibility        = <?php echo $blog['visibility'];?>;
+								var frontPage             = <?php echo $blog['frontpage'];?>;
 
+
+								function setFrontpage() {
+									var frontPage;
+									if(document.getElementById('frontpageEntry').checked) frontPage = 'entry';
+									else if(document.getElementById('frontpageCover').checked) frontPage = 'cover';
+									else frontPage = 'line';
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/frontpage/");
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
+									}
+									
+									request.onError = function() {
+										alert("<?php echo _t('첫 페이지를 변경할 수 없습니다.');?>");
+									}
+									request.send("frontpage="+frontPage);		
+								}
+								
 								function setPolicy() {
 									if (document.getElementById('rss-form').useSlogan[useSlogan].checked == true
 										|| document.getElementById('rss-form').useCSlogan[useCSlogan].checked == true
@@ -585,7 +603,36 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 								</div>
 							</form>
 						</div>
+
+						<hr class="hidden" />
 						
+						<div id="part-setting-frontpage" class="part">
+							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 첫 화면을 설정합니다');?></span></h2>
+							
+							<form id="frontpage-form" class="data-inbox" method="post" action="<?php echo parseURL($blogURL.'/owner/setting/frontpage');?>">
+								<div id="frontpage-section" class="section">
+									<fieldset class="container">
+										<legend><?php echo _t('첫 화면 설정');?></legend>
+										
+										<dl id="blog-frontpage-line" class="line">
+											<dt><span class="label"><?php echo _t('블로그 첫 페이지');?></span></dt>
+											<dd>
+												<input type="radio" id="frontpageEntry" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='entry' ? ' checked="checked"' : '');?> /><label for="visibilityPrivate"><span class="text"><?php echo _t('블로그 첫 페이지에서 최근 글을 보여주도록 합니다.');?></span></label><br />
+												<input type="radio" id="frontpageCover" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='cover' ? ' checked="checked"' : '');?> /><label for="visibilityMember"><span class="text"><?php echo _t('블로그 첫 페이지에서 표지를 보여주도록 합니다.');?></span></label><br />
+												<input type="radio" id="frontpageLine" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='line' ? ' checked="checked"' : '');?> /><label for="visibilityPublic"><span class="text"><?php echo _t('블로그 첫 페이지에서 라인을 보여주도록 합니다.');?></span></label>
+											</dd>
+											<dd>
+												<p><label for="visibility"><?php echo _t('블로그 첫 페이지를 설정합니다.').' '._t('블로그 주소로 접근할 경우 처음 보이는 페이지를 선택합니다.');?></label></p>
+											</dd>
+										</dl>										
+									</fieldset>
+								</div>
+								<div class="button-box">
+									<input type="submit" class="save-button input-button wide-button" value="<?php echo _t('저장하기');?>" onclick="setFrontpage(); return false;" />
+								</div>
+							</form>
+						</div>
+												
 						<hr class="hidden" />
 						<div id="part-setting-rss" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('블로그 공개 정책을 설정합니다');?></span></h2>
