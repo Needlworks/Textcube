@@ -49,8 +49,6 @@ function correctImagePath($match ) {
 	return str_replace( $match[1],  $serviceURL . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
 }
 
-if (false) correctImagePath('');
-
 function getBlogContentForCoverPage()
 {
 	global $blogid, $blog, $blogURL, $database, $service, $stats, $skinSetting;
@@ -212,22 +210,6 @@ $skin = new Skin($skinSetting['skin']);
 $usedCoverpageBasicModule = array();
 $coverpageCount = count($skin->coverpageBasicModules);
 
-if (($_SERVER['REQUEST_METHOD'] == 'POST') && (empty($_POST['useCoverpageInit']))) {
-	$coverpageInitView = Setting::getBlogSettingGlobal("coverpageInitView");
-	if (is_null($coverpageInitView)) {
-		setBlogSetting("coverpageInitView", 1);
-		$coverpageInitView = 1;
-	} else {
-		setBlogSetting("coverpageInitView", 0);
-		$coverpageInitView = 0;
-	}
-} else if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		setBlogSetting("coverpageInitView", 1);
-		$coverpageInitView = 1;
-} else {
-	$coverpageInitView = Setting::getBlogSettingGlobal("coverpageInitView");
-}
-
 getBlogContentForCoverPage();
 ?>
 						<form id="part-coverpage-order" class="part" method="post" action="<?php echo parseURL($blogURL.'/owner/skin/coverpage');?>">
@@ -236,19 +218,6 @@ getBlogContentForCoverPage();
 require ROOT . '/interface/common/owner/skinTab.php';
 ?>
 
-<?php
-	if(isset($skin->cover)) {
-?>
-							<dl id="independent-cover-line" class="line">
-								<dt><?php echo _t('독립패널 설정');?></dt>
-								<dd>
-									<input type="checkbox" class="checkbox" id="useCoverpageInit" name="useCoverpageInit" value="on" onclick="changeList();return false;"<?php echo $coverpageInitView == 1 ? ' checked="checked"' : NULL;?> />
-									<label for="useCoverpageInit"><?php echo _t('표지를 블로그의 첫 화면으로 사용합니다');?></label>
-								</dd>
-							</dl>							
-<?php
-	}
-?>
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그의 표지 구성을 변경할 수 있습니다.');?> <?php echo _f('표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다.',$defaultURL);?> <?php echo _t('표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
 								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 표지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하도록 구성할 수 있습니다.') : '';?></p>
