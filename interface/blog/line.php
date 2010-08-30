@@ -2,6 +2,9 @@
 /// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
+
+define('__TEXTCUBE_LINE__',true);
+
 $IV = array(
 	'GET' => array(
 		'key' => array('string','default'=>''),
