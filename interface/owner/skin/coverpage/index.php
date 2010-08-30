@@ -221,6 +221,7 @@ require ROOT . '/interface/common/owner/skinTab.php';
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('블로그의 표지 구성을 변경할 수 있습니다.');?> <?php echo _f('표지는 블로그 첫 화면 또는 %1/cover 에 표시되는 부분입니다.',$defaultURL);?> <?php echo _t('표지에 새로운 요소를 추가/삭제할 수 있으며 패널들을 자유롭게 배치 할 수 있습니다.');?>
 								<?php echo ($service['type'] == 'path' || $service['type'] == 'domain') ?  _t('다중 사용자 모드로 설치된 경우 블로그 관리자는 표지 기능을 이용하여 대표 블로그를 다른 블로그들에 대한 센터 기능을 하도록 구성할 수 있습니다.') : '';?></p>
+								<p class="explain"><?php echo _t('블로그-설정 메뉴에서 블로그 첫 화면을 표지로 사용하도록 변경할 수 있습니다.');?></p>
 							</div>
 							
 							<dl id="direct-link-line" class="line">
