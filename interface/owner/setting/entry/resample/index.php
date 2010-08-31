@@ -15,10 +15,11 @@ $isAjaxRequest = false; // checkAjaxRequest();
 
 // 기본 설정
 if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault'] == "yes")) {
-	setBlogSetting("resamplingDefault", "yes");
+	Setting::setBlogSettingGlobal("resamplingDefault", "yes");
 } else {
-	removeBlogSetting("resamplingDefault");
+	Setting::removeBlogSettingiGlobal("resamplingDefault");
 }
+CacheControl::flushEntry();
 
 $isAjaxRequest ? Respond::PrintResult($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>

@@ -10,6 +10,8 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
+
+if(strpos($_POST['url'],'http://') !== 0) $_POST['url'] = 'http://'.$_POST['url'];
 $result = array('error' => addFeed(getBlogId(), $_POST['group'], $_POST['url']));
 ob_start();
 printFeeds($blogid, $_POST['group']);

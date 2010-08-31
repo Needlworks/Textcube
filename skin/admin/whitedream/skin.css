@@ -630,7 +630,7 @@
 #part-coverpage-order
 {
 	background-image                 : url("./image/bg_sidebar.png");
-	background-position              : 309px 175px;
+	background-position              : 309px 225px;
 	background-repeat                : no-repeat;	
 }
 
@@ -639,7 +639,7 @@
 #part-coverpage-order .pseudo-clear
 {
 	clear                            : both;
-	font-family                      : 돋움, Dotum, sans-serif;
+	font-family                      : Dotum, sans-serif;
 	font-size                        : 0.9em;
 	letter-spacing                   : -1px;
 	padding-top                      : 15px;

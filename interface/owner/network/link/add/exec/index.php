@@ -15,5 +15,7 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.link");
 
 requireStrictRoute();
+if(strpos($_POST['rss'],'http://') !== 0) $_POST['rss'] = 'http://'.$_POST['rss'];
+if(strpos($_POST['url'],'http://') !== 0) $_POST['url'] = 'http://'.$_POST['url'];
 Respond::ResultPage(addLink($blogid, $_POST));
 ?>

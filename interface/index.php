@@ -73,12 +73,25 @@ fireEvent('OBStart');
 
 if(empty($suri['id'])) {  // Without id.
 	$skin = new Skin($skinSetting['skin']);
-	if(empty($suri['value']) && $suri["directive"] == "/" && count($coverpageMappings) > 0 && Setting::getBlogSettingGlobal("coverpageInitView") && isset($skin->cover)) {
-		define('__TEXTCUBE_COVER__',true);
-		require ROOT . '/interface/common/blog/begin.php';
-		dress('article_rep', '', $view);
-		dress('paging', '', $view);
-		require ROOT . '/interface/common/blog/cover.php';
+	$frontpage = Setting::getBlogSettingGlobal('frontpage','entry');
+	if (empty($suri['value']) && $suri["directive"] == "/" && ($frontpage != 'entry')) {
+		if($frontpage == 'cover' && isset($skin->cover)	&& count($coverpageMappings) > 0) {		
+			define('__TEXTCUBE_COVER__',true);
+			require ROOT . '/interface/common/blog/begin.php';
+			dress('article_rep', '', $view);
+			dress('paging', '', $view);
+			require ROOT . '/interface/common/blog/cover.php';
+		} else if ($frontpage == 'line' && isset($skin->line)) {
+			define('__TEXTCUBE_LINE__',true);
+			$lineobj = Model_Line::getInstance();
+			$lineobj->reset();
+			$lineobj->setFilter(array('category','equals','public',true));
+			$lineobj->setLimit(20);
+			$lineobj->setOrder('created','desc');
+			$lines = $lineobj->get();
+			require ROOT . '/interface/common/blog/begin.php';
+			require ROOT . '/interface/common/blog/line.php';
+		}
 	} else {
 		list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 		require ROOT . '/interface/common/blog/begin.php';

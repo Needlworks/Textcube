@@ -1231,27 +1231,32 @@ table.data-inbox tbody tr td.inactive-class
 
 .input-button
 {
-	background-color                 : #fff;
-	background-image                 : url("./image/bg_submenu_item.gif");
+	background-color                 : #fbfbfb;
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #777;
-	border-radius                    : 5px;
-	-moz-border-radius               : 5px;
-	-webkit-border-radius            : 5px;
 	cursor                           : pointer;
 	font-size                        : 1em;
 	height                           : 1.8em;
 	line-height                      : 1.8em;
 	padding                          : 0 5px !important;
 	vertical-align                   : middle;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
 }
 
 .input-button:hover
 {
-	background-image                 : url("./image/bg_submenu_item_selected.gif");
+	background-color                 : #f2f2f2;
 	border                           : 1px solid #333;
 	-webkit-box-shadow               : 0 0 7px #FFE13C;
+	-moz-box-shadow                  : 0 0 7px #FFE13C;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+}
+
+.input-button:active
+{
+	background-color                 : #ddd;
+	background-image: -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));
 }
 
 .wide-button

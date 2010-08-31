@@ -233,6 +233,11 @@ class DBModel extends Singleton implements IModel {
 		return POD::queryCount('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 	
+	public function getCount($field = '*') {
+		$field = $this->_treatReservedFields($field);
+		return POD::queryCount('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+		
 	public function insert() {
 		$this->id = null;
 		if (empty($this->table))

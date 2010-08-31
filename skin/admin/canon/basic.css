@@ -1434,13 +1434,9 @@ table.data-inbox tbody tr td.inactive-class
 .input-button
 {
 	background-color                 : #fbfbfb;
-/*	background-image                 : url("./image/bg_submenu_item.gif");*/
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
 	border                           : 1px solid #777;
-/*	border-radius                    : 5px;
-	-moz-border-radius               : 5px;
-	-webkit-border-radius            : 5px;*/
 	cursor                           : pointer;
 	font-size                        : 1em;
 	height                           : 1.8em;

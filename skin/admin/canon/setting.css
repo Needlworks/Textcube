@@ -188,19 +188,22 @@ dl dd
 {
 	margin-bottom                    : 10px;
 }
-
+/* frontpage setting */
 /* rss setting */
+#part-setting-frontpage,
 #part-setting-rss
 {
 	clear                            : both;
 	padding                          : 20px 0 60px 0 !important;
 }
 
+#part-setting-frontpage dl,
 #part-setting-rss dl
 {
 	border-bottom                    : 1px solid #DDDDDD;
 }
 
+#part-setting-frontpage dl dd,
 #part-setting-rss dl dd
 {
 	padding-bottom                   : 8px;

@@ -619,7 +619,7 @@ function getDefaultCenterPanel($mapping) {
 										</div>
 								
 <?php
-		$noticeURL = "http://notice.textcube.org/";
+		$noticeURL = TEXTCUBE_NOTICE_URL;
 		$noticeURLRSS = $noticeURL.($ctx->getProperty('blog.language') ? $ctx->getProperty('blog.language') : "ko")."/rss";
 		$noticeEntries = array();
 

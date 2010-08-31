@@ -83,6 +83,7 @@ class Setting {
 					'logoLabel'                => '', 
 					'logoWidth'                => 0,
 					'logoHeight'               => 0,
+					'frontpage'                => 'entry',
 					'useFeedViewOnCategory'    => 1,
 					'useSloganOnPost'          => 1,
 					'useSloganOnCategory'      => 1,

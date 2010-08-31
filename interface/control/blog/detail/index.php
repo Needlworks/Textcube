@@ -8,9 +8,13 @@ require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
-global $database;
+
+$context = Model_Context::getInstance();
+
 $bid=$suri['id'];
-$blogsetting = getBlogSettingGlobals($bid);
+$blogsetting = Setting::getBlogSettingsGlobal($bid);
+$pool = DBModel::getInstance();
+
 ?>
 						<script type="text/javascript"> 
 						//<![CDATA[
@@ -111,14 +115,35 @@ $blogsetting = getBlogSettingGlobals($bid);
 								<div class="main-explain-box">
 									<p class="explain"><?php echo empty($blogsetting['description']) ? '<em>'._t('비어 있는 블로그 설명').'</em>' : $blogsetting['description'];?></p>
 								</div>
-								
+<?php
+	$isRepBlog = ($bid == Setting::getServiceSetting("defaultBlogId",1,true) ? true : false);
+	
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','eq',$bid);
+	$pool->setQualifier('draft','eq',0);	
+	$numberOfEntries = $pool->getCount();
+	
+	$pool->reset('RemoteResponses');
+	$pool->setQualifier('blogid','eq',$bid);
+	$pool->setQualifier('type','eq','trackback',true);
+	$pool->setQualifier('isfiltered','eq',0);
+	$numberOfTrackbacks = $pool->getCount();
+	
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$bid);
+	$pool->setQualifier('isfiltered','eq',0);
+	$numberOfComments = $pool->getCount();
+
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','eq',$bid);
+	$attachmentSum = $pool->getCell('sum(size)');
+?>
 								<ul>
-									<?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
-									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$bid." AND type = 'trackback'"));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
+									<?php if ($isRepBlog) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
+									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', $numberOfEntries);?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', $numberOfTrackbacks);?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', $numberOfComments);?></li>
                                     <li><?php 
-		$attachmentSum = POD::queryCell("SELECT sum(size) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid);
 		if(empty($attachmentSum)) echo _t('이 블로그에는 첨부파일이 없습니다.');
 		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Misc::getSizeHumanReadable($attachmentSum));?></li>
                                 </ul>
@@ -138,7 +163,11 @@ $blogsetting = getBlogSettingGlobals($bid);
 									</thead>
 									<tbody>
 <?php
-	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE blogid = " . $bid);
+
+	$pool->reset('Privileges');
+	$pool->setQualifier('blogid','eq',$bid);
+	$teamblog = $pool->getAll();
+
 	foreach ($teamblog as $row){
 		echo "<tr>".CRLF;
 		echo "<td class=\"name\"><a href=\"".$context->getProperty('uri.blog')."/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
@@ -162,7 +191,7 @@ $blogsetting = getBlogSettingGlobals($bid);
 							<div id="team-new-member" class="container">
 								<h4><?php echo _t('팀원 추가');?></h4>
 								
-								<form action="<?php echo $context->getProperty('uri.blog')?>/control/action/blog/addUser/">
+								<form action="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/addUser/">
 									<dl>
 										<dt><label for=""><?php echo _t('사용자'); ?></label></dt>
 										<dd>
