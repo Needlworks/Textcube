@@ -8,15 +8,19 @@ require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
-global $database;
+
+$context = Model_Context::getInstance();
+
 $bid=$suri['id'];
-$blogsetting = getBlogSettingGlobals($bid);
+$blogsetting = Setting::getBlogSettingsGlobal($bid);
+$pool = DBModel::getInstance();
+
 ?>
 						<script type="text/javascript"> 
 						//<![CDATA[
 
 						function setDefaultBlog(bid) {
-							var request = new HTTPRequest("<?php echo $blogURL;?>/control/action/blog/setDefault/?blogid="+bid);
+							var request = new HTTPRequest("<?php echo $context->getProperty('uri.blog');?>/control/action/blog/setDefault/?blogid="+bid);
 							request.onSuccess = function() {
 								alert("<?php echo _t('대표 블로그가 설정되었습니다.');?>");
 								window.location.reload();
@@ -35,9 +39,9 @@ $blogsetting = getBlogSettingGlobals($bid);
 								if(!confirm('<?php echo _t('삭제 하시겠습니까?');?>')) 
 									return false;
 							}
-							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/control/action/blog/deleteUser/" + "?userid=" + userid + "&blogid=" + <?php echo $bid?>);
+							var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/control/action/blog/deleteUser/" + "?userid=" + userid + "&blogid=" + <?php echo $bid?>);
 							request.onSuccess = function() {
-								window.location.href="<?php echo $blogURL;?>/control/blog/detail/<?php echo $bid?>";
+								window.location.href="<?php echo $context->getProperty('uri.blog');?>/control/blog/detail/<?php echo $bid?>";
 							}
 							request.onError = function() {
 								alert("<?php echo _t('실패했습니다.');?>");
@@ -48,7 +52,7 @@ $blogsetting = getBlogSettingGlobals($bid);
 						
 						function deleteBlog(bid) {
 							if (!confirm("<?php echo _t('되돌릴 수 없습니다.');?>\t\n\n<?php echo _t('계속 진행 하시겠습니까?');?>")) return false;
-							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/control/action/blog/delete/?item="+bid);
+							var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/control/action/blog/delete/?item="+bid);
 							request.onSuccess = function() {
 								PM.removeRequest(this);
 								window.location.href = '../';
@@ -63,7 +67,7 @@ $blogsetting = getBlogSettingGlobals($bid);
 						}
 						
 						function changeOwner(owner) {
-							var request = new HTTPRequest("<?php echo $blogURL;?>/control/action/blog/changeOwner/?owner="+owner+"&blogid="+<?php echo $bid?>);
+							var request = new HTTPRequest("<?php echo $context->getProperty('uri.blog');?>/control/action/blog/changeOwner/?owner="+owner+"&blogid="+<?php echo $bid?>);
 							request.onSuccess = function() {
 								alert("<?php echo _t('소유자가 변경되었습니다. \r\n기존의 소유자는 관리자로 변경되었습니다.');?>");
 								window.location.reload();
@@ -76,7 +80,7 @@ $blogsetting = getBlogSettingGlobals($bid);
 						}
 						
 						function changeACL(acltype, userid, checked) {
-							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/control/action/blog/changeACL/?blogid=" + <?php echo $bid?> + "&acltype=" + acltype + "&userid=" + userid + "&switch=" + checked);
+							var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/control/action/blog/changeACL/?blogid=" + <?php echo $bid?> + "&acltype=" + acltype + "&userid=" + userid + "&switch=" + checked);
 							request.onSuccess = function() {
 								PM.showMessage("<?php echo _t('설정을 변경했습니다.');?>", "center", "bottom");
 								window.location.reload();
@@ -88,7 +92,7 @@ $blogsetting = getBlogSettingGlobals($bid);
 						}
 						
 						function addUser(user) {
-							var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/control/action/blog/addUser/?user="+user+"&blogid="+<?php echo $bid?>);
+							var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/control/action/blog/addUser/?user="+user+"&blogid="+<?php echo $bid?>);
 							request.onSuccess = function() {
 								alert("<?php echo _t('팀블로그 참여자를 추가하였습니다.');?>\r\n<?php echo _t('초대 메일은 발송되지 않으며, 새로 추가된 참여자는 기본 권한만을 가지게 됩니다.');?>");
 								window.location.reload();
@@ -111,14 +115,35 @@ $blogsetting = getBlogSettingGlobals($bid);
 								<div class="main-explain-box">
 									<p class="explain"><?php echo empty($blogsetting['description']) ? '<em>'._t('비어 있는 블로그 설명').'</em>' : $blogsetting['description'];?></p>
 								</div>
-								
+<?php
+	$isRepBlog = ($bid == Setting::getServiceSetting("defaultBlogId",1,true) ? true : false);
+	
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','eq',$bid);
+	$pool->setQualifier('draft','eq',0);	
+	$numberOfEntries = $pool->getCount();
+	
+	$pool->reset('RemoteResponses');
+	$pool->setQualifier('blogid','eq',$bid);
+	$pool->setQualifier('type','eq','trackback',true);
+	$pool->setQualifier('isfiltered','eq',0);
+	$numberOfTrackbacks = $pool->getCount();
+	
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$bid);
+	$pool->setQualifier('isfiltered','eq',0);
+	$numberOfComments = $pool->getCount();
+
+	$pool->reset('Attachments');
+	$pool->setQualifier('blogid','eq',$bid);
+	$attachmentSum = $pool->getCell('sum(size)');
+?>
 								<ul>
-									<?php if ($bid == getServiceSetting("defaultBlogId",1)) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
-									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Entries WHERE blogid = ".$bid));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$bid." AND type = 'trackback'"));?></li>
-                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', POD::queryCell("SELECT count(*) FROM {$database['prefix']}Comments WHERE blogid = ".$bid));?></li>
+									<?php if ($isRepBlog) { ?><li><em><?php echo _t('이 블로그는 대표 블로그입니다.');?></em></li><?php } ?>
+									<li><?php echo _f('이 블로그에는 총 %1개의 글이 있습니다.', $numberOfEntries);?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 걸린글(트랙백)이 있습니다.', $numberOfTrackbacks);?></li>
+                                    <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', $numberOfComments);?></li>
                                     <li><?php 
-		$attachmentSum = POD::queryCell("SELECT sum(size) FROM `{$database['prefix']}Attachments` WHERE blogid = ".$bid);
 		if(empty($attachmentSum)) echo _t('이 블로그에는 첨부파일이 없습니다.');
 		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Misc::getSizeHumanReadable($attachmentSum));?></li>
                                 </ul>
@@ -138,19 +163,23 @@ $blogsetting = getBlogSettingGlobals($bid);
 									</thead>
 									<tbody>
 <?php
-	$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE blogid = " . $bid);
+
+	$pool->reset('Privileges');
+	$pool->setQualifier('blogid','eq',$bid);
+	$teamblog = $pool->getAll();
+
 	foreach ($teamblog as $row){
 		echo "<tr>".CRLF;
-		echo "<td class=\"name\"><a href=\"{$blogURL}/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
+		echo "<td class=\"name\"><a href=\"".$context->getProperty('uri.blog')."/control/user/detail/{$row['userid']}\">".User::getName($row['userid'])."(".User::getEmail($row['userid']).")</a></td>".CRLF;
 
 		if ($row['acl'] & BITWISE_OWNER) {
 			echo '<td class="role" colspan="4">'._t('이 사용자는 블로그의 소유자입니다.').'</td>'.CRLF;
 		}
 		else {
-		echo "<td class=\"role\"><a href=\"".$blogURL."/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=admin&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1)."\" onclick=\"changeACL('admin',".$row['userid'].",".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_ADMINISTRATOR)?_t('ON'):_t('OFF'))."</a></td>".CRLF;
-		echo "<td class=\"role\"><a href=\"".$blogURL."/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=editor&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_EDITOR)?0:1)."\" onclick=\"changeACL('editor',".$row['userid'].",".(($row['acl'] & BITWISE_EDITOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_EDITOR)?_t('ON'):_t('OFF'))."</a></td>".CRLF;
-		echo "<td class=\"role\"><a href=\"".$blogURL."/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">" . _t('팀원 제외') . "</a></td>".CRLF;
-		echo "<td class=\"role\"><a href=\"".$blogURL."/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">" . _t('소유자 변경') . "</a></td>".CRLF;
+		echo "<td class=\"role\"><a href=\"".$context->getProperty('uri.blog')."/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=admin&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1)."\" onclick=\"changeACL('admin',".$row['userid'].",".(($row['acl'] & BITWISE_ADMINISTRATOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_ADMINISTRATOR)?_t('ON'):_t('OFF'))."</a></td>".CRLF;
+		echo "<td class=\"role\"><a href=\"".$context->getProperty('uri.blog')."/control/action/blog/changeACL/?blogid=" . $bid . "&acltype=editor&userid=" .$row['userid']."&switch=".(($row['acl'] & BITWISE_EDITOR)?0:1)."\" onclick=\"changeACL('editor',".$row['userid'].",".(($row['acl'] & BITWISE_EDITOR)?0:1).");return false;\">".(($row['acl'] & BITWISE_EDITOR)?_t('ON'):_t('OFF'))."</a></td>".CRLF;
+		echo "<td class=\"role\"><a href=\"".$context->getProperty('uri.blog')."/control/action/blog/deleteUser/?blogid=" . $bid . "&userid=".$row['userid']."\" onclick =  \"deleteUser(".$row['userid'].",1);return false;\">" . _t('팀원 제외') . "</a></td>".CRLF;
+		echo "<td class=\"role\"><a href=\"".$context->getProperty('uri.blog')."/control/action/blog/changeOwner/?blogid=" . $bid . "&owner=".$row['userid']."\" onclick =  \"changeOwner(".$row['userid'].");return false;\">" . _t('소유자 변경') . "</a></td>".CRLF;
 		echo "</tr>".CRLF;
 		}
 	}
@@ -162,7 +191,7 @@ $blogsetting = getBlogSettingGlobals($bid);
 							<div id="team-new-member" class="container">
 								<h4><?php echo _t('팀원 추가');?></h4>
 								
-								<form action="<?php echo $blogURL?>/control/action/blog/addUser/">
+								<form action="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/addUser/">
 									<dl>
 										<dt><label for=""><?php echo _t('사용자'); ?></label></dt>
 										<dd>
@@ -187,9 +216,10 @@ $blogsetting = getBlogSettingGlobals($bid);
 							</div>
 							
 							<div class="button-box">
-								<a class="button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;"><?php echo _t("블로그 삭제");?></a>
-								<?php if ($bid != getServiceSetting("defaultBlogId",1)) { ?><a class="button" href="<?php echo $blogURL;?>/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
-								<a class="button" href="<?php echo $blogURL;?>/control/blog"><?php echo _t("돌아가기");?></a>
+								<input type="submit" class="input-button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;" value="<?php echo _t("블로그 삭제");?>" />
+								<span class="hidden">|</span>
+								<?php if (!$isRepBlog) { ?><input type="submit" class="input-button" href="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;" value="<?php echo _t('대표 블로그 설정');?>" /><span class="hidden">|</span><?php } ?>
+								<input type="submit" class="input-button" onclick="location.href='<?php echo $context->getProperty('uri.blog');?>/control/blog'" value="<?php echo _t("돌아가기");?>" />
 							</div>
 						</div>
 <?php

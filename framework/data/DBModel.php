@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.2.20100429 */
+/* 1.2.1.20100831 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved, $param;
@@ -215,6 +215,11 @@ class DBModel extends Singleton implements IModel {
 		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 	
+	public function getCount($field = '*') {
+		$field = $this->_treatReservedFields($field);
+		return POD::queryCount('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+		
 	public function insert() {
 		$this->id = null;
 		if (empty($this->table))

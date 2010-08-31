@@ -9,30 +9,12 @@
 	padding-top: 25px;
 }
 
-.button-box input.input-button
+.button-box .input-button
 {
-       background-color                 : #FFFFFF;
-       background-image                 : none;
-       border                           : 1px solid #BBBBBB;
-       color                            : #000000;
-       font-weight                      : bold;
-       height                           : 2.5em;
-       line-height                      : 2.5em;
-       vertical-align                   : middle;
-       margin-bottom                    : 10px;
-}
-
-.button-box a.button
-{
-	background-color                 : #fff;
-	background-image                 : none;
-	border                           : 1px solid #bbb;
-	color                            : #000;
-	font-weight                      : bold;
-	height                           : auto;
-	line-height                      : normal;
-	padding                          : 10px 10px 8px 10px;
-	vertical-align                   : middle;
+	height                           : 2.5em;
+    line-height                      : 2.5em;
+    vertical-align                   : middle;
+    margin-bottom                    : 10px;
 }
 
 .warning
