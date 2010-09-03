@@ -576,7 +576,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		if($entry['visibility'] < 0) {
 			$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 			if($published < $closestReservedTime) {
-				setBlogSetting('closestReservedPostTime',$published);
+				Setting::setBlogSetting('closestReservedPostTime',$published,true);
 			}
 		}
 	} else {
@@ -623,6 +623,8 @@ function addEntry($blogid, $entry, $userid = null) {
 	POD::query("UPDATE {$database['prefix']}Attachments SET parent = $id WHERE blogid = $blogid AND parent = 0");
 	POD::query("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 1");
 	updateCategoryByEntryId($blogid, $id, 'add');
+	CacheControl::flushEntry($id);
+	clearFeed();
 
 	if ($entry['visibility'] == 3)
 		syndicateEntry($id, 'create');
@@ -630,8 +632,8 @@ function addEntry($blogid, $entry, $userid = null) {
 		CacheControl::flushAuthor($userid);
 		CacheControl::flushDBCache('entry');
 		$gCacheStorage->purge();
-		clearFeed();
 	}
+
 	if (!empty($entry['tag'])) {
 		$tags = getTagsWithEntryString($entry['tag']);
 		Tag::addTagsWithEntryId($blogid, $id, $tags);
@@ -728,7 +730,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			if($entry['visibility'] < 0) {
 				$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',9999999999);
 				if($published < $closestReservedTime) {
-					setBlogSetting('closestReservedPostTime',$published);
+					Setting::setBlogSetting('closestReservedPostTime',$published,true);
 				}
 			}
 			break;
@@ -764,6 +766,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 
 	CacheControl::flushAuthor($entry['userid']);	
 	CacheControl::flushDBCache('entry');
+	CacheControl::flushEntry($entry['id']);
 	$gCacheStorage->purge();
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
