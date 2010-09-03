@@ -10,13 +10,6 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 
-if (false) { // For optimization process
-	textTreat();
-	textareaTreat();
-	selectTreat();
-	checkboxTreat();
-	radioTreat();
-}
 $targetURL = $hostURL.preg_replace( '/(currentSetting)$/' , 'receiveConfig' , $folderURL );
 $pluginName = $_GET['Name'];
 $tabName = $_GET['Tab'];

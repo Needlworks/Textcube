@@ -562,7 +562,8 @@ function handleDataSet( $plugin , $DATA ) {
 	if( ! $xmls->open($DATA) ) {
 		unset($xmls);	
 		return array('error' => '3' ,'customError' => '' ) ;
-	}unset($xmls);	
+	}
+	unset($xmls);	
 	if( ! in_array($plugin, $activePlugins) ) 
 		return array('error' => '9' , 'customError'=> _f('%1 : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다.',$plugin));
 	$reSetting = true;
@@ -588,7 +589,7 @@ function handleDataSet( $plugin , $DATA ) {
 				}
 			}
 				
-			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , $DATA);
+			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , Setting::fetchConfigXML($DATA));
 			$pluginURL = $pluginPath = $pluginName = "";
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;	
 		}
