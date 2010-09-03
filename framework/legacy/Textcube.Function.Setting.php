@@ -372,7 +372,7 @@ class Setting {
 				'commentsOnRecent' => 5, 
 				'commentsOnGuestbook' => 5, 
 				'commentsOnEntry' => 15, 
-				'contentWidth' => 450, 
+				'contentWidth' => 550, 
 				'archivesOnPage' => 5,
 				'tagsOnTagbox' => 30, 
 				'tagboxAlign' => 3, 
