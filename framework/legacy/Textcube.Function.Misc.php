@@ -176,6 +176,7 @@ class Misc {
 				}
 			}
 			Setting::setSkinSetting('contentWidth',$contentWidth);
+			return $contentWidth;
 		} else return $context->getProperty('skin.contentWidth');
 	}
 	
