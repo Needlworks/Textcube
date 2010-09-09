@@ -6,6 +6,8 @@ require ROOT . '/library/preprocessor.php';
 requireModel('blog.entry');
 requireModel('blog.response.remote');
 requireModel('blog.sidebar');
+define('__TEXTCUBE_NO_ENTRY_CACHE__', true);
+
 $entries = array();
 if (is_null($entry = getEntry($blogid, $suri['id'], true)))
 	$entry = getEntry($blogid, $suri['id'], false);
