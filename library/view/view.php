@@ -1202,7 +1202,7 @@ function getRandomTagsView($tags, $template) {
 	return $view;
 }
 
-function getEntryContentView($blogid, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = true, $bRssMode = false, ) {
+function getEntryContentView($blogid, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = true, $bRssMode = false) {
 	global $hostURL, $service;
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
