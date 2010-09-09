@@ -764,8 +764,6 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			'visibility'=>array($oldEntry['visibility'],$entry['visibility'])
 		));	
 
-	CacheControl::flushAuthor($entry['userid']);	
-	CacheControl::flushDBCache('entry');
 	CacheControl::flushEntry($entry['id']);
 	$gCacheStorage->purge();
 	if ($entry['visibility'] == 3)
