@@ -1208,7 +1208,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
 	
-	$cacheKey = 'entry-'.$id.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').(defined('__TEXTCUBE_MOBILE__') ? 'mobile' : '');
+	$cacheKey = 'entry-'.$id.'-'.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').(defined('__TEXTCUBE_MOBILE__') ? 'mobile' : '');
 	$cache = pageCache::getInstance();
 	$cache->name = $cacheKey;
 	if($cache->load()) {	// If cached content exists.
