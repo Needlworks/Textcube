@@ -26,8 +26,10 @@ if ($skinSetting['showListOnCategory'] != 0) {
 				'count' => $listWithPaging[1]['total'],
 				'category' => $category);
 		$paging = $listWithPaging[1];
+		$listView = null;
 	} else {
 		$paging = $cache->dbContents;
+		$listView = $cache->contents;
 	}
 	require ROOT . '/interface/common/blog/begin.php';
 	require ROOT . '/interface/common/blog/list.php';
