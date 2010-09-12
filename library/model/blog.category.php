@@ -206,7 +206,6 @@ function getNumberEntryInCategories($id) {
 }
 
 function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
-	global $database;
 	$pool = DBModel::getInstance();
 
 	if (empty($name))
@@ -292,13 +291,15 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	return $result ? true : false;
 }
 
-function deleteCategory($blogid, $id) {
-	global $database;
-
+function deleteCategory($blogid, $id) {	
 	if (!is_numeric($id))
 		return false;
 	CacheControl::flushCategory($id);
-	POD::execute("DELETE FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id");
+	$pool = DBModel::getInstance();	
+	$pool->reset('Categories');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);
+	$pool->delete();
 	updateEntriesOfCategory($blogid);
 	return true;
 }
@@ -651,8 +652,13 @@ function moveCategory($blogid, $id, $direction) {
 
 function checkRootCategoryExistence($blogid) {
 	global $database;
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = 0";
-	if(!(POD::queryCell($sql))) {
+	$pool = DBModel::getInstance();	
+	$pool->reset('Categories');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',0);
+	$childCategories = $pool->getCount();
+		
+	if(!($pool->getCount())) {
 		$name = _text('전체');
 		$result = addCategory($blogid,null,$name,0);
 		return $result ? true : false;
@@ -683,15 +689,17 @@ function getParentCategoryVisibility($blogid, $id) {
 }
 
 function setCategoryVisibility($blogid, $id, $visibility) {
-	global $database;
 	requireModel('blog.feed');
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
 	if ($parentVisibility!==false && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
-	$result = POD::query("UPDATE {$database['prefix']}Categories
-		SET visibility = $visibility
-		WHERE blogid = $blogid
-			AND id = $id");
+	
+	$pool = DBModel::getInstance();	
+	$pool->reset('Categories');
+	$pool->setAttribute('visibility',$visibility);
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);
+	$result = $pool->update();
 	if ($result && $visibility == 1) $result = setChildCategoryVisibility($blogid, $id, $visibility);
 	if ($result)
 		clearFeed();
@@ -701,15 +709,20 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 }
 
 function setChildCategoryVisibility($blogid, $id, $visibility) {
-	global $database;
 	if($id == 0) return false;
-	$childCategories = POD::queryColumn("SELECT id
-		FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $id");
+	$pool = DBModel::getInstance();	
+	$pool->reset('Categories');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('parent','eq',$id);
+	$childCategories = $pool->getColumn('id');
+	
 	if($childCategories!=false) {
 		foreach($childCategories as $childCategory) {
-			$result = POD::query("UPDATE {$database['prefix']}Categories
-				SET visibility = $visibility
-				WHERE blogid = $blogid AND id = $childCategory");
+			$pool->reset('Categories');
+			$pool->setAttribute('visibility',$visibility);
+			$pool->setQualifier('blogid','eq',$blogid);
+			$pool->setQualifier('id','eq',$childCategory);			
+			$result = $pool->update();
 			if($result == false) return false;
 		}
 		return $result ? $visibility : false;

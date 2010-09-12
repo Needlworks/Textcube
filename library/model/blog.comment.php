@@ -5,7 +5,6 @@
 
 function doesHaveOpenIDPriv( & $comment )
 {
-	global $database;
 	$blogid = getBlogId();
 	$openid = Acl::getIdentity('openid');
 
@@ -19,8 +18,13 @@ function doesHaveOpenIDPriv( & $comment )
 		return false;
 	}
 	$openid = POD::escapeString($openid);
-	$row = POD::queryRow("SELECT * from {$database['prefix']}Comments ".
-		"WHERE blogid = $blogid and id = {$comment['parent']} and openid='{$openid}'" );
+	
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$comment['parent']);
+	$pool->setQualifier('openid','eq',$openid,true);
+	$row = $pool->getRow();
 	return !empty($row);
 }
 
@@ -261,21 +265,25 @@ function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 }
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
-	global $database;
-	return POD::queryRow("SELECT $attributeNames FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);
+	return $pool->getRow($attributeNames);
 }
 
 function getComments($entry) {
-	global $database;
 	$comments = array();
-	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'ORDER BY id ASC');
-	$sql = "SELECT *
-		FROM {$database['prefix']}Comments
-		WHERE blogid = ".getBlogId()."
-			AND entry = $entry
-			AND parent IS NULL
-			AND isfiltered = 0 $aux";
-	if ($result = POD::queryAll($sql)) {
+
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('entry','eq',$entry);
+	$pool->setQualifier('parent','eq',NULL);
+	$pool->setQualifier('isfiltered','eq',0);	
+	if ( $entry == 0 ) $pool->setOrder('written','desc');
+	else $pool->setOrder('id','asc');
+	if ($result = $pool->getAll()) {
 		$comments = coverComments($result);
 	}
 	return $comments;
@@ -1013,15 +1021,24 @@ function receiveNotifiedComment($post) {
 }
 
 function getCommentCount($blogid, $entryId = null) {
-	global $database;
-	if (is_null($entryId))
-		return POD::queryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft= 0 ");
-	return POD::queryCell("SELECT comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','eq',$blogid);		
+	if (is_null($entryId)) {
+		$pool->setQualifier('draft','eq',0);
+		return $pool->getCell('SUM(comments)');
+	}
+	$pool->setQualifier('id','eq',$entryId);
+	$pool->setQualifier('draft','eq',0);
+	return $pool->getCell('comments');
 }
 
 function getGuestbookCount($blogid) {
-	global $database;
-	return POD::queryCell("SELECT count(id) FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = 0");
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('entry','eq',0);
+	return $pool->getCount('id');
 }
 
 function getCommentCountPart($commentCount, &$skin) {
@@ -1043,34 +1060,39 @@ function getCommentCountPart($commentCount, &$skin) {
 	return array("rp_count", $commentView);
 }
 
-function getCommentsMaxId() {
-	global $database;
-	$maxId = POD::queryCell("SELECT max(id)
-		FROM {$database['prefix']}Comments
-		WHERE blogid = ".getBlogId());
+function getCommentsMaxId($blogid = null) {
+	if(is_null($blogid)) $blogid = getBlogId();
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$maxId = $pool->getCell('max(id)');
 	return empty($maxId) ? 0 : $maxId;
 }
 
-function getCommentsNotifiedMaxId() {
-	global $database;
-	$maxId = POD::queryCell("SELECT max(id)
-		FROM {$database['prefix']}CommentsNotified
-		WHERE blogid = ".getBlogId());
+function getCommentsNotifiedMaxId($blogid = null) {
+	if(is_null($blogid)) $blogid = getBlogId();
+	$pool = DBModel::getInstance();
+	$pool->reset('CommentsNotified');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$maxId = $pool->getCell('max(id)');
 	return empty($maxId) ? 0 : $maxId;
 }
 
-function getCommentsNotifiedQueueMaxId() {
-	global $database;
-	$maxId = POD::queryCell("SELECT max(id)
-		FROM {$database['prefix']}CommentsNotifiedQueue
-		WHERE blogid = ".getBlogId());
+function getCommentsNotifiedQueueMaxId($blogid = null) {
+	if(is_null($blogid)) $blogid = getBlogId();
+	$pool = DBModel::getInstance();
+	$pool->reset('CommentsNotifiedQueue');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$maxId = $pool->getCell('max(id)');
 	return empty($maxId) ? 0 : $maxId;
 }
 
-function getCommentsNotifiedSiteInfoMaxId() {
-	global $database;
-	$maxId = POD::queryCell("SELECT max(id)
-		FROM {$database['prefix']}CommentsNotifiedSiteInfo");
+function getCommentsNotifiedSiteInfoMaxId($blogid = null) {
+	if(is_null($blogid)) $blogid = getBlogId();
+	$pool = DBModel::getInstance();
+	$pool->reset('CommentsNotifiedSiteInfo');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$maxId = $pool->getCell('max(id)');
 	return empty($maxId) ? 0 : $maxId;
 }
 

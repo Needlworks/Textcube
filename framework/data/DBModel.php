@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.3.20100824 */
+/* 1.3.1.20100912 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved, $param;
