@@ -4,8 +4,8 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 
-if (isset($cache->contents)) {
-	dress('list', $cache->contents, $view);
+if (!empty($listView)) {
+	dress('list', $listView, $view);
 } else if (isset($list) && isset($skin)) {
 	$listView = $skin->list;
 	$itemsView = '';

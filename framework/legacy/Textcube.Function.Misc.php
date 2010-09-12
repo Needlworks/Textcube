@@ -165,7 +165,7 @@ class Misc {
 		$context = Model_Context::getInstance();
 		
 		if($context->getProperty('skin.contentWidth') == NULL) {	// Legacy code. ( < 1.8.4 does not have contentWidth information in DB)
-			$contentWidth = 450;			
+			$contentWidth = 550;			
 			if($skin = $context->getProperty('skin.skin')) {
 				if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
 					$xmls = new XMLStruct();
@@ -176,6 +176,7 @@ class Misc {
 				}
 			}
 			Setting::setSkinSetting('contentWidth',$contentWidth);
+			return $contentWidth;
 		} else return $context->getProperty('skin.contentWidth');
 	}
 	

@@ -7,7 +7,7 @@ global $__gCacheBlogSettings, $__serviceSetting; // share blog.service.php
 $__serviceSetting = array();
 class Setting {
 	function fetchConfigVal( $DATA ){
-		return unserialize($DATA);
+		return is_null($DATA) ? null:unserialize($DATA);
 //		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.		
 //		if (is_array($DATA)) return $DATA;
 //		return Setting::fetchConfigVal_Legacy($DATA);
@@ -372,7 +372,7 @@ class Setting {
 				'commentsOnRecent' => 5, 
 				'commentsOnGuestbook' => 5, 
 				'commentsOnEntry' => 15, 
-				'contentWidth' => 450, 
+//				'contentWidth' => 550, 
 				'archivesOnPage' => 5,
 				'tagsOnTagbox' => 30, 
 				'tagboxAlign' => 3, 

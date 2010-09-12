@@ -218,7 +218,7 @@ if (!defined('NO_INITIALIZAION')) {
 			if(!is_null($context->getProperty('service.adminskin'))) {
 				$context->setProperty('panel.skin',"/skin/admin/".$context->getProperty('service.adminskin'));
 			} else {
-				$context->setProperty('panel.skin',"/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream"));
+				$context->setProperty('panel.skin',"/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "canon"));
 			}
 		}
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.

@@ -452,7 +452,7 @@ class CacheControl {
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'searchATOM-".$search."%'
 				OR name like 'searchRSS-".$search."%')");
-		CacheControl::purgeItems($searchEntries);
+		if(!empty($searchEntries)) CacheControl::purgeItems($searchEntries);
 		return true;
 	}
 	
@@ -461,23 +461,24 @@ class CacheControl {
 
 		if(empty($entryId)) $entryId = '';
 		else $entryId = intval($entryId);
+		
 		$Entries = POD::queryColumn("SELECT name
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
-			AND (name like 'entry-".$entryId."%' OR name = 'commentRSS-".$entryId."' OR name = 'commentATOM-".$entryId."')");
-		CacheControl::purgeItems($Entries);
+			AND (name like 'entry-".$entryId."-%' OR name like '%RSS-".$entryId."' OR name like '%ATOM-".$entryId."')");
+		if(!empty($Entries)) CacheControl::purgeItems($Entries);
 		if(!empty($entryId)) {
 			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
 				WHERE blogid = ".getBlogId()." AND id = $entryId");
 			if(!empty($entry)) {
 				CacheControl::flushAuthor($entry['userid']);
 				CacheControl::flushCategory($entry['category']);
-				CacheControl::flushDBCache();
+				CacheControl::flushDBCache('entry');
 			}
 		} else {
 			CacheControl::flushAuthor();
 			CacheControl::flushCategory();
-			CacheControl::flushDBCache();
+			CacheControl::flushDBCache('entry');
 		}
 		return true;
 	}

@@ -372,7 +372,6 @@ if (getBlogId()) {
 		}
 		$pageCache->contents = serialize($p);	
 		$pageCache->update();
-		//Setting::setBlogSettingGlobal('PluginSettings',serialize($p));
 	}
 	if(empty($formatterCount)) { // Any formatter is used, add the ttml formatter.
 		activatePlugin('FM_TTML');

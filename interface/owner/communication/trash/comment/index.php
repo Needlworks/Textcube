@@ -441,7 +441,7 @@ if (sizeof($comments) > 0) echo "									</tbody>";
 //$paging['prefix'] = '';
 //$paging['postfix'] = '; document.getElementById('list-form').submit()';
 $pagingTemplate = '[##_paging_rep_##]';
-$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
+$pagingItemTemplate = '<a [##_paging_rep_link_##]>[##_paging_rep_link_num_##]</a>';
 print getPagingView($paging, $pagingTemplate, $pagingItemTemplate, false);
 ?>
 											</span>

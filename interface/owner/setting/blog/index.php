@@ -617,9 +617,9 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 										<dl id="blog-frontpage-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 첫 페이지');?></span></dt>
 											<dd>
-												<input type="radio" id="frontpageEntry" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='entry' ? ' checked="checked"' : '');?> /><label for="visibilityPrivate"><span class="text"><?php echo _t('블로그 첫 페이지에서 최근 글을 보여주도록 합니다.');?></span></label><br />
-												<input type="radio" id="frontpageCover" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='cover' ? ' checked="checked"' : '');?> /><label for="visibilityMember"><span class="text"><?php echo _t('블로그 첫 페이지에서 표지를 보여주도록 합니다.');?></span></label><br />
-												<input type="radio" id="frontpageLine" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='line' ? ' checked="checked"' : '');?> /><label for="visibilityPublic"><span class="text"><?php echo _t('블로그 첫 페이지에서 라인을 보여주도록 합니다.');?></span></label>
+												<input type="radio" id="frontpageEntry" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='entry' ? ' checked="checked"' : '');?> /><label for="frontpageEntry"><span class="text"><?php echo _t('블로그 첫 페이지에서 최근 글을 보여주도록 합니다.');?></span></label><br />
+												<input type="radio" id="frontpageCover" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='cover' ? ' checked="checked"' : '');?> /><label for="frontpageCover"><span class="text"><?php echo _t('블로그 첫 페이지에서 표지를 보여주도록 합니다.');?></span></label><br />
+												<input type="radio" id="frontpageLine" class="radio" name="frontpage"<?php echo ($blog['frontpage']=='line' ? ' checked="checked"' : '');?> /><label for="frontpageLine"><span class="text"><?php echo _t('블로그 첫 페이지에서 라인을 보여주도록 합니다.');?></span></label>
 											</dd>
 											<dd>
 												<p><label for="visibility"><?php echo _t('블로그 첫 페이지를 설정합니다.').' '._t('블로그 주소로 접근할 경우 처음 보이는 페이지를 선택합니다.');?></label></p>
