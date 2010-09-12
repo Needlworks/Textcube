@@ -189,19 +189,25 @@ function getChildCategoryId($blogid, $id) {
 }
 
 function getNumberChildCategory($id = null) {
-	global $database;
-	$sql = "SELECT * FROM {$database['prefix']}Categories WHERE blogid = ".getBlogId()." AND parent " . ($id === null ? 'IS NULL' : "= $id");
-	//$result = POD::queryRow($sql);
-	return POD::queryCell($sql);
+	$pool = DBModel::getInstance();
+	$pool->reset('Categories');
+	$pool->setQualifier('blogid','eq',getBlogId());
+	$pool->serQualifier('parent','eq',($id === null ? NULL : $id));
+	return $pool->getCount();
 }
 
 function getNumberEntryInCategories($id) {
-	global $database;
-	return POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND draft = 0 AND category " . ($id === null ? 'IS NULL' : "= $id"));
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','eq',getBlogId());
+	$pool->setQualifier('draft','eq',0);
+	$pool->serQualifier('category','eq',($id === null ? NULL : $id));
+	return $pool->getCount();
 }
 
 function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	global $database;
+	$pool = DBModel::getInstance();
 
 	if (empty($name))
 		return false;
@@ -215,7 +221,10 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	}
 
 	if (!is_null($parent)) {
-		$label = POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $parent");
+		$pool->reset('Categories');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('id','eq',$parent);
+		$label = $pool->getCell('name');
 		if ($label === null)
 			return false;
 		$label .= '/' . $name;
@@ -224,44 +233,61 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 		$label = $name;
 	}
 
-	$label = POD::escapeString(UTF8::lessenAsEncoding($label, 255));
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 127));
-
+	$label = UTF8::lessenAsEncoding($label, 255);
+	$name = UTF8::lessenAsEncoding($name, 127);
+	$pool->reset('Categories');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('name','eq',$name,true);
 	if($parent == 'NULL') {
-		$parentStr = 'AND parent is null';
+		$pool->setQualifier('parent','eq',NULL);
 	} else {
-		$parentStr = "AND parent = $parent";
+		$pool->setQualifier('parent','eq',$parent);
+	}
+	if($pool->getCount() > 0) {
+		return false;
 	}
 
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name = '$name' $parentStr";
-
-	if (POD::queryCell($sql) > 0)
-		return false;
-
 	if(!is_null($priority)) {
-		if(POD::queryExistence("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND priority = $priority")) {
+		$pool->reset('Categories');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('priority','eq',$priority);
+		if($pool->doesExist()) {
 			return false;
 		} else {
 			$newPriority = $priority;
 		}
 	} else {
-		$newPriority = POD::queryCell("SELECT MAX(priority) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+		$pool->reset('Categories');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$newPriority = $pool->getCell('MAX(priority)') + 1;
 	}
 
 	// Determine ID.
 	if(!is_null($id)) {
-		$sql = "SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $id";
-		if(POD::queryExistence($sql)) {
+		$pool->reset('Categories');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('id','eq',$id);
+		if($pool->doesExist()) {
 			return false;
 		} else {
 			$newId = $id;
 		}
 	} else {
-		$newId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Categories WHERE blogid = $blogid") + 1;
+		$pool->reset('Categories');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$newId = $pool->getCell('MAX(id)') + 1;
 	}
-
-	$result = POD::query("INSERT INTO {$database['prefix']}Categories (blogid, id, parent, name, priority, entries, entriesinlogin, label, visibility) VALUES ($blogid, $newId, $parent, '$name', $newPriority, 0, 0, '$label', 2)");
-
+	$pool->reset('Categories');
+	$pool->setAttribute('blogid',$blogid);
+	$pool->setAttribute('id',$newId);
+	$pool->setAttribute('parent',$parent);
+	$pool->setAttribute('name',$name,true);
+	$pool->setAttribute('priority',$newPriority);
+	$pool->setAttribute('entries',0);
+	$pool->setAttribute('entriesinlogin',0);
+	$pool->setAttribute('label',$label,true);
+	$pool->setAttribute('visibility',2);
+	$result = $pool->insert();
 	updateEntriesOfCategory($blogid,$newId);
 	return $result ? true : false;
 }
