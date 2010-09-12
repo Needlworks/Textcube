@@ -106,7 +106,6 @@ class User {
 	}
 
 	static function getHomepage($userid = null) {
-		global $database;
 		if (!isset($userid) || empty($userid))
 			$userid = getUserId();
 		$info = unserialize(Setting::getUserSettingGlobal('userLinkInfo','',$userid));

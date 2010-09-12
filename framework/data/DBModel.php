@@ -228,13 +228,13 @@ class DBModel extends Singleton implements IModel {
 		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
 
-	public function getCount($field = '*') {
+	public function getCount($field = '*') { /// Returns the 'selection count'
 		$field = $this->_treatReservedFields($field);
 		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->table . $this->_makeWhereClause());
 //		return POD::queryCount('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 		
-	public function insert() {
+	public function insert($option = null) {
 		$this->id = null;
 		if (empty($this->table))
 			return false;
@@ -245,7 +245,7 @@ class DBModel extends Singleton implements IModel {
 		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 		
 		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
-
+		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
@@ -253,7 +253,7 @@ class DBModel extends Singleton implements IModel {
 		return false;
 	}
 	
-	public function update() {
+	public function update($option = null) {
 		if (empty($this->table) || empty($this->_attributes))
 			return false;
 		$attributes = array();
@@ -264,12 +264,13 @@ class DBModel extends Singleton implements IModel {
 				(is_null($value) ? ' NULL' : $value ));
 		
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
+		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query))
 			return true;
 		return false;
 	}
 	
-	public function replace() {
+	public function replace($option = null) {
 		$this->id = null;
 		if (empty($this->table))
 			return false;
@@ -281,6 +282,7 @@ class DBModel extends Singleton implements IModel {
 		$attributeFields = $this->_capsulateFields(array_keys($attributes));
 		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { // Those supports 'REPLACE'
 			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
+			if($option == 'count') return POD::queryCount($this->_query);
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
 				return true;
@@ -289,18 +291,19 @@ class DBModel extends Singleton implements IModel {
 		} else {
 			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1';
 			if(POD::queryExistence($this->_query)) {
-				return $this->update();
+				return $this->update($option);
 			} else {
-				return $this->insert();
+				return $this->insert($option);
 			}
 		}
 	}
 	
-	public function delete($count = null) {
+	public function delete($count = null, $option = null) {
 		if (empty($this->table))
 			return false;
 		if(!is_null($count)) $this->setLimit($count);
 		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
+		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query))
 			return true;
 		return false;
