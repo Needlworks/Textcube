@@ -1247,7 +1247,8 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 						$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
 						$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
 						if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
-							list($tempImageURL, $tempImageWidth, $tempImageHeight, $tempImageSrc) = getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
+							$image = Utils_Image::getInstance();
+							list($tempImageURL, $tempImageWidth, $tempImageHeight, $tempImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
 							$newImage = "<img src=\"{$tempImageURL}\" width=\"{$tempImageWidth}\" height=\"{$tempImageHeight}\" alt=\"resize_image\" />";
 						}	
 					}
