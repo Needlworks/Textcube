@@ -4,6 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // img의 width/height에 맞춰 이미지를 리샘플링하는 함수. 썸네일 함수가 아님! 주의.
+// resampleImage는 더 이상 사용되지 않고 getImageResizer가 사용됨
 function resampleImage($imgString, $filename, $useAbsolutePath = true) {
 	$blogid = getBlogId();
 	$context = Model_Context::getInstance();
