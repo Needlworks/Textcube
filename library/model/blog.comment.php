@@ -811,27 +811,36 @@ function getCommentPageById($blogid, $entryId, $commentId) {
 }
 
 function deleteCommentInOwner($blogid, $id) {
-	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	if(POD::queryCount("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id") == 1) {
-		if (POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id")) {
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);
+	$entryId = $pool->getCell('entry');
+	if($pool->delete()) {
+		$pool->unsetQualifier('id');
+		$pool->setQualifier('parent','eq',$id);
+		if($pool->delete()) {
 			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
-		}
+		}			
 	}
 	return false;
 }
 
 function trashCommentInOwner($blogid, $id) {
-	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-//	$result = POD::queryCount("UPDATE {$database['prefix']}Comments SET isfiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
-//	if ($result && $result == 1) {
-	if(POD::query("UPDATE {$database['prefix']}Comments SET isfiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id")) {
-		if (POD::query("UPDATE {$database['prefix']}Comments SET isfiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);
+	$entryId = $pool->getCell('entry');
+	$pool->setAttribute('isfiltered',Timestamp::getUNIXtime());
+	if($pool->update()) {
+		$pool->unsetQualifier('id');
+		$pool->setQualifier('parent','eq',$id);
+		if($pool->update()) {
 			CacheControl::flushCommentRSS($entryId);
 			CacheControl::flushDBCache('comment');
 			updateCommentsOfEntry($blogid, $entryId);
@@ -842,12 +851,19 @@ function trashCommentInOwner($blogid, $id) {
 }
 
 function revertCommentInOwner($blogid, $id) {
-	global $database;
 	if (!is_numeric($id)) return false;
-	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	$parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
-	if(POD::queryCount("UPDATE {$database['prefix']}Comments SET isfiltered = 0 WHERE blogid = $blogid AND id = $id") == 1) {
-		if (is_null($parent) || POD::query("UPDATE {$database['prefix']}Comments SET isfiltered = 0 WHERE blogid = $blogid AND id = $parent")) {
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);
+	$entryId = $pool->getCell('entry');
+	$parent = $pool->getCell('parent');
+	$pool->setAttribute('isfiltered',0);
+	if($pool->update()) {
+		if(!is_null($parent)) {
+			$pool->setQualifier('id','eq',$parent);
+		}	
+		if (is_null($parent) || $pool->update()) {
 			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
@@ -857,14 +873,19 @@ function revertCommentInOwner($blogid, $id) {
 }
 
 function deleteCommentNotifiedInOwner($blogid, $id) {
-	global $database;
 	if (!is_numeric($id)) return false;
 
 	fireEvent('DeleteCommentNotified', $id);
 
-	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
-	if(POD::queryCount("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id") == 1) {
-		if (POD::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent = $id")) {
+	$pool = DBModel::getInstance();
+	$pool->reset('CommentsNotified');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);
+	$entryId = $pool->getCell('entry');
+	if($pool->delete()) {
+		$pool->unsetQualifier('id');
+		$pool->setQualifier('parent','eq',$id);
+		if($pool->delete()) {
 			updateCommentsOfEntry($blogid, $entryId);
 			CacheControl::flushCommentNotifyRSS();
 			return true;
