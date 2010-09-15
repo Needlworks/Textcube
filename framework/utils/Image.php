@@ -520,5 +520,124 @@ class Utils_Image extends Singleton {
 		$int = hexdec($hexstr);
 		return array('R' => 0xFF & ($int >> 0x10), 'G' => 0xFF & ($int >> 0x8), 'B' => 0xFF & $int);
 	}
+
+	// 본문에 있는 첨부파일이미지 리스트를 뽑아냄
+	function getAttachmentExtracts($content, $blogid = null){
+		if (is_null($blogid)) $blogid = getBlogId();
+
+		$result = $temp = array();
+		if (preg_match_all('/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|[^|]*\.(gif|jpg|jpeg|png|GIF|JPG|JPEG|PNG)\|(.[^\[]*)_##\]/mi', $content, $matches)) {
+			foreach ($matches[0] as $image) {
+				$split = explode("|", $image);
+				if (!in_array($split[1], $temp)) $temp[] = $split[1];
+			}
+		}
+
+		if (preg_match_all('/<img[^>]+?src=("|\')?([^\'">]*?)("|\')/mi', $content, $matches)) {
+			foreach ($matches[2] as $image)
+				if (!in_array(basename($image), $temp)) $temp[] = basename($image);
+		}
+
+		foreach($temp as $filename) {
+			if (preg_match('/(.+)\.w(\d{1,})\-h(\d{1,})\.(.+)/', $filename, $matches))
+				$filename = $matches[1].'.'.$matches[4];
+
+			if (file_exists(ROOT."/attach/{$blogid}/{$filename}") && !in_array($filename, $result))
+				$result[] = $filename;
+		}
+
+		return $result;
+	}
+
+	function getImageResizer($filename, $options = null, $blogid = null) {
+		// version 1.2.5.1
+		// usages :
+		// $options = array('size'=>100) // resize & crop to square
+		// $options = array('width'=>100) // resize by width 
+		// $options = array('width'=>100, 'height'=>50) // resize & crop by width and height
+		// $options = array('force'=>true) // refresh image
+		// result : $url, $width, $height, $path
+
+		$context = Model_Context::getInstance();
+
+		if (is_null($blogid)) $blogid = getBlogId();
+		$force = isset($options['force']) ? $options['force'] : false;
+		$absolute = isset($options['absolute']) ? $options['absolute'] : true;
+
+		$originSrc = ROOT."/attach/{$blogid}/{$filename}";
+		$originURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path'))."/attach/{$blogid}/{$filename}";
+
+		if (!file_exists($originSrc)) return false;
+
+		$imageInfo = getimagesize($originSrc);
+		if ($imageInfo === false || count($imageInfo) < 1) return false;
+		$originWidth = $imageInfo[0];
+		$originHeight = $imageInfo[1];
+
+		if (!extension_loaded('gd')) return array($originURL, $originWidth, $originHeight, $originSrc);
+
+		if (!is_dir(ROOT."/cache/thumbnail")) {
+			@mkdir(ROOT."/cache/thumbnail");
+			@chmod(ROOT."/cache/thumbnail", 0777);
+		}
+		if (!is_dir(ROOT."/cache/thumbnail/" . $blogid)) {
+			@mkdir(ROOT."/cache/thumbnail/" .$blogid);
+			@chmod(ROOT."/cache/thumbnail/" . $blogid, 0777);
+		}
+
+		$this->imageFile = $originSrc;
+		if (isset($options['size']) && is_numeric($options['size'])) {
+			if ($imageInfo[0] > $imageInfo[1])
+				list($tempWidth, $tempHeight) = $this->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $options['size']);
+			else
+				list($tempWidth, $tempHeight) = $this->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], $options['size'], null);
+
+			$resizeWidth = $resizeHeight = $options['size'];
+		} else if (isset($options['width']) && is_numeric($options['width']) && isset($options['height']) && is_numeric($options['height'])) {
+			if ($options['width'] / $options['height'] > intval($imageInfo[0]) / intval($imageInfo[1]))
+				list($tempWidth, $tempHeight) = $this->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], $options['width'], NULL);
+			else
+				list($tempWidth, $tempHeight) = $this->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $options['height']);
+
+			$resizeWidth = $options['width'];
+			$resizeHeight = $options['height'];
+		} else {
+			if (isset($options['width']) && is_numeric($options['width'])) {
+				list($tempWidth, $tempHeight) = $this->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], $options['width'], NULL);
+			} elseif (isset($options['height']) && is_numeric($options['height'])) {
+				list($tempWidth, $tempHeight) = $this->calcOptimizedImageSize($imageInfo[0], $imageInfo[1], NULL, $options['height']);
+			} else {
+				$this->reset();
+				return array($originURL, $originWidth, $originHeight, $originSrc);
+			}
+
+			$resizeWidth = $tempWidth; 
+			$resizeHeight = $tempHeight;
+		}
+		$resizeFilename = preg_replace("/\\.([[:alnum:]]+)$/i", ".w{$resizeWidth}-h{$resizeHeight}.\\1", $filename);
+		$resizeSrc = ROOT . "/cache/thumbnail/{$blogid}/{$resizeFilename}";
+		$resizeURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path')) . "/cache/thumbnail/{$blogid}/{$resizeFilename}";
+
+		if($force) @unlink($resizeSrc);
+
+		if (file_exists($resizeSrc)) { 
+			$this->reset();
+			return array($resizeURL, $resizeWidth, $resizeHeight, $resizeSrc);		
+		}
+		if ($this->resample($tempWidth, $tempHeight)) {
+			if (isset($options['width']) && is_numeric($options['width']) && isset($options['height']) && is_numeric($options['height'])) {
+				@$this->cropRectBySize($options['width'], $options['height']);
+			} else if (isset($options['size']) && is_numeric($options['size'])) {
+				@$this->cropRectBySize($options['size'], $options['size']);
+			}
+			if ($this->saveAsFile($resizeSrc)) {
+				@chmod($resizeSrc, 0666);
+				$this->reset();
+				return array($resizeURL, $resizeWidth, $resizeHeight, $resizeSrc);	
+			}
+		}
+		$this->reset();
+		return array($originURL, $originWidth, $originHeight, $originSrc);
+	}
 }
 ?>
