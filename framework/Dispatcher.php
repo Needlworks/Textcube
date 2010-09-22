@@ -30,7 +30,7 @@ final class Dispatcher {
 			$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 			if(isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
 		}
-		if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists(ROOT./'config.php')) require_once ROOT."/config.php";
+		if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists(ROOT.'/config.php')) require_once ROOT."/config.php";
 		// IIS 7.0 and URL Rewrite Module CTP, but non-ASCII URLs are NOT supported.
 		if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
