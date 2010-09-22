@@ -8,14 +8,14 @@ function RSSMessage($message) {
 	return ($isPublic ? $message : _text('비공개'));
 }
 
-function refreshFeed($blogid, $mode = 'both') {
+function refreshFeed($blogid, $mode = 'both', $useEmailAsAuthor = true) {
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
 	$result = POD::queryAll("SELECT 
 			e.*, 
-			c.name AS categoryName, 
-			u.name AS author
+			c.name AS categoryName, ".
+			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -420,15 +420,15 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 	return false;
 }
 
-function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
+function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null, $useEmailAsAuthor = true) {
 
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
 	$entries = POD::queryAll("SELECT 
 			e.*, 
-			c.name AS categoryName, 
-			u.name AS author
+			c.name AS categoryName,". 
+			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -453,7 +453,7 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 	return false;
 }
 
-function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) {
+function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null, $useEmailAsAuthor = true) {
 
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
@@ -461,8 +461,8 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 	$search = escapeSearchString($search);
 	$entries = POD::queryAll("SELECT 
 			e.*, 
-			c.name AS categoryName, 
-			u.name AS author
+			c.name AS categoryName,". 
+			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -485,15 +485,15 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 	return false;
 }
 
-function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $categoryTitle = null) {
+function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $categoryTitle = null, $useEmailAsAuthor = true) {
 
 	global $database, $serviceURL, $defaultURL, $blog, $service;
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
 	$entries = POD::queryAll("SELECT 
 			e.*, 
-			c.name AS categoryName, 
-			u.name AS author
+			c.name AS categoryName,". 
+			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
