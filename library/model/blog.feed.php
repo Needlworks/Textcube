@@ -575,7 +575,12 @@ function publishRSS($blogid, $data) {
 			if ($category = trim($category))
 				echo '			<category>', htmlspecialchars($category, ENT_QUOTES), '</category>', CRLF; 
 		}
-		echo '			<author>', htmlspecialchars($item['author'], ENT_QUOTES), '</author>', CRLF;
+		if(!empty($item['email'])) {
+			echo '			<author>',$item['email'],' (', htmlspecialchars($item['author'], ENT_QUOTES), ')</author>', CRLF;
+		} else {
+			echo '			<author>', htmlspecialchars($item['author'], ENT_QUOTES), '</author>', CRLF;
+		}
+		echo '			<author>',$item['email'],' (', htmlspecialchars($item['author'], ENT_QUOTES), ')</author>', CRLF;
 		echo '			<guid>', $item['guid'], '</guid>',CRLF;
 		echo '			<comments>', $item['comments'] , '</comments>',CRLF;
 		echo '			<pubDate>', Timestamp::getRFC1123($item['pubDate']), '</pubDate>', CRLF;
