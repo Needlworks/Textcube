@@ -123,6 +123,9 @@ function getFeedItemByEntries($entries) {
 			'replies' => array(
 				'count' => $row['repliesCount'])
 		);
+		if(!empty($row['email'])) {
+			$item['email'] = RSSMessage($row['email']);
+		}
 		if (isset($service['useNumericURLonRSS'])) {
 			if ($service['useNumericURLonRSS']==true) {
 				$item['link'] = $defaultURL."/".$row['id'];
@@ -580,7 +583,6 @@ function publishRSS($blogid, $data) {
 		} else {
 			echo '			<author>', htmlspecialchars($item['author'], ENT_QUOTES), '</author>', CRLF;
 		}
-		echo '			<author>',$item['email'],' (', htmlspecialchars($item['author'], ENT_QUOTES), ')</author>', CRLF;
 		echo '			<guid>', $item['guid'], '</guid>',CRLF;
 		echo '			<comments>', $item['comments'] , '</comments>',CRLF;
 		echo '			<pubDate>', Timestamp::getRFC1123($item['pubDate']), '</pubDate>', CRLF;
