@@ -540,7 +540,7 @@ function publishRSS($blogid, $data) {
 	$blogid = getBlogId();
 	ob_start();
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
-	echo '<rss version="2.0">', CRLF;
+	echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', CRLF;
 	echo '	<channel>', CRLF;
 	echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
 	echo '		<link>', $data['channel']['link'], '</link>', CRLF;
@@ -548,7 +548,9 @@ function publishRSS($blogid, $data) {
 	echo '		<language>', $data['channel']['language'], '</language>', CRLF;
 	echo '		<pubDate>', Timestamp::getRFC1123($data['channel']['pubDate']), '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
-
+	if(!empty($data['channel']['feed_link'])) {
+		echo '		<atom:link href="', $data['channel']['feed_link'] , '" rel="self" type="application/rss+xml" />', CRLF;
+	}
 	if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}")) {
 		echo '		<image>', CRLF;
 		echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
