@@ -15,7 +15,7 @@ function refreshFeed($blogid, $mode = 'both', $useEmailAsAuthor = true) {
 	$result = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName, ".
-			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
+			($useEmailAsAuthor ? "u.loginid" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -428,7 +428,7 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null, $us
 	$entries = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName,". 
-			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
+			($useEmailAsAuthor ? "u.loginid" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -462,7 +462,7 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null, 
 	$entries = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName,". 
-			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
+			($useEmailAsAuthor ? "u.loginid" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -493,7 +493,7 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	$entries = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName,". 
-			($useEmailAsAuthor ? "u.email" : "u.name")." AS author
+			($useEmailAsAuthor ? "u.loginid" : "u.name")." AS author
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
