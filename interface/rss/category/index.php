@@ -26,17 +26,16 @@ if(!empty($suri['id'])) {
 	exit;
 }
 
-$categoryIds = array($categoryId);
-$parent = getParentCategoryId(getBlogId(),$categoryId);
-if($parent === null) {	// It's parent. let's find childs.
-	$children = getChildCategoryId(getBlogId(),$categoryId);
-	if(!empty($children)){
-		$categoryIds = array_merge($categoryIds, $children);
-	}
-}
-
-$cache->name = 'categoryRSS-'.$categoryId;
+$cache->reset('categoryRSS-'.$categoryId);
 if(!$cache->load()) {
+	$categoryIds = array($categoryId);
+	$parent = getParentCategoryId(getBlogId(),$categoryId);
+	if($parent === null) {	// It's parent. let's find childs.
+		$children = getChildCategoryId(getBlogId(),$categoryId);
+		if(!empty($children)){
+			$categoryIds = array_merge($categoryIds, $children);
+		}
+	}
 	requireModel("blog.feed");
 	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'rss',$categoryTitle);
 	if($result !== false) {
