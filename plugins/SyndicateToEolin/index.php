@@ -106,7 +106,7 @@ function sendAbstractToEolin () {
 			echo '<mimeType>', $attachment['mime'], '</mimeType>', "\r\n";
 			echo '<filename>', $attachment['label'], '</filename>', "\r\n";
 			echo '<length>', $attachment['size'], '</length>', "\r\n";
-			echo '<url>', $context->getProperty('uri.default'), '/attachment/', $attachment['name'], '</url>', "\r\n";
+			echo '<url>', $context->getProperty('uri.service'), '/attachment/', $attachment['name'], '</url>', "\r\n";
 			echo '</attachment>', "\r\n";
 		}
 		echo '</entry>', "\r\n";
