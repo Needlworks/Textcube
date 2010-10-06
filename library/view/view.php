@@ -1259,7 +1259,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$cache->contents = $view;
 		$cache->update();
 	}
-	
+	$cache->reset();	
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	return $view;
 }
