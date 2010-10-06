@@ -39,6 +39,7 @@ if(!$cache->load()) {
 	requireModel("blog.feed");
 	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'rss',$categoryTitle);
 	if($result !== false) {
+		$cache->reset('categoryRSS-'.$categoryId);
 		$cache->contents = $result;
 		$cache->update();
 	}

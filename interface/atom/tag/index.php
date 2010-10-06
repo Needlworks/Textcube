@@ -25,11 +25,12 @@ if(!empty($suri['id'])) {
 	exit;
 }
 
-$cache->name = 'tagATOM-'.$tagId;
+$cache->reset('tagATOM-'.$tagId);
 if(!$cache->load()) {
 	requireModel("blog.feed");
 	$result = getTagFeedByTagId(getBlogId(),$tagId,'atom',$tagTitle);
 	if($result !== false) {
+		$cache->reset('tagATOM-'.$tagId);
 		$cache->contents = $result;
 		$cache->update();
 	}

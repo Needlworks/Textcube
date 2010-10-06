@@ -39,6 +39,7 @@ if(!$cache->load()) {
 	requireModel("blog.feed");
 	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'atom',$categoryTitle);
 	if($result !== false) {
+		$cache->reset('categoryATOM-'.$categoryId);
 		$cache->contents = $result;
 		$cache->update();
 	}

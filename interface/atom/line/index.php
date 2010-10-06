@@ -14,10 +14,11 @@ requireStrictBlogURL();
 $children = array();
 $cache = pageCache::getInstance();
 
-$cache->name = 'linesATOM';
+$cache->reset('linesATOM');
 if(!$cache->load()) {
 	$result = getLinesFeed(getBlogId(),'public','atom');
 	if($result !== false) {
+		$cache->reset('linesATOM');
 		$cache->contents = $result;
 		$cache->update();
 	}

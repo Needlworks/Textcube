@@ -23,10 +23,11 @@ requireStrictBlogURL();
 validateAPIKey(getBlogId(),$_POST['loginid'],$_POST['key']);
 
 $cache = pageCache::getInstance();
-$cache->name = 'commentNotifiedATOM';
+$cache->reset('commentNotifiedATOM');
 if(!$cache->load()) {
 	$result = getCommentNotifiedFeedTotal(getBlogId(),'atom');
 	if($result !== false) {
+		$cache->reset('commentNotifiedATOM');
 		$cache->contents = $result;
 		$cache->update();
 	}

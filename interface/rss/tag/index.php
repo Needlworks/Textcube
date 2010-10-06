@@ -7,33 +7,36 @@ define('__TEXTCUBE_CUSTOM_HEADER__', true);
 define('__TEXTCUBE_LOGIN__',true);
 
 require ROOT . '/library/preprocessor.php';
+//requireModel("blog.entry");
+requireModel("blog.tag");
+
 requireStrictBlogURL();
-
-$search = isset($_GET['search']) ? $_GET['search'] : $suri['value'];
-$search = isset($_GET['q']) ? $_GET['q'] : $search; // Consider the common search query GET name. (for compatibility)
-$list = array('title' => '', 'items' => array(), 'count' => 0);
-
 $blogid = getBlogId();
-list($entries, $paging) = getEntriesWithPagingBySearch($blogid, $search, 1, 1, 1);
-
-if(empty($entries)) {
+$children = array();
+$cache = pageCache::getInstance();
+if(!empty($suri['id'])) {
+	$tagId = $suri['id'];
+	$tagTitle = getTagById($blogid, $tagId);
+} else if (!empty($suri['value'])) {
+ 	$tagId = getTagId($blogid, $suri['value']);
+	$tagTitle = $suri['value'];
+} else { 	// If no tag is mentioned, redirect it to total atom.
 	header ("Location: $hostURL$blogURL/atom");
-	exit;	
+	exit;
 }
 
-$cache = pageCache::getInstance();
-$cache->reset('searchATOM-'.$search);
+$cache->reset('tagRSS-'.$tagId);
 if(!$cache->load()) {
 	requireModel("blog.feed");
-	$result = getSearchFeedByKeyword(getBlogId(),$search,'atom',$search);
+	$result = getTagFeedByTagId(getBlogId(),$tagId,'rss',$tagTitle);
 	if($result !== false) {
-		$cache->reset('searchATOM-'.$search);
+		$cache->reset('tagRSS-'.$tagId);
 		$cache->contents = $result;
 		$cache->update();
 	}
 }
 header('Content-Type: application/atom+xml; charset=utf-8');
 fireEvent('FeedOBStart');
-echo fireEvent('ViewSearchATOM', $cache->contents);
+echo fireEvent('ViewTagRSS', $cache->contents);
 fireEvent('FeedOBEnd');
 ?>

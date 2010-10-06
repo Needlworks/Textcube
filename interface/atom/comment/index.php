@@ -13,19 +13,21 @@ requireModel("blog.entry");
 requireStrictBlogURL();
 $cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
-	$cache->name = 'commentATOM-'.$suri['id'];
+	$cache->reset('commentATOM-'.$suri['id']);
 	if(!$cache->load()) {
 		$result = getCommentFeedByEntryId(getBlogId(),$suri['id'], false, 'atom');
 		if($result !== false) {
+			$cache->reset('commentATOM-'.$suri['id']);
 			$cache->contents = $result;
 			$cache->update();
 		}
 	}
 } else {
-	$cache->name = 'commentATOM';
+	$cache->reset('commentATOM');
 	if(!$cache->load()) {
 		$result = getCommentFeedTotal(getBlogId(), false, 'atom');
 		if($result !== false) {
+			$cache->reset('commentATOM');
 			$cache->contents = $result;
 			$cache->update();
 		}

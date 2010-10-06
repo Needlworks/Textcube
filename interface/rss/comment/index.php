@@ -11,24 +11,24 @@ requireModel("blog.feed");
 requireModel("blog.entry");
 
 requireStrictBlogURL();
-if (false) {
-	fetchConfigVal();
-}
+
 $cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
-	$cache->name = 'commentRSS-'.$suri['id'];
+	$cache->reset('commentRSS-'.$suri['id']);
 	if(!$cache->load()) {
 		$result = getCommentFeedByEntryId(getBlogId(),$suri['id']);
 		if($result !== false) {
+			$cache->reset('commentRSS-'.$suri['id']);
 			$cache->contents = $result;
 			$cache->update();
 		}
 	}
 } else {
-	$cache->name = 'commentRSS';
+	$cache->reset('commentRSS');
 	if(!$cache->load()) {
 		$result = getCommentFeedTotal(getBlogId());
 		if($result !== false) {
+			$cache->reset('commentRSS');
 			$cache->contents = $result;
 			$cache->update();
 		}
