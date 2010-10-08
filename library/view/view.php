@@ -1227,8 +1227,8 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		
 		// image resampling
 		if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
-			preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
-			$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
+			preg_match_all("@<img.+src=['\"](.+)['\"](.*)/?>@Usi", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"].+['\"].*/?>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 			$contentWidth = Misc::getContentWidth();
 			
 			if (count($images) > 0) {
