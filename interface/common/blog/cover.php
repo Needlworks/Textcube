@@ -21,7 +21,9 @@ if (isset($cache->contents)) {
 
 	dress('cover_rep', $itemsView, $coverView);
 	/* Add webslice feature */
-	$coverView = addWebSlice($coverView, 'coverPageWebslice',  htmlspecialchars($blog['title'].' - '._t('표지')));
+	if(Setting::getBlogSettingGlobal('useMicroformat',3) == 3) {
+		$coverView = addWebSlice($coverView, 'coverPageWebslice',  htmlspecialchars($blog['title'].' - '._t('표지')));
+	}
 	dress('cover', $coverView, $view);
 	dress('foaf_url', "$defaultURL/foaf", $view);
 
