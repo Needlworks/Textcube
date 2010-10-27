@@ -200,7 +200,6 @@ function getCategoriesSkin() {
 }
 
 function getParentCategoryId($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
@@ -210,7 +209,6 @@ function getParentCategoryId($blogid, $id) {
 }
 
 function getChildCategoryId($blogid, $id) {
-	requireComponent('Needlworks.Cache.PageCache');
 	global $__gCacheCategoryRaw;
 
 	if(empty($__gCacheCategoryRaw)) getCategories($blogid, 'raw'); //To cache category information.
