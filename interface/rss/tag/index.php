@@ -21,22 +21,22 @@ if(!empty($suri['id'])) {
  	$tagId = getTagId($blogid, $suri['value']);
 	$tagTitle = $suri['value'];
 } else { 	// If no tag is mentioned, redirect it to total atom.
-	header ("Location: ".$context->getProperty('uri.host').$context->getProperty('uri.blog')."/atom");
+	header ("Location: $hostURL$blogURL/atom");
 	exit;
 }
 
-$cache->reset('tagATOM-'.$tagId);
+$cache->reset('tagRSS-'.$tagId);
 if(!$cache->load()) {
 	requireModel("blog.feed");
-	$result = getTagFeedByTagId(getBlogId(),$tagId,'atom',$tagTitle);
+	$result = getTagFeedByTagId(getBlogId(),$tagId,'rss',$tagTitle);
 	if($result !== false) {
-		$cache->reset('tagATOM-'.$tagId);
+		$cache->reset('tagRSS-'.$tagId);
 		$cache->contents = $result;
 		$cache->update();
 	}
 }
 header('Content-Type: application/atom+xml; charset=utf-8');
 fireEvent('FeedOBStart');
-echo fireEvent('ViewTagATOM', $cache->contents);
+echo fireEvent('ViewTagRSS', $cache->contents);
 fireEvent('FeedOBEnd');
 ?>

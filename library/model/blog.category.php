@@ -352,8 +352,8 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 
 	$entry = getEntry($blogid, $entryId);
 	// for deleteEntry
-	if(is_null($entry) and isset($parameters['target']))
-		$entry = $parameters['target'];
+	if(is_null($entry) and isset($parameters['entry']))
+		$entry = $parameters['entry'];
 	$categoryId = $entry['category'];
 
 	$parent       = getParentCategoryId($blogid, $categoryId);

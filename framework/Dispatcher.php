@@ -30,7 +30,7 @@ final class Dispatcher {
 			$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 			if(isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
 		}
-		if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists('config.php')) require_once ROOT."/config.php";
+		if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists(ROOT.'/config.php')) require_once ROOT."/config.php";
 		// IIS 7.0 and URL Rewrite Module CTP, but non-ASCII URLs are NOT supported.
 		if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
@@ -71,12 +71,12 @@ final class Dispatcher {
 		unset($part);
 	
 		/* Check the existence of config.php (whether installed or not) */
-		if (!file_exists('config.php')) {
+		if (!file_exists(ROOT.'/config.php')) {
 			if (file_exists('.htaccess')) {print "<html><body>Remove '.htaccess' file first!</body></html>";exit;}
 			header("Location: " . rtrim($_SERVER["REQUEST_URI"],"/") . "/setup.php");
 		}
 		/* Determine that which interface should be loaded. */
-		require_once 'config.php';
+		require_once ROOT.'/config.php';
 		if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['type'] = 'single';
 		switch ($service['type']) {
 			case 'path': // For path-based multi blog.

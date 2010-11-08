@@ -14,10 +14,11 @@ requireStrictBlogURL();
 $children = array();
 $cache = pageCache::getInstance();
 
-$cache->name = 'linesRSS';
+$cache->reset('linesRSS');
 if(!$cache->load()) {
 	$result = getLinesFeed(getBlogId(),'public','rss');
 	if($result !== false) {
+		$cache->reset('linesRSS');
 		$cache->contents = $result;
 		$cache->update();
 	}

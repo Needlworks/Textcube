@@ -19,8 +19,10 @@ if ($skinSetting['showListOnAuthor'] != 0) {
 			$listWithPaging = array(array(), array('total' => 0));
 		$list = array('title' => $author, 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 		$paging = $listWithPaging[1];
+		$listView = null;
 	} else {
 		$paging = $cache->dbContents;
+		$listView = $cache->contents;
 	}
 	require ROOT . '/interface/common/blog/begin.php';
 	require ROOT . '/interface/common/blog/list.php';

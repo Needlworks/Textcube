@@ -15,7 +15,8 @@ function refreshFeed($blogid, $mode = 'both') {
 	$result = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName, 
-			u.name AS author
+			u.name AS author,
+			u.loginid AS email
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -122,6 +123,9 @@ function getFeedItemByEntries($entries) {
 			'replies' => array(
 				'count' => $row['repliesCount'])
 		);
+		if(!empty($row['email'])) {
+			$item['email'] = RSSMessage($row['email']);
+		}
 		if (isset($service['useNumericURLonRSS'])) {
 			if ($service['useNumericURLonRSS']==true) {
 				$item['link'] = $defaultURL."/".$row['id'];
@@ -427,8 +431,9 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 	$channel = initializeRSSchannel($blogid);
 	$entries = POD::queryAll("SELECT 
 			e.*, 
-			c.name AS categoryName, 
-			u.name AS author
+			c.name AS categoryName,
+			u.name AS author,
+			u.loginid AS email
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -461,8 +466,9 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 	$search = escapeSearchString($search);
 	$entries = POD::queryAll("SELECT 
 			e.*, 
-			c.name AS categoryName, 
-			u.name AS author
+			c.name AS categoryName,
+			u.name AS author,
+			u.loginid AS email
 		FROM {$database['prefix']}Entries e
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -493,7 +499,8 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	$entries = POD::queryAll("SELECT 
 			e.*, 
 			c.name AS categoryName, 
-			u.name AS author
+			u.name AS author,
+			u.loginid AS email
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
@@ -541,7 +548,7 @@ function publishRSS($blogid, $data) {
 	$blogid = getBlogId();
 	ob_start();
 	echo '<?xml version="1.0" encoding="UTF-8"?>', CRLF;
-	echo '<rss version="2.0">', CRLF;
+	echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">', CRLF;
 	echo '	<channel>', CRLF;
 	echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
 	echo '		<link>', $data['channel']['link'], '</link>', CRLF;
@@ -549,7 +556,9 @@ function publishRSS($blogid, $data) {
 	echo '		<language>', $data['channel']['language'], '</language>', CRLF;
 	echo '		<pubDate>', Timestamp::getRFC1123($data['channel']['pubDate']), '</pubDate>', CRLF;
 	echo '		<generator>', $data['channel']['generator'], '</generator>', CRLF;
-
+	if(!empty($data['channel']['feed_link'])) {
+		echo '		<atom:link href="', $data['channel']['feed_link'] , '" rel="self" type="application/rss+xml" />', CRLF;
+	}
 	if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}")) {
 		echo '		<image>', CRLF;
 		echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
@@ -570,7 +579,11 @@ function publishRSS($blogid, $data) {
 			if ($category = trim($category))
 				echo '			<category>', htmlspecialchars($category, ENT_QUOTES), '</category>', CRLF; 
 		}
-		echo '			<author>', htmlspecialchars($item['author'], ENT_QUOTES), '</author>', CRLF;
+		if(!empty($item['email'])) {
+			echo '			<author>',$item['email'],' (', htmlspecialchars($item['author'], ENT_QUOTES), ')</author>', CRLF;
+		} else {
+			echo '			<author>', htmlspecialchars($item['author'], ENT_QUOTES), '</author>', CRLF;
+		}
 		echo '			<guid>', $item['guid'], '</guid>',CRLF;
 		echo '			<comments>', $item['comments'] , '</comments>',CRLF;
 		echo '			<pubDate>', Timestamp::getRFC1123($item['pubDate']), '</pubDate>', CRLF;

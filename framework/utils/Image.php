@@ -16,6 +16,7 @@ class Utils_Image extends Singleton {
 		$this->extraPadding = 0;
 		$this->imageFile = NULL;
 		$this->resultImageDevice = NULL;
+		$this->bgColorBy16 = $this->hexRGB("FFFFFF");
 	}
 	
 	function resample($width, $height) {
@@ -75,8 +76,7 @@ class Utils_Image extends Singleton {
 			$this->resultImageDevice = imagecreatetruecolor($width, $height);
 		}
 		
-		$bgColorBy16 = $this->hexRGB("FFFFFF");
-		$temp = imagecolorallocate($this->resultImageDevice, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
+		$temp = imagecolorallocate($this->resultImageDevice, $this->bgColorBy16['R'], $this->bgColorBy16['G'], $this->bgColorBy16['B']);
 		imagefilledrectangle($this->resultImageDevice, 0, 0, $width, $height, $temp);
 		imagecopyresampled($this->resultImageDevice, $originImageDevice, 0, 0, 0, 0, $width, $height, imagesx($originImageDevice), imagesy($originImageDevice));
 		imagedestroy($originImageDevice);
@@ -302,8 +302,7 @@ class Utils_Image extends Singleton {
 		$height = $finishY - $startY;
 		
 		$targetDevice = imagecreatetruecolor($width, $height);
-		$bgColorBy16 = $this->hexRGB('FFFFFF');
-		imagecolorallocate($tempWaterMarkDevice, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
+		imagecolorallocate($tempWaterMarkDevice, $this->bgColorBy16['R'], $this->bgColorBy16['G'], $this->bgColorBy16['B']);
 		imagecopy($targetDevice, $this->resultImageDevice, 0, 0, $startX, $startY, $width, $height);
 		$this->resultImageDevice = $targetDevice;
 		unset($targetDevice);
@@ -317,10 +316,10 @@ class Utils_Image extends Singleton {
 				$srcX = 0;
 				break;
 			case 'center':
-				$srcX = floor((imagesx($this->resultImageDevice) - $width) / 2);
+				$srcX = imagesx($this->resultImageDevice) == $width ? 0 : -floor((imagesx($this->resultImageDevice) - $width) / 2);
 				break;
 			case 'right':
-				$srcX = imagesx($this->resultImageDevice) - $width;
+				$srcX = imagesx($this->resultImageDevice) == $width ? 0 : -(imagesx($this->resultImageDevice) - $width);
 				break;
 		}
 		
@@ -329,17 +328,17 @@ class Utils_Image extends Singleton {
 				$srcY = 0;
 				break;
 			case 'middle':
-				$srcY = floor((imagesy($this->resultImageDevice) - $height) / 2);
+				$srcY = imagesy($this->resultImageDevice) == $height ? 0 : -floor((imagesy($this->resultImageDevice) - $height) / 2);
 				break;
 			case 'bottom':
-				$srcY = imagesy($this->resultImageDevice) - $height;
+				$srcY = imagesy($this->resultImageDevice) == $height ? 0 : -(imagesy($this->resultImageDevice) - $height);
 				break;
 		}
 		
 		$targetDevice = imagecreatetruecolor($width, $height);
-		$bgColorBy16 = $this->hexRGB('FFFFFF');
-		imagecolorallocate($targetDevice, $bgColorBy16['R'], $bgColorBy16['G'], $bgColorBy16['B']);
-		imagecopy($targetDevice, $this->resultImageDevice, 0, 0, $srcX, $srcY, $width, $height);
+		$temp = imagecolorallocate($targetDevice, $this->bgColorBy16['R'], $this->bgColorBy16['G'], $this->bgColorBy16['B']);
+		imagefilledrectangle($targetDevice, 0, 0, $width, $height, $temp);
+		imagecopy($targetDevice, $this->resultImageDevice, $srcX, $srcY, 0, 0, imagesx($this->resultImageDevice), imagesy($this->resultImageDevice));
 		$this->resultImageDevice = $targetDevice;
 		unset($targetDevice);
 		

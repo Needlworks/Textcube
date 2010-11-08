@@ -22,11 +22,12 @@ if(empty($entries)) {
 }
 
 $cache = pageCache::getInstance();
-$cache->name = 'searchATOM-'.$search;
+$cache->reset('searchATOM-'.$search);
 if(!$cache->load()) {
 	requireModel("blog.feed");
 	$result = getSearchFeedByKeyword(getBlogId(),$search,'atom',$search);
 	if($result !== false) {
+		$cache->reset('searchATOM-'.$search);
 		$cache->contents = $result;
 		$cache->update();
 	}

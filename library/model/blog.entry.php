@@ -1009,8 +1009,9 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		POD::execute("UPDATE {$database['prefix']}Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
 
 		if (!in_array($effectedCategoryId, $effectedCategories)) {
+			array_push($effectedCategories, $effectedCategoryId);
 			$parent = getParentCategoryId($blogid, $effectedCategoryId);
-			array_push($effectedCategories, $parent);
+			if(!is_null($parent)) array_push($effectedCategories, $parent);
 		}
 	}
 	$effected = false;

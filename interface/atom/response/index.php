@@ -11,24 +11,23 @@ requireModel("blog.feed");
 requireModel("blog.entry");
 
 requireStrictBlogURL();
-if (false) {
-	fetchConfigVal();
-}
 $cache = pageCache::getInstance();
 if(!empty($suri['id'])) {
-	$cache->name = 'responseATOM-'.$suri['id'];
+	$cache->reset('responseATOM-'.$suri['id']);
 	if(!$cache->load()) {
 		$result = getResponseFeedByEntryId(getBlogId(),$suri['id'],'atom');
 		if($result !== false) {
+			$cache->reset('responseATOM-'.$suri['id']);
 			$cache->contents = $result;
 			$cache->update();
 		}
 	}
 } else {
-	$cache->name = 'responseATOM';
+	$cache->reset('responseATOM');
 	if(!$cache->load()) {
 		$result = getResponseFeedTotal(getBlogId(),'atom');
 		if($result !== false) {
+			$cache->reset('responseATOM');
 			$cache->contents = $result;
 			$cache->update();
 		}

@@ -1210,7 +1210,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	
 	$cacheKey = 'entry-'.$id.'-'.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').(defined('__TEXTCUBE_MOBILE__') ? 'mobile' : '');
 	$cache = pageCache::getInstance();
-	$cache->name = $cacheKey;
+	$cache->reset($cacheKey);
 	if(!defined('__TEXTCUBE_NO_ENTRY_CACHE__') && $cache->load()) {	// If cached content exists.
 		$view = $cache->contents;
 	} else {	// No cache is found.
@@ -1227,8 +1227,8 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		
 		// image resampling
 		if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
-			preg_match_all("@<img.+src=['\"](.+)['\"](.*)/>@Usi", $view, $images, PREG_SET_ORDER);
-			$view = preg_replace("@<img.+src=['\"].+['\"].*/>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
+			preg_match_all("@<img.+src=['\"](.+)['\"](.*)/?>@Usi", $view, $images, PREG_SET_ORDER);
+			$view = preg_replace("@<img.+src=['\"].+['\"].*/?>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 			$contentWidth = Misc::getContentWidth();
 			
 			if (count($images) > 0) {
@@ -1259,7 +1259,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$cache->contents = $view;
 		$cache->update();
 	}
-	
+	$cache->reset();	
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	return $view;
 }

@@ -3,7 +3,7 @@
   <title xml:lang="ko">이올린으로 싱크하기</title>
   <title xml:lang="en">Eolin Syndication</title>
   <link>http://needlworks.org/</link>
-  <version>1.8</version>
+  <version>1.8.0.1</version>
   <description xml:lang="en">This plugin displays Textcube birthday and D-day. To enable this, skin's HTML should contain [##_TextcubeBirthday_##] tag.</description>
   <description xml:lang="ko"><![CDATA[새로 작성하거나 수정한 글을 이올린으로 싱크합니다.]]></description>
   <license>GPL</license>

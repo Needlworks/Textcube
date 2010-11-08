@@ -46,7 +46,8 @@ class DBAdapter implements IAdapter {
 	public static function version($mode = 'server') {
 		if (array_key_exists('version', self::$dbProperties)) return self::$dbProperties['version'];
 		else {
-			self::$dbProperties['version'] = self::queryCell("SHOW VARIABLES LIKE 'version'");
+			$version = self::queryRow("SHOW VARIABLES LIKE 'version'");
+			self::$dbProperties['version'] = $version['Value'];
 			return self::$dbProperties['version'];
 		}
 	}

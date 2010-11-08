@@ -91,7 +91,7 @@ function sendAbstractToEolin () {
 		echo '<permalink>', htmlspecialchars($context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}": $entry['id'])), '</permalink>', "\r\n";
 		echo '<title>', htmlspecialchars($entry['title']), '</title>', "\r\n";
 		echo '<content>', htmlspecialchars(getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentformatter'])), '</content>', "\r\n";
-		echo '<author>', htmlspecialchars(User::authorName($entry['userid'],$entryId)), '</author>', "\r\n";
+		echo '<author>', htmlspecialchars(User::authorName($blogid, $entryId)), '</author>', "\r\n";
 		echo '<category>', htmlspecialchars($entry['categoryName']), '</category>', "\r\n";
 		$tags = Tag::getTagsWithEntryId($blogid, $entry);
 		foreach($tags as $tag) {
@@ -106,7 +106,7 @@ function sendAbstractToEolin () {
 			echo '<mimeType>', $attachment['mime'], '</mimeType>', "\r\n";
 			echo '<filename>', $attachment['label'], '</filename>', "\r\n";
 			echo '<length>', $attachment['size'], '</length>', "\r\n";
-			echo '<url>', $defaultURL, '/attachment/', $attachment['name'], '</url>', "\r\n";
+			echo '<url>', $context->getProperty('uri.service'), '/attachment/', $attachment['name'], '</url>', "\r\n";
 			echo '</attachment>', "\r\n";
 		}
 		echo '</entry>', "\r\n";
@@ -114,5 +114,6 @@ function sendAbstractToEolin () {
  		echo '<version>1.1</version>', "\r\n", '<status>0</status>', "\r\n";
 	}
 	echo "</response>";	
+	exit;
 }
 ?>

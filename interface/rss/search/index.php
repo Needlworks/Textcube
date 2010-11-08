@@ -21,11 +21,12 @@ if(empty($entries)) {
 }
 
 $cache = pageCache::getInstance();
-$cache->name = 'searchRSS-'.$search;
+$cache->reset('searchRSS-'.$search);
 if(!$cache->load()) {
 	requireModel("blog.feed");
 	$result = getSearchFeedByKeyword(getBlogId(),$search,'rss',$search);
 	if($result !== false) {
+		$cache->reset('searchRSS-'.$search);
 		$cache->contents = $result;
 		$cache->update();
 	}

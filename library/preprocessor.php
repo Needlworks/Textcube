@@ -244,7 +244,8 @@ if(in_array($context->getProperty('uri.interfaceType'), array('blog','owner','re
     Checks privilege setting and block user (or connection).
 */
 if($context->getProperty('uri.interfaceType') == 'blog' && !defined('__TEXTCUBE_LOGIN__')) {
-	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
+	$blogVisibility = $context->getProperty('blog.visibility',2);
+//	$blogVisibility = Setting::getBlogSettingGlobal('visibility',2);
 	if($context->getProperty('service.requirelogin',false) == true) {
 		if($blogVisibility == 0) requireOwnership();
 		else requireMembership();
