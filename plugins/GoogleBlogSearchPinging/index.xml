@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2010 Google Inc. All rights reserved.
+
+  Configuration for Google Blog Search Ping Service plug-in.
+-->
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="../../../doc/scheme/plugin/plugin.xsd"
+  version="1.1">
+  <title>Automated pinging of Google Blog Search</title>
+  <title xml:lang="ko">Google 블로그 검색 핑</title>
+  <link>http://www.google.co.kr/support/blogsearch/go/pinging</link>
+  <version>1.0</version>
+  <description>Provides automated pinging of Google Blog Search.</description>
+  <description xml:lang="ko">Google 블로그 검색에 자동으로 핑을 보냅니다.</description>
+  <license>GPL</license>
+  <author link="http://blog.textcube.com/">Google Textcube Team</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
+  <requirements>
+    <tattertools>1.1</tattertools>
+    <textcube>1.5</textcube>
+  </requirements>
+  <binding>
+    <listener event="AddEntry">GoogleBlogSearchPinging_ping</listener>
+    <listener event="DeleteEntry">GoogleBlogSearchPinging_ping</listener>
+    <listener event="UpdateEntry">GoogleBlogSearchPinging_ping</listener>
+    <listener event="AddPost">GoogleBlogSearchPinging_ping</listener>
+    <listener event="DeletePost">GoogleBlogSearchPinging_ping</listener>
+    <listener event="UpdatePost">GoogleBlogSearchPinging_ping</listener>
+  </binding>
+</plugin>
