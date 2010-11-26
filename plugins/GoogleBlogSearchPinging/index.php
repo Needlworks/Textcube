@@ -12,21 +12,19 @@
  */
 
 function GoogleBlogSearchPinging_ping($target) {
-  global $blog, $defaultURL;
+  /* TODO : do not send ping when private entry/post is added / modified */
   static $lastPing = null;
+  $ctx = Model_Context::getInstance();
   $pingUrl = 'http://blogsearch.google.com/ping';
 
   $ping = $pingUrl
-      . '?name=' . rawurlencode($blog['title'])
-      . '&url=' . rawurlencode("$defaultURL/");
+      . '?name=' . rawurlencode($ctx->getProperty('blog.title'))
+      . '&url=' . rawurlencode($ctx->getProperty('uri.default')."/");
 
   if (!isset($lastPing) || $ping != $lastPing) {
     if (ini_get('allow_url_fopen')) {
       file_get_contents($ping);
     } else {
-      if (!class_exists('HTTPRequest')) {
-        requireComponent('Eolin.PHP.HTTPRequest');
-      }
       $request = new HTTPRequest($ping);
       $request->send();
     }

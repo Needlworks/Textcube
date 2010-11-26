@@ -17,15 +17,16 @@
   <author link="http://blog.textcube.com/">Google Textcube Team</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
   <requirements>
-    <tattertools>1.1</tattertools>
-    <textcube>1.5</textcube>
+    <textcube>
+		<minVersion>1.8</minVersion>
+	</textcube>
   </requirements>
   <binding>
-    <listener event="AddEntry">GoogleBlogSearchPinging_ping</listener>
-    <listener event="DeleteEntry">GoogleBlogSearchPinging_ping</listener>
-    <listener event="UpdateEntry">GoogleBlogSearchPinging_ping</listener>
-    <listener event="AddPost">GoogleBlogSearchPinging_ping</listener>
-    <listener event="DeletePost">GoogleBlogSearchPinging_ping</listener>
-    <listener event="UpdatePost">GoogleBlogSearchPinging_ping</listener>
+    <listener event="AddEntry" handler="GoogleBlogSearchPinging_ping" />
+	<listener event="DeleteEntry" handler="GoogleBlogSearchPinging_ping" />
+    <listener event="UpdateEntry" handler="GoogleBlogSearchPinging_ping" />
+    <listener event="AddPost" handler="GoogleBlogSearchPinging_ping" />
+    <listener event="DeletePost" handler="GoogleBlogSearchPinging_ping" />
+    <listener event="UpdatePost" handler="GoogleBlogSearchPinging_ping" />
   </binding>
 </plugin>
