@@ -81,6 +81,7 @@ if(empty($suri['id'])) {  // Without id.
 			dress('article_rep', '', $view);
 			dress('paging', '', $view);
 			require ROOT . '/interface/common/blog/cover.php';
+			require ROOT . '/interface/common/blog/end.php';
 		} else if ($frontpage == 'line' && isset($skin->line)) {
 			define('__TEXTCUBE_LINE__',true);
 			$lineobj = Model_Line::getInstance();
@@ -91,14 +92,17 @@ if(empty($suri['id'])) {  // Without id.
 			$lines = $lineobj->get();
 			require ROOT . '/interface/common/blog/begin.php';
 			require ROOT . '/interface/common/blog/line.php';
+			require ROOT . '/interface/common/blog/end.php';
+		} else {
+			require ROOT . '/interface/common/blog/begin.php';
+			require ROOT . '/interface/common/blog/end.php';
 		}
 	} else {
 		list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
 		require ROOT . '/interface/common/blog/begin.php';
 		require ROOT . '/interface/common/blog/entries.php';
+		require ROOT . '/interface/common/blog/end.php';
 	}
-	
-	require ROOT . '/interface/common/blog/end.php';
 } else {  // With id.
 	if(isset($_GET['category'])) { // category exists
 		if(Validator::isInteger($_GET['category'], 0)) {
