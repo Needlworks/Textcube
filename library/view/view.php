@@ -488,7 +488,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 }
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
-	global $blogURL, $service, $blog;
+	$ctx = Model_Context::getInstance();
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
@@ -505,9 +505,9 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 						array('id' => $category2['id'], 
 							'label' => $category2['name'], 
 							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
-							'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
-							'rsslink' => "$blogURL/rss/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
-							'atomlink' => "$blogURL/atom/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category2['label'],$service['useEncodedURL']) : $category2['id']), 
+							'link' => $ctx->getProperty('uri.blog')."/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']), 
+							'rsslink' => $ctx->getProperty('uri.blog')."/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']), 
+							'atomlink' => $ctx->getProperty('uri.blog')."/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']), 
 							'children' => array()
 						)
 					);
@@ -521,9 +521,9 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 					array('id' => $category1['id'], 
 						'label' => $category1['name'], 
 						'value' => $categoryCount + $parentCategoryCount, 
-						'link' => "$blogURL/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
-						'rsslink' => "$blogURL/rss/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
-						'atomlink' => "$blogURL/atom/category/" . ($blog['useSloganOnCategory'] ? URL::encode($category1['label'],$service['useEncodedURL']) : $category1['id']), 
+						'link' => $ctx->getProperty('uri.blog')."/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']), 
+						'rsslink' => $ctx->getProperty('uri.blog')."/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']), 
+						'atomlink' => $ctx->getProperty('uri.blog')."/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']), 
 						'children' => $children)
 				);
 			}
@@ -540,23 +540,23 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 }
 
 function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
-	global $blogURL;
+	$ctx = Model_Context::getInstance();
 	$blogid = getBlogId();
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
 	// Initialize root category.
-	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "$blogURL/owner/entry/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => $ctx->getProperty('uri.blog')."/owner/entry/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		foreach ($category1['children'] as $category2) {
 			if(getCategoryVisibility($blogid, $category1['id']) == 2) {
-				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+				array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => $ctx->getProperty('uri.blog')."/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			} else {
-				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+				array_push($children, array('id' => $category2['id'], 'label' => '[!] '.(getCategoryVisibility($blogid, $category2['id'])==2 ? $category2['name'] : _t('(비공개)').' '.$category2['name']), 'value' =>  $category2['entriesinlogin'], 'link' => $ctx->getProperty('uri.blog')."/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
 			}
 		}
 		if($category1['id'] != 0) {
-			array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesinlogin'], 'link' => "$blogURL/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+			array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id'])==2 ? $category1['name'] : _t('(비공개)').' '.$category1['name']), 'value' => $category1['entriesinlogin'], 'link' => $ctx->getProperty('uri.blog')."/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
 		}
 	}
 	ob_start();
@@ -1163,8 +1163,8 @@ function getLinksView($links, $template) {
 }
 
 function getLinkListView($links) {
-	global $blogURL, $skinSetting, $suri, $pathURL;
-	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+	$ctx = Model_Context::getInstance();
+	if( rtrim( $ctx->getProperty('suri.url'), '/' ) == $ctx->getProperty('uri.path')) {
 		$home = true;
 	} else {
 		$home = false;
@@ -1186,7 +1186,7 @@ function getLinkListView($links) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
 		}
-		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength']))).'</a></li>'.CRLF;
+		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $ctx->getProperty('skin,linkLength')))).'</a></li>'.CRLF;
 	}
 	if(!empty($categoryName)) $buffer .= '</ul>'.CRLF.'</li>'.CRLF;
 	$buffer .='</ul>'.CRLF;
@@ -1276,7 +1276,6 @@ function printEntryContentView($blogid, $id, $content, $formatter, $keywords = a
 }
 
 function printFeedGroups($blogid, $selectedGroup = 0, $starredOnly = false, $searchKeyword = null) {
-	global $service;
 ?>
 													<div id="groupAdder">
 														<div class="title"><span class="text"><?php echo _t('그룹 등록하기');?></span></div>
