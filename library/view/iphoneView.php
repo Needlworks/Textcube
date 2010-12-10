@@ -256,10 +256,9 @@ function printIphoneAttachmentExtract($content){
 
 function printIphoneFreeImageResizer($content) {
 	$ctx = Model_Context::getInstance();
-	global $service;
 	$blogid = getBlogId();
 	$pattern1 = "@<img.+src=['\"](.+)['\"].*>@Usi";
-	$pattern2 = $service['path'] . "/attach/{$blogid}/";
+	$pattern2 = $ctx->getProperty('service.path') . "/attach/{$blogid}/";
 
 	if (preg_match_all($pattern1, $content, $matches)) {
 		foreach($matches[0] as $imageTag) {

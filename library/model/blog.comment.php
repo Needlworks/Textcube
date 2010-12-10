@@ -975,65 +975,114 @@ function receiveNotifiedComment($post) {
 	$post = fireEvent('ReceiveNotifiedComment', $post);
 	if ($post === false) return 7;
 
+	$pool = DBModel::getInstance();
 	$blogid = getBlogId();
-	$title = POD::escapeString(UTF8::lessenAsEncoding($post['s_home_title'], 255));
-	$name = POD::escapeString(UTF8::lessenAsEncoding($post['s_name'], 255));
-	$entryId = POD::escapeString($post['s_no']);
-	$homepage = POD::escapeString(UTF8::lessenAsEncoding($post['url'], 255));
-	$entryurl = POD::escapeString($post['s_url']);
-	$entrytitle = POD::escapeString($post['s_post_title']);
-	$parent_id = $post['r1_no'];
-	$parent_name = POD::escapeString(UTF8::lessenAsEncoding($post['r1_name'], 80));
-	$parent_parent = $post['r1_rno'];
-	$parent_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r1_homepage'], 80));
+	$title          = UTF8::lessenAsEncoding($post['s_home_title'], 255);
+	$name           = UTF8::lessenAsEncoding($post['s_name'], 255);
+	$entryId        = $post['s_no'];
+	$homepage       = UTF8::lessenAsEncoding($post['url'], 255);
+	$entryurl       = $post['s_url'];
+	$entrytitle     = $post['s_post_title'];
+	$parent_id      = $post['r1_no'];
+	$parent_name    = UTF8::lessenAsEncoding($post['r1_name'], 80);
+	$parent_parent  = $post['r1_rno'];
+	$parent_homepage = UTF8::lessenAsEncoding($post['r1_homepage'], 80);
 	$parent_written = $post['r1_regdate'];
-	$parent_comment = POD::escapeString($post['r1_body']);
-	$parent_url = POD::escapeString(UTF8::lessenAsEncoding($post['r1_url'], 255));
-	$child_id = $post['r2_no'];
-	$child_name = POD::escapeString(UTF8::lessenAsEncoding($post['r2_name'], 80));
-	$child_parent = $post['r2_rno'];
-	$child_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
-	$child_written = $post['r2_regdate'];
-	$child_comment = POD::escapeString($post['r2_body']);
-	$child_url = POD::escapeString(UTF8::lessenAsEncoding($post['r2_url'],255));
-	$siteid = POD::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
+	$parent_comment = $post['r1_body'];
+	$parent_url     = UTF8::lessenAsEncoding($post['r1_url'], 255);
+	$child_id       = $post['r2_no'];
+	$child_name     = UTF8::lessenAsEncoding($post['r2_name'], 80);
+	$child_parent   = $post['r2_rno'];
+	$child_homepage = UTF8::lessenAsEncoding($post['r2_homepage'], 80);
+	$child_written  = $post['r2_regdate'];
+	$child_comment  = $post['r2_body'];
+	$child_url      = UTF8::lessenAsEncoding($post['r2_url'],255);
+	
+	$pool->reset('CommentsNotifiedSiteInfo');
+	$pool->setQualifier('url','eq',$homepage);
+	$siteid = $pool->getCell('id');
+	
 	if (empty($siteid)) {
 		$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
-		if (POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo
-			( id, title, name, url, modified)
-			VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
+		$pool->reset('CommentsNotifiedSiteInfo');
+		$pool->setAttribute('id',$insertId);
+		$pool->setAttribute('title',$title,true);
+		$pool->setAttribute('name',$name,true);
+		$pool->setAttribute('url',$homepage,true);
+		$pool->setAttribute('modified',Timestamp::getUNIXtime());
+		if($pool->insert())
 			$siteid = $insertId;
 		else
 			return 2;
 	}
-	$parentId = POD::queryCell("SELECT id
-		FROM {$database['prefix']}CommentsNotified
-		WHERE entry = $entryId
-			AND siteid = $siteid
-			AND blogid = $blogid
-			AND remoteid = $parent_id");
+	$pool->reset('CommentsNotified');
+	$pool->setQualifier('entry','eq',$entryId);
+	$pool->setQualifier('siteid','eq',$siteid);
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('remoteid','eq',$parent_id);
+	$parentId = $pool->getCell('id');
 	if (empty($parentId)) {
 		$insertId = getCommentsNotifiedMaxId() + 1;
-		$sql = "INSERT INTO {$database['prefix']}CommentsNotified
-			( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteid , isnew , url , remoteid ,entrytitle , entryurl )
-			VALUES (
-				$blogid, NULL , $insertId, " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteid . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entrytitle . "', '" . $entryurl . "'
-)";
-		if (!POD::execute($sql))
+
+		$pool->reset('CommentsNotified');
+		$pool->setAttribute('blogid',$blogid);
+		$pool->setAttribute('replier',NULL);
+		$pool->setAttribute('id',$insertId);
+		$pool->setAttribute('entry',$entryId);
+		$pool->setAttribute('parent',(empty($parent_parent) ? NULL : $parent_parent));
+		$pool->setAttribute('name',$parent_name,true);
+		$pool->setAttribute('password','',true);
+		$pool->setAttribute('homepage',$parent_homepage,true);		
+		$pool->setAttribute('secret','',true);
+		$pool->setAttribute('comment',$parent_comment, true);
+		$pool->setAttribute('ip','',true);
+		$pool->setAttribute('written',$parent_written,true);
+		$pool->setAttribute('modified',Timestamp::getUNIXtime());
+		$pool->setAttribute('siteid',$siteid);
+		$pool->setAttribute('isnew',1);
+		$pool->setAttribute('url',$parent_url,true);
+		$pool->setAttribute('remoteid',$parent_id);
+		$pool->setAttribute('entrytitle',$entrytitle,true);
+		$pool->setAttribute('entryurl',$entryurl,true);
+		
+		if(!$pool->insert()) {
 			return 3;
 		$parentId = $insertId;
 	}
-	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteid=$siteid AND remoteid=$child_id") > 0)
+	$pool->reset('CommentsNotified');
+	$pool->setQualifier('siteid','eq',$siteid);
+	$pool->setQualifier('remoteid','eq',$child_id);
+	if($pool->getCount() > 0)
 		return 4;
 	$insertId = getCommentsNotifiedMaxId() + 1;
-	$sql = "INSERT INTO {$database['prefix']}CommentsNotified
-		( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteid , isnew , url , remoteid ,entrytitle , entryurl )
-		VALUES (
-			$blogid, NULL , $insertId, " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteid, 1, '$child_url', $child_id, '$entrytitle', '$entryurl')";
-	if (!POD::execute($sql))
+
+	$pool->reset('CommentsNotified');
+	$pool->setAttribute('blogid',$blogid);
+	$pool->setAttribute('replier',NULL);
+	$pool->setAttribute('id',$insertId);
+	$pool->setAttribute('entry',$entryId);
+	$pool->setAttribute('parent',$parentId);
+	$pool->setAttribute('name',$child_name,true);
+	$pool->setAttribute('password','',true);
+	$pool->setAttribute('homepage',$child_homepage,true);		
+	$pool->setAttribute('secret','',true);
+	$pool->setAttribute('comment',$child_comment, true);
+	$pool->setAttribute('ip','',true);
+	$pool->setAttribute('written',$child_written,true);
+	$pool->setAttribute('modified',Timestamp::getUNIXtime());
+	$pool->setAttribute('siteid',$siteid);
+	$pool->setAttribute('isnew',1);
+	$pool->setAttribute('url',$child_url,true);
+	$pool->setAttribute('remoteid',$child_id);
+	$pool->setAttribute('entrytitle',$entrytitle,true);
+	$pool->setAttribute('entryurl',$entryurl,true);
+	if (!$pool->insert())
 		return 5;
-	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $parentId";
-	if (!POD::execute($sql))
+	$pool->reset('CommentsNotified');
+	$pool->setAttribute('modified',Timestamp::getUNIXtime());
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$parentId);
+	if(!$pool->update())
 		return 6;
 	return 0;
 }
