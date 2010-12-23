@@ -495,7 +495,7 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 	$categoryCount = 0;
 	$categoryCountAll = 0;
 	$parentCategoryCount = 0;
-	$tree = array('id' => 0, 'label' => getCategoryNameById($blogid, 0), 'value' => $totalPosts, 'link' => "$blogURL/category", 'children' => array());
+	$tree = array('id' => 0, 'label' => getCategoryNameById($blogid, 0), 'value' => $totalPosts, 'link' => $ctx->getProperty('uri.blog')."/category", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		if(doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {

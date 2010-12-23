@@ -3,8 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-function doesHaveOpenIDPriv( & $comment )
-{
+function doesHaveOpenIDPriv(&$comment) {
 	$blogid = getBlogId();
 	$openid = Acl::getIdentity('openid');
 
@@ -28,8 +27,7 @@ function doesHaveOpenIDPriv( & $comment )
 	return !empty($row);
 }
 
-function decorateComment( & $comment )
-{
+function decorateComment(&$comment){
 	$authorized = doesHaveOwnership();
 	$comment['hidden'] = false;
 	$comment['name'] = htmlspecialchars($comment['name']);
@@ -260,6 +258,7 @@ function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?
 	$comments = coverComments($comments);
 	return array($comments, $paging);
 }
+
 function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
 	return getCommentsWithPagingByEntryId($blogid, 0, $page, $count);
 }
@@ -608,9 +607,7 @@ function updateComment($blogid, $comment, $password) {
 			if (!doesHaveMembership())
 				return false;
 			$pool->setQualifier('replier','eq',$userid);
-		}
-		else
-		{
+		} else {
 			if( empty($password) && $openid ) {
 				$pool->setQualifier('openid','eq',$openid,true);
 			} else {
@@ -782,6 +779,7 @@ function getRecentGuestbook($blogid,$count = false) {
 	}
 	return $comments;
 }
+
 function getGuestbookPageById($blogid, $id) {
 	return getCommentPageById($blogid, 0, $id);
 }
@@ -921,12 +919,12 @@ function notifyComment() {
 		POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$parentComments = (POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comments['parent']}"));
+	$parentComments = POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comments['parent']}");
 	if (empty($parentComments['homepage'])) {
 		POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$entry = (POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
+	$entry = POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}");
 	if(is_null($entry)) {
 		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook/".$parentComments['id']."#guestbook".$parentComments['id']);
 		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook/".$comments['id']."#guestbook".$comments['id']);
@@ -961,7 +959,6 @@ function notifyComment() {
 				}
 			}
 		}
-	} else {
 	}
 	POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 }
@@ -1047,6 +1044,7 @@ function receiveNotifiedComment($post) {
 		
 		if(!$pool->insert()) {
 			return 3;
+		}
 		$parentId = $insertId;
 	}
 	$pool->reset('CommentsNotified');
@@ -1162,5 +1160,4 @@ function getCommentsNotifiedSiteInfoMaxId($blogid = null) {
 	$maxId = $pool->getCell('max(id)');
 	return empty($maxId) ? 0 : $maxId;
 }
-
 ?>

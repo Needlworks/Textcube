@@ -10,7 +10,7 @@
   <title>Automated pinging of Google Blog Search</title>
   <title xml:lang="ko">Google 블로그 검색 핑</title>
   <link>http://www.google.co.kr/support/blogsearch/go/pinging</link>
-  <version>1.0</version>
+  <version>1.1</version>
   <description>Provides automated pinging of Google Blog Search.</description>
   <description xml:lang="ko">Google 블로그 검색에 자동으로 핑을 보냅니다.</description>
   <license>GPL</license>
