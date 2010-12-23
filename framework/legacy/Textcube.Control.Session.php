@@ -68,8 +68,9 @@ final class Session {
 		$request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
 		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
+		$current = Timestamp::getUNIXtime();
 		$result = self::query('count',"UPDATE ".self::$context->getProperty('database.prefix')."Sessions 
-				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
+				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = ".$current.", expires = ".($current+self::$context->getProperty('service.timeout'))." 
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		if ($result && $result == 1) {
 			@POD::commit();
@@ -88,7 +89,7 @@ final class Session {
 	public static function gc($maxLifeTime = false) {
 		if(is_null(self::$context)) self::initialize();
 		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions 
-			WHERE updated < ".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')));
+			WHERE expires < ".Timestamp::getUNIXtime());
 		$result = self::query('all',"SELECT DISTINCT v.id, v.address 
 			FROM ".self::$context->getProperty('database.prefix')."SessionVisits v 
 			LEFT JOIN ".self::$context->getProperty('database.prefix')."Sessions s ON v.id = s.id AND v.address = s.address 
@@ -112,6 +113,7 @@ final class Session {
 	
 	private static function newAnonymousSession() {
 		if(is_null(self::$context)) self::initialize();
+		$current = Timestamp::getUNIXtime();
 		$meet_again_baby = 3600;
 		$t = self::$context->getProperty('service.timeout'); 
 		if( !empty($t)) { 
@@ -125,7 +127,7 @@ final class Session {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby)");
+			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated, expires) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby,".($current+self::$context->getProperty('service.timeout')).")");
 			if ($result > 0)
 				return $id;
 		}
@@ -212,9 +214,10 @@ final class Session {
 			return true;
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
+			$current = Timestamp::getUNIXtime();
 			$result = self::query('execute',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions
-				(id, address, userid, created, updated) 
-				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+				(id, address, userid, created, updated, expires) 
+				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, $current, $current,".($current+self::$context->getProperty('service.timeout')).")");
 			if ($result) {
 				@session_id($id);
 				//$service['domain'] = $service['domain'].':8888';

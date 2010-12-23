@@ -5,7 +5,7 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION', '1.9 : Alpha 1');
+define('TEXTCUBE_VERSION', '1.9 : Alpha 2');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2010. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8.4');
@@ -33,6 +33,7 @@ $database['username'] = '';
 $database['password'] = '';
 $database['prefix'] = '';
 $service['timeout'] = 3600;
+$service['autologinTimeout'] = 3600 * 24 * 14;
 $service['type'] = 'single';
 $service['domain'] = '';
 $service['path'] = '';
