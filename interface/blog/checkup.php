@@ -802,7 +802,15 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
-	
+	/* From Textcube 1.9 */
+	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Sessions expires")) {
+		$changed = true;
+		echo '<li>', _text('자동 로그인을 위해 세션 테이블 구조를 수정합니다.'), ': ';
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Sessions ADD expires int(11) NOT NULL AFTER updated"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 }
 
 /***** Common parts. *****/
