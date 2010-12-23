@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adminSkin version="1.1" language="ko">
+	<information>
+		<name>Canon</name> 
+		<version>1.8</version>
+		<description><![CDATA[텍스트큐브 1.8의 관리자 화면 테스트 스킨입니다.]]></description>
+		<license><![CDATA[GPL]]></license>
+	</information> 
+	<author>
+		<name>Needlworks</name>
+		<homepage>http://www.needlworks.org</homepage>
+		<email>contact@needlworks.org</email>
+	</author> 
+</adminSkin>

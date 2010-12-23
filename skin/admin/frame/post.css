@@ -1,0 +1,597 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+#sub-menu-post
+{
+	background-image                 : none !important;
+}
+
+/* table header */
+table.data-inbox tr .date
+{
+	width                            : 60px;
+}
+
+table.data-inbox tr .starred
+{
+	width                            : 20px;
+}
+
+table.data-inbox tr .name
+{
+	width                            : 150px;
+}
+
+table.data-inbox tr .site
+{
+	width                            : 180px;
+}
+
+table.data-inbox tr .response
+{
+	width                            : 20px;
+}
+
+table.data-inbox tr .ip
+{
+	width                            : 125px;
+}
+
+table.data-inbox thead tr th.ip
+{
+	text-transform                   : uppercase;
+}
+
+/* table body */
+table.data-inbox tbody tr td.date,
+table.data-inbox tbody tr td.ip
+{
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-size                        : 0.9em;
+}
+
+table.data-inbox tbody tr td.site,
+table.data-inbox tbody tr td.name,
+table.data-inbox tbody tr td.ip
+{
+	text-align                       : left;
+}
+
+/* data description */
+#data-description dl.starred-description
+{
+	background-image                 : url("./image/icon_starred_single.gif");
+	background-position              : 8px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.eolin-description
+{
+	background-image                 : url("./image/icon_syndicated_single.gif");
+	background-position              : 8px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.trackback-description
+{
+	background-image                 : url("./image/icon_trackback_off.gif");
+	background-position              : 6px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.protect-description
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	padding                          : 0 0 1px 29px;
+}
+
+/* Post *******************************************************************************************/
+#part-editor h2
+{
+	display                         : none;
+}
+
+#entry-tabs-box li.entry-starred
+{
+	margin-right                    : 40px;
+}
+
+#entry-tabs-box li label
+{
+	display                         : none;
+}
+
+#entry-tabs-box li.entry-post
+{
+	display                         : none;
+}
+
+#category
+{
+	margin                          : 0 10px;
+}
+
+#change-section-top
+{
+	background-color                 : #FFFFFF;
+	margin                           : 5px 0 0 0;
+	padding-top                      : 8px;
+	padding-bottom                   : 8px;
+	width                            : 100%;
+}
+
+#change-section-bottom
+{
+	background-color                 : #EEEEEE;
+	border-top                       : 1px solid #BBBBBB;
+	margin                           : 0 0 5px 0;
+	padding-top                      : 8px;
+	padding-bottom                   : 8px;
+	width                            : 100%;
+}
+#allCheckedTop,
+#allCheckedBottom
+{
+	margin-left                     : 7px; 
+}
+#part-post-list h2.caption
+{
+	display                         : none;
+	margin-bottom                   : 1.6em;
+}
+
+
+/* table header */
+#part-post-list table.data-inbox tr .status
+{
+	width                            : 52px;
+}
+
+#part-post-list table.data-inbox tr .syndicate
+{
+	width                            : 13px;
+}
+
+#part-post-list table.data-inbox tr .protect
+{
+	padding-right                    : 0;
+	width                            : 37px;
+}
+
+#part-post-list table.data-inbox tr .trackback
+{
+	padding-right                    : 0;
+}
+
+#part-post-list table.data-inbox thead tr th.starred,
+#part-post-list table.data-inbox thead tr th.trackback,
+#part-post-list table.data-inbox thead tr th.delete
+{
+	width                            : 22px;
+}
+
+#part-post-list table.data-inbox thead tr th.starred span,
+#part-post-list table.data-inbox thead tr th.syndicate span,
+#part-post-list table.data-inbox thead tr th.protect span,
+#part-post-list table.data-inbox thead tr th.trackback span,
+#part-post-list table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox thead tr th.title
+{
+	text-align                       : center;
+}
+
+#part-post-list table.data-inbox tr .delete
+{
+	padding-right                    : 5px;
+}
+
+/* table body */
+
+#part-post-list table.data-inbox tbody tr td.status
+{
+	padding-right                    : 5px;
+}
+
+#part-post-list table.data-inbox tbody tr td.title
+{
+	overflow                         : hidden;
+}
+
+#part-post-list table.data-inbox tbody tr td.title span.description
+{
+	color                            : #CCC;
+}
+
+#part-post-list table.data-inbox tbody tr td.category a.uncategorized,
+#part-post-list table.data-inbox tbody tr.keyword-line td.category a,
+#part-post-list table.data-inbox tbody tr.notice-line td.category a
+{
+	color                            : #BCBCBC;
+}
+
+#part-post-list table.data-inbox tbody tr td.trackback,
+#part-post-list table.data-inbox tbody tr td.delete
+{
+	background-position              : right bottom;
+	padding-left                     : 0;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td
+{
+	background-image                 : none;
+	border                           : 1px solid #EEE;
+	padding                          : 10px;
+	text-align                       : right;
+}
+
+.hidden-layer table tr td
+{
+	border                           : none !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td label
+{
+	font-weight                      : bold;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .input-button
+{
+	padding                          : 0 3px !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .close-button
+{
+	background-image                 : url("./image/img_close_button.png");
+	background-position              : left center;
+	display                          : none;
+	background-repeat                : no-repeat;
+	height                           : 11px;
+	padding-left                     : 1px;
+	width                            : 39px;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td .close-button span
+{
+	display                          : none;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table
+{
+	margin-top                       : 5px;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td
+{
+	border-bottom                    : 1px solid #DDDDDD !important;
+	font-size                        : 0.9em;
+	font-family                      : "Courier New", "Courier", monospace;
+	height                           : auto !important;
+	letter-spacing                   : -1px;
+	line-height                      : normal !important;
+	padding                          : 2px 5px !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td.address
+{
+	padding-left                     : 15px !important;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td.remove a
+{
+	background-image                 : url("./image/img_close_x.png");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 11px;
+	margin-top                       : 2px;
+	width                            : 11px;
+}
+
+#part-post-list table.data-inbox tbody tr.hidden-layer td table tr td.remove span
+{
+	display                          : none;
+}
+
+/* Line *******************************************************************************************/
+
+#part-post-line #line-content-box
+{
+	margin-top                       : 10px;
+	margin-bottom                    : 25px;
+}
+
+#line-write-form #line-write
+{
+	width                            : 80%;
+	margin-left                      : 15px;
+}
+
+#line-write-form .input-button
+{
+	width                            : 100px;
+}
+
+#line-content dl
+{
+	border                           : 1px solid #eee;
+	border-radius                    : 6px;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
+	margin                           : 10px;
+	height                           : 48px;
+}
+
+#line-content dl dt
+{
+	margin                           : 10px;	
+}
+
+#line-content dd.content
+{
+	margin-top                       : 10px;
+	width                            : 80%;
+	line-height                      : 130%;
+}
+
+#line-content dd.delete
+{
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left bottom;
+	width                            : 12px !important;
+	height                           : 12px !important;
+	margin                           : 0;
+	padding                          : 0 !important;
+	position                         : absolute;
+	top                              : 15px;
+	right                            : 15px;
+	border                           : 0;
+}
+
+#line-content dd.delete span
+{
+	display                          : none;
+}
+#line-more-page .more-button
+{
+	width                            : 100% !important;
+	display                          : block;
+	border-radius                    : 6px;
+	-moz-border-radius               : 6px;
+	-webkit-border-radius            : 6px;
+}
+
+/* Tree ******************************************************************************************/
+
+#part-post-tree div.data-inbox
+{
+	height                           : 488px;
+	position                         : relative;
+}
+
+#part-post-tree div.data-inbox .section
+{
+	padding                          : 30px 0 0 310px;
+}
+
+#part-post-tree em.attention
+{
+	margin-top                       : 15px;
+}
+
+#tree-preview-box
+{
+	background-color                 : #EEEEEE;
+	height                           : 375px;
+	left                             : 0;
+	padding                          : 10px 0;
+	position                         : absolute;
+	top                              : 0;
+	width                            : 280px;
+}
+
+#tree-preview-box .title
+{
+	background-image                 : url("./image/img_bullet_tree_preview.gif");
+	background-position              : left 4px;
+	background-repeat                : no-repeat;
+	color                            : #333333;
+	margin                           : 0 10px 3px 10px;
+	padding-left                     : 11px;
+}
+
+#treePreview
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	display                          : block;
+	height                           : 335px;
+	margin                           : 0 auto;
+	padding                          : 10px;
+	overflow                         : auto;
+	width                            : 240px;
+}
+
+#property-box
+{
+	background-image                 : none;
+	border                           : none;
+	width                            : 560px;
+}
+
+#property-box dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#property-box dl dt
+{
+	color                            : #6C90C3;
+	font-weight                      : bold;
+	padding                          : 6px 0;
+	text-align                       : right;
+	width                            : 110px;
+}
+
+#property-box dl dd
+{
+	margin-left                      : 125px;
+	padding                          : 6px 0;
+}
+
+#body-id-line dd p
+{
+	line-height                      : 1.5em;
+	margin                           : 5px 0;
+	width                            : 350px;
+}
+
+#treeComponent .branch3
+{
+	cursor                           : pointer;
+}
+
+/* Tag administration ****************************************************************************/
+#tag-content-box
+{
+	min-height                       : 300px;
+}
+
+#tag-content-box dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#tag-content-box dl dt
+{
+	color                            : #6C90C3;
+	font-weight                      : bold;
+	padding                          : 6px 0;
+	text-align                       : right;
+	width                            : 110px;
+}
+
+#tag-content-box dl dd
+{
+	margin-left                      : 125px;
+	padding                          : 6px 0;
+}
+
+#tag-cloud
+{
+	width                            : 45%;
+	min-height                       : 300px;
+	padding-right                    : 10px;
+	float                            : left;
+	border-right                     : 1px solid #DDD;
+}
+
+#tag-panel
+{
+	padding                          : 0 0 0 15px;
+	margin                           : 0;
+	width                            : 50%;
+	float                            : left;
+}
+
+#tag-panel span.notice
+{
+	margin-top                       : 100px;
+	text-align                       : center;
+	color                            : #666;
+}
+
+/* Eolin Dialogue ********************************************************************************/
+
+#eolinDialog
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url('./image/img_eolin_head.jpg');
+	background-repeat                : no-repeat;
+	border                           : 1px solid #666666;
+	left                             : 220px !important;
+	padding                          : 58px 8px 15px 8px;
+	position                         : absolute;
+	text-align                       : left;
+	top                              : -300px !important;
+	width                            : 492px;
+}
+
+#eolinDialog .temp-box
+{
+	border                           : 3px solid #4783B2;
+}
+
+#eolinDialog .temp-box h4
+{
+	border-bottom                    : 1px solid #E6E6E6;
+	color                            : #284A9F;
+	font-size                        : 1em;
+	font-weight                      : bold;
+	margin                           : 20px 15px 10px 15px;
+}
+
+#eolinDialog .temp-box em
+{
+	color                            : #646464;
+	display                          : block;
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#eolinDialog .temp-box p
+{
+	color                            : #7C7C7C;
+	line-height                      : 1.5em;
+	margin                           : 0 17px;
+}
+
+#eolinDialog .button-box
+{
+	border-top                       : 1px solid #E6E6E6;
+	margin                           : 15px 15px 10px 15px;
+	padding                          : 15px 0 5px 0;
+	width                            : auto;
+}
+
+#eolinDialog .button-box button
+{
+	background-image                 : url('./image/bg_eolin_button.gif');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	border                           : none;
+	color                            : #284A9F;
+	height                           : 36px;
+	width                            : 313px;
+}
+
+#eolinDialog .button-box button span
+{
+	background-image                 : url('./image/img_eolin_bullet.jpg');
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 16px;
+}
+
+#eolinDialog .button-box #close-button
+{
+	background-image                 : url('./image/img_eolin_close.jpg');
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 17px;
+	position                         : absolute;
+	top                              : 10px;
+	right                            : 10px;
+	width                            : 17px;
+}
+
+#eolinDialog .button-box #close-button span
+{
+	display                          : none;
+}

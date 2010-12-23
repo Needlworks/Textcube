@@ -1,0 +1,8 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+.part table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}

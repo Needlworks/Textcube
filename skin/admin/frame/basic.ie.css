@@ -1,0 +1,89 @@
+@charset "utf-8";
+
+/* Layout Header **********************************************************************************/
+
+#description-blog
+{
+	padding-right                    : 7px;
+}
+
+#description-teamblog
+{
+	position                         : absolute;
+	top                              : 15px !important;
+	right                            : 200px;
+}
+
+/* main menu */
+#main-menu-box
+{
+	height                           : 40px;
+	line-height                      : 3em;
+}
+
+#main-menu li,
+#main-menu li.selected
+{
+	height                           : 40px;
+}
+
+#main-menu table
+{
+	position                         : absolute;
+	top                              : 0;
+	left                             : 0;
+	border-collapse                  : collapse;
+}
+
+/* Layout Body ***********************************************************************************/
+
+/* data subbox */
+#page-section .page-count
+{
+	right                            : 30px;
+}
+
+.data-subbox .input-button,
+#search-form .input-button
+{
+	line-height                      : 1.6em !important;
+}
+
+/* Layout Footer *********************************************************************************/
+
+#version
+{
+	padding-left                     : 3px;
+}
+
+/* Etc *******************************************************************************************/
+
+.attention
+{
+	height                           : 20px;
+	line-height                      : 25px;
+	overflow                         : hidden;
+}
+
+.attention span
+{
+	background-position              : left top;
+}
+
+.input-button
+{
+	height                           : 1.75em;
+	/*line-height                      : 2.4em !important;*/ /* Removed by coolengineer */
+	padding                          : 0 1px !important;
+}
+
+input.checkbox,
+input.radio
+{
+	margin                           : -3px 0 0 0;
+}
+
+input.input-text
+{
+	width                            : 80% !important;
+}

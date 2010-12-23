@@ -1,0 +1,105 @@
+@charset "utf-8";
+
+/* Dashboard *************************************************************************************/
+
+#defaultDashboardWidget
+{
+	padding                          : 0;
+}
+
+#myBlogInfo table
+{
+	width                            : 267px !important;
+}
+
+/* quilt */
+#part-center-quilt .panel
+{
+	height                           : 100px;
+}
+
+#independent-notice-line dd
+{
+	padding-top                      : 5px;
+}
+
+#cite
+{
+	padding-right                    : 0;
+	width                            : 620px;
+}
+
+/* Coverpage ***************************************************************************************/
+
+#part-coverpage-order
+{
+	background-position              : 308px 135px;	
+}
+
+#coverpage-preview-mode
+{
+	margin                           : 30px 10px 13px 10px;
+}
+
+#part-coverpage-order .main-explain-box
+{
+	margin-top: 19px;
+}
+
+#coverpage-box
+{
+	margin-right                     : 3px !important;
+	width                            : 603px;
+}
+
+#coverpage-box .section ul.coverpage
+{
+	height                           : 200px;
+}
+
+#coverpage-element-box
+{
+	margin-left                      : 5px;
+}
+
+#coverpage-element-box fieldset ul.module-list
+{
+	height                           : 418px;
+	overflow-y                       : scroll;
+}
+
+#coverpage-element-box fieldset ul li.coverpage-module
+{
+	width                            : auto;
+}
+
+#coverpage-description
+{
+	padding-top                      : 0 !important;
+}
+
+#independent-cover-line
+{
+	margin: -36px 10px 0 0;
+}
+
+/* Credit ****************************************************************************************/
+
+#maintainer-container,
+#internationalization-container,
+#support-container
+{
+	right                            : 15px;
+}
+
+#supporter-description h3
+{
+	height                           : 2.45em;
+}
+
+/* classes for AJAX *******************************************************************************/
+
+.ajax-popup-window .button-box .input-button
+{
+	padding-top                      : 2px !important;
+}

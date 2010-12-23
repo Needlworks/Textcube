@@ -1,0 +1,139 @@
+@charset "utf-8";
+
+/* Select ****************************************************************************************/
+
+#part-skin-list .section,
+#part-skin-current .section
+{
+	border                           : 1px solid #FFFFFF;
+}
+#skin-search-form
+{
+	left                             : 190px;
+}
+
+#skin-search-form .input-button
+{
+    line-height                      : 1.6em !important;
+}
+
+#skin-search-form input.input-text
+{
+	width                            : 150px !important;
+}
+
+#part-skin-current .information dt,
+#part-skin-list .information dt
+{
+	left                             : -60px;
+	margin-left                      : 0 !important;
+}
+
+#part-skin-current .information dt
+{
+	top                              : -4px;
+}
+
+#part-skin-list #listview-box .section
+{
+	height                           : 185px !important;
+}
+
+#search-box
+{
+	top                              : -4px !important;
+}
+
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section ul
+{
+	height                           : 401px;
+	width                            : 120px;
+}
+
+#part-skin-edit textarea
+{
+	font-family                      : 'courier new', courier, monospace;
+}
+
+#part-skin-edit .section .button-box .input-button
+{
+	font-size                        : 0.9em;
+	line-height                      : 1.6em !important;
+}
+
+/* Setting ***************************************************************************************/
+
+#part-skin-setting fieldset
+{
+	padding-top                      : 2px;
+}
+
+#part-skin-setting .button-box .input-button
+{
+	padding                          : 2px 0 0 0 !important;
+}
+
+/* Tree -----------------------------------------------------------------------------------------*/
+
+#part-skin-tree .section .button-box .input-button
+{
+	padding                          : 2px 0 0 0 !important;
+}
+
+#count-display-line dd
+{
+	padding-top                      : 7px !important;
+}
+
+/* Sidebar ***************************************************************************************/
+
+#part-sidebar-order
+{
+	background-position              : 308px 135px;	
+}
+
+#sidebar-preview-mode
+{
+	margin                           : 30px 10px 13px 10px;
+}
+
+#sidebar-box
+{
+	margin-right                     : 3px !important;
+	width                            : 603px;
+}
+
+#sidebar-box .section ul.sidebar
+{
+	height                       : 200px;
+}
+
+#sidebar-element-box
+{
+	margin-left                      : 5px;
+}
+
+#sidebar-element-box fieldset ul.module-list
+{
+	height                           : 418px;
+	overflow-y                       : scroll;
+}
+
+#sidebar-element-box fieldset ul li.sidebar-module
+{
+	width                            : auto;
+}
+
+#sidebar-description
+{
+	padding-top                      : 0 !important;
+}
+
+/* classes for AJAX *******************************************************************************/
+
+.ajax-popup-window .button-box .input-button
+{
+	padding-top                      : 2px !important;
+}

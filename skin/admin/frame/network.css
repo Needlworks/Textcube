@@ -1,0 +1,513 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+fieldset
+{
+	background-image                 : none;
+	border-bottom                    : none !important;
+	border-top                       : none !important;
+	margin                           : 0;
+}
+
+dl
+{
+	border-top                       : 1px solid #FFFFFF;
+	border-bottom                    : 1px solid #FFFFFF;
+}
+
+dl dt
+{
+	padding                          : 5px 3px 0 3px;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 190px;
+	padding                          : 7px 3px 4px 3px;
+}
+
+/* Link ******************************************************************************************/
+
+#link-tabs-box
+{
+	position                         : relative;
+	margin                           : -53px auto 10px 250px;
+	background-image                 : none;
+	background-color                 : transparent;
+}
+
+#link-tabs-box li
+{
+	border-bottom                    : 1px solid #eee;	
+}
+
+#link-tabs-box li.selected
+{
+	border-bottom                    : none !important;
+}
+
+#part-link-list h2
+{
+/*	display                          : none;*/
+}
+#part-link-list .caption,
+#part-link-add .caption,
+#part-link-category-edit .caption
+{
+	margin-bottom                    : 25px;
+}
+
+#part-link-list div.data-inbox,
+#part-link-list table.data-inbox
+{
+	margin-bottom                    : 100px;
+}
+
+/* table header */
+
+#part-link-list table.data-inbox thead tr th
+{
+	text-align                       : center;
+}
+
+#part-link-list table.data-inbox thead tr th.category
+{
+	padding-left                     : 20px;
+	width                            : 100px;
+}
+
+#part-link-list table.data-inbox thead tr th.homepage
+{
+	padding-left                     : 20px;
+	width                            : 200px;
+}
+
+#part-link-list table.data-inbox thead tr th.address
+{
+	padding-left                     : 20px;
+}
+
+#part-link-list table.data-inbox thead tr th.status
+{
+	width                            : 68px;
+}
+
+#part-link-list table.data-inbox thead tr th.edit
+{
+	width                            : 20px;
+}
+
+#part-link-list table.data-inbox thead tr th.edit span
+{
+	display                          : none;
+}
+
+#part-link-list table.data-inbox thead tr th.delete
+{
+	width                            : 20px;
+}
+
+#part-link-list table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-link-list table.data-inbox tbody tr td a.uncategorized
+{
+	color                            : #BCBCBC;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-homepage
+{
+	padding-left                     : 20px;
+	text-align                       : left;
+	width                            : 80px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th
+{
+	padding-left                     : 5px;
+	text-align                       : center;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-me
+{
+	width                            : 50px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-friend
+{
+	width                            : 80px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-met,
+#part-link-list table.data-inbox thead.xfn tr th.xfn-professional
+{
+	width                            : 50px;
+}
+
+#part-link-list table.data-inbox thead.xfn tr th.xfn-coresident,
+#part-link-list table.data-inbox thead.xfn tr th.xfn-family,
+#part-link-list table.data-inbox thead.xfn tr th.xfn-romantic
+{
+	width                            : 100px;
+}
+
+/* table body */
+#part-link-list table.data-inbox tbody tr td.homepage
+{
+	background-position              : right bottom;
+	padding-left                     : 25px;
+	text-align                       : left;
+	width                            : 200px;
+}
+
+#part-link-list table.data-inbox tbody tr td.address
+{
+	font-family                      : "Courier New", Courier, monospace;
+	overflow                         : hidden;
+	padding-left                     : 25px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .edit-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_modify.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .edit-button span,
+#part-link-list table.data-inbox tbody tr td.edit .visible-button span
+{
+	display                          : none;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .visible-button
+{
+	background-color                 : transparent;
+	display                          : block;
+	height                           : 15px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 15px;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .invisible-link
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+}
+
+#part-link-list table.data-inbox tbody tr td.edit .visible-link
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+}
+
+#part-link-list table.data-inbox tbody tr td.xfn-homepage
+{
+	background-position              : right bottom;
+	padding-left                     : 25px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox tbody tr td.xfn-edit
+{
+	background-position              : right bottom;
+	padding-left                     : 15px;
+	text-align                       : left;
+}
+
+#part-link-list table.data-inbox tbody tr td.xfn-edit label
+{
+	display	                         : block;
+	width                            : 8.5em;
+}
+
+/* Link : Add **********************************************************************************/
+
+#part-link-add div.data-inbox,
+#part-link-edit div.data-inbox
+{
+	height                           : 200px;
+	margin                           : 25px auto 0 auto;
+	width                            : 680px;
+}
+
+#part-link-category-edit div.data-inbox
+{
+	height                           : 100px;
+	margin                           : 25px auto 0 auto;
+	width                            : 680px;
+}
+
+#part-link-add div.data-inbox dl,
+#part-link-edit div.data-inbox dl,
+#part-link-category-edit div.data-inbox dl
+{
+	border                           : 1px solid #FFFFFF;
+}
+
+#part-link-add div.data-inbox dl dt,
+#part-link-edit div.data-inbox dl dt,
+#part-link-category-edit div.data-inbox dl dt
+{
+	font-weight                      : normal;
+	line-height                      : 2em;
+	padding                          : 3px 12px 3px 0;
+	text-align                       : right;
+	width                            : 100px !important;
+}
+
+#part-link-add div.data-inbox dl dd,
+#part-link-edit div.data-inbox dl dd,
+#part-link-category-edit div.data-inbox dl dd
+{
+	margin-left                      : 110px;
+	padding                          : 3px 0;
+}
+
+#part-link-add div.data-inbox dl dd .input-text,
+#part-link-edit div.data-inbox dl dd .input-text,
+#part-link-category-edit div.data-inbox dl dd .input-text
+{
+	width                            : 350px;
+}
+
+#part-link-add div.data-inbox dl dd .input-category,
+#part-link-edit div.data-inbox dl dd .input-category
+{
+	width                            : 150px !important;
+}
+
+#part-link-list .button-box,
+#part-link-add .button-box,
+#part-link-edit .button-box,
+#part-link-category-edit .button-box
+{
+	background-color                 : #F2F2F2;
+	background-image                 : url("./image/bg_link_button_box.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	clear                            : both;
+	margin                           : 0 auto 150px auto;
+	padding                          : 20px 10px 20px 10px;
+	width                            : 680px;
+}
+
+#part-link-list .button-box .input-button,
+#part-link-add .button-box .input-button,
+#part-link-edit .button-box .input-button,
+#part-link-category-edit .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 2.5em;
+	line-height                      : 2.5em;
+	vertical-align                   : middle;
+}
+
+/* Xfn *******************************************************************************************/
+
+#part-link-list .button-box
+{
+	margin-top                       : -50px;
+}
+
+#part-link-list .button-box
+{
+	margin                           : 0 auto 50px auto;
+}
+
+/* Team Blog **********************************************************************************/
+#part-setting-account .button-box,
+#part-setting-invite .button-box
+{
+	clear                            : both;
+	text-align                       : left !important;
+	margin-top                       : 10px;
+}
+
+#part-setting-account .button-box .input-button,
+#part-setting-invite .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	display                          : block;
+	font-weight                      : bold;
+	height                           : 30px !important;
+	margin                           : 0 auto;
+	padding                          : 0 !important;
+	width                            : 74px;
+}
+
+#list-section table tr td.status
+{
+	border-left: none;
+}
+
+#list-section table tr td.cancel
+{
+	border-right: none !important;
+}
+
+/* invite list */
+
+#list-section dl dt
+{
+	display                          : none;
+}
+
+#list-section dl dd
+{
+	margin-left                      : 0;
+	display                          : block;
+}
+
+#list-section table
+{
+	margin-left                      : 100px;
+	width                            : 750px;
+}
+
+#list-section table thead tr th
+{
+	background-color                 : #EFEFEF;
+	border-bottom                    : 1px solid #999999;
+	border-top                       : 1px solid #999999;
+	padding                          : 5px;
+	text-align                       : center;
+}
+
+#list-section table tbody tr td
+{
+	border-bottom                    : 1px solid #DDDDDD;
+	border-left                      : 1px solid #DDDDDD;
+	padding                          : 5px;
+}
+
+#list-section table tbody tr td.email
+{
+	border-left                      : none;
+}
+
+#list-section table tbody tr td.cancel
+{
+	text-align                       : center;
+	border-right                     : 1px solid #DDDDDD;
+}
+
+#part-setting-mailhost div.data-inbox div.line
+{
+	margin-top                       : 5px;
+	margin-bottom                    : 10px;
+}
+
+#part-setting-mailhost div.data-inbox div.line input#port
+{
+	width                            : 50px;
+}
+
+/* invite letter */
+#part-setting-invite
+{
+	margin-top                       : 20px;
+}
+
+#letter
+{
+	width                            : 550px;
+}
+
+#letter-head label,
+#letter-body label,
+#letter-foot label
+{
+	display                          : block;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	margin                           : 3px 0 1px 0;
+	text-align                       : left;
+}
+
+#letter-head .line
+{
+	margin-bottom                    : 8px;
+	text-align                       : right;
+}
+
+#invitation_receiver,
+#invitation_sender
+{
+	font-size                        : inherit;
+	width                            : 550px;
+}
+
+#invitation_identify
+{
+	font-family                      : "Courier New", Courier, monospace;
+	margin-left                      : 2px;
+	width                            : 150px;
+}
+
+.inter-word
+{
+	font-family                      : "Courier New", Courier, monospace;
+}
+
+#letter-body textarea
+{
+	width                            : 546px;
+}
+
+#letter-section .button-box
+{
+	margin                           : 10px 0 20px 0;
+}
+
+#letter-section .button-box .input-button
+{
+	padding                          : 0 10px !important;
+	width                            : auto;
+}
+
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-image                 : url("./image/icon_modify.gif");
+	background-color                 : transparent;
+	background-position              : 4px 4px;
+	height                           : 11px;
+	margin                           : 0 auto;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.ban-description
+{
+	background-image                 : url("./image/icon_block_off.gif");
+	background-color                 : transparent;
+	background-position              : 8px 2px;
+	margin                           : 0 3px 0 0;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.trash-description
+{
+	background-image                 : url("./image/icon_delete_single.gif");
+	background-color                 : transparent;
+	background-position              : 4px 4px;
+	height                           : 11px;
+	margin                           : 0 auto;
+	background-repeat                : no-repeat;
+}

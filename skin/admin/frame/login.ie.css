@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+/* Login *****************************************************************************************/
+
+#login-box
+{
+	width: 215px;
+}
+
+.input-button
+{
+	height                           : 3em;
+	line-height                      : 3em;
+}
+
+.input-text
+{
+	background-color: #f8f8f8;
+}
+
+#message-box
+{
+	background-color: #f2f2f2;
+}
+
+#openid_identifier
+{
+	background-color: white;
+	background-image: url("../../../resources/image/icon_login_openid.gif");
+}

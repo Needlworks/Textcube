@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+/* Comment ****************************************************************************************/
+
+/* Notify *****************************************************************************************/
+
+#part-post-notify table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+#part-post-notify #search-form
+{
+	top                              : 88px;
+}
+
+/* Trackback **************************************************************************************/
+
+#part-post-trackback table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+/* Add/Edit **************************************************************************************/
+
+.button-box .input-button
+{
+
+	padding                          : 2px 1px 0 1px !important;
+}

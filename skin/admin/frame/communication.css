@@ -1,0 +1,480 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+/* table header */
+table.data-inbox tr .date
+{
+	width                            : 60px;
+}
+
+table.data-inbox tr .name
+{
+	width                            : 150px;
+}
+
+table.data-inbox tr .site
+{
+	width                            : 180px;
+}
+
+table.data-inbox tr .ip
+{
+	width                            : 125px;
+}
+table.data-inbox tr .reply
+{
+	width                            : 17px;
+}
+table.data-inbox thead tr th.ip
+{
+	text-transform                   : uppercase;
+}
+
+/* table body */
+table.data-inbox tbody tr .date,
+table.data-inbox tbody tr .name,
+table.data-inbox tbody tr .site,
+table.data-inbox tbody tr .ip,
+table.data-inbox tbody tr .reply
+{
+	border-bottom                    : 1px solid #E3E3DE;
+}
+
+table.data-inbox tbody tr td.date,
+table.data-inbox tbody tr td.ip
+{
+	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-size                        : 0.9em;
+}
+
+table.data-inbox tbody tr td.site,
+table.data-inbox tbody tr td.name,
+table.data-inbox tbody tr td.ip,
+table.data-inbox tbody tr td.reply
+{
+	text-align                       : left;
+}
+
+table.data-inbox tbody tr td.title span.excerpt
+{
+	display                          : block;
+	color                            : #DDD;
+}
+
+table.data-inbox tbody tr td
+{
+	padding-top                      : 4px;
+	padding-bottom                   : 4px;
+}
+
+/* Tab     ****************************************************************************************/
+#communication-tabs-box
+{
+	display                          : none;
+}
+
+/* Comment ****************************************************************************************/
+#part-post-comment h2,
+#part-post-notify h2,
+#part-post-trackback h2,
+#part-post-trash h2
+{
+	display                          : none;
+}
+
+#part-post-comment .caption
+{
+	margin-bottom                    : 1.6em;
+}
+
+#part-post-comment table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-comment table.data-inbox thead tr th.reply span,
+#part-post-comment table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content
+{
+	text-align                       : left;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content div.info 
+{
+	display                          : block;
+	margin-bottom                    : 3px;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content br
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content .entry-title
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+}
+
+#part-post-comment table.data-inbox tbody tr td.content .divider,
+#part-post-comment table.data-inbox tbody tr td.content .explain
+{
+	color                            : #999999;
+	font-size                        : 0.9em;
+	font-family                      : Dotum, sans-serif;
+}
+
+#part-post-comment table.data-inbox tbody tr td.reply span 
+{
+	display                          : none;
+}
+
+#part-post-comment table.data-inbox tbody tr td.reply a
+{
+	background-image                 : url("./image/icon_write.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 16px;
+}
+
+/* Notify *****************************************************************************************/
+
+#part-post-notify .caption
+{
+	margin-bottom                    : 1.6em;
+}
+
+#part-post-notify table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-notify table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-post-notify .main-explain-box
+{
+	margin-bottom                    : 40px;
+	text-align                       : left;
+}
+
+#part-post-notify table.data-inbox tbody tr td.content
+{
+	text-align                       : left;
+}
+
+#part-post-notify table.data-inbox tbody tr td.content .entryURL
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .new-icon
+{
+	display                          : none;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .commentURL
+{
+	background-image                 : url('./image/icon_reply.gif');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	padding-left                     : 26px;
+}
+
+#part-post-notify table.data-inbox tbody tr.reply-line td.content .new-icon span
+{
+	display                          : none;
+}
+
+/* Trackback **************************************************************************************/
+
+#part-post-trackback .caption
+{
+	margin-bottom                    : 1.6em;
+}
+
+#part-post-trackback table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-trackback table.data-inbox thead tr th.delete span
+{
+	display                          : none;
+}
+
+/* Trash *****************************************************************************************/
+
+#part-post-trash .caption
+{
+	margin-bottom: 19px;
+}
+
+#part-post-trash .main-explain-box p
+{
+	margin-bottom                    : 50px;
+}
+
+#part-post-trash fieldset
+{
+	background-image                 : none;
+	border                           : none;
+	position                         : absolute;
+	left                             : 145px;
+	top                              : 35px;
+}
+
+#part-post-trash fieldset dl
+{
+	border                           : none;
+}
+
+#part-post-trash fieldset dl dt
+{
+	display                          : none;
+}
+
+#part-post-trash fieldset dl dd
+{
+	margin-top                       : 20px;
+	margin-left                      : 30px;
+	width                            : 600px;
+}
+
+#part-post-trash fieldset dl dd div
+{
+	display                          : inline;
+}
+
+#track-radio-trackback
+{
+	margin-left                      : 20px;
+}
+
+/* table header */
+#part-post-trash table.data-inbox tr .revert,
+#part-post-trash table.data-inbox tr .delete
+{
+	width                            : 12px;
+}
+
+#part-post-trash table.data-inbox thead tr th.delete span,
+#part-post-trash table.data-inbox thead tr th.revert span
+{
+	display                          : none;
+}
+
+/* table body */
+#part-post-trash table.data-inbox tbody tr .category,
+#part-post-trash table.data-inbox tbody tr .title,
+#part-post-trash table.data-inbox tbody tr .content,
+#part-post-trash table.data-inbox tbody tr .revert,
+#part-post-trash table.data-inbox tbody tr .delete
+{
+	text-align                       : left;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content a
+{
+	display                          : block;
+	margin-bottom                    : 3px;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content br
+{
+	display                          : none;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content .entry-title
+{
+	color                            : #6B90C3;
+	font-weight                      : bold;
+}
+
+#part-post-trash table.data-inbox tbody tr td.content .divider,
+#part-post-trash table.data-inbox tbody tr td.content .explain
+{
+	color                            : #999999;
+	font-size                        : 0.9em;
+	font-family                      : 돋움, Dotum, sans-serif;
+}
+
+#part-post-trash table.data-inbox tbody tr td.revert a
+{
+	background-image                 : url("./image/icon_revert.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 16px;
+}
+
+#part-post-trash table.data-inbox tbody tr td.revert a span
+{
+	display                          : none;
+}
+
+.all-delete-button
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	cursor                           : pointer;
+	font-size                        : 1em;
+	height                           : 1.7em;
+	line-height                      : 1.7em;
+	padding                          : 0 5px;
+	position                         : absolute;
+	right                            : 25px;
+	top                              : 45px;
+}
+
+/* Filter ****************************************************************************************/
+
+#part-communication-filter,
+#part-communication-whitelist
+{
+	height                           : 500px;
+	padding-bottom: 30px;
+}
+
+#part-communication-filter div.data-inbox,
+#part-communication-whitelist div.data-inbox
+{
+	margin-top                       : 20px;
+}
+
+#part-communication-filter div.data-inbox .section,
+#part-communication-whitelist div.data-inbox .section
+{
+	float                            : left;
+	margin-left                      : 20px;
+	width                            : 200px;
+}
+
+#part-communication-filter div.data-inbox .section .title,
+#part-communication-whitelist div.data-inbox .section .title
+{
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#part-communication-filter div.data-inbox .section table,
+#part-communication-whitelist div.data-inbox .section table
+{
+	background-color                 : #FFFFFF;
+	width                            : 100%;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td.content,
+#part-communication-whitelist div.data-inbox .section table tbody tr td.content
+{
+	border-bottom                    : 1px solid #EFEFEF;
+	margin                           : 1px 3px 1px 3px !important;
+	padding                          : 5px 5px 3px 5px;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td.empty,
+#part-communication-whitelist div.data-inbox .section table tbody tr td.empty
+{
+	height                           : 300px;
+	text-align                       : center;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td.delete,
+#part-communication-whitelist div.data-inbox .section table tbody tr td.delete
+{
+	border-bottom                    : 1px solid #EFEFEF;
+	width                            : 20px;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td .delete-button,
+#part-communication-whitelist div.data-inbox .section table tbody tr td .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#part-communication-filter div.data-inbox .section table tbody tr td .delete-button span,
+#part-communication-whitelist div.data-inbox .section table tbody tr td .delete-button span
+{
+	display                          : none;
+}
+
+#part-communication-filter div.data-inbox .section .filtering-words,
+#part-communication-whitelist div.data-inbox .section .filtering-words
+{
+	border                           : 1px solid #777777;
+	height                           : 300px;
+	overflow-y                       : scroll;
+	padding                          : 3px;
+}
+
+#part-communication-filter div.data-inbox .section .input-text,
+#part-communication-whitelist div.data-inbox .section .input-text
+{
+	margin-top                       : 2px;
+	width                            : 198px;
+}
+
+#part-communication-filter .button-box,
+#part-communication-whitelist .button-box
+{
+	clear                            : both;
+	margin                           : 20px 0 10px 0;
+}
+
+#part-communication-filter .button-box .add-button,
+#part-communication-whitelist .button-box .add-button
+{
+	margin                           : 0 auto;
+	padding                          : 0 !important;
+}
+
+
+/* simple help footer ****************************************************************************/
+
+#data-description dl.modify-description
+{
+	background-image                 : url("./image/icon_modify.gif");
+	background-color                 : transparent;
+	background-position              : 8px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.ban-description
+{
+	background-image                 : url("./image/icon_block_off.gif");
+	background-color                 : transparent;
+	background-position              : 8px 2px;
+	margin                           : 0 3px 0 0;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.trash-description
+{
+	background-image                 : url("./image/icon_delete.gif");
+	background-color                 : transparent;
+	background-position              : 8px 7px;
+	height                           : 11px;
+	margin                           : 0 auto;
+	background-repeat                : no-repeat;
+}
