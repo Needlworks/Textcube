@@ -7,7 +7,7 @@ function setBlogTitle($blogid, $title) {
 	$context = Model_Context::getInstance();
 	if ($title == $context->getProperty('blog.title'))
 		return true;
-	if(Setting::setBlogSetting('title', UTF8::lessenAsEncoding($title, 255),true) === false) return false;
+	if(Setting::setBlogSetting('title', Utils_Unicode::lessenAsEncoding($title, 255),true) === false) return false;
 	$context->setProperty('blog.title',$title);
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
@@ -20,7 +20,7 @@ function setBlogDescription($blogid, $description) {
 	$context = Model_Context::getInstance();
 	if ($description == $context->getProperty('blog.description'))
 		return true;
-	if(Setting::setBlogSettingGlobal('description',UTF8::lessenAsEncoding($description, 255)) === false) return false;
+	if(Setting::setBlogSettingGlobal('description',Utils_Unicode::lessenAsEncoding($description, 255)) === false) return false;
 	$context->setProperty('blog.description', $description);
 	requireModel('blog.feed');
 	requireLibrary('blog.skin');
@@ -83,7 +83,7 @@ function checkBlogName($name) {
 
 function setPrimaryDomain($blogid, $name) {
 	requireModel('blog.feed');
-	$name = UTF8::lessenAsEncoding(strtolower(trim($name)), 32);
+	$name = Utils_Unicode::lessenAsEncoding(strtolower(trim($name)), 32);
 	if ($name == $blog['name'])
 		return 0;
 	if (!checkBlogName($name))
@@ -111,7 +111,7 @@ function setSecondaryDomain($blogid, $domain) {
 	$ctx = Model_Context::getInstance();
 	
 	requireModel('blog.feed');
-	$domain = UTF8::lessenAsEncoding(strtolower(trim($domain)), 64);
+	$domain = Utils_Unicode::lessenAsEncoding(strtolower(trim($domain)), 64);
 	if ($domain == $ctx->getProperty('blog.secondaryDomain'))
 		return 0;
 	if (empty($domain))
@@ -206,8 +206,8 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
 	$ctx = Model_Context::getInstance();
 	if (($language == $ctx->getProperty('blog.language')) && ($blogLanguage == $ctx->getProperty('blog.blogLanguage')))
 		return true;
-	$language = UTF8::lessenAsEncoding($language, 5);
-	$blogLanguage = UTF8::lessenAsEncoding($blogLanguage, 5);
+	$language = Utils_Unicode::lessenAsEncoding($language, 5);
+	$blogLanguage = Utils_Unicode::lessenAsEncoding($blogLanguage, 5);
 	if(Setting::setBlogSettingGlobal('language',$language) && Setting::setBlogSettingGlobal('blogLanguage',$blogLanguage)) {
 		$ctx->setProperty('blog.language',$language);
 		$ctx->setProperty('blog.blogLanguage',$blogLanguage);
@@ -255,7 +255,7 @@ function addBlog($blogid, $userid, $identify) {
 	} else { // If no blogid, create a new blog.
 		if (!preg_match('/^[a-zA-Z0-9]+$/', $identify))
 			return 4; // Wrong Blog name
-		$identify = POD::escapeString(UTF8::lessenAsEncoding($identify, 32));
+		$identify = POD::escapeString(Utils_Unicode::lessenAsEncoding($identify, 32));
 
 		$blogName = $identify;
 		
@@ -430,10 +430,10 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	if (empty($name))
 		$name = User::getName($userid);
 
-	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
+	if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	//$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
+	//$loginid = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));	
+	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 32));
 
 	//$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))

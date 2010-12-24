@@ -232,8 +232,8 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 		$label = $name;
 	}
 
-	$label = UTF8::lessenAsEncoding($label, 255);
-	$name = UTF8::lessenAsEncoding($name, 127);
+	$label = Utils_Unicode::lessenAsEncoding($label, 255);
+	$name = Utils_Unicode::lessenAsEncoding($name, 127);
 	$pool->reset('Categories');
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('name','eq',$name,true);
@@ -320,13 +320,13 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 //		$parentStr = "AND parent = $parentId";
 //	} else
 //		$parentStr = 'AND parent is null';
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 127));
-	$bodyid = POD::escapeString(UTF8::lessenAsEncoding($bodyid, 20));
+	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 127));
+	$bodyid = POD::escapeString(Utils_Unicode::lessenAsEncoding($bodyid, 20));
 	if(POD::queryExistence("SELECT name
 		FROM {$database['prefix']}Categories
 		WHERE blogid = $blogid AND name = '".$name."' AND bodyid = '".$bodyid."'"))
 		return false;
-	$label = POD::escapeString(UTF8::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
+	$label = POD::escapeString(Utils_Unicode::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$sql = "SELECT *
 		FROM {$database['prefix']}Categories
 		WHERE blogid = $blogid
@@ -448,14 +448,14 @@ function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 	
 	foreach($result as $row) {
 		$parent = $row['id'];
-		$parentName = UTF8::lessenAsEncoding($row['name'], 127);
+		$parentName = Utils_Unicode::lessenAsEncoding($row['name'], 127);
 		$row['name'] = POD::escapeString($parentName);
 		$countParent = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
 		$countInLoginParent = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
 		$result2 = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
 		foreach ($result2 as $rowChild) {
-			$label = POD::escapeString(UTF8::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
-			$rowChild['name'] = POD::escapeString(UTF8::lessenAsEncoding($rowChild['name'], 127));
+			$label = POD::escapeString(Utils_Unicode::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
+			$rowChild['name'] = POD::escapeString(Utils_Unicode::lessenAsEncoding($rowChild['name'], 127));
 			$countChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
 			$countInLogInChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
 			POD::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesinlogin = $countInLogInChild, label = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");

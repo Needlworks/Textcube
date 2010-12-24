@@ -9,11 +9,11 @@
 
 // From Tattertools 1.0 to Tattertools 1.0.x
 function isUTF8($str) {
-	return UTF8::validate($str);
+	return Utils_Unicode::validate($str);
 }
 
 function utf8Lessen($str, $length, $tail = '..') {
-	return UTF8::lessen($str, $length, $tail);
+	return Utils_Unicode::lessen($str, $length, $tail);
 }
 
 function iconvWrapper($from, $to, $str) {

@@ -263,7 +263,7 @@ function getTeamContentsSave($target){
 				Respond::ResultPage(0);
 			}
 		}else if($flag == "profile"){
-			$profile = POD::escapeString(UTF8::lessenAsEncoding($profile, 65535));
+			$profile = POD::escapeString(Utils_Unicode::lessenAsEncoding($profile, 65535));
 			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
 				Respond::ResultPage(0);
 			}

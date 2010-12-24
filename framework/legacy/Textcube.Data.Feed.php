@@ -5,7 +5,7 @@
 class FeedGroup {
 	/*@static@*/
 	function getId($name, $add = false) {
-		$name = UTF8::lessenAsEncoding($name);
+		$name = Utils_Unicode::lessenAsEncoding($name);
 		if (empty($name))
 			return 0;
 		$query = DBModel::getInstance();
@@ -125,8 +125,8 @@ class Feed {
 
 		$query = DBModel::getInstance();
 		$query->reset('Feeds');
-		$query->setQualifier('xmlurl', 'equals', UTF8::lessenAsEncoding($this->url, 255), true);
-		$query->setAttribute('title', UTF8::lessenAsEncoding($this->url, 255), true);
+		$query->setQualifier('xmlurl', 'equals', Utils_Unicode::lessenAsEncoding($this->url, 255), true);
+		$query->setAttribute('title', Utils_Unicode::lessenAsEncoding($this->url, 255), true);
 		$query->setAttribute('id',($this->_getMaxId()+1));
 		if (!$query->doesExist()) {
 			if (!$query->insert())
@@ -251,7 +251,7 @@ class FeedItem {
 	function add() {
 		global $database;
 		$this->id = null;
-		$this->link = UTF8::lessenAsEncoding(trim($this->link), 255);
+		$this->link = Utils_Unicode::lessenAsEncoding(trim($this->link), 255);
 		if (empty($this->link))
 			return false;
 		
@@ -274,11 +274,11 @@ class FeedItem {
 		$this->id = $query->getCell('id');
 		if (is_null($this->id)) {
 			$query->setAttribute('id', $this->_getMaxId()+1);
-			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
+			$query->setAttribute('title', Utils_Unicode::lessenAsEncoding($this->title, 255), true);
 			$query->setAttribute('description', $this->description, true);
-			$query->setAttribute('tags', UTF8::lessenAsEncoding($this->tags, 255), true);
-			$query->setAttribute('enclosure', UTF8::lessenAsEncoding($this->enclosure, 255), true);
-			$query->setAttribute('author', UTF8::lessenAsEncoding($this->author, 255), true);
+			$query->setAttribute('tags', Utils_Unicode::lessenAsEncoding($this->tags, 255), true);
+			$query->setAttribute('enclosure', Utils_Unicode::lessenAsEncoding($this->enclosure, 255), true);
+			$query->setAttribute('author', Utils_Unicode::lessenAsEncoding($this->author, 255), true);
 			$query->setAttribute('written', $this->published);
 			$this->id = $query->insert();
 			//echo mysql_error(), '<br />';

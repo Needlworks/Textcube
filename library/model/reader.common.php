@@ -339,7 +339,7 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 
 function addFeedGroup($blogid, $title) {
 	global $database;
-	$title = POD::escapeString(UTF8::lessenAsEncoding($title, 255));
+	$title = POD::escapeString(Utils_Unicode::lessenAsEncoding($title, 255));
 	if (empty($title))
 		return 1;
 	if (POD::queryCell("SELECT id FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND title = '$title'") !== null) {
@@ -353,7 +353,7 @@ function addFeedGroup($blogid, $title) {
 
 function editFeedGroup($blogid, $id, $title) {
 	global $database;
-	$title = POD::escapeString(UTF8::lessenAsEncoding($title, 255));
+	$title = POD::escapeString(Utils_Unicode::lessenAsEncoding($title, 255));
 	if (empty($title))
 		return 1;
 	$prevTitle = POD::queryCell("SELECT title FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid AND id = $id");
@@ -406,9 +406,9 @@ function addFeed($blogid, $group = 0, $url, $getEntireFeed = true, $htmlURL = ''
 		POD::query("INSERT INTO {$database['prefix']}FeedGroupRelations VALUES($blogid, $id, $group)");
 		saveFeedItems($id, $xml);
 	} else {
-		$htmlURL = POD::escapeString(UTF8::lessenAsEncoding($htmlURL));
-		$blogTitle = POD::escapeString(UTF8::lessenAsEncoding($blogTitle));
-		$blogDescription = POD::escapeString(UTF8::lessenAsEncoding(stripHTML($blogDescription)));
+		$htmlURL = POD::escapeString(Utils_Unicode::lessenAsEncoding($htmlURL));
+		$blogTitle = POD::escapeString(Utils_Unicode::lessenAsEncoding($blogTitle));
+		$blogDescription = POD::escapeString(Utils_Unicode::lessenAsEncoding(stripHTML($blogDescription)));
 
 		$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Feeds");
 		if (!$id) {
@@ -497,11 +497,11 @@ function getRemoteFeed($url) {
 	} else
 		return array(3, null, null);
 
-	$feed['xmlurl'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['xmlurl'])));
-	$feed['blogURL'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['blogURL'])));
-	$feed['title'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['title'])));
-	$feed['description'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct(stripHTML($feed['description']))));
-	$feed['language'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($feed['language']), 255));
+	$feed['xmlurl'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($feed['xmlurl'])));
+	$feed['blogURL'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($feed['blogURL'])));
+	$feed['title'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($feed['title'])));
+	$feed['description'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct(stripHTML($feed['description']))));
+	$feed['language'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($feed['language']), 255));
 
 	return array(0, $feed, $xml);
 }
@@ -594,12 +594,12 @@ function saveFeedItem($feedId, $item) {
 
 	$item = fireEvent('SaveFeedItem', $item);
 
-	$item['permalink'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($item['permalink'])));
-	$item['author'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($item['author'])));
-	$item['title'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($item['title'])));
-	$item['description'] = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct($item['description']), 65535));
-	$tagString = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct(implode(', ', $item['tags']))));
-	$enclosureString = POD::escapeString(UTF8::lessenAsEncoding(UTF8::correct(implode('|', $item['enclosures']))));
+	$item['permalink'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($item['permalink'])));
+	$item['author'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($item['author'])));
+	$item['title'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($item['title'])));
+	$item['description'] = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct($item['description']), 65535));
+	$tagString = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct(implode(', ', $item['tags']))));
+	$enclosureString = POD::escapeString(Utils_Unicode::lessenAsEncoding(Utils_Unicode::correct(implode('|', $item['enclosures']))));
 
 	if ($item['written'] > gmmktime() + 86400)
 		return false;

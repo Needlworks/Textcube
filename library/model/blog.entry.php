@@ -526,8 +526,8 @@ function addEntry($blogid, $entry, $userid = null) {
 
 	if(empty($userid)) $entry['userid'] = getUserId();
 	else $entry['userid'] = $userid;
-	$entry['title'] = UTF8::lessenAsEncoding(trim($entry['title']), 255);
-	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']), 255);
+	$entry['title'] = Utils_Unicode::lessenAsEncoding(trim($entry['title']), 255);
+	$entry['location'] = Utils_Unicode::lessenAsEncoding(trim($entry['location']), 255);
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
 	
 	if((empty($entry['slogan']))||($entry['category'] == -1)) {
@@ -536,7 +536,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 
-	$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan, 255));
 	$title = POD::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
@@ -558,7 +558,7 @@ function addEntry($blogid, $entry, $userid = null) {
 	for ($i = 1; $result > 0; $i++) {
 		if ($i > 1000)
 			return false;
-		$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+		$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i);
 		$result = POD::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 	}
 	$userid = $entry['userid'];
@@ -659,15 +659,15 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	if(empty($oldEntry)) return false;
 
 	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
-	$entry['title'] = UTF8::lessenAsEncoding(trim($entry['title']));
-	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']));
+	$entry['title'] = Utils_Unicode::lessenAsEncoding(trim($entry['title']));
+	$entry['location'] = Utils_Unicode::lessenAsEncoding(trim($entry['location']));
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
 	if(empty($entry['slogan'])) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan, 255));
 	$title = POD::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
@@ -703,7 +703,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		for ($i = 1; $result > 0; $i++) {
 			if ($i > 1000)
 				return false;
-			$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+			$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i);
 			$result = POD::queryCount("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		}
 	}
@@ -809,15 +809,15 @@ function saveDraftEntry($blogid, $entry) {
 	$password = $origEntry['password'];
 	
 	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
-	$entry['title'] = UTF8::lessenAsEncoding(trim($entry['title']));
-	$entry['location'] = UTF8::lessenAsEncoding(trim($entry['location']));
+	$entry['title'] = Utils_Unicode::lessenAsEncoding(trim($entry['title']));
+	$entry['location'] = Utils_Unicode::lessenAsEncoding(trim($entry['location']));
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
 	if(empty($entry['slogan'])) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan, 255));
+	$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan, 255));
 	$title = POD::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
@@ -852,7 +852,7 @@ function saveDraftEntry($blogid, $entry) {
 		for ($i = 1; $result != false; $i++) {
 			if ($i > 1000)
 				return false;
-			$slogan = POD::escapeString(UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i);
+			$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i);
 			$result = POD::queryExistence("SELECT slogan FROM {$database['prefix']}Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
 		}
 	}
@@ -1189,7 +1189,7 @@ function getTagsWithEntryString($entryTag) {
 	$ret = array();
 	
 	foreach ($tags as $tag) {
-		$tag = UTF8::lessenAsEncoding($tag, 255, '');
+		$tag = Utils_Unicode::lessenAsEncoding($tag, 255, '');
 		$tag = str_replace('&quot;', '"', $tag);
 		$tag = str_replace('&#39;', '\'', $tag);
 		$tag = preg_replace('/ +/', ' ', $tag);

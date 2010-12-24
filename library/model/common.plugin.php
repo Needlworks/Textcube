@@ -57,7 +57,7 @@ function activatePlugin($name) {
 		return false;
 	}
 	$pluginName = $name;
-	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 255));
+	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 255));
 	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
@@ -107,7 +107,7 @@ function updatePluginConfig( $name , $setVal) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = POD::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
+	$name = POD::escapeString( Utils_Unicode::lessenAsEncoding($name, 255) ) ;
 	$setting = serialize(Setting::fetchConfigXML($setVal));
 	$pool = DBModel::getInstance();
 	$pool->reset('Plugins');
@@ -186,16 +186,16 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$value = $plugin;
 		$result = Setting::getServiceSetting($keyname,null, true);
 		if (is_null($result)) {
-			$keyname = UTF8::lessenAsEncoding($keyname, 32);
-			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
+			$keyname = Utils_Unicode::lessenAsEncoding($keyname, 32);
+			$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
 			$query = DBModel::getInstance();
 			$query->reset('ServiceSettings');
 			$query->setAttribute('name',$keyname,true);
 			$query->setAttribute('value',$value,true);
 			$query->insert();
 		} else {
-			$keyname = UTF8::lessenAsEncoding($keyname, 32);
-			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
+			$keyname = Utils_Unicode::lessenAsEncoding($keyname, 32);
+			$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
 			$values = explode('/', $result, 2);
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
@@ -237,8 +237,8 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$query .= ") TYPE=MyISAM ";
 		$query .= (POD::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
 		if (POD::execute($query)) {
-				$keyname = POD::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
-				$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+				$keyname = POD::escapeString(Utils_Unicode::lessenAsEncoding('Database_' . $name, 32));
+				$value = POD::escapeString(Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255));
 				POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}

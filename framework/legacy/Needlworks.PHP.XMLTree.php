@@ -12,13 +12,13 @@ class XMLTree {
 	}
 	
 	function open($xml, $encoding = null) {
-		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !UTF8::validate($xml)) {
+		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !Utils_Unicode::validate($xml)) {
 			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
 				$encoding = $matches[1];
 				$xml = preg_replace('/^(<\?xml[^<]*\s+encoding=)["\']?[\w-]+["\']?/', '$1"utf-8"', $xml, 1);
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
-				$xml = UTF8::bring($xml, $encoding);
+				$xml = Utils_Unicode::bring($xml, $encoding);
 				if (is_null($xml)) {
 					$this->error = XML_ERROR_UNKNOWN_ENCODING;
 					return false;

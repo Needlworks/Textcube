@@ -819,7 +819,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			<td class="ib" style="width:39px; font-size: 1px; background-image: url('<?php echo $skin['url'];?>/navi_back_noactive<?php echo ($i ? '' : '_end');?>.gif')"><a class="click" onclick="toggleFolder('<?php echo $row['id'];?>')"><img src="<?php echo $skin['url'];?>/tab_<?php echo (count($row['children']) ? 'closed' : 'isleaf');?>.gif" width="39" alt="" /></a></td>
 			<td>
 				<table cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor;?>"><tr>
-					<td class="branch3" <?php echo $link;?>><div id="text_<?php echo $row['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($row['label'], $skin['labelLength']));?> <?php
+					<td class="branch3" <?php echo $link;?>><div id="text_<?php echo $row['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($row['label'], $skin['labelLength']));?> <?php
 		if ($skin['showValue'])
 			print "<span class=\"c_cnt\">({$row['value']})</span>";
 ?></div></td>
@@ -849,7 +849,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 ?>.gif" width="22" alt="" /></td>
 				<td>
 					<table <?php echo $link;?> cellpadding="0" cellspacing="0" style="<?php echo $itemBgColor;?>"><tr>
-					<td class="branch3"><div id="text_<?php echo $irow['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(UTF8::lessenAsEm($irow['label'], $skin['labelLength']));?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '');?></div></td>
+					<td class="branch3"><div id="text_<?php echo $irow['id'];?>" style="color: #<?php echo $skin['itemColor'];?>;"><?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($irow['label'], $skin['labelLength']));?> <?php echo ($skin['showValue'] ? "<span class=\"c_cnt\">({$irow['value']})</span>" : '');?></div></td>
 					</tr></table>
 				</td>
 				</tr></table>
@@ -1025,7 +1025,7 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 		$itemsView = '';
 		foreach ($notices as $notice) {
 			$itemView = $noticeItemView;
-			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', UTF8::lessenAsEm($notice['title'], $ctx->getProperty('skin.recentNoticeLength')), $notice['id'])), $itemView);
+			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', Utils_Unicode::lessenAsEm($notice['title'], $ctx->getProperty('skin.recentNoticeLength')), $notice['id'])), $itemView);
 			if($ctx->getProperty('blog.useSloganOnPost')) {
 				if(isset($notice['slogan'])&& !empty($notice['slogan'])) {
 					$noticeURL = URL::encode($notice['slogan']);
@@ -1062,7 +1062,7 @@ function getRecentEntriesView($entries, $entriesView = null, $template = null) {
 		$view = "$template";
 		$permalink = $ctx->getProperty('uri.blog')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($entry['slogan'],$ctx->getProperty('service.useEncodedURL')) : $entry['id']);
 		dress('rctps_rep_link', $permalink, $view);
-		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(UTF8::lessenAsEm($entry['title'], $ctx->getProperty('skin.recentEntryLength')));
+		$contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(Utils_Unicode::lessenAsEm($entry['title'], $ctx->getProperty('skin.recentEntryLength')));
 		dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
 		$name = User::getName($entry['userid']);
 		dress('rctps_rep_author',  $name, $view);
@@ -1092,10 +1092,10 @@ function getRecentCommentsView($comments, $commentView = null, $template = null)
 	foreach ($comments as $comment) {
 		$view = "$template";
 		dress('rctrp_rep_link', $ctx->getProperty('uri.blog')."/".($ctx->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($comment['slogan'],$ctx->getProperty('service.useEncodedURL')) : $comment['entry'])."?commentId=".$comment['id']."#comment{$comment['id']}", $view);
-		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(UTF8::lessenAsEm(strip_tags($comment['comment']), $ctx->getProperty('skin.recentCommentLength')));
+		$contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(Utils_Unicode::lessenAsEm(strip_tags($comment['comment']), $ctx->getProperty('skin.recentCommentLength')));
 		dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
 		dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
-		dress('rctrp_rep_name', htmlspecialchars(UTF8::lessenAsEm($comment['name'], $ctx->getProperty('skin.recentCommentLength'))), $view);
+		dress('rctrp_rep_name', htmlspecialchars(Utils_Unicode::lessenAsEm($comment['name'], $ctx->getProperty('skin.recentCommentLength'))), $view);
 		$recentCommentView .= $view;
 	}
 	if(!is_null($commentView)) {
@@ -1119,9 +1119,9 @@ function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template =
 		$view = "$template";
 		dress('rcttb_rep_link', $ctx->getProperty('uri.blog')."/".($ctx->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($trackback['slogan'],$ctx->getProperty('service.useEncodedURL')) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
 		
-		dress('rcttb_rep_desc', htmlspecialchars(UTF8::lessenAsEm($trackback['subject'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
+		dress('rcttb_rep_desc', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['subject'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
 		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
-		dress('rcttb_rep_name', htmlspecialchars(UTF8::lessenAsEm($trackback['site'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
+		dress('rcttb_rep_name', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['site'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
 		$recentTrackbackView .= $view;
 	}
 	if(!is_null($trackbackView)) {
@@ -1166,7 +1166,7 @@ function getLinksView($links, $template) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $view );
 		}
-		dress('link_site', fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength')))), $view);
+		dress('link_site', fireEvent('ViewLink', htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength')))), $view);
 		print $view;
 	}
 	$view = ob_get_contents();
@@ -1198,7 +1198,7 @@ function getLinkListView($links) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
 		}
-		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength')))).'</a></li>'.CRLF;
+		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength')))).'</a></li>'.CRLF;
 	}
 	if(!empty($categoryName)) $buffer .= '</ul>'.CRLF.'</li>'.CRLF;
 	$buffer .='</ul>'.CRLF;

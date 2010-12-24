@@ -10,7 +10,7 @@ foreach ($commentList['items'] as $item) {
 	dress('rplist_rep_regdate', fireEvent('ViewCommentListDate', Timestamp::format3($item['written']), $item['written']), $itemView);
 	dress('rplist_rep_link', $context->getProperty('uri.blog')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($item['slogan'],$service['useEncodedURL']) : $item['entry'])."#comment{$item['id']}", $itemView);
 	dress('rplist_rep_name', htmlspecialchars($item['name']), $itemView);
-	dress('rplist_rep_body', htmlspecialchars(fireEvent('ViewCommentListTitle', UTF8::lessenAsEm($item['comment'], 70))), $itemView);
+	dress('rplist_rep_body', htmlspecialchars(fireEvent('ViewCommentListTitle', Utils_Unicode::lessenAsEm($item['comment'], 70))), $itemView);
 	$itemsView .= $itemView;
 }
 dress('rplist_rep', $itemsView, $commentListView);

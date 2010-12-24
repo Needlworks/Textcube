@@ -67,7 +67,7 @@ function printFilterBox($mode, $title) {
 			$className .= ($id == sizeof($filtersList) - 1) ? ' last-line' : '';
 ?>
 												<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-			<td class="content"><span title="<?php echo htmlspecialchars($entity);?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($entity, 26));?></span></td>
+			<td class="content"><span title="<?php echo htmlspecialchars($entity);?>"><?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($entity, 26));?></span></td>
 													<td class="delete"><a class="delete-button button" href="#void" onclick="deleteFilter(parentNode.parentNode,'<?php echo $mode;?>', '<?php echo urlencode($entity);?>',<?php echo $value[0];?>); return false;" title="<?php echo _t('이 필터링을 제거합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a></td>
 												</tr>
 <?php

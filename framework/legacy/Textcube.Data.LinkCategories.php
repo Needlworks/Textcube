@@ -154,7 +154,7 @@ class LinkCategories {
 			$query->setQualifier('priority', 'equals', $this->priority);
 		}
 		if (isset($this->name)) {
-			$this->url = UTF8::lessenAsEncoding(trim($this->name), 255);
+			$this->url = Utils_Unicode::lessenAsEncoding(trim($this->name), 255);
 			if (empty($this->name))
 				return $this->_error('name');
 			$query->setQualifier('name', 'equals', $this->name, true);

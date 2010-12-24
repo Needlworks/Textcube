@@ -176,7 +176,7 @@ class Filter {
 				$query->setQualifier('filtertype', 'equals', $this->type, false);
 		}
 		if (isset($this->pattern)) {
-			$this->pattern = UTF8::lessenAsEncoding(trim($this->pattern), 255);
+			$this->pattern = Utils_Unicode::lessenAsEncoding(trim($this->pattern), 255);
 			if (empty($this->pattern))
 				return $this->_error('pattern');
 			if (isset($this->id))

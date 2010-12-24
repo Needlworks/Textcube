@@ -189,7 +189,7 @@ class User {
 
 		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		foreach($blogList as $info){
-			$title = UTF8::lessen(Setting::getBlogSettingGlobal("title",null,$info,true), 30);
+			$title = Utils_Unicode::lessen(Setting::getBlogSettingGlobal("title",null,$info,true), 30);
 			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
 			$changeBlogView .= str_repeat(TAB,7).'<option value="' . $info . '"';
 			if($info == $blogid) $changeBlogView .= ' selected="selected"';
@@ -201,9 +201,9 @@ class User {
 
 	static function changeSetting($userid, $email, $nickname) {
 		global $database;
-		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
-		$email = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
-		$nickname = POD::escapeString(UTF8::lessenAsEncoding($nickname, 32));
+		if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return false;
+		$email = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
+		$nickname = POD::escapeString(Utils_Unicode::lessenAsEncoding($nickname, 32));
 		if ($email == '' || $nickname == '') {
 			return false;
 		}
@@ -226,10 +226,10 @@ class User {
 		if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
 			return 2;
 
-		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
+		if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return 11;
 
-		$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
-		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
+		$loginid = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
+		$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 32));
 		$password = User::__generatePassword();
 		$authtoken = md5(User::__generatePassword());
 

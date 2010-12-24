@@ -232,7 +232,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 		$content = htmlspecialchars($row['comment']);
 		$item = array(
 			'id' => $row['id'], 
-			'title' => RSSMessage(UTF8::lessen($row['title'],30).' : '._textf('%1님의 댓글',$row['name'])), 
+			'title' => RSSMessage(Utils_Unicode::lessen($row['title'],30).' : '._textf('%1님의 댓글',$row['name'])), 
 			'link' => $commentURL.$row['id'], 
 			'categories' => array(), 'description' => RSSMessage($content), 
 			'author' => RSSMessage($row['name']), 

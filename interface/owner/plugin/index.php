@@ -461,13 +461,13 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 						htmlspecialchars($link),
 						htmlspecialchars($title),
 						_t('판번호') . ' ' . $version,
-						$listType == 'listview' ? $title : htmlspecialchars(UTF8::lessenAsEm($title, 20))
+						$listType == 'listview' ? $title : htmlspecialchars(Utils_Unicode::lessenAsEm($title, 20))
 					);
 	} else {
 		echo sprintf('<span title="%s - %s">%s</span>',
 						htmlspecialchars($title),
 						_t('판번호') . ' ' . $version,
-						$listType == 'listview' ? $title : htmlspecialchars(UTF8::lessenAsEm($title, 20))
+						$listType == 'listview' ? $title : htmlspecialchars(Utils_Unicode::lessenAsEm($title, 20))
 					);
 	}
 ?>

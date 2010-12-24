@@ -90,7 +90,7 @@ function FM_default_format($blogid, $id, $content, $keywords = array(), $useAbso
 }
 
 function FM_default_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
-	if (!$blog['publishWholeOnRSS']) $content = UTF8::lessen(removeAllTags(stripHTML($content)), 255);
+	if (!$blog['publishWholeOnRSS']) $content = Utils_Unicode::lessen(removeAllTags(stripHTML($content)), 255);
 	return $content;
 }
 ?>

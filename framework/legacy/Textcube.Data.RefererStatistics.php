@@ -103,7 +103,7 @@ class RefererStatistics {
 	
 	function _buildQuery() {
 		global $database;
-		$this->host = UTF8::lessenAsEncoding(trim($this->host), 64);
+		$this->host = Utils_Unicode::lessenAsEncoding(trim($this->host), 64);
 		if (empty($this->host))
 			return $this->_error('host');
 		$query = DBModel::getInstance();

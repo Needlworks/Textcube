@@ -191,7 +191,7 @@ function printIphoneLinksView($links) {
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
 			continue;
 		}
-		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(UTF8::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength'))) . '</a></li>'.CRLF;
+		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength'))) . '</a></li>'.CRLF;
 	}
 	return $linkView;
 }

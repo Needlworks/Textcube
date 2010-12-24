@@ -324,7 +324,7 @@ function api_addAttachment($blogid,$parent,$file) {
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=UTF8::lessenAsEncoding($attachment['label'],64);
+	$label=Utils_Unicode::lessenAsEncoding($attachment['label'],64);
 	
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
@@ -391,7 +391,7 @@ function api_addAttachment($blogid,$parent,$file) {
 		$attachment['height']=0;
 	}
 	
-	$attachment['mime']=UTF8::lessenAsEncoding($attachment['mime'], 32);
+	$attachment['mime']=Utils_Unicode::lessenAsEncoding($attachment['mime'], 32);
 	
 	@chmod($attachment['path'],0666);
 	
@@ -454,7 +454,7 @@ function api_update_attaches_with_replace($entryId) {
 		
 	if( $newFiles ) {
 		foreach($newFiles as $newfile) {
-			$newfile['label'] = UTF8::lessenAsEncoding($newfile['label'], 64);
+			$newfile['label'] = Utils_Unicode::lessenAsEncoding($newfile['label'], 64);
 			$pool->reset('Attachments');
 			$pool->setQualifier('blogid','eq',getBlogId());
 			$pool->setQualifier('parent','eq',$entryId);

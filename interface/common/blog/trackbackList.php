@@ -10,7 +10,7 @@ foreach ($trackbackList['items'] as $item) {
 	dress('tblist_rep_regdate', fireEvent('ViewTrackbackListDate', Timestamp::format3($item['written'])), $itemView);
 	dress('tblist_rep_link', $context->getProperty('uri.blog')."/".($context->getProperty('blog.useSloganOnPost'( ? "entry/".URL::encode($item['slogan'],$context->getProperty('service.useEncodedURL')) : $item['entry'])."#trackback{$item['id']}", $itemView);
 	dress('tblist_rep_subject', htmlspecialchars($item['subject']), $itemView);
-	dress('tblist_rep_body', htmlspecialchars(fireEvent('ViewTrackbackListTitle', UTF8::lessenAsEm($item['excerpt'], 100))), $itemView);
+	dress('tblist_rep_body', htmlspecialchars(fireEvent('ViewTrackbackListTitle', Utils_Unicode::lessenAsEm($item['excerpt'], 100))), $itemView);
 	$itemsView .= $itemView;
 }
 dress('tblist_rep', $itemsView, $trackbackListView);

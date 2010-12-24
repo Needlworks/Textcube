@@ -140,7 +140,7 @@ function pretty_dress($view)
 		$itemsView = '';
 		foreach ($notices as $notice) {
 			$itemView = $recentNoticeItem;
-			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $context->getProperty('skin.recentNoticeLength')), $notice['id'])), $itemView);
+			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', Utils_Unicode::lessenAsEm($notice['title'], $context->getProperty('skin.recentNoticeLength')), $notice['id'])), $itemView);
 			dress('notice_rep_link', $context->getProperty('uri.blog')."/notice/{$notice['id']}", $itemView);
 			$itemsView .= $itemView;
 		}

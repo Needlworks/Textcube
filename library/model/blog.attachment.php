@@ -156,8 +156,8 @@ function addAttachment($blogid, $parent, $file) {
 	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
 		return false;
 	@chmod($attachment['path'], 0666);
-	$attachment['label'] = UTF8::lessenAsEncoding($attachment['label'], 64);
-	$attachment['mime']  = UTF8::lessenAsEncoding($attachment['mime'], 32);
+	$attachment['label'] = Utils_Unicode::lessenAsEncoding($attachment['label'], 64);
+	$attachment['mime']  = Utils_Unicode::lessenAsEncoding($attachment['mime'], 32);
 
 
 	$pool->reset('Attachments');

@@ -79,7 +79,7 @@ class PluginSetting {
 		$query = DBModel::getInstance();
 		$query->reset('Plugins');
 		$query->setQualifier('blogid', 'equals', getBlogId());
-		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 255), true);
+		$query->setQualifier('name', 'equals', Utils_Unicode::lessenAsEncoding($this->name, 255), true);
 		if (isset($this->setting))
 			$query->setAttribute('settings', $this->setting, true);
 		return $query;

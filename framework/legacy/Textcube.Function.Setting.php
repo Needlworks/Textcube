@@ -313,7 +313,7 @@ class Setting {
 	function setServiceSetting($name, $value, $global = null) {
 		global $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
-		$name = UTF8::lessenAsEncoding($name, 32);
+		$name = Utils_Unicode::lessenAsEncoding($name, 32);
 		$query = DBModel::getInstance();
 		$query->reset('ServiceSettings');
 		$query->setQualifier('name', 'equals', $name, true);

@@ -73,9 +73,9 @@ class ServiceSetting {
 	function _buildQuery() {
 		$query = DBModel::getInstance();
 		$query->reset('ServiceSettings');
-		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 32), false);
+		$query->setQualifier('name', 'equals', Utils_Unicode::lessenAsEncoding($this->name, 32), false);
 		if (isset($this->value))
-			$query->setAttribute('value', UTF8::lessenAsEncoding($this->value, 255), true);
+			$query->setAttribute('value', Utils_Unicode::lessenAsEncoding($this->value, 255), true);
 		return $query;
 	}
 

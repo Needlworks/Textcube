@@ -473,9 +473,9 @@ function addComment($blogid, & $comment) {
 	}
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
-	$comment['name'] = UTF8::lessenAsEncoding($comment['name'], 80);
-	$comment['homepage'] = UTF8::lessenAsEncoding($comment['homepage'], 80);
-	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
+	$comment['name'] = Utils_Unicode::lessenAsEncoding($comment['name'], 80);
+	$comment['homepage'] = Utils_Unicode::lessenAsEncoding($comment['homepage'], 80);
+	$comment['comment'] = Utils_Unicode::lessenAsEncoding($comment['comment'], 65535);
 
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
 		$pool->reset('Entries');
@@ -570,9 +570,9 @@ function updateComment($blogid, $comment, $password) {
 	$pool = DBModel::getInstance();
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
-	$comment['name'] = UTF8::lessenAsEncoding($comment['name'], 80);
-	$comment['homepage'] = UTF8::lessenAsEncoding($comment['homepage'], 80);
-	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
+	$comment['name'] = Utils_Unicode::lessenAsEncoding($comment['name'], 80);
+	$comment['homepage'] = Utils_Unicode::lessenAsEncoding($comment['homepage'], 80);
+	$comment['comment'] = Utils_Unicode::lessenAsEncoding($comment['comment'], 65535);
 
 	$guestcomment = false;
 	$pool->reset('Comments');
@@ -974,26 +974,26 @@ function receiveNotifiedComment($post) {
 
 	$pool = DBModel::getInstance();
 	$blogid = getBlogId();
-	$title          = UTF8::lessenAsEncoding($post['s_home_title'], 255);
-	$name           = UTF8::lessenAsEncoding($post['s_name'], 255);
+	$title          = Utils_Unicode::lessenAsEncoding($post['s_home_title'], 255);
+	$name           = Utils_Unicode::lessenAsEncoding($post['s_name'], 255);
 	$entryId        = $post['s_no'];
-	$homepage       = UTF8::lessenAsEncoding($post['url'], 255);
+	$homepage       = Utils_Unicode::lessenAsEncoding($post['url'], 255);
 	$entryurl       = $post['s_url'];
 	$entrytitle     = $post['s_post_title'];
 	$parent_id      = $post['r1_no'];
-	$parent_name    = UTF8::lessenAsEncoding($post['r1_name'], 80);
+	$parent_name    = Utils_Unicode::lessenAsEncoding($post['r1_name'], 80);
 	$parent_parent  = $post['r1_rno'];
-	$parent_homepage = UTF8::lessenAsEncoding($post['r1_homepage'], 80);
+	$parent_homepage = Utils_Unicode::lessenAsEncoding($post['r1_homepage'], 80);
 	$parent_written = $post['r1_regdate'];
 	$parent_comment = $post['r1_body'];
-	$parent_url     = UTF8::lessenAsEncoding($post['r1_url'], 255);
+	$parent_url     = Utils_Unicode::lessenAsEncoding($post['r1_url'], 255);
 	$child_id       = $post['r2_no'];
-	$child_name     = UTF8::lessenAsEncoding($post['r2_name'], 80);
+	$child_name     = Utils_Unicode::lessenAsEncoding($post['r2_name'], 80);
 	$child_parent   = $post['r2_rno'];
-	$child_homepage = UTF8::lessenAsEncoding($post['r2_homepage'], 80);
+	$child_homepage = Utils_Unicode::lessenAsEncoding($post['r2_homepage'], 80);
 	$child_written  = $post['r2_regdate'];
 	$child_comment  = $post['r2_body'];
-	$child_url      = UTF8::lessenAsEncoding($post['r2_url'],255);
+	$child_url      = Utils_Unicode::lessenAsEncoding($post['r2_url'],255);
 	
 	$pool->reset('CommentsNotifiedSiteInfo');
 	$pool->setQualifier('url','eq',$homepage);

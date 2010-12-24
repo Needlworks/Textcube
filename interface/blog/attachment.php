@@ -22,7 +22,7 @@ if (!empty($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
 }
 
 ini_set('zlib.output_compression', 'off');
-header('Content-Disposition: attachment; filename="' . rawurlencode(UTF8::bring($attachment['label'])) . '"');
+header('Content-Disposition: attachment; filename="' . rawurlencode(Utils_Unicode::bring($attachment['label'])) . '"');
 header('Content-Transfer-Encoding: binary');
 header('Last-Modified: ' . Timestamp::getRFC1123GMT($fstat['mtime']));
 header('Content-Length: ' . $fstat['size']);

@@ -175,16 +175,16 @@ final class Validator {
 						break;
 					case 'url':
 					case 'string':
-						if (!UTF8::validate($value)) {
-							$value = UTF8::bring($value);
-							if (!UTF8::validate($value))
+						if (!Utils_Unicode::validate($value)) {
+							$value = Utils_Unicode::bring($value);
+							if (!Utils_Unicode::validate($value))
 								return false;
 						}
-						$value = $array[$key] = UTF8::correct($value);
+						$value = $array[$key] = Utils_Unicode::correct($value);
 
-						if (isset($rule[1]) && (UTF8::length($value) < $rule[1]))
+						if (isset($rule[1]) && (Utils_Unicode::length($value) < $rule[1]))
 							return false;
-						if (isset($rule[2]) && (UTF8::length($value) > $rule[2]))
+						if (isset($rule[2]) && (Utils_Unicode::length($value) > $rule[2]))
 							return false;
 						break;
 					case 'list':
@@ -771,13 +771,13 @@ class XMLStruct {
 	}
 
 	function open($xml, $encoding = null, $nsenabled = false) {
-		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !UTF8::validate($xml)) {
+		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !Utils_Unicode::validate($xml)) {
 			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
 				$encoding = $matches[1];
 				$xml = preg_replace('/^(<\?xml[^<]*\s+encoding=)["\']?[\w-]+["\']?/', '$1"utf-8"', $xml, 1);
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
-				$xml = UTF8::bring($xml, $encoding);
+				$xml = Utils_Unicode::bring($xml, $encoding);
 				if (is_null($xml)) {
 					$this->error = XML_ERROR_UNKNOWN_ENCODING;
 					return false;
@@ -849,7 +849,7 @@ class XMLStruct {
 						}
 					}
 				}
-				if (!xml_parse($p, UTF8::correct($chunk, '?'), false)) {
+				if (!xml_parse($p, Utils_Unicode::correct($chunk, '?'), false)) {
 					fclose($fp);
 					return $this->_error($p);
 				}

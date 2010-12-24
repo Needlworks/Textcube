@@ -492,7 +492,7 @@ function getDefaultCenterPanel($mapping) {
 			$latestEntry = getEntry($blogid,$latestEntryId);
 			if(!is_null($latestEntry)) {
 ?>
-												<li class="modifyPost"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
+												<li class="modifyPost"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(Utils_Unicode::lessenAsEm($latestEntry['title'],10)));?></a></li>
 <?php
 			}
 		}
@@ -609,7 +609,7 @@ function getDefaultCenterPanel($mapping) {
 			}
 ?>
 														</td>
-														<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],20));?></a></td>
+														<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($item['title'],20));?></a></td>
 													</tr>
 <?php
 		}
@@ -663,7 +663,7 @@ function getDefaultCenterPanel($mapping) {
 ?>
 													<tr>
 														<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
-														<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],35));?></a></td>
+														<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($item['title'],35));?></a></td>
 													</tr>
 <?php
 			}

@@ -184,13 +184,13 @@ class CommentNotified {
 			$query->setAttribute('replier', $this->commenter);
 		}
 		if (isset($this->name)) {
-			$this->name = UTF8::lessenAsEncoding(trim($this->name), 80);
+			$this->name = Utils_Unicode::lessenAsEncoding(trim($this->name), 80);
 			if (empty($this->name))
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name, true);
 		}
 		if (isset($this->homepage) && !empty($this->homepage)) {
-			$this->homepage = UTF8::lessenAsEncoding(trim($this->homepage), 80);
+			$this->homepage = Utils_Unicode::lessenAsEncoding(trim($this->homepage), 80);
 			$query->setAttribute('homepage', $this->homepage, true);
 		}
 		if (isset($this->ip) && !empty($this->ip)) {
@@ -235,7 +235,7 @@ class CommentNotified {
 			$query->setAttribute('url', $this->url, true);
 		}
 		if (isset($this->entrytitle)) {
-			$this->entrytitle = UTF8::lessenAsEncoding(trim($this->entrytitle), 255);
+			$this->entrytitle = Utils_Unicode::lessenAsEncoding(trim($this->entrytitle), 255);
 			if (empty($this->entrytitle))
 				return $this->_error('entrytitle');
 			$query->setAttribute('entrytitle', $this->entrytitle, true);
@@ -246,7 +246,7 @@ class CommentNotified {
 			$query->setAttribute('entryurl', $this->entryurl, true);
 		}
 		if (isset($this->password)) {
-			$this->password = UTF8::lessenAsEncoding($this->password, 32);
+			$this->password = Utils_Unicode::lessenAsEncoding($this->password, 32);
 			$query->setAttribute('password', $this->password, true);
 			$this->password = null;
 		}

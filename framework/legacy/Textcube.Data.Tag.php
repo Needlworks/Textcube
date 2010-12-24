@@ -30,7 +30,7 @@ class Tag {
 
 		$taglist = array();
 		foreach($tmptaglist as $tag) {
-			$tag = POD::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
+			$tag = POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($tag), 255));
 			array_push($taglist, $tag);
 		}
 		// step 1. Insert Tags
@@ -95,7 +95,7 @@ class Tag {
 			$tmpoldtaglist = array();
 		$oldtaglist = array();
 		foreach($tmpoldtaglist as $tag) {
-			$tag = POD::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
+			$tag = POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($tag), 255));
 			array_push($oldtaglist, $tag);
 		}
 		$deletedTagList = array_diff($oldtaglist, $taglist);

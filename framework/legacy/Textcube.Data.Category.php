@@ -88,7 +88,7 @@ class Category {
 		if (isset($this->parent) && !is_numeric($this->parent))
 			return $this->_error('parent');
 		
-		$this->name = UTF8::lessenAsEncoding(trim($this->name), 127);
+		$this->name = Utils_Unicode::lessenAsEncoding(trim($this->name), 127);
 
 		if (empty($this->name))
 			return $this->_error('name');
@@ -103,7 +103,7 @@ class Category {
 				return $this->_error('parent');
 			}
 			$query->setQualifier('parent', 'equals', $this->parent);
-			$query->setAttribute('label', UTF8::lessenAsEncoding($parentLabel . '/' . $this->name, 255), true);
+			$query->setAttribute('label', Utils_Unicode::lessenAsEncoding($parentLabel . '/' . $this->name, 255), true);
 		} else {
 			$query->setQualifier('parent', null);
 			$query->setAttribute('label', $this->name, true);

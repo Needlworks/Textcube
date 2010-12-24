@@ -53,8 +53,8 @@ function toggleLinkVisibility($blogid, $id, $visibility) {
 
 function addLink($blogid, $link) {
 	global $database;
-	$name = UTF8::lessenAsEncoding(trim($link['name']), 255);
-	$url = UTF8::lessenAsEncoding(trim($link['url']), 255);
+	$name = Utils_Unicode::lessenAsEncoding(trim($link['name']), 255);
+	$url = Utils_Unicode::lessenAsEncoding(trim($link['url']), 255);
 
 	if (empty($name) || empty($url))
 		return - 1;
@@ -62,7 +62,7 @@ function addLink($blogid, $link) {
 	$name = POD::escapeString($name);
 	$url = POD::escapeString($url);
 	if(isset($link['newCategory']) && !empty($link['newCategory'])) { // Add new category information
-		$newCategoryTitle = POD::escapeString(UTF8::lessenAsEncoding(trim($link['newCategory']), 255));
+		$newCategoryTitle = POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($link['newCategory']), 255));
 		$newCategoryId = addLinkCategory($blogid, $newCategoryTitle);
 		if(!empty($newCategoryId)) $category = $newCategoryId;
 		else return false;
@@ -71,7 +71,7 @@ function addLink($blogid, $link) {
 	$id = getMaxIdOfLink() + 1;
 	$pid = getMaxPidOfLink() + 1;
 
-	$rss = isset($link['rss']) ? POD::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
+	$rss = isset($link['rss']) ? POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($link['rss']), 255)) : '';
 	if (POD::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
 		return 1;
 	if (POD::execute("INSERT INTO {$database['prefix']}Links (pid, blogid, id,category,name,url,rss,written) VALUES ($pid, $blogid, $id, $category, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
@@ -83,8 +83,8 @@ function addLink($blogid, $link) {
 function updateLink($blogid, $link) {
 	global $database;
 	$id = $link['id'];
-	$name = UTF8::lessenAsEncoding(trim($link['name']), 255);
-	$url = UTF8::lessenAsEncoding(trim($link['url']), 255);
+	$name = Utils_Unicode::lessenAsEncoding(trim($link['name']), 255);
+	$url = Utils_Unicode::lessenAsEncoding(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return false;
 	$category = (isset($link['category'])) ? $link['category'] : 0;
@@ -92,12 +92,12 @@ function updateLink($blogid, $link) {
 	$url = POD::escapeString($url);
 
 	if(isset($link['newCategory']) && !empty($link['newCategory'])) { // Add new category information
-		$newCategoryTitle = UTF8::lessenAsEncoding(trim($link['newCategory']), 255);
+		$newCategoryTitle = Utils_Unicode::lessenAsEncoding(trim($link['newCategory']), 255);
 		$newCategoryId = addLinkCategory($blogid, $newCategoryTitle);
 		if(!empty($newCategoryId)) $category = $newCategoryId;
 	}
 
-	$rss = isset($link['rss']) ? POD::escapeString(UTF8::lessenAsEncoding(trim($link['rss']), 255)) : '';
+	$rss = isset($link['rss']) ? POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($link['rss']), 255)) : '';
 	$result = POD::execute("UPDATE {$database['prefix']}Links
 				SET
 					category = $category,

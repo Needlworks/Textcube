@@ -8,7 +8,7 @@ requireView('iphoneView');
 if(empty($suri['id'])) {
 	printIphoneHtmlHeader();
 ?>	
-	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($context->getProperty('blog.title'),30));?>" selected="true">
+	<ul id="home" title="<?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($context->getProperty('blog.title'),30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getBlogOwnerName($blogid);
 		$blogLogo = !empty($context->getProperty('blog.logo')) ? printIphoneImageResizer($blogid, $context->getProperty('blog.logo'), 80) : "{$context->getProperty('service.path')}/resources/style/iphone/image/textcube_logo.png";

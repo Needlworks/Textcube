@@ -178,13 +178,13 @@ class Attachment {
 			$query->setAttribute('parent', $this->parent);
 		}
 		if (isset($this->label)) {
-			$this->label = UTF8::lessenAsEncoding(trim($this->label), 64);
+			$this->label = Utils_Unicode::lessenAsEncoding(trim($this->label), 64);
 			if (empty($this->label))
 				return $this->_error('label');
 			$query->setAttribute('label', $this->label, true);
 		}
 		if (isset($this->mime)) {
-			$this->mime = UTF8::lessenAsEncoding(trim($this->mime), 32);
+			$this->mime = Utils_Unicode::lessenAsEncoding(trim($this->mime), 32);
 			$query->setAttribute('mime', $this->mime, true);
 		}
 		if (isset($this->size)) {

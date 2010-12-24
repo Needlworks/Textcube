@@ -397,7 +397,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if(isset($tabsClass['received'])) {
 ?>
-												<span class="excerpt"><?php echo UTF8::lessenAsEm(htmlspecialchars($trackback['excerpt']),40);?></span>
+												<span class="excerpt"><?php echo Utils_Unicode::lessenAsEm(htmlspecialchars($trackback['excerpt']),40);?></span>
 <?php
 	}
 ?>

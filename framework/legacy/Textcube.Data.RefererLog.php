@@ -85,19 +85,19 @@ class RefererLog {
 		$query->reset('RefererLogs');
 		$query->setQualifier('blogid', 'equals', getBlogId());
 		if (isset($this->host)) {
-			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);
+			$this->host = Utils_Unicode::lessenAsEncoding(trim($url['host']), 64);
 			if (empty($this->host))
 				return $this->_error('host');
 			$query->setAttribute('host', $this->host, true);
 		}
 		if (isset($this->url)) {
-			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
+			$this->url = Utils_Unicode::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$url = parse_url($this->url);
 			if (empty($url['host']))
 				return $this->_error('url');
-			$this->host = UTF8::lessenAsEncoding(trim($url['host']), 64);
+			$this->host = Utils_Unicode::lessenAsEncoding(trim($url['host']), 64);
 			$query->setAttribute('host', $this->host, true);
 			if (empty($url['scheme']))
 				$this->url = 'http://' . $this->url;
