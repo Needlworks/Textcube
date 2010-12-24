@@ -1198,7 +1198,7 @@ function getLinkListView($links) {
 		if( $showXfn && $home && $link['xfn'] ) {
 			addXfnAttrs( htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
 		}
-		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $ctx->getProperty('skin,linkLength')))).'</a></li>'.CRLF;
+		$buffer .= '<li><a href="'.htmlspecialchars($link['url']).'">'.fireEvent('ViewLink', htmlspecialchars(UTF8::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength')))).'</a></li>'.CRLF;
 	}
 	if(!empty($categoryName)) $buffer .= '</ul>'.CRLF.'</li>'.CRLF;
 	$buffer .='</ul>'.CRLF;

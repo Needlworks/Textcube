@@ -154,16 +154,16 @@ class Utils_Unicode {
 	static function lessenAsEncoding($str, $length = 255, $tail = '...') {
 		$context = Model_Context::getInstance();
 		if($context->getProperty('database.utf8') != true)
-			return UTF8::lessen($str, $length, $tail);
+			return Utils_Unicode::lessen($str, $length, $tail);
 		else
-			return UTF8::lessenAsByte($str, $length, $tail);
+			return Utils_Unicode::lessenAsByte($str, $length, $tail);
 	}
 
 	static function lessen($str, $chars, $tail = '...') {		
-		if (UTF8::length($str) <= $chars)
+		if (Utils_Unicode::length($str) <= $chars)
 			$tail = '';
 		else
-			$chars -= UTF8::length($tail);
+			$chars -= Utils_Unicode::length($tail);
 		if(function_exists('mb_substr')) {
 			return mb_substr($str,0,$chars,'utf-8').$tail;	
 		}
@@ -229,7 +229,7 @@ class Utils_Unicode {
 		if(function_exists('mb_strimwidth')) {
 			return mb_strimwidth($str,0,$ems-1,$tail,'utf-8');	
 		}
-		if (UTF8::lengthAsEm($str) <= $ems)
+		if (Utils_Unicode::lengthAsEm($str) <= $ems)
 			$tail = '';
 		else
 			$ems -= strlen($tail);
