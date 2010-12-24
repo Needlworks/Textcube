@@ -511,7 +511,7 @@ function printIphoneCommentView($entryId, $page = null, $mode = null) {
 					(<?php echo Timestamp::format5($commentSubItem['written']);?>)
 				</span>
 				<span class="right">
-					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>">DEL</a><br />
+					<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/delete/<?php echo $commentSubItem['id'];?>">DEL</a><br />
 				</span>
 			</li>
 			<li class="body">
@@ -542,7 +542,6 @@ function printIphoneRecentTrackbackView($page) {
 }
 
 function printIphoneCommentFormView($entryId, $title, $actionURL) {
-	global $blogURL;
 ?>
 
 	<form method="get" action="<?php echo $ctx->getProperty('uri.blog');?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">

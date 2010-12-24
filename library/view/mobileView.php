@@ -22,8 +22,8 @@ function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 }
 
 function printMobileHtmlHeader($title = '') {
-	global $blogURL, $blog;
-	$title = htmlspecialchars($blog['title']) . ' :: ' . $title;
+	$ctx = Model_Context::getInstance();
+	$title = htmlspecialchars($ctx->getProperty('blog.title')) . ' :: ' . $title;
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
 	<head>
@@ -32,7 +32,7 @@ function printMobileHtmlHeader($title = '') {
 	</head>
 	<body>
 		<div id="header">
-			<h1><a href="<?php echo $blogURL;?>" accesskey="0"><?php echo htmlspecialchars($blog['title']);?></a></h1>
+			<h1><a href="<?php echo $ctx->getProperty('uri.blog');?>" accesskey="0"><?php echo htmlspecialchars($blog['title']);?></a></h1>
 		</div>
 		<hr />
 <?php
@@ -48,7 +48,7 @@ function printMobileHtmlFooter() {
 }
 
 function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null) {
-	global $suri, $blogURL;
+	$ctx = Model_Context::getInstance();
 ?>
 <hr />
 <div id="navigation">
@@ -56,32 +56,32 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/<?php echo $paging['prev'];?>" accesskey="1"><?php echo _text('이전 글 보기');?></a></li>
+		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/<?php echo $paging['prev'];?>" accesskey="1"><?php echo _text('이전 글 보기');?></a></li>
 		<?php
 	}
 	if (isset($paging['next'])) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/<?php echo $paging['next'];?>" accesskey="2"><?php echo _text('다음 글 보기');?></a></li>
+		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/<?php echo $paging['next'];?>" accesskey="2"><?php echo _text('다음 글 보기');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>	
-		<li><a href="<?php echo $blogURL;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('포스트보기');?></a></li>
+		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('포스트보기');?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
+		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
 		<?php
 	}
 	if ($jumpToTrackback) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('걸린 글 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
+		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('걸린 글 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
 		<?php
 	}
-	if ($suri['directive'] != '/m/pannels') {
+	if ($ctx->getProperty('suri.directive') != '/m/pannels') {
 ?>
-		<li><a href="<?php echo $blogURL;?>/pannels/<?php echo $entry['id'];?>" accesskey="6"><?php echo _text('다른 메뉴보기');?></a></li>
+		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/pannels/<?php echo $entry['id'];?>" accesskey="6"><?php echo _text('다른 메뉴보기');?></a></li>
 		<?php
 	}
 ?>
@@ -115,7 +115,7 @@ function printMobileTrackbackView($entryId) {
 }
 
 function printMobileCommentView($entryId) {
-	global $blogURL;
+	$ctx = Model_Context::getInstance();
 	$comments = getComments($entryId);
 	if (count($comments) == 0) {
 ?>
@@ -130,8 +130,8 @@ function printMobileCommentView($entryId) {
 		<div class="comment">
 			<div class="name">
 				<?php if(!empty($commentItem['name'])) { ?><strong><?php echo htmlspecialchars($commentItem['name']);?></strong><?php } ?>
-				<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>">RE</a>
-				<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>">DEL</a><br />
+				<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/comment/<?php echo $commentItem['id'];?>">RE</a>
+				<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/delete/<?php echo $commentItem['id'];?>">DEL</a><br />
 				(<?php echo Timestamp::format5($commentItem['written']);?>)
 			</div>
 			<div class="body"><?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?></div>
@@ -141,7 +141,7 @@ function printMobileCommentView($entryId) {
 			<blockquote>
 				<div class="name">
 					<?php if(!empty($commentSubItem['name'])) { ?><strong><?php echo htmlspecialchars($commentSubItem['name']);?></strong><?php } ?>
-					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>">DEL</a><br />
+					<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/delete/<?php echo $commentSubItem['id'];?>">DEL</a><br />
 					(<?php echo Timestamp::format5($commentSubItem['written']);?>)
 				</div>
 				<div class="body"><?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?></div>
