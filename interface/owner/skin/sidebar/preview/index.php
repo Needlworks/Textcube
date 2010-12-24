@@ -195,7 +195,7 @@ if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebar
 		$sidbarPluginIndex = $target['id']['plugin'] . '/' . $target['id']['handler'];
 			
 		if (array_key_exists($sidbarPluginIndex,  $sidebarPluginArray)) {
-			$pluginURL = "{$context->getProperty('service.path')}/plugins/{$target['id']['plugin']}";
+			$pluginURL = $context->getProperty('service.path')."/plugins/{$target['id']['plugin']}";
 			include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
 			if(!empty( $configMappings[$target['id']['plugin']]['config'] ))
 				$configVal = getCurrentSetting($target['id']['plugin']);

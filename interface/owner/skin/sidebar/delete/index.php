@@ -12,10 +12,12 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
-$skin = new Skin($skinSetting['skin']);
+$ctx = Model_Context::getInstance();
+
+$skin = new Skin($ctx->getProperty('skin.skin'));
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = deleteSidebarModuleOrderData(getSidebarModuleOrderData($sidebarCount), $_GET['sidebarNumber'], $_GET['modulePos']);
-setBlogSetting("sidebarOrder", serialize($sidebarOrder));
+Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrder));
 $skin->purgeCache();
 
 //Respond::ResultPage(0);

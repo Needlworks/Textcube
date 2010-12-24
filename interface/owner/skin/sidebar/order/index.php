@@ -19,7 +19,9 @@ require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
-$skin = new Skin($skinSetting['skin']);
+$ctx = Model_Context::getInstance();
+
+$skin = new Skin($ctx->getProperty('skin.skin'));
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 
@@ -37,7 +39,7 @@ if ($_REQUEST['targetPos'] < 0 || $_REQUEST['targetPos'] > count($sidebarOrder[$
 	$temp = array_splice($sidebarOrder[$_REQUEST['sidebarNumber']], $_REQUEST['modulePos'], 1);
 	array_splice($sidebarOrder[$_REQUEST['targetSidebarNumber']], $_REQUEST['targetPos'], 0, $temp);
 	
-	setBlogSetting("sidebarOrder", serialize($sidebarOrder));
+	Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrder));
 	$skin->purgeCache();
 }
 

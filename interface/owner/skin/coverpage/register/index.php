@@ -17,7 +17,9 @@ requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 requireStrictRoute();
 
-$skin = new Skin($skinSetting['skin']);
+$ctx = Model_Context::getInstance();
+
+$skin = new Skin($ctx->getProperty('skin.skin'));
 $coverpageCount = count($skin->coverpageBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);
@@ -28,7 +30,7 @@ if (($module !== false) && (count($module) == 3) &&
 	$coverpageOrder = getCoverpageModuleOrderData($coverpageCount);
 	$coverpageOrder = addCoverpageModuleOrderData($coverpageOrder, $_REQUEST['coverpageNumber'], $_REQUEST['modulePos'], $module);
 	if (!is_null($coverpageOrder)) {
-		setBlogSetting("coverpageOrder", serialize($coverpageOrder));
+		Setting::setBlogSettingGlobal("coverpageOrder", serialize($coverpageOrder));
 	}
 }
 

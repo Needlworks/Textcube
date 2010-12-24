@@ -69,12 +69,11 @@ function getBlogContentForSideBar()
 	$pd_authorList = User::getUserNamesOfBlog($blogid);
 }
 
-
 function pretty_dress($view)
 {
 	global $blogid, $blog, $database, $service, $stats, $skinSetting;
-	
-	/* local static */
+	$context = Model_Context::getInstance();
+	// local static 
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
 	
@@ -94,15 +93,15 @@ function pretty_dress($view)
 	dress('blogger', htmlspecialchars($writer), $view);
 	dress('title', htmlspecialchars($context->getProperty('blog.title')), $view);
 	dress('desc', htmlspecialchars($context->getProperty('blog.description')), $view);
-	if (!empty($context->getProperty('blog.logo')))
-		dress('image', "{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}", $view);
+	if ($context->getProperty('blog.logo') == null)
+		dress('image', $context->getProperty('service.path')."/attach/$blogid/".$context->getProperty('blog.logo'), $view);
 	else
-		dress('image', "{$context->getProperty('service.path')}/resources/image/spacer.gif", $view);
-	dress('blog_link', "$context->getProperty('uri.blog')/", $view);
-	dress('keylog_link', "$context->getProperty('uri.blog')/keylog", $view);
-	dress('localog_link', "$context->getProperty('uri.blog')/location", $view);
-	dress('taglog_link', "$context->getProperty('uri.blog')/tag", $view);
-	dress('guestbook_link', "$context->getProperty('uri.blog')/guestbook", $view);
+		dress('image', $context->getProperty('service.path')."/resources/image/spacer.gif", $view);
+	dress('blog_link', $context->getProperty('uri.blog')."/", $view);
+	dress('keylog_link', $context->getProperty('uri.blog')."/keylog", $view);
+	dress('localog_link', $context->getProperty('uri.blog')."/location", $view);
+	dress('taglog_link', $context->getProperty('uri.blog')."/tag", $view);
+	dress('guestbook_link', $context->getProperty('uri.blog')."/guestbook", $view);
 	
 	list($view, $searchView) = Skin::cutSkinTag($view, 'search');
 	dress('search_name', 'search', $searchView);
@@ -133,7 +132,7 @@ function pretty_dress($view)
 		foreach ($notices as $notice) {
 			$itemView = $recentNoticeItem;
 			dress('notice_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', UTF8::lessenAsEm($notice['title'], $skinSetting['recentNoticeLength']), $notice['id'])), $itemView);
-			dress('notice_rep_link', "$context->getProperty('uri.blog')/notice/{$notice['id']}", $itemView);
+			dress('notice_rep_link', $context->getProperty('uri.blog')."/notice/{$notice['id']}", $itemView);
 			$itemsView .= $itemView;
 		}
 		dress('rct_notice_rep', $itemsView, $noticeView);
@@ -150,8 +149,8 @@ function pretty_dress($view)
 	dress('rcttb_rep', getRecentTrackbacksView($pd_recentTrackback, $recentTrackback), $view);
 	list($view, $s_link_rep) = Skin::cutSkinTag($view, 'link_rep');	
 	dress('link_rep', getLinksView($pd_link, $s_link_rep), $view);
-	dress('rss_url', "$context->getProperty('uri.blog')/rss", $view);
-	dress('owner_url', "$context->getProperty('uri.blog')/owner", $view);
+	dress('rss_url', $context->getProperty('uri.blog')."/rss", $view);
+	dress('owner_url', $context->getProperty('uri.blog')."/owner", $view);
 	dress('textcube_name', TEXTCUBE_NAME, $view);
 	dress('textcube_version', TEXTCUBE_VERSION, $view);
 	
@@ -162,6 +161,7 @@ function pretty_dress($view)
 	
 	return correctSidebarImage($view);
 }
+
 ?>
 
 <?php
@@ -176,7 +176,13 @@ $viewMode3 = '';
 $previewMode = '';
 
 if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
-	$defaultModeSelected = true;
+	$safeModeSelected = true;
+	$viewMode = '&amp;viewMode=safe';
+	$viewMode2 = '?viewMode=safe';
+	$viewMode3 = '&viewMode=safe';
+	$previewMode = '&safe';	
+	$_REQUEST['safe'] = true;
+	//$defaultModeSelected = true;
 } else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 	$safeModeSelected = true;
 	$viewMode = '&amp;viewMode=safe';
@@ -190,7 +196,7 @@ if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 	$viewMode3 = '&viewMode=tag';
 	$previewMode = '&tag';
 } else if ((isset($_REQUEST['safe'])) && (isset($_REQUEST['tag']))) {
-		$initModeSelected = true;
+	$initModeSelected = true;
 }
 
 $sidebarPluginArray = array();

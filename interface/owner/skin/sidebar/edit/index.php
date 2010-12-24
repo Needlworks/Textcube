@@ -18,8 +18,9 @@ require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
+$ctx = Model_Context::getInstance();
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Skin($ctx->getProperty('skin.skin'));
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 

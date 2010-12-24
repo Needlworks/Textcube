@@ -253,7 +253,7 @@ if ($service['type'] != 'single') {
 									if(document.getElementById('frontpageEntry').checked) frontPage = 'entry';
 									else if(document.getElementById('frontpageCover').checked) frontPage = 'cover';
 									else frontPage = 'line';
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/setting/blog/frontpage/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/setting/blog/frontpage/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}

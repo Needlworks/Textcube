@@ -23,8 +23,9 @@ requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 
 requireStrictRoute();
+$ctx = Model_Context::getInstance();
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Skin($ctx->getProperty('skin.skin'));
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrderData = getCoverpageModuleOrderData($coverpageCount);
 

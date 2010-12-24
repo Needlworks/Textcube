@@ -8,7 +8,9 @@ $ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 requireLibrary('blog.skin');
-$skin = new Skin($skinSetting['skin']);
+$ctx = Model_Context::getInstance();
+
+$skin = new Skin($ctx->getProperty('skin.skin'));
 
 if (!array_key_exists('viewMode', $_REQUEST)) $_REQUEST['viewMode'] = '';
 else $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];

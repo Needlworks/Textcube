@@ -177,7 +177,13 @@ $viewMode3 = '';
 $previewMode = '';
 
 if ((!isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
-	$defaultModeSelected = true;
+//	$defaultModeSelected = true;
+	$safeModeSelected = true;
+	$viewMode = '&amp;viewMode=safe';
+	$viewMode2 = '?viewMode=safe';
+	$viewMode3 = '&viewMode=safe';
+	$previewMode = '&safe';
+	$_REQUEST['safe'] = true;
 } else if ((isset($_REQUEST['safe'])) && (!isset($_REQUEST['tag']))) {
 	$safeModeSelected = true;
 	$viewMode = '&amp;viewMode=safe';

@@ -1050,10 +1050,14 @@ function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = 
 	return $noticeView;
 }
 
-function getRecentEntriesView($entries, $entriesView = null, $template) {
+function getRecentEntriesView($entries, $entriesView = null, $template = null) {
 	$ctx = Model_Context::getInstance();
 	global $contentContainer;
 	$recentEntriesView = '';
+	if (is_null($template)) {
+		$skin = new Skin($ctx->getProperty('skin.skin'));
+		$template = $skin->recentEntryItem;
+	}
 	foreach ($entries as $entry) {
 		$view = "$template";
 		$permalink = $ctx->getProperty('uri.blog')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($entry['slogan'],$ctx->getProperty('service.useEncodedURL')) : $entry['id']);
@@ -1077,10 +1081,14 @@ function getRecentEntriesView($entries, $entriesView = null, $template) {
 	return $recentEntriesView;
 }
 
-function getRecentCommentsView($comments, $commentView = null, $template) {
+function getRecentCommentsView($comments, $commentView = null, $template = null) {
 	$ctx = Model_Context::getInstance();
 	global $contentContainer;
 	$recentCommentView = '';
+	if (is_null($template)) {
+		$skin = new Skin($ctx->getProperty('skin.skin'));
+		$template = $skin->recentCommentItem;
+	}
 	foreach ($comments as $comment) {
 		$view = "$template";
 		dress('rctrp_rep_link', $ctx->getProperty('uri.blog')."/".($ctx->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($comment['slogan'],$ctx->getProperty('service.useEncodedURL')) : $comment['entry'])."?commentId=".$comment['id']."#comment{$comment['id']}", $view);
@@ -1100,9 +1108,13 @@ function getRecentCommentsView($comments, $commentView = null, $template) {
 	return $recentCommentView;
 }
 
-function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template) {
+function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template = null) {
 	$ctx = Model_Context::getInstance();
 	$recentTrackbackView = '';
+	if (is_null($template)) {
+		$skin = new Skin($ctx->getProperty('skin.skin'));
+		$template = $skin->recentTrackbackItem;
+	}
 	foreach ($trackbacks as $trackback) {
 		$view = "$template";
 		dress('rcttb_rep_link', $ctx->getProperty('uri.blog')."/".($ctx->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($trackback['slogan'],$ctx->getProperty('service.useEncodedURL')) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
@@ -1136,7 +1148,7 @@ function addXfnAttrs( $url, $xfn, & $view ) {
 
 function getLinksView($links, $template) {
 	$ctx = Model_Context::getInstance();
-	if( rtrim( $suri['url'], '/' ) == $ctx->getProperty('uri.path')) {
+	if( rtrim( $ctx->getProperty('suri.url'), '/' ) == $ctx->getProperty('uri.path')) {
 		$home = true;
 	} else {
 		$home = false;

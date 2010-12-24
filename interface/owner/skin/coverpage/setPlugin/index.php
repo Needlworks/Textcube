@@ -73,7 +73,7 @@ foreach($parameters as $item)
 $eventName = 'ModifyPluginParam_'.$plugin;
 fireEvent($eventName,null,$plugin);
 $coverpageOrderData[$coverpageNumber][$modulePos]['parameters'] = $newParameter;
-setBlogSetting("coverpageOrder", serialize($coverpageOrderData));
+Setting::setBlogSetting("coverpageOrder", serialize($coverpageOrderData));
 
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];

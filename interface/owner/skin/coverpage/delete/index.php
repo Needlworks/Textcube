@@ -18,7 +18,7 @@ requireModel("blog.coverpage");
 $skin = new Skin($skinSetting['skin']);
 $coverpageCount = count($skin->coverpageBasicModules);
 $coverpageOrder = deleteCoverpageModuleOrderData(getCoverpageModuleOrderData($coverpageCount), $_GET['coverpageNumber'], $_GET['modulePos']);
-setBlogSetting("coverpageOrder", serialize($coverpageOrder));
+Setting::setBlogSettingGlobal("coverpageOrder", serialize($coverpageOrder));
 
 //Respond::PrintResult(array('error' => 0));
 if ($_GET['viewMode'] != '') $_GET['viewMode'] = '?' . $_GET['viewMode'];
