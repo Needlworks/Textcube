@@ -428,7 +428,7 @@ function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	}
 	if ($ctx->getProperty('suri.directive') != '/i') {
 ?>
-		<li class="last_no_line"><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
+		<li class="last_no_line"><a href="<?php echo $ctx->getProperty('uri.blog');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
 		<?php
 	}
 ?>

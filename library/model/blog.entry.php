@@ -425,11 +425,10 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 }
 
 function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $categoryId = false) {
-	global $database;
-	global $blogURL;
 	requireModel('blog.category');
 	$entries = array();
-	$paging = $isNotice ? Paging::init("$blogURL/notice", '/') : Paging::init("$blogURL/entry", '/');
+	$ctx = Model_Context::getInstance();
+	$paging = $isNotice ? Paging::init($ctx->getProperty('uri.blog')."/notice", '/') : Paging::init($ctx->getProperty('uri.blog')."/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
@@ -445,15 +444,15 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 		}
 	}
 	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel 
-		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		FROM ".$ctx->getProperty('database.prefix')."Entries e 
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
 			AND e.slogan = '".POD::escapeString($slogan)."' 
 			AND e.draft = 0 $visibility AND $category");
 
 	$result = POD::query("SELECT e.id, e.slogan 
-		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		FROM ".$ctx->getProperty('database.prefix')."Entries e 
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
 			AND e.draft = 0 $visibility AND $category 
 		ORDER BY e.published DESC");
@@ -503,13 +502,13 @@ function getSlogan($slogan) {
 }
 
 function getRecentEntries($blogid) {
-	global $database, $skinSetting;
+	$ctx = Model_Context::getInstance();
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$result = POD::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
-		FROM {$database['prefix']}Entries e
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
+		ORDER BY published DESC LIMIT ".$ctx->getProperty('skin.entriesOnRecent'));
 	while ($entry = POD::fetch($result)) {
 		array_push($entries, $entry);
 	}
