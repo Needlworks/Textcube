@@ -1256,7 +1256,11 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 						$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
 						continue;
 					}
-				
+
+					$attributes = preg_match('/(style="cursor: pointer;" onclick="open_img\((.[^"]+)\); return false;")/si', $images[$i][2], $matches) ? ' '.$matches[1] : '';
+					$attributes .= preg_match('/(alt="(.[^"]+)")/si', $images[$i][2], $matches) ? ' '.$matches[1] : ' alt="resize"';
+					$attributes .= preg_match('/(title="(.[^"]+)")/si', $images[$i][2], $matches) ? $title = ' '.$matches[1] : '';
+
 					$tempFileName = array_pop(explode('/', $images[$i][1]));
 					if (preg_match('/(.+)\.w(\d{1,})\-h(\d{1,})\.(.+)/', $tempFileName, $matches))
 						$tempFileName = $matches[1].'.'.$matches[4];
@@ -1268,7 +1272,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 						if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
 							$image = Utils_Image::getInstance();
 							list($tempImageURL, $tempImageWidth, $tempImageHeight, $tempImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-							$newImage = "<img src=\"{$tempImageURL}\" width=\"{$tempImageWidth}\" height=\"{$tempImageHeight}\" alt=\"resize_image\" />";
+							$newImage = "<img src=\"{$tempImageURL}\" width=\"{$tempImageWidth}\" height=\"{$tempImageHeight}\"{$attributes}/>";
 						}	
 					}
 					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
