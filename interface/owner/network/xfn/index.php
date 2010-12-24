@@ -56,7 +56,7 @@ if (sizeof($links) > 0) {
 for ($i=0; $i<sizeof($links); $i++) {
 	$link = $links[$i];
 	$xfn = $link['xfn'];
-	$xfn_items = split( ' ', $xfn );
+	$xfn_items = preg_split( '/ /', $xfn );
 
 	$check_me         =
 	$check_met        =
