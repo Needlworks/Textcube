@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-function login($loginid, $password, $preKnownPassword = null) {
+function login($loginid, $password, $expires = null) {
 	$ctx = Model_Context::getInstance();
 	$loginid = POD::escapeString($loginid);
 	$blogid = getBlogId();
@@ -20,7 +20,7 @@ function login($loginid, $password, $preKnownPassword = null) {
 	}
 
 	if( in_array( "group.writers", Acl::getCurrentPrivilege() ) ) {
-		Session::authorize($blogid, $userid);
+		Session::authorize($blogid, $userid, $expires);
 	}
 	return true;
 }

@@ -43,9 +43,10 @@ final class Session {
 	}
 	
 	public static function write($id, $data) {
+		return true;  // Bypass.
 		if(is_null(self::$mc)) self::initialize();		
 		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,0,self::$context->getProperty('service.timeout'));
-		return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",$data,0,self::$context->getProperty('service.timeout'));
+		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",$data,0,self::$context->getProperty('service.timeout'));
 	}
 	
 	public static function destroy($id, $setCookie = false) {
@@ -126,19 +127,23 @@ final class Session {
 		}
 	}
 	
-	public static function authorize($blogid, $userid) {
+	public static function authorize($blogid, $userid, $expires = null) {
 		if(is_null(self::$mc)) self::initialize();
 		$session_cookie_path = "/";
 		if( !is_null(self::$context->getProperty('service.session_cookie_path') )) {
 			$session_cookie_path = self::$context->getProperty('service.session_cookie_path');
 		}
 		if (!is_numeric($userid)) return false;
+		$current = Timestamp::getUNIXtime();
+		if (is_null($expires)) {
+			$expires = $current+self::$context->getProperty('service.timeout');
+		}
 		if( $userid != SESSION_OPENID_USERID ) { /* OpenID session : -1 */
 			$_SESSION['userid'] = $userid;
 			$id = session_id();
 			if( self::isGuestOpenIDSession($id) ) {
 				//$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
-				$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,self::$context->getProperty('service.timeout'));
+				$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,$expires);
 				if ($result) {
 					return true;
 				}
@@ -148,7 +153,7 @@ final class Session {
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			//$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
-			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,self::$context->getProperty('service.timeout'));
+			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,$expires);
 			
 			if ($result) {
 				@session_id($id);

@@ -16,6 +16,7 @@ $IV = array(
 		'serviceurl'             => array('string'),
 		'skin'                   => array('string'),
 		'timeout'                => array('int'),
+		'autologinTimeout'       => array('int'),
 		'timezone'               => array('string'),
 		'useDebugMode'           => array('int',0,1),
 		'useEncodedURL'          => array('int',0,1),
@@ -37,6 +38,7 @@ requireModel('blog.service');
 requireStrictRoute();
 $matchTable = array(
 	'timeout' => 'timeout',
+	'autologinTimeout' => 'autologinTimeout',
 	'skin'    =>'skin',
 	'language'=>'language',
 	'timezone'=>'timezone',

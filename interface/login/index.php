@@ -18,6 +18,7 @@ $IV = array(
 		'refererURI' => array('string', 'default' => null),
 		'reset' => array(array('on') ,'default' => null),
 		'save' => array('any', 'default' => null),
+		'autologin' => array(array('on') ,'default' => null),
 		'teamblogPatch' => array('string', 'default' => null)
 	)
 );
@@ -51,7 +52,11 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	else 
 		$message = _text('권한이 없습니다.');
 } else if (!empty($_POST['loginid']) && !empty($_POST['password'])) {
-	$isLogin = login($_POST['loginid'],$_POST['password']);
+	if(!empty($_POST['autologin'])) {
+		$isLogin = login($_POST['loginid'],$_POST['password'],(Timestamp::getUNIXtime() + $context->getProperty('service.autologinTimeout')));
+	} else {
+		$isLogin = login($_POST['loginid'],$_POST['password'],(Timestamp::getUNIXtime() + $context->getProperty('service.timeout')));		
+	}
 	if (!$isLogin) {
 		$message = _text('아이디 또는 비밀번호가 틀렸습니다.');
 		if (!doesHaveMembership() && isLoginId(getBlogId(), $_POST['loginid'])){
@@ -183,6 +188,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
 								<dd>
 									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"');?> /><label for="save"><?php echo _text('이메일 저장');?></label></div>
+									<div id="permanent-login"><input type="checkbox" id="autologin" class="checkbox" name="autologin" /><label for="autologin"><?php echo _text('로그인 상태 유지');?></label></div>
 									<?php echo ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /><label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '');?>
 								</dd>
 							</dl>

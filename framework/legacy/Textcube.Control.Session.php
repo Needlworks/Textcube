@@ -70,7 +70,7 @@ final class Session {
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
 		$current = Timestamp::getUNIXtime();
 		$result = self::query('count',"UPDATE ".self::$context->getProperty('database.prefix')."Sessions 
-				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = ".$current.", expires = ".($current+self::$context->getProperty('service.timeout'))." 
+				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = ".$current." 
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		if ($result && $result == 1) {
 			@POD::commit();
@@ -189,9 +189,9 @@ final class Session {
 		}
 	}
 	
-	public static function authorize($blogid, $userid) {
+	public static function authorize($blogid, $userid, $expires = null) {
 		if(is_null(self::$context)) self::initialize();
-
+		if(!Validator::isInteger($expires,0)) return false;
 		$session_cookie_path = "/";
 		$t = self::$context->getProperty('service.session_cookie_path');
 		if( !empty($t)) {
@@ -199,6 +199,10 @@ final class Session {
 		}
 		if (!is_numeric($userid))
 			return false;
+		$current = Timestamp::getUNIXtime();
+		if (is_null($expires)) {
+			$expires = $current+self::$context->getProperty('service.timeout');
+		}
 		if( $userid != SESSION_OPENID_USERID ) { /* OpenID session : -1 */
 			$_SESSION['userid'] = $userid;
 			$id = session_id();
@@ -214,10 +218,9 @@ final class Session {
 			return true;
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$current = Timestamp::getUNIXtime();
 			$result = self::query('execute',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions
 				(id, address, userid, created, updated, expires) 
-				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, $current, $current,".($current+self::$context->getProperty('service.timeout')).")");
+				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, $current, $current, $expires)");
 			if ($result) {
 				@session_id($id);
 				//$service['domain'] = $service['domain'].':8888';
