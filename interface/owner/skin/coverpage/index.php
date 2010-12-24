@@ -33,7 +33,7 @@ function correctCoverpageImage( $subject ) {
 } 
 
 function correctImagePath($match ) {
-	global $skinSetting, $context->getProperty('uri.service');
+	$context = Model_Context::getInstance();
 	$pathArr = explode( "/" , $match[1]);
 	if( false === $pathArr  ) 
 		return $match[0];
@@ -46,12 +46,12 @@ function correctImagePath($match ) {
 		return $match[0] ; // full url의 경우 스킵
 	if( $pathArr[0] != '.'  && $pathArr[0] != '..' ) 
 		return $match[0] ; //첫 디렉토리가 현재 디렉토리가 아닌경우 스킵
-	return str_replace( $match[1],  $context->getProperty('uri.service') . "/skin/{$skinSetting['skin']}/" . $match[1], $match[0]);
+	return str_replace( $match[1],  $context->getProperty('uri.service') . "/skin/".$context->getProperty('skin.skin')."/" . $match[1], $match[0]);
 }
 
 function getBlogContentForCoverPage()
 {
-	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
+	global $blogid, $blog, $service, $stats, $skinSetting;
 
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
@@ -75,8 +75,8 @@ function getBlogContentForCoverPage()
 
 function pretty_dress($view)
 {
-	global $blogid, $blog, $context->getProperty('uri.blog'), $database, $service, $stats, $skinSetting;
-	
+	global $blogid, $blog, $database, $service, $stats, $skinSetting;
+	$context = Model_Context::getInstance();	
 	/* local static */
 	global $pd_category, $pd_categoryXhtml, $pd_archive, $pd_calendar, $pd_tags, $pd_notices, $pd_recentEntry;
 	global $pd_recentComment, $pd_recentTrackback, $pd_link, $pd_authorList;
@@ -97,15 +97,15 @@ function pretty_dress($view)
 	dress('blogger', htmlspecialchars($writer), $view);
 	dress('title', htmlspecialchars($context->getProperty('blog.title')), $view);
 	dress('desc', htmlspecialchars($context->getProperty('blog.description')), $view);
-	if (!empty($context->getProperty('blog.logo')))
-		dress('image', "{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}", $view);
+	if ($context->getProperty('blog.logo') != null)
+		dress('image', $context->getProperty('service.path')."/attach/$blogid/".$context->getProperty('blog.logo'), $view);
 	else
-		dress('image', "{$context->getProperty('service.path')}/resources/image/spacer.gif", $view);
-	dress('blog_link', "$context->getProperty('uri.blog')/", $view);
-	dress('keylog_link', "$context->getProperty('uri.blog')/keylog", $view);
-	dress('localog_link', "$context->getProperty('uri.blog')/location", $view);
-	dress('taglog_link', "$context->getProperty('uri.blog')/tag", $view);
-	dress('guestbook_link', "$context->getProperty('uri.blog')/guestbook", $view);
+		dress('image', $context->getProperty('service.path')."/resources/image/spacer.gif", $view);
+	dress('blog_link', $context->getProperty('uri.blog')."/", $view);
+	dress('keylog_link', $context->getProperty('uri.blog')."/keylog", $view);
+	dress('localog_link', $context->getProperty('uri.blog')."/location", $view);
+	dress('taglog_link', $context->getProperty('uri.blog')."/tag", $view);
+	dress('guestbook_link', $context->getProperty('uri.blog')."/guestbook", $view);
 	
 	list($view, $searchView) = Skin::cutSkinTag($view, 'search');
 	dress('search_name', 'search', $searchView);
