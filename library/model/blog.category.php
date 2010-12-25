@@ -157,6 +157,12 @@ function getPrivateCategoryExclusionQuery($blogid) {
 	return '  AND e.category NOT IN ('.implode(',',$exclusionList).')';
 }
 
+function getPrivateCategoryExclusionId($blogid) {
+	$exclusionList = getCategoryVisibilityList($blogid, 'private');
+	if(empty($exclusionList)) return null;
+	return '  AND e.category NOT IN ('.implode(',',$exclusionList).')';
+}
+
 function getCategoriesSkin() {
 	$ctx = Model_Context::getInstance();
 	$setting = Setting::getSkinSettings(getBlogId());

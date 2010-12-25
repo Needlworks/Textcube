@@ -110,6 +110,17 @@ function getFeedItemByEntries($entries) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."?commentInput=true#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
 		}
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
+		
+		if(!isset($row['author']) && isset($row['userid'])) {
+			$row['author'] = User::getName($row['userid']);
+		}
+		if(!isset($row['categoryName'])) {
+			if(isset($row['categoryLabel'])) {
+				$row['categoryName'] = $row['categoryLabel'];
+			} else {
+				$row['categoryName'] = null;	
+			}	
+		}
 		$item = array(
 			'id' => $row['id'], 
 			'title' => RSSMessage($row['title']), 
@@ -509,18 +520,25 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($blog['publishEolinSyncOnRSS'] ? '2' : '3')." AND e.category IN (".implode(',',$categoryIds).")
 		ORDER BY e.published 
 		DESC LIMIT {$blog['entriesOnRSS']}");
+	return getFeedWithEntries($blogid, $entries, _textf('%1 카테고리 글 목록',$categoryTitle), $mode);
+}
+
+function getFeedWithEntries($blogid, $entries, $title = null, $mode = 'rss'){
+	$context = Model_Context::getInstance();
+	$channel = array();
+	$channel = initializeRSSchannel($blogid);
 	if (!$entries)
 		$entries = array();
 	$channel['items'] = getFeedItemByEntries($entries);
-	if(!is_null($categoryTitle)) {
-		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 카테고리 글 목록',htmlspecialchars($categoryTitle)));
+	if(!is_null($title)) {// TODO : change blog.title to support other blogs
+		$channel['title'] = RSSMessage($context->getProperty('blog.title'). ': '.htmlspecialchars($title));
 	}
 	$rss = array('channel' => $channel);
-
 	if($mode == 'rss') return publishRSS($blogid, $rss);
 	else if($mode == 'atom') return publishATOM($blogid, $rss);
 	return false;
 }
+
 function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 	$context = Model_Context::getInstance();
 	$blogTitle = $context->getProperty('blog.title');

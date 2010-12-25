@@ -4,7 +4,21 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getEntriesTotalCount($blogid) {
+/*	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	if(!doesHaveOwnership()) {
+		$pool->setQualifier('visibility','b',0);
+		$exList = getCategoryVisibilityList($blogid, 'private');
+		if (!empty($exList)) {
+			$pool->setQualifier('category','hasnoneof',$exList);
+		}
+	}
+	if(doesHaveOwnership() && !Acl::check('group.editors')) {
+		
+	}*/
 	global $database;
+	
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$count =  POD::queryCell("SELECT COUNT(id) 
@@ -119,7 +133,7 @@ function getEntryAttributes($blogid, $id, $attributeNames) {
 }
 
 function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
-	global $database, $suri, $folderURL, $blog;
+	$ctx = Model_Context::getInstance();
 	if ($category === null)
 		return array();
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
@@ -138,10 +152,10 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
-			FROM {$database['prefix']}Entries e 
+			FROM ".$ctx->getProperty('database.prefix')."Entries e 
 			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 			ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']));
+	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!$ctx->getProperty('blog.useSloganOnCategory',true) && $ctx->getProperty('suri.id',null) != null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
 }
 
 function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
@@ -161,6 +175,8 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
 }
 
 function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
+	$ctx = Model_Context::getInstance();
+	
 	global $database, $suri, $folderURL;
 	if ($tag === null)
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
@@ -177,6 +193,8 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 
 function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 	global $database, $suri, $folderURL;
+	$ctx = Model_Context::getInstance();
+	
 	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
@@ -188,34 +206,34 @@ function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 }
 
 function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
-	global $database, $suri, $folderURL;
+	$ctx = Model_Context::getInstance();
 	$search = escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
-		FROM {$database['prefix']}Entries e
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
 		ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 }
 
 function getEntriesWithPaging($blogid, $page, $count) {
-	global $database;
+	$ctx = Model_Context::getInstance();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.*, c.label AS categoryLabel 
-		FROM {$database['prefix']}Entries e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
+		FROM ".$ctx->getProperty('database.prefix')."Entries e 
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count);
 }
 
 function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $countItem) {
-	global $database, $folderURL, $suri;
+	$ctx = Model_Context::getInstance();
 	if ($category === null)
-		return Paging::fetch(null, $page, $count, "$folderURL/{$suri['value']}");
+		return Paging::fetch(null, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	if ($category > 0) {
@@ -228,11 +246,11 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	}
 	$sql = "SELECT e.*, c.label AS categoryLabel 
-		FROM {$database['prefix']}Entries AS e 
-		LEFT JOIN {$database['prefix']}Categories c ON e.category = c.id AND e.blogid = c.blogid 
+		FROM ".$ctx->getProperty('database.prefix')."Entries AS e 
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.category = c.id AND e.blogid = c.blogid 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
 		ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, "$folderURL/".((!getBlogSetting('useSloganOnCategory',true) && isset($suri['id'])) ? $suri['id'] : $suri['value']),"?page=",$countItem);
+	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!$ctx->getProperty('blog.useSloganOnCategory',true) && $ctx->getProperty('suri.id',null)!= null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')),"?page=",$countItem);
 }
 
 function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = null) {
@@ -262,7 +280,7 @@ function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null)
 	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
-function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
+function getEntriesWithPagingByPeriod($blogid, $period, $page, $count, $countItem = null) {
 	global $database, $folderURL, $suri;
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
@@ -272,7 +290,7 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count) {
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
 		ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}", $countItem);
 }
 
 function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countItem) {
