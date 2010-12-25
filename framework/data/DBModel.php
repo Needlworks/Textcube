@@ -31,10 +31,11 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.3.1.20100912 */
+/* 1.4.0.20101224 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
-	protected $_relations, $_filters, $_order, $_limitation, $table, $id, $_reservedFields, $_isReserved, $param;
+	protected $_relations, $_glues, $_filters, $_order, $_limitation, $table, $id, $_querysetCount;
+	protected $_reservedFields, $_isReserved, $param;
 	
 	function __construct($table = null) {
 		$this->context = Model_Context::getInstance();
@@ -52,11 +53,13 @@ class DBModel extends Singleton implements IModel {
 		$this->_attributes = array();
 		$this->_qualifiers = array();
 		$this->_relations = array();
+		$this->_glues = array();
 		$this->_filters = array();
 		$this->_order = array();	
 		$this->_limit = array();
 		$this->_isReserved = array();
 		$this->param = array();	
+		$this->_querysetCount = 0;
 		$this->_reservedFields    = POD::reservedFieldNames();
 		$this->_reservedFunctions = POD::reservedFunctionNames();
 		if(!empty($this->_reservedFields)) {
@@ -113,70 +116,9 @@ class DBModel extends Singleton implements IModel {
 	}
 	
 	public function setQualifier($name, $condition, $value = null, $escape = false) {
-	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
-		if (is_null($condition)) {
-			$this->_qualifiers[$name] = null;
-//			$this->_qualifiers[$name] = 'NULL';
-		} else {
-			switch(strtolower($condition)) {
-				case 'equals':
-				case 'eq':
-					$this->_relations[$name] = '=';
-					break;
-				case 'not':
-				case 'neq':
-					$this->_relations[$name] = '<>';
-					break;
-				case 'bigger':
-				case 'b':
-				case '>':
-					$this->_relations[$name] = '>';
-					break;
-				case 'smaller':
-				case 's':
-				case '<':
-					$this->_relations[$name] = '<';
-					break;
-				case 'bigger or same':
-				case 'beq':
-				case '>=':
-					$this->_relations[$name] = '>=';
-					break;
-				case 'smaller or same':
-				case 'seq':
-				case '<=':
-					$this->_relations[$name] = '<=';
-					break;
-				case 'hasoneof':
-				case 'hasanyof':
-				case 'hasnoneof':
-					$this->_relations[$name] = strtolower($condition);
-					break;
-				case 'like':
-				default:
-					$this->_relations[$name] = 'LIKE';
-			}
-			if(in_array($name,array('blogid','userid'))) {	// Legacy support for plugins (with string-type blogid)
-				$this->_qualifiers[$name] = intval($value);
-			} else if (in_array(strtolower($condition),array('hasoneof','hasanyof','hasnoneof'))) {
-				if($escape !== false) {
-					$escapedCandidates = array();
-					if(is_array($value)) {
-						foreach ($value as $c) {
-							array_push($escapedCandidates,'\''.POD::escapeString($c).'\'');
-						}
-					} else array_push($escapedCandidates,$value); 
-					$value = $escapedCandidates;
-				}
-				$this->_qualifiers[$name] = $value;
-			} else {
-				$this->_qualifiers[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? 
-					$value : ($escape ? '\'' . 
-						POD::escapeString(
-							(($this->_relations[$name] == 'LIKE') ? '%'.$value.'%' : $value)
-						) . 
-				'\'' : "'" . $value . "'"));
-			}
+		$result = $this->getQualifierModel($name, $condition, $value, $escape);
+		if($result) {
+			list($this->_qualifiers[$name],$this->_relations[$name]) = $result;
 		}
 	}
 	
@@ -185,6 +127,33 @@ class DBModel extends Singleton implements IModel {
 		unset($this->_relations[$name]);
 	}
 
+	public function setQualifierSet() {
+		$nargs = func_num_args();
+		if ($nargs % 2 != 1) return false;
+		$args = func_get_args();
+		$mqualifier = array();
+		$mrelation = array();
+		$mglue = array();
+		for($i = 0; $i < $nargs; $i += 1) {
+			if($i % 2 == 0) {
+				$name = $args[$i][0];
+				$condition = $args[$i][1];
+				$value = $args[$i][2];
+				if(isset($args[$i][3])) $escape = $args[$i][3];
+				else $escape = null;
+				list($qualifier, $relation) = $this->getQualifierModel($name, $condition, $value, $escape);
+				$mqualifier[$name] = $qualifier;
+				$mrelation[$name] = $relation;
+			} else {
+				$mglue[$name] = $args[$i];
+			}
+		}
+		$this->_qualifiers['QualifierSet'.$this->_querysetCount] = $mqualifier; 
+		$this->_relations['QualifierSet'.$this->_querysetCount] = $mrelation;
+		$this->_glues['QualifierSet'.$this->_querysetCount] = $mglue;
+		$this->_querysetCount += 1;
+	}
+	
 	public function setOrder($standard, $order = 'ASC') {
 		$this->_order['attribute'] = $standard;
 		if(!in_array(strtoupper($order), array('ASC','DESC'))) $order = 'ASC';
@@ -349,29 +318,47 @@ class DBModel extends Singleton implements IModel {
 		$clause = '';
 		
 		foreach ($this->_qualifiers as $name => $value) {
-			if(in_array($this->_relations[$name],array('hasoneof','hasanyof','hasnoneof'))) {
-				switch($this->_relations[$name]) {
-					case 'hasoneof':
-						$this->_relations[$name] = ' IN';
-						break; 
-					case 'hasanyof':
-					case 'hasnoneof':
-					default:
-						$this->_relations[$name] = ' NOT IN';
-						break;
+			if (strpos($name,'QualifierSet') === 0) {
+				$clause .= (strlen($clause) ? ' AND (' : '(');
+				foreach ($value as $qname => $qvalue) {
+					list($qrelations, $qvalue) = $this->_canonicalWhereClause($this->_relations[$name][$qname],$qvalue);
+					$clause .= (array_key_exists($qname, $this->_isReserved) ? '"'.$qname.'"' : $qname) .
+					' '.(is_null($qvalue) ? ' IS NULL' : $qrelations . ' ' . $qvalue)
+					.(isset($this->_glues[$name][$qname]) ? ' '.$this->_glues[$name][$qname].' ' : ''); 
 				}
-				if(is_array($value)) {
-					$value = implode(',',$value);
-				}
-				$value = '('.$value.')';	
-			}		
-			$clause .= (strlen($clause) ? ' AND ' : '') . 
-				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
-				' '.(is_null($value) ? ' IS NULL' : $this->_relations[$name] . ' ' . $value);
+				
+				$clause .= ')'; 
+			} else {
+				list($relations, $value) = $this->_canonicalWhereClause($this->_relations[$name],$value);
+				$clause .= (strlen($clause) ? ' AND ' : '') . 
+					(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
+					' '.(is_null($value) ? ' IS NULL' : $relations . ' ' . $value);
+			}
 		}
+		
 		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
 		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
+	}
+	
+	protected function _canonicalWhereClause($relations, $value) {
+		if(in_array($relations,array('hasoneof','hasanyof','hasnoneof'))) {
+			switch($relations) {
+				case 'hasoneof':
+					$relations = ' IN';
+					break; 
+				case 'hasanyof':
+				case 'hasnoneof':
+				default:
+					$relations = ' NOT IN';
+					break;
+			}
+			if(is_array($value)) {
+				$value = implode(',',$value);
+			}
+			$value = '('.$value.')';	
+		}
+		return array($relations, $value);		
 	}
 
 	protected function _treatReservedFields($fields) {
@@ -392,6 +379,74 @@ class DBModel extends Singleton implements IModel {
 			}
 		}
 		return $escapedFields;
+	}
+	
+	protected function getQualifierModel($name, $condition, $value = null, $escape = false) {
+	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
+		if (is_null($condition)) {
+			$qualifiers = null;
+		} else {
+			switch(strtolower($condition)) {
+				case 'equals':
+				case 'eq':
+					$relations = '=';
+					break;
+				case 'not':
+				case 'neq':
+					$relations = '<>';
+					break;
+				case 'bigger':
+				case 'b':
+				case '>':
+					$relations = '>';
+					break;
+				case 'smaller':
+				case 's':
+				case '<':
+					$relations = '<';
+					break;
+				case 'bigger or same':
+				case 'beq':
+				case '>=':
+					$relations = '>=';
+					break;
+				case 'smaller or same':
+				case 'seq':
+				case '<=':
+					$relations = '<=';
+					break;
+				case 'hasoneof':
+				case 'hasanyof':
+				case 'hasnoneof':
+					$relations = strtolower($condition);
+					break;
+				case 'like':
+				default:
+					$relations = 'LIKE';
+			}
+			if(in_array($name,array('blogid','userid'))) {	// Legacy support for plugins (with string-type blogid)
+				$qualifiers = intval($value);
+			} else if (in_array(strtolower($condition),array('hasoneof','hasanyof','hasnoneof'))) {
+				if($escape !== false) {
+					$escapedCandidates = array();
+					if(is_array($value)) {
+						foreach ($value as $c) {
+							array_push($escapedCandidates,'\''.POD::escapeString($c).'\'');
+						}
+					} else array_push($escapedCandidates,$value); 
+					$value = $escapedCandidates;
+				}
+				$qualifiers = $value;
+			} else {
+				$qualifiers = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? 
+					$value : ($escape ? '\'' . 
+						POD::escapeString(
+							(($relations == 'LIKE') ? '%'.$value.'%' : $value)
+						) . 
+				'\'' : "'" . $value . "'"));
+			}
+		}
+		return array($qualifiers, $relations);
 	}
 }
 ?>

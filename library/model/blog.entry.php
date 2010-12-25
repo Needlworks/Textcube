@@ -4,61 +4,63 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getEntriesTotalCount($blogid) {
-/*	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$pool->reset('Entries');
 	if(!doesHaveOwnership()) {
-		$pool->setQualifier('visibility','b',0);
 		$exList = getCategoryVisibilityList($blogid, 'private');
+		$pool = DBModel::getInstance();
+		$pool->reset('Entries');
+		$pool->setQualifier('visibility','b',0);
 		if (!empty($exList)) {
 			$pool->setQualifier('category','hasnoneof',$exList);
 		}
 	}
 	if(doesHaveOwnership() && !Acl::check('group.editors')) {
-		
-	}*/
-	global $database;
-	
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$count =  POD::queryCell("SELECT COUNT(id) 
-		FROM {$database['prefix']}Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0");
+		$pool->setQualifierSet(array('userid','eq',getUserId()),'OR',array('visibility','b',0));
+	}
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('draft','eq',0);
+	$pool->setQualifier('category','beq',0);
+	$count = $pool->getCount('id');
 	return ($count ? $count : 0);
 }
 
 function getNoticesTotalCount($blogid) {
-	global $database;
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	return POD::queryCell("SELECT COUNT(*) 
-		FROM {$database['prefix']}Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category = -2");
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	if (doesHaveOwnership()) $pool->setQualifier('visibility','b',0);
+	if(doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array('userid','eq',getUserId()),'OR',array('visibility','b',0));		
+	}
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('draft','eq',0);
+	$pool->setQualifier('category','eq',-2);
+	return $pool->getCount('*');
 }
 
 function getEntries($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
-	global $database;
+	$ctx = Model_Context::getInstance();
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (userid = '.getUserId().' OR visibility > 0)' : '';
-	return POD::queryAll("SELECT $attributes FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
+	return POD::queryAll("SELECT $attributes FROM ".$context->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
 }
 
 
 function getTemplates($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
-	global $database;
+	$pool = DBModel::getInstance();
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
 	return POD::queryAll("SELECT $attributes 
-			FROM {$database['prefix']}Entries 
+			FROM ".$context->getProperty('database.prefix')."Entries 
 			WHERE blogid = $blogid 
 				AND draft = 0 AND category = -4 $condition 
 				ORDER BY $order");
 }
 
 function getEntry($blogid, $id, $draft = false) {
-	global $database;
+	$pool = DBModel::getInstance();
 	requireModel('blog.attachment');
 	if($id == 0) {
 		if (!doesHaveOwnership())
@@ -83,7 +85,7 @@ function getEntry($blogid, $id, $draft = false) {
 				'slogan'     => '');
 	}
 	if ($draft) {
-		$entry = POD::queryRow("SELECT * FROM {$database['prefix']}Entries 
+		$entry = POD::queryRow("SELECT * FROM ".$context->getProperty('database.prefix')."Entries 
 				WHERE blogid = $blogid 
 					AND id = $id 
 					AND draft = 1");
@@ -95,13 +97,13 @@ function getEntry($blogid, $id, $draft = false) {
 			$entry['appointed'] = $entry['published'];
 		if ($id != 0)
 			$entry['published'] = POD::queryCell("SELECT published 
-					FROM {$database['prefix']}Entries 
+					FROM ".$context->getProperty('database.prefix')."Entries 
 					WHERE blogid = $blogid AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
 		$entry = POD::queryRow("SELECT * 
-				FROM {$database['prefix']}Entries 
+				FROM ".$context->getProperty('database.prefix')."Entries 
 				WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
 			return null;
@@ -112,24 +114,25 @@ function getEntry($blogid, $id, $draft = false) {
 }
 
 function getUserIdOfEntry($blogid, $id, $draft = false) {
-	global $database;
-	$result = POD::queryCell("SELECT userid 
-		FROM {$database['prefix']}Entries
-		WHERE 
-			blogid = $blogid AND id = $id");
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);	
+	$result = $pool->getCell('userid');
 	if(!empty($result)) return $result;
 	else return null;
 }
 
 function getEntryAttributes($blogid, $id, $attributeNames) {
-	global $database;
-	
 	if (stristr($attributeNames, "from") != false) // security check!
 		return null;
-	
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$attributes = POD::queryRow("SELECT $attributeNames FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
-	return $attributes;
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);	
+	$pool->setQualifier('draft','eq',0);	
+	if(!doesHaveOwnership()) $pool->setQualifier('visibility','b',0);
+	return $pool->getRow($attributeNames);
 }
 
 function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
@@ -159,7 +162,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 }
 
 function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
-	global $database, $suri, $folderURL;
+	$ctx = Model_Context::getInstance();
 	if ($author === null)
 		return array();
 	$userid = User::getUserIdByName($author);
@@ -168,10 +171,10 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
-			FROM {$database['prefix']}Entries e 
+			FROM ".$ctx->getProperty('database.prefix')."Entries e 
 			WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility 
 			ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
+	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 }
 
 function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {

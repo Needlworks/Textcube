@@ -1003,14 +1003,16 @@ function getCalendarView($calendar) {
 function getAuthorListView($authorInfo, $template) {
 	ob_start();
 	$ctx = Model_Context::getInstance();
-	foreach ($authorInfo as $user) {
-		$view = "$template";
-		$permalink = $ctx->getProperty('uri.blog')."/author/" . rawurlencode($user['name']);
-		dress('author_rep_link', $permalink, $view);
-		dress('author_rep_name', $user['name'], $view);
+	if(!empty($authorInfo)) {
+		foreach ($authorInfo as $user) {
+			$view = "$template";
+			$permalink = $ctx->getProperty('uri.blog')."/author/" . rawurlencode($user['name']);
+			dress('author_rep_link', $permalink, $view);
+			dress('author_rep_name', $user['name'], $view);
 //		dress('author_rep_post_count', $user['postcount'], $view);
 
-		print $view;
+			print $view;
+		}
 	}
 	$view = ob_get_contents();
 	ob_end_clean();
