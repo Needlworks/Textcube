@@ -14,6 +14,7 @@ if ($skinSetting['showListOnArchive'] != 0) {
 	$list = array('title' => getPeriodLabel($period), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	if($skinSetting['showListOnArchive'] == 1) $skinSetting['showListWithTotalEntries'] = true;
+	$listFeedURL = 'archive/'.$period;
 	require ROOT . '/interface/common/blog/list.php';
 }
 $entries = array();
