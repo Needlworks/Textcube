@@ -457,16 +457,7 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 		DESC LIMIT {$blog['entriesOnRSS']}");
 	if (!$entries)
 		$entries = array();
-
-	$channel['items'] = getFeedItemByEntries($entries);
-	if(!is_null($tagTitle)) {
-		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 태그 글 목록',htmlspecialchars($tagTitle)));
-	}
-	$rss = array('channel' => $channel);
-
-	if($mode == 'rss') return publishRSS($blogid, $rss);
-	else if($mode == 'atom') return publishATOM($blogid, $rss);
-	return false;
+	return getFeedWithEntries($blogid, $entries, ._textf('%1 태그 글 목록',$tagTitle), $mode);
 }
 
 function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) {
@@ -490,16 +481,7 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 		DESC LIMIT {$blog['entriesOnRSS']}");
 	if (!$entries)
 		$entries = array();
-
-	$channel['items'] = getFeedItemByEntries($entries);
-	if(!is_null($title)) {
-		$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1 이 포함된 글 목록',htmlspecialchars($title)));
-	}
-	$rss = array('channel' => $channel);
-
-	if($mode == 'rss') return publishRSS($blogid, $rss);
-	else if($mode == 'atom') return publishATOM($blogid, $rss);
-	return false;
+	return getFeedWithEntries($blogid, $entries, _textf('%1 이 포함된 글 목록',$title), $mode);
 }
 
 function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $categoryTitle = null) {
