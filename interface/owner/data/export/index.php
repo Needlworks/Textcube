@@ -33,9 +33,9 @@ if (defined('__TEXTCUBE_BACKUP__')) {
 		exit;
 	}
 }
-$newlineStyle = (!is_null(getServiceSetting('newlineStyle')) ? ' format="'.getServiceSetting('newlineStyle').'"' : '');
+$newlineStyle = (!is_null(Setting::getServiceSettingGlobal('newlineStyle')) ? ' format="'.Setting::getServiceSettingGlobal('newlineStyle').'"' : '');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
-$writer->write('<blog type="tattertools/1.1" migrational="false">');
+$writer->write('<blog type="tattertools/2.0" migrational="false">');
 $setting = new BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
@@ -162,6 +162,38 @@ if ($post->open('', '*', 'published, id')) {
 		$writer->write(CRLF);
 	} while ($post->shift());
 	$post->close();
+}
+$page = new Page();
+if ($page->open()) {
+	do {
+		$writer->write('<page' . ' slogan="' . htmlspecialchars($page->slogan) . '"' . $newlineStyle . '>' . 
+			'<id>' . $page->id . '</id>' . 
+			'<visibility>' . $page->visibility . '</visibility>' . 
+			'<starred>' . $page->starred . '</starred>' . 
+			'<title>' . htmlspecialchars(Utils_Unicode::correct($page->title)) . '</title>' . 
+			'<content formatter="' . htmlspecialchars($page->contentformatter) . '" editor="' . htmlspecialchars($page->contenteditor) .'">' . htmlspecialchars(Utils_Unicode::correct($page->content)) . '</content>' . 
+			'<published>' . $page->published . '</published>' . 
+			'<created>' . $page->created . '</created>' . 
+			'<modified>' . $page->modified . '</modified>');
+
+		$writer->write(CRLF);
+		if ($attachment = $page->getAttachments()) {
+			do {
+				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
+				if ($includeFileContents && file_exists(ROOT . "/attach/$blogid/{$attachment->name}")) {
+					$writer->write('<content>');
+					Base64Stream::encode(ROOT . "/attach/$blogid/{$attachment->name}", $writer);
+					$writer->write('</content>');
+				}
+				$writer->write('</attachment>');
+				$writer->write(CRLF);
+			} while ($attachment->shift());
+			$attachment->close();
+		}
+		$writer->write('</page>');
+		$writer->write(CRLF);
+	} while ($page->shift());
+	$page->close();
 }
 $notice = new Notice();
 if ($notice->open()) {
