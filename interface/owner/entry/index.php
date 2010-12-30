@@ -910,6 +910,8 @@ for ($i=0; $i<sizeof($entries); $i++) {
 		$className .= ' keyword-line';
 	else if ($entry['category'] == -2)
 		$className .= ' notice-line';
+	else if ($entry['category'] == -3)
+		$className .= ' page-line';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);" /></td>
@@ -943,6 +945,10 @@ for ($i=0; $i<sizeof($entries); $i++) {
 	} else if (!empty($entry['categoryLabel'])) {
 ?>
 												<a id="category_<?php echo $entry['id'];?>" class="categorized" href="<?php echo $context->getProperty('uri.blog');?>/owner/entry?category=<?php echo $entry['category'];?>"><?php echo htmlspecialchars($entry['categoryLabel']);?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
+<?php
+	} else if ($entry['category'] == -3) {
+?>
+												<a id="category_<?php echo $entry['id'];?>" class="page" href="<?php echo $context->getProperty('uri.blog');?>/owner/entry?category=-3"><?php echo _t('페이지');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	} else if ($entry['category'] == -2) {
 ?>
