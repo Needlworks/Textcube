@@ -430,6 +430,7 @@ class Setting {
 	
 	function setSkinSetting($name, $value, $blogid = null) {
 		global $__gCacheSkinSettings;
+		global $__gCacheBlogSettings;
 		global $gCacheStorage;
 	
 		if (is_null($blogid)) $blogid = getBlogId();

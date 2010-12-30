@@ -23,6 +23,7 @@ $IV = array(
 		'expandComment' => array('int'),
 		'expandTrackback' => array('int'),
 		'recentNoticeLength' => array('int'),
+		'recentPageLength' => array('int'),
 		'recentEntryLength' => array('int'),
 		'recentCommentLength' => array('int'),
 		'recentTrackbackLength' => array('int'),

@@ -111,6 +111,7 @@ $selected = 0;
 									param += 'expandComment='+expandComment +'&';				
 									param += 'expandTrackback='+expandTrackback +'&';
 									param += 'recentNoticeLength='+getValueById('recentNoticeLength') +'&';
+									param += 'recentPageLength='+getValueById('recentPageLength') +'&';
 									param += 'recentEntryLength='+getValueById('recentEntryLength') +'&';
 									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
 									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
@@ -412,7 +413,48 @@ ob_end_clean();
 <?php
 ob_start();
 ?>
+												<select id="recentPageLength" name="recentPageLength">
+<?php
+for ($i = 3; $i < 50; $i++) {
+	if ($i == $skinSetting['recentPageLength'])
+		$checked = ' selected="selected"';
+	else
+		$checked = '';
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+for ($i = 50; $i < 1000; $i = $i + 50) {
+	if ($i == $skinSetting['recentPageLength']) {
+		$checked = ' selected="selected"';
+	} else if (($i < $skinSetting['recentPageLength']) && (($i + 50) > $skinSetting['recentPageLength'])) {
+		$checked = ' selected="selected"';
+?>
+													<option value="<?php echo $skinSetting['recentPageLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentPageLength'];?></option>
+<?php
+		$checked = '';
+	} else {
+		$checked = '';
+	}
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+?>
 
+
+												</select>
+<?php
+$arg = ob_get_contents();
+ob_end_clean();
+?>
+										<dl id="page-length-line" class="line">
+											<dt><span class="label"><?php echo _t('페이지 제목 길이');?></span></dt>
+											<dd><?php echo _f('페이지 제목을 %1 글자로 표시합니다.', $arg);?></dd>
+										</dl>
+<?php
+ob_start();
+?>
 												<select id="recentNoticeLength" name="recentNoticeLength">
 <?php
 for ($i = 3; $i < 50; $i++) {
