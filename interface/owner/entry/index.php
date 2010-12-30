@@ -470,7 +470,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 											}
 											
 											// "분류없음"이 DB 상으로는 카테고리 "0"으로 설정되어야 함.
-											if (category == -3)
+											if (category == -10)
 												category = 0;
 											request.send("category="+category+"&targets="+targets);
 											break;
@@ -784,7 +784,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 		}
 	}
 	?>
-												<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('(분류 없음)');?></option>
+												<option value="-10"<?php echo ($categoryId == -10 ? ' selected="selected"' : '');?>><?php echo _t('(분류 없음)');?></option>
 											</optgroup>
 										</select>								
 									</li>
@@ -828,7 +828,7 @@ foreach ($categories as $category) {
 	}
 }
 ?>
-										<option class="parent-category" value="category_-3" label="<?php echo _t('분류 없음');?>">(<?php echo _t('분류 없음');?>)</option>
+										<option class="parent-category" value="category_-10" label="<?php echo _t('분류 없음');?>">(<?php echo _t('분류 없음');?>)</option>
 									</optgroup>
 <?php
 }
@@ -938,7 +938,7 @@ for ($i=0; $i<sizeof($entries); $i++) {
 <?php
 	if ($entry['category'] == 0) {
 ?>
-<a id="category_<?php echo $entry['id'];?>" class="uncategorized" href="<?php echo $context->getProperty('uri.blog');?>/owner/entry?category=-3"><?php echo _t('분류 없음');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
+<a id="category_<?php echo $entry['id'];?>" class="uncategorized" href="<?php echo $context->getProperty('uri.blog');?>/owner/entry?category=-10"><?php echo _t('분류 없음');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	} else if (!empty($entry['categoryLabel'])) {
 ?>
@@ -1079,7 +1079,7 @@ if($entry['category'] < 0) {
 			}
 		}
 ?>
-												<option class="parent-category" value="category_-3" label="<?php echo _t('분류 없음');?>">(<?php echo _t('분류 없음');?>)</option>
+												<option class="parent-category" value="category_-10" label="<?php echo _t('분류 없음');?>">(<?php echo _t('분류 없음');?>)</option>
 											</optgroup>
 <?php
 	}
