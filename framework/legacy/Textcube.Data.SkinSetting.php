@@ -19,6 +19,7 @@ class SkinSetting {
 		$this->expandComment =
 		$this->expandTrackback =
 		$this->recentNoticeLength =
+		$this->recentPageLength =
 		$this->recentEntryLength =
 		$this->recentTrackbackLength =
 		$this->linkLength =
@@ -104,6 +105,11 @@ class SkinSetting {
 			if (!Validator::number($this->recentNoticeLength, 0))
 				return $this->_error('recentNoticeLength');
 			Setting::setSkinSetting('recentNoticeLength', $this->recentNoticeLength);
+		}
+		if (isset($this->recentPageLength)) {
+			if (!Validator::number($this->recentPageLength, 0))
+				return $this->_error('recentPageLength');
+			Setting::setSkinSetting('recentPageLength', $this->recentPageLength);
 		}
 		if (isset($this->recentTrackbackLength)) {
 			if (!Validator::number($this->recentTrackbackLength, 0))

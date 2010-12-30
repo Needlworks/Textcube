@@ -108,7 +108,11 @@ function selectSkin($blogid, $skinName) {
 		$value = $xmls->getValue('/skin/default/lengthOfRecentNotice');
 		if (!empty($value) || is_numeric($value))
 			$assignments['recentNoticeLength'] = $value;
-		
+	
+		$value = $xmls->getValue('/skin/default/lengthOfRecentPage');
+		if (!empty($value) || is_numeric($value))
+			$assignments['recentPageLength'] = $value;
+
 		$value = $xmls->getValue('/skin/default/lengthOfRecentEntry');
 		if (!empty($value) || is_numeric($value))
 			$assignments['recentEntryLength'] = $value;

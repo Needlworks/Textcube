@@ -1020,36 +1020,44 @@ function getAuthorListView($authorInfo, $template) {
 	return $view;
 }
 
-function getRecentNoticesView($notices, $noticeView, $noticeItemView, $isPage = false) {
+function getRecentNoticesView($notices, $noticeView, $noticeItemView) {
+	return getRecentItemsView($notices, $noticeView, $noticeItemView, 'Notice');
+}
+
+function getRecentPagesView($pages, $pageView, $pageItemView) {
+	return getRecentItemsView($pages, $pageView, $pageItemView, 'Page');
+}
+
+function getRecentItemsView($entries, $entryView, $entryItemView, $type = 'Notice') {
 	$ctx = Model_Context::getInstance();
-	if($isPage) $prefix = 'page'; else $prefix = 'notice';
-	if (sizeof($notices) > 0) {
+	$prefix = strtolower($type);
+	if (sizeof($entries) > 0) {
 		$itemsView = '';
-		foreach ($notices as $notice) {
-			$itemView = $noticeItemView;
-			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', Utils_Unicode::lessenAsEm($notice['title'], $ctx->getProperty('skin.recentNoticeLength')), $notice['id'])), $itemView);
+		foreach ($entries as $entry) {
+			$itemView = $entryItemView;
+			dress($prefix.'_rep_title', htmlspecialchars(fireEvent('View'.$prefix.'Title', Utils_Unicode::lessenAsEm($entry['title'], $ctx->getProperty('skin.recent'.$type.'Length')), $entry['id'])), $itemView);
 			if($ctx->getProperty('blog.useSloganOnPost')) {
-				if(isset($notice['slogan'])&& !empty($notice['slogan'])) {
-					$noticeURL = URL::encode($notice['slogan']);
+				if(isset($entry['slogan'])&& !empty($entry['slogan'])) {
+					$entryURL = URL::encode($entry['slogan']);
 				} else {
-					$noticeURL = URL::encode($notice['title']);
+					$entryURL = URL::encode($entry['title']);
 				}
 			} else {
-				$noticeURL = $notice['id'];
+				$entryURL = $entry['id'];
 			}
-			$name = User::getName($notice['userid']);
-			dress($prefix.'_rep_link', $ctx->getProperty('uri.blog')."/".$prefix."/$noticeURL", $itemView);
+			$name = User::getName($entry['userid']);
+			dress($prefix.'_rep_link', $ctx->getProperty('uri.blog')."/".$prefix."/$entryURL", $itemView);
 			dress($prefix.'_rep_author', $name, $itemView);
 			dress($prefix.'_rep_author', $ctx->getProperty('uri.blog')."/author/".rawurlencode($name), $itemView);
 			$itemsView .= $itemView;
 		}
-		dress('rct_'.$prefix.'_rep', $itemsView, $noticeView);
+		dress('rct_'.$prefix.'_rep', $itemsView, $entryView);
 		// IE webslice support
 		if($ctx->getProperty('blog.useMicroformat',3) == 3) {
-			$noticeView = addWebSlice($noticeView, 'recentNoticeWebslice', htmlspecialchars($ctx->getProperty('blog.title').' - '._t('최근 공지'))); 
+			$entryView = addWebSlice($entryView, 'recent'.$type.'Webslice', htmlspecialchars($ctx->getProperty('blog.title'))); 
 		}
 	}
-	return $noticeView;
+	return $entryView;
 }
 
 function getRecentEntriesView($entries, $entriesView = null, $template = null) {

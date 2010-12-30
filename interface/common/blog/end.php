@@ -50,12 +50,12 @@ if (preg_match("@\\[##_random_tags_##\\]@iU", $view))
 	dress('random_tags', getRandomTagsView(getRandomTags($blogid), $skin->randomTags), $view, false, true);
 
 if (preg_match("@\\[##_rct_notice_##\\]@iU", $view)) {
-	$noticeView = getRecentNoticesView(getRecentNotices($blogid), $skin->recentNotice, $skin->recentNoticeItem, false);
+	$noticeView = getRecentNoticesView(getRecentNotices($blogid), $skin->recentNotice, $skin->recentNoticeItem);
 	dress('rct_notice', $noticeView, $view, false, true);
 }
 if (preg_match("@\\[##_rct_page_##\\]@iU", $view)) {
-	$noticeView = getRecentNoticesView(getNotices($blogid), $skin->recentPage, $skin->recentPageItem, true);
-	dress('rct_page', $noticeView, $view, false, true);
+	$pageView = getRecentPagesView(getPages($blogid), $skin->recentPage, $skin->recentPageItem);
+	dress('rct_page', $pageView, $view, false, true);
 }
 if (preg_match("@\\[##_author_rep_##\\]@iU", $view))
 	dress('author_rep', getAuthorListView(User::getUserNamesOfBlog($blogid), $skin->authorList), $view, false, true);

@@ -27,6 +27,7 @@ $__requireModel = array(
 	'blog.comment',
 	'blog.entry',
 	'blog.keyword',
+	'blog.page',
 	'blog.notice',
 	'blog.link',
 	'blog.locative',

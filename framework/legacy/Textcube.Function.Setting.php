@@ -380,6 +380,7 @@ class Setting {
 				'expandComment' => 1, 
 				'expandTrackback' => 1, 
 				'recentNoticeLength' => 25, 
+				'recentPageLength' => 25, 
 				'recentEntryLength' => 30, 
 				'recentCommentLength' => 30, 
 				'recentTrackbackLength' => 30, 
