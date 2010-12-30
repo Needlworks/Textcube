@@ -553,6 +553,7 @@ if (isset($_GET['popupEditor'])) {
 											document.getElementById("category").disabled = true;
 											break;
 										case "type_notice":
+										case "type_page":
 											document.getElementById("title-line-label").innerHTML = "<?php echo _t('제목');?>";
 											document.getElementById("category").disabled = true;
 											break;
@@ -589,8 +590,10 @@ if (isset($_GET['popupEditor'])) {
 									}
 									if (type == "type_notice") {
 										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/entry/$"), "/notice/");
+									} else if (type == "type_page") {
+										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/entry/$"), "/page/");
 									} else {
-										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/notice/$"), "/entry/");
+										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/[notice|page]/$"), "/entry/");
 									}
 									return true;
 								}
@@ -653,6 +656,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										<dl id="category-line" class="line">
 											<dt><label for="category"><?php echo _t('분류');?></label></dt>
 											<dd>
+												<div class="entrytype-page"><input type="radio" id="type_page" class="radio" name="entrytype" value="-3" onclick="checkCategory('type_page')"<?php echo ($entry['category'] == -3 ? ' checked="checked"' : '');?> /><label for="type_page"><?php echo _t('페이지');?></label></div>
 												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2" onclick="checkCategory('type_notice')"<?php echo ($entry['category'] == -2 ? ' checked="checked"' : '');?> /><label for="type_notice"><?php echo _t('공지');?></label></div>
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?php echo ($entry['category'] == -1 ? ' checked="checked"' : '');?> /><label for="type_keyword"><?php echo _t('키워드');?></label></div>
 												<div class="entrytype-template"><input type="radio" id="type_template" class="radio" name="entrytype" value="-4" onclick="checkCategory('type_template')"<?php echo ($entry['category'] == -4 ? ' checked="checked"' : '');?> /><label for="type_template"><?php echo _t('서식');?></label></div>
@@ -981,6 +985,8 @@ switch($entry['category']) {
 		echo 'type_keyword';break;
 	case -2:
 		echo 'type_notice';break;
+	case -3:
+		echo 'type_page';break;
 	case -4:
 		echo 'type_template';break;
 	default:

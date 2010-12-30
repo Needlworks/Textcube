@@ -155,6 +155,7 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'line','title'=>_t('라인 관리'),'link'=>'/owner/entry/line'),
 			array('menu'=>'divider','title'=> '-','link'=>'/'),
 			array('menu'=>'post','title'=>_t('글 쓰기'),'link'=>'/owner/entry/post'),
+			array('menu'=>'page','title'=>_t('페이지 만들기'),'link'=>'/owner/entry/post?category=-3'),
 			array('menu'=>'notice','title'=>_t('공지 쓰기'),'link'=>'/owner/entry/post?category=-2'),
 			array('menu'=>'keylog','title'=>_t('키워드 만들기'),'link'=>'/owner/entry/post?category=-1'),
 			array('menu'=>'template','title'=>_t('서식 만들기'),'link'=>'/owner/entry/post?category=-4'),
@@ -167,6 +168,7 @@ if(isset($blogMenu['topMenu'])) {
 			array('menu'=>'entry','title'=>_t('글 목록'),'link'=>'/owner/entry'),
 			array('menu'=>'divider','title'=> '-','link'=>'/'),
 			array('menu'=>'post','title'=>_t('글쓰기'),'link'=>'/owner/entry/post'),
+			array('menu'=>'page','title'=>_t('페이지 만들기'),'link'=>'/owner/entry/post?category=-3'),
 			array('menu'=>'notice','title'=>_t('공지 쓰기'),'link'=>'/owner/entry/post?category=-2'),
 			array('menu'=>'keylog','title'=>_t('키워드 만들기'),'link'=>'/owner/entry/post?category=-1'),
 			array('menu'=>'template','title'=>_t('서식 만들기'),'link'=>'/owner/entry/post?category=-4')

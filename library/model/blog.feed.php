@@ -457,7 +457,7 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 		DESC LIMIT {$blog['entriesOnRSS']}");
 	if (!$entries)
 		$entries = array();
-	return getFeedWithEntries($blogid, $entries, ._textf('%1 태그 글 목록',$tagTitle), $mode);
+	return getFeedWithEntries($blogid, $entries, _textf('%1 태그 글 목록',$tagTitle), $mode);
 }
 
 function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) {

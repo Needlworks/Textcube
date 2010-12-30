@@ -402,8 +402,8 @@ class CacheControl {
 			FROM {$database['prefix']}PageCacheLog
 			WHERE blogid = ".getBlogId()."
 			AND (name like 'archiveList-".$period."%' 
-				OR name like 'archiveRSS-".$categoryId."%'
-				OR name like 'archiveATOM-".$categoryId."%')");
+				OR name like 'archiveRSS-".$period."%'
+				OR name like 'archiveATOM-".$period."%')");
 		CacheControl::purgeItems($periodLists);
 		CacheControl::flushRSS();
 		return true;

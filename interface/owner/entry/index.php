@@ -447,7 +447,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 													queryString = "?" + queryString;
 												
 												// 공지/키워드 화면에서 선택된 포스트를 카테고리로 변경할 경우 or 카테고리 리스트에서 포스트를 공지/키워드 포스트로 전환할 경우.
-												if (((category == -1 || category == -2) && currentCategory != category) || ((currentCategory == -1 || currentCategory == -2) && (category != -1 && category != -2))) {
+												if (((category == -1 || category == -2 || category == -3) && currentCategory != category) || ((currentCategory == -1 || currentCategory == -2 || currentCategory == -3) && (category != -1 && category != -2 && category != -3))) {
 													window.location.href = hrefString + queryString;
 												} else {
 													for (var i = 0; i < document.getElementById('list-form').elements.length; i++) {
@@ -743,8 +743,10 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 		echo _f('%1 키워드 목록입니다', $visibilityText);
 	} else if ($categoryId == -2) {
 		echo _f('%1 공지 목록입니다', $visibilityText);
+	} else if ($categoryId == -3) {
+		echo _f('%1 페이지 목록입니다', $visibilityText);
 	} else if ($categoryId == -5) {
-		echo _f('공지와 키로그를 포함한 %1 글의 목록입니다', $visibilityText);
+		echo _f('페이지, 공지와 키로그를 포함한 %1 글의 목록입니다', $visibilityText);
 	} else {
 		echo _f('%1 글 목록입니다', $visibilityText);
 	}
@@ -762,6 +764,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										<select id="category" name="category" onchange="document.getElementById('category-form-top').page.value=1; document.getElementById('category-form-top').submit()">
 											<option value="-5"<?php echo ($categoryId == -5 ? ' selected="selected"' : '');?>><?php echo _t('모든 글');?></option>
 											<optgroup class="category" label="<?php echo _t('글 종류');?>">
+												<option value="-3"<?php echo ($categoryId == -3 ? ' selected="selected"' : '');?>><?php echo _t('페이지');?></option>
 												<option value="-2"<?php echo ($categoryId == -2 ? ' selected="selected"' : '');?>><?php echo _t('공지');?></option>
 												<option value="-1"<?php echo ($categoryId == -1 ? ' selected="selected"' : '');?>><?php echo _t('키워드');?></option>
 												<option value="-4"<?php echo ($categoryId == -4 ? ' selected="selected"' : '');?>><?php echo _t('서식');?></option>
@@ -838,6 +841,7 @@ foreach ($categories as $category) {
 										<option value="publish"><?php echo _t('공개로 변경합니다.');?></option>
 									</optgroup>
 									<optgroup class="category" label="<?php echo _t('아래의 글 종류로 변경합니다.');?>">
+										<option class="parent-category" value="category_-3" label="<?php echo _t('페이지');?>"><?php echo _t('페이지');?></option>
 										<option class="parent-category" value="category_-2" label="<?php echo _t('공지');?>"><?php echo _t('공지');?></option>
 										<option class="parent-category" value="category_-1" label="<?php echo _t('키워드');?>"><?php echo _t('키워드');?></option>
 									</optgroup>
@@ -862,7 +866,7 @@ if(Acl::check('group.administrators')) {
 			if ($teamblog_user['acl'] & BITWISE_EDITOR) $tmpstr .= _t("글관리");
 			$tmpstr = ($tmpstr?$tmpstr:_t("없음"));
 ?>
-									<option value="<?=$teamblog_user['userid']?>"><?="{$teamblog_user['name']}($tmpstr)"?></option>
+									<option value="<?php echo $teamblog_user['userid']?>"><?="{$teamblog_user['name']}($tmpstr)"?></option>
 <?php
 		}
 ?>
@@ -1095,6 +1099,7 @@ if($entry['category'] < 0) {
 												<option value="publish"><?php echo _t('공개로 변경합니다.');?></option>
 											</optgroup>
 											<optgroup class="category" label="<?php echo _t('아래의 글 종류로 변경합니다.');?>">
+												<option class="parent-category" value="category_-3" label="<?php echo _t('페이지');?>"><?php echo _t('페이지');?></option>
 												<option class="parent-category" value="category_-2" label="<?php echo _t('공지');?>"><?php echo _t('공지');?></option>
 												<option class="parent-category" value="category_-1" label="<?php echo _t('키워드');?>"><?php echo _t('키워드');?></option>
 											</optgroup>

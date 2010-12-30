@@ -39,7 +39,7 @@ function getNoticesTotalCount($blogid) {
 }
 
 function getEntries($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
@@ -50,6 +50,7 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = 'pu
 
 function getTemplates($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
 	$pool = DBModel::getInstance();
+	$context = Model_Context::getInstance();
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
 	return POD::queryAll("SELECT $attributes 
@@ -60,6 +61,7 @@ function getTemplates($blogid, $attributes = '*', $condition = false, $order = '
 }
 
 function getEntry($blogid, $id, $draft = false) {
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	requireModel('blog.attachment');
 	if($id == 0) {
@@ -142,7 +144,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
 		return array();
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
+		$categories = POD::queryColumn("SELECT id FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
 		if(!doesHaveOwnership()) 
 			$categories = array_diff($categories, getCategoryVisibilityList($blogid, 'private'));
@@ -283,6 +285,17 @@ function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null)
 	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
 }
 
+function getEntriesWithPagingByPage($blogid, $page, $count, $countItem = null) {
+	global $database, $folderURL, $suri;
+	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
+	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
+	$sql = "SELECT * 
+		FROM {$database['prefix']}Entries 
+		WHERE blogid = $blogid $visibility AND category = -3 
+		ORDER BY published DESC";
+	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}","?page=", $countItem);
+}
+
 function getEntriesWithPagingByPeriod($blogid, $period, $page, $count, $countItem = null) {
 	global $database, $folderURL, $suri;
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
@@ -343,7 +356,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 	} else if ($category == -3) {
 		$sql .= ' AND e.category = 0';
 	} else if ($category == -5) {
-		$sql .= ' AND e.category >= -2';
+		$sql .= ' AND e.category >= -3';
 	} else if ($category == 0) {
 		$sql .= ' AND e.category >= 0';
 	} else {
@@ -376,7 +389,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 	return Paging::fetch($sqlTable.$sql, $page, $count);
 }
 
-function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false) {
+function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId = false) {
 	global $database, $folderURL;
 	requireModel('blog.category');
 	$entries = array();
@@ -384,7 +397,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
+	$category = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? 'e.category = -3' : 'e.category = -2' ) : 'e.category >= 0';
 	if($categoryId !== false) {
 		if($categoryId != 0) {	// Not a 'total' category.
 			$childCategories = getChildCategoryId($blogid, $categoryId);
@@ -445,7 +458,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 	return array($entries, $paging);
 }
 
-function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $categoryId = false) {
+function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $categoryId = false) {
 	requireModel('blog.category');
 	$entries = array();
 	$ctx = Model_Context::getInstance();
@@ -453,7 +466,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
 	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$category = $isNotice ? 'e.category = -2' : 'e.category >= 0';
+	$category = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? 'e.category = -3' : 'e.category = -2' ) : 'e.category >= 0';
 	if($categoryId !== false) {
 		if(!$categoryId == 0) {	// Not a 'total' category.
 			$childCategories = getChildCategoryId($blogid, $categoryId);
@@ -543,7 +556,6 @@ function addEntry($blogid, $entry, $userid = null) {
 	requireModel("blog.category");
 	requireModel("blog.tag");
 	requireModel("blog.locative");
-	requireComponent('Textcube.Data.Tag');
 
 	if(empty($userid)) $entry['userid'] = getUserId();
 	else $entry['userid'] = $userid;
