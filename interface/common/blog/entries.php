@@ -70,6 +70,21 @@ if (isset($cache->contents)) {
 			dress('notice_rep_author_link', $blogURL."/author/".rawurlencode(User::getName($entry['userid'])), $entryView);
 			$entriesView .= $entryView;
 
+		} else if ($entry['category'] == - 3) { // This is page
+			$entryView = $skin->pageItem;
+			dress('page_rep_microformat_published', Timestamp::getISO8601($entry['published']), $entryView);
+			dress('page_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
+			dress('page_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
+			dress('page_rep_date_modified', fireEvent('ViewNoticeDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
+			dress('page_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
+			dress('page_rep_link', $permalink, $entryView);
+			
+			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.
+			$contentContainer["page_{$entry['id']}"] = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], getKeywordNames($blogid), 'Page');
+			dress('page_rep_desc', setTempTag("page_{$entry['id']}"), $entryView);
+			dress('page_rep_author', User::getName($entry['userid']), $entryView);
+			dress('page_rep_author_link', $blogURL."/author/".rawurlencode(User::getName($entry['userid'])), $entryView);
+			$entriesView .= $entryView;
 		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
 			$entryView = $skin->entry;
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;

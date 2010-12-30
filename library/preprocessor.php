@@ -214,7 +214,6 @@ if (!defined('NO_INITIALIZAION')) {
 		if($browser->isMobile()) {
 			$context->setProperty('panel.skin', "/skin/admin/mobile");
 		} else {
-
 			if(!is_null($context->getProperty('service.adminskin'))) {
 				$context->setProperty('panel.skin',"/skin/admin/".$context->getProperty('service.adminskin'));
 			} else {
@@ -254,7 +253,6 @@ if($context->getProperty('uri.interfaceType') == 'blog' && !defined('__TEXTCUBE_
 		else if($blogVisibility == 1) requireMembership();
 	}
 }
-
 if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))) {
 	requireOwnership();     // Check access control list
 	if(!empty($_SESSION['acl'])) {

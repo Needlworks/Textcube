@@ -33,7 +33,6 @@ if(isset($service['codecache']) && ($service['codecache'] == true) && file_exist
 }
 if(isset($service['codecache'])
 		&& $service['codecache'] == true && $codeCacheRead == false) {
-	requireComponent('Needlworks.Cache.PageCache');
 	$libCode = new CodeCache();
 	$libCode->name = $codeName;
 	$libCode->save();

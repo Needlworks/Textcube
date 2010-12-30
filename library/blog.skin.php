@@ -21,6 +21,7 @@ class Skin {
 	var $noticeItem;
 	var $recentNotice;
 	var $recentNoticeItem;
+	var $pageItem;
 	var $locative;
 	var $locativeSpot;
 	var $locativeEntry;
@@ -227,6 +228,7 @@ class Skin {
 			list($sval, $this->keyword) = $this->cutSkinTag($sval, 'keyword');
 
 			list($sval, $this->noticeItem) = $this->cutSkinTag($sval, 'notice_rep');
+			list($sval, $this->pageItem) = $this->cutSkinTag($sval, 'page_rep');
 			list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'keylog_rep');
 			list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');
 			list($sval, $this->recentNotice) = $this->cutSkinTag($sval, 'rct_notice');
