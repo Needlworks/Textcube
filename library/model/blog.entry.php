@@ -26,6 +26,14 @@ function getEntriesTotalCount($blogid) {
 }
 
 function getNoticesTotalCount($blogid) {
+	return getSpecialEntriesTotalCount($blogid, -2);
+}
+
+function getPagesTotalCount($blogid) {
+	return getSpecialEntriesTotalCount($blogid, -3);
+}
+
+function getSpecialEntriesTotalCount($blogid, $categoryId) {
 	$pool = DBModel::getInstance();
 	$pool->reset('Entries');
 	if (doesHaveOwnership()) $pool->setQualifier('visibility','b',0);
@@ -34,7 +42,7 @@ function getNoticesTotalCount($blogid) {
 	}
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('draft','eq',0);
-	$pool->setQualifier('category','eq',-2);
+	$pool->setQualifier('category','eq',$categoryId);
 	return $pool->getCount('*');
 }
 
@@ -395,7 +403,7 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 	$entries = array();
 	$paging = Paging::init($folderURL, '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= ($isNotice || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
+	$visibility .= ($isSpecialEntry || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? 'e.category = -3' : 'e.category = -2' ) : 'e.category >= 0';
 	if($categoryId !== false) {
@@ -426,7 +434,7 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 		$paging['pages'] = $categoryId == 0 ? getEntriesTotalCount($blogid):getEntriesCountByCategory($blogid, $categoryId);
 		$paging['postfix'] = '?category='.$categoryId;
 	} else {
-		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
+		$paging['pages'] = $isSpecialEntry ? ($isSpecialEntry == 'page' ? getPagesTotalCount($blogid) : getNoticesTotalCount($blogid)) : getEntriesTotalCount($blogid);
 	}
 
 	for ($i = 1; $entry = POD::fetch($result); $i++) {
@@ -462,9 +470,9 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $
 	requireModel('blog.category');
 	$entries = array();
 	$ctx = Model_Context::getInstance();
-	$paging = $isNotice ? Paging::init($ctx->getProperty('uri.blog')."/notice", '/') : Paging::init($ctx->getProperty('uri.blog')."/entry", '/');
+	$paging = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? Paging::init($ctx->getProperty('uri.blog')."/page", '/'): Paging::init($ctx->getProperty('uri.blog')."/notice", '/')) : Paging::init($ctx->getProperty('uri.blog')."/entry", '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= ($isNotice || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
+	$visibility .= ($isSpecialEntry || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? 'e.category = -3' : 'e.category = -2' ) : 'e.category >= 0';
 	if($categoryId !== false) {
@@ -497,7 +505,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $
 		$paging['pages'] = $categoryId == 0 ? getEntriesTotalCount($blogid):getEntriesCountByCategory($blogid, $categoryId);
 		$paging['postfix'] = '?category='.$categoryId;
 	} else {
-		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
+		$paging['pages'] = $isSpecialEntry ? ($isSpecialEntry == 'page' ? getPagesTotalCount($blogid) : getNoticesTotalCount($blogid)) : getEntriesTotalCount($blogid);
 	}
 	
 	for ($i = 1; $entry = POD::fetch($result); $i++) {
