@@ -39,6 +39,8 @@ if (isset($cache->contents)) {
 			$permalink = $context->getProperty('uri.blog')."/notice/" . ($blog['useSloganOnPost'] ? URL::encode($entry['slogan'], $service['useEncodedURL']) : $entry['id']);
 		else if ($suri['directive'] == '/page')
 			$permalink = $context->getProperty('uri.blog')."/page/" . ($blog['useSloganOnPost'] ? URL::encode($entry['slogan'], $service['useEncodedURL']) : $entry['id']);
+		else if (defined('__TEXTCUBE_PAGE__'))
+			$permalink = $context->getProperty('uri.blog')."/" . ($blog['useSloganOnPost'] ? URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 		else
 			$permalink = $context->getProperty('uri.blog')."/" . ($blog['useSloganOnPost'] ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
 
@@ -74,9 +76,9 @@ if (isset($cache->contents)) {
 			$entryView = $skin->pageItem;
 			dress('page_rep_microformat_published', Timestamp::getISO8601($entry['published']), $entryView);
 			dress('page_rep_microformat_updated', Timestamp::getISO8601($entry['modified']), $entryView);
-			dress('page_rep_date', fireEvent('ViewNoticeDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
-			dress('page_rep_date_modified', fireEvent('ViewNoticeDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
-			dress('page_rep_title', htmlspecialchars(fireEvent('ViewNoticeTitle', $entry['title'], $entry['id'])), $entryView);
+			dress('page_rep_date', fireEvent('ViewPageDate', Timestamp::format5($entry['published']), $entry['published']), $entryView);
+			dress('page_rep_date_modified', fireEvent('ViewPageDate', Timestamp::format5($entry['modified']), $entry['modified']), $entryView);
+			dress('page_rep_title', htmlspecialchars(fireEvent('ViewPageTitle', $entry['title'], $entry['id'])), $entryView);
 			dress('page_rep_link', $permalink, $entryView);
 			
 			// 사용자가 작성한 본문은 interface/common/blog/end.php의 removeAllTags() 다음에 처리하기 위한 조치.

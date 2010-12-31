@@ -11,6 +11,7 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	} else {
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
 	}
+	if(count($entries) === 1) unset($paging);
 	fireEvent('OBStart');
 	require ROOT . '/interface/common/blog/begin.php';
 	
@@ -29,6 +30,9 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	require ROOT . '/interface/common/blog/end.php';
 	fireEvent('OBEnd');
 } else {
+	if(!empty($freeSlogan)) {
+		header("HTTP/1.1 404 Not Found");exit;
+	}
 	list($entries, $paging) = getEntriesWithPagingByPage($blogid, $suri['page'], $blog['entriesOnPage']);
 	fireEvent('OBStart');
 	require ROOT . '/interface/common/blog/begin.php';
