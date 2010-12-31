@@ -32,7 +32,7 @@ final class Model_URIHandler extends Singleton
 		
 		$url             = $this->uri['fullpath'];
 		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1,true);
-		$this->suri            = array('url' => $url, 'value' => '');
+		$this->suri      = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
 		$this->uri['isStrictBlogURL'] = true;
 		$depth           = substr_count($this->context->getProperty('path'), '/');

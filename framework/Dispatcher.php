@@ -168,6 +168,10 @@ final class Dispatcher {
 							$interfacePath = 'interface/'.$pathPart.'/index.php';
 							break;
 						default:
+							if(!empty($uri['fragment'][0])) {
+								$pathPart = '';
+								$interfacePath = 'interface/page.php';
+							}
 					}
 				}
 				
@@ -175,9 +179,10 @@ final class Dispatcher {
 			if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 			define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));
 			unset($pathPart);
-			if (!file_exists($interfacePath)) { 
+			if (!file_exists($interfacePath)) {
 				header("HTTP/1.0 404 Not Found");exit;
 			}
+			unset($pathPart);
 			$uri['interfacePath'] = $this->interfacePath = $interfacePath;
 		}
 		$this->uri = $uri;
