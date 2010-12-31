@@ -151,6 +151,8 @@ final class Dispatcher {
 								$interfacePath = 'interface/'.$pathPart.'/index.php';							
 							}
 							break;
+						case 'login': case 'logout': case 'owner':
+							break;
 						case 'comment': case 'trackback':
 							$pathPart = implode("/",$uri['fragment']);
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
