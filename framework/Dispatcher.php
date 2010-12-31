@@ -182,7 +182,6 @@ final class Dispatcher {
 			if (!file_exists($interfacePath)) {
 				header("HTTP/1.0 404 Not Found");exit;
 			}
-			unset($pathPart);
 			$uri['interfacePath'] = $this->interfacePath = $interfacePath;
 		}
 		$this->uri = $uri;
