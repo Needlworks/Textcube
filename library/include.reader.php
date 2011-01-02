@@ -22,7 +22,7 @@ $__requireLibrary = array(		// Library
 $__requireModel = array(	
 	'blog.service',
 	'blog.blogSetting',
-	'blog.user',
+//	'blog.user',
 	'blog.fx',
 	'common.legacysupport',
 	'common.setting',

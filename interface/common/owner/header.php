@@ -52,18 +52,18 @@ switch($blogMenu['topMenu']) {
 	case 'center':
 		$blogMenu['title'] = _t('센터');
 		$blogMenu['loadCSS'] = array('center');
-		$blogMenu['loadCSSIE6'] = array('center');
+		//$blogMenu['loadCSSIE6'] = array('center');
 		$blogMenu['loadCSSIE7'] = array('center');
 		break;
 	case 'entry':
 		$blogMenu['title'] = _t('글');
 		if ($blogMenu['contentMenu'] == 'post' || $blogMenu['contentMenu'] == 'edit') {
 			$blogMenu['loadCSS'] = array('post','editor');
-			$blogMenu['loadCSSIE6'] = array('post','editor');
+			//$blogMenu['loadCSSIE6'] = array('post','editor');
 			$blogMenu['loadCSSIE7'] = array('post','editor');
 		} else {
 			$blogMenu['loadCSS'] = array('post');
-			$blogMenu['loadCSSIE6'] = array('post');
+			//$blogMenu['loadCSSIE6'] = array('post');
 			$blogMenu['loadCSSIE7'] = array('post');
 		}
 		
@@ -71,38 +71,38 @@ switch($blogMenu['topMenu']) {
 	case 'communication':
 		$blogMenu['title'] = _t('소통');
 		$blogMenu['loadCSS'] = array('communication');
-		$blogMenu['loadCSSIE6'] = array('communication');
+		//$blogMenu['loadCSSIE6'] = array('communication');
 		$blogMenu['loadCSSIE7'] = array('communication');
 		break;
 	case 'network':
 		$blogMenu['title'] = _t('네트워크');
 		$blogMenu['loadCSS'] = array('network');
-		$blogMenu['loadCSSIE6'] = array('network');
+		//$blogMenu['loadCSSIE6'] = array('network');
 		$blogMenu['loadCSSIE7'] = array('network');
 		break;
 	case 'skin':
 		$blogMenu['title'] = _t('꾸미기');
 		$blogMenu['loadCSS'] = array('skin');
-		$blogMenu['loadCSSIE6'] = array('skin');
+		//$blogMenu['loadCSSIE6'] = array('skin');
 		$blogMenu['loadCSSIE7'] = array('skin');
 		break;
 	case 'plugin':
 		$blogMenu['title'] = _t('플러그인');
 		$blogMenu['loadCSS'] = array('plugin');
-		$blogMenu['loadCSSIE6'] = array('plugin');
+		//$blogMenu['loadCSSIE6'] = array('plugin');
 		$blogMenu['loadCSSIE7'] = array('plugin');
 		break;
 	case 'setting':
 	case 'data':
 		$blogMenu['title'] = _t('설정');
 		$blogMenu['loadCSS'] = array('setting');
-		$blogMenu['loadCSSIE6'] = array('setting');
+		//$blogMenu['loadCSSIE6'] = array('setting');
 		$blogMenu['loadCSSIE7'] = array('setting');
 		break;
 	case 'reader':
 		$blogMenu['title'] = _t('리더');
 		$blogMenu['loadCSS'] = array('reader');
-		$blogMenu['loadCSSIE6'] = array('reader');
+		//$blogMenu['loadCSSIE6'] = array('reader');
 		$blogMenu['loadCSSIE7'] = array('reader');
 		break;
 	case 'control':
@@ -115,7 +115,7 @@ if(defined('__TEXTCUBE_READER_SUBMENU__') && $blogMenu['contentMenu'] == 'reader
 	$blogMenu['topMenu'] = 'network';
 	$blogMenu['title'] = _t('네트워크');
 	$blogMenu['loadCSS'] = array('reader');
-	$blogMenu['loadCSSIE6'] = array('reader');
+	//$blogMenu['loadCSSIE6'] = array('reader');
 	$blogMenu['loadCSSIE7'] = array('reader');
 }
 // mapping data management to setting
