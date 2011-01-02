@@ -200,7 +200,7 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 								</div>
 							</form>
 							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin">
-								<dl id="viewmode-box" class="line">
+								<dl id="viewmode-line" class="line">
 									<dt class="hidden"><?php echo _t('출력 설정');?></dt>
 									<dd id="viewmode-line-align">
 										<input type="radio" class="radio" id="list-view" name="viewType" value="listview" onclick="changeList(this);return false;"<?php echo $listType == 'listview' ? ' checked="checked"' : '';?> /><label for="list-view"><?php echo _t('리스트 보기');?></label>

@@ -285,23 +285,19 @@ $secondposition = array(0, 0);
 if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {
 ?>
-								<div id="widget-button-top" class="button-box">
-									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit'; return false;" />
-									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center'; return false;" />
-								</div>
+
+								<ul id="widget-tabs-box" class="tabs-box">
+									<li class="edit"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a></li>
+									<li class="activate"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center"><?php echo _t('위젯 켜고 끄기');?></a>
+								</ul>
 <?php
 	} else {
 ?>
-								<div class="button-box">
-									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard'; return false;" />
-								</div>
+								<ul id="widget-tabs-box" class="tabs-box">
+									<li class="edit"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('돌아가기');?></a></li>
+								</ul>
 <?php
 	}
-} else {
-?>
-								<div class="button-box">
-								</div>
-<?php
 }
 ?>
 								<div id="widget-container-0" class="panel widget-container">

@@ -256,6 +256,10 @@ table.data-inbox tbody tr td
 	display                          : inline;
 }
 
+#trash-type-line
+{
+	right:	50px;
+}
 #track-radio-trackback
 {
 	margin-left                      : 20px;

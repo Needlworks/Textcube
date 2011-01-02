@@ -299,7 +299,6 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 											</div>
 										</dd>
 									</dl>
-									
 									<input type="submit" id="category-move-button" value="<?php echo _t('이동');?>" />
 								</fieldset>
 							</form>

@@ -11,48 +11,45 @@ h3
 
 #editor
 {
-/*	margin-left                      : 10px;*/
+	margin-left                      : 10px;
 	position                         : relative;
 }
 
-#feather
-{
-	height                           : 40px !important;
-	background                       : transparent;
-}
-
 /* title ----------------------------------------------------------------------------------------*/
-#title-section
+#title-section,
+#category-section
 {
-	position                         : fixed;
-	top                              : 45px;
-	left                             : 80px;
-	height                           : 40px;
-	z-index                          : 100;
-    width                            : 100%;
-	padding-left                     : 80px;
-	background-color                 : #ffffff;	
-/*	background-image                 : url("./image/bg_menu_round.png");*/
-    filter                           : alpha(opacity=90);
-    opacity                          : .90;		
-}
-#title-section dl
-{
-	padding-top:6px;	
+	margin                           : 0 20px 0 0;
+	padding                          : 5px 3px 5px 5px;
+	width                            : 658px;
 }
 
-#title-section dl dt
+#title-section dl,
+#category-section dl
 {
-	color                            : #222;
-	padding                          : 6px 0 3px 15px;
-	width                            : 80px !important;
+	border                           : none;
+	margin-bottom                    : 6px;
 }
 
-#title-section dl dd
+#title-section dl dt,
+#category-section dl dt
 {
-	margin-left                      : 85px;
+	color                            : #666666;
+	font-weight                      : bold;
+	padding                          : 0 0 3px 0;
+	width                            : 70px !important;
 }
 
+#title-section dl dd,
+#category-section dl dd
+{
+	margin-left                      : 80px;
+}
+
+#title-section dl dd div.starred
+{
+	margin-left:10px !important;
+}
 
 #title-section dl dd select,
 #category-section dl dd select
@@ -65,21 +62,14 @@ h3
 {
 	border                           : 1px solid #999999;
 	vertical-align                   : middle;
-	width                            : 400px !important;
-	margin-left                      : 0;
+	width                            : 500px !important;
+	margin-left                      : 8px;
 }
 
 #starred
 {
-	position                         : fixed;
-	top                              : 56px;
-	left                             : 220px;
 	width                            : 20px !important;
-	display                          : block;
-	z-index                          : 210;
-	background-color                 : #ffffff !important;
-    filter                           : alpha(opacity=90);
-    opacity                          : .90;		
+	display                          : inline;
 }
 
 .star-icon span,
@@ -91,51 +81,23 @@ h3
 .star-icon a
 {
 	background-image                 : url("./image/icon_starred.gif");
-	background-color                 : #ffffff !important;
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
-	display                          : block;
+	display                          : block; 
 	width                            : 16px;
-	height                           : 16px;
+	height                           : 20px;
 	float                            : left;
 }
 
 .unstar-icon a
 {
 	background-image                 : url("./image/icon_unstarred.gif");
-	background-color                 : #ffffff !important;
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	display                          : block; 
 	width                            : 16px;
-	height                           : 16px;
+	height                           : 20px;
 	float                            : left;
-}
-
-#category-section
-{
-	margin                           : 65px 20px 0 0; 
-	padding                          : 5px 3px 5px 5px; 
-	width                            : 100%; 
-}
-
-#category-section dl
-{
-	border                           : none;
-	margin-bottom                    : 6px;
-}
-
-#category-section dl dt
-{
-	color                            : #666;
-	font-weight                      : bold;
-	padding                          : 0 0 3px 10px;
-	width                            : 70px !important;
-}
-
-#category-section dl dd
-{
-	margin-left                      : 80px;
 }
 
 #category-line
@@ -170,8 +132,7 @@ h3
 	clear                            : both;
 	margin                           : 0 0px 0 0;
 	padding                          : 0 0 5px 0;
-/*	width                            : 650px;*/
-	width                            : 100%;
+	width                            : 650px;
 }
 
 #textarea-section dl.editoroption
@@ -210,21 +171,6 @@ h3
 }
 
 /* editor */
-
-#formatbox-container
-{
-	margin                           : 0 auto;
-	width                            : 100%;
-	position                         : fixed;
-	top                              : 80px;
-	height                           : 31px;
-	background-color                 : #fff;
-    filter                           : alpha(opacity=90);
-    opacity                          : .90;		
-	color                            : #fff;
-	border-bottom                    : 1px solid #BBB;
-	z-index                          : 5;
-}
 
 #editWindow
 {
@@ -271,9 +217,8 @@ h3
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
 	position                         : absolute;
-	z-index                          : 1;
-	right                            : 0;
-	top                              : 0;
+	left                             : 670px;
+	top                              : 9px;
 	width                            : 245px;
 }
 
@@ -421,31 +366,14 @@ h3
 {
 	height                           : 200px;
 }
-/* Save -----------------------------------------------------------------------------------------*/
-#save-section
-{
-/*	background-color                 : #F2F2F2 !important;*/
-/*	margin                           : 0 20px 0 0;*/
-	margin                           : 0 auto;
-	padding                          : 0 5px 0 5px;
-/*	width                            : 350px !important;*/
-	height                           : 75px;
-/*	float                            : right !important;*/
-}
 
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-	background-color                 : #FFFFFF !important;
-	margin                           : 0;
-	/*padding                          : 15px 5px 0 5px;*/
-	padding                          : 0;
-	width                            : 100% !important;
-	height                           : 55px;
-/*	float                            : right !important;*/
-	border-top                       : 1px solid #EEEEEE;
-	border-left                      : 1px solid #EEEEEE;
-	border-right                     : 1px solid #EEEEEE;
+	background-color                 : #F2F2F2 !important;
+	margin                           : 0 20px 5px 0;
+	padding                          : 4px 5px 3px 5px;
+	width                            : 640px !important;
 }
 
 #taglocal-section dl
@@ -456,22 +384,20 @@ h3
 
 #taglocal-section dl dt
 {
-/*	color                            : #6B90C3;*/
-	color                            : #666;
+	color                            : #6B90C3;
 	font-weight                      : bold;
 	left                             : 0;
 	line-height                      : 20px;
-	padding                          : 0 0 0 10px;
-/*	position                         : absolute;
-	top                              : 0;*/
-	text-align                       : left;
-	width                            : 75px;
+	padding                          : 0;
+	position                         : absolute;
+	top                              : 0;
+	text-align                       : right;
+	width                            : 70px;
 }
 
 #taglocal-section dl dd
 {
 	margin-left                      : 80px;
-	border-left                      : 1px solid #EEEEEE;
 }
 
 #taglocal-section dl dd .input-text
@@ -517,33 +443,17 @@ h3
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
-	background-color                 : #FFF;
-	margin                           : 10px 20px 2px 0;
+	background-color                 : #F5F5F5;
+	margin                           : 5px 20px 2px 0;
 	position                         : relative;
-	width                            : 100%;
-/*	width                            : 550px;*/
-/*	float                            : left;*/
-	border:1px solid #F2F2F2;
-       -moz-border-radius-topleft       : 8px;
-       -moz-border-radius-topright      : 8px;
-       -webkit-border-top-left-radius   : 8px;
-       -webkit-border-top-right-radius  : 8px;	
+	width                            : 650px;
 }
 
 #upload-section h3
 {
-	background-color                 : #F2F2F2;
+	background-color                 : #FFFFFF;
 	display                          : block;
 	padding                          : 10px 10px 3px 10px;
-       -moz-border-radius-topleft       : 8px;
-       -moz-border-radius-topright      : 8px;
-       -webkit-border-top-left-radius   : 8px;
-       -webkit-border-top-right-radius  : 8px;
-}
-
-#upload-detail
-{
-	display                          : none;
 }
 
 #attachment-container
@@ -571,7 +481,6 @@ h3
 {
 	margin-left                      : 144px;
 	width                            : 415px;
-/*	width                            : 315px;*/
 }
 
 #TCfilelist
@@ -579,7 +488,6 @@ h3
 	height                           : 120px;
 	margin-top                       : 10px;
 	width                            : 393px !important;
-/*	width                            : 293px !important;*/
 }
 
 #fileUploadNest
@@ -589,7 +497,6 @@ h3
 	overflow                         : hidden;
 	position                         : relative;
 	text-align                       : left;
-/*	width                            : 390px;*/
 	width                            : 390px;
 }
 
@@ -644,7 +551,7 @@ h3
 {
 	position                         : absolute;
 	top                              : 36px;
-	left                             : 550px;
+	right                            : 5px;
 	width                            : 100px;
 }
 
@@ -732,24 +639,17 @@ h3
 /* power ----------------------------------------------------------------------------------------*/
 #power-section
 {
-/*	background-color                 : #F5F5F5;*/
 	line-height                      : 17px;
-	margin                           : 0;
-	position                         : relative; 
+	margin                           : 0 20px 0 0px;
+	position                         : relative;
 	padding                          : 0 0 8px 0;
-	width                            : 100%;
-/*	float                            : left;*/
-/*	display                          : none;*/
-	border-left                      : 1px solid #EEEEEE;
-	border-right                      : 1px solid #EEEEEE;
-	border-bottom                      : 1px solid #EEEEEE;
+	width                            : 650px;
 }
 
 #power-section dl
 {
-/*	border-bottom                    : 1px solid #DDDDDD;
-	border-top                       : 1px solid #FFFFFF;*/
-	border                           : none;
+	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;
 	position                         : relative;
 }
 
@@ -760,14 +660,14 @@ h3
 	position                         : absolute;
 	text-align                       : left;
 	top                              : 0;
-	width                            : 60px;
+	width                            : 100px;
 }
 
 #power-section dl dd
 {
 	border-left                      : 1px solid #EEEEEE;
 	padding                          : 5px 0 3px 10px;
-	margin-left                      : 80px;
+	margin-left                      : 130px;
 }
 
 #power-section dl dd .input-text
@@ -784,7 +684,6 @@ dl#permalink-line dd .input-text
 
 dl#permalink-line dd p
 {
-	display                          : none;
 	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.9em;
 	padding-right                    : 5px;
@@ -802,7 +701,7 @@ dl#power-line dd div
 
 dl#power-line
 {
-/*	border-bottom                    : 1px solid #DDDDDD !important;*/
+	border-bottom                    : 1px solid #DDDDDD !important;
 }
 
 .publish-preserve,
@@ -818,7 +717,7 @@ dl#power-line
 .button-box
 {
 	padding                          : 20px 0;
-	width                            : 100%;
+	width                            : 650px;
 }
 
 .button-box .input-button
@@ -834,44 +733,110 @@ dl#power-line
 	vertical-align                   : middle;
 }
 
-.preview-button,
-.list-button
+/* Eolin Dialogue ********************************************************************************/
+
+#eolinDialog
 {
-	height                           : 2em !important;
-	line-height                      : 2em !important;
+	background-color                 : #FFFFFF;
+	background-image                 : url('./image/img_eolin_head.jpg');
+	background-repeat                : no-repeat;
+	border                           : 1px solid #666666;
+	left                             : 220px !important;
+	padding                          : 58px 8px 15px 8px;
+	position                         : relative;
+	top                              : 600px !important;
+	width                            : 492px;
+}
+
+#eolinDialog .temp-box
+{
+	border                           : 3px solid #4783B2;
+}
+
+#eolinDialog .temp-box h4
+{
+	border-bottom                    : 1px solid #E6E6E6;
+	color                            : #284A9F;
+	font-size                        : 1em;
+	font-weight                      : bold;
+	margin                           : 20px 15px 10px 15px;
+}
+
+#eolinDialog .temp-box em
+{
+	color                            : #646464;
+	display                          : block;
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#eolinDialog .temp-box p
+{
+	color                            : #7C7C7C;
+	line-height                      : 1.5em;
+	margin                           : 0 17px;
+}
+
+#eolinDialog .button-box
+{
+	border-top                       : 1px solid #E6E6E6;
+	margin                           : 15px 15px 10px 15px;
+	padding                          : 15px 0 5px 0;
+	width                            : auto;
+}
+
+#eolinDialog .button-box button
+{
+	background-image                 : url('./image/bg_eolin_button.gif');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	border                           : none;
+	color                            : #284A9F;
+	height                           : 36px;
+	width                            : 313px;
+}
+
+#eolinDialog .button-box button span
+{
+	background-image                 : url('./image/img_eolin_bullet.jpg');
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 16px;
+}
+
+#eolinDialog .button-box #close-button
+{
+	background-image                 : url('./image/img_eolin_close.jpg');
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 17px;
+	position                         : absolute;
+	top                              : 10px;
+	right                            : 10px;
+	width                            : 17px;
+}
+
+#eolinDialog .button-box #close-button span
+{
+	display                          : none;
 }
 
 /* Template Dialogue ********************************************************************************/
 
 #templateDialog dl dt
 {
-	margin                           : 10px 0 3px 0;
-	font-weight                      : bold !important;
+	margin: 10px 0 3px 0;
+	font-weight: bold !important;
 }
 
 #templateDialog dl dd.noItem
 {
-	border                           : 1px dotted #DBDBDB;
-	text-align                       : center;
-	padding                          : 10px;
+	border: 1px dotted #DBDBDB;
+	text-align: center;
+	padding: 10px;
 }
 
 #templateDialog .button-box
 {
-	padding                          : 10px 0 5px 0 !important;
-}
-
-/** Specified for xquared editor **/
-.xquared .toolbar {
-	border-bottom                    : 1px solid #c2c2c2 !important;
-}
-.xquared .editor {
-	border-top                       : 1px solid #c2c2c2 !important;
-}
-
-.xquared div.toolbar {
-	position                         : fixed !important;
-	top                              : 80px !important;
-	height                           : 30px !important;
-	z-index                          : 190;
+	padding: 10px 0 5px 0 !important;
 }

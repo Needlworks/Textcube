@@ -224,6 +224,7 @@
 
 #part-skin-more
 {
+	clear:left;
 	margin-bottom                    : 100px;
 }
 
@@ -283,39 +284,8 @@
 	width                            : 60px;
 }
 
-/*********** Search form ************/
-#skin-search-form
-{
-    background-color                 : transparent;
-    border                           : none;
-    margin                           : 0;
-    position                         : relative;
-    left                             : 200px;
-    text-align                       : left;
-    top                              : -38px;
-    width                            : 40em;
-    z-index                          : 1;
-}
+/*********** View mode box ************/
 
-#skin-search-form .section label
-{
-    display                          : none;
-}
-
-#search-box
-{
-	float                            : right;
-	margin-left                      : 15px;
-}
-
-#viewmode-box
-{
-	float                            : right;
-}
-#viewmode-box dd
-{
-	margin-left                      : 15px;
-}
 #part-skin-list .main-explain-box
 {
 	clear                            : right;
@@ -651,25 +621,10 @@
 	margin-bottom                    : 15px;
 }
 
-#link-tabs-box
-{
-	position                         : relative;
-	z-index                          : 20;
-	margin                           : 0 200px 10px 300px;
-	top                              : -39px;
-	background-image                 : none;
-	background-color                 : transparent !important;
-}
-
 #part-coverpage-order #direct-link-line
 {
 	margin-bottom                    : 0px;
 	margin-top                       : 0px !important;
-}
-
-#coverpage-tabs-box
-{
-	margin-bottom                    : 30px;
 }
 
 #coverpage-box
@@ -988,10 +943,6 @@
 	padding-right                    : 15px;
 }
 
-#sidebar-tabs-box
-{
-	margin-bottom                    : 30px;
-}
 
 #sidebar-box
 {

@@ -13,18 +13,6 @@
 
 /* Setting ***************************************************************************************/
 
-#plugin-tabs-box
-{
-/*	position                         : fixed;*/
-	position                         : relative;
-	top                              : -113px;
-	margin                           : 0 200px 20px 300px;
-	padding-left                     : 0;
-	z-index                          : 20;
-	background-color                 : transparent !important;
-	background-image                 : none;
-}
-
 #part-plugin-list
 {
 	font-size                        : 1em;
@@ -82,12 +70,6 @@
 	margin                           : 0 !important;
 }
 
-#sorting-line,
-#viewmode-line
-{
-	position                         : static;
-}
-
 #sorting-line-status, #viewmode-line-status
 {
 	padding-left                     : 10px;
@@ -99,28 +81,6 @@
 	border                           : none !important;
 	display                          : block;
 	padding                          : 0;
-}
-
-#sorting-line-align
-{
-	border                           : none !important;
-	right                            : 20px;
-	padding                          : 0 !important;
-	position                         : absolute !important;
-	text-align: right;
-	top                              : 10em;
-	width                            : 400px;
-}
-
-#viewmode-line-align
-{
-	border                           : none !important;
-	right                            : 15px;
-	padding                          : 0 !important;
-	position                         : absolute !important;
-	text-align: right;
-	top                              : 5px;
-	width                            : 400px;
 }
 
 #direct-link-line dt
