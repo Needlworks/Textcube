@@ -88,6 +88,344 @@ table.data-inbox tbody tr td.ip
 	padding                          : 0 0 1px 29px;
 }
 
+
+
+/* icons in table.data-inbox */
+table.data-inbox tbody tr .status .private-on-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-off-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-off-icon a
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-on-icon span,
+table.data-inbox tbody tr .status .private-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .status .protected-on-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-off-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-off-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-on-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+table.data-inbox tbody tr .status .protected-on-icon span,
+table.data-inbox tbody tr .status .protected-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon,
+table.data-inbox tbody tr.notice-line .status .protected-off-icon
+{
+	background-image                 : none;
+}
+
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon a,
+table.data-inbox tbody tr.notice-line .status .protected-off-icon a
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr.keyword-line .syndicate .syndicated-off-icon a,
+table.data-inbox tbody tr.notice-line .syndicate .syndicated-off-icon a
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .status .public-on-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-off-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-off-icon a
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-on-icon span,
+table.data-inbox tbody tr .status .public-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .starred .star-icon
+{
+	background-image                 : url("./image/icon_starred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	margin-right                     : 2px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .starred .unstar-icon
+{
+	background-image                 : url("./image/icon_unstarred.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	margin-right                     : 2px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .starred .star-icon a
+{
+	background-image                 : url("./image/icon_starred.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .starred .unstar-icon a
+{
+	background-image                 : url("./image/icon_unstarred.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .starred .star-icon span,
+table.data-inbox tbody tr .starred .unstar-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-on-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-off-icon
+{
+	background-image                 : url("./image/icon_syndicated.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-off-icon a,
+table.data-inbox tbody tr .syndicate .syndicated-on-icon a
+{
+	display                          : block;
+	height                           : 16px;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr .syndicate .syndicated-off-icon span,
+table.data-inbox tbody tr .syndicate .syndicated-on-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .protect .protect-on-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_protectedsetting.gif");
+	background-position              : left bottom;
+	display                          : block;
+	height                           : 13px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 26px;
+}
+
+table.data-inbox tbody tr .protect .protect-off-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_protectedsetting.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 13px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 26px;
+}
+
+table.data-inbox tbody tr .protect .protect-on-button span,
+table.data-inbox tbody tr .protect .protect-off-button span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .trackback .trackback-on-button
+{
+	background-image                 : url("./image/icon_trackback.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 20px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 20px;
+}
+
+table.data-inbox tbody tr .trackback .trackback-off-button
+{
+	background-image                 : url("./image/icon_trackback_off.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 20px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 20px;
+}
+
+table.data-inbox tbody tr .trackback .trackback-on-button span,
+table.data-inbox tbody tr .trackback .trackback-off-button span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .delete .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+table.data-inbox tbody tr .delete .delete-button span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr td .block-icon
+{
+	background-image                 : url("./image/icon_block_on.gif");
+	background-position              : left bottom;
+	display                          : block;
+	float                            : left;
+	height                           : 12px;
+	margin                           : 0 3px 0 0;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr td .unblock-icon
+{
+	background-image                 : url("./image/icon_block_off.gif");
+	background-position              : left top;
+	display                          : block;
+	float                            : left;
+	height                           : 12px;
+	margin                           : 0 3px 0 0;
+	width                            : 16px;
+}
+
+table.data-inbox tbody tr td .block-icon span,
+table.data-inbox tbody tr td .unblock-icon span
+{
+	display                          : none;
+}
+
 /* Post *******************************************************************************************/
 #part-editor h2
 {
