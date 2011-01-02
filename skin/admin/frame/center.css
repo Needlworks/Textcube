@@ -16,6 +16,7 @@
 
 #layout-body #part-center-quilt
 {
+	min-height                       : 600px;
 }
 
 #part-center-quilt h2,

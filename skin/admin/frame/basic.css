@@ -3,35 +3,32 @@
 /* Basic */
 * {margin:0; padding:0;};
 
-body { font-family:"나눔고딕", sans-serif, serif;color:#555; background-color:#949190; }
+body { font-family:"Namum Gothic", sans-serif, serif;color:#555; background-color:#949190; }
 a:link { color:#555; text-decoration:none;}
 a:hover { color:#f30;}
 a:visited { color:#666;}
 
-.clear { clear:both;}
 img { border:0;}
 h1 { display:none;}
 h2 {display:none;}
 h3 { font-size:1.4em; border-bottom:2px solid #beb7b7; padding-bottom:10px;}
-h3 .sub-name { color:#f30;}
 ol,
 ol li,
 ul,
 ul li { list-style-type:none;}
 legend { display : none;}
 
-dl{position : relative;}
-dl dt {font-weight : bold;left : 0;line-height : 2em;position : absolute;text-align : left;top: 0;}
-dl dd {	line-height: 2em;margin-left : 100px;text-align : left;}
+dl{ position : relative;}
+dl dt { font-weight : bold;left : 0;top: 0;line-height : 2em;position : absolute;text-align:left;}
+dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
 /* Layout (skeleton) */
-#temp-wrap {background-color:#949190; padding-top:30px;}
-#all-wrap { text-align : justify; font-size:0.75em; color:#555; background-color:#949190; margin-top:30px;background:url(./image/bg02.png) top left repeat-y #fff;}
-
+#temp-wrap {background-color:#949190; padding-top:30px;width:100%;}
+#all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:30px;background:url(./image/bg02.png) top left repeat-y #fff;}
 /* Layout (components) */
 #layout-header { width:140px; float:left;}
-#layout-body { min-width:840px; background:url(./image/bg01.png) top right repeat-y; border-top:3px solid #858281; border-right:3px solid #858281;min-height:600px; padding:30px 30px 30px 170px;}
-#layout-footer {clear:both; }
+#layout-body { min-width:940px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; padding:30px 30px 30px 170px;}
+#layout-footer {clear:both;}
 
 /* Blog/user description box */
 /*#main-description-box, #main-action-box, #main-blog-box {
@@ -42,10 +39,16 @@ dl dd {	line-height: 2em;margin-left : 100px;text-align : left;}
 #main-description-box  .edit { background:url(./image/btn_modify_profile.png) no-repeat; width:24px; height:12px; cursor:pointer; border:0;}
 #menu-description-box  .edit span { display:none;}
 
-#main-action-box {
-	
-}
+#main-action-box { position:absolute;top:0;left:5px;}
+#main-action-box ul li {display:inline;margin-right:10px;}
+#main-action-box ul li span {color:#efefef;}
+
+#main-blog-box label {display:none; }
+#main-blog-box select {width:120px;}
+#menu-textcube {display:none;}
+
 /* Main menu */
+
 #main-menu {font-size:1em; padding-left:3px; padding-bottom:40px;}
 #main-menu li {background:url(./image/bg_menu.png) top left no-repeat; font-weight:bold;}
 #main-menu li .menu-name span {padding:15px; display:block;}
@@ -66,9 +69,10 @@ dl dd {	line-height: 2em;margin-left : 100px;text-align : left;}
 #sub-menu-box ul li.selected span {font-size:1.3em;color:#f30 !important;}
 
 /* Footer */
-#layout-footer {  background-color:#949190;;color:#fff; text-align:center; font-size:0.9em; padding:20px;border-top:3px solid #858281;}
+#layout-footer { background-color:#949190;;color:#fff; text-align:center; font-size:0.9em; padding:20px;border-top:3px solid #858281;}
 #layout-footer a { color:#222;}
 #layout-footer .copyright { padding:5px;}
+
 
 
 /**** Common ingredient (imported from canon skin) */
@@ -154,7 +158,7 @@ table.data-inbox thead tr th
 table.data-inbox tbody tr td
 {
 	border-bottom                    : 1px solid #E3E3DE;
-	padding                          : 1px 8px;
+	padding                          : 5px 8px;
 	text-align                       : center;
 }
 
@@ -193,8 +197,8 @@ table.data-inbox tbody tr td.inactive-class
 .data-subbox
 {
 	position                         : relative;
-	padding:0 !important;
-	margin:0 !important;
+	padding                          : 0 !important;
+	margin                           : 0 !important;
 }
 
 #change-section,

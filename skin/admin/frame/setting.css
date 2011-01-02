@@ -37,7 +37,6 @@ dl dd
 
 .part .button-box
 {
-	clear                            : both;
 	text-align                       : left !important;
 	margin-top                       : 10px;
 }
@@ -357,7 +356,6 @@ dl dd
 
 #part-data-correct
 {
-	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
 	width                            : 470px;
@@ -373,7 +371,6 @@ dl dd
 
 #part-data-backup
 {
-	clear                            : right;
 	float                            : right;
 	margin-bottom                    : 20px;
 	margin-right                     : 0;
@@ -382,7 +379,6 @@ dl dd
 
 #part-data-restore
 {
-	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
 	width                            : 470px;
@@ -390,7 +386,6 @@ dl dd
 
 #part-data-remove
 {
-	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
 	width                            : 470px;
