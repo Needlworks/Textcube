@@ -350,6 +350,15 @@
 	width                            : 270px; 
 }
 
+#part-center-quilt .section h3 a,
+#part-center-quilt-edit .section h3 a,
+#part-center-lint .section h3 a,
+#part-center-lint-edit .section h3 a,
+.ajax-floating-panel h3 a
+{
+	display                          : none;
+}
+
 #part-center-quilt .section h4,
 #part-center-quilt .section h5,
 #part-center-quilt .section h6,
@@ -438,16 +447,11 @@
 	display                          : none;
 }
 
-#widget-button-top 
-{
-	position                         : absolute;
-	top                              : -15px;
-	left                             : 450px;
-}
 #widget-button-bottom
 {
 	display                          : none;
 }
+
 #widget-container-0,
 #widget-container-1,
 #widget-container-2

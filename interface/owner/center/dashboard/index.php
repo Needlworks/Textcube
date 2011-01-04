@@ -287,6 +287,7 @@ if(Acl::check('group.owners')) {
 ?>
 
 								<ul id="widget-tabs-box" class="tabs-box">
+									<li class="dashboard selected"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('알림판');?></a></li>
 									<li class="edit"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a></li>
 									<li class="activate"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center"><?php echo _t('위젯 켜고 끄기');?></a>
 								</ul>
@@ -294,7 +295,9 @@ if(Acl::check('group.owners')) {
 	} else {
 ?>
 								<ul id="widget-tabs-box" class="tabs-box">
-									<li class="edit"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('돌아가기');?></a></li>
+									<li class="dashboard"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('알림판');?></a></li>
+									<li class="edit selected"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a></li>
+									<li class="activate"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center"><?php echo _t('위젯 켜고 끄기');?></a>
 								</ul>
 <?php
 	}
@@ -368,7 +371,7 @@ if(Acl::check('group.owners')) {
 <?php
 	} else {
 ?>
-								<div class="button-box">
+								<div id="widget-button-bottom" class="button-box">
 									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard'; return false;" />
 								</div>
 <?php
