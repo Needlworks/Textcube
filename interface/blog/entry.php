@@ -53,10 +53,10 @@ if (empty($suri['value'])) {
 } else if (empty($entries)) {
 	header('HTTP/1.1 404 Not Found');
 	if (empty($skin->pageError)) { 
-		dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
+		dress('article_rep', fireEvent('ViewErrorPage','<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>'), $view);
 	} else {
 		dress('article_rep', NULL, $view); 
-		dress('page_error', $skin->pageError, $view);
+		dress('page_error', fireEvent('ViewErrorPage',$skin->pageError), $view);
 	}
 	unset($paging);
 } else {

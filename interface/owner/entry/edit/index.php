@@ -47,8 +47,9 @@ if (defined('__TEXTCUBE_POST__') && isset($_GET['category'])) {
 }
 
 if(isset($_POST['slogan'])) $_GET['slogan'] = $_POST['slogan'];
-if(defined('__TEXTCUBE_ADD__') && (isset($_GET['slogan']))) {
+if(defined('__TEXTCUBE_POST__') && (isset($_GET['slogan']))) {
 	$entry['slogan'] = $_GET['slogan'];
+	$entry['title'] = $_GET['slogan'];
 }
 
 // Check whether or not user has permission to edit.
