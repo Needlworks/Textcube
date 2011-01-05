@@ -20,7 +20,7 @@ function clearPluginSettingCache()
 }
 
 function activatePlugin($name) {
-	global $database, $activePlugins, $gCacheStorage;
+	global $activePlugins, $gCacheStorage;
 	if (in_array($name, $activePlugins))
 		return true;
 	if (!preg_match('/^[-a-zA-Z0-9_ ]+$/', $name))
@@ -57,11 +57,18 @@ function activatePlugin($name) {
 		return false;
 	}
 	$pluginName = $name;
-	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 255));
-	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
+	$pool = DBModel::getInstance();
+	$pool->reset('Plugins');
+	$pool->setAttribute('blogid',getBlogId());
+	$pool->setAttribute('name',Utils_Unicode::lessenAsEncoding($name, 255),true);
+	$pool->setAttribute('value',null);
+	$result = $pool->insert();
+
+//	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 255));
+//	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
-	return ($result == 1);
+	return ($result == true);
 }
 
 function deactivatePlugin($name) {
@@ -211,7 +218,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		}
 		return true;
 	} else {
-		$query = "CREATE TABLE {$database['prefix']}{$name} (blogid int(11) NOT NULL default 0,";
+		$query = "CREATE TABLE ".$context->getProperty('database.prefix').$name." (blogid int(11) NOT NULL default 0,";
 		$isaiExists = false;
 		$index = '';
 		foreach($fields as $field) {
@@ -237,9 +244,10 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$query .= ") TYPE=MyISAM ";
 		$query .= (POD::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
 		if (POD::execute($query)) {
-				$keyname = POD::escapeString(Utils_Unicode::lessenAsEncoding('Database_' . $name, 32));
-				$value = POD::escapeString(Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255));
-				POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
+				$keyname = Utils_Unicode::lessenAsEncoding('Database_' . $name, 32);
+				$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
+				Setting::setServiceSetting($keyname, $value, true);
+				#POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}
 		else return false;
