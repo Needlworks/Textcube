@@ -264,10 +264,10 @@ if (is_null($coverpageConfig)) {
 }
 ?>
 							<ul id="coverpage-tabs-box" class="tabs-box second-tab">
-								<li<?php echo $defaultModeSelected ? ' class="selected"' : NULL;?>><a id="default-mode-button" class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
-								<li<?php echo $safeModeSelected ? ' class="selected"' : NULL;?>><a id="safe-mode-button" class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
-								<li<?php echo $tagModeSelected ? ' class="selected"' : NULL;?>><a id="tag-mode-button" class="button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
-								<li<?php echo $initModeSelected ? ' class="selected"' : NULL;?>><a id="init-button" class="button" href="coverpage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 표지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('표지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
+								<li class="default-mode-button<?php echo $defaultModeSelected ? ' selected' : NULL;?>"><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage" title="<?php echo _t('실제 출력되는 내용을 직접 볼 수 있는 기본 모드입니다.');?>"><?php echo _t('기본모드');?></a></li>
+								<li class="safe-mode-button<?php echo $safeModeSelected ? ' selected' : NULL;?>"><a  href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage?safe" title="<?php echo _t('태그를 사용하지 않아 레이아웃이 깨질 위험이 없는 모드입니다.');?>"><?php echo _t('안전모드');?></a></li>
+								<li class="tag-mode-button<?php echo $tagModeSelected ? ' selected' : NULL;?>"><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/coverpage?tag" title="<?php echo _t('실제 블로그 표지에 사용되는 태그를 직접사용하는 모드입니다.');?>"><?php echo _t('태그모드');?></a></li>
+								<li class="init-button<?php echo $initModeSelected ? ' selected' : NULL;?>"><a href="coverpage/initialize<?php echo $viewMode2;?>" onclick="if (!confirm('<?php echo _t('정말 표지의 기능을 초기화하시겠습니까?');?>')) return false;" title="<?php echo _t('표지의 기능을 스킨 설정 상태로 초기화합니다.');?>"><span class="text"><?php echo _t('초기화');?></span></a></li>
 							</ul>
 							
 							<div id="coverpage-box" class="data-inbox">

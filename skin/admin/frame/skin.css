@@ -587,6 +587,11 @@
 
 /* Coverpage ***************************************************************************************/
 
+li.default-mode-button
+{
+	display                          : none;	
+}
+
 #part-coverpage-order
 {
 	background-image                 : url("./image/bg_sidebar.png");

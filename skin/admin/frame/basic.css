@@ -1,9 +1,9 @@
 @charset "utf-8";
 
 /* Basic */
-* {margin:0; padding:0;};
+* {margin:0; padding:0;}
 
-body { font-family:"Namum Gothic", sans-serif, serif;color:#555; background-color:#949190; }
+body { font-family:"NamumGothic", sans-serif, serif;color:#555; background-color:#949190; }
 a:link { color:#555; text-decoration:none;}
 a:hover { color:#f30;}
 a:visited { color:#666;}
@@ -18,35 +18,35 @@ ul,
 ul li { list-style-type:none;}
 legend { display : none;}
 
-dl{ position : relative;}
+dl { position : relative;}
 dl dt { font-weight : bold;left : 0;top: 0;line-height : 2em;position : absolute;text-align:left;}
 dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
 /* Layout (skeleton) */
 #temp-wrap {background-color:#949190; padding-top:30px;width:100%;}
-#all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:10px;background:url(./image/bg02.png) top left repeat-y #fff;}
+#all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:10px;background:url(./image/bg02.png) top left repeat-y #949190;}
+
 /* Layout (components) */
-#layout-header { width:140px; float:left;}
-#layout-body { min-width:940px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; padding:30px 30px 30px 170px;}
-#layout-footer {clear:both;}
+/*#layout-header { width:140px; float:left;}*/
+#layout-header { width:140px; position:absolute;top:0;left:0;}
+#layout-body { min-width:940px;min-height:600px;background:url(./image/bg01.png) top right repeat-y #fff; border-top:3px solid #858281; border-right:3px solid #858281; border-bottom:3px solid #858281;padding:30px 30px 30px 170px;margin-right:10px;}
+#layout-footer {}
 
 /* Blog/user description box */
-/*#main-description-box, #main-action-box, #main-blog-box {
-	position:absolute;	
-}*/
-#main-description-box { padding:15px;}
-#main-description-box  img { display:block;}
-#main-description-box  .edit { background:url(./image/btn_modify_profile.png) no-repeat; width:24px; height:12px; cursor:pointer; border:0;}
-#menu-description-box  .edit span { display:none;}
+#main-description-box { padding: 50px 15px 15px 15px;}
+#main-description-box img { display:block;}
+#main-description-box .edit { background:url(./image/btn_modify_profile.png) no-repeat; width:24px; height:12px; cursor:pointer; border:0;}
+#menu-description-box .edit span { display:none;}
 
-#main-action-box { position:absolute;top:15px;left:350px;}
+#main-action-box { position:absolute;top:15px;left:370px;width:400px;}
 #main-action-box ul li {display:inline; margin:12px 0 0 10px; background-color:#676565; border:1px solid #525151; color:#fff; padding:1px 4px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;}
 #main-action-box ul li span {color:#efefef;}
 
-#main-blog-box {position:absolute;top:15px;left:140px;}
+#main-blog-box {position:absolute;top:15px;left:160px;}
 #main-blog-box label {display:none; }
 #main-blog-box select {width:200px;background-color:#eee;border:1px solid #3c3c3c;color : #3c3c3c;}
-#menu-textcube {background:url(./image/logo.png) no-repeat !important; width:111px; height:30px; position:absolute;top:10px;left:0;}
+#menu-textcube {background:url(./image/logo.png) no-repeat !important; width:111px; height:30px; position:absolute;top:7px;left:15px;}
+#menu-textcube a {display:block;width:111px;height:30px;}
 #menu-textcube span {display:none;}
 /* Main menu */
 
@@ -71,7 +71,7 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 #sub-menu-box ul li.selected span {font-size:1.3em;color:#f30 !important;}
 
 /* Footer */
-#layout-footer { background-color:#949190;;color:#fff; text-align:center; font-size:0.9em; padding:20px;border-top:3px solid #858281;}
+#layout-footer { background-color:#949190; color:#fff; text-align:center; font-size:0.9em; padding-top:20px;padding-bottom:10px;}
 #layout-footer a { color:#222;}
 #layout-footer .copyright { padding:5px;}
 
@@ -114,7 +114,7 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
 .second-tab
 {	
-	left                             : 470px !important;	
+	right                            : 230px !important;	
 }
 
 .right li

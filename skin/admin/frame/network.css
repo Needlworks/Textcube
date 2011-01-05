@@ -139,6 +139,206 @@ dl dd
 }
 
 /* table body */
+/* data description */
+#data-description dl.starred-description
+{
+	background-image                 : url("./image/icon_starred_single.gif");
+	background-position              : 8px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.eolin-description
+{
+	background-image                 : url("./image/icon_syndicated_single.gif");
+	background-position              : 8px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.trackback-description
+{
+	background-image                 : url("./image/icon_trackback_off.gif");
+	background-position              : 6px 2px;
+	background-repeat                : no-repeat;
+}
+
+#data-description dl.protect-description
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	padding                          : 0 0 1px 29px;
+}
+
+
+
+/* icons in table.data-inbox */
+table.data-inbox tbody tr .status .private-on-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-off-icon
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-off-icon a
+{
+	background-image                 : url("./image/icon_private.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .private-on-icon span,
+table.data-inbox tbody tr .status .private-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .status .protected-on-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-off-icon
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-off-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .protected-on-icon a
+{
+	background-image                 : url("./image/icon_protected.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	width                            : 15px;
+}
+table.data-inbox tbody tr .status .protected-on-icon span,
+table.data-inbox tbody tr .status .protected-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon,
+table.data-inbox tbody tr.notice-line .status .protected-off-icon
+{
+	background-image                 : none;
+}
+
+table.data-inbox tbody tr.keyword-line .status .protected-off-icon a,
+table.data-inbox tbody tr.notice-line .status .protected-off-icon a
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr.keyword-line .syndicate .syndicated-off-icon a,
+table.data-inbox tbody tr.notice-line .syndicate .syndicated-off-icon a
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .status .public-on-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left bottom;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-off-icon
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	float                            : left;
+	height                           : 15px;
+	margin-right                     : 2px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-off-icon a
+{
+	background-image                 : url("./image/icon_public.gif");
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 15px;
+	width                            : 15px;
+}
+
+table.data-inbox tbody tr .status .public-on-icon span,
+table.data-inbox tbody tr .status .public-off-icon span
+{
+	display                          : none;
+}
+
+table.data-inbox tbody tr .delete .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+table.data-inbox tbody tr .delete .delete-button span
+{
+	display                          : none;
+}
+
 #part-link-list table.data-inbox tbody tr td.homepage
 {
 	background-position              : right bottom;

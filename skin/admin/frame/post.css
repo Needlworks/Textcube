@@ -431,13 +431,6 @@ table.data-inbox tbody tr td .unblock-icon span
 {
 	display                         : none;
 }
-#entry-tabs-box
-{
-	position:absolute;
-	top:33px;
-	left:170px;
-	background-color:#949190 !important;		
-}
 
 #entry-tabs-box li.entry-starred
 {
