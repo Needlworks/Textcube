@@ -61,7 +61,7 @@ function activatePlugin($name) {
 	$pool->reset('Plugins');
 	$pool->setAttribute('blogid',getBlogId());
 	$pool->setAttribute('name',Utils_Unicode::lessenAsEncoding($name, 255),true);
-	$pool->setAttribute('value',null);
+	$pool->setAttribute('settings',null);
 	$result = $pool->insert();
 
 //	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 255));
