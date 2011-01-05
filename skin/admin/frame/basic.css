@@ -24,12 +24,12 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
 /* Layout (skeleton) */
 #temp-wrap {background-color:#949190; padding-top:30px;width:100%;}
-#all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:10px;background:url(./image/bg02.png) top left repeat-y #949190;}
+#all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:10px;background:url(./image/bg02.png) top left repeat-y #fff;margin-right:10px;}
 
 /* Layout (components) */
 /*#layout-header { width:140px; float:left;}*/
 #layout-header { width:140px; position:absolute;top:0;left:0;}
-#layout-body { min-width:940px;min-height:600px;background:url(./image/bg01.png) top right repeat-y #fff; border-top:3px solid #858281; border-right:3px solid #858281; border-bottom:3px solid #858281;padding:30px 30px 30px 170px;margin-right:10px;}
+#layout-body { min-width:940px;min-height:600px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; border-bottom:3px solid #858281;padding:30px 30px 30px 170px;}
 #layout-footer {}
 
 /* Blog/user description box */
