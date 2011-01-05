@@ -76,15 +76,21 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 #layout-footer .copyright { padding:5px;}
 
 /* Menu transition */
+#main-menu li:hover a.menu-name span { background:url(./image/bg_menu_selected.png) left top no-repeat; }
 #main-menu li:hover ul,
-#main-menu li a:hover table
-{
-	display                          : block !important;
-	-webkit-transition:all 1.0s ease-in-out;
-	-moz-transition:all 1.0s ease-in-out;
-	-o-transition:all 1.0s ease-in-out;
-	-transition:all 1.0s ease-in-out;
+#main-menu li a:hover table {
+	display : block !important;
+	position : absolute;
+	left : 140px;
+	background:url(./image/bg02.png) top left repeat-y #fff;
+	z-index : 100 !important;	 
+	width:140px;
+	border:1px solid #beb7b7;
+	-moz-box-shadow                  : 5px 5px 5px #888;
+	-webkit-box-shadow               : 3px 3px 3px #888;
 }
+#main-menu li a { -webkit-transition: all 1.1s; }
+
 
 /**** Common ingredient (imported from canon skin) */
 /* tab */
