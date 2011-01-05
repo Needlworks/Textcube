@@ -11,7 +11,7 @@ a:visited { color:#666;}
 img { border:0;}
 h1 { display:none;}
 h2 {display:none;}
-h3 { font-size:1.4em; border-bottom:2px solid #beb7b7; padding-bottom:10px;}
+h3 { font-size:1.4em; padding-bottom:10px;}
 ol,
 ol li,
 ul,
@@ -24,7 +24,7 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
 /* Layout (skeleton) */
 #temp-wrap {background-color:#949190; padding-top:30px;width:100%;}
-#all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:30px;background:url(./image/bg02.png) top left repeat-y #fff;}
+#all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:10px;background:url(./image/bg02.png) top left repeat-y #fff;}
 /* Layout (components) */
 #layout-header { width:140px; float:left;}
 #layout-body { min-width:940px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; padding:30px 30px 30px 170px;}
@@ -39,14 +39,15 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 #main-description-box  .edit { background:url(./image/btn_modify_profile.png) no-repeat; width:24px; height:12px; cursor:pointer; border:0;}
 #menu-description-box  .edit span { display:none;}
 
-#main-action-box { position:absolute;top:0;left:5px;}
-#main-action-box ul li {display:inline;margin-right:10px;}
+#main-action-box { position:absolute;top:15px;left:350px;}
+#main-action-box ul li {display:inline; margin:12px 0 0 10px; background-color:#676565; border:1px solid #525151; color:#fff; padding:1px 4px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;}
 #main-action-box ul li span {color:#efefef;}
 
+#main-blog-box {position:absolute;top:15px;left:140px;}
 #main-blog-box label {display:none; }
-#main-blog-box select {width:120px;}
-#menu-textcube {display:none;}
-
+#main-blog-box select {width:200px;background-color:#eee;border:1px solid #3c3c3c;color : #3c3c3c;}
+#menu-textcube {background:url(./image/logo.png) no-repeat !important; width:111px; height:30px; position:absolute;top:10px;left:0;}
+#menu-textcube span {display:none;}
 /* Main menu */
 
 #main-menu {font-size:1em; padding-left:3px; padding-bottom:40px;}
@@ -56,6 +57,7 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
 #main-menu li ul.sub-menu { display:none;} /* Hide unnecessary items for design */
 #main-menu li.selected ul.sub-menu { display:block !important; }
+#main-menu li.selected ul.sub-menu h3 { border-bottom:2px solid #beb7b7; }
 
 #main-menu li ul.sub-menu { margin-bottom:20px; font-size:0.9em;}
 #main-menu li ul.sub-menu li {border-top:1px solid #ddd; font-weight:normal; background:none;}
@@ -87,8 +89,9 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 	overflow                         : hidden;
 	padding-left                     : 10px;
 	position                         : absolute;
-	top                              : 33px;
-	left                             : 170px;
+	top                              : 13px;
+/*	left                             : 170px;*/
+	right                            : 20px;
 	background-color                 : transparent;
 }
 

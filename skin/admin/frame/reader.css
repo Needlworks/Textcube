@@ -24,47 +24,27 @@ h2
 }
 
 /* menu -----------------------------------------------------------------------------------------*/
-#data-outbox
-{
-	margin-top:83px;
-	padding                          : 0 0 0 100px !important;
-}
-
 #reader-menu-box
 {
 	background-color                 : #FFFFFF;
-	position                         : fixed;
-	top                              : 35px;
-	z-index                          : 100;
-	width                            : 100%;
-	margin                           : 5px 0 0 0;
+	background-image                 : url("./image/bg_body_top.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border-left                      : 1px solid #BBBBBB;
+	border-right                     : 1px solid #BBBBBB;
+	margin                           : 30px auto 0 auto;
+	width                            : 980px;
 	padding                          : 5px 0 0 0;
 }
 
-#pannel
-{
-	position                         : fixed;
-	top                              : 90px;
-	left                             : 0;
-	z-index                          : 190;
-	width                            : 100%;
-}
-
-#toggleBar
-{
-	position:fixed;
-	top:80px;
-	left:150px;
-	z-index:180;
-}
 #reader-menu
 {
 	background-image                 : url("./image/reader/feed_top.gif");
 	background-position              : right top;
 	background-repeat                : repeat-x;
 	height                           : 30px;
-	margin                           : 0;
-	padding                          : 7px 20px 0 161px;
+	margin                           : 0 10px;
+	padding                          : 7px 20px 0 0;
 }
 
 #reader-menu li
@@ -88,7 +68,8 @@ h2
 
 #sub-menu-helper
 {
-	display                          : none;
+	top                              : 50px;
+	padding-top                      : 0 !important;
 }
 
 #sub-menu-helper a
@@ -149,6 +130,11 @@ h2
 .scrap-off-icon span
 {
 	display                          : none;
+}
+
+#body-network #search-box
+{
+	margin-top: 30px;
 }
 
 #search
@@ -240,7 +226,7 @@ h2
 	background-color                 : #D2D2CC !important;
 	border                           : none !important;
 	margin                           : 0 !important;
-	padding                          : 8px 0 8px 0 !important;
+	padding                          : 0 !important;
 
 }
 
@@ -437,7 +423,7 @@ ul#groupList li .edit-button span
 #feed-section
 {
 	background-color                 : #D2D2CC !important;
-	width                            : 100%;
+	width                            : 960px;
 }
 
 #feedAdder
@@ -792,17 +778,10 @@ ul#feedList li .edit-button span
 /* content list ---------------------------------------------------------------------------------*/
 #scrollPoint
 {
-/*	background-color                 : #D2D2CC;*/
-/*	margin-top                       : 5px;
+	background-color                 : #D2D2CC;
+	margin-top                       : 5px;
 	padding-top                      : 13px;
-	position                         : relative;*/
-}
-#post-information
-{
-	position                         : fixed;
-	top:150px;
-	left:0;
-	margin-bottom:100px;
+	position                         : relative;
 }
 
 #scrollPoint .caption
@@ -824,7 +803,6 @@ ul#feedList li .edit-button span
 	position                         : absolute;
 	z-index                          : 20;
 	width                            : 250px !important;
-	padding-bottom:100px;/**/
 }
 
 #post-list .title
@@ -864,7 +842,7 @@ ul#feedList li .edit-button span
 
 #iconMoreEntries
 {
-	color                            : #333 !important;
+	color                            : #FFFFFF !important;
 }
 
 #listup
@@ -872,8 +850,7 @@ ul#feedList li .edit-button span
 	background-color                 : #F1F1E9;
 	border                           : 4px solid #B4B4A1;
 	clear                            : both;
-/*	height                           : 480px;*/
-	height                           : 300px;
+	height                           : 480px;
 	overflow-y                       : auto;
 	overflow-x                       : hidden;
 	padding                          : 5px;
@@ -1058,9 +1035,8 @@ ul#feedList li .edit-button span
 #post-content
 {
 	min-height                       : 620px;
-	margin                           : 0 6px 0 6px;
+	margin                           : 0 6px 0 266px;
 	overflow                         : auto;
-	padding-top                      : 70px;
 	padding-bottom                   : 6px !important;
 	width                            : auto !important;
 }
@@ -1080,9 +1056,9 @@ ul#feedList li .edit-button span
 #post-content .title .move
 {
 	position                         : absolute;
-	top                              : 15px;
+	top                              : 14px;
 	right                            : 11px;
-	z-index                          : 40;
+	z-index                          : 10;
 }
 
 #post-content .title .move .button,
@@ -1104,13 +1080,10 @@ ul#feedList li .edit-button span
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #858574;
 	color                            : #213141;
-	margin-top                       : 15px !important;
+	margin-top                       : 3px !important;
 	position                         : relative;
-	width                            : 97%;
+	width                            : auto;
 	z-index                          : 50;
-/*	box-shadow                       : -5px 3px 15px #aaa;
-	-webkit-box-shadow               : -5px 3px 15px #aaa;
-	-moz-box-shadow                  : -5px 3px 15px #aaa;*/
 }
 
 #entryHead
@@ -1164,9 +1137,9 @@ ul#feedList li .edit-button span
 	position                         : relative;
 }
 
-#entryFoot .shortcut-box li
+#entryFoot .shortcut-box ul li
 {
-	display                          : inline;	
+	display: inline;
 }
 
 #entryFoot .button-box
@@ -1179,7 +1152,7 @@ ul#feedList li .edit-button span
 	display                          : block;
 	height                           : auto !important;
 	margin                           : 0 0 0 auto !important;
-	padding                          : 0 0 1px 0 !important;
+	padding                          : 3px 0 1px 0 !important;
 	text-align                       : center;
 	width                            : 140px !important;
 }

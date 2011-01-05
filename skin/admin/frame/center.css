@@ -40,6 +40,11 @@
 	display                          : none;
 }
 
+#part-center-quilt-edit #defaultDashboardWidget
+{
+	padding                          : 0 !important;
+}
+
 .widget-state-highlight
 {
 	border: 1px dashed #fc0;
