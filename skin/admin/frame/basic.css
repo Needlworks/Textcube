@@ -51,20 +51,20 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 /* Main menu */
 
 #main-menu {font-size:1em; padding-left:3px; padding-bottom:40px;}
-#main-menu li {background:url(./image/bg_menu.png) top left no-repeat; font-weight:bold;}
-#main-menu li .menu-name span {padding:15px; display:block;}
-#main-menu li.selected a.menu-name span { background:url(./image/bg_menu_selected.png) left top no-repeat; }
+#main-menu > li {background:url(./image/bg_menu.png) top left no-repeat; font-weight:bold;}
+#main-menu > li .menu-name span {padding:15px; display:block;}
+#main-menu > li.selected a.menu-name span { background:url(./image/bg_menu_selected.png) left top no-repeat; }
 
-#main-menu li ul.sub-menu { display:none;} /* Hide unnecessary items for design */
-#main-menu li.selected ul.sub-menu { display:block !important; }
-#main-menu li.selected ul.sub-menu h3 { border-bottom:2px solid #beb7b7; }
+#main-menu > li ul.sub-menu { display:none;opacity:0.0;} /* Hide unnecessary items for design */
+#main-menu > li.selected ul.sub-menu { display:block !important;opacity:1.0; }
+#main-menu > li.selected ul.sub-menu h3 { border-bottom:2px solid #beb7b7; }
 
-#main-menu li ul.sub-menu { margin-bottom:20px; font-size:0.9em;}
-#main-menu li ul.sub-menu li {border-top:1px solid #ddd; font-weight:normal; background:none;}
-#main-menu li ul.sub-menu li a {display:block; background:url(./image/bull_menu.png) 15px 10px no-repeat; padding: 7px 7px 7px 25px;}
-#main-menu li ul.sub-menu li.selected span { color:#f30 !important;}
-#main-menu li ul.sub-menu li.divider {background-color:#eee; height:1px;}
-#main-menu li ul.sub-menu li.divider span {display:none;}
+#main-menu > li ul.sub-menu { margin-bottom:20px; font-size:0.9em;}
+#main-menu > li ul.sub-menu li {border-top:1px solid #ddd; font-weight:normal; background:none;}
+#main-menu > li ul.sub-menu li a {display:block; background:url(./image/bull_menu.png) 15px 10px no-repeat; padding: 7px 7px 7px 25px;}
+#main-menu > li ul.sub-menu li.selected span { color:#f30 !important;}
+#main-menu > li ul.sub-menu li.divider {background-color:#eee; height:1px;}
+#main-menu > li ul.sub-menu li.divider span {display:none;}
 
 #sub-menu-box ul li {display:none;} /* Hide submenu items for design */
 #sub-menu-box ul li.selected{display:block !important;border-bottom:2px solid #ccc;width:100%;margin-bottom:6px;}
@@ -77,20 +77,20 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
 /* Menu transition */
 #main-menu li:hover a.menu-name span { background:url(./image/bg_menu_selected.png) left top no-repeat; }
-#main-menu li:hover ul,
-#main-menu li a:hover table {
+#main-menu li:hover:not([class="selected"]) ul,
+#main-menu li a:hover:not([class="selected"]) table {
 	display : block !important;
 	position : absolute;
-	left : 140px;
+	left : 50px;
 	background:url(./image/bg02.png) top left repeat-y #fff;
 	z-index : 100 !important;	 
 	width:140px;
 	border:1px solid #beb7b7;
-	-moz-box-shadow                  : 5px 5px 5px #888;
-	-webkit-box-shadow               : 3px 3px 3px #888;
+	box-shadow  : 3px 3px 3px #888;
+	-moz-box-shadow  : 3px 3px 3px #888;
+	-webkit-box-shadow : 3px 3px 3px #888;
+	opacity:1.0;
 }
-#main-menu li a { -webkit-transition: all 1.1s; }
-
 
 /**** Common ingredient (imported from canon skin) */
 /* tab */
