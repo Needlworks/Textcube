@@ -42,9 +42,9 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 #main-action-box ul li {display:inline; margin:12px 0 0 10px; background-color:#676565; border:1px solid #525151; color:#fff; padding:1px 4px;border-radius: 3px;-webkit-border-radius: 3px;-moz-border-radius: 3px;}
 #main-action-box ul li span {color:#efefef;}
 
-#main-blog-box {position:absolute;top:15px;left:160px;}
+#main-blog-box {position:absolute;top:12px;left:160px;}
 #main-blog-box label {display:none; }
-#main-blog-box select {width:200px;background-color:#eee;border:1px solid #3c3c3c;color : #3c3c3c;}
+#main-blog-box select {width:200px;font-size:1.2em;background-color:#949190;border:none;color : #fff;overflow: hidden;}
 #menu-textcube {background:url(./image/logo.png) no-repeat !important; width:111px; height:30px; position:absolute;top:7px;left:15px;}
 #menu-textcube a {display:block;width:111px;height:30px;}
 #menu-textcube span {display:none;}
@@ -294,14 +294,14 @@ table.data-inbox tbody tr td.inactive-class
 
 #search-form
 {
-	background-color                 : transparent;
-	background-image                 : url("./image/bg_menu_round.png");
+/*	background-color                 : transparent;
+	background-image                 : url("./image/bg_menu_round.png");*/
 /*	background-image                 : url("./image/bg_menu.png");*/
-	background-position              : left top;
+/*	background-position              : left top;*/
 	border                           : none;
 	margin                           : 0;
 	position                         : fixed !important;
-	top                              : 0; 
+	top                              : 40px; 
 	right                            : 0;
 	width                            : 150px;
 	height                           : 40px;
@@ -325,6 +325,10 @@ table.data-inbox tbody tr td.inactive-class
 	background-image                 : url("./image/bg_search_icon.gif");
 	background-position              : center right;
 	background-repeat                : no-repeat;
+	border                           : 3px solid #ccc;
+		box-shadow  : 3px 3px 3px #888;
+	-moz-box-shadow  : 3px 3px 3px #888;
+	-webkit-box-shadow : 3px 3px 3px #888;
 }
 
 #search-form .search-button
