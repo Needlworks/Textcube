@@ -27,7 +27,7 @@ h3
 #title-section dl,
 #category-section dl
 {
-	border                           : none;
+	border                           : 0;
 	margin-bottom                    : 6px;
 }
 
@@ -37,13 +37,13 @@ h3
 	color                            : #666666;
 	font-weight                      : bold;
 	padding                          : 0 0 3px 0;
-	width                            : 70px !important;
+	width                            : 50px !important;
 }
 
 #title-section dl dd,
 #category-section dl dd
 {
-	margin-left                      : 80px;
+	margin-left                      : 60px;
 }
 
 #title-section dl dd div.starred
@@ -60,10 +60,14 @@ h3
 
 #title-line dd .input-text
 {
-	border                           : 1px solid #999999;
+	border                           : 2px solid #999999;
 	vertical-align                   : middle;
 	width                            : 500px !important;
+	height                           : 25px;
 	margin-left                      : 8px;
+	font-size                        : 1.2em;
+	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
+
 }
 
 #starred
@@ -129,14 +133,13 @@ h3
 #textarea-section
 {
 	background-color                 : #F2F2F2;
-	margin                           : 0 0 0 0;
+	margin                           : 0 230px 0 0;
 	padding                          : 0 0 5px 0;
-	width                            : 650px;
+	border                           : 1px solid #ccc;
 }
 
 #textarea-section dl.editoroption
 {
-	border                           : none;
 	height                           : 24px;
 	padding                          : 5px 5px 4px 5px;
 	position                         : relative;
@@ -213,12 +216,18 @@ h3
 .entry-editor-property
 {
 	background-color                 : #FFFFFF;
-	border                           : 2px solid #999999;
-	padding                          : 0 10px 10px 10px;
+	border                           : 1px solid #ccc;
+	padding                          : 0;
 	position                         : absolute;
-	left                             : 670px;
+	right                            : 10px;
 	top                              : 9px;
-	width                            : 245px;
+	width                            : 200px;
+}
+
+.entry-editor-property p,
+.entry-editor-property dl
+{
+	padding : 10px 10px 0 10px;
 }
 
 .entry-editor-property .entry-editor-property-option
@@ -232,20 +241,22 @@ h3
 
 .entry-editor-property h4
 {
+	background-color                 : #efefef;
 	color                            : #000000;
 	display                          : block;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, AppleGothic, '굴림', Gulim, sans-serif;
 	font-size                        : 1em;
 	font-weight                      : bold;
-	margin                           : 10px 0 5px 0;
-	text-align                       : center;
+	padding                          : 10px;
+	text-align                       : left;
+	height                           : 15px;
+	background-image: -webkit-gradient(linear, left 7, left bottom, from(#fff), to(#eee));
+
 }
 
 .entry-editor-property .title
 {
 	border-bottom                    : 1px solid #666666;
 	color                            : #666666;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, AppleGothic, '굴림', Gulim, sans-serif;
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
 }
@@ -322,12 +333,13 @@ h3
 
 .entry-editor-property .button-box
 {
+	display:none;
 	clear                            : both !important;
 	float                            : none !important;
 	margin                           : 0 0 0 auto !important;
-	padding-top                      : 10px;
+	padding                          : 10px 10px 0 0;
 	text-align                       : right !important;
-	width                            : 220px;
+	width                            : 200px;
 }
 
 .entry-editor-property .button-box .button
@@ -369,40 +381,42 @@ h3
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-	background-color                 : #F2F2F2 !important;
-	margin                           : 0 20px 5px 0;
+	background-color                 : transparent !important;
+	margin                           : 0 20px 0 0;
 	padding                          : 4px 5px 3px 5px;
 	width                            : 640px !important;
 }
 
 #taglocal-section dl
 {
-	border                           : none;
+	border                           : 0;
 	position                         : relative;
 }
 
 #taglocal-section dl dt
 {
-	color                            : #6B90C3;
 	font-weight                      : bold;
-	left                             : 0;
+	left                             : 5px;
 	line-height                      : 20px;
 	padding                          : 0;
 	position                         : absolute;
 	top                              : 0;
-	text-align                       : right;
+	text-align                       : left;
 	width                            : 70px;
 }
 
 #taglocal-section dl dd
 {
-	margin-left                      : 80px;
+	margin-left                      : 95px;
+	border-left                      : 1px solid #EEEEEE;
+	padding                          : 5px 0 3px 10px;
+
 }
 
 #taglocal-section dl dd .input-text
 {
-	border                           : 1px solid #CCCCCC;
-	margin                           : -2px 0 5px 0;
+	border                           : 2px solid #CCCCCC;
+	margin                           : -8px 0 5px 0;
 	vertical-align                   : middle;
 	width                            : 130px;
 }
@@ -442,16 +456,16 @@ h3
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
-	background-color                 : #F5F5F5;
-	margin                           : 5px 20px 2px 0;
+	background-color                 : transparent;
+	margin                           : 5px 230px 2px 0;
 	position                         : relative;
-	width                            : 650px;
 }
 
 #upload-section h3
 {
 	background-color                 : #FFFFFF;
 	display                          : block;
+	font-size                        : 1em;
 	padding                          : 10px 10px 3px 10px;
 }
 
@@ -464,9 +478,9 @@ h3
 {
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #878787;
-	left                             : 12px;
+	left                             : 65px;
 	position                         : absolute;
-	top                              : 10px;
+	top                              : 0;
 }
 
 #previewSelected span
@@ -478,21 +492,20 @@ h3
 
 #attachManagerSelectNest
 {
-	margin-left                      : 144px;
-	width                            : 415px;
+	margin-left                      : 194px;
 }
 
 #TCfilelist
 {
 	height                           : 120px;
-	margin-top                       : 10px;
+	margin-top                       : 0;
 	width                            : 393px !important;
 }
 
 #fileUploadNest
 {
 	height                           : 3em;
-	padding-left                     : 144px !important;
+	padding-left                     : 194px !important;
 	overflow                         : hidden;
 	position                         : relative;
 	text-align                       : left;
@@ -549,7 +562,7 @@ h3
 #insert-container
 {
 	position                         : absolute;
-	top                              : 36px;
+	top                              : 26px;
 	right                            : 5px;
 	width                            : 100px;
 }
@@ -639,7 +652,7 @@ h3
 #power-section
 {
 	line-height                      : 17px;
-	margin                           : 0 20px 0 0px;
+	margin                           : 0 20px 0 0;
 	position                         : relative;
 	padding                          : 0 0 8px 0;
 	width                            : 650px;
@@ -647,8 +660,6 @@ h3
 
 #power-section dl
 {
-	border-bottom                    : 1px solid #DDDDDD;
-	border-top                       : 1px solid #FFFFFF;
 	position                         : relative;
 }
 
@@ -659,14 +670,14 @@ h3
 	position                         : absolute;
 	text-align                       : left;
 	top                              : 0;
-	width                            : 100px;
+	width                            : 70px;
 }
 
 #power-section dl dd
 {
 	border-left                      : 1px solid #EEEEEE;
 	padding                          : 5px 0 3px 10px;
-	margin-left                      : 130px;
+	margin-left                      : 100px;
 }
 
 #power-section dl dd .input-text
@@ -675,15 +686,18 @@ h3
 	vertical-align                   : middle;
 }
 
+
 dl#permalink-line dd .input-text
 {
-	border                           : 1px solid #999999;
-	width                            : 150px;
+	border-top                       : 0;
+	border-right                     : 0;
+	border-left                      : 0;
+	border-bottom                    : 1px solid #bbb;
+	width                            : 250px;
 }
 
 dl#permalink-line dd p
 {
-	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.9em;
 	padding-right                    : 5px;
 	text-align                       : right;
@@ -700,7 +714,6 @@ dl#power-line dd div
 
 dl#power-line
 {
-	border-bottom                    : 1px solid #DDDDDD !important;
 }
 
 .publish-preserve,
@@ -715,8 +728,7 @@ dl#power-line
 /* button box -----------------------------------------------------------------------------------*/
 .button-box
 {
-	padding                          : 20px 0;
-	width                            : 650px;
+	padding                          : 20px 210px 20px 0;
 }
 
 .button-box .input-button
@@ -730,94 +742,6 @@ dl#power-line
 	padding-top                      : 8px;
 	padding-bottom                   : 6px;
 	vertical-align                   : middle;
-}
-
-/* Eolin Dialogue ********************************************************************************/
-
-#eolinDialog
-{
-	background-color                 : #FFFFFF;
-	background-image                 : url('./image/img_eolin_head.jpg');
-	background-repeat                : no-repeat;
-	border                           : 1px solid #666666;
-	left                             : 220px !important;
-	padding                          : 58px 8px 15px 8px;
-	position                         : relative;
-	top                              : 600px !important;
-	width                            : 492px;
-}
-
-#eolinDialog .temp-box
-{
-	border                           : 3px solid #4783B2;
-}
-
-#eolinDialog .temp-box h4
-{
-	border-bottom                    : 1px solid #E6E6E6;
-	color                            : #284A9F;
-	font-size                        : 1em;
-	font-weight                      : bold;
-	margin                           : 20px 15px 10px 15px;
-}
-
-#eolinDialog .temp-box em
-{
-	color                            : #646464;
-	display                          : block;
-	font-weight                      : bold;
-	margin-bottom                    : 5px;
-}
-
-#eolinDialog .temp-box p
-{
-	color                            : #7C7C7C;
-	line-height                      : 1.5em;
-	margin                           : 0 17px;
-}
-
-#eolinDialog .button-box
-{
-	border-top                       : 1px solid #E6E6E6;
-	margin                           : 15px 15px 10px 15px;
-	padding                          : 15px 0 5px 0;
-	width                            : auto;
-}
-
-#eolinDialog .button-box button
-{
-	background-image                 : url('./image/bg_eolin_button.gif');
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	border                           : none;
-	color                            : #284A9F;
-	height                           : 36px;
-	width                            : 313px;
-}
-
-#eolinDialog .button-box button span
-{
-	background-image                 : url('./image/img_eolin_bullet.jpg');
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 16px;
-}
-
-#eolinDialog .button-box #close-button
-{
-	background-image                 : url('./image/img_eolin_close.jpg');
-	background-repeat                : no-repeat;
-	display                          : block;
-	height                           : 17px;
-	position                         : absolute;
-	top                              : 10px;
-	right                            : 10px;
-	width                            : 17px;
-}
-
-#eolinDialog .button-box #close-button span
-{
-	display                          : none;
 }
 
 /* Template Dialogue ********************************************************************************/

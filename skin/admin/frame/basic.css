@@ -22,7 +22,7 @@ dl { position : relative;}
 dl dt { font-weight : bold;left : 0;top: 0;line-height : 2em; position : absolute; text-align:left;}
 dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 
-fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px solid #DDDDDD; border-left : none; border-right : none; border-top : 1px solid #CCCCCC; margin : 0 0 30px 0;}
+fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px solid #DDDDDD; border-left : 0; border-right : 0; border-top : 1px solid #CCCCCC; margin : 0 0 30px 0;}
 
 /* Layout (skeleton) */
 #temp-wrap {background-color:#949190; padding-top:30px;width:100%;}
@@ -46,7 +46,7 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 
 #main-blog-box {position:absolute;top:12px;left:160px;}
 #main-blog-box label {display:none; }
-#main-blog-box select {width:200px;font-size:1.2em;background-color:#949190;border:none;color : #fff;overflow: hidden;}
+#main-blog-box select {width:200px;font-size:1.2em;background-color:#949190;border:0;color : #fff;overflow: hidden;}
 #menu-textcube {background:url(./image/logo.png) no-repeat !important; width:111px; height:30px; position:absolute;top:7px;left:15px;}
 #menu-textcube a {display:block;width:111px;height:30px;}
 #menu-textcube span {display:none;}
@@ -237,7 +237,7 @@ table.data-inbox tbody tr td.inactive-class
 #delete-section-top
 {
 	background-color                 : #FFF;
-	border-top                       : none;
+	border-top                       : 0;
 	margin                           : 0 0 5px 0;
 	padding-top                      : 8px;
 	padding-bottom                   : 8px;
@@ -300,7 +300,7 @@ table.data-inbox tbody tr td.inactive-class
 	background-image                 : url("./image/bg_menu_round.png");*/
 /*	background-image                 : url("./image/bg_menu.png");*/
 /*	background-position              : left top;*/
-	border                           : none;
+	border                           : 0;
 	margin                           : 0;
 	position                         : fixed !important;
 	top                              : 40px; 
