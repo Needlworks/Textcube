@@ -75,7 +75,16 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 #layout-footer a { color:#222;}
 #layout-footer .copyright { padding:5px;}
 
-
+/* Menu transition */
+#main-menu li:hover ul,
+#main-menu li a:hover table
+{
+	display                          : block !important;
+	-webkit-transition:all 1.0s ease-in-out;
+	-moz-transition:all 1.0s ease-in-out;
+	-o-transition:all 1.0s ease-in-out;
+	-transition:all 1.0s ease-in-out;
+}
 
 /**** Common ingredient (imported from canon skin) */
 /* tab */
