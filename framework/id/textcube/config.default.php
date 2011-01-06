@@ -13,7 +13,7 @@ define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
-define('JQUERY_VERSION','1.4');
+define('JQUERY_VERSION','1.4.4');
 if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "\\");
 } else {
@@ -50,7 +50,7 @@ $service['reader'] = true;
 $service['flashclipboardpoter'] = true;
 $service['allowBlogVisibilitySetting'] = true;
 $service['disableEolinSuggestion'] = false;
-$service['interface'] = 'detail';	// 'simple' or 'detail'. Default is 'detail'
+$service['interface'] = 'simple';	// 'simple' or 'detail'. Default is 'detail'
 $service['pagecache'] = true;
 $service['codecache'] = false;
 $service['skincache'] = true;

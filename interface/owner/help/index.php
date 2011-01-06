@@ -10,9 +10,7 @@ $IV = array(
 	);
 
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
+
 $filename = $_GET['lang'].'.'.$_GET['subject'].'.html';
 $shortcutFilename = $_GET['lang'].'.shortcut.html';
 

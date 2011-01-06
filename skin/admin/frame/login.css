@@ -8,6 +8,13 @@ body
 	color: #666;
 }
 
+#temp-wrap,
+#all-wrap
+{
+	background-color                 : #fff;
+	background-image                 : none !important;
+}
+
 #data-outbox
 {
 	background-image                 : url("./image/bg_login.png");

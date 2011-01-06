@@ -11,7 +11,7 @@
 			</div>
 		</div>
 	</div>
-	
+	<div id="dialog-box" class="dialog">sssssssss</div>
 	<script type="text/javascript">
 		//<![CDATA[
 			document.onkeydown = function(oEvent) {
@@ -130,7 +130,14 @@ if (Acl::check('group.creators')) {
 }
 ?>
 					case 191: //?
-						MOOdalBox.open("<?php echo $context->getProperty('uri.default')."/owner/help/?subject=".$blogMenu['topMenu'].'_'.$blogMenu['contentMenu']."&lang=".$blog['language'];?>","","500 300");
+						var helpRequest = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.default')."/owner/help/?subject=".$blogMenu['topMenu'].'_'.$blogMenu['contentMenu']."&lang=".$context->getProperty('blog.language');?>");
+						helpRequest.onSuccess = function () {
+							toggleDialog(this.getText(),500);	
+						}
+						helpRequest.onError = function () {
+							toggleDialog(this.getText(),500);	
+						}
+						helpRequest.send();
 						break;
 					default:
 				}
