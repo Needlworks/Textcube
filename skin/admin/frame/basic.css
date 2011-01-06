@@ -62,7 +62,7 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 #main-menu > li.selected ul.sub-menu h3 { border-bottom:2px solid #beb7b7; }
 
 #main-menu > li ul.sub-menu { margin-bottom:20px; font-size:0.9em;}
-#main-menu > li ul.sub-menu li {border-top:1px solid #ddd; font-weight:normal; background:none;}
+#main-menu > li ul.sub-menu li {border-top:1px solid #ddd; font-weight:normal;/* background:none;*/}
 #main-menu > li ul.sub-menu li a {display:block; background:url(./image/bull_menu.png) 15px 10px no-repeat; padding: 7px 7px 7px 25px;}
 #main-menu > li ul.sub-menu li.selected span { color:#f30 !important;}
 #main-menu > li ul.sub-menu li.divider {background-color:#eee; height:1px;}
@@ -78,11 +78,12 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 #layout-footer .copyright { padding:5px;}
 
 /* Menu transition */
-#main-menu li:hover a.menu-name span { background:url(./image/bg_menu_selected.png) left top no-repeat; }
+#main-menu li:hover a.menu-name span { background:url(./image/bg_menu_selected_onclick.png) left top no-repeat; }
 #main-menu li:hover:not([class="selected"]) ul,
 #main-menu li a:hover:not([class="selected"]) table {
 	display : block !important;
-	position : absolute;
+	opacity:1.0;
+/*	position : absolute;
 	left : 50px;
 	background:url(./image/bg02.png) top left repeat-y #fff;
 	z-index : 100 !important;	 
@@ -91,7 +92,7 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 	box-shadow  : 3px 3px 3px #888;
 	-moz-box-shadow  : 3px 3px 3px #888;
 	-webkit-box-shadow : 3px 3px 3px #888;
-	opacity:1.0;
+	opacity:1.0; */
 }
 
 /**** Common ingredient (imported from canon skin) */
@@ -289,7 +290,7 @@ table.data-inbox tbody tr td.inactive-class
 #change-section-top,
 #delete-section-top
 {
-	background-color                 : #FFF;
+	background-color                 : transparent;
 	border-top                       : 0;
 	margin                           : 0 0 5px 0;
 	padding-top                      : 8px;
@@ -300,7 +301,7 @@ table.data-inbox tbody tr td.inactive-class
 
 #page-navigation
 {
-	background-color                 : #FFFFFF;
+	background-color                 : transparent;
 	margin                           : 20px 0 40px 0;
 	text-align                       : center;
 	width                            : 100%;
