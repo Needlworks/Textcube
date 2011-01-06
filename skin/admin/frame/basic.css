@@ -25,17 +25,17 @@ dl dd {	line-height: 2em; margin-left : 100px; text-align : left;}
 fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px solid #DDDDDD; border-left : 0; border-right : 0; border-top : 1px solid #CCCCCC; margin : 0 0 30px 0;}
 
 /* Layout (skeleton) */
-#temp-wrap {background-color:#949190; padding-top:30px;width:100%;}
+#temp-wrap {background-color:#949190; padding-top:60px;width:100%;}
 #all-wrap { text-align : justify; font-size:0.75em; color:#555; margin-top:10px;background:url(./image/bg02.png) top left repeat-y #fff;margin-right:10px;}
 
 /* Layout (components) */
 /*#layout-header { width:140px; float:left;}*/
 #layout-header { width:140px; position:absolute;top:0;left:0;}
-#layout-body { min-width:940px;min-height:600px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; border-bottom:3px solid #858281;padding:30px 30px 30px 170px;}
+#layout-body { min-width:940px;min-height:600px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; border-bottom:3px solid #858281;padding:60px 30px 30px 170px;}
 #layout-footer {}
 
 /* Blog/user description box */
-#main-description-box { padding: 50px 15px 15px 15px;}
+#main-description-box { padding: 80px 15px 15px 15px;}
 #main-description-box img { display:block;}
 #main-description-box .edit { background:url(./image/btn_modify_profile.png) no-repeat; width:24px; height:12px; cursor:pointer; border:0;}
 #menu-description-box .edit span { display:none;}
@@ -159,9 +159,9 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 	overflow                         : hidden;
 	padding-left                     : 10px;
 	position                         : absolute;
-	top                              : 13px;
+	top                              : 43px;
 /*	left                             : 170px;*/
-	right                            : 25px;
+	left                            : 5px;
 	background-color                 : transparent;
 }
 
@@ -184,7 +184,7 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 
 .second-tab
 {	
-	right                            : 230px !important;	
+	left                             : 230px !important;	
 }
 
 .right li
