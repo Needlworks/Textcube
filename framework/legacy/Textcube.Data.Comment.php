@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Comment {
@@ -207,9 +207,13 @@ class Comment {
 		}
 		if (isset($this->longitude) && Validator::number($this->longitude)) {
 			$query->setAttribute('longitude', $this->longitude, false);
+		} else {
+			$query->setAttribute('longitude', null);
 		}
 		if (isset($this->latitude) && Validator::number($this->latitude)) {
 			$query->setAttribute('latitude', $this->latitude, false);
+		} else {
+			$query->setAttribute('latitude', null);
 		}
 		if (isset($this->written)) {
 			if (!Validator::timestamp($this->written))
