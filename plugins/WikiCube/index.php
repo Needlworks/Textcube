@@ -1,7 +1,7 @@
 <?php
 /* WikiCube
    ----------------------------------
-   Version 0.12
+   Version 0.13
    Starts at        : Apr. 5, 2006
    Last modified at : Jan. 9, 2011
    
@@ -19,9 +19,11 @@
  the Free Software Foundation; either version 2 of the License, or
  (at your option) any later version.
 
+ 13. user-custom link added. [[printWord|realLink]]
  12. category link added.
  11. tag link added.
  10. error page post added.
+ 09. basic functions.
 */
 
 function WikiCube_FormatContent($target, $mother) {
@@ -31,9 +33,10 @@ function WikiCube_FormatContent($target, $mother) {
 
 	$context = Model_Context::getInstance();
 	$pattern = array(
-		'/\[\[(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$1'.'">$1</a>',
+		'/\[\[(.*?)|(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$2'.'">$1</a>',
 		'/\[\[tg:(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/tag/$1'.'">$1</a>',
 		'/\[\[ct:(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/category/$1'.'">$1</a>'
+		'/\[\[(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$1'.'">$1</a>'
 	);
     foreach ($pattern as $original => $replaced)
         $target = preg_replace($original, $replaced, $target);
