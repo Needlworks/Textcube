@@ -2,7 +2,7 @@
 <plugin version="2.0">
 	<title xml:lang="en">WikiCube</title>
 	<title xml:lang="ko">WikiCube</title>
-	<version>0.1</version>
+	<version>0.12</version>
 	<description xml:lang="en">Add Wiki-like environment to Textcube.</description>
 	<description xml:lang="ko"><![CDATA[위키식의 사용 기능을 텍스트큐브에 추가합니다.]]></description>
 	<license>GPL</license>
