@@ -33,9 +33,9 @@ function WikiCube_FormatContent($target, $mother) {
 
 	$context = Model_Context::getInstance();
 	$pattern = array(
-		'/\[\[(.*?)|(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$2'.'">$1</a>',
+		'/\[\[(.*?)\|(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$2'.'">$1</a>',
 		'/\[\[tg:(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/tag/$1'.'">$1</a>',
-		'/\[\[ct:(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/category/$1'.'">$1</a>'
+		'/\[\[ct:(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/category/$1'.'">$1</a>',
 		'/\[\[(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$1'.'">$1</a>'
 	);
     foreach ($pattern as $original => $replaced)
