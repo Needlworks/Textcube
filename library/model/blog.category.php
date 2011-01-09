@@ -311,14 +311,14 @@ function deleteCategory($blogid, $id) {
 }
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
-	global $database;
+	$ctx = Model_Context::getInstance();
 	requireModel('blog.feed');
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
 	$row = POD::queryRow("SELECT p.name, p.id
-		FROM {$database['prefix']}Categories c
-		LEFT JOIN {$database['prefix']}Categories p ON c.parent = p.id
+		FROM ".$ctx->getProperty('database.prefix')."Categories c
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories p ON c.parent = p.id
 		WHERE c.blogid = $blogid AND c.id = $id");
 	$label = $row['name'];
 //	$parentId = $row['id'];
@@ -329,19 +329,19 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 127));
 	$bodyid = POD::escapeString(Utils_Unicode::lessenAsEncoding($bodyid, 20));
 	if(POD::queryExistence("SELECT name
-		FROM {$database['prefix']}Categories
+		FROM ".$ctx->getProperty('database.prefix')."Categories
 		WHERE blogid = $blogid AND name = '".$name."' AND bodyid = '".$bodyid."'"))
 		return false;
 	$label = POD::escapeString(Utils_Unicode::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
 	$sql = "SELECT *
-		FROM {$database['prefix']}Categories
+		FROM ".$ctx->getProperty('database.prefix')."Categories
 		WHERE blogid = $blogid
 			AND id = $id";
-	// $sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE blogid = $blogid AND name='$name' $parentStr";
+	// $sql = "SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND name='$name' $parentStr";
 	if(POD::queryExistence($sql) == false)
 		return false;
 
-	$result = POD::query("UPDATE {$database['prefix']}Categories
+	$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Categories
 		SET name = '$name',
 			label = '$label',
 			bodyid = '$bodyid'
@@ -405,7 +405,7 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 }
 
 function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $parameters = null) {
-	global $database;
+
 	$count        = getCategory($blogid, $categoryid, 'entries');
 	$countInLogin = getCategory($blogid, $categoryid, 'entriesinlogin');
 	if(empty($count)) $count = 0;
@@ -434,14 +434,20 @@ function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $para
 				}
 			}
 	}
-
-	return POD::query("UPDATE {$database['prefix']}Categories SET entries = $count, entriesinlogin = $countInLogin WHERE blogid = $blogid AND id = $categoryid");
+	$pool = DBModel::getInstance();
+	$pool->reset('Categories');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$categoryid,false);
+	$pool->setAttribute('entries',$count,false);
+	$pool->setAttribute('entriesinlogin',$countInLogin,false);
+	return $pool->update();
 }
 
 function updateEntriesOfCategory($blogid, $categoryId = - 1) {
-	global $database;
+	$ctx = Model_Context::getInstance();
+
 	if ($categoryId == -1) {
-		$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent IS NULL");
+		$result = POD::queryAll("SELECT * FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent IS NULL");
 	} else {
 		$parent = getParentCategoryId($blogid, $categoryId);
 		if (empty($parent)) {	// It is parent.
@@ -449,26 +455,26 @@ function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 		} else {
 			$lookup = $parent;
 		}
-		$result = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND id = $lookup");	
+		$result = POD::queryAll("SELECT * FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND id = $lookup");	
 	}
 	
 	foreach($result as $row) {
 		$parent = $row['id'];
 		$parentName = Utils_Unicode::lessenAsEncoding($row['name'], 127);
 		$row['name'] = POD::escapeString($parentName);
-		$countParent = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
-		$countInLoginParent = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
-		$result2 = POD::queryAll("SELECT * FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $parent");
+		$countParent = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
+		$countInLoginParent = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
+		$result2 = POD::queryAll("SELECT * FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent = $parent");
 		foreach ($result2 as $rowChild) {
 			$label = POD::escapeString(Utils_Unicode::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
 			$rowChild['name'] = POD::escapeString(Utils_Unicode::lessenAsEncoding($rowChild['name'], 127));
-			$countChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
-			$countInLogInChild = POD::queryCell("SELECT COUNT(id) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
-			POD::query("UPDATE {$database['prefix']}Categories SET entries = $countChild, entriesinlogin = $countInLogInChild, label = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
+			$countChild = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
+			$countInLogInChild = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
+			POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Categories SET entries = $countChild, entriesinlogin = $countInLogInChild, label = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
 			$countParent += $countChild;
 			$countInLoginParent += $countInLogInChild;
 		}
-		POD::query("UPDATE {$database['prefix']}Categories SET entries = $countParent, entriesinlogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
+		POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Categories SET entries = $countParent, entriesinlogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
 	if($categoryId >=0) CacheControl::flushCategory($categoryId);
 	clearCategoryCache();
@@ -476,7 +482,8 @@ function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 }
 
 function moveCategory($blogid, $id, $direction) {
-	global $database;
+	$ctx = Model_Context::getInstance();
+	
 	if ($direction == 'up') {
 		$sign = '<';
 		$arrange = 'DESC';
@@ -500,8 +507,8 @@ function moveCategory($blogid, $id, $direction) {
 				_parent.parent AS parentParent,
 				_my.priority AS myPriority,
 				_my.parent AS myParent
-			FROM {$database['prefix']}Categories AS _my
-				LEFT JOIN {$database['prefix']}Categories AS _parent ON _parent.id = _my.parent
+			FROM ".$ctx->getProperty('database.prefix')."Categories AS _my
+				LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories AS _parent ON _parent.id = _my.parent
 			WHERE _my.id = $id AND _my.blogid = $blogid";
 	$row = POD::queryRow($sql);
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
@@ -509,10 +516,10 @@ function moveCategory($blogid, $id, $direction) {
 	$parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
 //	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
 	$myPriority = $row['myPriority'];
-	$sql = "SELECT count(*) FROM {$database['prefix']}Categories WHERE parent = $myId AND blogid = $blogid";
+	$sql = "SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent = $myId AND blogid = $blogid";
 	$myIsHaveChild = (POD::queryCell($sql) > 0) ? true : false;
 	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
-	$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE $aux AND blogid = $blogid AND id != 0 AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
+	$sql = "SELECT id, parent, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE $aux AND blogid = $blogid AND id != 0 AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
 //	$canMove = (POD::queryCount($sql) > 0) ? true : false;
 	$row = POD::queryRow($sql);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
@@ -522,13 +529,13 @@ function moveCategory($blogid, $id, $direction) {
 	if ($myParent == 'NULL') {
 		// 자신이 2 depth를 가지고 있고, 위치를 바꿀 대상 카테고리가 있는 경우.
 		if ($myIsHaveChild && $nextId != 'NULL') {
-			$sql = "UPDATE {$database['prefix']}Categories
+			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 						SET
 							priority = $myPriority
 						WHERE
 							id = $nextId AND blogid = $blogid";
 			POD::query($sql);
-			$sql = "UPDATE {$database['prefix']}Categories
+			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 						SET
 							priority = $nextPriority
 						WHERE
@@ -537,28 +544,28 @@ function moveCategory($blogid, $id, $direction) {
 		// 자신이 2 depth를 가지지 않은 1 depth 카테고리이거나, 위치를 바꿀 대상이 없는 경우.
 		} else {
 			// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-			$myName = POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE id = $myId AND blogid = $blogid");
-			$overlapCount = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
+			$myName = POD::queryCell("SELECT name FROM ".$ctx->getProperty('database.prefix')."Categories WHERE id = $myId AND blogid = $blogid");
+			$overlapCount = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
 			// 같은 이름이 없으면 이동 시작.
 			if ($overlapCount == 0) {
-				$sql = "UPDATE {$database['prefix']}Categories
+				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 							SET
 								parent = $nextId
 							WHERE
 								id = $myId AND blogid = $blogid";
 				POD::query($sql);
-				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority DESC";
+				$sql = "SELECT id, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority DESC";
 				$row = POD::queryRow($sql);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId != 'NULL') {
-					$sql = "UPDATE {$database['prefix']}Categories
+					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 								SET
 									priority = " . max($nextPriority, $myPriority) . "
 								WHERE
 									id = $nextId AND blogid = $blogid";
 					POD::query($sql);
-					$sql = "UPDATE {$database['prefix']}Categories
+					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 								SET
 									priority = " . min($nextPriority, $myPriority) . "
 								WHERE
@@ -567,13 +574,13 @@ function moveCategory($blogid, $id, $direction) {
 				}
 			// 같은 이름이 있으면.
 			} else {
-				$sql = "UPDATE {$database['prefix']}Categories
+				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 							SET
 								priority = $myPriority
 							WHERE
 								id = $nextId AND blogid = $blogid";
 				POD::query($sql);
-				$sql = "UPDATE {$database['prefix']}Categories
+				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 							SET
 								priority = $nextPriority
 							WHERE
@@ -585,11 +592,11 @@ function moveCategory($blogid, $id, $direction) {
 	} else {
 		// 위치를 바꿀 대상이 1 depth이면.
 		if ($nextId == 'NULL') {
-			$myName = POD::escapeString(POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE id = $myId and blogid = $blogid"));
-			$overlapCount = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Categories WHERE name = '$myName' AND parent IS NULL AND blogid = $blogid");
+			$myName = POD::escapeString(POD::queryCell("SELECT name FROM ".$ctx->getProperty('database.prefix')."Categories WHERE id = $myId and blogid = $blogid"));
+			$overlapCount = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE name = '$myName' AND parent IS NULL AND blogid = $blogid");
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
-				$sql = "SELECT id, parent, priority FROM {$database['prefix']}Categories WHERE parent IS NULL AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
+				$sql = "SELECT id, parent, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent IS NULL AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
 				$result = POD::queryAll($sql);
 				foreach($result as $row) {
 					$nextId = $row['id'];
@@ -597,11 +604,11 @@ function moveCategory($blogid, $id, $direction) {
 					$nextPriority = $row['priority'];
 
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-					$myName = POD::escapeString(POD::queryCell("SELECT name FROM {$database['prefix']}Categories WHERE id = $myId AND blogid = $blogid"));
-					$overlapCount = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
+					$myName = POD::escapeString(POD::queryCell("SELECT name FROM ".$ctx->getProperty('database.prefix')."Categories WHERE id = $myId AND blogid = $blogid"));
+					$overlapCount = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
 					// 같은 이름이 없으면 이동 시작.
 					if ($overlapCount == 0) {
-						$sql = "UPDATE {$database['prefix']}Categories
+						$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 									SET
 										parent = $nextId
 									WHERE
@@ -612,15 +619,15 @@ function moveCategory($blogid, $id, $direction) {
 				}
 			// 같은 이름이 없으면 1 depth로 이동.
 			} else {
-				$sql = "UPDATE {$database['prefix']}Categories SET parent = NULL WHERE id = $myId AND blogid = $blogid";
+				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories SET parent = NULL WHERE id = $myId AND blogid = $blogid";
 				POD::query($sql);
-				$sql = "SELECT id, priority FROM {$database['prefix']}Categories WHERE parent is null AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
+				$sql = "SELECT id, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent is null AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
 				$row = POD::queryRow($sql);
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId == 'NULL') {
 					$operator = ($direction == 'up') ? '-' : '+';
-					$sql = "UPDATE {$database['prefix']}Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND blogid = $blogid";
+					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND blogid = $blogid";
 					POD::query($sql);
 				} else {
 					if ($direction == 'up') {
@@ -630,21 +637,21 @@ function moveCategory($blogid, $id, $direction) {
 						$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND blogid = $blogid";
 						$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
 					}
-					$sql = "UPDATE {$database['prefix']}Categories $aux";
+					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories $aux";
 					POD::query($sql);
-					$sql = "UPDATE {$database['prefix']}Categories $aux2";
+					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories $aux2";
 					POD::query($sql);
 				}
 			}
 		// 위치를 바꿀 대상이 2 depth이면 위치 교환.
 		} else {
-			$sql = "UPDATE {$database['prefix']}Categories
+			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 						SET
 							priority = $myPriority
 						WHERE
 							id = $nextId AND blogid = $blogid";
 			POD::query($sql);
-			$sql = "UPDATE {$database['prefix']}Categories
+			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
 						SET
 							priority = $nextPriority
 						WHERE
@@ -657,7 +664,6 @@ function moveCategory($blogid, $id, $direction) {
 }
 
 function checkRootCategoryExistence($blogid) {
-	global $database;
 	$pool = DBModel::getInstance();	
 	$pool->reset('Categories');
 	$pool->setQualifier('blogid','eq',$blogid);

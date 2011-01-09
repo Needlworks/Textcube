@@ -107,7 +107,6 @@ function setPrimaryDomain($blogid, $name) {
 }
 
 function setSecondaryDomain($blogid, $domain) {
-	global $database;
 	$ctx = Model_Context::getInstance();
 	
 	requireModel('blog.feed');
@@ -117,7 +116,7 @@ function setSecondaryDomain($blogid, $domain) {
 	if (empty($domain))
 		Setting::setBlogSettingGlobal('secondaryDomain','');
 	else if (Validator::domain($domain)) {		
-		if (POD::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings 
+		if (POD::queryExistence("SELECT * FROM ".$ctx->getProperty('database.prefix')."BlogSettings 
 			WHERE blogid <> $blogid 
 				AND name = 'secondaryDomain'
 				AND (value = '$domain' OR value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
@@ -226,7 +225,6 @@ function setGuestbook($blogid, $write, $comment) {
 }
 
 function addBlog($blogid, $userid, $identify) {
-	global $database, $service;
 	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	
@@ -489,8 +487,7 @@ function cancelInvite($userid,$clean = true) {
 function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	$pool = DBModel::getInstance();
 	$pool->reset('UserSettings');
-		
-	global $database;
+	$ctx = Model_Context::getInstance();
 	
 	if (!strlen($pwd) || (!strlen($prevPwd) && !$forceChange))
 		return false;
@@ -509,7 +506,7 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 		$secret = '(password = \'' . md5($prevPwd) . "' OR password = '$prevPwd')";
 	else
 		$secret = 'password = \'' . md5($prevPwd) . '\'';
-	$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid AND $secret");
+	$count = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Users WHERE userid = $userid AND $secret");
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);
@@ -543,7 +540,7 @@ function deleteBlog($blogid) {
 
 function removeBlog($blogid) {
 	$pool = DBModel::getInstance();
-	global $database;
+	$ctx = Model_Context::getInstance();
 	if (Setting::getServiceSetting("defaultBlogId",1,true) == $blogid) {
 		return false;
 	}
@@ -560,21 +557,21 @@ function removeBlog($blogid) {
 	}	
 	
 	//Delete Tags
-	$tags = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
+	$tags = POD::queryColumn("SELECT DISTINCT tag FROM ".$ctx->getProperty('database.prefix')."TagRelations WHERE blogid = $blogid");
 	if (count($tags) > 0) 
 	{
 		$tagliststr = implode(', ', $tags);	// Tag id used at deleted blog.
-		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
+		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM ".$ctx->getProperty('database.prefix')."TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
 		if (count($nottargets) > 0) {
 			$nottargetstr	= implode(', ', $nottargets);
-			POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+			POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
 		} else {
-			POD::execute("DELETE FROM {$database['prefix']}Tags WHERE id IN ( $tagliststr ) ");
+			POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."Tags WHERE id IN ( $tagliststr ) ");
 		}
 	}
 	
 	//Delete Feeds	
-	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
+	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM ".$ctx->getProperty('database.prefix')."FeedGroupRelations WHERE blogid = $blogid");
 	if (count($feeds) > 0) 
 	{
 		foreach($feeds as $feedId)
@@ -585,11 +582,11 @@ function removeBlog($blogid) {
 
 	//Clear Plugin Database
 	// TODO : encapsulate with 'value' 
-	$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
+	$query = "SELECT name, value FROM ".$ctx->getProperty('database.prefix')."ServiceSettings WHERE name like 'Database\\_%'";
 	$plugintablesraw = POD::queryAll($query);
 	foreach($plugintablesraw as $table) {
-		$dbname = $database['prefix'] . substr($table['name'], 9);
-		POD::execute("DELETE FROM {$database['prefix']}{$dbname} WHERE blogid = $blogid");
+		$dbname = $ctx->getProperty('database.prefix') . substr($table['name'], 9);
+		POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."{$dbname} WHERE blogid = $blogid");
 	}
 
 	//Clear RSS Cache

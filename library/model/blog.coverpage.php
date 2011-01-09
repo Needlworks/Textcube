@@ -14,7 +14,7 @@ function getCoverpageModuleOrderData() {
 }
 
 function addCoverpageModuleOrderData($dataArray, $coverpageNumber, $modulePos, $newModuleData) {
-	global $skin, $coverpageMappings;
+	global $coverpageMappings;
 	
 	if (!isset($dataArray[$coverpageNumber]) || empty($dataArray[$coverpageNumber]))
 		$dataArray[$coverpageNumber] = array();

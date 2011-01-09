@@ -317,7 +317,6 @@ function api_file_hash( $content )
 
 
 function api_addAttachment($blogid,$parent,$file) {
-//	global $database;
 
 	$pool = DBModel::getInstance();
 		
