@@ -1164,7 +1164,7 @@ INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'timezone', '$baseTimezo
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}Plugins VALUES (1, 'CL_OpenID', null);
-INSERT INTO {$_POST['dbPrefix']}SkinSettings VALUES (1,'skin','coolant');
+INSERT INTO {$_POST['dbPrefix']}SkinSettings VALUES (1,'skin','musicpaper');
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, contentformatter, contenteditor, starred, acceptcomment, accepttrackback, created, published, modified, content) VALUES (1, 1, 1, 0, 2, '/', '".POD::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, ".Timestamp::getUNIXtime().", ".Timestamp::getUNIXtime().",".Timestamp::getUNIXtime().",'".POD::escapeString(getDefaultPostContent())."')";
@@ -1297,7 +1297,7 @@ ini_set('display_errors', 'off');
 \$service['type'] = '{$_POST['type']}';
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
-\$service['skin'] = 'coolant';
+\$service['skin'] = 'musicpaper';
 \$service['favicon_daily_traffic'] = 10; // 10MB
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //\$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
