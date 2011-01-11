@@ -273,20 +273,19 @@ function deletePluginTable($name) {
 
 function getPluginTableName() {
 	requireModel('common.setting');
-
-	global $database;
+	$ctx = Model_Context::getInstance();
 	
 	$likeEscape = array ( '/_/' , '/%/' );
 	$likeReplace = array ( '\\_' , '\\%' );
-	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
+	$escapename = preg_replace($likeEscape, $likeReplace, $ctx->getProperty('database.prefix'));
 
 	$dbtables = POD::tableList($escapename);
 
-	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
+	$dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames',true);
 	if($dbCaseInsensitive === null) {
 		$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
-		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
+		Setting::setServiceSetting('lowercaseTableNames',$dbCaseInsensitive,true);
 	}
 
 	$definedTables = getDefinedTableNames();
