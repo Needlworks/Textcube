@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $result = false;
-$isAuthToken = getUserSetting('AuthToken',false) ? true : false;
+$isAuthToken = Setting::getUserSetting('AuthToken',false,true) ? true : false;
 if($_POST['pwd'] != '' && (($_POST['prevPwd'] != '') || ($isAuthToken != false))) {
 	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd'], $isAuthToken);
 }

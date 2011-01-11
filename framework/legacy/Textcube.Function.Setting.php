@@ -216,20 +216,17 @@ class Setting {
 	}
 	
 	function setBlogSetting($name, $value, $global = null) {
-		global $database, $blogid;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::setBlogSettingGlobal($name, $value);
 	}
 	
 	function removeBlogSetting($name, $global = null) {
-		global $database, $blogid;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::removeBlogSettingGlobal($name);
 	}
 
 	// For User
 	function getUserSetting($name, $default = null, $global = null) {
-		global $database, $userSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::getUserSettingGlobal($name, $default);
 	}

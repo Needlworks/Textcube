@@ -217,7 +217,7 @@ $pool = DBModel::getInstance();
 							
 							<div class="button-box">
 								<a class="button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;"><?php echo _t("블로그 삭제");?></a>
-								<?php if ($bid != getServiceSetting("defaultBlogId",1)) { ?><a class="button" href="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
+								<?php if ($bid != Setting::getServiceSettingGlobal("defaultBlogId",1)) { ?><a class="button" href="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
 								<a class="button" href="<?php echo $context->getProperty('uri.blog');?>/control/blog"><?php echo _t("돌아가기");?></a>
 							</div>
 						</div>
