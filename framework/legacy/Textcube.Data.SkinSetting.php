@@ -36,7 +36,6 @@ class SkinSetting {
 	}
 	
 	function load($fields = '*') {
-		global $database;
 		$this->reset();
 		$pool = DBModel::getInstance();
 		$pool->reset('SkinSettings');
