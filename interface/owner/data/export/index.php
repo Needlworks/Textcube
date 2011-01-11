@@ -35,7 +35,7 @@ if (defined('__TEXTCUBE_BACKUP__')) {
 }
 $newlineStyle = (!is_null(Setting::getServiceSettingGlobal('newlineStyle')) ? ' format="'.Setting::getServiceSettingGlobal('newlineStyle').'"' : '');
 $writer->write('<?xml version="1.0" encoding="utf-8" ?>');
-$writer->write('<blog type="tattertools/2.0" migrational="false">');
+$writer->write('<blog type="tattertools/1.1" extension="textcube/2.0" migrational="false">');
 $setting = new BlogSetting();
 if ($setting->load()) {
 	$setting->escape();
