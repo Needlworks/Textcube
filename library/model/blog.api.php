@@ -210,6 +210,7 @@ function api_getCategoryNameById( $id )
 
 function api_fix_content( $content )
 {
+	$ctx = Model_Context::getInstance();
 	$new_content = "";
 	if( strstr( $_SERVER["HTTP_USER_AGENT"], 'Zoundry' ) )
 	{
@@ -223,6 +224,9 @@ function api_fix_content( $content )
 	{
 		$new_content = $content;
 	}
+	// Fix attachment URL into TTML-spcific address.
+	
+	$new_content = str_replace($ctx->getProperty('uri.host').$ctx->getProperty('service.path')."/attach/".$blogid, '[##_ATTACH_PATH_##]',$new_content);
 	return $new_content;
 }
 
@@ -441,28 +445,6 @@ function api_BlogAPI()
 	if (!array_key_exists('HTTP_RAW_POST_DATA', $GLOBALS)) {
 		XMLRPC::sendFault(1, 'Invalid Method Call');
 		exit;
-	}
-	
-	if (false) {
-		blogger_getUsersBlogs();
-		blogger_newPost();
-		blogger_editPost();
-		blogger_getTemplate();
-		blogger_getRecentPosts();
-		blogger_deletePost();
-		blogger_getPost();
-		metaWeblog_newPost();
-		metaWeblog_getPost();
-		metaWeblog_getCategories();
-		metaWeblog_getRecentPosts();
-		metaWeblog_editPost();
-		metaWeblog_newMediaObject();
-		mt_getPostCategories();
-		mt_setPostCategories();
-		mt_getCategoryList();	
-		mt_supportedMethods();
-		mt_publishPost();
-		mt_getRecentPostTitles();
 	}
 	
 	$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
@@ -932,6 +914,7 @@ function metaWeblog_editPost()
 
 function metaWeblog_newMediaObject()
 {
+	$ctx = Model_Context::getInstance();
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -951,7 +934,7 @@ function metaWeblog_newMediaObject()
 		return new XMLRPCFault( 1, "Can't create file" );
 	}
 	
-	$attachurl = array ( 'url' => 'http://tt_attach_path/' .  $attachment['name']);
+	$attachurl = array ( 'url' => $ctx->getProperty('uri.host').$ctx->getProperty('service.path')."/attach/".$blogid."/".$attachment['name']);
 	return $attachurl;
 }
 
