@@ -188,37 +188,41 @@ function deleteLinkCategory($blogid, $id) {
 }
 
 function getLinkCategory($blogid, $id) {
-	global $database;
-	return POD::queryRow("SELECT * 
-			FROM {$database['prefix']}LinkCategories 
-			WHERE blogid = $blogid AND id = $id");
+	$pool = DBModel::getInstance();
+	$pool->reset('LinkCategories');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id','eq',$id);	
+	return $pool->getRow('*');
 }
 
 function getMaxIdOfLink($blogid = null) {
-	global $database;
 	if(empty($blogid)) $blogid = getBlogId();
-	$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Links
-			WHERE blogid = $blogid");
+	$pool = DBModel::getInstance();
+	$pool->reset('Links');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$id = $pool->getCell('max(id)');
 	return (empty($id) ? 0 : $id);
 }
 
 function getMaxPidOfLink() {
-	global $database;
-	$id = POD::queryCell("SELECT max(pid) FROM {$database['prefix']}Links");
+	$pool = DBModel::getInstance();
+	$pool->reset('Links');
+	$id = $pool->getCell('max(pid)');
 	return (empty($id) ? 0 : $id);
 }
 
 function getMaxIdOfLinkCategory($blogid = null) {
-	global $database;
 	if(empty($blogid)) $blogid = getBlogId();	
-	$id = POD::queryCell("SELECT max(id) FROM {$database['prefix']}LinkCategories
-			WHERE blogid = $blogid");
+	$pool = DBModel::getInstance();
+	$pool->reset('LinkCategories');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$id = $pool->getCell('max(id)');
 	return (empty($id) ? 0 : $id);
 }
 function getMaxPidOfLinkCategory() {
-	global $database;
-	$id = POD::queryCell("SELECT max(pid) FROM {$database['prefix']}LinkCategories");
+	$pool = DBModel::getInstance();
+	$pool->reset('LinkCategories');
+	$id = $pool->getCell('max(pid)');
 	return (empty($id) ? 0 : $id);
 }
-
 ?>
