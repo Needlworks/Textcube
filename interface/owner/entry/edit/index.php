@@ -599,17 +599,6 @@ if (isset($_GET['popupEditor'])) {
 									return true;
 								}
 								
-								function viewWhatIsEolin() {
-									document.getElementById('TCfilelist').style.visibility = 'hidden';
-									dialog = document.getElementById('eolinDialog');
-									PM.showPanel(dialog);
-								}
-								
-								function closeWhatIsEolin() {
-									document.getElementById('TCfilelist').style.visibility = 'visible';
-									document.getElementById('eolinDialog').style.display = 'none';
-								}
-								
 								function toggleTemplateDialog() {
 									if(document.getElementById('templateDialog').style.display != 'none') {
 										document.getElementById('templateDialog').style.display = 'none';
@@ -950,28 +939,6 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 							</div>
 						</form>
 						<div id="feather" class="clear"></div>
-						<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
-							<div class="temp-box">
-								<h4><?php echo _t('이올린이란?');?></h4>
-								
-								<p class="message">
-									<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
-								</p>
-								
-								<h4><?php echo _t('발행 방법');?></h4>
-								
-								<p class="message">
-									<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 "발행"으로 체크하면 됩니다.');?></em>
-									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
-								</p>
-							
-								<div class="button-box">
-									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
-									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
-					 			</div>
-					 		</div>
-				 		</div>
-				 		
 						<script type="text/javascript">
 							//<![CDATA[
 								var contentformatterObj = document.getElementById('contentformatter');

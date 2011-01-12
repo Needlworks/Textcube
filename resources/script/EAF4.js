@@ -1,4 +1,4 @@
-/// Copyright (c) 2005-2009. Tatter & Company / Needlworks
+/// Copyright (c) 2005-2011. Tatter & Company / Needlworks
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 

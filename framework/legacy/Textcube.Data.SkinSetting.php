@@ -3,11 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class SkinSetting {
-	function SkinSetting() {
+	function __construct() {
 		$this->reset();
 	}
 
-	function reset() {
+	public function reset() {
 		$this->error =
 		$this->skin =
 		$this->entriesOnRecent =
@@ -35,7 +35,7 @@ class SkinSetting {
 			null;
 	}
 	
-	function load($fields = '*') {
+	public function load($fields = '*') {
 		$this->reset();
 		$pool = DBModel::getInstance();
 		$pool->reset('SkinSettings');
@@ -53,7 +53,7 @@ class SkinSetting {
 		return false;
 	}
 	
-	function save() {
+	public function save() {
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {
 				if (strcmp($this->skin, "customize/".getBlogId()) != 0)
@@ -147,7 +147,7 @@ class SkinSetting {
 		return true;
 	}
 
-	function _error($error) {
+	public function _error($error) {
 		$this->error = $error;
 		return false;
 	}
