@@ -378,7 +378,7 @@ if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 <!--		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-ui-1.8.7.custom.min.js"></script>-->
 <?php
 }
-if (file_exists(ROOT . "/skin/admin/".$context->getProperty('panel.skin')."/custom.js")) {
+if (file_exists(ROOT . $context->getProperty('panel.skin')."/custom.js")) {
 ?>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/custom.js" />
 <?php
