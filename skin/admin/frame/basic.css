@@ -31,7 +31,7 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 /* Layout (components) */
 /*#layout-header { width:140px; float:left;}*/
 #layout-header { width:140px; position:absolute;top:0;left:0;}
-#layout-body { min-width:940px;min-height:600px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; border-bottom:3px solid #858281;padding:60px 30px 30px 170px;}
+#layout-body { min-width:940px;min-height:600px;background:url(./image/bg01.png) top right repeat-y transparent; border-top:3px solid #858281; border-right:3px solid #858281; border-bottom:3px solid #858281;padding:30px 30px 30px 170px;}
 #layout-footer {}
 
 /* Blog/user description box */
@@ -76,25 +76,6 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 #layout-footer { background-color:#949190; color:#fff; text-align:center; font-size:0.9em; padding-top:20px;padding-bottom:10px;}
 #layout-footer a { color:#222;}
 #layout-footer .copyright { padding:5px;}
-
-/* Menu transition */
-/*
-#main-menu li:hover a.menu-name span { background:url(./image/bg_menu_selected_onclick.png) left top no-repeat; }
-#main-menu li:hover:not([class="selected"]) ul,
-#main-menu li a:hover:not([class="selected"]) table {
-	display : block !important;
-	opacity:1.0;*/
-/*	position : absolute;
-	left : 50px;
-	background:url(./image/bg02.png) top left repeat-y #fff;
-	z-index : 100 !important;	 
-	width:140px;
-	border:1px solid #beb7b7;
-	box-shadow  : 3px 3px 3px #888;
-	-moz-box-shadow  : 3px 3px 3px #888;
-	-webkit-box-shadow : 3px 3px 3px #888;
-	opacity:1.0; */
-/*}*/
 
 /**** Common ingredient (imported from canon skin) */
 #fade { /*--Transparent background layer--*/
@@ -358,7 +339,7 @@ table.data-inbox tbody tr td.inactive-class
 	border                           : 0;
 	margin                           : 0;
 	position                         : fixed !important;
-	top                              : 40px; 
+	top                              : 10px; 
 	right                            : 0;
 	width                            : 150px;
 	height                           : 40px;
