@@ -78,11 +78,12 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 #layout-footer .copyright { padding:5px;}
 
 /* Menu transition */
+/*
 #main-menu li:hover a.menu-name span { background:url(./image/bg_menu_selected_onclick.png) left top no-repeat; }
 #main-menu li:hover:not([class="selected"]) ul,
 #main-menu li a:hover:not([class="selected"]) table {
 	display : block !important;
-	opacity:1.0;
+	opacity:1.0;*/
 /*	position : absolute;
 	left : 50px;
 	background:url(./image/bg02.png) top left repeat-y #fff;
@@ -93,7 +94,7 @@ fieldset {background:url("./image/bg_dt.png") repeat-y; border-bottom : 1px soli
 	-moz-box-shadow  : 3px 3px 3px #888;
 	-webkit-box-shadow : 3px 3px 3px #888;
 	opacity:1.0; */
-}
+/*}*/
 
 /**** Common ingredient (imported from canon skin) */
 #fade { /*--Transparent background layer--*/
