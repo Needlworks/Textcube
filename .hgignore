@@ -1,0 +1,5 @@
+syntax: glob
+config.php
+.htaccess
+attach/
+cache/
