@@ -11,7 +11,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="dialog-box" class="dialog">sssssssss</div>
+	<div id="dialog-box" class="dialog"></div>
 	<script type="text/javascript">
 		//<![CDATA[
 			document.onkeydown = function(oEvent) {
