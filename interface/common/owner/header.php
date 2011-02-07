@@ -494,6 +494,9 @@ foreach($blogTopMenuItem as $menuItem) {
 			case -2:
 				$blogMenu['contentMenu'] = 'notice';
 				break;
+			case -3:
+				$blogMenu['contentMenu'] = 'page';
+				break;
 			case -4:
 				$blogMenu['contentMenu'] = 'template';
 				break;

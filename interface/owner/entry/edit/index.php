@@ -76,6 +76,9 @@ switch($entry['category']) {
 	case -2:
 		$titleText = _t('공지');
 		break;
+	case -3:
+		$titleText = _t('페이지');
+		break;
 	case -4:
 		$titleText = _t('서식');
 		break;
