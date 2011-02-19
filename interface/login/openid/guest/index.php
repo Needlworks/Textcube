@@ -4,6 +4,13 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 define('__TEXTCUBE_ADMINPANEL__',true);
+
+$IV = array(
+	'GET' => array(
+		'requestURI' => array('url', 'mandatory' => false )
+	)
+);
+
 require ROOT . '/library/preprocessor.php';
 
 global $openid_session;
@@ -13,7 +20,7 @@ $context = Model_Context::getInstance();
 if( empty( $_GET['requestURI'] ) ) {
 	$requestURI = $context->getProperty('uri.blog');
 } else {
-	$requestURI = $_GET['requestURI'];
+	$requestURI = filterJavaScript($_GET['requestURI']);
 	if( Acl::getIdentity( 'openid' ) ) {
 		header( "Location: $requestURI" );
 		exit;
