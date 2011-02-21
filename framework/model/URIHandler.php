@@ -31,7 +31,7 @@ final class Model_URIHandler extends Singleton
 		$this->context->useNamespace('service');
 		
 		$url             = $this->uri['fullpath'];
-		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1,true);
+		$defaultblogid   = $this->context->getProperty('defaultBlogId',1);
 		$this->suri      = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
 		$this->uri['isStrictBlogURL'] = true;
@@ -115,7 +115,7 @@ final class Model_URIHandler extends Singleton
 	}
 	
 	private function __URIvariableParser() {
-		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
+		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;	// To support legacy for global variables.
 		$blogid        = $this->blogid;
 		$gCacheStorage = new globalCacheStorage; // Initialize global cache
 
