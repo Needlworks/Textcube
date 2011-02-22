@@ -198,7 +198,7 @@ function getNumberChildCategory($id = null) {
 	$pool = DBModel::getInstance();
 	$pool->reset('Categories');
 	$pool->setQualifier('blogid','eq',getBlogId());
-	$pool->serQualifier('parent','eq',($id === null ? NULL : $id));
+	$pool->setQualifier('parent','eq',($id === null ? NULL : $id));
 	return $pool->getCount();
 }
 
@@ -207,13 +207,12 @@ function getNumberEntryInCategories($id) {
 	$pool->reset('Entries');
 	$pool->setQualifier('blogid','eq',getBlogId());
 	$pool->setQualifier('draft','eq',0);
-	$pool->serQualifier('category','eq',($id === null ? NULL : $id));
+	$pool->setQualifier('category','eq',($id === null ? NULL : $id));
 	return $pool->getCount();
 }
 
 function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	$pool = DBModel::getInstance();
-
 	if (empty($name))
 		return false;
 	if (!is_null($parent) && !Validator::id($parent))
