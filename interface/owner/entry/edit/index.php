@@ -473,7 +473,7 @@ if (isset($_GET['popupEditor'])) {
 											if(originalPermalink == changedPermalink) {
 												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
 											} else {
-												returnURI = "<?php echo escapeJSInCData("$context->getProperty('uri.blog')/" . $entry['id']);?>";
+												returnURI = "<?php echo escapeJSInCData($context->getProperty('uri.blog')) ."/" . $entry['id'];?>";
 											}
 <?php
 	}

@@ -380,7 +380,7 @@ if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
 }
 if (file_exists(ROOT . $context->getProperty('panel.skin')."/custom.js")) {
 ?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/custom.js" />
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/custom.js"></script>
 <?php
 }
 if($service['interface'] == 'simple') {

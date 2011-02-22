@@ -3,43 +3,45 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 //<![CDATA[
-jQuery(function($){
+jQuery(document).ready(function(jQuery){
 	// Side Menu
-	var sMenu = $('#main-menu');
+	var sMenu = jQuery('#main-menu');
 	var sItem = sMenu.find('>li');
 	var ssItem = sMenu.find('>li>ul>li');
 	var lastEvent = null;
 	
 	function sMenuToggle(event){
-		var t = $(this);
+		var mainmenuItem = jQuery(this);
 		
 		if (this == lastEvent) return false;
 		lastEvent = this;
 		setTimeout(function(){ lastEvent=null }, 200);
 		
-		if (t.next('ul').is(':hidden')) {
+		if (mainmenuItem.next('ul').is(':hidden')) {
 			sItem.find('>ul').slideUp(100);
-			t.next('ul').slideDown(100);
-		} else if(!t.next('ul').length) {
+			mainmenuItem.next('ul').slideDown(100);
+		} else if(!mainmenuItem.next('ul').length) {
 			sItem.find('>ul').slideUp(100);
 		} else {
-			t.next('ul').slideUp(100);
+			mainmenuItem.next('ul').slideUp(100);
 		}
 		
-		if (t.parent('li').hasClass('selected')){
-			t.parent('li').removeClass('selected');
+		if (mainmenuItem.parent('li').hasClass('selected')){
+			mainmenuItem.parent('li').removeClass('selected');
 		} else {
 			sItem.removeClass('selected');
-			t.parent('li').addClass('selected');
+			mainmenuItem.parent('li').addClass('selected');
 		}
+		return false;
 	}
-	sItem.find('>a').click(sMenuToggle).focus(sMenuToggle);
-	sItem.find('>a').attr ('href', '#');
 	
 	function subMenuActive(){
 		ssItem.removeClass('selected');
-		$(this).parent(ssItem).addClass('selected');
+		jQuery(this).parent(ssItem).addClass('selected');
+		return true;
 	}; 
+	sItem.find('>a').click(sMenuToggle).focus(sMenuToggle);
+	sItem.find('>a').attr('href', '#');
 	ssItem.find('>a').click(subMenuActive).focus(subMenuActive);
 });
 //]]>
