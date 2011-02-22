@@ -1,12 +1,12 @@
 <?php
-/// Copyright (c) 2004-2010, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION', '1.8.5 : Accelerando');
-define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2010. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
+define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2011. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8.4');
 define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
