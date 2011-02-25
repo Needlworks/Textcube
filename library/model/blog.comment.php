@@ -319,7 +319,7 @@ function getCommentComments($parent,$parentComment=null) {
 	
 	$row = $pool->getRow();	
 	
-	if ($result = $pool-getAll()) {
+	if ($result = $pool->getAll()) {
 		if( $parentComment == null ) {
 			$pool->reset('Comments');
 			$pool->setQualifier('blogid','eq',getBlogId());
