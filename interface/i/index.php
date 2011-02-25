@@ -11,7 +11,7 @@ if(empty($suri['id'])) {
 	<ul id="home" title="<?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($context->getProperty('blog.title'),30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getBlogOwnerName($blogid);
-		$blogLogo = !empty($context->getProperty('blog.logo')) ? printIphoneImageResizer($blogid, $context->getProperty('blog.logo'), 80) : "{$context->getProperty('service.path')}/resources/style/iphone/image/textcube_logo.png";
+		$blogLogo = !is_null($context->getProperty('blog.logo')) ? printIphoneImageResizer($blogid, $context->getProperty('blog.logo'), 80) : "{$context->getProperty('service.path')}/resources/style/iphone/image/textcube_logo.png";
 		$itemsView = '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;

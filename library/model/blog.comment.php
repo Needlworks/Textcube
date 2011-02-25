@@ -271,10 +271,10 @@ function getCommentAttributes($blogid, $id, $attributeNames) {
 
 function getComments($entry) {
 	$comments = array();
-
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('blogid','eq',$context->getProperty('blog.id'));
 	$pool->setQualifier('entry','eq',$entry);
 	$pool->setQualifier('parent','eq',NULL);
 	$pool->setQualifier('isfiltered','eq',0);	
