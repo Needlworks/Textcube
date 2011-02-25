@@ -3,14 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
 
 $cache = pageCache::getInstance();
 $author = empty($suri['value']) ? '' : $suri['value'];
 $authorId = User::getUserIdByName($author);
 if(empty($authorId)) exit;
+$listFeedURL = 'author/'.URL::encode($author);
 
 if ($skinSetting['showListOnAuthor'] != 0) {
 	$cache->name = 'authorList-'.$authorId."-".$suri['page']."-";
