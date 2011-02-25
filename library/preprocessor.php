@@ -204,7 +204,13 @@ if (!defined('NO_INITIALIZAION')) {
 		unset($languageDomain);
 		unset($language);
 	}
-	
+/** Resource Options
+    ----------------
+	Determine the resource URLs and paths.
+*/
+	if(is_null($context->getProperty('service.jqueryURL'))) {
+		$context->setProperty('service.jqueryURL',$context->getProperty('service.path')."/resources/script/jquery/";
+	}
 /** Administration panel skin / editor template
     -------------------------------------------
     When necessary, loads admin panel skin information.
