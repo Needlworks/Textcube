@@ -8,7 +8,6 @@ $cache = pageCache::getInstance();
 $author = empty($suri['value']) ? '' : $suri['value'];
 $authorId = User::getUserIdByName($author);
 if(empty($authorId)) exit;
-$listFeedURL = 'author/'.URL::encode($author);
 
 if ($skinSetting['showListOnAuthor'] != 0) {
 	$cache->name = 'authorList-'.$authorId."-".$suri['page']."-";
@@ -23,6 +22,7 @@ if ($skinSetting['showListOnAuthor'] != 0) {
 		$listView = $cache->contents;
 	}
 	require ROOT . '/interface/common/blog/begin.php';
+	$listFeedURL = 'author/'.URL::encode($author);
 	require ROOT . '/interface/common/blog/list.php';
 }
 

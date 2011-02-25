@@ -5,15 +5,16 @@
 define('NO_SESSION', true);
 define('__TEXTCUBE_CUSTOM_HEADER__', true);
 define('__TEXTCUBE_LOGIN__',true);
-
 require ROOT . '/library/preprocessor.php';
 requireStrictBlogURL();
 $context = Model_Context::getInstance();
 $author = $suri['value'];
+$authorId = User::getUserIdByName($author);
+if(empty($authorId)) exit;
 $blogid = getBlogId();
 
 $cache = pageCache::getInstance();
-$cache->reset('authorATOM-'.$period);
+$cache->reset('authorATOM-'.$authorId);
 if(!$cache->load()) {
 	requireModel("blog.feed");
 	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $author, 1, 1, 1);	
@@ -23,7 +24,7 @@ if(!$cache->load()) {
 	}
 	$result = getFeedWithEntries($blogid,$entries,_textf('%1 의 글 목록',$author),'atom');
 	if($result !== false) {
-		$cache->reset('authorRSS-'.$period);
+		$cache->reset('authorATOM-'.$authorId);
 		$cache->contents = $result;
 		$cache->update();
 	}

@@ -39,7 +39,6 @@ if (!empty($listView)) {
 	dress('list_atom_url', $context->getProperty('uri.default').'/atom/'.$listFeedURL, $listView);
 	$listView = fireEvent('ViewList', $listView, $list);
 	if(empty($entries)) $listView = $listView.CRLF.'[##_paging_list_##]';
-	
 	dress('list', $listView, $view);
 	if(isset($cache)) { 
 		$cache->contents = $listView;
