@@ -1307,6 +1307,16 @@ ini_set('display_errors', 'off');
 //\$service['debug_rewrite_module'] = true; // rewrite handling module debuging.
 //\$service['session_cookie_path'] = \$service['path']; // for avoiding spoiling other textcube's session id sharing root.
 //\$service['allowBlogVisibilitySetting'] = true; // Allow service users to change blog visibility.
+//\$service['externalresources'] = false;  // Loads resources from external storage.
+//\$service['resourcepath'] = 'http://example.com/resource';	// Specify the full URI of external resource.
+//\$service['favicon_daily_traffic'] = 10; // Set favicon traffic limitation. default is 10MB.
+//\$service['skincache'] = true;        // Use skin pre-fetching. Textcube will parse static elements (blog name, title…) only when you change skin. Reduces CPU loads.
+//\$database['port'] = 3639;            // Database port number
+//\$database['dbms'] = 'MySQL';         // DBMS. (MySQL, MySQLi, PostgreSQL, Cubrid.)
+//\$service['memcached'] = true;       // Using memcache to handle session and cache
+//\$memcached['server'] = 'localhost';  // Where memcache server is.
+//\$service['requirelogin'] = false;    // Force log-in process to every blogs. (for private blog service)
+//\$service['jqueryURL'] = '';		// Add URL if you want to use external jquery via CDN. e.g.) Microsoft's CDN: http://ajax.aspnetcdn.com/ajax/jQuery/ 
 ?>"
             );
             fclose($fp);
