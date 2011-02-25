@@ -209,7 +209,7 @@ if (!defined('NO_INITIALIZAION')) {
 	Determine the resource URLs and paths.
 */
 	if(is_null($context->getProperty('service.jqueryURL'))) {
-		$context->setProperty('service.jqueryURL',$context->getProperty('service.path')."/resources/script/jquery/";
+		$context->setProperty('service.jqueryURL',$context->getProperty('service.path')."/resources/script/jquery/");
 	}
 /** Administration panel skin / editor template
     -------------------------------------------
