@@ -353,20 +353,11 @@ include ROOT . '/resources/locale/messages.php';
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.min.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
-<?php
-if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
-?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/mootools10.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/moodalbox/moodalbox.js"></script>
-	<link rel="stylesheet" href="<?php echo $context->getProperty('service.path');?>/resources/style/helper/moodalbox.css" type="text/css" media="screen" />
-<?php
-}
-?>
 <?php
 if($context->getProperty('service.interface') == 'simple') {
 	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
