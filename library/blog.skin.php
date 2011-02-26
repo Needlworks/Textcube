@@ -609,7 +609,7 @@ class KeylogSkin {
 
 function dressStaticElements(& $view) {
 	global $blogid, $blog, $defaultURL, $blogURL, $service, $serviceURL;
-
+	$ctx = Model_Context::getInstance();
 	$writer = User::getBlogOwnerName($blogid);
 
 	dress('title', htmlspecialchars($blog['title']), $view);
@@ -625,12 +625,20 @@ function dressStaticElements(& $view) {
 	dress('taglog_link', "$blogURL/tag", $view);
 	dress('guestbook_link', "$blogURL/guestbook", $view);
 	
-	dress('rss_url', "$defaultURL/rss", $view);
+    if($ctx->getProperty('blog.rssURL',null) != null) { 
+		dress('rss_url',  $ctx->getProperty('blog.rssURL'), $view); 
+	} else { 
+		dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view); 
+	} 
 	dress('response_rss_url', "$defaultURL/rss/response", $view);
 	dress('comment_rss_url', "$defaultURL/rss/comment", $view);
 	dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
 	
-	dress('atom_url', "$defaultURL/atom", $view);
+    if($ctx->getProperty('blog.atomURL',null) != null) { 
+		dress('atom_url',  $ctx->getProperty('blog.atomURL'), $view); 
+	} else { 
+		dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view); 
+	}
 	dress('response_atom_url', "$defaultURL/atom/response", $view);
 	dress('comment_atom_url', "$defaultURL/atom/comment", $view);
 	dress('trackback_atom_url', "$defaultURL/atom/trackback", $view);
