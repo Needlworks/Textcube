@@ -305,8 +305,8 @@ if ($service['type'] != 'single') {
 										+"&entriesOnRSS="+document.getElementById('rss-form').entriesOnRSS.value
 										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value
 										+"&useFeedViewOnCategory="+(document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0)
-										+"&rssURL="+document.getElementById('rss-form').rssURL.value
-										+"&atomURL="+document.getElementById('rss-form').atomURL.value
+										+"&rssURL="+encodeURIComponent(document.getElementById('rss-form').rssURL.value)
+										+"&atomURL="+encodeURIComponent(document.getElementById('rss-form').atomURL.value)
 										);
 
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
@@ -652,14 +652,6 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 											<dd>
 												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym> 및 ATOM 피드로 내보냅니다.');?></span></label><br />
 												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('발행된 글만을 RSS 및 ATOM 피드로 내보냅니다.');?></span></label>
-											</dd>
-										</dl>
-
-										<dl id="open-type-line" class="line">
-											<dt><span class="label"><?php echo _t('피드 공개 정도');?></span></dt>
-											<dd>
-												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym> 및 ATOM 피드로 내보냅니다.');?></span></label><br />
-												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS 및 ATOM 피드로 내보냅니다.');?></span></label>
 											</dd>
 										</dl>
 										
