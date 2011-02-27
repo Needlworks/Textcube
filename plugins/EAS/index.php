@@ -1,13 +1,13 @@
 <?php
 
-function EAS_Call($type, $name, $title, $url, $content)
+function FAS_Call($type, $name, $title, $url, $content)
 {
 	global $hostURL, $blogURL, $database;
 	
 	$blogstr = $hostURL . $blogURL;
 	
 	$rpc = new XMLRPC();
-	$rpc->url = 'http://antispam.eolin.com/RPC/index.php';
+	$rpc->url = 'http://antispam.textcube.org/RPC/';
 	if ($rpc->call('checkSpam', $blogstr, $type, $name, $title, $url, $content, $_SERVER['REMOTE_ADDR']) == false) 
 	{
 		// call fail
@@ -47,7 +47,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 		if ($row = POD::queryRow($sql)) {
 			$count += @$row[0];
 		}
-		
+
 		if ($count >= 10) {
 			return false;
 		}
@@ -56,7 +56,7 @@ function EAS_Call($type, $name, $title, $url, $content)
 	}
 	
 	if (!is_null($rpc->fault)) {
-		// EAS has some problem
+		// FAS has some problem
 		return true;
 	}
 	
@@ -67,12 +67,12 @@ function EAS_Call($type, $name, $title, $url, $content)
 	return true;
 }
 
-function EAS_AddingTrackback($target, $mother)
+function FAS_AddingTrackback($target, $mother)
 {
-	return $target && EAS_Call(2, $mother['site'], $mother['title'], $mother['url'], $mother['excerpt']);
+	return $target && FAS_Call(2, $mother['site'], $mother['title'], $mother['url'], $mother['excerpt']);
 }
 
-function EAS_AddingComment($target, $mother)
+function FAS_AddingComment($target, $mother)
 {
 	global $user;
 	if ($mother['secret'] ==  true) // it's secret(only owner can see it)
@@ -84,7 +84,7 @@ function EAS_AddingComment($target, $mother)
 	$type = 1; // comment
 	if ($mother['entry'] == 0) $type = 3; // guestbook
 	
-	return $target && EAS_Call($type, $mother['name'], '', $mother['homepage'], $mother['comment']);
+	return $target && FAS_Call($type, $mother['name'], '', $mother['homepage'], $mother['comment']);
 }
 
 ?>
