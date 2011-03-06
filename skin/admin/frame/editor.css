@@ -233,7 +233,7 @@ h3
 .entry-editor-property .entry-editor-property-option
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	font-family                      : 돋움, Dotum, sans-serif;
+	font-family                      : Dotum, sans-serif;
 	font-size                        : 0.9em;
 	padding                          : 8px 0 3px 0;
 	text-align                       : right;
@@ -272,7 +272,7 @@ h3
 {
 	border                           : none;
 	color                            : #666666;
-	font-family                      : 돋움, Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	height                           : auto;
@@ -761,5 +761,7 @@ dl#power-line
 
 #templateDialog .button-box
 {
-	padding: 10px 0 5px 0 !important;
+	display:block;
+	padding: 10px 30px 5px 0 !important;
+width:95%;
 }
