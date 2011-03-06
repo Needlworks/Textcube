@@ -21,7 +21,8 @@ h3
 {
 	margin                           : 0 20px 0 0;
 	padding                          : 5px 3px 5px 5px;
-	width                            : 658px;
+/*	width                            : 658px;*/
+	width                            : 100%;
 }
 
 #title-section dl,
@@ -67,7 +68,6 @@ h3
 	margin-left                      : 8px;
 	font-size                        : 1.2em;
 	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
-
 }
 
 #starred
@@ -222,6 +222,10 @@ h3
 	right                            : 10px;
 	top                              : 9px;
 	width                            : 200px;
+	height                           : 100%;
+	-webkit-box-shadow : 0 0 7px #888;
+	-moz-box-shadow : 0 0 7px #888;
+	box-shadow : 0 0 7px #888;
 }
 
 .entry-editor-property p,
@@ -761,7 +765,7 @@ dl#power-line
 
 #templateDialog .button-box
 {
-	display:block;
+	display : block;
 	padding: 10px 30px 5px 0 !important;
-width:95%;
+	width : 95%;
 }
