@@ -32,6 +32,7 @@ function filterJavaScript($str, $removeScript = true) {
 		$patterns = array(
 			'/<\/?iframe.*?>/si',
 			'/<script.*?<\/script>/si',
+			'/<embed.*?<\/embed>/si',
 			'/<object.*?type=["\']?text\/x-scriptlet["\']?.*?>(.*?<\/object>)?/si',
 			'/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si',
 			'/<link.*?>/si'
