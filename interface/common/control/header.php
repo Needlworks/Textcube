@@ -359,13 +359,6 @@ include ROOT . '/resources/locale/messages.php';
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
 <?php
-if($context->getProperty('service.interface') == 'simple') {
-	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
-?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/mootools.js"></script>
-<?php
-	}
-}
 if( $context->getProperty('service.admin_script') !== null) {
 	if( is_array($context->getProperty('service.admin_script')) ) {
 		foreach( $context->getProperty('service.admin_script') as $src ) {

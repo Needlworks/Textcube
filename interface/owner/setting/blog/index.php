@@ -243,10 +243,8 @@ if ($service['type'] != 'single') {
 								var useFeedViewOnCategory = "<?php echo $blog['useFeedViewOnCategory'];?>";
 								var entriesOnRSS          = "<?php echo $blog['entriesOnRSS'];?>";
 								var publishWholeOnRSS     = "<?php echo $blog['publishWholeOnRSS'];?>";
-								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
-								var blogVisibility        = <?php echo $blog['visibility'];?>;
-								var frontPage             = <?php echo $blog['frontpage'];?>;
-
+								var allowCommentGuestbook = <?php echo $context->getProperty('blog.allowWriteDblCommentOnGuestbook');?>;
+								var blogVisibility        = <?php echo $context->getProperty('blog.visibility');?>;
 
 								function setFrontpage() {
 									var frontPage;
@@ -830,9 +828,9 @@ if( $acceptTrackbacks ) {
 						<hr class="hidden" />
 						
 						<div id="part-setting-language" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('language_setting','link',_t('언어, 시간대를 설정합니다'));?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('language-setting','link',_t('언어, 시간대를 설정합니다'));?></span></h2>
 							<form id="language-form" class="data-inbox" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog/language');?>">
-								<div id="language_setting" class="section folding">
+								<div id="language-setting" class="section folding">
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>
 										

@@ -383,13 +383,6 @@ if (file_exists(ROOT . $context->getProperty('panel.skin')."/custom.js")) {
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/custom.js"></script>
 <?php
 }
-if($service['interface'] == 'simple') {
-	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
-?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/mootools.js"></script>
-<?php
-	}
-}
 if( isset($service['admin_script']) ) {
 	if( is_array($service['admin_script']) ) {
 		foreach( $service['admin_script'] as $src ) {
