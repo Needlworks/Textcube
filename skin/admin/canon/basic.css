@@ -166,11 +166,15 @@ textarea
 
 #all-wrap
 {
-	font-size                        : 0.75em;
 	text-align                       : justify;
 }
 
 /* Layout Header **********************************************************************************/
+#layout-header,
+#sub-menu-box 
+{
+	font-size                        : 0.8em;
+}
 
 /* main description */
 #main-description-box
@@ -543,12 +547,10 @@ textarea
 	border-bottom                    : 1px solid #BBB !important;
 }
 
-#main-menu li.divider span,
-#sub-menu li.divider
+#main-menu li.divider span
 {
 	display                          : none;
 }
-
 
 /* Layout Body ***********************************************************************************/
 
@@ -591,6 +593,22 @@ textarea
 	-moz-transform                   : scale(1.1);
 }
 
+#sub-menu li.divider
+{
+	height                           : 5px !important;
+	border-top                       : 0;
+	border-bottom                    : 0;
+}
+#sub-menu li.divider span
+{
+	display                          : none;
+}
+#sub-menu li.divider:hover
+{
+	-webkit-transform                : none;
+	-moz-transform                   : none;
+}
+
 #sub-menu li.selected,
 #sub-menu li.selected a
 {
@@ -631,6 +649,7 @@ textarea
 	margin                           : 0 auto;
 	position                         : relative;
 	padding-left                     : 151px;
+	font-size                        : 0.925em;
 /*	width                            : 100%;*/
 }
 
@@ -807,7 +826,7 @@ table.data-inbox thead tr th
 table.data-inbox tbody tr td
 {
 	border-bottom                    : 1px solid #E3E3DE;
-	padding                          : 1px 8px;
+	padding                          : 5px 8px;
 	text-align                       : center;
 }
 

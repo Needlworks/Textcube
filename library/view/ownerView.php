@@ -89,7 +89,6 @@ function printOwnerEditorScript($entryId = false) {
 			}
 		}*/
 	}
-
 ?>
 <script type="text/javascript">
 //<![CDATA[
