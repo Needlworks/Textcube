@@ -218,7 +218,7 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 
 	if($ctx->getProperty('blog.acceptTrackbacks',1) && $accepttrackback) {
 		// Blocked. (Too many encoding issues with various trackback sender.)
-		//$trackbackAddress = $defaultURL."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
+		//$trackbackAddress = $ctx->getProperty('uri.default')."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
 		$trackbackAddress = $ctx->getProperty('uri.default')."/trackback/".$entry['id'];
 		dress('tb_address', "<span onclick=\"copyUrl('$trackbackAddress', this)\">$trackbackAddress</span>", $trackbacksView);
 	}

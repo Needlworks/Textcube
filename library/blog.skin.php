@@ -619,7 +619,8 @@ function dressStaticElements(& $view) {
 	dress('title', htmlspecialchars( $ctx->getProperty('blog.title')), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
 	dress('desc', htmlspecialchars( $ctx->getProperty('blog.description')), $view);
-	if ( $ctx->getProperty('blog.logo') !== null)
+	$logo = $ctx->getProperty('blog.logo');
+	if (!empty($logo))
 		dress('image', $ctx->getProperty('uri.service')."/attach/$blogid/". $ctx->getProperty('blog.logo'), $view);
 	else
 		dress('image',  $ctx->getProperty('uri.service')."/resources/image/spacer.gif", $view);

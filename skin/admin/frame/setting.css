@@ -1,7 +1,10 @@
 @charset "utf-8";
 
 /* Common *****************************************************************************************/
-
+h2.caption {
+	display                          : block;
+	font-size                        : 1.1em;
+}
 fieldset
 {
 	background-image                 : none;
