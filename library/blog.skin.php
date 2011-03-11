@@ -619,7 +619,8 @@ function dressStaticElements(& $view) {
 	dress('title', htmlspecialchars( $ctx->getProperty('blog.title')), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
 	dress('desc', htmlspecialchars( $ctx->getProperty('blog.description')), $view);
-	if ( $ctx->getProperty('blog.logo') !== null)
+	$logo = $ctx->getProperty('blog.logo');
+	if (!empty($logo))
 		dress('image', $ctx->getProperty('uri.service')."/attach/$blogid/". $ctx->getProperty('blog.logo'), $view);
 	else
 		dress('image',  $ctx->getProperty('uri.service')."/resources/image/spacer.gif", $view);
@@ -629,12 +630,20 @@ function dressStaticElements(& $view) {
 	dress('taglog_link',  $ctx->getProperty('uri.blog')."/tag", $view);
 	dress('guestbook_link',  $ctx->getProperty('uri.blog')."/guestbook", $view);
 	
-	dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view);
+	if($ctx->getProperty('blog.rssURL',null) != null) {
+		dress('rss_url',  $ctx->getProperty('blog.rssURL'), $view);
+	} else {
+		dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view);
+	}
 	dress('response_rss_url',  $ctx->getProperty('uri.default')."/rss/response", $view);
 	dress('comment_rss_url',  $ctx->getProperty('uri.default')."/rss/comment", $view);
 	dress('trackback_rss_url',  $ctx->getProperty('uri.default')."/rss/trackback", $view);
 	
-	dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view);
+	if($ctx->getProperty('blog.atomURL',null) != null) {
+		dress('atom_url',  $ctx->getProperty('blog.atomURL'), $view);
+	} else {
+		dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view);
+	}
 	dress('response_atom_url',  $ctx->getProperty('uri.default')."/atom/response", $view);
 	dress('comment_atom_url',  $ctx->getProperty('uri.default')."/atom/comment", $view);
 	dress('trackback_atom_url',  $ctx->getProperty('uri.default')."/atom/trackback", $view);

@@ -13,7 +13,7 @@ define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
-define('JQUERY_VERSION','1.4.4');
+define('JQUERY_VERSION','1.5.1');
 if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "\\");
 } else {
@@ -50,7 +50,7 @@ $service['reader'] = true;
 $service['flashclipboardpoter'] = true;
 $service['allowBlogVisibilitySetting'] = true;
 $service['disableEolinSuggestion'] = false;
-$service['interface'] = 'simple';	// 'simple' or 'detail'. Default is 'detail'
+$service['interface'] = 'simple';	// 'simple' or 'detail'. Default is 'simple' from 2.0
 $service['pagecache'] = true;
 $service['codecache'] = false;
 $service['skincache'] = true;
@@ -61,4 +61,5 @@ $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
 $service['forceinstall'] = false;
+$service['jqueryURL'] = null;	// You can change this to use external CDNs. (microsoft / google, etc..)
 ?>

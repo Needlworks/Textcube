@@ -76,6 +76,9 @@ switch($entry['category']) {
 	case -2:
 		$titleText = _t('공지');
 		break;
+	case -3:
+		$titleText = _t('페이지');
+		break;
 	case -4:
 		$titleText = _t('서식');
 		break;
@@ -388,6 +391,7 @@ if (isset($_GET['returnURL'])) {
 											request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										}
 										request.onSuccess = function () {
+											document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 											PM.removeRequest(this);
 											if(entryManager.autoSave == true) {
 												document.getElementById("saveButton").value = "<?php echo _t('자동으로 저장됨');?>";
@@ -420,6 +424,7 @@ if (isset($_GET['returnURL'])) {
 											}
 										}
 										request.onError = function () {
+											document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 											PM.removeRequest(this);
 											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
 											this.nowsaving = false;
@@ -429,6 +434,7 @@ if (isset($_GET['returnURL'])) {
 										} else {
 											PM.addRequest(request);
 										}											
+										document.getElementById("saveButton").value = "<?php echo _t('저장중...');?>";
 										request.send(data);
 
 										return true;
@@ -470,7 +476,7 @@ if (isset($_GET['popupEditor'])) {
 											if(originalPermalink == changedPermalink) {
 												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
 											} else {
-												returnURI = "<?php echo escapeJSInCData("$context->getProperty('uri.blog')/" . $entry['id']);?>";
+												returnURI = "<?php echo escapeJSInCData($context->getProperty('uri.blog')) ."/" . $entry['id'];?>";
 											}
 <?php
 	}

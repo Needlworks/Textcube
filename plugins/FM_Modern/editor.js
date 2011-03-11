@@ -465,6 +465,9 @@ TTModernEditor.prototype.html2ttml = function() {
 
 	// more/less handling
 	str = this.morelessConvert(str);
+	
+	// iframe 임시 저장 (빈 태그 제거시 영향 받지 않도록)Store iframe tag.
+	str = str.replace(new RegExp("<iframe(\\w+)[^>]*></iframe>", "gi"), "<iframe$1>IFRAME</iframe>");
 
 	// 빈 줄을 BR 태그로 변환 convert empty line to BR tag.
 	str = str.replace(new RegExp("<p[^>]*?>&nbsp;</p>", "gi"), "<br />");
@@ -479,6 +482,9 @@ TTModernEditor.prototype.html2ttml = function() {
 	var regEmptyAnchor = new RegExp("<a>(((?!<a>).)*?)</a>", "i");
 	while(result = regEmptyAnchor.exec(str))
 		str = str.replaceAll(result[0], result[1]);
+
+	// iframe Revert.
+	str = str.replace(new RegExp("<iframe(\\w+)[^>]*>IFRAME</iframe>", "gi"), "<iframe$1></iframe>");
 
 	// 이미지 치환자 처리
 	var regImage = new RegExp("<img[^>]*?class=[\"']?tatterImage[^>]*?>", "i");

@@ -243,10 +243,8 @@ if ($service['type'] != 'single') {
 								var useFeedViewOnCategory = "<?php echo $blog['useFeedViewOnCategory'];?>";
 								var entriesOnRSS          = "<?php echo $blog['entriesOnRSS'];?>";
 								var publishWholeOnRSS     = "<?php echo $blog['publishWholeOnRSS'];?>";
-								var allowCommentGuestbook = <?php echo $blog['allowWriteDblCommentOnGuestbook'];?>;
-								var blogVisibility        = <?php echo $blog['visibility'];?>;
-								var frontPage             = <?php echo $blog['frontpage'];?>;
-
+								var allowCommentGuestbook = <?php echo $context->getProperty('blog.allowWriteDblCommentOnGuestbook');?>;
+								var blogVisibility        = <?php echo $context->getProperty('blog.visibility');?>;
 
 								function setFrontpage() {
 									var frontPage;
@@ -292,6 +290,8 @@ if ($service['type'] != 'single') {
 										entriesOnRSS = document.getElementById('rss-form').entriesOnRSS.value;
 										commentsOnRSS = document.getElementById('rss-form').commentsOnRSS.value;
 										publishWholeOnRSS = document.getElementById('rss-form').publishWholeOnRSS.value;
+										rssURL = +document.getElementById('rss-form').rssURL.value;
+										atomURL = +document.getElementById('rss-form').atomURL.value;
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
 									request.onError = function() {
@@ -302,7 +302,10 @@ if ($service['type'] != 'single') {
 										+"&publishEolinSyncOnRSS="+(document.getElementById('rss-form').publishEolinSyncOnRSS[0].checked ? 1 : 0)
 										+"&entriesOnRSS="+document.getElementById('rss-form').entriesOnRSS.value
 										+"&commentsOnRSS="+document.getElementById('rss-form').commentsOnRSS.value
-										+"&useFeedViewOnCategory="+(document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0));
+										+"&useFeedViewOnCategory="+(document.getElementById('rss-form').useFeedViewOnCategory[0].checked ? 1 : 0)
+										+"&rssURL="+encodeURIComponent(document.getElementById('rss-form').rssURL.value)
+										+"&atomURL="+encodeURIComponent(document.getElementById('rss-form').atomURL.value)
+										);
 
 									isAllowCommentGuestbook = document.getElementById('allowCommentGuestbook').checked ? 1 : 0;
 									if ( isAllowCommentGuestbook != allowCommentGuestbook) {
@@ -646,10 +649,19 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 											<dt><span class="label"><?php echo _t('피드 공개 정도');?></span></dt>
 											<dd>
 												<input type="radio" id="publishEolinSyncOnRSS1" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ? ' checked="checked"' : '');?> /><label for="publishEolinSyncOnRSS1"><span class="text"><?php echo _t('공개된 모든 글을 <acronym title="Rich Site Summary">RSS</acronym> 및 ATOM 피드로 내보냅니다.');?></span></label><br />
-												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('이올린에 발행된 글만을 RSS 및 ATOM 피드로 내보냅니다.');?></span></label>
+												<input type="radio" id="publishEolinSyncOnRSS0" class="radio" name="publishEolinSyncOnRSS"<?php echo ($blog['publishEolinSyncOnRSS'] ?   '' : ' checked="checked"');?> /><label for="publishEolinSyncOnRSS0"><span class="text"><?php echo _t('발행된 글만을 RSS 및 ATOM 피드로 내보냅니다.');?></span></label>
 											</dd>
 										</dl>
 										
+										<dl id="external-feed-url-line" class="line">
+											<dt><span class="label"><?php echo _t('외부 피드 사용');?></span></dt>
+											<dd><label for="rssURL"><span class="text"><?php echo _t('RSS 피드 주소');?></span></label><input type="text" id="rssURL" class="input-text" name="rssURL" value="<?php echo htmlspecialchars($context->getProperty('blog.rssURL'));?>" /></dd>
+											<dd><label for="atomURL"><span class="text"><?php echo _t('ATOM 피드 주소');?></span></label><input type="text" id="atomURL" class="input-text" name="atomURL" value="<?php echo htmlspecialchars($context->getProperty('blog.atomURL'));?>" /></dd>
+											<dd>
+												<p><label for="rss-url"><?php echo _t('외부 피드 주소를 설정합니다.').'<br /> '._t('feedburner 또는 Yahoo Pipes등을 사용하는 경우 외부 피드 주소를 입력하시면 텍스트큐브의 피드 주소가 변경됩니다.').' '._t('태그, 필자, 카테고리, 검색 결과등의 피드에는 적용되지 않습니다.').'<br />'._t('사용하지 않으실 경우 비워놓으시기 바랍니다.');?></label></p>
+											</dd>
+										</dl>
+																				
 										<dl id="category-feed-line" class="line">
 											<dt><span class="label"><?php echo _t('카테고리 피드 사용');?></span></dt>
 											<dd>
@@ -816,9 +828,9 @@ if( $acceptTrackbacks ) {
 						<hr class="hidden" />
 						
 						<div id="part-setting-language" class="part">
-							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('language_setting','link',_t('언어, 시간대를 설정합니다'));?></span></h2>
+							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('language-setting','link',_t('언어, 시간대를 설정합니다'));?></span></h2>
 							<form id="language-form" class="data-inbox" method="post" action="<?php echo parseURL($context->getProperty('uri.blog').'/owner/setting/blog/language');?>">
-								<div id="language_setting" class="section folding">
+								<div id="language-setting" class="section folding">
 									<fieldset class="container">
 										<legend><?php echo _t('언어 및 시간대');?></legend>
 										

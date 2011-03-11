@@ -290,7 +290,6 @@ function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
 }
 
 function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
-	global $database, $blog, $defaultURL;
 	if (empty($url))
 		return 5;
 	$post = new Post;
@@ -349,18 +348,17 @@ function revertTrackback($blogid, $id) {
 }
 
 function sendTrackback($blogid, $entryId, $url) {
-	global $defaultURL, $blog;
 	requireModel('blog.entry');
 	requireModel('blog.keyword');
-	
+	$context = Model_Context::getInstance();	
 	$entry = getEntry($blogid, $entryId);
 	if (is_null($entry))
 		return false;
-	$link = "$defaultURL/$entryId";
+	$link = $context->getProperty('uri.default')."/".$entryId;
 	$title = htmlspecialchars($entry['title']);
 	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentformatter'], getKeywordNames($blogid));
 	$excerpt = str_tag_on(Utils_Unicode::lessen(removeAllTags(stripHTML($entry['content'])), 255));
-	$blogTitle = $blog['title'];
+	$blogTitle = $context->getProperty('blog.title');
 	$isNeedConvert = 
 		strpos($url, '/rserver.php?') !== false // 구버전 태터
 		|| strpos($url, 'blog.naver.com/tb') !== false // 네이버 블로그
