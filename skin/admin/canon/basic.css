@@ -35,7 +35,6 @@ body
 	background-color                 : #fff;
 	color                            : #666666;
 	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
-	font-size                        : small;
 }
 
 dl
@@ -154,7 +153,6 @@ table
 textarea
 {
 	border                           : 1px solid #999999;
-	font-size                        : 1em;
 	padding                          : 2px;
 }
 
@@ -167,7 +165,7 @@ textarea
 
 #all-wrap
 {
-	font-size                        : 0.925em;
+	font-size                        : 0.75em;
 	text-align                       : justify;
 }
 
