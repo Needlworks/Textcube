@@ -812,6 +812,11 @@ h2.caption span
 	width                            : 100%; 
 }
 
+table.data-inbox
+{
+	font-size                        : 0.9em;
+}
+
 table.data-inbox thead tr th
 {
 	background-color                 : #F3F3F1;
