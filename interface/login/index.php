@@ -192,6 +192,9 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 							<div class="button-box">
 								<input type="submit" class="login-button input-button" name="button_login" value="<?php echo _text('로그인');?>" />
 							</div>
+							<div class="return-box">
+								<a href="<?php echo $context->getProperty('uri.blog');?>"><?php echo _text('블로그로 돌아가기');?></a>
+							</div>
 						</div>
 					</form>
 						
