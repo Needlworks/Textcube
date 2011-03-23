@@ -134,6 +134,7 @@ class Filter {
 
 	/*@static@*/
 	function isAllowed($whiteurl) {
+		if(empty($whiteurl)) return false;
 		$whiteurl = strtolower($whiteurl);
 		$query = DBModel::getInstance();
 		$query->reset('Filters');
