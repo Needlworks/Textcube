@@ -139,7 +139,7 @@ class Filter {
 		$query->reset('Filters');
 		$query->setQualifier('blogid','equals',getBlogId());
 		$query->setQualifier('filtertype','equals','whiteurl',true);
-		$query->setQualifier(POD::escapeString($whiteurl), 'like', "CONCAT('%', LOWER(pattern), '%')");
+		$query->setQualifier(POD::escapeString($whiteurl), 'like', "CONCAT('%', LOWER(pattern), '%')",false,true);
 		return $query->doesExist();
 	}
 	
