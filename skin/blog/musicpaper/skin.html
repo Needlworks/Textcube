@@ -24,7 +24,7 @@
 		</hgroup>
 	</header>
 	<nav id="menu">
-		<menu label="blog">
+		<menu label="blog" class="blog">
 			<li class="tab_home"><a href="[##_blog_link_##]">Home</a></li>
 			<li class="tab_cover"><a href="[##_blog_link_##]cover">Cover</a></li>
 			<li class="tab_notice"><a href="[##_blog_link_##]notice">Notice</a></li>
@@ -164,7 +164,7 @@
 		<article>
 			<hgroup>
 				<h1>Guestbook</h1>
-				<h2>Leave your greetings here</h2>
+				<h2>Leave your greetings</h2>
 			</hgroup>
 			<s_guest_input_form>
 				<fieldset>
@@ -334,16 +334,20 @@
 				<dt class="response">Response</dt>
 				<dd class="response">
 					<menu>
-					<command id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="button">
+<!--					<command type="command" id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="button">-->
+					<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="button">
 					<s_tb_count>
 						<em>[##_article_rep_tb_cnt_##]</em> Trackbacks
 					</s_tb_count>
-					</command>,
-					<command id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="button">
+					</a>
+<!--					</command>,-->
+<!--					<command id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="button">-->
+					<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="button">
 					<s_rp_count>
 						<em>[##_article_rep_rp_cnt_##]</em> Comments
 					</s_rp_count>
-					</command>
+					</a>
+<!--					</command>-->
 					</menu>
 				</dd>
 				<dt class="feed">You can track responses via RSS / ATOM feed</dt>
@@ -394,8 +398,10 @@
 			</dt>
 			<dd class="regdate"><time>[##_rp_rep_date_##]</time></dd>
 			<dd class="permalink"><a href="[##_rp_rep_link_##]" title="Permanent link" class="button">Permalink</a></dd> 
-			<dd class="delete"><command onclick="[##_rp_rep_onclick_delete_##]" label="Modify/Delete" class="button"><abbr title="Modify or Delete">M/D</abbr></command></dd> 
-			<dd class="write"><command onclick="[##_rp_rep_onclick_reply_##]" label="Write reply" class="button">Reply</command></dd>
+<!--			<dd class="delete"><command onclick="[##_rp_rep_onclick_delete_##]" label="Modify/Delete" class="button"><abbr title="Modify or Delete">M/D</abbr></command></dd> -->
+			<dd class="delete"><a href="#" onclick="[##_rp_rep_onclick_delete_##]" label="Modify/Delete" class="button"><abbr title="Modify or Delete">M/D</abbr></a></dd> 
+<!--			<dd class="write"><command onclick="[##_rp_rep_onclick_reply_##]" label="Write reply" class="button">Reply</command></dd>-->
+			<dd class="write"><a href="#" onclick="[##_rp_rep_onclick_reply_##]" label="Write reply" class="button">Reply</a></dd>
 			<dd class="content"><p>[##_rp_rep_desc_##]</p></dd>
 			<s_rp2_container>
 			<dd class="reply">
@@ -406,7 +412,8 @@
 					</dt>
 					<dd class="regdate"><time>[##_rp_rep_date_##]</time></dd>
 					<dd class="permalink"><a href="[##_rp_rep_link_##]" title="Permanent link" class="button">Permalink</a></dd>
-					<dd class="delete"><command onclick="[##_rp_rep_onclick_delete_##]" title="Modify/Delete" class="button"><abbr title="Modify or Delete">M/D</abbr></command></dd>
+<!--					<dd class="delete"><command onclick="[##_rp_rep_onclick_delete_##]" title="Modify/Delete" class="button"><abbr title="Modify or Delete">M/D</abbr></command></dd>-->
+					<dd class="delete"><a href="#" onclick="[##_rp_rep_onclick_delete_##]" title="Modify/Delete" class="button"><abbr title="Modify or Delete">M/D</abbr></a></dd>
 					<dd class="content"><p>[##_rp_rep_desc_##]</p></dd>
 				</dl>
 				</s_rp2_rep>
@@ -420,7 +427,7 @@
 	<section class="write comments">
 		<hgroup>
 			<h1>Comments</h1>
-			<h2>Leave your comment here</h2>
+			<h2>Leave your comment</h2>
 		</hgroup>
 		<fieldset>
 		<s_rp_member>

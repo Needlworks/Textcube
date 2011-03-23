@@ -39,7 +39,7 @@
 	.keylog
 	.logs
 	.notice
-
+ * Note that command tag is marked however not used. No current browser supports it.
 */
 
 body {
@@ -48,10 +48,12 @@ body {
 
 a:link, a:visited {
 	text-decoration : none;
+	color : #333; 
+	cursor : pointer;
 }
 /* Outline */
 #face {
-	width:100%;
+	width : 100%;
 }
 
 #content {
@@ -64,8 +66,9 @@ a:link, a:visited {
 	display : table-cell;
 }
 
+#sections,
 #sections section article {
-	width : 700px;	
+	min-width : 700px;
 }
 
 section.comments dl.comments,
@@ -81,6 +84,7 @@ section.write fieldset {
 /* Heading part design. */
 header#face {
 	height : 100px;
+	width  : 900px;
 }
 
 header#face h1 {
@@ -94,14 +98,18 @@ header#face h2 {
 /* Blog menu design. */
 nav#menu menu {
 	display : block;
-	background-color : white;
+	background-color : transparent;
 	filter : alpha(opacity=90);
 	opacity : .90;
+}
+nav#menu menu.blog {
+	padding-bottom:1px;
+	border-bottom:1px solid #bbb;
 }
 nav#menu menu.action {
 	position : absolute;
 	top : 0;
-	right : 10px;	
+	right : 10px;
 }
 
 nav#menu menu li {
@@ -109,18 +117,28 @@ nav#menu menu li {
 	font-size : 0.8em;	
 	padding : 5px;
 	margin-right : 10px;
-	border : 1px solid #bbb;
-	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));	
+	border-left:5px solid #999;
+	border-right:0;
+	border-top:0;
+	border-bottom:0;
+	background-image : -webkit-linear-gradient(top, #fff, #eee);
+	background-image : -moz-linear-gradient(top, #fff, #eee);
+	background-image : linear-gradient(top, #fff, #eee);
 }
 
 nav#menu menu li:hover {
 	background-color : #f2f2f2;
-	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+	box-shadow : 0 0 3px #ccc;
+	background-image : -webkit-linear-gradient(top, #fbfbfb, #ddd);
+	background-image : -moz-linear-gradient(top, #fbfbfb, #ddd);
+	background-image : linear-gradient(top, #fbfbfb, #ddd);
 }
 
 nav#menu menu li:active {
 	background-color : #ddd;
-	background-image : -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));	
+	background-image : -webkit-linear-gradient(top, #f8f8f8, #ddd);
+	background-image : -moz-linear-gradient(top, #f8f8f8, #ddd);
+	background-image : linear-gradient(top, #f8f8f8, #ddd);
 }
 
 /* Lists */
@@ -167,14 +185,13 @@ section.post menu.admin li {
 
 /* Post Summary */
 section.summary article {
-	border : 1px solid #ddd;
+/*	border : 1px solid #ddd;*/
+	border-left: 5px solid #ddd;
+	border-right: 5px solid #ddd;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
 	padding : 10px;
-	border-radius : 10px;
-	box-shadow : 0 0 3px #ccc;
-	-moz-border-radius : 10px;
-	-webkit-border-radius : 10px;
-	-moz-box-shadow : 0 0 3px #ccc;
-	-webkit-box-shadow : 0 0 3px #ccc;	
+	min-height : 100px;
 }
 
 section.summary dl.information {
@@ -219,8 +236,28 @@ section.summary dt.response {
 	display : none;	
 }
 
-section.summary dl.response {
-	margin-left:25px;
+section.summary dl.response, 
+section.summary dt.response, 
+section.summary dd.response { 
+	margin : 0;
+}
+
+section.summary dd.response .button {
+	display : table;
+	height : 70px;
+	width : 60px;
+	float:left;
+	padding-right:10px;
+	margin-right:5px;
+	margin-left:0;
+	vertical-align: middle;
+	border-radius:3px;
+}
+
+section.summary dd.response a em {
+	display:block;
+	font-size : 2em;
+	text-align : center;
 }
 
 section.summary .feed {
@@ -255,8 +292,6 @@ section.comments dl {
 	border:1px solid #ddd;
 	font-size:0.925em;
 	border-radius : 10px;
-	-moz-border-radius : 10px;
-	-webkit-border-radius : 10px;	
 }
 
 section.comments dl dt {
@@ -265,11 +300,14 @@ section.comments dl dt {
 }
 
 section.comments dl dt:nth-child(2n+1) {
+	background-image : #efefef;
 }
 
 section.comments dl dd dl {
 	background-color : #fff;
-	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
+	background-image : -webkit-linear-gradient(top, #fff, #eee);
+	background-image : -moz-linear-gradient(top, #fff, #eee);
+	background-image : linear-gradient(top, #fff, #eee);
 }
 
 
@@ -293,7 +331,7 @@ section.comments dd.reply {
 
 /* comments write form */
 section.write {
-	padding:10px;
+	padding: 30px 10px;
 }
 section.write hgroup h1 {
 	display:none;
@@ -306,10 +344,10 @@ section.write hgroup h2 {
 
 
 section.write fieldset {
-	border:1px solid #ddd;
+	border : 1px solid #ddd;
 	border-radius : 10px;
-	-moz-border-radius : 10px;
-	-webkit-border-radius : 10px;	
+	padding : 10px;
+	box-shadow : 0 0 3px #ccc;
 }
 
 section.write input {
@@ -348,7 +386,6 @@ section.write .submit {
 }
 
 /* Paging */
-
 nav.paging ul {
 	margin: 15px auto 0 auto;
 	list-style-type : none;
@@ -375,6 +412,9 @@ footer {
 
 /* widgets */
 
+.widget h3 {
+	border-bottom : 1px solid #ccc;
+}
 .widget ol {
 	font-size:0.8em;
 	padding-left:0;
@@ -483,15 +523,21 @@ input.search {
 	font-size : 0.8em;
 	padding : 5px;
 	border : 1px solid #bbb;
-	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));	
+	background-image : -webkit-linear-gradient(top, #fff, #eee);
+	background-image : -moz-linear-gradient(top, #fff, #eee);
+	background-image : linear-gradient(top, #fff, #eee);
 }
 
 .button:hover {
 	background-color : #f2f2f2;
-	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+	background-image : -webkit-linear-gradient(top, #fbfbfb, #ddd);
+	background-image : -moz-linear-gradient(top, #fbfbfb, #ddd);
+	background-image : linear-gradient(top, #fbfbfb, #ddd);
 }
 
 .button:active {
 	background-color : #ddd;
-	background-image : -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));	
+	background-image : -webkit-linear-gradient(top, #f8f8f8, #ddd);
+	background-image : -moz-linear-gradient(top, #f8f8f8, #ddd);
+	background-image : linear-gradient(top, #f8f8f8, #ddd);
 }

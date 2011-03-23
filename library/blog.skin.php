@@ -673,11 +673,16 @@ function replaceSkinTag( & $contents, $tag) {
 }
 
 function insertGeneratorVersion(&$contents) {
-	$pattern = '/(<head>)/Ui';
+	if (stripos($contents, '<meta charset="utf-8">') !== false) {
+		$pattern = '/(<meta charset="utf-8">)/Ui';
+	} else {
+		$pattern = '/(<head>)/Ui';
+	}
 	$replacement = '$1'.CRLF.'<meta name="generator" content="'.TEXTCUBE_NAME.' '.TEXTCUBE_VERSION.'" />';
 
 	$contents = preg_replace($pattern, $replacement, $contents);
 }
+
 
 function setTempTag($name) {
 	return "[#####_#####_#####_{$name}_#####_#####_#####]";

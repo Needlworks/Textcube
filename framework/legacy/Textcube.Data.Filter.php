@@ -134,12 +134,13 @@ class Filter {
 
 	/*@static@*/
 	function isAllowed($whiteurl) {
+		if(empty($whiteurl)) return false;
 		$whiteurl = strtolower($whiteurl);
 		$query = DBModel::getInstance();
 		$query->reset('Filters');
 		$query->setQualifier('blogid','equals',getBlogId());
 		$query->setQualifier('filtertype','equals','whiteurl',true);
-		$query->setQualifier(POD::escapeString($whiteurl), 'like', "CONCAT('%', LOWER(pattern), '%')");
+		$query->setQualifier(POD::escapeString($whiteurl), 'like', "CONCAT('%', LOWER(pattern), '%')",false,false);
 		return $query->doesExist();
 	}
 	

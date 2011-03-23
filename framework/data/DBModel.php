@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.4.0.20101224 */
+/* 1.4.1.20110323 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limitation, $table, $id, $_querysetCount;
@@ -115,8 +115,8 @@ class DBModel extends Singleton implements IModel {
 		return $this->_qualifiers[$name];
 	}
 	
-	public function setQualifier($name, $condition, $value = null, $escape = false) {
-		$result = $this->getQualifierModel($name, $condition, $value, $escape);
+	public function setQualifier($name, $condition, $value = null, $escape = false, $autoquote = true) {
+		$result = $this->getQualifierModel($name, $condition, $value, $escape, $autoquote);
 		if($result) {
 			list($this->_qualifiers[$name],$this->_relations[$name]) = $result;
 		}
@@ -381,7 +381,7 @@ class DBModel extends Singleton implements IModel {
 		return $escapedFields;
 	}
 	
-	protected function getQualifierModel($name, $condition, $value = null, $escape = false) {
+	protected function getQualifierModel($name, $condition, $value = null, $escape = false, $autoquote = true) {
 	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
 		if (is_null($condition)) {
 			$qualifiers = null;
@@ -438,7 +438,7 @@ class DBModel extends Singleton implements IModel {
 				}
 				$qualifiers = $value;
 			} else {
-				$qualifiers = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? 
+				$qualifiers = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions) || $autoquote == false) ? 
 					$value : ($escape ? '\'' . 
 						POD::escapeString(
 							(($relations == 'LIKE') ? '%'.$value.'%' : $value)

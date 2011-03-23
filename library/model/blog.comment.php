@@ -486,7 +486,7 @@ function addComment($blogid, & $comment) {
 		if (!$result || $result == 0)
 			return false;
 	}
-	$parent = $comment['parent'] == null ? 'null' : $comment['parent'];
+	$parent = $comment['parent'] == null ? null : $comment['parent'];
 	$userid = getUserId();
 	if (!empty($userid)) {
 		$comment['replier'] = $userid;
@@ -495,7 +495,7 @@ function addComment($blogid, & $comment) {
 		$homepage = User::getHomepage($userid);
 		if( empty($homepage) && $openid ) { $homepage = $openid; }
 	} else {
-		$comment['replier'] = 'null';
+		$comment['replier'] = null;
 		$name = $comment['name'];
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
 		$homepage = $comment['homepage'];
@@ -508,7 +508,11 @@ function addComment($blogid, & $comment) {
 	$pool->setAttribute('blogid',$blogid);
 	$pool->setAttribute('replier',$comment['replier']);
 	$pool->setAttribute('id',$insertId);
-	$pool->setAttribute('openid',$openid,true);
+	if (is_null($openid)) {
+		$pool->setAttribute('openid','',true);
+	} else {
+		$pool->setAttribute('openid',$openid,true);
+	}
 	$pool->setAttribute('entry',$comment['entry']);
 	$pool->setAttribute('parent',$parent);
 	$pool->setAttribute('name',$name,true);
