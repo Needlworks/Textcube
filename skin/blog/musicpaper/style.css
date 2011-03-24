@@ -176,6 +176,28 @@ article.post header h2 {
 section.post article {
 	margin-bottom : 10px;
 }
+/* Post styles */
+section.post article p {
+	margin-top:8px;
+	margin-bottom:8px;
+}
+section.post article br {
+	margin-top:8px;
+	margin-bottom:8px;
+}
+section.post article blockquote {
+	padding : 10px 0 10px 20px;
+	border-left: 15px solid #eee;
+	border-top:1px solid #eee;
+	border-bottom:1px solid #eee;
+	font : 1em/1.2 sans-serif;
+}
+section.post article ul li {
+	list-style-type : square;
+}
+section.post article ol li {
+
+}
 /* Post admin menu */
 section.post menu.admin li {
 	list-style-type : none;
