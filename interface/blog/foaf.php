@@ -6,7 +6,7 @@ require ROOT . '/library/preprocessor.php';
 
 $blogid = getBlogId();
 $links = getLinks( $blogid );
-
+$context = Model_Context::getInstance();
 header( "Content-type: application/xml" );
 echo '<?xml version="1.0" encoding="UTF-8" ?>';
 ?><rdf:RDF
@@ -21,11 +21,11 @@ echo '<?xml version="1.0" encoding="UTF-8" ?>';
 </foaf:PersonalProfileDocument>
 <foaf:Person rdf:ID="me">
 <?php
-if( trim($blog['name']) != '' ) { echo "<foaf:name>{$blog['name']}</foaf:name>\n"; }
-if( !empty($blog['OpenIDDelegate']) ) { echo "<foaf:openid>{$blog['OpenIDDelegate']}</foaf:openid>\n"; }
-if( !empty($context->getProperty('blog.logo')) ) { 
-	echo "<foaf:depiction rdf:resource=\"http://{$service['domain']}{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}\" />\n";
-	echo "<foaf:img rdf:resource=\"http://{$service['domain']}{$context->getProperty('service.path')}/attach/$blogid/{$context->getProperty('blog.logo')}\" />\n";
+if( trim($context->getProperty('blog.name')) != '' ) { echo "<foaf:name>".$context->getProperty('blog.name')."</foaf:name>\n"; }
+if( $context->getProperty('blog.OpenIDDelegate')) { echo "<foaf:openid>".$context->getProperty('blog.OpenIDDelegate')."</foaf:openid>\n"; }
+if( $context->getProperty('blog.logo')) { 
+	echo "<foaf:depiction rdf:resource=\"http://".$context->getProperty('service.domain').$context->getProperty('service.path')."/attach/$blogid/".$context->getProperty('blog.logo')."\" />\n";
+	echo "<foaf:img rdf:resource=\"http://".$context->getProperty('service.domain').$context->getProperty('service.path')."/attach/$blogid/".$context->getProperty('blog.logo')."\" />\n";
 }
 foreach( $links as $link ) {
 	if( $link['visibility'] < 2 || !$link['xfn'] ) { continue; }
