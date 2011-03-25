@@ -44,6 +44,7 @@
 
 body {
 	font : 1em/1.5 sans-serif;
+	word-wrap : break-word;
 }
 
 a:link, a:visited {
@@ -174,7 +175,7 @@ article.post header h2 {
 }
 
 section.post article {
-	margin-bottom : 10px;
+	margin : 0 20px 10px 20px;
 }
 /* Post styles */
 section.post article p {
