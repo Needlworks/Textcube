@@ -431,12 +431,12 @@ class Setting {
 	
 	function setSkinSetting($name, $value, $blogid = null) {
 		global $database;
-		global $__gCacheSkinSettings;
+		global $__gCacheSkinSettings, $__gCacheBlogSettings;
 		global $gCacheStorage;
-	
 		if (is_null($blogid)) $blogid = getBlogId();
 		if (!is_numeric($blogid)) return null;
 	
+		if(empty($__gCacheBlogSettings)) Setting::getBlogSettingsGlobal($blogid);
 		if (!array_key_exists($blogid, $__gCacheSkinSettings)) {
 			// force loading
 			Setting::getSkinSettings($blogid,false);
