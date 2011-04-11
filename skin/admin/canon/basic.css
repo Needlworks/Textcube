@@ -649,7 +649,7 @@ textarea
 	margin                           : 0 auto;
 	position                         : relative;
 	padding-left                     : 151px;
-	font-size                        : 0.925em;
+	font-size                        : 0.8em;
 /*	width                            : 100%;*/
 }
 
@@ -1331,7 +1331,7 @@ table.data-inbox tbody tr td.inactive-class
 	background-repeat                : repeat-x;
 	background-color                 : #FFFFFF;
 	font-family                      : Tahoma, sans-serif;
-	font-size                        : 0.9em;
+	font-size                        : 0.8em;
 	margin                           : 0 auto;
 	padding                          : 8px 0 5px 0;
 	text-align                       : center;
@@ -1466,7 +1466,9 @@ table.data-inbox tbody tr td.inactive-class
 	line-height                      : 1.8em;
 	padding                          : 0 5px !important;
 	vertical-align                   : middle;
-	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
+	background-image : -moz-linear-gradient(top, #fff, #eee);
+	background-image : -webkit-linear-gradient(top, #fff, #eee);
+	background-image : linear-gradient(top, #fff, #eee);
 }
 
 .input-button:hover
@@ -1476,7 +1478,10 @@ table.data-inbox tbody tr td.inactive-class
 	border                           : 1px solid #333;
 	-webkit-box-shadow               : 0 0 7px #FFE13C;
 	-moz-box-shadow                  : 0 0 7px #FFE13C;
-	background-image: -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+	box-shadow                  : 0 0 7px #FFE13C;
+	background-image : -moz-linear-gradient(top, #fbfbfb, #ddd);
+	background-image : -webkit-linear-gradient(top, #fbfbfb, #ddd);
+	background-image : linear-gradient(top, #fbfbfb, #ddd);
 }
 
 .input-button:active
