@@ -280,7 +280,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			}
 		} else {
 			if($useAjaxBlock) {
-				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true,true);return false;','?page=', '', null, $context->getProperty('skin.commentsSortBy','ASC'));
+				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true,true);return false;',null, $context->getProperty('skin.commentsSortBy','ASC'));
 			} else {
 				$comments = getComments($entry['id'],$context->getProperty('skin.commentSortBy','ASC'));	
 			}
