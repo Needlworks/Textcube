@@ -17,10 +17,15 @@ if (version_compare(PHP_VERSION,'5.2.0', '<')) {
 		exit;
 	}
 }
-
+$bootFiles = array();
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
-	if($fileInfo->isFile()) require_once($fileInfo->getPathname());
+	if($fileInfo->isFile()) array_push($bootFiles, $fileInfo->getPathname());
 }
+sort($bootFiles);
+foreach ($bootFiles as $bf) {
+	require_once($bf);
+}			    
+unset($bootFiles);
 
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
