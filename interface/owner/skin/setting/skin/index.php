@@ -22,6 +22,7 @@ $IV = array(
 		'showListOnSearch' => array('int'),
 		'expandComment' => array('int'),
 		'expandTrackback' => array('int'),
+		'sortCommentsBy' => array('string'),
 		'recentNoticeLength' => array('int'),
 		'recentPageLength' => array('int'),
 		'recentEntryLength' => array('int'),

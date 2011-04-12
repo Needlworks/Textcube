@@ -376,6 +376,7 @@ class Setting {
 				'trackbacksOnRecent' => 5, 
 				'expandComment' => 1, 
 				'expandTrackback' => 1, 
+				'sortCommentsBy' => 'ASC', 
 				'recentNoticeLength' => 25, 
 				'recentPageLength' => 25, 
 				'recentEntryLength' => 30, 

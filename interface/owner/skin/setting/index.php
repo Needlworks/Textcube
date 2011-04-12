@@ -55,12 +55,17 @@ $selected = 0;
 										showListOnSearch = 2;
 									else 
 										showListOnSearch = 1;
-									
+
 									if(document.getElementById('expandComment').checked) 
 										expandComment = 1;
 									else 
 										expandComment = 0;
-									
+
+									if(document.getElementById('sortCommentsByDESC').checked) 
+										sortCommentsBy = 'DESC';
+									else 
+										sortCommentsBy = 'ASC';
+
 									if(document.getElementById('expandTrackback').checked) 
 										expandTrackback = 1;
 									else 
@@ -110,6 +115,7 @@ $selected = 0;
 									param += 'showListOnSearch='+showListOnSearch +'&';
 									param += 'expandComment='+expandComment +'&';				
 									param += 'expandTrackback='+expandTrackback +'&';
+									param += 'sortCommentsBy='+encodeURIComponent(sortCommentsBy)+'&';
 									param += 'recentNoticeLength='+getValueById('recentNoticeLength') +'&';
 									param += 'recentPageLength='+getValueById('recentPageLength') +'&';
 									param += 'recentEntryLength='+getValueById('recentEntryLength') +'&';
@@ -403,9 +409,18 @@ ob_end_clean();
 										<dl id="comment-show-line" class="line">
 											<dt><span class="label"><?php echo _t('댓글을 표시할 때');?></span></dt>
 											<dd>
-												<input type="checkbox" id="pagingComment" class="checkbox" name="pagingComment"<?php echo (Setting::getBlogSettingGlobal('useAjaxComment',1) == 1 ? 'checked = "checked"' : '');?> /><label for="pagingComment"><?php echo _t('댓글 페이징을 사용합니다.');?> <br /><?php echo _t('댓글이 많은 블로그에서 댓글 보기를 누를 경우에만 댓글을 AJAX로 불러와 최근 댓글의 일부부터 보여줍니다.');?> <?php echo _t('댓글 페이징을 사용하면 댓글은 기본적으로 닫힌 채로 출력됩니다.');?></label><br />
+												<input type="checkbox" id="pagingComment" class="checkbox" name="pagingComment"<?php echo (Setting::getBlogSettingGlobal('useAjaxComment',1) == 1 ? 'checked = "checked"' : '');?> /><label for="pagingComment"><?php echo _t('댓글 페이징을 사용합니다.');?> <br /><?php echo _t('댓글이 많은 블로그에서 댓글 보기를 누를 경우에만 댓글을 AJAX로 불러와 최근 댓글의 일부부터 보여줍니다.');?></label><br />
 											</dd>
 										</dl>
+										<dl id="comment-sort-line" class="line">
+											<dt><span class="label"><?php echo _t('글의 댓글 순서');?></span></dt>
+											<dd>
+												<input type="radio" id="sortCommentsByASC" class="radio" name="sortComments" value="ASC"<?php echo ($skinSetting['sortCommentsBy'] == 'ASC') ? ' checked="checked"' : '';?> /> <label for="sortCommentsByASC"><?php echo _t('오래된 댓글부터 보여줍니다.');?></label><br />
+												<input type="radio" id="sortCommentsByDESC" class="radio" name="sortComments" value="DESC"<?php echo ($skinSetting['sortCommentsBy'] == 'DESC') ? ' checked="checked"' : '';?> /> <label for="sortCommentsByDESC"><?php echo _t('최근 댓글부터 보여줍니다.');?></label>
+											</dd>
+										</dl>										
+										
+										
 									</fieldset>
 									
 									<fieldset id="length-container" class="container">

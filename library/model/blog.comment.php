@@ -221,7 +221,8 @@ function getCommentCommentsNotified($parent) {
 	return $comments;
 }
 
-function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null) {
+function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null, $order = 'ASC') {
+
 	$ctx = Model_Context::getInstance();
 	$comments = array();
 	if($entryId != -1) {
@@ -231,7 +232,7 @@ function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url =
 		WHERE blogid = $blogid $filter
 			AND parent IS NULL
 			AND isfiltered = 0
-		ORDER BY written DESC";
+		ORDER BY written ".($order == 'DESC' ? "DESC" : "ASC");
 	list($comments, $paging) = Paging::fetch($sql, $page, $count, $url, $prefix, $countItem);
 	$paging['postfix'] = $postfix;
 	$comments = coverComments($comments);
@@ -269,7 +270,7 @@ function getCommentAttributes($blogid, $id, $attributeNames) {
 	return $pool->getRow($attributeNames);
 }
 
-function getComments($entry) {
+function getComments($entry,$order = 'ASC') {
 	$comments = array();
 	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
@@ -279,7 +280,11 @@ function getComments($entry) {
 	$pool->setQualifier('parent','eq',NULL);
 	$pool->setQualifier('isfiltered','eq',0);	
 	if ( $entry == 0 ) $pool->setOrder('written','desc');
-	else $pool->setOrder('id','asc');
+	else if ($order == 'DESC') {
+		$pool->setOrder('id','desc');
+	} else {
+		$pool->setOrder('id','asc');
+	}
 	if ($result = $pool->getAll()) {
 		$comments = coverComments($result);
 	}

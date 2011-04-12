@@ -284,9 +284,9 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			}
 		} else {
 			if($useAjaxBlock) {
-				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true,true);return false;');
+				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true,true);return false;',null, $context->getProperty('skin.sortCommentsBy','ASC'));
 			} else {
-				$comments = getComments($entry['id']);	
+				$comments = getComments($entry['id'],$context->getProperty('skin.sortCommentsBy','ASC'));	
 			}
 		}
 		if(empty($skin->dressCommentBlock)) {
