@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('ROOT', '.');
-require_once(ROOT.'/framework/Dispatcher.php');
+require_once(ROOT.'/framework/id/textcube/Dispatcher.php');
 /** Dispatching Interface request via URI */
 $dispatcher = Dispatcher::getInstance();
 /** Interface Loading */
