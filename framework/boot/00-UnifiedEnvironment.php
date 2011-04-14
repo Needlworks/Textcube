@@ -51,6 +51,10 @@ if(isset($_SERVER['HTTP_CLIENT_IP'])) {
 	$firstIP = explode(',',$_SERVER['HTTP_X_FORWARDED_FOR']);
 	$_SERVER['REMOTE_ADDR'] = $firstIP[0];
 }
+/* Workaround for REMOTE_ADDR Handling of IPv6 */
+if(in_array($_SERVER['REMOTE_ADDR'],array('fe80::1','::1'))) {
+	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+}
 /* Workaround for iconv-absent environment. (contributed by Papacha) */
 if (!function_exists('iconv')) {
 	if (function_exists('mb_convert_encoding')) {
