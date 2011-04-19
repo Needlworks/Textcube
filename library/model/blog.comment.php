@@ -268,7 +268,7 @@ function getCommentAttributes($blogid, $id, $attributeNames) {
 function getComments($entry,$order = 'ASC') {
 	global $database;
 	$comments = array();
-	$aux = ($entry == 0 ? 'ORDER BY written DESC' : ('ORDER BY id '. $order == 'DESC' ? 'DESC' : 'ASC'));
+	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'ORDER BY id '.($order == 'DESC' ? 'DESC' : 'ASC'));
 	$sql = "SELECT *
 		FROM {$database['prefix']}Comments
 		WHERE blogid = ".getBlogId()."
