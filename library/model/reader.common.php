@@ -282,12 +282,12 @@ function getFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly = 
 			}
 			return $row;
 		} else {
-			$result = POD::query($sql);
+			$result = POD::queryAll($sql);
 			$prevRow = null;
-			while ($row = POD::fetch($result)) {
+			while ($row = array_shift($result)) {
 				if ($row['id'] == $entry) {
 					if ($position == 'before') {
-						while ($row = POD::fetch($result)) {
+						while ($row = array_shift($result)) {
 							if ($unreadOnly == false || !$row['wasread'])
 								break;
 						}
@@ -580,11 +580,11 @@ function saveFeedItems($feedId, $xml) {
 	$feedlife = POD::queryCell("SELECT feedlife FROM {$database['prefix']}FeedSettings");
 	if($feedlife > 0)
 		$deadLine = gmmktime() - $feedlife * 86400;
-	if($result = POD::query("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
-		while(list($id) = POD::fetch($result))
+	if($result = POD::queryAll("SELECT id FROM {$database['prefix']}FeedItems LEFT JOIN {$database['prefix']}FeedStarred ON id = item WHERE item IS NULL AND written < $deadLine"))
+		while(list($id) = array_shift($result))
 			POD::query("DELETE FROM {$database['prefix']}FeedItems WHERE id = $id");
-	if($result = POD::query("SELECT blogid, item FROM {$database['prefix']}FeedReads LEFT JOIN {$database['prefix']}FeedItems ON id = item WHERE id IS NULL"))
-		while(list($readsOwner, $readsItem) = POD::fetch($result))
+	if($result = POD::queryAll("SELECT blogid, item FROM {$database['prefix']}FeedReads LEFT JOIN {$database['prefix']}FeedItems ON id = item WHERE id IS NULL"))
+		while(list($readsOwner, $readsItem) = array_shift($result))
 			POD::query("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $readsOwner AND item = $readsItem");
 	return true;
 }
@@ -657,8 +657,8 @@ function deleteReaderTablesByOwner($blogid) {
 	global $database;
 	POD::query("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
 	POD::query("DELETE FROM {$database['prefix']}FeedSettings WHERE blogid = $blogid");
-	if($result = POD::query("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid")) {
-		while(list($feed) = POD::fetch($result)) {
+	if($result = POD::queryAll("SELECT feed FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid")) {
+		while(list($feed) = array_shift($result)) {
 			deleteFeed($blogid, $feed);
 		}
 	}

@@ -47,7 +47,7 @@ final class Session {
 		if(is_null(self::$context)) self::initialize();
 
 		if ($result = self::query('cell',"SELECT privilege FROM ".self::$context->getProperty('database.prefix')."Sessions 
-			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - ".self::$context->getProperty('service.timeout').")")) {
+			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')).")")) {
 			return $result;
 		}
 		return '';
@@ -69,7 +69,7 @@ final class Session {
 		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
 		$result = self::query('count',"UPDATE ".self::$context->getProperty('database.prefix')."Sessions 
-				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = UNIX_TIMESTAMP() 
+				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = ".Timestamp::getUNIXtime()." 
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		if ($result && $result == 1) {
 			@POD::commit();
@@ -125,7 +125,7 @@ final class Session {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby)");
+			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', ".Timestamp::getUNIXtime().",".(Timestamp::getUNIXtime() - $meet_again_baby).")");
 			if ($result > 0)
 				return $id;
 		}
@@ -214,7 +214,7 @@ final class Session {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			$result = self::query('execute',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions
 				(id, address, userid, created, updated) 
-				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, UNIX_TIMESTAMP(), UNIX_TIMESTAMP())");
+				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, ".Timestamp::getUNIXtime().",".Timestamp::getUNIXtime().")");
 			if ($result) {
 				@session_id($id);
 				//$service['domain'] = $service['domain'].':8888';

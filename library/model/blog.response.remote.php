@@ -96,14 +96,15 @@ function getRemoteResponses($entry, $type = null) {
 	if (!is_null($type)) $typeFilter = " AND responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$responses = array();
-	$result = POD::query("SELECT * 
+	$result = POD::queryAll("SELECT * 
 			FROM {$database['prefix']}RemoteResponses 
 			WHERE blogid = ".getBlogId()." 
 				AND entry = $entry 
 				AND isfiltered = 0 $typeFilter 
 			ORDER BY written");
-	while ($response = POD::fetch($result))
-		array_push($responses, $response);
+	if(!empty($result)) $responses = $result;
+//	while ($response = POD::fetch($result))
+//		array_push($responses, $response);
 	return $responses;
 }
 
@@ -211,11 +212,16 @@ function getRemoteResponseLog($blogid, $entry, $type = null) {
 	global $database;
 	if($type === null) $filter = '';
 	else $filter = " AND responsetype = '".POD::escapeString($type)."'";
-	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entry $filter");
+	$result = POD::queryAll("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entry $filter");
 	$str = '';
-	while ($row = POD::fetch($result)) {
-		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
+	if(!empty($result)) {
+		foreach($result as $row) {
+			$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
+		}
 	}
+//	while ($row = POD::fetch($result)) {
+//		$str .= $row['id'] . ',' . $row['url'] . ',' . Timestamp::format5($row['written']) . '*';
+//	}
 	return $str;
 }
 
@@ -224,9 +230,12 @@ function getRemoteResponseLogs($blogid, $entryId, $type = null) {
 	if($type === null) $filter = '';
 	else $filter = " AND responsetype = '".POD::escapeString($type)."'";
 	$logs = array();
-	$result = POD::query("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entryId $filter");
-	while ($log = POD::fetch($result))
-		array_push($logs, $log);
+	$result = POD::queryAll("SELECT * FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = $blogid AND entry = $entryId $filter");
+	if(!empty($result)) {
+		$logs = $result;
+	}
+//	while ($log = POD::fetch($result))
+//		array_push($logs, $log);
 	return $logs;
 }
 

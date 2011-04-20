@@ -40,6 +40,22 @@ function getArchives($blogid, $option = 'yearmonth') {
 				}
 			}
 			break;
+		case 'SQLite3':
+			if($option == 'year') $format = '%Y';
+			else if ($option == 'month') $format = '%m';
+			else $format = '%Y%m';
+			$sql = "SELECT strftime('".$format."',e.published,'unixepoch') AS period, COUNT(*) AS count 
+				FROM {$database['prefix']}Entries e
+				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
+				GROUP BY period 
+				ORDER BY period 
+				DESC LIMIT $archivesOnPage";
+			$result = POD::queryAllWithDBCache($sql, 'entry');
+			if ($result) {
+				foreach($result as $archive)
+					array_push($archives, $archive);
+			}
+			break;
 		case 'Cubrid':
 			if($option == 'year') $format = 'YYYY';
 			else if ($option == 'month') $format = 'MM';
@@ -96,6 +112,11 @@ function getCalendar($blogid, $period) {
 				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND
 					TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYY') = '{$calendar['year']}' AND
 					TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'MM') = '{$calendar['month']}'",'entry');	
+			break;
+		case 'SQLite3':
+		$result = POD::queryAllWithDBCache("SELECT DISTINCT strftime('%d',e.published,'unixepoch') 
+			FROM {$database['prefix']}Entries e
+			WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND strftime('%Y',e.published,'unixepoch') = {$calendar['year']} AND strftime('%m',e.published,'unixepoch') = {$calendar['month']}",'entry');		
 			break;
 		case 'MySQL':
 		case 'MySQLi':

@@ -380,7 +380,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		WHERE e.blogid = $blogid 
 			AND e.id = $id 
 			AND e.draft = 0 $visibility AND $category");
-	$result = POD::query("SELECT e.id 
+	$result = POD::queryColumn("SELECT e.id 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
@@ -395,7 +395,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
 	}
 
-	for ($i = 1; $entry = POD::fetch($result); $i++) {
+	for ($i = 1; $entry = array_shift($result); $i++) {
 		if ($entry['id'] != $id) {
 			if (array_push($paging['before'], $entry['id']) > 4) {
 				if ($i == 5) 
@@ -408,10 +408,10 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		$paging['page'] = $i;
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
-		for ($i++; (count($paging['after']) < 4) && ($entry = POD::fetch($result)); $i++)
+		for ($i++; (count($paging['after']) < 4) && ($entry = array_shift($result)); $i++)
 			array_push($paging['after'], $entry['id']);
 		if ($i < $paging['pages']) {
-			while ($entry = POD::fetch($result))
+			while ($entry = array_shift($result))
 				$paging['last'] = $entry['id'];
 		}
 		if (count($paging['before']) > 0)
@@ -451,7 +451,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 			AND e.slogan = '".POD::escapeString($slogan)."' 
 			AND e.draft = 0 $visibility AND $category");
 
-	$result = POD::query("SELECT e.id, e.slogan 
+	$result = POD::queryAll("SELECT e.id, e.slogan 
 		FROM {$database['prefix']}Entries e 
 		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id 
 		WHERE e.blogid = $blogid 
@@ -467,7 +467,7 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
 	}
 	
-	for ($i = 1; $entry = POD::fetch($result); $i++) {
+	for ($i = 1; $entry = array_shift($result); $i++) {
 		if ($entry['slogan'] != $slogan) {
 			if (array_push($paging['before'], $entry['slogan']) > 4) if ($i == 5)
 				$paging['first'] = array_shift($paging['before']);
@@ -478,10 +478,10 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isNotice = false, $catego
 		$paging['page'] = $i;
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
-		for ($i++; (count($paging['after']) < 4) && ($entry = POD::fetch($result)); $i++)
+		for ($i++; (count($paging['after']) < 4) && ($entry = array_shift($result)); $i++)
 			array_push($paging['after'], $entry['slogan']);
 		if ($i < $paging['pages']) {
-			while ($entry = POD::fetch($result))
+			while ($entry = array_shift($result))
 				$paging['last'] = $entry['slogan'];
 		}
 		if (count($paging['before']) > 0)
@@ -506,14 +506,15 @@ function getRecentEntries($blogid) {
 	global $database, $skinSetting;
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$result = POD::query("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
+	$result = POD::queryAll("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
-	while ($entry = POD::fetch($result)) {
-		array_push($entries, $entry);
+	if(!$result) {
+		return $result;
+	} else {
+		return array();
 	}
-	return $entries;
 }
 
 function addEntry($blogid, $entry, $userid = null) {
