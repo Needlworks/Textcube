@@ -39,6 +39,13 @@ function requireLibrary($name) {
 
 /** Autoload components */
 class Autoload_Legacy {
+	private static $db;
+	private static $data;
+	private static $model;
+	private static $base;
+	private static $function;
+	private static $openid;
+	private static $control;
 	private static function initialize() {
 		self::$db = array(
 			'POD','DBQuery');
@@ -62,10 +69,10 @@ class Autoload_Legacy {
 		self::$control = array(
 			'Session','RSS');
 	}		
-	private static function load($name) {
+	public static function load($name) {
 		global $service, $database;
 		$name = ucfirst($name);
-		if(!defined(self::$data)) {
+		if(empty(self::$data)) {
 			self::initialize();	
 		}
 		if(in_array($name,self::$data)) {
