@@ -39,26 +39,26 @@ function requireLibrary($name) {
 
 /** Autoload components */
 class Autoload_Legacy {
-	private static $db = array(
+	public static $db = array(
 		'POD','DBQuery');
-	private static $data = array(
+	public static $data = array(
 		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
 		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
 		'Filter','GuestComment','Keyword','Link','LinkCategories','Notice','PluginSetting','Post',
 		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
 		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
 		);
-	private static $model = array(
+	public static $model = array(
 		'Message','Paging','PluginCustomConfig','Statistics','User'
 		);
-	private static $base = array(
+	public static $base = array(
 		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
 		'XMLCustomType','XMLTree','Pop3','CommunicationFeed');
-	private static $function = array(
+	public static $function = array(
 		'Image','Setting','Respond','Misc');
-	private static $openid = array(
+	public static $openid = array(
 		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
-	private static $control = array(
+	public static $control = array(
 		'Session','RSS');
 	public static function load($name) {
 		global $service, $database;
