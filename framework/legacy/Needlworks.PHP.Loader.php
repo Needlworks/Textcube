@@ -39,30 +39,35 @@ function requireLibrary($name) {
 
 /** Autoload components */
 class Autoload_Legacy {
-	public static $db = array(
-		'POD','DBQuery');
-	public static $data = array(
-		'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
-		'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
-		'Filter','GuestComment','Keyword','Link','LinkCategories','Notice','PluginSetting','Post',
-		'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
-		'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
-		);
-	public static $model = array(
-		'Message','Paging','PluginCustomConfig','Statistics','User'
-		);
-	public static $base = array(
-		'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
-		'XMLCustomType','XMLTree','Pop3','CommunicationFeed');
-	public static $function = array(
-		'Image','Setting','Respond','Misc');
-	public static $openid = array(
-		'OpenID', 'OpenIDSession', 'OpenIDConsumer');
-	public static $control = array(
-		'Session','RSS');
-	public static function load($name) {
+	private static function initialize() {
+		self::$db = array(
+			'POD','DBQuery');
+		self::$data = array(
+			'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
+			'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
+			'Filter','GuestComment','Keyword','Link','LinkCategories','Notice','PluginSetting','Post',
+			'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
+			'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
+			);
+		self::$model = array(
+			'Message','Paging','PluginCustomConfig','Statistics','User'
+			);
+		self::$base = array(
+			'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
+			'XMLCustomType','XMLTree','Pop3','CommunicationFeed');
+		self::$function = array(
+			'Image','Setting','Respond','Misc');
+		self::$openid = array(
+			'OpenID', 'OpenIDSession', 'OpenIDConsumer');
+		self::$control = array(
+			'Session','RSS');
+	}		
+	private static function load($name) {
 		global $service, $database;
 		$name = ucfirst($name);
+		if(!defined(self::$data)) {
+			self::initialize();	
+		}
 		if(in_array($name,self::$data)) {
 			require_once(ROOT . "/framework/legacy/Textcube.Data.".$name.".php");
 		} else if (in_array($name,self::$model)) {
