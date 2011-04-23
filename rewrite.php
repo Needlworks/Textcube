@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-define('ROOT', '.');
+define('ROOT',dirname(__FILE__));
 require_once(ROOT.'/framework/Dispatcher.php');
 /** Dispatching Interface request via URI */
 $dispatcher = Dispatcher::getInstance();
