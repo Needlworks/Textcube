@@ -39,55 +39,48 @@ function requireLibrary($name) {
 
 /** Autoload components */
 class Autoload_Legacy {
-	private static $db;
-	private static $data;
-	private static $model;
-	private static $base;
-	private static $function;
-	private static $openid;
-	private static $control;
-	private static function initialize() {
-		self::$db = array(
+	private function initialize() {
+		$this->db = array(
 			'POD','DBQuery');
-		self::$data = array(
+		$this->data = array(
 			'Attachment','BlogSetting','BlogStatistics','Category','Comment','CommentNotified',
 			'CommentNotifiedSiteInfo','DailyStatistics','DataMaintenance','Feed',
 			'Filter','GuestComment','Keyword','Link','LinkCategories','Notice','PluginSetting','Post',
 			'RefererLog','RefererStatistics','ServiceSetting','SkinSetting','SubscriptionLog',
 			'SubscriptionStatistics','Tag','Trackback','TrackbackLog','UserInfo','UserSetting'
 			);
-		self::$model = array(
+		$this->model = array(
 			'Message','Paging','PluginCustomConfig','Statistics','User'
 			);
-		self::$base = array(
+		$this->base = array(
 			'Base64Stream','HTTPRequest','OutputWriter','XMLRPC','XMLRPCFault',
 			'XMLCustomType','XMLTree','Pop3','CommunicationFeed');
-		self::$function = array(
+		$this->function = array(
 			'Image','Setting','Respond','Misc');
-		self::$openid = array(
+		$this->openid = array(
 			'OpenID', 'OpenIDSession', 'OpenIDConsumer');
-		self::$control = array(
+		$this->control = array(
 			'Session','RSS');
 	}		
-	public static function load($name) {
+	public function load($name) {
 		global $service, $database;
 		$name = ucfirst($name);
-		if(empty(self::$data)) {
-			self::initialize();	
+		if(!isset($this->data)) {
+			$this->initialize();	
 		}
-		if(in_array($name,self::$data)) {
+		if(in_array($name,$this->data)) {
 			require_once(ROOT . "/framework/legacy/Textcube.Data.".$name.".php");
-		} else if (in_array($name,self::$model)) {
+		} else if (in_array($name,$this->model)) {
 			require_once(ROOT . "/framework/legacy/Textcube.Model.".$name.".php");
-		} else if (in_array($name,self::$base)) {
+		} else if (in_array($name,$this->base)) {
 			if(in_array($name, array('XMLRPC','XMLRPCFault','XMLCustomType')))
 				 require_once(ROOT . "/framework/legacy/Needlworks.PHP.XMLRPC.php");
 			else require_once(ROOT . "/framework/legacy/Needlworks.PHP.".$name.".php");
-		} else if (in_array($name,self::$function)) {
+		} else if (in_array($name,$this->function)) {
 			require_once(ROOT . "/framework/legacy/Textcube.Function.".$name.".php");
-		} else if (in_array($name,self::$openid)) {
+		} else if (in_array($name,$this->openid)) {
 			require_once(ROOT . "/framework/legacy/Textcube.Control.Openid.php");
-		} else if (in_array($name,self::$control)) {
+		} else if (in_array($name,$this->control)) {
 			if($name == 'Session' && isset($service['memcached']) && $service['memcached'] == true) 
 				require_once(ROOT . "/framework/legacy/Textcube.Control.".$name.".Memcached.php");
 			else require_once(ROOT . "/framework/legacy/Textcube.Control.".$name.".php");
@@ -98,5 +91,6 @@ class Autoload_Legacy {
 		}
 	}
 }
-spl_autoload_register(array('Autoload_Legacy', 'load'));
+$autoloadInstance_Legacy = new Autoload_Legacy();
+spl_autoload_register(array($autoloadInstance_Legacy, 'load'));
 ?>
