@@ -5,10 +5,11 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION', '1.8.6 : Release Candidate 2');
+define('TEXTCUBE_VERSION', '1.8.6 : Accelerando');
+define('TEXTCUBE_REVISION', 'root-main-branch1.8-r28');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2011. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
-define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8.4');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.8.6');
 define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 define('CRLF', "\r\n");
 define('TAB', "	");
