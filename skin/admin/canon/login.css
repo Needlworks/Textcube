@@ -116,6 +116,12 @@ hr
 	border                           : 1px solid #444;
 }
 
+.return-box
+{
+	margin-top                       : 20px;
+	text-align                       : right;
+}
+
 #message-box
 {
 	background-color                 : rgba(242,242,242,0.7);

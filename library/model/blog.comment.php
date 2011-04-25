@@ -278,7 +278,7 @@ function getComments($entry,$order = 'ASC') {
 	$pool->setQualifier('blogid','eq',$context->getProperty('blog.id'));
 	$pool->setQualifier('entry','eq',$entry);
 	$pool->setQualifier('parent','eq',NULL);
-	$pool->setQualifier('isfiltered','eq',0);	
+	$pool->setQualifier('isfiltered','eq',0);
 	if ( $entry == 0 ) $pool->setOrder('written','desc');
 	else if ($order == 'DESC') {
 		$pool->setOrder('id','desc');

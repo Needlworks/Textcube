@@ -384,7 +384,7 @@ class DBModel extends Singleton implements IModel {
 	protected function getQualifierModel($name, $condition, $value = null, $escape = false, $autoquote = true) {
 	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
 		if (is_null($condition)) {
-			$qualifiers = null;
+			$qualifiers = $relations = null;
 		} else {
 			switch(strtolower($condition)) {
 				case 'equals':

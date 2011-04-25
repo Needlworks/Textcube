@@ -12,7 +12,7 @@
 */
 $bootFiles = array();	// From PHP 5.3, DirectoryIterator does not gurantee the order.
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
-	if($fileInfo->isFile()) array_push($bootFiles, $fileInfo->getPathname());
+	if($fileInfo->isFile() && substr($fileInfo->getBasename(),-3) == 'php') array_push($bootFiles, $fileInfo->getPathname());
 }
 sort($bootFiles);
 foreach ($bootFiles as $bf) {
