@@ -9,9 +9,6 @@ $IV = array(
 	);
 
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
 
 if (!file_exists(ROOT . "/skin/customize/".getBlogId()."/".$_GET['file']))
 	exit;
