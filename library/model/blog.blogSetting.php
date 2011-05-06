@@ -299,8 +299,8 @@ function addBlog($blogid, $userid, $identify) {
 			POD::query("DELETE FROM {$database['prefix']}BlogSettings WHERE blogid = $blogid");
 			return 12;
 		}
-	
-		if(!POD::query("INSERT INTO {$database['prefix']}SkinSettings (blogid) VALUES ($blogid)")) {
+
+		if(!POD::query("INSERT INTO {$database['prefix']}SkinSettings VALUES ($blogid,'skin','".$service['skin']."')")) {
 			deleteBlog($blogid);
 			return 13;
 		}
