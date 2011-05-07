@@ -120,11 +120,10 @@ if ($result = POD::query("SELECT id, name, parent, homepage, comment, entry, isf
 			$corrected++;
 		}
 		if (!is_null($comment['parent']) && ($comment['isfiltered'] == 0)) {
-			$r2 = POD::query("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isfiltered = 0");
-			if (POD::num_rows($r2) <= 0) {
+			$r2 = POD::queryCount("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comment['parent']} AND isfiltered = 0");
+			if ($r2 <= 0) {
 				trashCommentInOwner($blogid, $comment['id']);
 			}
-			POD::free($r2);
 		}
 	}
 	POD::free($result);
