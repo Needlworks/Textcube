@@ -47,7 +47,7 @@ final class Session {
 		if(is_null(self::$context)) self::initialize();
 
 		if ($result = self::query('cell',"SELECT privilege FROM ".self::$context->getProperty('database.prefix')."Sessions 
-			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (UNIX_TIMESTAMP() - ".self::$context->getProperty('service.timeout').")")) {
+			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')).")")) {
 			return $result;
 		}
 		return '';
@@ -127,7 +127,7 @@ final class Session {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated, expires) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', UNIX_TIMESTAMP(), UNIX_TIMESTAMP() - $meet_again_baby,".($current+self::$context->getProperty('service.timeout')).")");
+			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated, expires) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', ".Timestamp::getUNIXtime().", ".Timestamp::getUNIXtime()." - $meet_again_baby,".($current+self::$context->getProperty('service.timeout')).")");
 			if ($result > 0)
 				return $id;
 		}

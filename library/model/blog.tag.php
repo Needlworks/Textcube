@@ -22,19 +22,18 @@ function getTags($blogid, $entry) {
 	global $database;
 	$tags = array();
 	if (doesHaveOwnership())
-		$result = POD::query("SELECT t.* FROM {$database['prefix']}Tags t
+		$result = POD::queryAll("SELECT t.* FROM {$database['prefix']}Tags t
 			INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.tag = t.id AND r.entry = $entry AND r.tag = t.id
 			GROUP BY r.tag, t.id, t.name 
 			ORDER BY t.name");
 	else
-		$result = POD::query("SELECT t.* FROM {$database['prefix']}Tags t
+		$result = POD::queryAll("SELECT t.* FROM {$database['prefix']}Tags t
 			INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.entry = $entry AND r.tag = t.id
 			INNER JOIN {$database['prefix']}Entries e ON e.id = r.entry AND e.visibility > 0
 			GROUP BY r.tag, t.id, t.name
 			ORDER BY t.name");
-	if ($result) {
-		while ($tag = POD::fetch($result))
-			array_push($tags, $tag);
+	if(!empty($result)) {
+		$tags = $result;
 	}
 	return $tags;
 }

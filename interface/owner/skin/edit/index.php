@@ -113,8 +113,104 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									return true;
 								}
+
+
+
+
+								
+								function setSkin(mode) {
+									var skin = document.getElementById(mode);
+									var file = document.getElementById(mode + 'FileName');
+									var skinData = '';
+									if ((mode == 'skin' && skinHTMLSaved == false) || (mode == 'style' && skinStyleSaved == false)) {
+										if(mode == 'skin' && currentTag != 'all') {
+											skinData = skinCode;
+											currentCode = document.getElementById(mode).value;
+											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/crop/");									
+											request.onSuccess = function() {
+												skinData = this.getText("/response/skinCode");
+												saveSkinCode(mode,skinData,file);
+											}
+											request.onError = function() {
+												if (this.getText("/response/msg"))
+													alert(this.getText("/response/msg"));
+												else
+													alert('<?php echo _t('실패했습니다.');?>');
+											}
+											request.send('skinCode='+encodeURIComponent(skinCode)
+												+'&currentTag='+encodeURIComponent(currentTag)
+												+'&currentCode='+encodeURIComponent(currentCode)
+												+'&nextTag=all');
+										} else {
+											skinData = skin.value;
+											saveSkinCode(mode,skinData,file);
+										}
+									}
+								}
+								function saveSkinCode(mode,skinData,file) {
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/skin/");
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
+										
+										if (mode == 'skin') {
+											skinHTMLSaved = true;
+											if(document.getElementById('skin-download').innerHTML == '') {
+												document.getElementById('skin-download').innerHTML = '<a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>';
+											}
+										} else {
+											skinStyleSaved = true;
+										}
+									}
+									request.onError = function() {
+										if (this.getText("/response/msg"))
+											alert(this.getText("/response/msg"));
+										else
+											alert('<?php echo _t('실패했습니다.');?>');
+									}
+									request.send('mode='+mode+'&body='+encodeURIComponent(skinData)+'&file='+ file.value);									
+								}
+								var currentTag = 'all';
+								var currentCode = '';
+
+								function changeTab(mode,tag) {
+									currentCode = document.getElementById(mode).value;
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/crop/");									
+									request.onSuccess = function() {
+										PM.showMessage("<?php echo _t('불러왔습니다.');?>", "center", "bottom");
+										document.getElementById(mode).value = (this.getText("/response/code") ? this.getText("/response/code") : ''); 
+										skinCode = this.getText("/response/skinCode");
+										document.getElementById('skin-'+currentTag).className = '';
+										document.getElementById('skin-'+tag).className = 'selected';										
+										currentTag = tag;
+										switch(mode) {
+											case 'skin':
+											undoBuffer[0] = document.getElementById(mode).value;
+											break;
+										}
+									}
+									request.onError = function() {
+										if (this.getText("/response/msg"))
+											alert(this.getText("/response/msg"));
+										else
+											alert('<?php echo _t('실패했습니다.');?>');
+									}
+									request.send('skinCode='+encodeURIComponent(skinCode)
+										+'&currentTag='+encodeURIComponent(currentTag)
+										+'&currentCode='+encodeURIComponent(currentCode)
+										+'&nextTag='+encodeURIComponent(tag));
+								}
+								function undo(mode) {
+									switch(mode) {
+										case 'skin':
+											document.getElementById(mode).value = undoBuffer[0];
+											break;
+									}
+									return true;
+								}
+
+
 <?php
-if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/" . $currentStyleFile)) {
+if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT . "/skin/blog/".$context->getProperty('skin.skin')."/" . $currentStyleFile)) {
 ?>		
 								var currentStyleLiNumber = 0;
 								var documentIcons = new Array();

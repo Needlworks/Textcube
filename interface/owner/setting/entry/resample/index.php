@@ -17,7 +17,7 @@ $isAjaxRequest = false; // checkAjaxRequest();
 if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault'] == "yes")) {
 	Setting::setBlogSettingGlobal("resamplingDefault", "yes");
 } else {
-	Setting::removeBlogSettingiGlobal("resamplingDefault");
+	Setting::removeBlogSettingGlobal("resamplingDefault");
 }
 CacheControl::flushEntry();
 
