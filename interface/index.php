@@ -52,7 +52,7 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile(
 	if(isset($suri['id'])) {
 		$slogan = getSloganById($blogid, $suri['id']);
 		if(!empty($slogan)) {
-			header("Location: $blogURL/i/entry/".$slogan); exit;
+			header("Location: $blogURL/i/entry/".URL::encode($slogan)); exit;
 		}
 	} else {
 		header("Location: $blogURL/i"); exit;
