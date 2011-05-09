@@ -305,6 +305,7 @@ textarea
 {
 	height                           : 27px;
 	line-height                      : 3em;
+	font-size                        : 0.8em;
 	margin-top                       : 0;
 	position                         : fixed;
 	bottom                           : 5px;
@@ -340,9 +341,9 @@ textarea
 	position                         : fixed;
 	top                              : 0;
 	z-index                          : 200;
-	box-shadow               : 2px 2px 5px #ccc;
+	box-shadow                       : 2px 2px 5px #ccc;
 	-webkit-box-shadow               : 2px 2px 5px #ccc;
-	-moz-box-shadow               : 2px 2px 5px #ccc;
+	-moz-box-shadow                  : 2px 2px 5px #ccc;
 }
 
 #main-menu
@@ -350,6 +351,7 @@ textarea
 	background-image                 : url("./image/bg_menu.png");
 	background-position              : left top;
 	background-repeat                : no-repeat;
+	font-size                        : 0.8em;
 	height                           : 40px;
 	width                            : 100%;
 }
@@ -571,6 +573,7 @@ textarea
 	top                              : 40px;
 	width                            : 150px;
 /*	height                           : 100%;*/
+	font-size                        : 0.8em;
 	border-right                     : solid 1px #BBB;
 	-webkit-box-shadow               : 0 0 7px #666;
 	-moz-box-shadow                  : 0 0 7px #666;
