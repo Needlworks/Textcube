@@ -395,9 +395,9 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		$paging['pages'] = ($isNotice) ? getNoticesTotalCount($blogid) : getEntriesTotalCount($blogid);
 	}
 
-	for ($i = 1; $entry = array_shift($result); $i++) {
-		if ($entry['id'] != $id) {
-			if (array_push($paging['before'], $entry['id']) > 4) {
+	for ($i = 1; $entryId = array_shift($result); $i++) {
+		if ($entryId != $id) {
+			if (array_push($paging['before'], $entryId) > 4) {
 				if ($i == 5) 
 					$paging['first'] = array_shift($paging['before']);
 				else 
@@ -409,10 +409,10 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
 		for ($i++; (count($paging['after']) < 4) && ($entry = array_shift($result)); $i++)
-			array_push($paging['after'], $entry['id']);
+			array_push($paging['after'], $entryId);
 		if ($i < $paging['pages']) {
 			while ($entry = array_shift($result))
-				$paging['last'] = $entry['id'];
+				$paging['last'] = $entryId;
 		}
 		if (count($paging['before']) > 0)
 			$paging['prev'] = $paging['before'][count($paging['before']) - 1];
