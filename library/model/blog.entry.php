@@ -510,7 +510,7 @@ function getRecentEntries($blogid) {
 		FROM {$database['prefix']}Entries e
 		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
 		ORDER BY published DESC LIMIT {$skinSetting['entriesOnRecent']}");
-	if(!$result) {
+	if($result) {
 		return $result;
 	} else {
 		return array();
