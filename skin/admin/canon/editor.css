@@ -21,20 +21,35 @@ h3
 	background                       : transparent;
 }
 
+
+#moderneditor-textbox .moderneditor-textarea
+{ 
+	font-size: 1em;
+}
+
+#moderneditor-palette .font-style, #moderneditor-palette .paragraph, #moderneditor-palette .special 
+{
+	background: none;
+}
+#moderneditor-palette .font-relatives
+{
+	padding: 0;
+}
+
 /* title ----------------------------------------------------------------------------------------*/
 #title-section
 {
 	position                         : fixed;
-	top                              : 45px;
-	left                             : 80px;
+	top                              : 35px;
+	
 	height                           : 40px;
 	z-index                          : 100;
     width                            : 100%;
-	padding-left                     : 80px;
+	padding-left                     : 0;
 	background-color                 : #ffffff;	
 /*	background-image                 : url("./image/bg_menu_round.png");*/
-    filter                           : alpha(opacity=90);
-    opacity                          : .90;		
+	
+	padding-top: 10px;
 }
 #title-section dl
 {
@@ -46,11 +61,12 @@ h3
 	color                            : #222;
 	padding                          : 6px 0 3px 15px;
 	width                            : 80px !important;
+	display: none;
 }
 
 #title-section dl dd
 {
-	margin-left                      : 85px;
+	margin-left                      : 0;
 }
 
 
@@ -63,23 +79,28 @@ h3
 
 #title-line dd .input-text
 {
-	border                           : 1px solid #999999;
+	border                           : 1px solid #ccc;
 	vertical-align                   : middle;
-	width                            : 400px !important;
+	width                            : 700px;
+	height							 : 25px;
 	margin-left                      : 0;
+	padding: 0 5px;
+	font-size: 1.2em; 
 }
+
+#title-line label	{ display: none; }
 
 #starred
 {
-	position                         : fixed;
-	top                              : 56px;
-	left                             : 220px;
+
 	width                            : 20px !important;
 	display                          : block;
 	z-index                          : 210;
 	background-color                 : #ffffff !important;
     filter                           : alpha(opacity=90);
-    opacity                          : .90;		
+    opacity                          : .90;	
+	float: left;	
+	padding: 5px;
 }
 
 .star-icon span,
@@ -114,7 +135,7 @@ h3
 
 #category-section
 {
-	margin                           : 65px 20px 0 0; 
+	margin                           : 60px 20px 0 0; 
 	padding                          : 5px 3px 5px 5px; 
 	width                            : 100%; 
 }
@@ -129,13 +150,13 @@ h3
 {
 	color                            : #666;
 	font-weight                      : bold;
-	padding                          : 0 0 3px 10px;
+	padding                          : 0;
 	width                            : 70px !important;
 }
 
 #category-section dl dd
 {
-	margin-left                      : 80px;
+	margin-left                      : 60px;
 }
 
 #category-line
@@ -180,6 +201,9 @@ h3
 	height                           : 24px;
 	padding                          : 5px 5px 4px 5px;
 	position                         : relative;
+	background						 : #fff;
+	float: right;
+	margin-top: -36px;
 }
 
 #textarea-section dl.editoroption dt
@@ -193,7 +217,7 @@ h3
 	position                         : relative;
 	top                              : 0;
 	text-align                       : right;
-	width                            : 80px;
+	width                            : 60px;
 }
 
 #textarea-section dl.editoroption dd
@@ -206,7 +230,7 @@ h3
 {
 	margin                           : 0;
 	vertical-align                   : middle;
-	width                            : 160px;
+	width                            : 100px;
 }
 
 /* editor */
@@ -219,17 +243,23 @@ h3
 	top                              : 80px;
 	height                           : 31px;
 	background-color                 : #fff;
-    filter                           : alpha(opacity=90);
-    opacity                          : .90;		
+
 	color                            : #fff;
 	border-bottom                    : 1px solid #BBB;
 	z-index                          : 5;
+	padding: 0px 0 5px 150px;
+	margin: 0 0 0 -150px;
 }
+
+
 
 #editWindow
 {
 	height                           : 448px;
-	width                            : 644px;
+	width                            : 95%;
+	margin: 0 auto;
+	padding: 10px;
+	
 }
 
 #visualEditorWindow
@@ -268,19 +298,33 @@ h3
 .entry-editor-property
 {
 	background-color                 : #FFFFFF;
+	background-color                 : rgba(255,255,255,0.8);
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
 	position                         : absolute;
-	z-index                          : 1;
+	z-index                          : 100;
 	right                            : 0;
 	top                              : 0;
 	width                            : 245px;
+	
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	
+	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+#templateDialog
+{
+	position: fixed;
+	top: 80px;
+	right: 40px;
+	
 }
 
 .entry-editor-property .entry-editor-property-option
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	font-family                      : 돋움, Dotum, sans-serif;
 	font-size                        : 0.9em;
 	padding                          : 8px 0 3px 0;
 	text-align                       : right;
@@ -290,10 +334,9 @@ h3
 {
 	color                            : #000000;
 	display                          : block;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, AppleGothic, '굴림', Gulim, sans-serif;
 	font-size                        : 1em;
 	font-weight                      : bold;
-	margin                           : 10px 0 5px 0;
+	margin                           : 10px 0 15px 0;
 	text-align                       : center;
 }
 
@@ -439,7 +482,7 @@ h3
 	background-color                 : #FFFFFF !important;
 	margin                           : 0;
 	/*padding                          : 15px 5px 0 5px;*/
-	padding                          : 0;
+	padding                          : 5px 0 0 0;
 	width                            : 100% !important;
 	height                           : 55px;
 /*	float                            : right !important;*/
@@ -447,6 +490,8 @@ h3
 	border-left                      : 1px solid #EEEEEE;
 	border-right                     : 1px solid #EEEEEE;
 }
+
+
 
 #taglocal-section dl
 {
@@ -461,7 +506,7 @@ h3
 	font-weight                      : bold;
 	left                             : 0;
 	line-height                      : 20px;
-	padding                          : 0 0 0 10px;
+	padding                          : 5px 0 3px 10px;
 /*	position                         : absolute;
 	top                              : 0;*/
 	text-align                       : left;
@@ -472,6 +517,7 @@ h3
 {
 	margin-left                      : 80px;
 	border-left                      : 1px solid #EEEEEE;
+	padding							 : 5px 0 3px 10px
 }
 
 #taglocal-section dl dd .input-text
@@ -514,31 +560,27 @@ h3
 	background-image                 : none;
 }
 
+
+
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
 	background-color                 : #FFF;
-	margin                           : 10px 20px 2px 0;
+	margin                           : 10px 20px 10px 0;
 	position                         : relative;
 	width                            : 100%;
 /*	width                            : 550px;*/
 /*	float                            : left;*/
-	border:1px solid #F2F2F2;
-       -moz-border-radius-topleft       : 8px;
-       -moz-border-radius-topright      : 8px;
-       -webkit-border-top-left-radius   : 8px;
-       -webkit-border-top-right-radius  : 8px;	
+	border: 1px solid #F2F2F2;
+
 }
 
 #upload-section h3
 {
 	background-color                 : #F2F2F2;
-	display                          : block;
+	display                          : none;
 	padding                          : 10px 10px 3px 10px;
-       -moz-border-radius-topleft       : 8px;
-       -moz-border-radius-topright      : 8px;
-       -webkit-border-top-left-radius   : 8px;
-       -webkit-border-top-right-radius  : 8px;
+
 }
 
 #upload-detail
@@ -558,6 +600,8 @@ h3
 	left                             : 12px;
 	position                         : absolute;
 	top                              : 10px;
+	height: 118px !Important;
+	width: 150px !important;
 }
 
 #previewSelected span
@@ -569,7 +613,7 @@ h3
 
 #attachManagerSelectNest
 {
-	margin-left                      : 144px;
+	margin-left                      : 174px;
 	width                            : 415px;
 /*	width                            : 315px;*/
 }
@@ -578,7 +622,7 @@ h3
 {
 	height                           : 120px;
 	margin-top                       : 10px;
-	width                            : 393px !important;
+	width                            : 500px !important;
 /*	width                            : 293px !important;*/
 }
 
@@ -591,6 +635,8 @@ h3
 	text-align                       : left;
 /*	width                            : 390px;*/
 	width                            : 390px;
+	margin-top: -35px;
+	z-index: 0;
 }
 
 #fileUploadNest iframe
@@ -601,7 +647,9 @@ h3
 
 #uploaderNest
 {
-	margin-left                      : 136px;
+	margin-left                      : 165px;
+	position: relative;
+	z-index: 10;
 }
 
 #upload-section .input-button
@@ -644,7 +692,7 @@ h3
 {
 	position                         : absolute;
 	top                              : 36px;
-	left                             : 550px;
+	left                             : 685px;
 	width                            : 100px;
 }
 
@@ -736,7 +784,7 @@ h3
 	line-height                      : 17px;
 	margin                           : 0;
 	position                         : relative; 
-	padding                          : 0 0 8px 0;
+	padding                          : 8px 0 8px;
 	width                            : 100%;
 /*	float                            : left;*/
 /*	display                          : none;*/
@@ -778,7 +826,7 @@ h3
 
 dl#permalink-line dd .input-text
 {
-	border                           : 1px solid #999999;
+	border                           : 1px solid #ccc;
 	width                            : 150px;
 }
 
