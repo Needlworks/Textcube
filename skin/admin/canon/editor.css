@@ -629,14 +629,13 @@ h3
 #fileUploadNest
 {
 	height                           : 3em;
-	padding-left                     : 144px !important;
+	padding-left                     : 170px !important;
 	overflow                         : hidden;
 	position                         : relative;
 	text-align                       : left;
-/*	width                            : 390px;*/
 	width                            : 390px;
-	margin-top: -35px;
-	z-index: 0;
+	margin-top                       : 10px;
+	z-index                          : 0;
 }
 
 #fileUploadNest iframe
@@ -654,11 +653,11 @@ h3
 
 #upload-section .input-button
 {
-	background-color                 : #FFFFFF;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_button.png");
 	background-position              : left top;
 	background-repeat                : repeat-x;
-	border                           : 1px solid #000000;
+	border                           : 1px solid #000;
 	display                          : inline;
 	font-size                        : 1em;
 	height                           : 2em;
@@ -691,7 +690,7 @@ h3
 #insert-container
 {
 	position                         : absolute;
-	top                              : 36px;
+	top                              : 10px;
 	left                             : 685px;
 	width                            : 100px;
 }
