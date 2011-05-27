@@ -408,7 +408,7 @@ function getEntryWithPaging($blogid, $id, $isNotice = false, $categoryId = false
 		$paging['page'] = $i;
 		array_push($entries, $currentEntry);
 		$paging['after'] = array();
-		for ($i++; (count($paging['after']) < 4) && ($entry = array_shift($result)); $i++)
+		for ($i++; (count($paging['after']) < 4) && ($entryId = array_shift($result)); $i++)
 			array_push($paging['after'], $entryId);
 		if ($i < $paging['pages']) {
 			while ($entry = array_shift($result))
