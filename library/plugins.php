@@ -377,7 +377,7 @@ if (getBlogId()) {
 		activatePlugin('FM_TTML');
 	}
 	if(empty($editorCount)) { // Any editor is used, add the textcube editor.
-		activatePlugin('FM_Modern');
+		activatePlugin('ED_tinyMCE');
 	}
 	// sort mapping by its name, with exception for default formatter and editor
 	if (doesHaveOwnership()) {
