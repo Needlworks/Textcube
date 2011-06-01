@@ -19,6 +19,7 @@
 			<format>FM_TTML_format</format>
 			<summary>FM_TTML_summary</summary>
 			<usedFor editor="modern" />
+			<usedFor editor="tinyMCE" />
 		</formatter>
 	</binding>
 </plugin>
