@@ -293,10 +293,10 @@ h3
 	width                            : auto !important;
 }
 
-.entry-editor-property dl dd input.input-text
+.entry-editor-property dl dd .input-text
 {
 	border                           : 1px solid #92B5E8;
-	width                            : 242px;
+	width                            : 175px;
 }
 
 .entry-editor-property dl dd select
@@ -309,14 +309,14 @@ h3
 {
 	height                           : 220px;
 	margin-bottom                    : 0;
-	width                            : 200px !important;
+	width                            : 175px !important;
 }
 
 .entry-editor-property dl dd textarea
 {
 	border                           : 1px solid #92B5E8;
 	height                           : 40px;
-	width                            : 238px !important;
+	width                            : 175px !important;
 }
 
 .entry-editor-property dl.resample-property-box dd
@@ -332,7 +332,7 @@ h3
 
 .entry-editor-property dl.file-list-line dd select
 {
-	width                            : 245px !important;
+	width                            : 175px !important;
 }
 
 .entry-editor-property .button-box
@@ -374,7 +374,7 @@ h3
 {
 	border                           : 1px solid #000000;
 	margin-top                       : 5px;
-	width                            : 220px !important;
+	width                            : 170px !important;
 }
 
 .propertyObject_chunk
