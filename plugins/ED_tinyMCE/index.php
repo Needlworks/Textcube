@@ -29,7 +29,7 @@ function tinyMCE_editorinit(&$editor) {
 				// General options
 				mode : 'exact',
 				theme : "advanced",
-				plugins : "autolink,lists,pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist",
+				plugins : "autolink,lists,pagebreak,style,layer,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,wordcount,advlist,TTMLsupport",
 
 				// Theme options
 				theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",								theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
@@ -70,7 +70,8 @@ function tinyMCE_editorinit(&$editor) {
 			}
 			editor.syncTextarea = function(){
 				this.save();
-			}	
+			}
+			editor.propertyFilePath = "<?php echo $context->getProperty('service.path');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
 			return editor;
 <?php
 	$result = ob_get_contents();
