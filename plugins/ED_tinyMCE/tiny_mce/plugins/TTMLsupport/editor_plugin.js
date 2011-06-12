@@ -411,7 +411,15 @@
         _isMediaFile : function(filename) {
         	return new RegExp("\\.(swf|mid|mp3|wav|wax|wma|avi|asf|asx|mov|mpe?g|wmv|wm|wvx)$", "gi").exec(filename);
         },
+        getFilenameFromFilelist : function(name) {
+        	var fileList = getObject("TCfilelist");
 
+        	for(var i=0; i<fileList.length; i++)
+        		if(fileList.options[i].value.indexOf(name) == 0)
+        			return fileList.options[i].text.substring(0, fileList.options[i].text.lastIndexOf("(") - 1);
+
+        	return name;
+        },
         /** Property sidebar creators **/        
         showProperty : function(obj) {
             var t = this;            
@@ -1459,6 +1467,7 @@
         	}
         },
         listChanged : function(id) {
+            var t = this;
         	if(id == "propertyGallery_list") {
         		var list = getObject(t.id + "propertyGallery_list");
         		if(list.selectedIndex > -1) {
@@ -1524,7 +1533,220 @@
         	}
         },        
         /** Attachment button binder **/        
-        
+        addObject : function(data) {
+            var t = this;
+        	var objects = data.objects;
+
+        	switch (data.mode) {
+        	case 'Image1L': case 'Image1C': case 'Image1R':
+        		if (t._isMediaFile(objects[0][0])) {
+        			getObject(t.id + "propertyInsertObject_type").value = "url";
+        			getObject(t.id + "propertyInsertObject_url").value = blogURL + "/attachment/" + objects[0][0];
+        			t.command("InsertObject");
+        			return true;
+        		}
+        		// *fall through*
+
+        	case 'Image2C': case 'Image3C':
+        		try {
+    				var src = servicePath + adminSkin + "/image/spacer.gif";
+    				var moreattrs = '';
+    				var longdesc;
+    				if (data.mode == 'Image1L' || data.mode == 'Image1C' || data.mode == 'Image1R') {
+    					if (new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(objects[0][0])) {
+    						src = t.propertyFilePath + objects[0][0];
+    					} else {
+    						objects[0][1] = t.styleUnknown;
+    					}
+    					moreattrs = objects[0][1];
+    					longdesc = data.mode.substr(5) + '|' + objects[0][0] + '|' + objects[0][1] + '|' + objects[0][2].replaceAll("|", "");
+    				} else {
+    					moreattrs = 'width="' + (parseInt(data.mode.substr(5)) * 100) + '" height="100"';
+    					longdesc = data.mode.substr(5);
+    					for (var i = 0; objects[i]; ++i) {
+    						longdesc += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
+    					}
+    				}
+
+    				var className = {Image1L: 'tatterImageLeft', Image1C: 'tatterImageCenter', Image1R: 'tatterImageRight',
+    				                 Image2C: 'tatterImageDual', Image3C: 'tatterImageTriple'}[data.mode];
+    				var prefix = '<img class="' + className + '" src="' + src + '" ' + moreattrs + ' longdesc="' + t.addQuot(longdesc) + '" />';
+    				t.command("Raw", prefix);
+    				return true;
+        		} catch(e) { }
+
+        		var code = data.mode.substr(5);
+        		for (var i = 0; objects[i]; ++i) {
+        			code += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
+        		}
+        		//insertTag(t.textarea, '[##_' + code + '_##]', "");
+        		return true;
+
+        	case 'ImageFree':
+        		var prefix = '';
+        		for (var i = 0; objects[i]; ++i) {
+        			prefix += '<img class="tatterImageFree" src="' + t.propertyFilePath + objects[i][0] + '" longdesc="[##_ATTACH_PATH_##]/' + objects[i][0] + '" ' + objects[i][1] + ' />';
+        		}
+        		t.command("Raw", prefix);
+        		return true;
+
+        	case 'Imazing': case 'Gallery': case 'Jukebox':
+        		var code = (data.mode == 'Imazing' ? 'iMazing' : data.mode);
+        		for (var i = 0; objects[i]; ++i) {
+        			code += '|' + objects[i][0] + '|' + objects[i][1];
+        		}
+        		switch (data.mode) {
+        		case 'Imazing': code += '|' + data.properties + '|'; break;
+        		case 'Gallery': code += '|width="400" height="300"'; break;
+        		case 'Jukebox': code += '|autoplay=0 visible=1|'; break;
+        		}
+
+        		try {
+        		    alert(servicePath);
+    				var className = 'tatter' + data.mode;
+    				var widthheight = (data.mode == 'Jukebox' ? 'width="200" height="30"' : 'width="400" height="300"');
+    				t.command("Raw", '<img class="' + className + '" src="' + servicePath + adminSkin + '/image/spacer.gif" ' + widthheight + ' longdesc="' + code + '" />');
+    				return true;
+        		} catch(e) { }
+        		//insertTag(t.textarea, '[##_' + code + '_##]', '');
+        		return true;
+        	}
+
+        	return false;
+        },
+        command : function(command, value1, value2) {
+            var t = this;
+        	switch(command) {
+        		case "MoreLessBlock":
+    				t.command("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
+        			break;
+    			case "InsertObject":
+        			if(getObject(t.id + "propertyInsertObject_type").value == "url") {
+        				var url = getObject(t.id + "propertyInsertObject_url").value.trim();
+        				if(url == "") {
+        					alert(s_enterURL);
+        					return;
+        				}
+        				var ext = new RegExp("\\.(\\w+)(?:$|\\?)").exec(url);
+        				ext = (ext && ext.length == 2) ? ext[1].toLowerCase() : "";
+        				var code = "";
+        				if(ext == "swf" || ext == "") {
+        					code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="400" height="300">' +
+        							'<param name="wmode" value="transparent"/>' +
+        							'<param name="movie" value="' + url + '"/>' +
+        							'<!--[if !IE]> <-->' +
+        							'<object type="application/x-shockwave-flash" transparent="yes" data="' + url + '" width="400" height="300">' +
+        							'<p><a href="' + url + '">[Flash] ' + url + '</a></p>' +
+        							'<\/object>' +
+        							'<!--> <![endif]-->' +
+        							'<\/object>';
+        				}
+        				else {
+        					var type = null;
+
+        					switch(ext) {
+        						case "mp3": type = "audio/mpeg"; break;
+        						case "mid": type = "audio/x-ms-mid"; break;
+        						case "wav": type = "audio/x-ms-wav"; break;
+        						case "wax": type = "audio/x-ms-wax"; break;
+        						case "wma": type = "audio/x-ms-wma"; break;
+        						case "avi": type = "video/x-msvideo"; break;
+        						case "asf":
+        						case "asx": type = "video/x-ms-asf"; break;
+        						case "mov": type = "video/quicktime"; break;
+        						case "mpg":
+        						case "mpeg": type = "video/x-ms-mpeg"; break;
+        						case "wmv": type = "video/x-ms-wmv"; break;
+        						case "wm": type = "video/x-ms-wm"; break;
+        						case "wvx": type = "video/x-ms-wvx"; break;
+        					}
+
+        					if(type === null) {
+        						alert(s_unknownFileType);
+        						return;
+        					}
+        					else if(type == "video/quicktime") {
+        								code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B"codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="320" height="260">' +
+        								'<param name="src" value="' + url + '"/>' +
+        								'<param name="controller" value="true"/>' +
+        								'<param name="autoplay" value="false"/>' +
+        								'<!--[if !IE]>-->' +
+        								'<object type="video/quicktime" data="' + url + '" width="320" height="260">' +
+        								'<param name="autoplay" value="false"/>' +
+        								'<param name="controller" value="true"/>' +
+        								'</object>' +
+        								'<!--<![endif]-->' +
+        								'</object>';
+        					}
+        					else {
+        						code = '<object classid="clsid:22D6F312-B0F6-11D0-94AB-0080C74C7E95">' +
+        								'<param name="Filename" value="' + url + '"/>' +
+        								'<param name="AutoStart" value="false"/>' +
+        								'<!--[if !IE]> <-->' +
+        								'<object type="' + type + '" data="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '">' +
+        								'<param name="AutoStart" value="0"/>' +
+        								'<embed pluginspage="http://www.microsoft.com/Windows/Downloads/Contents/Products/MediaPlayer/" src="' + url + '" width="320" height="' + (type == "audio/mpeg" ? "20" : "240") + '" type="application/x-mplayer2" autostart="0"></embed>' +
+        								'</object>' +
+        								'<!--> <![endif]-->' +
+        								'</object>';
+        					}
+        				}
+        			}
+        			else {
+        				var code = getObject(t.id + "propertyInsertObject_chunk").value.trim();
+        				if(!(new RegExp("^<object(?:.|\\s)*</object>$", "i").test(code))) {
+        					alert(s_enterObjectTag);
+        					return;
+        				}
+        				lowercasedCode = code.toLowerCase();
+        				if(lowercasedCode.count("<object") == 0 || lowercasedCode.count("<object") != lowercasedCode.count("</object>")) {
+        					alert(s_enterCorrectObjectTag);
+        					return;
+        				}
+        			}
+    				t.command("Raw", '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + t.parseImageSize(code, "string", "css") + ' longDesc="' + t.objectSerialize(code) + '" />', "");
+        			getObject(t.id + "propertyInsertObject").style.display = "none";
+        			break;
+            	
+        		case "Raw":
+        		    alert('Raw input called.');
+        		    editor.execCommand('mceInsertContent', false, value1);
+        		    break;
+/*        			value2 = (typeof value2 == "undefined") ? "" : value2;
+        			if(isWYSIWYG) {
+        				if(STD.isIE) {
+        					t.contentWindow.focus();
+        					var range = t.getSelectionRange();
+        					if(range.pasteHTML)
+        						range.pasteHTML(value1 + range.htmlText + value2);
+        					else if(t.selectedElement) {
+        						t.selectedElement.insertAdjacentHTML("beforeBegin", value1);
+        						t.selectedElement.insertAdjacentHTML("afterEnd", value2);
+        					}
+        				} else {
+        					var focus = t.contentWindow.getSelection().focusNode;
+        					if(focus && focus.tagName == "HTML") {
+        						var range = t.contentDocument.createRange();
+        						range.setStart(t.contentDocument.body,0);
+        						range.setEnd(t.contentDocument.body,0);
+        						var dummyNode = document.createElement("div");
+        						var node = range.extractContents();
+        						if (node != null) dummyNode.appendChild(node);
+        						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
+        					} else {
+        						var range = t.getSelectionRange() || t.lastSelectionRange;
+        						var dummyNode = document.createElement("div");
+        						var node = range ? range.extractContents() : null;
+        						if (node != null) dummyNode.appendChild(node);
+        						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
+        					}
+        				}
+        			} else {
+        				insertTag(t.textarea, value1, value2);
+        			}*/
+        	}
+//        	try { t.contentDocument.body.focus(); } catch(e) { }
+        },
         /** Plugin information **/
 		getInfo : function() {
 			return {

@@ -63,14 +63,17 @@ function tinyMCE_editorinit(&$editor) {
 			});
 			editor.initialize = function() {
 				this.render();
-			}
+			};
+			editor.addObject = function(data) {
+				this.plugins.TTMLsupport.addObject(data);
+			};
 			editor.finalize = function() {
 				this.syncTextarea();
 				this.destroy();
-			}
+			};
 			editor.syncTextarea = function(){
 				this.save();
-			}
+			};
 			editor.propertyFilePath = "<?php echo $context->getProperty('service.path');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
 			return editor;
 <?php
