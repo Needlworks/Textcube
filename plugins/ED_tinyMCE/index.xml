@@ -3,14 +3,14 @@
 	<title xml:lang="en">tinyMCE WYSIWYG Editor</title>
 	<title xml:lang="ko">tinyMCE 위지윅 편집기</title>
 	<link>http://needlworks.org/</link>
-	<version>1.8</version>
+	<version>1.9</version>
 	<description xml:lang="en">Provides an easy-to-use WYSIWYG editor interface.</description>
 	<description xml:lang="ko">사용하기 쉬운 위지윅 편집기 환경을 제공합니다.</description>
 	<description xml:lang="ja">tinyMCE WYSIWYGに編集環境を転換</description>
 	<license>GPL</license>
 	<author xml:lang="en" link="http://forest.nubimaru.com/">inureyes</author>
 	<author xml:lang="ko" link="http://forest.nubimaru.com/"><![CDATA[inureyes]]></author>
-	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+	<safety changeData="yes" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="yes" />
 	<requirements>
 		<textcube>1.8</textcube>
 	</requirements>
