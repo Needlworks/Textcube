@@ -305,6 +305,9 @@ function checkStep($step, $check = true) {
 			case 'PostgreSQL':
 				port = 5432;
 				break;
+			default:
+				port = '';
+				break;
 		}
 		document.getElementById('dbPort').value = port;
 		document.getElementById('dbms'+db).checked = checked;
@@ -324,6 +327,7 @@ $dbmsSupport = array();
 if(function_exists('mysql_connect')) array_push($dbmsSupport,'MySQL');
 if(function_exists('mysqli_connect')) array_push($dbmsSupport,'MySQLi');
 if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
+if(class_exists('SQLite3')) array_push($dbmsSupport,'SQLite3');
 if(function_exists('cubrid_connect')) array_push($dbmsSupport,'Cubrid');
 foreach($dbmsSupport as $dbms) {
 ?>
@@ -1161,7 +1165,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 INSERT INTO {$_POST['dbPrefix']}Users VALUES (1, '$loginid', '$password', '$name', ".Timestamp::getUNIXtime().", 0, 0);
 INSERT INTO {$_POST['dbPrefix']}Privileges VALUES (1, 1, 16, ".Timestamp::getUNIXtime().", 0);
 INSERT INTO {$_POST['dbPrefix']}ServiceSettings VALUES ('newlineStyle', '1.1'); 
-INSERT INTO {$_POST['dbPrefix']}ServiceSettings VALUES ('useNewPluginSetting', true); 
+INSERT INTO {$_POST['dbPrefix']}ServiceSettings VALUES ('useNewPluginSetting', 1); 
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'name', '$blog');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'language', '$baseLanguage');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'blogLanguage', '$baseLanguage');

@@ -49,7 +49,6 @@ dl dd
 	font-weight                      : bold;
 	height                           : 30px !important;
 	margin                           : 0 auto;
-	padding                          : 0 !important;
 	width                            : 74px;
 }
 
@@ -59,12 +58,12 @@ dl dd
 #part-setting-basic
 {
 	float                            : left;
-	width                            : 470px;
+	width                            : 48%;
 }
 
 #part-setting-basic .data-inbox
 {
-	width                            : 460px;
+	width                            : 100%;
 }
 
 #part-setting-basic fieldset
@@ -84,12 +83,12 @@ dl dd
 
 #part-setting-basic dl dd .input-text
 {
-	width                            : 300px;
+	width                            : 80%;
 }
 
 #part-setting-basic dl dd textarea
 {
-	width                            : 300px;
+	width                            : 80%;
 }
 
 #part-setting-basic .button-box
@@ -142,12 +141,12 @@ dl dd
 #part-setting-profile
 {
 	float                            : right;
-	width                            : 470px;
+	width                            : 50%;
 }
 
 #part-setting-profile .data-inbox
 {
-	width                            : 450px;
+	width                            : 100%;
 }
 
 #part-setting-profile dl
@@ -263,7 +262,7 @@ dl dd
 #part-setting-account dl dd .input-text,
 #part-setting-openid dl dd .input-text
 {
-	border                           : 1px solid #999999;
+	border                           : 1px solid #ccc;
 	width                            : 170px;
 }
 
@@ -360,7 +359,7 @@ dl dd
 	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
-	width                            : 470px;
+	width                            : 49%;
 }
 
 #part-data-optimize
@@ -368,7 +367,7 @@ dl dd
 	clear                            : right;
 	float                            : right;
 	margin-bottom                    : 20px;
-	width                            : 470px;
+	width                            : 50%;
 }
 
 #part-data-backup
@@ -377,7 +376,7 @@ dl dd
 	float                            : right;
 	margin-bottom                    : 20px;
 	margin-right                     : 0;
-	width                            : 470px;
+	width                            : 50%;
 }
 
 #part-data-restore
@@ -385,7 +384,7 @@ dl dd
 	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
-	width                            : 470px;
+	width                            : 49%;
 }
 
 #part-data-remove
@@ -393,7 +392,7 @@ dl dd
 	clear                            : left;
 	float                            : left;
 	margin-bottom                    : 20px;
-	width                            : 470px;
+	width                            : 49%;
 }
 
 #blackhole

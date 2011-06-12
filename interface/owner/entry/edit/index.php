@@ -457,6 +457,7 @@ if (isset($_GET['returnURL'])) {
 												return false;
 											}
 											PM.removeRequest(this);
+											editor.finalize();
 											var returnURI = "";
 											var oForm = document.forms[0];
 											var changedPermalink = trim(oForm.permalink.value);

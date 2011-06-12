@@ -30,7 +30,12 @@ class Autoload {
 	static function load($className) {
 		$pos =strrpos($className,'_');
 		if($pos!==false) {
-			require_once ROOT.'/framework/'.str_replace('_','/',strtolower(substr($className,0,$pos))).'/'.substr($className,$pos+1).'.php';
+			$naf2frameworkPath = ROOT.'/framework/'.str_replace('_','/',strtolower(substr($className,0,$pos))).'/'.substr($className,$pos+1).'.php';
+			if (file_exists($naf2frameworkPath)) {
+			    require_once $naf2frameworkPath;
+			} else {
+				// TODO : Error handler here.
+			}
 		} else {
 			// Original structure (NAF2)
 			if (file_exists(ROOT.'/framework/alias/'.$className.'.php')) {

@@ -2,12 +2,12 @@
 <adminSkin version="1.1" language="ko">
 	<information>
 		<name>Canon</name> 
-		<version>1.8</version>
-		<description><![CDATA[텍스트큐브 1.8의 관리자 화면 테스트 스킨입니다.]]></description>
+		<version>1.9</version>
+		<description><![CDATA[텍스트큐브 1.8의 관리자 화면 스킨입니다. Safari/Google Chrome/Firefox에서 동작합니다.]]></description>
 		<license><![CDATA[GPL]]></license>
 	</information> 
 	<author>
-		<name>Needlworks</name>
+		<name>Needlworks with Kimatg</name>
 		<homepage>http://www.needlworks.org</homepage>
 		<email>contact@needlworks.org</email>
 	</author> 

@@ -249,7 +249,7 @@ class DBModel extends Singleton implements IModel {
 		$pairs = $attributes;
 		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 		$attributeFields = $this->_capsulateFields(array_keys($attributes));
-		if (in_array(POD::dbms(), array('MySQL','MySQLi'))) { // Those supports 'REPLACE'
+		if (in_array(POD::dbms(), array('MySQL','MySQLi','SQLite3'))) { // Those supports 'REPLACE'
 			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
 			if($option == 'count') return POD::queryCount($this->_query);
 			if (POD::query($this->_query)) {

@@ -106,9 +106,10 @@ function getRecentTrackbackTrash($blogid) {
 		{$database['prefix']}Entries e 
 		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.responsetype = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
 		ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
-	if ($result = POD::query($sql)) {
-		while ($trackback = POD::fetch($result))
-			array_push($trackbacks, $trackback);
+	if ($result = POD::queryAll($sql) && !empty($result)) {
+		$trackbacks = $result;
+//		while ($trackback = POD::fetch($result))
+//			array_push($trackbacks, $trackback);
 	}
 	return $trackbacks;
 }

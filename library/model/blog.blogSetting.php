@@ -316,6 +316,8 @@ function addBlog($blogid, $userid, $identify) {
 		}
 		$pool->reset('SkinSettings');
 		$pool->setAttribute('blogid',$blogid);
+		$pool->setAttribute('name','skin',true);
+		$pool->setAttribute('value',$ctx->getProperty('service.skin'),true);
 		if(!$pool->insert()) {
 			deleteBlog($blogid);
 			return 13;
