@@ -1602,7 +1602,6 @@
         		}
 
         		try {
-        		    alert(servicePath);
     				var className = 'tatter' + data.mode;
     				var widthheight = (data.mode == 'Jukebox' ? 'width="200" height="30"' : 'width="400" height="300"');
     				t.command("Raw", '<img class="' + className + '" src="' + servicePath + adminSkin + '/image/spacer.gif" ' + widthheight + ' longdesc="' + code + '" />');
@@ -1709,43 +1708,9 @@
         			break;
             	
         		case "Raw":
-        		    alert('Raw input called.');
         		    editor.execCommand('mceInsertContent', false, value1);
         		    break;
-/*        			value2 = (typeof value2 == "undefined") ? "" : value2;
-        			if(isWYSIWYG) {
-        				if(STD.isIE) {
-        					t.contentWindow.focus();
-        					var range = t.getSelectionRange();
-        					if(range.pasteHTML)
-        						range.pasteHTML(value1 + range.htmlText + value2);
-        					else if(t.selectedElement) {
-        						t.selectedElement.insertAdjacentHTML("beforeBegin", value1);
-        						t.selectedElement.insertAdjacentHTML("afterEnd", value2);
-        					}
-        				} else {
-        					var focus = t.contentWindow.getSelection().focusNode;
-        					if(focus && focus.tagName == "HTML") {
-        						var range = t.contentDocument.createRange();
-        						range.setStart(t.contentDocument.body,0);
-        						range.setEnd(t.contentDocument.body,0);
-        						var dummyNode = document.createElement("div");
-        						var node = range.extractContents();
-        						if (node != null) dummyNode.appendChild(node);
-        						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
-        					} else {
-        						var range = t.getSelectionRange() || t.lastSelectionRange;
-        						var dummyNode = document.createElement("div");
-        						var node = range ? range.extractContents() : null;
-        						if (node != null) dummyNode.appendChild(node);
-        						range.insertNode(range.createContextualFragment(value1 + dummyNode.innerHTML + value2));
-        					}
-        				}
-        			} else {
-        				insertTag(t.textarea, value1, value2);
-        			}*/
         	}
-//        	try { t.contentDocument.body.focus(); } catch(e) { }
         },
         /** Plugin information **/
 		getInfo : function() {
