@@ -284,7 +284,11 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	$pool->reset('Categories');
 	$pool->setAttribute('blogid',$blogid);
 	$pool->setAttribute('id',$newId);
-	$pool->setAttribute('parent',$parent);
+	if($parent == 'NULL') {
+		$pool->setAttribute('parent',NULL);
+	} else {
+		$pool->setAttribute('parent',$parent);
+	}
 	$pool->setAttribute('name',$name,true);
 	$pool->setAttribute('priority',$newPriority);
 	$pool->setAttribute('entries',0);
