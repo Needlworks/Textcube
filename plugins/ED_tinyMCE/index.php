@@ -80,6 +80,9 @@ function tinyMCE_editorinit(&$editor) {
 			editor.syncTextarea = function(){
 				this.save();
 			};
+			editor.syncEditorWindow = function() {
+				this.load();
+			};
 			editor.propertyFilePath = "<?php echo $context->getProperty('service.path');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
 			return editor;
 <?php

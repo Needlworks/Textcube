@@ -332,6 +332,7 @@ if (isset($_GET['returnURL'])) {
 										
 									}
 									this.loadTemplate = function (templateId,title) {
+										editor.syncTextarea();
 										var oForm = document.forms[0];
 										var content = trim(oForm.content.value);
 										if (content.length != 0) {
