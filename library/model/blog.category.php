@@ -354,7 +354,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 }
 
 function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters = null) {
-
+	clearCategoryCache();
 	$entry = getEntry($blogid, $entryId);
 	// for deleteEntry
 	if(is_null($entry) and isset($parameters['entry']))
@@ -444,6 +444,7 @@ function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $para
 
 function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 	$ctx = Model_Context::getInstance();
+	clearCategoryCache();
 
 	if ($categoryId == -1) {
 		$result = POD::queryAll("SELECT * FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent IS NULL");
@@ -476,7 +477,6 @@ function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 		POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Categories SET entries = $countParent, entriesinlogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
 	}
 	if($categoryId >=0) CacheControl::flushCategory($categoryId);
-	clearCategoryCache();
 	return true;
 }
 
