@@ -65,6 +65,7 @@ function tinyMCE_editorinit(&$editor) {
 					{title : 'Bold text', inline : 'b'}
 				],
 				forced_root_block : false,
+				width : "100%",
 			});
 			editor.initialize = function() {
 				this.render();
