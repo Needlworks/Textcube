@@ -43,6 +43,10 @@
 					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
 					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
 				</field>
+				<field title="에디터 편집 모드" type="select" name="editormode">
+					<op value="simple" checked="checked"><![CDATA[간단]]></op>
+					<op value="advanced"><![CDATA[상세]]></op>
+				</field>
 			</fieldset>
 		</config>
 		<config xml:lang="en" dataValHandler="tinyMCE_handleconfig">
@@ -56,6 +60,10 @@
 					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
 					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
 				</field>
+				<field title="Editing mode" type="select" name="editormode">
+					<op value="simple" checked="checked"><![CDATA[Simple]]></op>
+					<op value="advanced"><![CDATA[Advanced]]></op>
+				</field>
 			</fieldset>
 		</config>
 		<config xml:lang="ja" dataValHandler="tinyMCE_handleconfig">
@@ -68,6 +76,10 @@
 				<field title="段落区分用のタグ" type="select" name="paragraphdelim">
 					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
 					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
+				</field>
+				<field title="Editing mode" type="select" name="editormode">
+					<op value="simple" checked="checked"><![CDATA[Simple]]></op>
+					<op value="advanced"><![CDATA[Advanced]]></op>
 				</field>
 			</fieldset>
 		</config>
