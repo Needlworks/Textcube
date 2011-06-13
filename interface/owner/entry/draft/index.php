@@ -46,7 +46,7 @@ $entry['accepttrackback'] = empty($_POST['accepttrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 $id = saveDraftEntry($blogid, $entry);
 if ($id > 0) {
-	setBlogSetting('LatestEditedEntry_user'.getUserId(),$id);
+	Setting::setBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),$id);
 	$result = array();
 	$result['error'] = ($id > 0) ? 0 : 1;
 	$result['entryId'] = $id;

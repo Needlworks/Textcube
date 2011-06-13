@@ -26,7 +26,6 @@ function tinyMCE_editorinit(&$editor) {
 				theme : 'advanced',
 				language : '<?php echo strtolower($context->getProperty('blog.language'));?>',
 				popup_css_add: "<?php echo $pluginURL;?>/popup.css",
-				forced_root_block : false, 
 <?php
 	if($config['editormode'] == 'simple') {
 ?>
@@ -65,7 +64,7 @@ function tinyMCE_editorinit(&$editor) {
 				style_formats : [
 					{title : 'Bold text', inline : 'b'}
 				],
-				forced_root_block : false, 
+				forced_root_block : false,
 			});
 			editor.initialize = function() {
 				this.render();
@@ -83,6 +82,8 @@ function tinyMCE_editorinit(&$editor) {
 			editor.syncEditorWindow = function() {
 				this.load();
 			};
+			editor.onKeyUp.add(editorChanged);
+			editor.onMouseDown.add(editorChanged);
 			editor.propertyFilePath = "<?php echo $context->getProperty('service.path');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
 			return editor;
 <?php
