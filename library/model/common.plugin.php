@@ -309,7 +309,6 @@ function getPluginTableName() {
 	return $dbtables;
 }
 
-
 /***** Events and configuration handles *****/
 
 function eventExists($event)
