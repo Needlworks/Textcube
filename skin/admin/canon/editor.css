@@ -930,4 +930,4 @@ dl#power-line
 	border:0 !important;
 }
 .defaultSkin .mceExternalClose { display:none !important;}
-.defaultSkin td.mceToolbar {background:transparent !important;}
+.defaultSkin td.mceToolbar {background:#fff !important;}
