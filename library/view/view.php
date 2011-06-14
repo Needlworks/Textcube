@@ -1239,8 +1239,8 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 					}
 
 					$attributes = preg_match('/(style="cursor: pointer;" onclick="open_img\((.[^"]+)\); return false;")/si', $images[$i][2], $matches) ? ' '.$matches[1] : '';
-					$attributes .= preg_match('/(alt="(.[^"]+)")/si', $images[$i][2], $matches) ? ' '.$matches[1] : ' alt="resize"';
-					$attributes .= preg_match('/(title="(.[^"]+)")/si', $images[$i][2], $matches) ? $title = ' '.$matches[1] : '';
+					$attributes .= preg_match('/(alt="([^"]*)")/si', $images[$i][2], $matches) ? ' '.$matches[1] : ' alt="resize"';
+					$attributes .= preg_match('/(title="([^"]*)")/si', $images[$i][2], $matches) ? $title = ' '.$matches[1] : '';
 
 					$tempFileName = array_pop(explode('/', $images[$i][1]));
 					if (preg_match('/(.+)\.w(\d{1,})\-h(\d{1,})\.(.+)/', $tempFileName, $matches))
