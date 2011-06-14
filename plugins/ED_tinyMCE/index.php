@@ -1,8 +1,6 @@
 <?php
 function tinyMCE_handleconfig($configVal) {
 	$config = Setting::fetchConfigVal($configVal);
-	if (isset($config['defaultmode']) && $config['defaultmode'] != 'WYSIWYG' && $config['defaultmode'] != 'TEXTAREA') return false;
-	if (isset($config['paragraphdelim']) && $config['paragraphdelim'] != 'P' && $config['paragraphdelim'] != 'BR') return false;
 	if (isset($config['editormode']) && $config['editormode'] != 'simple' && $config['editormode'] != 'advanced') return false;
 	return true;
 }
@@ -11,15 +9,11 @@ function tinyMCE_editorinit(&$editor) {
 	global $configVal, $entry, $pluginURL;
 	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
-	if (is_null($configVal) || empty($configVal)) {
-		$config = array('paragraphdelim' => 'BR',
-			'defaultmode' => 'WYSIWYG',
-			'editormode' => 'advanced');
-	} else {
-		$config = Setting::fetchConfigVal($configVal);
-	}
+	$config = Setting::fetchConfigVal($configVal);
+	if(empty($config['editormode'])) $config['editormode'] = 'advanced';
 	ob_start();
 ?>
+			alert('<?php echo $config['editormode'];?>');
 			var editor = new tinymce.Editor('editWindow', {
 				// General options
 				mode : 'exact',
