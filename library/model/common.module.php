@@ -15,7 +15,7 @@ function getDefaultEditor() {
 function& getAllEditors() { global $editorMappings; return $editorMappings; }
 
 function getEditorInfo($editor) {
-	global $editorMappings, $pluginURL, $pluginName;
+	global $editorMappings, $configMappings, $pluginURL, $pluginName, $configVal; 
 	$context = Model_Context::getInstance();
 	if (!isset($editorMappings[$editor])) {
 		reset($editorMappings);
@@ -24,6 +24,10 @@ function getEditorInfo($editor) {
 	if (isset($editorMappings[$editor]['plugin'])) {
 		$pluginURL = $context->getProperty('service.path').'/plugins/'.$editorMappings[$editor]['plugin'];
 		$pluginName = $editorMappings[$editor]['plugin'];
+		if( !empty( $configMappings[$pluginName]['config'] ) )
+			$configVal = getCurrentSetting($pluginName);
+		else
+			$configVal = null;
 		include_once ROOT . "/plugins/{$editorMappings[$editor]['plugin']}/index.php";
 	}
 	return $editorMappings[$editor];

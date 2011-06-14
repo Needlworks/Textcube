@@ -69,7 +69,7 @@ function printFormatterSelectScript() {
 }
 
 function printOwnerEditorScript($entryId = false) {
-	global $pluginURL, $pluginName;
+	global $pluginURL, $pluginName, $configMappings;
 	
 	$contentWidth = 500;
 	$context = Model_Context::getInstance();
