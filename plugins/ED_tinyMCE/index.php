@@ -79,7 +79,7 @@ function tinyMCE_editorinit(&$editor) {
 			};
 			editor.onKeyUp.add(editorChanged);
 			editor.onMouseDown.add(editorChanged);
-			editor.propertyFilePath = "<?php echo $context->getProperty('service.path');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
+			editor.propertyFilePath = "<?php echo $context->getProperty('uri.service');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
 			return editor;
 <?php
 	$result = ob_get_contents();
