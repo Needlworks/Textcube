@@ -41,7 +41,7 @@
 				myHeight = tinymce.isIE ? b.scrollHeight : de.offsetHeight;
 
 				// Bottom margin
-				myHeight = t.bottom_margin + myHeight;
+				//myHeight = t.bottom_margin + myHeight;
 
 				// Don't make it smaller than the minimum height
 				if (myHeight > t.autoresize_min_height)
