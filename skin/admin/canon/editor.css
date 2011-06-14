@@ -300,7 +300,7 @@ h3
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
 	position                         : absolute;
-	z-index                          : 100;
+	z-index                          : 150;
 	right                            : 0;
 	top                              : 0;
 	width                            : 245px;
@@ -918,14 +918,14 @@ dl#power-line
 	position                         : fixed !important;
 	top                              : 80px !important;
 	height                           : 30px !important;
-	z-index                          : 190;
+	z-index                          : 99;
 }
 
 .mceExternalToolbar {
 	position                         : fixed !important;
 	top                              : 80px !important;
 	height                           : 30px !important;
-	z-index                          : 100;
+	z-index                          : 50;
 	display:block;
 	border:0 !important;
 }
