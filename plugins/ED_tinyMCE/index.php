@@ -80,6 +80,7 @@ function tinyMCE_editorinit(&$editor) {
 			editor.onKeyUp.add(editorChanged);
 			editor.onMouseDown.add(editorChanged);
 			editor.propertyFilePath = "<?php echo $context->getProperty('uri.service');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
+			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
 			return editor;
 <?php
 	$result = ob_get_contents();

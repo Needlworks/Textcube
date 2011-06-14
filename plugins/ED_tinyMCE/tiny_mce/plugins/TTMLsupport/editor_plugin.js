@@ -889,9 +889,9 @@
         },
         getEditorProperty : function(/*$alt*/) {
         	//$fixPosition = getUserSetting('editorPropertyPositionFix', 0);
-//        	var fixPosition = t.fixPosition, hasGD = t.hasGD;
-        	var fixPosition = true, hasGD = true;
         	var t = this;
+        	var fixPosition = editor.fixPosition;
+        	var hasGD = true;
         	// hyperlink
         	var html = ////
         		'<div id="__ID__propertyHyperLink" class="entry-editor-property" style="display: none;">' +
