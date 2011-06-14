@@ -22,7 +22,7 @@ function tinyMCE_editorinit(&$editor) {
 <?php
 	if($config['editormode'] == 'simple') {
 ?>
-				plugins : "autolink,lists,style,advimage,advlink,emotions,inlinepopups,preview,media,contextmenu,fullscreen,noneditable,visualchars,xhtmlxtras,wordcount,advlist,TTMLsupport",
+				plugins : "autolink,autoresize,lists,style,advimage,advlink,emotions,inlinepopups,preview,media,contextmenu,fullscreen,noneditable,visualchars,xhtmlxtras,wordcount,advlist,TTMLsupport",
 				// Theme options
 				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,preview,fullscreen",
 				theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,blockquote,hr,|,undo,redo,|,link,unlink,anchor,image,media,code,|,forecolor,backcolor,|,charmap,emotions,|,visualchars,restoredraft",
@@ -31,7 +31,7 @@ function tinyMCE_editorinit(&$editor) {
 <?php
 	} else {
 ?>
-				plugins : "autolink,lists,pagebreak,style,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,wordcount,advlist,TTMLsupport",
+				plugins : "autolink,autoresize,lists,pagebreak,style,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,wordcount,advlist,TTMLsupport",
 				// Theme options
 				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking,pagebreak,restoredraft,|,styleprops,|,code,cleanup,|,preview,fullscreen",
 				theme_advanced_buttons2 : "undo,redo,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,sub,sup,|,link,unlink,anchor,image,charmap,media,advhr,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid,|,ltr,rtl",
