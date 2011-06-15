@@ -1,6 +1,10 @@
 /**
- * editor_plugin_src.js
- *
+ * Textcube editor support for tinyMCE
+ * Version 1.0.0.110615
+ * 
+ * Created       : May 30, 2011
+ * Last modified : June 15, 2011
+ * 
  * Copyright 2011, Jeongkyu Shin
  * Released under LGPL License.
  *
@@ -40,6 +44,10 @@
                 entryManager.save();
                 return false;
             });
+            ed.addCommand('textcubeMoreLessBlock', function() {
+                t.command('MoreLessBlock');
+                return false;
+            });
             ed.addButton('tcattach', {
                 title : 'Upload and insert files',
                 cmd : 'textcubeToggleUploadDlg',
@@ -49,6 +57,11 @@
                 title : 'Save current post',
                 cmd : 'textcubeSavePost',
                 image : url + '/toolbar/save.gif'
+            });
+            ed.addButton('tcmoreless', {
+                title : 'Add more/less block',
+                cmd : 'textcubeMoreLessBlock',
+                image : url + '/toolbar/moreless.gif'
             });
         	var div = document.createElement('div');
         	div.id = 'tinyMCEeditor-textbox';
@@ -1721,7 +1734,9 @@
         			break;
             	
         		case "Raw":
-        		    editor.execCommand('mceInsertContent', false, value1);
+        		    value2 = (typeof value2 == "undefined") ? "" : value2;
+        		    selectedContent = editor.selection.getContent();
+        		    editor.execCommand('mceInsertContent', false, value1 + selectedContent + value2);
         		    break;
         	}
         },
