@@ -273,7 +273,7 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 									<dt><?php echo _t('정보 패널 설정');?></dt>
 									<dd>
 										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList();return false;"<?php echo $textcubeDashboard == 1 ? ' checked="checked"' : NULL;?> />
-										<label for="useTTdashboard"><?php echo _t('블로그 정보를 보여주는 패널을 사용합니다');?></label>
+										<label for="useTTdashboard"><?php echo _t('기본 패널을 사용합니다');?></label>
 									</dd>
 								</dl>
 <?php
@@ -285,22 +285,23 @@ $secondposition = array(0, 0);
 if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {
 ?>
-								<div id="widget-button-top" class="button-box">
-									<input type="submit" class="input-button" value="<?php echo _t('편집');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit'; return false;" />
-									<input type="button" class="input-button" value="<?php echo _t('위젯 켜고 끄기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center'; return false;" />
-								</div>
+								<ul id="widget-tabs-box" class="tabs-box">
+									<li class="dashboard selected"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('알림판');?></a></li>
+									<li class="edit"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a></li>
+									<li class="activate"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center"><?php echo _t('위젯 켜고 끄기');?></a>
+								</ul>
 <?php
 	} else {
 ?>
-								<div class="button-box">
-									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard'; return false;" />
-								</div>
+								<ul id="widget-tabs-box" class="tabs-box">
+									<li class="dashboard selected"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('돌아가기');?></a></li>
+								</ul>
 <?php
 	}
 } else {
 ?>
-								<div class="button-box">
-								</div>
+								<ul class="tabs-box">
+								</ul>
 <?php
 }
 ?>
