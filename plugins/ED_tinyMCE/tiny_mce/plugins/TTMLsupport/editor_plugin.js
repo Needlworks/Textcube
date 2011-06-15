@@ -5,22 +5,13 @@
  * Released under LGPL License.
  *
  */
-
 (function() {
 	// Load plugin specific language pack
 //	tinymce.PluginManager.requireLangPack('TTMLsupport');
-
 	tinymce.create('tinymce.plugins.TTMLsupport', {
 		/**
-		 * Initializes the plugin, this will be executed after the plugin has been created.
-		 * This call is done before the editor instance has finished it's initialization so use the onInit event
-		 * of the editor instance to intercept that event.
-		 *
-		 * @param {tinymce.Editor} ed Editor instance that the plugin is initialized in.
-		 * @param {string} url Absolute URL to where the plugin is located.
 		 */
 		init : function(ed, url) {
-			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
             var t = this;
             t.propertyFilePath = ed.propertyFilePath;
             ed.onBeforeSetContent.add(function(ed, o) {
@@ -36,6 +27,28 @@
             });
             ed.onNodeChange.add(function(ed, cm, e) {
                 t.showProperty(e);
+            });
+            ed.addCommand('textcubeToggleUploadDlg', function() {
+                var uploadDlg = document.getElementById('upload-section');
+                if (uploadDlg.style.display == "block") {
+                    uploadDlg.style.display = "none";
+                } else {
+                    uploadDlg.style.display = "block";
+                }
+            });
+            ed.addCommand('textcubeSavePost', function() {
+                entryManager.save();
+                return false;
+            });
+            ed.addButton('tcattach', {
+                title : 'Upload and insert files',
+                cmd : 'textcubeToggleUploadDlg',
+                image : url + '/toolbar/attach.gif'
+            });
+            ed.addButton('tcsave', {
+                title : 'Save current post',
+                cmd : 'textcubeSavePost',
+                image : url + '/toolbar/save.gif'
             });
         	var div = document.createElement('div');
         	div.id = 'tinyMCEeditor-textbox';
@@ -649,7 +662,7 @@
         			getObject(t.id + "propertyHyperLink").style.display = "none";
         		return false;
         	}
-        	t.setPropertyPosition();
+//        	t.setPropertyPosition();
         	return true;
         },
         setProperty : function() {
@@ -889,9 +902,9 @@
         },
         getEditorProperty : function(/*$alt*/) {
         	//$fixPosition = getUserSetting('editorPropertyPositionFix', 0);
-//        	var fixPosition = t.fixPosition, hasGD = t.hasGD;
-        	var fixPosition = true, hasGD = true;
         	var t = this;
+        	var fixPosition = editor.fixPosition;
+        	var hasGD = true;
         	// hyperlink
         	var html = ////
         		'<div id="__ID__propertyHyperLink" class="entry-editor-property" style="display: none;">' +
