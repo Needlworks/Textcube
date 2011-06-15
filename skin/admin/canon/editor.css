@@ -920,14 +920,3 @@ dl#power-line
 	height                           : 30px !important;
 	z-index                          : 99;
 }
-
-.mceExternalToolbar {
-	position                         : fixed !important;
-	top                              : 80px !important;
-	height                           : 30px !important;
-	z-index                          : 50;
-	display:block;
-	border:0 !important;
-}
-.defaultSkin .mceExternalClose { display:none !important;}
-.defaultSkin td.mceToolbar {background:#fff !important;}

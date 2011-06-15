@@ -17,6 +17,8 @@ function tinyMCE_editorinit(&$editor) {
 				// General options
 				mode : 'exact',
 				theme : 'advanced',
+				skin : "o2k7",
+				skin_variant : "silver",
 				language : '<?php echo strtolower($context->getProperty('blog.language'));?>',
 				popup_css_add: "<?php echo $pluginURL;?>/popup.css",
 <?php
