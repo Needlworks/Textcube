@@ -1554,8 +1554,6 @@ input.input-text, input.input-tag
 
 .ajaxMessage
 {
-
-
 	background-color: #fff;
 	background-repeat: no-repeat !important;
 	background-position: 5px center;
@@ -1563,7 +1561,7 @@ input.input-text, input.input-tag
 	padding: 15px 30px 15px 50px !important;
 	color: #000 !important;
 	z-index: 2000;
-	position: fixed;
+	position: fixed !important;
 	top: 45px !important;
 	left: auto !important;
 	right: 20px !important;
@@ -1598,5 +1596,4 @@ input.input-text, input.input-tag
 	border                           : 1px solid #DA7E7F !important;
 	background-color                 : #fcebeb !important;
 	color                            : #333 !important;
-
 }

@@ -412,7 +412,7 @@ if (isset($_GET['returnURL'])) {
 												entryManager.pageHolder.release();
 											entryManager.nowsaving = false;
 											if (entryManager.isPreview == true) {
-												window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+												entryManager.openPreviewPopup();
 												entryManager.isPreview = false;
 											}
 											if (entryManager.changeEditor == true) {
@@ -433,7 +433,9 @@ if (isset($_GET['returnURL'])) {
 
 										return true;
 									}
-																		
+									this.openPreviewPopup = function () {
+										window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+									}
 									this.saveAndReturn = function () {
 										this.nowsaving = true;
 										var data = this.getData(true);
@@ -529,7 +531,8 @@ if (isset($_GET['popupEditor'])) {
 									this.preview = function () {
 										this.isPreview = true;
 										if (!this.save()) {
-											window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+											entryManager.openPreviewPopup();
+											this.isPreview = false;
 										}
 										return;
 									}
