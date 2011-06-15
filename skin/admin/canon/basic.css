@@ -1538,6 +1538,7 @@ input.input-text, input.input-tag
 	vertical-align                   : middle;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
+	border-radius: 2px;
 }
 
 
@@ -1554,8 +1555,6 @@ input.input-text, input.input-tag
 
 .ajaxMessage
 {
-
-
 	background-color: #fff;
 	background-repeat: no-repeat !important;
 	background-position: 5px center;
@@ -1563,7 +1562,7 @@ input.input-text, input.input-tag
 	padding: 15px 30px 15px 50px !important;
 	color: #000 !important;
 	z-index: 2000;
-	position: fixed;
+	position: fixed !important;
 	top: 45px !important;
 	left: auto !important;
 	right: 20px !important;
@@ -1571,9 +1570,11 @@ input.input-text, input.input-tag
 	
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	
 	-moz-box-shadow: 0 5px 8px rgba(0,0,0,0.4);
 	-webkit-box-shadow: 0 5px 8px rgba(0,0,0,0.4);
+	box-shadow: 0 5px 8px rgba(0,0,0,0.4);
 	
 }
 
@@ -1598,5 +1599,4 @@ input.input-text, input.input-tag
 	border                           : 1px solid #DA7E7F !important;
 	background-color                 : #fcebeb !important;
 	color                            : #333 !important;
-
 }
