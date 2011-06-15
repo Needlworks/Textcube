@@ -22,19 +22,19 @@ function tinyMCE_editorinit(&$editor) {
 <?php
 	if($config['editormode'] == 'simple') {
 ?>
-				plugins : "autolink,lists,style,advimage,advlink,emotions,inlinepopups,preview,media,contextmenu,fullscreen,noneditable,visualchars,xhtmlxtras,wordcount,advlist,TTMLsupport",
+				plugins : "autolink,autoresize,lists,style,advimage,advlink,emotions,inlinepopups,preview,media,contextmenu,fullscreen,noneditable,visualchars,xhtmlxtras,wordcount,advlist,TTMLsupport",
 				// Theme options
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,preview,fullscreen",
-				theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,blockquote,hr,|,undo,redo,|,link,unlink,anchor,image,media,code,|,forecolor,backcolor,|,charmap,emotions,|,visualchars,restoredraft",
+				theme_advanced_buttons1 : "tcsave,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,preview,fullscreen",
+				theme_advanced_buttons2 : "undo,redo,|,bullist,numlist,|,outdent,indent,blockquote,hr,|,tcattach,link,unlink,anchor,image,media,code,|,forecolor,backcolor,|,charmap,emotions,|,visualchars,restoredraft",
 				theme_advanced_buttons3 : "",
 				theme_advanced_buttons4 : "",
 <?php
 	} else {
 ?>
-				plugins : "autolink,lists,pagebreak,style,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,wordcount,advlist,TTMLsupport",
+				plugins : "autolink,autoresize,lists,pagebreak,style,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,wordcount,advlist,TTMLsupport",
 				// Theme options
-				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking,pagebreak,restoredraft,|,styleprops,|,code,cleanup,|,preview,fullscreen",
-				theme_advanced_buttons2 : "undo,redo,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,sub,sup,|,link,unlink,anchor,image,charmap,media,advhr,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid,|,ltr,rtl",
+				theme_advanced_buttons1 : "tcsave,save,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking,pagebreak,restoredraft,|,styleprops,|,code,cleanup,|,preview,fullscreen",
+				theme_advanced_buttons2 : "undo,redo,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,sub,sup,|,tcattach,link,unlink,anchor,image,charmap,media,advhr,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid,|,ltr,rtl",
 				theme_advanced_buttons3 : "",
 				theme_advanced_buttons4 : "",
 <?php
@@ -79,7 +79,8 @@ function tinyMCE_editorinit(&$editor) {
 			};
 			editor.onKeyUp.add(editorChanged);
 			editor.onMouseDown.add(editorChanged);
-			editor.propertyFilePath = "<?php echo $context->getProperty('service.path');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
+			editor.propertyFilePath = "<?php echo $context->getProperty('uri.service');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
+			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
 			return editor;
 <?php
 	$result = ob_get_contents();
@@ -92,6 +93,7 @@ function tinyMCE_adminheader($target, $mother) {
 
 	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
 		$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tiny_mce/tiny_mce.js\"></script>\n";
+		$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"$pluginURL/upload-section.css\" />\n";
 	}
 	return $target;
 }

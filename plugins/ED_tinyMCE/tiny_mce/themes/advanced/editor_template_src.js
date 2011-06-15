@@ -75,7 +75,7 @@
 				theme_advanced_toolbar_location : 'bottom',
 				theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect",
 				theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code",
-//				theme_advanced_buttons3 : "hr,removeformat,visualaid,|,sub,sup,|,charmap",
+				theme_advanced_buttons3 : "hr,removeformat,visualaid,|,sub,sup,|,charmap",
 				theme_advanced_blockformats : "p,address,pre,h1,h2,h3,h4,h5,h6",
 				theme_advanced_toolbar_align : "center",
 				theme_advanced_fonts : "Andale Mono=andale mono,times;Arial=arial,helvetica,sans-serif;Arial Black=arial black,avant garde;Book Antiqua=book antiqua,palatino;Comic Sans MS=comic sans ms,sans-serif;Courier New=courier new,courier;Georgia=georgia,palatino;Helvetica=helvetica;Impact=impact,chicago;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Trebuchet MS=trebuchet ms,geneva;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats",
@@ -593,6 +593,7 @@
 
 				if (evt.altKey) {
 		 			if (evt.keyCode === DOM_VK_F10) {
+						window.focus();
 						t.toolbarGroup.focus();
 						return Event.cancel(evt);
 					} else if (evt.keyCode === DOM_VK_F11) {
@@ -936,10 +937,10 @@
 		},
 
 		_updateUndoStatus : function(ed) {
-			var cm = ed.controlManager;
+			var cm = ed.controlManager, um = ed.undoManager;
 
-			cm.setDisabled('undo', !ed.undoManager.hasUndo() && !ed.typing);
-			cm.setDisabled('redo', !ed.undoManager.hasRedo());
+			cm.setDisabled('undo', !um.hasUndo() && !um.typing);
+			cm.setDisabled('redo', !um.hasRedo());
 		},
 
 		_nodeChanged : function(ed, cm, n, co, ob) {
@@ -1095,11 +1096,8 @@
 				getParent(function(n) {
 					var na = n.nodeName.toLowerCase(), u, pi, ti = '';
 
-					if (n.getAttribute('data-mce-bogus'))
-						return;
-
-					// Ignore non element and hidden elements
-					if (n.nodeType != 1 || n.nodeName === 'BR' || (DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved')))
+					// Ignore non element and bogus/hidden elements
+					if (n.nodeType != 1 || na === 'br' || n.getAttribute('data-mce-bogus') || DOM.hasClass(n, 'mceItemHidden') || DOM.hasClass(n, 'mceItemRemoved'))
 						return;
 
 					// Handle prefix
