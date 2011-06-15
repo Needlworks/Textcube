@@ -425,17 +425,17 @@
 {
 	margin                           : 0;
 	position: fixed;
-	right: 335px;
-	top: 0; 
+	right: 35px;
+	top: 50px; 
 	z-index: 400;
 	padding: 5px 0 !important;
 }
 
 #independent-notice-line dd label
 {
-	color: #fff;
+	color: #000;
 	letter-spacing: -1px;
-	text-shadow: 0 -1px 0 #000;
+	text-shadow: 0 -1px 0 #ddd;
 }
 
 #independent-notice-line dd
@@ -449,31 +449,13 @@
 	display                          : none;
 }
 
-#widget-button-top 
-{
-	position: fixed;
-	width: 200px;
-	right: 150px;
-	top: 0; 
-	z-index: 400;
-	padding: 5px 0 !important;
-}
-
-#widget-button-top input
-{
-	height: 25px !important;
-	line-height: 25px;
-	font-size: 0.9em; 
-	
-	
-}
-
-
-
-
 #widget-button-bottom
 {
 	display                          : none;
+}
+#widget-tabs-box 
+{
+	margin-bottom:15px;
 }
 #widget-container-0,
 #widget-container-1,
