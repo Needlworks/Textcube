@@ -273,7 +273,7 @@ if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 									<dt><?php echo _t('정보 패널 설정');?></dt>
 									<dd>
 										<input type="checkbox" class="checkbox" id="useTTdashboard" name="useTTdashboard" value="on" onclick="changeList();return false;"<?php echo $textcubeDashboard == 1 ? ' checked="checked"' : NULL;?> />
-										<label for="useTTdashboard"><?php echo _t('블로그 정보를 보여주는 패널을 사용합니다');?></label>
+										<label for="useTTdashboard"><?php echo _t('기본 패널을 사용합니다');?></label>
 									</dd>
 								</dl>
 <?php
