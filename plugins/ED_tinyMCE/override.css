@@ -1,0 +1,33 @@
+@charset "utf-8";
+/* This stylesheet overrides administration panel skin, to make uploader section float. */
+.mceExternalToolbar {
+    position                         : fixed !important;
+    top                              : 83px !important;
+    height                           : 30px !important;
+    z-index                          : 50;
+    display:block !important;
+    border:0 !important;
+}
+.mceExternalClose { display:none !important;}
+td.mceToolbar {background:#fff !important;}
+#save-section {
+    position: fixed !important;
+    top: 35px;
+    right:15px;
+    z-index:100;
+}
+#save-section .button-box input {
+    height:25px !important;
+    line-height:25px !important;
+}
+#save-section .button-box .save-button,
+#save-section .button-box .list-button  {
+    display: none;
+}
+#upload-section {
+    display:none;
+    position:fixed;
+    bottom:10px;
+    z-index:500;
+    border-top:1px solid #bbb;
+}
