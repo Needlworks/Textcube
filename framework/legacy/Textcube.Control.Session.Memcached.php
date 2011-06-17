@@ -50,9 +50,10 @@ final class Session {
 	
 	public static function destroy($id, $setCookie = false) {
 		//self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
-		self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}");
-		self::$mc->delete(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}");
-		return self::$mc->delete(self::$context->getProperty('service.domain')."/authorizedSession/{$id}");
+		self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}",0);
+		self::$mc->delete(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}",0);
+		self::$mc->delete(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",0);
+		return true;
 	}
 	
 	public static function gc($maxLifeTime = false) {
