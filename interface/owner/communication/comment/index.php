@@ -128,7 +128,7 @@ require ROOT . '/interface/common/owner/header.php';
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
 
 										request.onSuccess = function() {
-											if (mode == 'ip' && confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('차단한 IP에서 작성한 모든 방명록을 삭제하시겠습니까?') : _t('차단한 IP에서 작성한 모든 댓글을 삭제하시겠습니까?'));?>")) {
+											if (mode == 'ip' && command == 'block' && confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('차단한 IP에서 작성한 모든 방명록을 삭제하시겠습니까?') : _t('차단한 IP에서 작성한 모든 댓글을 삭제하시겠습니까?'));?>")) {
 												var wipe = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/comment/delete/");
 											
 												wipe.onSuccess = function() {
@@ -138,7 +138,7 @@ require ROOT . '/interface/common/owner/header.php';
 												//changeStateItems(caller, value, no, mode);
 
 											} else {
-												changeStateItems(caller, value, no, mode);
+												changeStateItems(value, mode, command, name);
 											}
 										}
 										request.send();
@@ -147,7 +147,7 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 								};
 								
-								changeStateItems = function(caller, value, no, mode) {
+								changeStateItems = function(value, mode, command, name) {
 									var iconList = document.getElementsByTagName("a");	
 									for (var i = 0; i < iconList.length; i++) {
 										icon = iconList[i];
