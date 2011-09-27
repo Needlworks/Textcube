@@ -836,6 +836,15 @@ function trashCommentInOwner($blogid, $id) {
 	return false;
 }
 
+function trashCommentInOwnerByIP($blogid, $ip) {
+	global $database;
+	$ids = POD::queryColumn("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND ip = '".$ip."'");
+	foreach ($ids as $id) {
+		trashCommentInOwner($blogid, $id);
+	}
+	return true;
+}
+
 function revertCommentInOwner($blogid, $id) {
 	global $database;
 	if (!is_numeric($id)) return false;

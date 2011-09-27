@@ -126,34 +126,52 @@ require ROOT . '/interface/common/owner/header.php';
 										param 	+= '&id=' 	+ no;
 										
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
-										var iconList = document.getElementsByTagName("a");	
-										for (var i = 0; i < iconList.length; i++) {
-											icon = iconList[i];
-											if(icon.id == null || icon.id.replace(/\-[0-9]+$/, '') != name) {
-												continue;
-											} else {
-												if (command == 'block') {
-													icon.className = 'block-icon bullet';
-													icon.innerHTML = '<span class="text"><?php echo _t('[차단됨]');?><\/span>';
-													if (mode == 'name') {
-														icon.setAttribute('title', "<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>");
-													} else {
-														icon.setAttribute('title', "<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>");
-													}
-												} else {
-													icon.className = 'unblock-icon bullet';
-													icon.innerHTML = '<span class="text"><?php echo _t('[허용됨]');?><\/span>';
-													if (mode == 'name') {
-														icon.setAttribute('title', "<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>");
-													} else {
-														icon.setAttribute('title', "<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>");
-													}
+
+										request.onSuccess = function() {
+											if (mode == 'ip' && confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('차단한 IP에서 작성한 모든 방명록을 삭제하시겠습니까?') : _t('차단한 IP에서 작성한 모든 댓글을 삭제하시겠습니까?'));?>")) {
+												var wipe = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/comment/delete/");
+											
+												wipe.onSuccess = function() {
+													document.getElementById('list-form').submit();
 												}
+												wipe.send("ip="+ value);
+												//changeStateItems(caller, value, no, mode);
+
+											} else {
+												changeStateItems(caller, value, no, mode);
 											}
 										}
 										request.send();
 									} catch(e) {
 										alert(e.message);
+									}
+								};
+								
+								changeStateItems = function(caller, value, no, mode) {
+									var iconList = document.getElementsByTagName("a");	
+									for (var i = 0; i < iconList.length; i++) {
+										icon = iconList[i];
+										if(icon.id == null || icon.id.replace(/\-[0-9]+$/, '') != name) {
+											continue;
+										} else {
+											if (command == 'block') {
+												icon.className = 'block-icon bullet';
+												icon.innerHTML = '<span class="text"><?php echo _t('[차단됨]');?><\/span>';
+												if (mode == 'name') {
+													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>");
+												} else {
+													icon.setAttribute('title', "<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>");
+												}
+											} else {
+												icon.className = 'unblock-icon bullet';
+												icon.innerHTML = '<span class="text"><?php echo _t('[허용됨]');?><\/span>';
+												if (mode == 'name') {
+													icon.setAttribute('title', "<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>");
+												} else {
+													icon.setAttribute('title', "<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>");
+												}
+											}
+										}
 									}
 								};
 
