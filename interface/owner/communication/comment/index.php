@@ -128,15 +128,20 @@ require ROOT . '/interface/common/owner/header.php';
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
 
 										request.onSuccess = function() {
-											if (mode == 'ip' && command == 'block' && confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('차단한 IP에서 작성한 모든 방명록을 삭제하시겠습니까?') : _t('차단한 IP에서 작성한 모든 댓글을 삭제하시겠습니까?'));?>")) {
+											if (mode == 'ip' && command == 'block' && confirm(value+" <?php echo (isset($tabsClass['guestbook']) ? _t('IP에서 작성한 모든 방명록을 삭제하시겠습니까?') : _t('IP에서 작성한 모든 댓글을 삭제하시겠습니까?'));?>")) {
 												var wipe = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/comment/delete/");
 											
 												wipe.onSuccess = function() {
+													PM.removeRequest(this);
 													document.getElementById('list-form').submit();
 												}
-												wipe.send("ip="+ value);
-												//changeStateItems(caller, value, no, mode);
 
+												wipe.onError = function() {
+													PM.removeRequest(this);
+													PM.showErrorMessage("<?php echo (isset($tabsClass['guestbook']) ? _t('방명록을 삭제하지 못하였습니다') : _t('댓글을 삭제하지 못하였습니다.'));?>", "center", "bottom");
+												}
+												PM.addRequest(wipe, "<?php echo (isset($tabsClass['guestbook']) ? _t('방명록을 삭제하고 있습니다.') : _t('댓글을 삭제하고 있습니다.'));?>");
+												wipe.send("ip="+ value);
 											} else {
 												changeStateItems(value, mode, command, name);
 											}
