@@ -125,7 +125,7 @@ $pool = DBModel::getInstance();
 	
 	$pool->reset('RemoteResponses');
 	$pool->setQualifier('blogid','eq',$bid);
-	$pool->setQualifier('type','eq','trackback',true);
+	$pool->setQualifier('responsetype','eq','trackback',true);
 	$pool->setQualifier('isfiltered','eq',0);
 	$numberOfTrackbacks = $pool->getCount();
 	
