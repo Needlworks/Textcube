@@ -11,6 +11,7 @@ function tinyMCE_editorinit(&$editor) {
 	$blogid = getBlogId();
 	$config = Setting::fetchConfigVal($configVal);
 	if(empty($config['editormode'])) $config['editormode'] = 'advanced';
+	if(empty($config['width'])) $config['width'] = 'full';
 	ob_start();
 ?>
 			var editor = new tinymce.Editor('editWindow', {
@@ -60,7 +61,7 @@ function tinyMCE_editorinit(&$editor) {
 					{title : 'Bold text', inline : 'b'}
 				],
 				forced_root_block : false,
-				width : "100%",
+				width : "<?php echo ($config['width'] == 'full' ? '100%' : $context->getProperty('skin.contentWidth'));?>",
 				theme_advanced_toolbar_location : "external"
 			});
 			editor.initialize = function() {

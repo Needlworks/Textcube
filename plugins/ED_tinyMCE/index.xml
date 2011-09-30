@@ -46,6 +46,12 @@
 					<op value="advanced"><![CDATA[상세]]></op>
 				</field>
 			</fieldset>
+			<fieldset legend="상세 설정">
+				<field title="에디터 폭" type="select" name="width">
+					<op value="skin"><![CDATA[스킨 지정 폭]]></op>
+					<op value="full" checked="checked"><![CDATA[화면 폭]]></op>
+				</field>
+			</fieldset>
 		</config>
 		<config xml:lang="en" dataValHandler="tinyMCE_handleconfig">
 			<window width="500" height="225" />
@@ -55,6 +61,12 @@
 					<op value="advanced"><![CDATA[Advanced]]></op>
 				</field>
 			</fieldset>
+			<fieldset legend="Editor">
+				<field title="Width" type="select" name="width">
+					<op value="skin"><![CDATA[Skin-specified]]></op>
+					<op value="full" checked="checked"><![CDATA[Full-screen width]]></op>
+				</field>
+			</fieldset>
 		</config>
 		<config xml:lang="ja" dataValHandler="tinyMCE_handleconfig">
 			<window width="500" height="225" />
@@ -62,6 +74,12 @@
 				<field title="Editing mode" type="select" name="editormode">
 					<op value="simple" checked="checked"><![CDATA[Simple]]></op>
 					<op value="advanced"><![CDATA[Advanced]]></op>
+				</field>
+			</fieldset>
+			<fieldset legend="Editor">
+				<field title="Width" type="select" name="width">
+					<op value="skin"><![CDATA[Skin-specified]]></op>
+					<op value="full" checked="checked"><![CDATA[Full-screen width]]></op>
 				</field>
 			</fieldset>
 		</config>
