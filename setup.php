@@ -1134,7 +1134,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 		$baseTimezone = POD::escapeString( substr(_t('default:Asia/Seoul'),8));
 
 		if(POD::dbms() == 'MySQL' || POD::dbms() == 'MySQLi') {
-	        $charset = 'TYPE=MyISAM DEFAULT CHARSET=utf8';
+	        $charset = 'DEFAULT CHARSET=utf8';
 //    	    if (!@POD::query('SET CHARACTER SET utf8'))
   //      	    $charset = 'TYPE=MyISAM';
 	    //    @POD::query('SET SESSION collation_connection = \'utf8_general_ci\'');
