@@ -28,6 +28,6 @@ td.mceToolbar {background:#fff !important;}
     display:none;
     position:fixed;
     bottom:10px;
-    z-index:500;
+    z-index:140;
     border-top:1px solid #bbb;
 }
