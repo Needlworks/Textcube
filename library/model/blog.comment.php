@@ -855,6 +855,20 @@ function trashCommentInOwner($blogid, $id) {
 	return false;
 }
 
+function trashCommentInOwnerByIP($blogid, $ip) {
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('ip','eq',$ip,true);
+	$ids = $pool->getColumn('id');
+
+	foreach ($ids as $id) {
+		trashCommentInOwner($blogid, $id);
+	}
+	return true;
+}
+
 function revertCommentInOwner($blogid, $id) {
 	if (!is_numeric($id)) return false;
 	$pool = DBModel::getInstance();
