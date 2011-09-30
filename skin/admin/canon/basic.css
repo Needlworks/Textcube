@@ -586,7 +586,7 @@ background: linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%); 
 	border-right                     : solid 1px #BBB;
 	padding-top						 : 15px;
 	background-color                 : #eee;
-	
+	z-index:200;	
 }
 
 #sub-menu li

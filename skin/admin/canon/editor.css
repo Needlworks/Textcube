@@ -78,9 +78,10 @@ h3
 
 #title-line dd .input-text
 {
-	border                           : 1px solid #ccc;
+	border                           : 0px;
+	border-bottom                    : 1px solid #ccc;
 	vertical-align                   : middle;
-	width                            : 700px;
+	width                            : 60%;
 	height							 : 25px;
 	margin-left                      : 0;
 	padding: 0 5px;

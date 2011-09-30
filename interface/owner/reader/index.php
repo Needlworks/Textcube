@@ -280,7 +280,7 @@ printFeedEntries($blogid,0,0,true);
 										<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?php echo _t('단축키');?></span></a>
 									</div>
 									
-									<div id="shortcuts" style="display: none;">
+									<div id="shortcuts">
 										<h3 class="title"><?php echo _t('단축키');?></h3>
 										
 										<ul>
