@@ -468,7 +468,7 @@ class CacheControl {
 			AND (name like 'entry-".$entryId."-%' OR name like '%RSS-".$entryId."' OR name like '%ATOM-".$entryId."')");
 		if(!empty($Entries)) CacheControl::purgeItems($Entries);
 		if(!empty($entryId)) {
-			$entry = POD::queryCell("SELECT userid, category FROM {$database['prefix']}Entries
+			$entry = POD::queryRow("SELECT userid, category FROM {$database['prefix']}Entries
 				WHERE blogid = ".getBlogId()." AND id = $entryId");
 			if(!empty($entry)) {
 				CacheControl::flushAuthor($entry['userid']);
