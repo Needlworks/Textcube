@@ -188,7 +188,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
 								<dd>
 									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"');?> /><label for="save"><?php echo _text('이메일 저장');?></label></div>
-									<div id="permanent-login"><input type="checkbox" id="autologin" class="checkbox" name="autologin" /><label for="autologin"><?php echo _text('로그인 상태 유지');?></label></div>
+									<div id="permanent-login"><input type="checkbox" id="autologin" class="checkbox" name="autologin" /><label for="autologin"><?php echo _textf('%1 동안 로그인 상태 유지',Timestamp::getHumanReadablePeriod($context->getProperty('service.autologinTimeout')));?></label></div>
 									<?php echo ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /><label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '');?>
 								</dd>
 							</dl>

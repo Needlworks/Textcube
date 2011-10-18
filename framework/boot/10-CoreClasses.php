@@ -596,6 +596,21 @@ final class Timestamp {
 		return intval(isset($time) ? date('U', $time) : date('U'));
 	}
 		
+	static function getHumanReadablePeriod($time = null) {
+		$deviation = abs(Timestamp::getUNIXtime($time));
+		if ($deviation < 60) {
+			return _f('%1초',$deviation);		
+		} else if ($deviation < 3600) {
+			return _f('%1분',intval($deviation/60));
+		} else if ($deviation < 86400) {
+			return _f('%1시간',intval($deviation/3600));
+		} else if ($deviation < 604800) {
+			return _f('%1일',intval($deviation/86400));
+		} else {
+			return _f('%1주',intval($deviation/604800));
+		}					
+	}	
+	
 	static function getHumanReadable($time = null, $from = null) {
 		if(is_null($from)) $deviation = Timestamp::getUNIXtime() - Timestamp::getUNIXtime($time);
 		else $deviation = Timestamp::getUNIXtime($from) - Timestamp::getUNIXtime($time);
