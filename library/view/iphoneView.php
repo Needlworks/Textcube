@@ -197,13 +197,15 @@ function printIphoneLinksView($links) {
 function printIphoneHtmlHeader($title = '') {
 	$context = Model_Context::getInstance();
 	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+?><!DOCTYPE html> 
+<html> 
+	
 <head>
 	<title><?php echo $title;?></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/iphone.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.css" />
 <?php
 	if(Setting::getBlogSettingGlobal('useBlogIconAsIphoneShortcut',true) && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
 ?>
@@ -211,23 +213,30 @@ function printIphoneHtmlHeader($title = '') {
 <?php
 	}
 ?>
-	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/iphone/iphone.js"></script>
+	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery.mobile/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.js"></script>
 </head>
 <body>
-	<div class="toolbar">
-		<h1 id="pageTitle"><?php echo htmlspecialchars($context->getProperty('blog.title'));?></h1>
-		<a id="backButton" class="button" href="#"></a>
-		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
-	</div>
-	<div class="toolbar shortcut">
-	<ul>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>" onclick="window.location.href='<?php echo $context->getProperty('uri.blog');?>'"><?php echo _text('글목록');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment"><?php echo _text('댓글');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback"><?php echo _text('트랙백');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook"><?php echo _text('방명록');?></a></li>
-	</ul>
-	</div>
+<?php
+}
 
+function printMobileHTMLMenu($title = '',$menu='') {
+	$context = Model_Context::getInstance();
+	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
+?>
+	<div data-role="header" class="toolbar">
+		<h1 id="pageTitle"><?php echo htmlspecialchars($context->getProperty('blog.title'));?></h1>
+		<a data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" id="backButton" class="button" href="#"><?php echo _text('뒤로');?></a>
+		<a data-role="button" data-icon="search" class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
+	</div>
+	<div data-role="navbar" data-position="fixed" class="toolbar shortcut">
+		<ul>
+			<li><a href="<?php echo $context->getProperty('uri.blog');?>" rel="external" <?php echo $menu=="list" ? 'class="ui-btn-active"' : '';?>><?php echo _text('글목록');?></a></li>
+			<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment" rel="external" <?php echo $menu=="comment" ? 'class="ui-btn-active"' : '';?>><?php echo _text('댓글');?></a></li>
+			<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback" rel="external" <?php echo $menu=="trackback" ? 'class="ui-btn-active"' : '';?>><?php echo _text('트랙백');?></a></li>
+			<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook" rel="external" <?php echo $menu=="guestbook" ? 'class="ui-btn-active"' : '';?>><?php echo _text('방명록');?></a></li>
+		</ul>
+	</div>
 <?php
 }
 
@@ -396,9 +405,11 @@ function printIphoneHtmlFooter() {
 }
 
 function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
+	$context = Model_Context::getInstance();
 	global $suri, $blogURL;
 ?>
-	<ul class="content navigation">
+	<div data-role="footer">
+	<ul data-role="navbar" class="content navigation">
 		<?php
 	if (isset($paging['prev'])) {
 ?>
@@ -426,12 +437,15 @@ function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 		<?php
 	}
 	if ($suri['directive'] != '/i') {
+	/*
 ?>
 		<li class="last_no_line"><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
 		<?php
+	*/
 	}
 ?>
 	</ul>
+	</div>
 <?php
 }
 
@@ -449,7 +463,7 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 	} else {
 		foreach ($trackbacks as $trackback) {
 ?>
-		<ul id="trackback_<?php echo $commentItem['id'];?>" class="trackback">
+		<ul data-role="listview" data-inset="true" id="trackback_<?php echo $commentItem['id'];?>" class="trackback">
 			<li class="group">
 				<span class="left">
 					<?php echo htmlspecialchars($trackback['subject']);?>
@@ -459,7 +473,7 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 				</span>
 			</li>
 			<li class="body">
-				<span class="date">DATE : <?php echo Timestamp::format5($trackback['written']);?></span>
+				<p class="ui-li-aside"><?php echo Timestamp::format5($trackback['written']);?></p>
 				<?php echo htmlspecialchars($trackback['excerpt']);?>
 			</li>
 		</ul>
@@ -484,34 +498,40 @@ function printIphoneCommentView($entryId, $page = null, $mode = null) {
 	} else {
 		foreach ($comments as $commentItem) {
 ?>
-		<ul id="comment_<?php echo $commentItem['id'];?>" class="comment">
+		<ul data-role="listview" id="comment_<?php echo $commentItem['id'];?>" class="comment">
 			<li class="group">
-				<span class="left">
+				<p class="left">
 					<?php if(!empty($commentItem['name'])) { ?><strong><?php echo htmlspecialchars($commentItem['name']);?></strong><?php } ?>
-					(<?php echo Timestamp::format5($commentItem['written']);?>)
-				</span>
-				<span class="right">
-					<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> :
-					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>"><?php echo _text('지우기');?></a>
-				</span>
-			</li>
-			<li class="body">
+				</p>
+				<p class="ui-li-aside">
+					<?php echo Timestamp::format5($commentItem['written']);?>
+				</p>
+				<p class="right">
+					<div data-role="controlgroup">
+						<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>" data-role="button" data-icon="plus" data-iconpos="notext"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> 
+						<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>" data-role="button" data-icon="delete" data-iconpos="notext"><?php echo _text('지우기');?></a>
+					</div>
+				</p>
+				<p class="body">
 				<?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'.($entryId == 0 ? _text('비밀 방명록') : _text('비밀 댓글')).' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?>
+				</p>
 			</li>
 			<?php
 			foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 ?>
 			<li class="groupSub">
-				<span class="left">&nbsp;Re :
+				<p class="left">&nbsp;Re :
 					<?php if(!empty($commentSubItem['name'])) { ?><strong><?php echo htmlspecialchars($commentSubItem['name']);?></strong><?php } ?>
-					(<?php echo Timestamp::format5($commentSubItem['written']);?>)
-				</span>
-				<span class="right">
-					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>">DEL</a><br />
-				</span>
-			</li>
-			<li class="body">
+				</p>
+				<p class="ui-li-aside">
+					<?php echo Timestamp::format5($commentSubItem['written']);?>
+				</p>
+				<p class="right">
+					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext"><?php echo _text('지우기');?></a><br />
+				</p>
+				<p class="body">
 				<?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('Secret Comment').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?>
+				</p>
 			</li>
 			<?php
 			}

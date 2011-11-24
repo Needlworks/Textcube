@@ -14,7 +14,8 @@ define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
-define('JQUERY_VERSION','1.4');
+define('JQUERY_VERSION','1.6.4.min');
+define('JQUERYMOBILE_VERSION','1.0rc1.min');
 if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "\\");
 } else {

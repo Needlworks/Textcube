@@ -5,14 +5,17 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+printIphoneHtmlHeader();
+
 if(empty($suri['id']) && empty($suri['value'])) {
+	printMobileHTMLMenu('','list');
 	$blog['entriesOnList'] = 8;
 	if(!$listWithPaging = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnList']))
 		$listWithPaging = array(array(), array('total' => 0));
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 ?>
-	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
+	<ul data-role="listview" class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
 <?php
 	$itemsView = '<li class="group">'.CRLF;
 	$itemsView .= '	<span class="left">'._text('글목록').'('.$list['count'].')</span>'.CRLF;

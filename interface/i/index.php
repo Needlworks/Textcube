@@ -8,7 +8,12 @@ requireView('iphoneView');
 if(empty($suri['id'])) {
 	printIphoneHtmlHeader();
 ?>	
-	<ul id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?>" selected="true">
+
+	<div data-role="page">
+<?php
+	printMobileHTMLMenu('','list');
+?>
+	<ul data-role="listview" id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getBlogOwnerName($blogid);
 		$blogLogo = !empty($blog['logo']) ? printIphoneImageResizer($blogid, $blog['logo'], 80) : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";
@@ -22,45 +27,53 @@ if(empty($suri['id'])) {
 		$itemsView .= '</li>'.CRLF;
 		print $itemsView;
 	?>
-		<li><a href="<?php echo $blogURL;?>/entry" class="link"><?php echo _text('글목록');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/entry" rel="external" class="link"><?php echo _text('글목록');?></a></li>
 		<li><a href="#categories" class="link"><?php echo _text('분류');?></a></li>
 		<li><a href="#archives" class="link"><?php echo _text('보관목록');?></a></li>
 		<li><a href="#tags" class="link"><?php echo _text('태그');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/comment" class="link"><?php echo _text('최근 댓글');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/trackback" class="link"><?php echo _text('최근 트랙백');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/guestbook" class="link"><?php echo _text('방명록');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/link" class="link"><?php echo _text('링크');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/comment" rel="external" class="link"><?php echo _text('최근 댓글');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/trackback" rel="external" class="link"><?php echo _text('최근 트랙백');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/guestbook" rel="external" class="link"><?php echo _text('방명록');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/link" rel="external" class="link"><?php echo _text('링크');?></a></li>
 	<?php
 		if (doesHaveOwnership()) {
 	?>
-		<li><a href="<?php echo $defaultURL;?>/owner/center/dashboard" onclick="window.location.href='<?php echo $defaultURL;?>/owner/center/dashboard'" class="link dashboard"><?php echo _text('관리 패널');?></a></li>
-		<li><a href="<?php echo $blogURL;?>/logout" class="link logout"><?php echo _text('로그아웃');?></a></li>
+		<li><a href="<?php echo $defaultURL;?>/owner/center/dashboard" rel="external" href="<?php echo $defaultURL;?>/owner/center/dashboard" class="link dashboard"><?php echo _text('관리 패널');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/logout" rel="external" class="link logout"><?php echo _text('로그아웃');?></a></li>
 	<?php
 		}else{
 	?>
-		<li><a href="<?php echo $blogURL;?>/login" class="link"><?php echo _text('로그인');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/login" rel="external" class="link"><?php echo _text('로그인');?></a></li>
 	<?php
 		}
 	?>
 		<li><a href="#textcube" class="link"><span class="colorText"><span class="c1">T</span><span class="c2">e</span><span class="c3">x</span><span class="c4">t</span><span class="c5">c</span><span class="c6">u</span><span class="c7">b</span><span class="c8">e</span></span></a></li>
 	</ul>
-
-	<ul id="categories" title="Categories" selected="false">
+  </div>
+<?php
+	 ?>
+	<div data-role="page" id="categories">
+<?php
+	printMobileHTMLMenu();
+?>	<ul data-role="listview" title="Categories" selected="false">
 	<?php
 		$totalPosts = getEntriesTotalCount($blogid);
 		$categories = getCategories($blogid);
 		print printIphoneCategoriesView($totalPosts, $categories, true);	
 	?>
 	</ul>
-
-	<ul id="archives" title="Archives" selected="false">
+	</div>
+	<div data-role="page" id="archives">
+	<ul data-role="listview" title="Archives" selected="false">
 	<?php
 		$archives = printIphoneArchives($blogid);
 		print printIphoneArchivesView($archives);	
 	?>
 	</ul>
-
-	<ul id="tags" title="Tags" selected="false">
+	</div>
+	
+	<div data-role="page" id="tags">
+	<ul data-role="listview" title="Tags" selected="false">
 		<li class="group"><span class="left">Random Tags (100)</span><span class="right">&nbsp;</span></li>
 		<li class="panel">
 		<div class="content padding5">
@@ -73,7 +86,9 @@ if(empty($suri['id'])) {
 		</div>
 		</li>
 	</ul>
-
+	</div>
+	
+	<div data-role="page" id="search">
     <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $blogURL;?>/search">
         <fieldset>
             <h1><?php echo _text('글 검색');?></h1>
@@ -85,8 +100,9 @@ if(empty($suri['id'])) {
 			<input id="qString" type="text" name="search" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
 		</fieldset>
     </form>
-
-	<div id="textcube" title="TEXTCUBE" selected="false">
+	</div>
+	
+	<div data-role="page" id="textcube" title="TEXTCUBE" selected="false">
 		<div class="textcubeLogo">&nbsp;</div>
 		<div class="textcubeVersion">
 			Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?>

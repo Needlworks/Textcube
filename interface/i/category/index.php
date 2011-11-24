@@ -5,9 +5,7 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-if (false) {
-	fetchConfigVal();
-}
+
 $category = $suri['id'];
 if(isset($category)) {
 	$blog['entriesOnList'] = 8;
