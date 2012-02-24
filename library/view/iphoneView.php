@@ -418,6 +418,29 @@ function printMobileRemoteImageFilename($filename) {
 	return $filename;
 }
 
+function printMobileListNavigation($paging,$postfix) {
+	$script = '';
+	$itemsView .= '<div data-role="navbar" data-theme="c">'.CRLF;
+	$itemsView .= '<ul>'.CRLF;
+	if(isset($paging['prev'])){
+		$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$context->getProperty('uri.blog') . '/'.$postfix.'?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
+		$script .= '$("#blog_posts_'.$suri['page'].'").swiperight(function() {$.mobile.changePage("'.$context->getProperty('uri.blog').'/'.$postfix.'?page='.$paging['prev'].'",{reverse: true});});';
+	}
+	/*if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
+		$itemsView .= '<li>'._textf('%1 페이지',$suri['page']) . '</li>'.CRLF;
+	}*/
+	if (isset($paging['next'])) {
+		$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-r"  href="' .$context->getProperty('uri.blog') . '/'.$postfix.'?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a></li>'.CRLF;
+		$script .= '$("#blog_posts_'.$suri['page'].'").swipeleft(function() {$.mobile.changePage("'.$context->getProperty('uri.blog').'/'.$postfix.'?page='.$paging['next'].'");});';
+	}
+	$itemsView .= '</ul>'.CRLF;
+	$itemsView .= '</div>'.CRLF;
+	if (!empty($script)) {
+		$itemsView .= '<script>'.CRLF.$script.CRLF.'</script>';
+	}
+	return $itemsView;
+}
+
 function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
 	$context = Model_Context::getInstance();
 	global $suri, $blogURL;
