@@ -32,7 +32,7 @@ if(isset($period)) {
 			}
 			$itemsView .= '<li class="post_item">'.CRLF;
 			$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="28" height="28" /></span>'.CRLF;
-			$itemsView .= '	<a href="' . $blogURL . '/entry/' . $item['id'] . '" class="link">'.CRLF;
+			$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 			$itemsView .= '		<div class="post">'.CRLF;
 			$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
 			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' ._text('댓글'). '(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
@@ -45,13 +45,13 @@ if(isset($period)) {
 		$itemsView .= '<div data-role="navbar" data-theme="c">'.CRLF;
 		$itemsView .= '<ul>'.CRLF;
 		if(isset($paging['prev'])){
-			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$blogURL . '/entry?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
+			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$context->getProperty('uri.blog') . '/archive/' . $period . '?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
 		}
 		/*if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
 			$itemsView .= '<li>'._textf('%1 페이지',$suri['page']) . '</li>'.CRLF;
 		}*/
 		if (isset($paging['next'])) {
-			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-r"  href="' .$blogURL . '/entry?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a></li>'.CRLF;
+			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-r"  href="' .$context->getProperty('uri.blog') . '/archive/' . $period . '?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a></li>'.CRLF;
 		}
 
 		$itemsView .= '</ul>'.CRLF;
