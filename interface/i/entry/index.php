@@ -46,9 +46,9 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	if(isset($paging['prev'])){
 		$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$blogURL . '/entry?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
 	}
-	if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
+	/*if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
 		$itemsView .= '<li>'._textf('%1 페이지',$suri['page']) . '</li>'.CRLF;
-	}
+	}*/
 	if (isset($paging['next'])) {
 		$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-r"  href="' .$blogURL . '/entry?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a></li>'.CRLF;
 	}
