@@ -59,6 +59,14 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	print $itemsView;
 ?>
 	</ul>
+	<script>
+	$("#blog_posts_<?php echo $suri['page'];?>").swiperight(function() {
+	    $.mobile.changePage("<?php echo $context->getProperty('uri.blog').'/entry?page='.$paging['prev'];?>");
+	});
+	$("#blog_posts_<?php echo $suri['page'];?>").swipeleft(function() {
+	    $.mobile.changePage("<?php echo $context->getProperty('uri.blog').'/entry?page='.$paging['next'];?>");
+	});
+	</script>
 <?php
 } else {
 	if(!empty($suri['id'])) {
