@@ -5,9 +5,8 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-if (false) {
-	fetchConfigVal();
-}
+printMobileHTMLHeader();
+printMobileHTMLMenu();
 
 if(strlen($suri['value'])) {
 	if(!isset($suri['id'])) {
@@ -63,5 +62,6 @@ if(strlen($suri['value'])) {
 	</ul>
 <?php
 }
+printMobileHTMLFooter();
 //printMobileNavigation($entry, false, true);
 ?>

@@ -78,12 +78,12 @@ if(!doesHaveOwnership()) {
 	printMobileHTMLMenu();
 ?>
 	<div id="Login" title="Login" class="panel" selected="false">
-		<div class="content center">
+		<div class="center ui-bar ui-bar-e">
 			<h2><?php echo _text('로그인 하였습니다.');?></h2>
 		</div>
 		<div data-role="controlgroup">
-		<a href="#" data-role="button" onclick="self.location.reload();" class="whiteButton margin-top10"><?php echo _text('블로그 페이지로 돌아가기');?></a>
-		<a data-role="button" data-theme="e" href="<?php echo $defaultURL."/owner/center/dashboard";?>" onclick="window.location.href='<?php echo $defaultURL."/owner/center/dashboard";?>'" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
+		<a href="#" data-role="button" data-theme="c" onclick="self.location.reload();" class="whiteButton margin-top10"><?php echo _text('블로그 페이지로 돌아가기');?></a>
+		<a data-role="button" data-theme="c" href="<?php echo $defaultURL."/owner/center/dashboard";?>" onclick="window.location.href='<?php echo $defaultURL."/owner/center/dashboard";?>'" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
 		</div>
 	</div>
 <?php

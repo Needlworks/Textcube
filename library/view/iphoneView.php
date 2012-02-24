@@ -413,43 +413,45 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	$context = Model_Context::getInstance();
 	global $suri, $blogURL;
 ?>
-	<div data-role="footer" class="ui-bar" data-theme="d">
-	<div data-role="controlgroup" class="content navigation" data-type="horizontal">
+	<div data-role="footer" class="ui-bar" data-theme="c">
+		<div data-role="navbar">
+			<ul>
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<a data-role="button" data-theme="d" data-icon="arrow-l" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a>
+				<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>	
-		<a data-role="button" data-transition="flip" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('원 글 보기');?></a>
+				<li><a data-role="button" data-transition="flip" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('원 글 보기');?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
 ?>
-		<a data-role="button" data-transition="flip" href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a>
+				<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
 		<?php
 	}
 	if ($jumpToTrackback) {
 ?>
-		<a data-role="button" data-transition="flip" href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a>
+				<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
 		<?php
 	}
 	if ($suri['directive'] != '/i') {
 	/*
 ?>
-		<li class="last_no_line"><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
+				<li><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
 		<?php
 	*/
 	}
 	if (isset($paging['next'])) {
 ?>
-		<a data-role="button" data-theme="d" data-icon="arrow-r" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a>
+				<li><a data-role="button" data-theme="d" data-icon="arrow-r" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
 		<?php
 	}
 ?>
-	</div>
+			</ul>
+		</div>
 	</div>
 <?php
 }

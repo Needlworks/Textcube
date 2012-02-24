@@ -12,7 +12,7 @@ $context = Model_Context::getInstance();
 ?>
 
 <div id="Logout" title="Logout" class="panel" selected="false">
-	<div class="content">
+	<div class="center ui-bar ui-bar-e">
 		<h2><?php echo _text('성공적으로 로그아웃 하였습니다.');?></h2>
 	</div>
 	<a data-role="button" href="<?php echo $context->getProperty('uri.blog');?>"><?php echo _text('첫 화면으로 돌아가기');?></a>

@@ -12,4 +12,5 @@ $linkView .= '<ul data-role="listview" class="posts" id="links" title="'._text('
 $linkView .= printMobileLinksView(getLinks($blogid));
 $linkView .= '</ul>';
 print $linkView;
+printMobileHTMLFooter();
 ?>

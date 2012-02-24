@@ -87,20 +87,15 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		echo implode(",\r\n", array_values($tags));
 ?>
 		</div>
+	</div>
 <?php
 	}
-?>
-        <fieldset class="margin-top10">
-<?php 
-	
 	if(doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		printMobileNavigation($entry, true, true, $paging);
 	} else {
 		printMobileNavigation($entry, false, false, $paging);
 	}
 ?>
-        </fieldset>
-	</div>
 <?php
 	if(!empty($entryPrint)) {
 ?>
