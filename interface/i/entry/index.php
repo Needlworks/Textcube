@@ -69,15 +69,15 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	<div id="post_<?php echo $entry['id'];?>" title="<?php echo htmlspecialchars($entry['title']);?>" class="panel"<?php echo (!empty($entryPrint) ? 'selected="true"' : '');?>>
 		<div class="entry_info">
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
-			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
+			<h3 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h3>
 		</div>
 		<div class="content"><?php printMobileEntryContentView($blogid, $entry, null); ?></div>
 <?php 
 	$entryTags = getTags($entry['blogid'], $entry['id']);
 	if (sizeof($entryTags) > 0) {
 ?>
-		<h2 class="tags_title">Tags</h2>
-		<div class="entry_tags">
+		<div class="entry_tags" data-role="content" data-theme="c">
+		<h3 class="tags_title">Tags</h3>
 <?php
 		$tags = array();
 		$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );

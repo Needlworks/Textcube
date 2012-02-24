@@ -16,6 +16,22 @@ select {
 .center {
 	text-align:center;
 }
+
+.entry_info {
+	padding-left:15px;
+	border-left:10px solid #ccc;
+}
+
+.entry_info h3 {
+	font-size:1em;
+}
+
+.entry_tags h3 {
+	border-left:10px solid #ccc;
+	font-size:1em;
+	padding-left:15px;
+}
+
 .comment p{
 	font-size:1em !important;
 }

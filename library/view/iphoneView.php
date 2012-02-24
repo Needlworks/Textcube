@@ -7,7 +7,7 @@ function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 	global $blogURL;
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
-		print '<div class="entry_body" data-role="content" data-theme="c">' . printMobileFreeImageResizer($content) . '</div>';
+		print '<div class="entry_body" data-role="content" data-theme="d">' . printMobileFreeImageResizer($content) . '</div>';
 	} else {
 	?>
 	<p><b><?php echo _text('Protected post!');?></b></p>
@@ -413,8 +413,8 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	$context = Model_Context::getInstance();
 	global $suri, $blogURL;
 ?>
-	<div data-role="footer" class="ui-bar" data-theme="c">
-		<div data-role="navbar">
+<!--	<div data-role="footer" class="ui-bar" data-theme="c">-->
+		<div data-role="navbar" data-theme="c">
 			<ul>
 		<?php
 	if (isset($paging['prev'])) {
@@ -452,7 +452,6 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 ?>
 			</ul>
 		</div>
-	</div>
 <?php
 }
 
