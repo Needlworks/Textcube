@@ -420,7 +420,8 @@ function printMobileRemoteImageFilename($filename) {
 
 function printMobileListNavigation($paging,$postfix) {
 	$script = '';
-	$itemsView .= '<div data-role="navbar" data-theme="c">'.CRLF;
+	$context = Model_Context::getInstance();
+	$itemsView = '<div data-role="navbar" data-theme="c">'.CRLF;
 	$itemsView .= '<ul>'.CRLF;
 	if(isset($paging['prev'])){
 		$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$context->getProperty('uri.blog') . '/'.$postfix.'?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
