@@ -5,6 +5,7 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+$context = Model_Context::getInstance();
 printMobileHTMLHeader();
 printMobileHTMLMenu();
 if(!empty($suri['id'])) $period = $suri['id'];
