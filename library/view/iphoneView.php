@@ -222,7 +222,7 @@ function printMobileHTMLHeader($title = '') {
 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery.mobile/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.js"></script>
 <?php
 	if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
-?>		<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default');?>/index.gif" />
+?>	<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default');?>/index.gif" />
 <?php
 	}
 ?>

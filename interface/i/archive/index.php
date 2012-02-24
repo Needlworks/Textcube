@@ -5,9 +5,8 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-if (false) {
-	fetchConfigVal();
-}
+printMobileHTMLHeader();
+printMobileHTMLMenu();
 if(!empty($suri['id'])) $period = $suri['id'];
 else $period = Timestamp::getYearMonth();
 
@@ -56,5 +55,7 @@ if(isset($period)) {
 	?>
 	</ul>
 <?php
+printMobileHTMLFooter();
 }
+
 ?>
