@@ -5,7 +5,7 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-printIphoneHtmlHeader();
+printMobileHTMLHeader();
 
 if(empty($suri['id']) && empty($suri['value'])) {
 	printMobileHTMLMenu('','list');
@@ -23,8 +23,8 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	$itemsView .= '</li>'.CRLF;
 	foreach ($list['items'] as $item) {	
 		$author = User::getName($item['userid']);
-		if($imageName = printIphoneAttachmentExtract($item['content'])){
-			$imageSrc = printIphoneImageResizer($blogid, $imageName, 28);
+		if($imageName = printMobileAttachmentExtract($item['content'])){
+			$imageSrc = printMobileImageResizer($blogid, $imageName, 28);
 		}else{
 			$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 		}
@@ -60,7 +60,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	} else if(!empty($suri['value'])) {
 		$entryPrint = true;
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
-		printIphoneHtmlHeader();
+		printMobileHTMLHeader();
 	}
 	
 	$entry = $entries ? $entries[0] : null;
@@ -70,7 +70,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
 			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
 		</div>
-		<div class="content"><?php printIphoneEntryContentView($blogid, $entry, null); ?></div>
+		<div class="content"><?php printMobileEntryContentView($blogid, $entry, null); ?></div>
 <?php 
 	$entryTags = getTags($entry['blogid'], $entry['id']);
 	if (sizeof($entryTags) > 0) {
@@ -93,9 +93,9 @@ if(empty($suri['id']) && empty($suri['value'])) {
 <?php 
 	
 	if(doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
-		printIphoneNavigation($entry, true, true, $paging);
+		printMobileNavigation($entry, true, true, $paging);
 	} else {
-		printIphoneNavigation($entry, false, false, $paging);
+		printMobileNavigation($entry, false, false, $paging);
 	}
 ?>
         </fieldset>
@@ -105,7 +105,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 ?>
 		</div>
 <?php
-		printIphoneHtmlFooter();
+		printMobileHTMLFooter();
 	}
 }
 ?>

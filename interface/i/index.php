@@ -6,7 +6,7 @@ define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
 if(empty($suri['id'])) {
-	printIphoneHtmlHeader();
+	printMobileHTMLHeader();
 ?>	
 
 	<div data-role="page">
@@ -16,7 +16,7 @@ if(empty($suri['id'])) {
 	<ul data-role="listview" id="home" title="<?php echo htmlspecialchars(UTF8::lessenAsEm($blog['title'],30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getBlogOwnerName($blogid);
-		$blogLogo = !empty($blog['logo']) ? printIphoneImageResizer($blogid, $blog['logo'], 80) : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";
+		$blogLogo = !empty($blog['logo']) ? printMobileImageResizer($blogid, $blog['logo'], 80) : "{$service['path']}/resources/style/iphone/image/textcube_logo.png";
 		$itemsView = '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;
@@ -59,15 +59,15 @@ if(empty($suri['id'])) {
 	<?php
 		$totalPosts = getEntriesTotalCount($blogid);
 		$categories = getCategories($blogid);
-		print printIphoneCategoriesView($totalPosts, $categories, true);	
+		print printMobileCategoriesView($totalPosts, $categories, true);	
 	?>
 	</ul>
 	</div>
 	<div data-role="page" id="archives">
 	<ul data-role="listview" title="Archives" selected="false">
 	<?php
-		$archives = printIphoneArchives($blogid);
-		print printIphoneArchivesView($archives);	
+		$archives = printMobileArchives($blogid);
+		print printMobileArchivesView($archives);	
 	?>
 	</ul>
 	</div>
@@ -79,8 +79,8 @@ if(empty($suri['id'])) {
 		<div class="content padding5">
 			<ul class="tag_list">
 				<?php
-					$tags = printIphoneTags($blogid, 'random', 100);
-					print printIphoneTagsView($tags);	
+					$tags = printMobileTags($blogid, 'random', 100);
+					print printMobileTagsView($tags);	
 				?>	
 			</ul>
 		</div>
@@ -118,6 +118,6 @@ if(empty($suri['id'])) {
 		</div>
 	</div>
 <?php
-	printIphoneHtmlFooter();
+	printMobileHTMLFooter();
 }
 ?>

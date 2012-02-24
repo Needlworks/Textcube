@@ -20,9 +20,9 @@ $IV = array(
 if(!Validator::validate($IV))
 	Respond::NotFoundPage();
 if (!doesHaveOwnership() && empty($_GET["name_$entryId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$blogURL/comment/$entryId");
+	printMobileErrorPage(_text('Comment write error.'), _text('Please enter your name.'), "$blogURL/comment/$entryId");
 } else if (!doesHaveOwnership() && empty($_GET["comment_$entryId"])) {
-	printIphoneErrorPage(_text('Comment write error.'), _text('Please enter content.'), "$blogURL/comment/$entryId");
+	printMobileErrorPage(_text('Comment write error.'), _text('Please enter content.'), "$blogURL/comment/$entryId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
@@ -40,13 +40,13 @@ if (!doesHaveOwnership() && empty($_GET["name_$entryId"])) {
 		} else {
 			$blockMessage = _textf('Blocked %1', $result);
 		}
-		printIphoneErrorPage(_text('Comment write blocked.'), $blockMessage, "$blogURL/comment/$entryId");
+		printMobileErrorPage(_text('Comment write blocked.'), $blockMessage, "$blogURL/comment/$entryId");
 	} else if ($result === false) {
-		printIphoneErrorPage(_text('Comment write error.'), _text('Cannot write comment.'), "$blogURL/comment/$entryId");
+		printMobileErrorPage(_text('Comment write error.'), _text('Cannot write comment.'), "$blogURL/comment/$entryId");
 	} else {
 		setcookie('guestName', $comment['name'], time() + 2592000, $blogURL);
 		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $blogURL);
-		printIphoneSimpleMessage(_text('Comment registered.'), _text('Go to comments page'), "$blogURL/comment/$entryId");
+		printMobileSimpleMessage(_text('Comment registered.'), _text('Go to comments page'), "$blogURL/comment/$entryId");
 	}
 }
 ?>

@@ -15,6 +15,6 @@ if(!is_null($entry) && isset($_POST['password']) && $entry['password'] == $_POST
 	setcookie('GUEST_PASSWORD', $_POST['password'], time() + 86400, "$blogURL/");
 	header("Location: $blogURL/entry/{$suri['id']}");
 }else{
-	printIphoneErrorPage(_text('Password (again)!'), _text('Wrong password.'), "$blogURL/entry/{$suri['id']}");
+	printMobileErrorPage(_text('Password (again)!'), _text('Wrong password.'), "$blogURL/entry/{$suri['id']}");
 }
 ?>

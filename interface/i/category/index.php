@@ -22,8 +22,8 @@ if(isset($category)) {
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
 			$author = User::getName($item['userid']);
-			if($imageName = printIphoneAttachmentExtract(printIphoneEntryContent($blogid, $item['userid'], $item['id']))){
-				$imageSrc = printIphoneImageResizer($blogid, $imageName, 28);
+			if($imageName = printMobileAttachmentExtract(printMobileEntryContent($blogid, $item['userid'], $item['id']))){
+				$imageSrc = printMobileImageResizer($blogid, $imageName, 28);
 			}else{
 				$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 			}

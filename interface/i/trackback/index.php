@@ -5,7 +5,7 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-printIphoneHtmlHeader();
+printMobileHTMLHeader();
 printMobileHTMLMenu('','trackback');
 
 if(isset($_GET['page'])) $page = $_GET['page'];
@@ -17,8 +17,8 @@ if(!empty($suri['id'])) {
 ?>
 <div id="trackback_<?php echo $entry['id']."_".time();?>" title="<?php echo _text('트랙백');?> : <?php echo htmlspecialchars($entry['title']);?>" selected="false">
 <?php
-	printIphoneTrackbackView($entry['id']);
-	printIphoneNavigation($entry, true, false);
+	printMobileTrackbackView($entry['id']);
+	printMobileNavigation($entry, true, false);
 ?>
 </div>
 <?php
@@ -26,8 +26,8 @@ if(!empty($suri['id'])) {
 ?>	
 <div id="trackback_<?php echo "_".time();?>" title="<?php echo _text('최근 트랙백');?>" selected="false">
 <?php
-	printIphoneRecentTrackbackView($page);
-	printIphoneNavigation($entry, false, false, $paging, 'trackback');
+	printMobileRecentTrackbackView($page);
+	printMobileNavigation($entry, false, false, $paging, 'trackback');
 ?>
 </div>
 <?php

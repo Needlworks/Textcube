@@ -11,11 +11,11 @@ $entry = $entries ? $entries[0] : null;
 ?>
 <div id="comment_reply_<?php echo $suri['id']."_".time();?>" title="Comment reply" selected="false">
 	<?php
-		printIphoneCommentFormView($suri['id'], _text('댓글에 답글 달기'), 'comment/comment');
+		printMobileCommentFormView($suri['id'], _text('댓글에 답글 달기'), 'comment/comment');
 	?>
 	<fieldset class="navi margin-top10">
 	<?php
-		printIphoneNavigation($entry);
+		printMobileNavigation($entry);
 	?>
 	</fieldset>
 </div>

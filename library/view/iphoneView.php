@@ -3,11 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
+function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 	global $blogURL;
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
-		print '<div class="entry_body">' . printIphoneFreeImageResizer($content) . '</div>';
+		print '<div class="entry_body">' . printMobileFreeImageResizer($content) . '</div>';
 	} else {
 	?>
 	<p><b><?php echo _text('Protected post!');?></b></p>
@@ -22,7 +22,7 @@ function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 	}
 }
 
-function printIphoneEntryContent($blogid, $userid, $id) {
+function printMobileEntryContent($blogid, $userid, $id) {
 	global $database;
 	$result = POD::queryCell("SELECT content 
 		FROM {$database['prefix']}Entries
@@ -31,7 +31,7 @@ function printIphoneEntryContent($blogid, $userid, $id) {
 	return $result;
 }
 
-function printIphoneCategoriesView($totalPosts, $categories) {
+function printMobileCategoriesView($totalPosts, $categories) {
 	global $blogURL, $service, $blog;
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
@@ -72,10 +72,10 @@ function printIphoneCategoriesView($totalPosts, $categories) {
 			$parentCategoryCount = 0;
 		}
 	}
-	return printIphonePrintTreeView($tree, true);
+	return printMobilePrintTreeView($tree, true);
 }
 
-function printIphonePrintTreeView($tree, $xhtml=true) {
+function printMobilePrintTreeView($tree, $xhtml=true) {
 	if ($xhtml) {
 		$printCategory  = '<li class="category"><a href="' . htmlspecialchars($tree['link']) . '" class="link">' . htmlspecialchars($tree['label']);
 		$printCategory .= ' <span class="c_cnt">' . $tree['value'] . '</span>';
@@ -98,7 +98,7 @@ function printIphonePrintTreeView($tree, $xhtml=true) {
 	}
 }
 
-function printIphoneArchives($blogid) {
+function printMobileArchives($blogid) {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
@@ -116,7 +116,7 @@ function printIphoneArchives($blogid) {
 	return $archives;
 }
 
-function printIphoneArchivesView($archives) {
+function printMobileArchivesView($archives) {
 	global $blogURL;
 	$oldPeriod = '';
 	$newPeriod = '';
@@ -135,7 +135,7 @@ function printIphoneArchivesView($archives) {
 	return $printArchive;
 }
 
-function printIphoneTags($blogid, $flag = 'random', $max = 10) {
+function printMobileTags($blogid, $flag = 'random', $max = 10) {
 	global $database, $skinSetting;
 	$tags = array();
 	$aux = "limit $max";
@@ -164,7 +164,7 @@ function printIphoneTags($blogid, $flag = 'random', $max = 10) {
 	return $tags;
 }
 
-function printIphoneTagsView($tags) {
+function printMobileTagsView($tags) {
 	global $blogURL, $service;
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
@@ -177,7 +177,7 @@ function printIphoneTagsView($tags) {
 	return $printTag;
 }
 
-function printIphoneLinksView($links) {
+function printMobileLinksView($links) {
 	global $blogURL, $skinSetting, $suri, $pathURL;
 	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
 		$home = true;
@@ -194,7 +194,7 @@ function printIphoneLinksView($links) {
 	return $linkView;
 }
 
-function printIphoneHtmlHeader($title = '') {
+function printMobileHTMLHeader($title = '') {
 	$context = Model_Context::getInstance();
 	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
 ?><!DOCTYPE html> 
@@ -220,6 +220,13 @@ function printIphoneHtmlHeader($title = '') {
 <?php
 }
 
+function printMobileHTMLFooter() {
+?>
+	</body>
+</html>
+<?php
+}
+
 function printMobileHTMLMenu($title = '',$menu='') {
 	$context = Model_Context::getInstance();
 	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
@@ -240,7 +247,7 @@ function printMobileHTMLMenu($title = '',$menu='') {
 <?php
 }
 
-function printIphoneAttachmentExtract($content){
+function printMobileAttachmentExtract($content){
 	global $service;
 	$blogid = getBlogId();
 	$result = null;
@@ -261,7 +268,7 @@ function printIphoneAttachmentExtract($content){
 	return $result;
 }
 
-function printIphoneFreeImageResizer($content) {
+function printMobileFreeImageResizer($content) {
 	global $service, $blogURL;
 	$blogid = getBlogId();
 	$pattern1 = "@<img.+src=['\"](.+)['\"].*>@Usi";
@@ -280,7 +287,7 @@ function printIphoneFreeImageResizer($content) {
 	return $content;
 }
 
-function printIphoneImageResizer($blogid, $filename, $cropSize){
+function printMobileImageResizer($blogid, $filename, $cropSize){
 	global $serviceURL;
 	requireComponent('Textcube.Function.misc');
 
@@ -301,12 +308,12 @@ function printIphoneImageResizer($blogid, $filename, $cropSize){
 	$imageURL = "{$serviceURL}/attach/{$blogid}/{$filename}";
 	if (extension_loaded('gd')) {	
 		if (stristr($filename, 'http://')) {
-			$thumbFilename = printIphoneRemoteImageFilename($filename);
+			$thumbFilename = printMobileRemoteImageFilename($filename);
 		}
 
 		$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
 		if (!file_exists($thumbnailSrc)) {
-			$imageURL = printIphoneCropProcess($blogid, $filename, $cropSize);
+			$imageURL = printMobileCropProcess($blogid, $filename, $cropSize);
 		} else {
 			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
 		}
@@ -318,12 +325,12 @@ function printIphoneImageResizer($blogid, $filename, $cropSize){
 	return $imageURL;
 }
 
-function printIphoneCropProcess($blogid, $filename, $cropSize) {
+function printMobileCropProcess($blogid, $filename, $cropSize) {
 	global $serviceURL;
 	$tempFile = null;
 	$imageURL = null;
 	if(stristr($filename, 'http://') ){
-		list($originSrc, $filename, $tempFile) = printIphoneCreateRemoteImage($blogid, $filename);
+		list($originSrc, $filename, $tempFile) = printMobileCreateRemoteImage($blogid, $filename);
 	} else {
 		$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
 	}
@@ -353,7 +360,7 @@ function printIphoneCropProcess($blogid, $filename, $cropSize) {
 	return $imageURL;
 }
 
-function printIphoneCreateRemoteImage($blogid, $filename) {
+function printMobileCreateRemoteImage($blogid, $filename) {
 	$fileObject = false;
 	$tmpDirectory = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/";
 	$tempFilename = tempnam($tmpDirectory, "remote_");
@@ -361,8 +368,8 @@ function printIphoneCreateRemoteImage($blogid, $filename) {
 
 	if ($fileObject) {
 		$originSrc = $tempFilename;
-		$remoteImage = printIphoneHTTPRemoteImage($filename);
-		$filename = printIphoneRemoteImageFilename($filename);
+		$remoteImage = printMobileHTTPRemoteImage($filename);
+		$filename = printMobileRemoteImageFilename($filename);
 		fwrite($fileObject, $remoteImage);
 		fclose($fileObject);
 		return array($originSrc, $filename, true);
@@ -371,7 +378,7 @@ function printIphoneCreateRemoteImage($blogid, $filename) {
 	}
 }
 
-function printIphoneHTTPRemoteImage($remoteImage) {
+function printMobileHTTPRemoteImage($remoteImage) {
     $response = '';
 	$remoteStuff = parse_url($remoteImage);
 	$port = isset($remoteStuff['port']) ? $remoteStuff['port'] : 80;
@@ -392,19 +399,12 @@ function printIphoneHTTPRemoteImage($remoteImage) {
 	return substr($response, - $matches[1]);
 }
 
-function printIphoneRemoteImageFilename($filename) {
+function printMobileRemoteImageFilename($filename) {
 	$filename = md5($filename) . "." . Misc::getFileExtension($filename);
 	return $filename;
 }
 
-function printIphoneHtmlFooter() {
-?>
-	</body>
-</html>
-<?php
-}
-
-function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
+function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
 	$context = Model_Context::getInstance();
 	global $suri, $blogURL;
 ?>
@@ -449,7 +449,7 @@ function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 <?php
 }
 
-function printIphoneTrackbackView($entryId, $page, $mode = null) {
+function printMobileTrackbackView($entryId, $page, $mode = null) {
 	global $paging, $blogid;
 	if($mode == 'recent') {
 		list($trackbacks,$paging) = getRemoteResponsesWithPaging($blogid, -1, $page, 10, null, '?page=');
@@ -482,7 +482,7 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 	}
 }
 
-function printIphoneCommentView($entryId, $page = null, $mode = null) {
+function printMobileCommentView($entryId, $page = null, $mode = null) {
 	global $blogURL, $blogid, $skinSetting, $paging;
 	if ($mode == 'recent') {	// Recent comments
 		list($comments, $paging) = getCommentsWithPaging($blogid, $page, 10, null, '?page=');
@@ -541,23 +541,23 @@ function printIphoneCommentView($entryId, $page = null, $mode = null) {
 		}
 	}
 	if($mode != 'recent') {	
-		printIphoneCommentFormView($entryId, ($entryId == 0 ? _text('방명록 쓰기') : _text('댓글 쓰기')), 'comment');
+		printMobileCommentFormView($entryId, ($entryId == 0 ? _text('방명록 쓰기') : _text('댓글 쓰기')), 'comment');
 	}
 }
 
-function printIphoneGuestbookView($page) {
-	return printIphoneCommentView(0, $page);
+function printMobileGuestbookView($page) {
+	return printMobileCommentView(0, $page);
 }
 
-function printIphoneRecentCommentView($page) {
-	return printIphoneCommentView(1, $page, 'recent');
+function printMobileRecentCommentView($page) {
+	return printMobileCommentView(1, $page, 'recent');
 }
 
-function printIphoneRecentTrackbackView($page) {
-	return printIphoneTrackbackView(1, $page, 'recent');
+function printMobileRecentTrackbackView($page) {
+	return printMobileTrackbackView(1, $page, 'recent');
 }
 
-function printIphoneCommentFormView($entryId, $title, $actionURL) {
+function printMobileCommentFormView($entryId, $title, $actionURL) {
 	global $blogURL;
 ?>
 	
@@ -598,7 +598,7 @@ function printIphoneCommentFormView($entryId, $title, $actionURL) {
 	<?php
 }
 
-function printIphoneErrorPage($messageTitle, $messageBody, $redirectURL) {
+function printMobileErrorPage($messageTitle, $messageBody, $redirectURL) {
 ?>
 	<div id="postError" title="Error" class="panel">
 		<h2 class="title"><?php echo htmlspecialchars($messageTitle);?></h2>
@@ -610,7 +610,7 @@ function printIphoneErrorPage($messageTitle, $messageBody, $redirectURL) {
 <?php
 }
 
-function printIphoneSimpleMessage($message, $redirectMessage, $redirectURL, $title = '') {
+function printMobileSimpleMessage($message, $redirectMessage, $redirectURL, $title = '') {
 ?>
 	<div id="postSuccess" title="Successfully" class="panel">
 		<div class="content">
