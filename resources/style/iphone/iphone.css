@@ -16,7 +16,8 @@ select {
 .center {
 	text-align:center;
 }
-.comment {
+.comment p{
+	font-size:1em !important;
 }
 
 .comment p.ui-li-aside {
