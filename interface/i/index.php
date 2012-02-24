@@ -75,7 +75,9 @@ if(empty($suri['id'])) {
 	</div>
 	
 	<div data-role="page" id="tags">
-	<ul data-role="listview" title="Tags" selected="false">
+<?php
+	printMobileHTMLMenu();
+?>	<ul data-role="listview" title="Tags" selected="false">
 		<li class="group"><span class="left">Random Tags (100)</span><span class="right">&nbsp;</span></li>
 		<li class="panel">
 		<div class="content padding5">

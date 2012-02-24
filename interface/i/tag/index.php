@@ -48,26 +48,8 @@ if(strlen($suri['value'])) {
 		}
 
 		$itemsView .= '</ul>'.CRLF;
-
-		$itemsView .= '<div data-role="navbar" data-theme="c">'.CRLF;
-		$itemsView .= '<ul>'.CRLF;
-		if(isset($paging['prev'])){
-			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$context->getProperty('uri.blog') . '/tag/' . $suri['id'] . '?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
-		}
-		/*if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
-			$itemsView .= '<li>'._textf('%1 페이지',$suri['page']) . '</li>'.CRLF;
-		}*/
-		if (isset($paging['next'])) {
-			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-r"  href="' .$context->getProperty('uri.blog') . '/tag/' . $suri['id'] . '?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a></li>'.CRLF;
-		}
-
-		$itemsView .= '</ul>'.CRLF;
-		$itemsView .= '</div>'.CRLF;
-
 		print $itemsView;
-	?>
-	</ul>
-<?php
+		print printMobileListNavigation($paging,'tag/' . $suri['id']);
 }
 printMobileHTMLFooter();
 //printMobileNavigation($entry, false, true);
