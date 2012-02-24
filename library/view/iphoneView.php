@@ -82,7 +82,7 @@ function printMobilePrintTreeView($tree, $xhtml=true) {
 		$printCategory .= '</a></li>';
 		for ($i=0; $i<count($tree['children']); $i++) {
 			$child = $tree['children'][$i];
-			$printCategory .= '<li class="category"><a href="' . htmlspecialchars($child['link']) . '" class="link">' . htmlspecialchars($child['label']);
+			$printCategory .= '<li class="category" data-theme="b"><a href="' . htmlspecialchars($child['link']) . '" class="link">' . htmlspecialchars($child['label']);
 			$printCategory .= ' <span class="c_cnt">' . $child['value'] . '</span>';
 			$printCategory .= '</a></li>';
 			if (sizeof($child['children']) > 0) {
@@ -184,11 +184,16 @@ function printMobileLinksView($links) {
 	} else {
 		$home = false;
 	}
+	$categoryName = '';
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
 			continue;
 		}
+		if (!empty($link['categoryName']) && $link['categoryName'] != $categoryName) {
+			$linkView .= '<li data-theme="b">'. htmlspecialchars(UTF8::lessenAsEm($link['categoryName'], $skinSetting['linkLength'])) . '</li>'.CRLF;
+			$categoryName = $link['categoryName'];			
+		}  
 		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength'])) . '</a></li>'.CRLF;
 	}
 	return $linkView;

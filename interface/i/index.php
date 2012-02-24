@@ -103,6 +103,7 @@ if(empty($suri['id'])) {
 	</div>
 	
 	<div data-role="page" id="textcube" title="TEXTCUBE" selected="false">
+		<?php printMobileHTMLMenu();?>
 		<div class="textcubeLogo">&nbsp;</div>
 		<div class="textcubeVersion">
 			Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?>
