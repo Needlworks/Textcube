@@ -17,7 +17,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 ?>
 	<ul data-role="listview" class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
 <?php
-	$itemsView = '<li class="group">'.CRLF;
+	$itemsView = '<li class="group ui-bar ui-bar-e">'.CRLF;
 	$itemsView .= '	<span class="left">'._text('글목록').'('.$list['count'].')</span>'.CRLF;
 	$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 	$itemsView .= '</li>'.CRLF;
@@ -29,11 +29,11 @@ if(empty($suri['id']) && empty($suri['value'])) {
 			$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 		}
 		$itemsView .= '<li class="post_item">'.CRLF;
-		$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="28" height="28" /></span>'.CRLF;
+		$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="36px" height="36px" /></span>'.CRLF;
 		$itemsView .= '	<a href="' . $blogURL . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 		$itemsView .= '		<div class="post">'.CRLF;
 		$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
-		$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' . 'Comments(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
+		$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' . _text('댓글').'(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
 		$itemsView .= '		</div>'.CRLF;
 		$itemsView .= '	</a>'.CRLF;
 		$itemsView .= '</li>'.CRLF;

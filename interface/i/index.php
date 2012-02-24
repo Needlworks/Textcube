@@ -64,7 +64,9 @@ if(empty($suri['id'])) {
 	</ul>
 	</div>
 	<div data-role="page" id="archives">
-	<ul data-role="listview" title="Archives" selected="false">
+<?php
+	printMobileHTMLMenu();
+?>	<ul data-role="listview" title="Archives" selected="false">
 	<?php
 		$archives = printMobileArchives($blogid);
 		print printMobileArchivesView($archives);	

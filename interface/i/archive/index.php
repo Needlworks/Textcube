@@ -16,9 +16,9 @@ if(isset($period)) {
 	$list = array('title' => getPeriodLabel($period), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	?>
-	<ul class="posts" id="archive_<?php echo $suri['page'];?>" title="<?php echo getPeriodLabel($period);?>" selected="false">
+	<ul data-role="listview" class="posts" id="archive_<?php echo $suri['page'];?>" title="<?php echo getPeriodLabel($period);?>" selected="false">
 	<?php
-		$itemsView = '<li class="group">'.CRLF;
+		$itemsView = '<li class="group ui-bar ui-bar-e">'.CRLF;
 		$itemsView .= '	<span class="left">' . getPeriodLabel($period) . ' ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
@@ -34,7 +34,7 @@ if(isset($period)) {
 			$itemsView .= '	<a href="' . $blogURL . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 			$itemsView .= '		<div class="post">'.CRLF;
 			$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
-			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' . 'Comments(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
+			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' ._text('댓글'). '(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
 			$itemsView .= '		</div>'.CRLF;
 			$itemsView .= '	</a>'.CRLF;
 			$itemsView .= '</li>'.CRLF;
