@@ -497,7 +497,7 @@ function printMobileTrackbackView($entryId, $page, $mode = null) {
 	}
 	if (count($trackbacks) == 0) {
 ?>
-		<p>&nbsp;<?php echo _text('트랙백이 없습니다');?></p>
+		<div class="center ui-bar ui-bar-e"><?php echo _text('트랙백이 없습니다');?></div>
 		<?php
 	} else {
 		foreach ($trackbacks as $trackback) {
@@ -532,7 +532,7 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 	}
 	if (count($comments) == 0) {
 ?>
-		<p>&nbsp;<?php echo ($entryId == 0 ? _text('방명록이 없습니다') : _text('댓글이 없습니다'));?></p>
+		<div class="center ui-bar ui-bar-e"><?php echo ($entryId == 0 ? _text('방명록이 없습니다') : _text('댓글이 없습니다'));?></div>
 		<?php
 	} else {
 		foreach ($comments as $commentItem) {

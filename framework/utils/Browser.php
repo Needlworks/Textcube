@@ -12,6 +12,7 @@ final class Utils_Browser extends Singleton
 
 	function __construct() {
 		$this->browserName = null;
+		$this->machineName = null;
 	}
 	
 	public function getBrowserName() {
@@ -74,10 +75,17 @@ final class Utils_Browser extends Singleton
 		return (in_array($this->getBrowserName(),array('MobileSafari','Android','Maemo','OperaMini','Minimo','DoCoMo','AvantGo','BlockBerry')));
 	}
 	public function isSafari() {
+		return (in_array($this->getBrowserName(),array('Safari','MobileSafari')) ? true : false);
 	}
 	public function isIE() {
+		return ($this->getBrowserName() == 'IE' ? true : false);
 	}
+	public function isChrome() {
+		return ($this->getBrowserName() == 'Chrome' ? true : false);
+	}
+
 	public function isOpera() {
+		return ($this->getBrowserName() == 'Opera' ? true : false);
 	}
 
 	function __destruct() {
