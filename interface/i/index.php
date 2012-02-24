@@ -8,7 +8,6 @@ requireView('iphoneView');
 if(empty($suri['id'])) {
 	printMobileHTMLHeader();
 ?>	
-
 	<div data-role="page">
 <?php
 	printMobileHTMLMenu('','list');

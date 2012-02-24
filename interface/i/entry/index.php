@@ -83,8 +83,6 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	} else {
 		printMobileNavigation($entry, false, false, $paging);
 	}
-?>
-<?php
 	if(!empty($entryPrint)) {
 ?>
 		</div>
