@@ -40,18 +40,23 @@ if(isset($period)) {
 			$itemsView .= '	</a>'.CRLF;
 			$itemsView .= '</li>'.CRLF;
 		}
+		$itemsView .= '</ul>'.CRLF;
 
-		$itemsView .= '<li class="pagination">'.CRLF;
+		$itemsView .= '<div data-role="navbar" data-theme="c">'.CRLF;
+		$itemsView .= '<ul>'.CRLF;
 		if(isset($paging['prev'])){
-			$itemsView .= '<a href="' .$blogURL . '/archive/' . $period . '?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a>'.CRLF;
-		}
-		if (isset($paging['next'])) {
-			$itemsView .= '<a href="' .$blogURL . '/archive/' . $period . '?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a>'.CRLF;
+			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$blogURL . '/entry?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
 		}
 		if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
-			$itemsView .= '<strong>' . $suri['page'] . '</strong>'.CRLF;
+			$itemsView .= '<li>'._textf('%1 페이지',$suri['page']) . '</li>'.CRLF;
 		}
-		$itemsView .= '</li>'.CRLF;
+		if (isset($paging['next'])) {
+			$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-r"  href="' .$blogURL . '/entry?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a></li>'.CRLF;
+		}
+
+		$itemsView .= '</ul>'.CRLF;
+		$itemsView .= '</div>'.CRLF;
+
 		print $itemsView;
 	?>
 	</ul>
