@@ -60,8 +60,9 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	} else if(!empty($suri['value'])) {
 		$entryPrint = true;
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
-		printMobileHTMLHeader();
+	//	printMobileHTMLHeader();
 	}
+	printMobileHTMLMenu('','list');
 	
 	$entry = $entries ? $entries[0] : null;
 ?>
@@ -105,7 +106,8 @@ if(empty($suri['id']) && empty($suri['value'])) {
 ?>
 		</div>
 <?php
-		printMobileHTMLFooter();
 	}
 }
+
+printMobileHTMLFooter();
 ?>

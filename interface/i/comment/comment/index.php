@@ -5,9 +5,15 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+printMobileHTMLHeader();
+printMobileHTMLMenu('','comment');
+
+
 list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry');
 list($entries, $paging) = getEntryWithPaging($blogid, $entryId);
 $entry = $entries ? $entries[0] : null;
+
+
 ?>
 <div id="comment_reply_<?php echo $suri['id']."_".time();?>" title="Comment reply" selected="false">
 	<?php
@@ -19,3 +25,6 @@ $entry = $entries ? $entries[0] : null;
 	?>
 	</fieldset>
 </div>
+<?php
+printMobileHTMLFooter();
+?>

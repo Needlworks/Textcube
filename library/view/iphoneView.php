@@ -7,7 +7,7 @@ function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 	global $blogURL;
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
-		print '<div class="entry_body">' . printMobileFreeImageResizer($content) . '</div>';
+		print '<div class="entry_body" data-role="content" data-theme="c">' . printMobileFreeImageResizer($content) . '</div>';
 	} else {
 	?>
 	<p><b><?php echo _text('Protected post!');?></b></p>
@@ -408,32 +408,27 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	$context = Model_Context::getInstance();
 	global $suri, $blogURL;
 ?>
-	<div data-role="footer">
-	<ul data-role="navbar" class="content navigation">
+	<div data-role="footer" class="ui-bar" data-theme="d">
+	<div data-role="controlgroup" class="content navigation" data-type="horizontal">
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
-		<?php
-	}
-	if (isset($paging['next'])) {
-?>
-		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
+		<a data-role="button" data-theme="d" data-icon="arrow-l" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>	
-		<li><a href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('글 보기');?></a></li>
+		<a data-role="button" data-transition="flip" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('원 글 보기');?></a>
 		<?php
 	}
 	if ($jumpToComment) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
+		<a data-role="button" data-transition="flip" href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a>
 		<?php
 	}
 	if ($jumpToTrackback) {
 ?>
-		<li><a href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
+		<a data-role="button" data-transition="flip" href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a>
 		<?php
 	}
 	if ($suri['directive'] != '/i') {
@@ -443,8 +438,13 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 		<?php
 	*/
 	}
+	if (isset($paging['next'])) {
 ?>
-	</ul>
+		<a data-role="button" data-theme="d" data-icon="arrow-r" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a>
+		<?php
+	}
+?>
+	</div>
 	</div>
 <?php
 }
@@ -571,19 +571,21 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 ?>
 		<input type="hidden" name="id" value="<?php echo $entryId;?>" />
 		<input type="hidden" id="secret_<?php echo $entryId;?>" name="secret_<?php echo $entryId;?>" value="0" />
-		<div class="row">
-			<label><?php echo _text('비밀 댓글');?></label>
-			<div class="toggle" onclick="secretToggleCheck(this, <?php echo $entryId;?>);"><span class="thumb"></span><span class="toggleOn">|</span><span class="toggleOff">O</span></div>
+	</fieldset>
+	<fieldset class="ui-grid-a">
+		<div class="ui-block-a"><label for="secret_<?php echo $entryId;?>" ><?php echo _text('비밀 댓글');?></label></div>
+		<div class="ui-block-b"><select name="secretButton" id="secret_<?php echo $entryId;?>" data-role="slider">
+			<option value="0">|</option>
+			<option value="1">O</option>
+			</select>
 		</div>
-		<div class="row">
+	</fieldset>
+	<fieldset>
+		<div data-role="fieldcontain">
 			<label for="name_<?php echo $entryId;?>"><?php echo _text('이름');?></label>
 			<input type="text" id="name_<?php echo $entryId;?>" name="name_<?php echo $entryId;?>" value="<?php echo isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : '';?>" />
-		</div>
-		<div class="row">
 			<label for="password_<?php echo $entryId;?>"><?php echo _text('비밀번호');?></label>
 			<input type="password" id="password_<?php echo $entryId;?>" name="password_<?php echo $entryId;?>" />
-		</div>
-		<div class="row">
 			<label for="homepage_<?php echo $entryId;?>"><?php echo _text('홈페이지');?></label>
 			<input type="text" id="homepage_<?php echo $entryId;?>" name="homepage_<?php echo $entryId;?>"  value="<?php echo (isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://';?>" />
 		</div>
@@ -593,7 +595,10 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 		<div class="row">
 			<textarea cols="40" rows="6" id="comment_<?php echo $entryId;?>" name="comment_<?php echo $entryId;?>"></textarea>
 		</div>
-		<a href="#" class="whiteButton margin-top10" type="submit"><?php echo _text('작성');?></a>
+	</fieldset>
+	<fieldset class="ui-grid-a">
+		<div class="ui-block-a"><button type="reset" data-theme="d"><?php echo _text('취소');?></button></div>
+		<div class="ui-block-b"><button type="submit" data-theme="a"><?php echo _text('작성');?></button></div>
 	</fieldset>
 	</form>
 	

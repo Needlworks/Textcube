@@ -1,5 +1,18 @@
 @charset "utf-8";
 
+label {
+	position:absolute;
+	line-height:2em;
+}
+
+input {
+	margin-left:100px;
+}
+
+select {
+	margin-left:100px !important;
+
+}
 .comment {
 }
 
@@ -10,8 +23,10 @@
 .comment p.body {
 	margin-top:25px;
 }
+
 .comment_button {
 	position:absolute;
 	top:0;
 	right:5px;
 }
+
