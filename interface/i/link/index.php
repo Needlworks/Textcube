@@ -5,9 +5,12 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+printMobileHTMLHeader();
+printMobileHTMLMenu();
 
-$linkView .= '<ul class="posts" id="links" title="'._text('링크').'" selected="false">'.CRLF;
-$linkView .= printIphoneLinksView(getLinks($blogid));
+$linkView .= '<ul data-role="listview" class="posts" id="links" title="'._text('링크').'" selected="false">'.CRLF;
+$linkView .= printMobileLinksView(getLinks($blogid));
 $linkView .= '</ul>';
 print $linkView;
+printMobileHTMLFooter();
 ?>

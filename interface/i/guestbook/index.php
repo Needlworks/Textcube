@@ -5,16 +5,21 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+printMobileHTMLHeader();
+printMobileHTMLMenu('','guestbook');
 if(isset($suri['id'])) $page = $suri['id'];
 else $page = 1;
 ?>
 <div id="guestbook_<?php echo time();?>" title="<?php echo _text('방명록');?>" selected="false">
 <?php
-	printIphoneGuestbookView($page);
+	printMobileGuestbookView($page);
 ?>
 	<fieldset class="navi margin-top10">
 <?php
-	printIphoneNavigation(0, false, false, $paging, 'guestbook');
+	printMobileNavigation(0, false, false, $paging, 'guestbook');
 ?>
 	</fieldset>
 </div>
+<?php
+printMobileHTMLFooter();
+?>

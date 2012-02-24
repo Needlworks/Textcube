@@ -18,13 +18,13 @@ requireStrictRoute();
 if(empty($suri['id'])) {
 	list($entryId) = getCommentAttributes($blogid, $_GET['replyId'], 'entry');
 	if (deleteComment($blogid, $_GET['replyId'], $entryId, isset($_GET['password']) ? $_GET['password'] : '') === false) {
-		printIphoneErrorPage(_text('Comment delete error.'), _text('Incorrect Password.'), $context->getProperty('uri.blog')."/comment/delete/{$_GET['replyId']}");
+		printMobileErrorPage(_text('Comment delete error.'), _text('Incorrect Password.'), $context->getProperty('uri.blog')."/comment/delete/{$_GET['replyId']}");
 		exit();
 	}
 } else {
 	list($entryId) = getCommentAttributes($blogid, $suri['id'], 'entry');
 	if (deleteComment($blogid, $suri['id'], $entryId, '') === false) {
-		printIphoneErrorPage(_t('Comment delete error'), _t('Administrator access only.'), $context->getProperty('uri.blog')."/comment/delete/{$suri['id']}");
+		printMobileErrorPage(_t('Comment delete error'), _t('Administrator access only.'), $context->getProperty('uri.blog')."/comment/delete/{$suri['id']}");
 		exit();
 	}
 }
@@ -38,7 +38,7 @@ $entry = $entries ? $entries[0] : null;
 	<a href="<?php echo $context->getProperty('uri.blog')."/comment/$entryId";?>" class="whiteButton margin-top10">Go to comments page</a>
 	<fieldset class="margin-top10">
 		<?php
-		printIphoneNavigation($entry);
+		printMobileNavigation($entry);
 		?>
 	</fieldset>
 </div>

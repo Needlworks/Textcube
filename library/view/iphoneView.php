@@ -3,11 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
+function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 	$ctx = Model_Context::getInstance();
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
-		print '<div class="entry_body">' . printIphoneFreeImageResizer($content) . '</div>';
+		print '<div class="entry_body" data-role="content" data-theme="d">' . printMobileFreeImageResizer($content) . '</div>';
 	} else {
 	?>
 	<p><b><?php echo _text('Protected post!');?></b></p>
@@ -22,7 +22,7 @@ function printIphoneEntryContentView($blogid, $entry, $keywords = array()) {
 	}
 }
 
-function printIphoneEntryContent($blogid, $userid, $id) {
+function printMobileEntryContent($blogid, $userid, $id) {
 	$pool = DBModel::getInstance();
 	$pool->reset('Entries');
 	$pool->setQualifier('blogid','eq',$blogid);
@@ -32,7 +32,7 @@ function printIphoneEntryContent($blogid, $userid, $id) {
 	return $result;
 }
 
-function printIphoneCategoriesView($totalPosts, $categories) {
+function printMobileCategoriesView($totalPosts, $categories) {
 	$ctx = Model_Context::getInstance();
 	global $service, $blog;
 	requireModel('blog.category');
@@ -74,17 +74,17 @@ function printIphoneCategoriesView($totalPosts, $categories) {
 			$parentCategoryCount = 0;
 		}
 	}
-	return printIphonePrintTreeView($tree, true);
+	return printMobilePrintTreeView($tree, true);
 }
 
-function printIphonePrintTreeView($tree, $xhtml=true) {
+function printMobilePrintTreeView($tree, $xhtml=true) {
 	if ($xhtml) {
 		$printCategory  = '<li class="category"><a href="' . htmlspecialchars($tree['link']) . '" class="link">' . htmlspecialchars($tree['label']);
 		$printCategory .= ' <span class="c_cnt">' . $tree['value'] . '</span>';
 		$printCategory .= '</a></li>';
 		for ($i=0; $i<count($tree['children']); $i++) {
 			$child = $tree['children'][$i];
-			$printCategory .= '<li class="category"><a href="' . htmlspecialchars($child['link']) . '" class="link">' . htmlspecialchars($child['label']);
+			$printCategory .= '<li class="category" data-theme="b"><a href="' . htmlspecialchars($child['link']) . '" class="link">' . htmlspecialchars($child['label']);
 			$printCategory .= ' <span class="c_cnt">' . $child['value'] . '</span>';
 			$printCategory .= '</a></li>';
 			if (sizeof($child['children']) > 0) {
@@ -100,7 +100,7 @@ function printIphonePrintTreeView($tree, $xhtml=true) {
 	}
 }
 
-function printIphoneArchives($blogid) {
+function printMobileArchives($blogid) {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
@@ -117,7 +117,7 @@ function printIphoneArchives($blogid) {
 	return $archives;
 }
 
-function printIphoneArchivesView($archives) {
+function printMobileArchivesView($archives) {
 	$ctx = Model_Context::getInstance();
 	$oldPeriod = '';
 	$newPeriod = '';
@@ -136,7 +136,7 @@ function printIphoneArchivesView($archives) {
 	return $printArchive;
 }
 
-function printIphoneTags($blogid, $flag = 'random', $max = 10) {
+function printMobileTags($blogid, $flag = 'random', $max = 10) {
 	global $database;
 	$tags = array();
 	$aux = "limit $max";
@@ -165,7 +165,7 @@ function printIphoneTags($blogid, $flag = 'random', $max = 10) {
 	return $tags;
 }
 
-function printIphoneTagsView($tags) {
+function printMobileTagsView($tags) {
 	$ctx = Model_Context::getInstance();
 	global $service;
 	ob_start();
@@ -179,61 +179,83 @@ function printIphoneTagsView($tags) {
 	return $printTag;
 }
 
-function printIphoneLinksView($links) {
+function printMobileLinksView($links) {
 	$ctx = Model_Context::getInstance();
 	if( rtrim( $ctx->getProperty('suri.url'), '/' ) == $ctx->getProperty('uri.path') ) {
 		$home = true;
 	} else {
 		$home = false;
 	}
+	$categoryName = '';
 	foreach ($links as $link) {
 		if((!doesHaveOwnership() && $link['visibility'] == 0) ||
 			(!doesHaveMembership() && $link['visibility'] < 2)) {
 			continue;
 		}
+ 		if (!empty($link['categoryName']) && $link['categoryName'] != $categoryName) {
+ 			$linkView .= '<li data-theme="b">'. htmlspecialchars(UTF8::lessenAsEm($link['categoryName'], $ctx->getProperty('skin.linkLength'))) . '</li>'.CRLF;
+ 			$categoryName = $link['categoryName'];			
+ 		}  
 		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength'))) . '</a></li>'.CRLF;
 	}
 	return $linkView;
 }
 
-function printIphoneHtmlHeader($title = '') {
+function printMobileHtmlHeader($title = '') {
 	$context = Model_Context::getInstance();
 	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+?><!DOCTYPE html>
+<html>
 <head>
 	<title><?php echo $title;?></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/iphone.css" />
 <?php
-	if(Setting::getBlogSettingGlobal('useBlogIconAsIphoneShortcut',true) && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
+	if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
 ?>
 	<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default')."/index.gif";?>" />
 <?php
 	}
 ?>
-	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/iphone/iphone.js"></script>
+ 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+ 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery.mobile/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.js"></script>
+ 	<!--<script>
+ 		$(document).bind("mobileinit", function(){$.mobile.touchOverflowEnabled = true;});
+ 	</script>-->
 </head>
 <body>
-	<div class="toolbar">
-		<h1 id="pageTitle"><?php echo htmlspecialchars($context->getProperty('blog.title'));?></h1>
-		<a id="backButton" class="button" href="#"></a>
-		<a class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
-	</div>
-	<div class="toolbar shortcut">
-	<ul>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>" onclick="window.location.href='<?php echo $context->getProperty('uri.blog');?>'"><?php echo _text('글목록');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment"><?php echo _text('댓글');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback"><?php echo _text('트랙백');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook"><?php echo _text('방명록');?></a></li>
-	</ul>
-	</div>
-
 <?php
 }
 
-function printIphoneAttachmentExtract($content){
+function printMobileHTMLFooter() {
+?>
+	</body>
+</html>
+<?php
+}
+
+function printMobileHTMLMenu($title = '',$menu='') {
+	$context = Model_Context::getInstance();
+	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
+?>
+	<div data-role="header" class="toolbar">
+		<h1 id="pageTitle"><?php echo htmlspecialchars($context->getProperty('blog.title'));?></h1>
+		<a data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" id="backButton" class="button" href="#"><?php echo _text('뒤로');?></a>
+ 		<a data-role="button" data-icon="search" class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
+ 	</div>
+ 	<div data-role="navbar" data-position="fixed" class="toolbar shortcut">
+ 		<ul>
+ 			<li><a href="<?php echo $context->getProperty('uri.blog');?>" rel="external" <?php echo $menu=="list" ? 'class="ui-btn-active"' : '';?>><?php echo _text('글목록');?></a></li>
+ 			<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment" rel="external" <?php echo $menu=="comment" ? 'class="ui-btn-active"' : '';?>><?php echo _text('댓글');?></a></li>
+ 			<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback" rel="external" <?php echo $menu=="trackback" ? 'class="ui-btn-active"' : '';?>><?php echo _text('트랙백');?></a></li>
+ 			<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook" rel="external" <?php echo $menu=="guestbook" ? 'class="ui-btn-active"' : '';?>><?php echo _text('방명록');?></a></li>
+ 		</ul>
+ 	</div>
+<?php
+ }
+
+function printMobileAttachmentExtract($content){
 	$ctx = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$result = null;
@@ -254,7 +276,7 @@ function printIphoneAttachmentExtract($content){
 	return $result;
 }
 
-function printIphoneFreeImageResizer($content) {
+function printMobileFreeImageResizer($content) {
 	$ctx = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$pattern1 = "@<img.+src=['\"](.+)['\"].*>@Usi";
@@ -273,7 +295,7 @@ function printIphoneFreeImageResizer($content) {
 	return $content;
 }
 
-function printIphoneImageResizer($blogid, $filename, $cropSize){
+function printMobileImageResizer($blogid, $filename, $cropSize){
 	$ctx = Model_Context::getInstance();
 
 	if (!is_dir(ROOT."/cache/thumbnail")) {
@@ -293,12 +315,12 @@ function printIphoneImageResizer($blogid, $filename, $cropSize){
 	$imageURL = $ctx->getProperty('uri.service')."/attach/{$blogid}/{$filename}";
 	if (extension_loaded('gd')) {
 		if (stristr($filename, 'http://')) {
-			$thumbFilename = printIphoneRemoteImageFilename($filename);
+			$thumbFilename = printMobileRemoteImageFilename($filename);
 		}
 
 		$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
 		if (!file_exists($thumbnailSrc)) {
-			$imageURL = printIphoneCropProcess($blogid, $filename, $cropSize);
+			$imageURL = printMobileCropProcess($blogid, $filename, $cropSize);
 		} else {
 			$imageURL = $ctx->getProperty('uri.service')."/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
 		}
@@ -310,12 +332,12 @@ function printIphoneImageResizer($blogid, $filename, $cropSize){
 	return $imageURL;
 }
 
-function printIphoneCropProcess($blogid, $filename, $cropSize) {
+function printMobileCropProcess($blogid, $filename, $cropSize) {
 	$ctx = Model_Context::getInstance();
 	$tempFile = null;
 	$imageURL = null;
 	if(stristr($filename, 'http://') ){
-		list($originSrc, $filename, $tempFile) = printIphoneCreateRemoteImage($blogid, $filename);
+		list($originSrc, $filename, $tempFile) = printMobileCreateRemoteImage($blogid, $filename);
 	} else {
 		$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
 	}
@@ -345,7 +367,7 @@ function printIphoneCropProcess($blogid, $filename, $cropSize) {
 	return $imageURL;
 }
 
-function printIphoneCreateRemoteImage($blogid, $filename) {
+function printMobileCreateRemoteImage($blogid, $filename) {
 	$fileObject = false;
 	$tmpDirectory = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/";
 	$tempFilename = tempnam($tmpDirectory, "remote_");
@@ -353,8 +375,8 @@ function printIphoneCreateRemoteImage($blogid, $filename) {
 
 	if ($fileObject) {
 		$originSrc = $tempFilename;
-		$remoteImage = printIphoneHTTPRemoteImage($filename);
-		$filename = printIphoneRemoteImageFilename($filename);
+		$remoteImage = printMobileHTTPRemoteImage($filename);
+		$filename = printMobileRemoteImageFilename($filename);
 		fwrite($fileObject, $remoteImage);
 		fclose($fileObject);
 		return array($originSrc, $filename, true);
@@ -363,7 +385,7 @@ function printIphoneCreateRemoteImage($blogid, $filename) {
 	}
 }
 
-function printIphoneHTTPRemoteImage($remoteImage) {
+function printMobileHTTPRemoteImage($remoteImage) {
     $response = '';
 	$remoteStuff = parse_url($remoteImage);
 	$port = isset($remoteStuff['port']) ? $remoteStuff['port'] : 80;
@@ -384,59 +406,81 @@ function printIphoneHTTPRemoteImage($remoteImage) {
 	return substr($response, - $matches[1]);
 }
 
-function printIphoneRemoteImageFilename($filename) {
+function printMobileRemoteImageFilename($filename) {
 	$filename = md5($filename) . "." . Misc::getFileExtension($filename);
 	return $filename;
 }
 
-function printIphoneHtmlFooter() {
-?>
-	</body>
-</html>
-<?php
+function printMobileListNavigation($paging,$postfix) {
+	$script = '';
+	$context = Model_Context::getInstance();
+	$pageId = $context->getProperty('suri.page');
+	$itemsView = '<div data-role="navbar" data-theme="c">'.CRLF;
+	$itemsView .= '<ul>'.CRLF;
+	if(isset($paging['prev'])){
+		$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-l" href="' .$context->getProperty('uri.blog') . '/'.$postfix.'?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a></li>'.CRLF;
+		$script .= '$("#blog_posts_'.$pageId.'").swiperight(function() {$.mobile.changePage("'.$context->getProperty('uri.blog').'/'.$postfix.'?page='.$paging['prev'].'",{reverse: true});});';
+	}
+	/*if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
+		$itemsView .= '<li>'._textf('%1 페이지',$suri['page']) . '</li>'.CRLF;
+ 	}*/
+	if (isset($paging['next'])) {
+		$itemsView .= '<li><a data-role="button" data-theme="d" data-icon="arrow-r"  href="' .$context->getProperty('uri.blog') . '/'.$postfix.'?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a></li>'.CRLF;
+		$script .= '$("#blog_posts_'.$pageId.'").swipeleft(function() {$.mobile.changePage("'.$context->getProperty('uri.blog').'/'.$postfix.'?page='.$paging['next'].'");});';
+	}
+	$itemsView .= '</ul>'.CRLF;
+	$itemsView .= '</div>'.CRLF;
+	if (!empty($script)) {
+		$itemsView .= '<script>'.CRLF.$script.CRLF.'</script>';
+	}
+	return $itemsView;
 }
 
-function printIphoneNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
+function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
 	$ctx = Model_Context::getInstance();
 ?>
-	<ul class="content navigation">
+<!--	<div data-role="footer" class="ui-bar" data-theme="c">-->
+		<div data-role="navbar" data-theme="c">
+			<ul>
+
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-		<li><a href="<?php echo $ctx->getProperty('uri.blog').'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
-		<?php
-	}
-	if (isset($paging['next'])) {
-?>
-		<li><a href="<?php echo $ctx->getProperty('uri.blog').'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
+		<li><a data-role="button" data-theme="d" data-icon="arrow-l" data-transition="reverse slide" href="<?php echo $ctx->getProperty('uri.blog').'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>
-		<li><a href="<?php echo $ctx->getProperty('uri.blog').'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('글 보기');?></a></li>
+		<li><a data-role="button" data-transition="flip" href="<?php echo $ctx->getProperty('uri.blog').'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('원 글 보기');?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
 ?>
-		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
+		<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $ctx->getProperty('uri.blog');?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
 		<?php
 	}
 	if ($jumpToTrackback) {
 ?>
-		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
+		<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $ctx->getProperty('uri.blog');?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
 		<?php
 	}
 	if ($ctx->getProperty('suri.directive') != '/i') {
 ?>
-		<li class="last_no_line"><a href="<?php echo $ctx->getProperty('uri.blog');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
+		<li><a href="<?php echo $ctx->getProperty('uri.blog');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
+		<?php
+	}
+	if (isset($paging['next'])) {
+?>
+		<li><a data-role="button" data-theme="d" data-icon="arrow-r" data-transition="slide" href="<?php echo $ctx->getProperty('uri.blog').'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
 		<?php
 	}
 ?>
-	</ul>
+			</ul>
+		</div>
 <?php
 }
 
-function printIphoneTrackbackView($entryId, $page, $mode = null) {
+function printMobileTrackbackView($entryId, $page, $mode = null) {
 	global $paging;
 	$blogid = getBlogId();
 	if($mode == 'recent') {
@@ -446,12 +490,12 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 	}
 	if (count($trackbacks) == 0) {
 ?>
-		<p>&nbsp;<?php echo _text('트랙백이 없습니다');?></p>
+		<div class="center ui-bar ui-bar-e"><?php echo _text('트랙백이 없습니다');?></div>
 		<?php
 	} else {
 		foreach ($trackbacks as $trackback) {
 ?>
-		<ul id="trackback_<?php echo $commentItem['id'];?>" class="trackback">
+		<ul data-role="listview" data-inset="true" id="trackback_<?php echo $commentItem['id'];?>" class="trackback">
 			<li class="group">
 				<span class="left">
 					<?php echo htmlspecialchars($trackback['subject']);?>
@@ -461,7 +505,7 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 				</span>
 			</li>
 			<li class="body">
-				<span class="date">DATE : <?php echo Timestamp::format5($trackback['written']);?></span>
+				<p class="ui-li-aside"><?php echo Timestamp::format5($trackback['written']);?></p>
 				<?php echo htmlspecialchars($trackback['excerpt']);?>
 			</li>
 		</ul>
@@ -470,7 +514,7 @@ function printIphoneTrackbackView($entryId, $page, $mode = null) {
 	}
 }
 
-function printIphoneCommentView($entryId, $page = null, $mode = null) {
+function printMobileCommentView($entryId, $page = null, $mode = null) {
 	$ctx = Model_Context::getInstance();
 	$blogid = getBlogId();
 	global $paging;
@@ -483,40 +527,50 @@ function printIphoneCommentView($entryId, $page = null, $mode = null) {
 	}
 	if (count($comments) == 0) {
 ?>
-		<p>&nbsp;<?php echo ($entryId == 0 ? _text('방명록이 없습니다') : _text('댓글이 없습니다'));?></p>
+		<div class="center ui-bar ui-bar-e"><?php echo ($entryId == 0 ? _text('방명록이 없습니다') : _text('댓글이 없습니다'));?></div>
 		<?php
 	} else {
 		foreach ($comments as $commentItem) {
 ?>
-		<ul id="comment_<?php echo $commentItem['id'];?>" class="comment">
-			<li class="group">
-				<span class="left">
-					<?php if(!empty($commentItem['name'])) { ?><strong><?php echo htmlspecialchars($commentItem['name']);?></strong><?php } ?>
-					(<?php echo Timestamp::format5($commentItem['written']);?>)
-				</span>
-				<span class="right">
-					<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/comment/<?php echo $commentItem['id'];?>"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> :
-					<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/delete/<?php echo $commentItem['id'];?>"><?php echo _text('지우기');?></a>
-				</span>
-			</li>
-			<li class="body">
+		<ul data-role="listview" id="comment_<?php echo $commentItem['id'];?>" class="comment">
+  			<li class="group">
+				<p class="left">
+  					<?php if(!empty($commentItem['name'])) { ?><strong><?php echo htmlspecialchars($commentItem['name']);?></strong><?php } ?>
+				</p>
+				<p class="ui-li-aside">
+					<?php echo Timestamp::format5($commentItem['written']);?>
+				</p>
+				<p class="right">
+					<div class="comment_button" data-role="controlgroup" data-type="horizontal">
+						<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/comment/<?php echo $commentItem['id'];?>" data-role="button" data-icon="plus" data-iconpos="notext"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> 
+						<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/delete/<?php echo $commentItem['id'];?>" data-role="button" data-icon="delete" data-iconpos="notext"><?php echo _text('지우기');?></a>
+					</div>
+				</p>
+				<p class="body">
+
 				<?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'.($entryId == 0 ? _text('비밀 방명록') : _text('비밀 댓글')).' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?>
+				</p>
 			</li>
 			<?php
 			foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 ?>
 			<li class="groupSub">
-				<span class="left">&nbsp;Re :
-					<?php if(!empty($commentSubItem['name'])) { ?><strong><?php echo htmlspecialchars($commentSubItem['name']);?></strong><?php } ?>
-					(<?php echo Timestamp::format5($commentSubItem['written']);?>)
-				</span>
-				<span class="right">
-					<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/delete/<?php echo $commentSubItem['id'];?>">DEL</a><br />
-				</span>
-			</li>
-			<li class="body">
-				<?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('Secret Comment').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?>
-			</li>
+				<p class="left">&nbsp;Re :
+  					<?php if(!empty($commentSubItem['name'])) { ?><strong><?php echo htmlspecialchars($commentSubItem['name']);?></strong><?php } ?>
+				</p>
+				<p class="ui-li-aside">
+					<?php echo Timestamp::format5($commentSubItem['written']);?>
+				</p>
+				<p class="right">
+					<div class="comment_button" data-role="controlgroup" data-type="horizontal">
+						<a href="<?php echo $ctx->getProperty('uri.blog');?>/comment/delete/<?php echo $commentSubItem['id'];?>" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext"><?php echo _text('지우기');?></a>
+					</div>
+				</p>
+				<p class="body">
+  				<?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('Secret Comment').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?>
+				</p>
+  			</li>
+
 			<?php
 			}
 ?>
@@ -525,23 +579,23 @@ function printIphoneCommentView($entryId, $page = null, $mode = null) {
 		}
 	}
 	if($mode != 'recent') {
-		printIphoneCommentFormView($entryId, ($entryId == 0 ? _text('방명록 쓰기') : _text('댓글 쓰기')), 'comment');
+		printMobileCommentFormView($entryId, ($entryId == 0 ? _text('방명록 쓰기') : _text('댓글 쓰기')), 'comment');
 	}
 }
 
-function printIphoneGuestbookView($page) {
-	return printIphoneCommentView(0, $page);
+function printMobileGuestbookView($page) {
+	return printMobileCommentView(0, $page);
 }
 
-function printIphoneRecentCommentView($page) {
-	return printIphoneCommentView(1, $page, 'recent');
+function printMobileRecentCommentView($page) {
+	return printMobileCommentView(1, $page, 'recent');
 }
 
-function printIphoneRecentTrackbackView($page) {
-	return printIphoneTrackbackView(1, $page, 'recent');
+function printMobileRecentTrackbackView($page) {
+	return printMobileTrackbackView(1, $page, 'recent');
 }
 
-function printIphoneCommentFormView($entryId, $title, $actionURL) {
+function printMobileCommentFormView($entryId, $title, $actionURL) {
 ?>
 
 	<form method="get" action="<?php echo $ctx->getProperty('uri.blog');?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
@@ -552,19 +606,21 @@ function printIphoneCommentFormView($entryId, $title, $actionURL) {
 ?>
 		<input type="hidden" name="id" value="<?php echo $entryId;?>" />
 		<input type="hidden" id="secret_<?php echo $entryId;?>" name="secret_<?php echo $entryId;?>" value="0" />
-		<div class="row">
-			<label><?php echo _text('비밀 댓글');?></label>
-			<div class="toggle" onclick="secretToggleCheck(this, <?php echo $entryId;?>);"><span class="thumb"></span><span class="toggleOn">|</span><span class="toggleOff">O</span></div>
+	</fieldset>
+	<fieldset class="ui-grid-a">
+		<div class="ui-block-a"><label for="secret_<?php echo $entryId;?>" ><?php echo _text('비밀 댓글');?></label></div>
+		<div class="ui-block-b"><select name="secretButton" id="secret_<?php echo $entryId;?>" data-role="slider">
+			<option value="0">|</option>
+			<option value="1">O</option>
+			</select>
 		</div>
-		<div class="row">
+	</fieldset>
+	<fieldset>
+		<div data-role="fieldcontain">
 			<label for="name_<?php echo $entryId;?>"><?php echo _text('이름');?></label>
 			<input type="text" id="name_<?php echo $entryId;?>" name="name_<?php echo $entryId;?>" value="<?php echo isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : '';?>" />
-		</div>
-		<div class="row">
 			<label for="password_<?php echo $entryId;?>"><?php echo _text('비밀번호');?></label>
 			<input type="password" id="password_<?php echo $entryId;?>" name="password_<?php echo $entryId;?>" />
-		</div>
-		<div class="row">
 			<label for="homepage_<?php echo $entryId;?>"><?php echo _text('홈페이지');?></label>
 			<input type="text" id="homepage_<?php echo $entryId;?>" name="homepage_<?php echo $entryId;?>"  value="<?php echo (isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://';?>" />
 		</div>
@@ -574,14 +630,17 @@ function printIphoneCommentFormView($entryId, $title, $actionURL) {
 		<div class="row">
 			<textarea cols="40" rows="6" id="comment_<?php echo $entryId;?>" name="comment_<?php echo $entryId;?>"></textarea>
 		</div>
-		<a href="#" class="whiteButton margin-top10" type="submit"><?php echo _text('작성');?></a>
+	</fieldset>
+	<fieldset class="ui-grid-a">
+		<div class="ui-block-a"><button type="reset" data-theme="d"><?php echo _text('취소');?></button></div>
+		<div class="ui-block-b"><button type="submit" data-theme="a"><?php echo _text('작성');?></button></div>
 	</fieldset>
 	</form>
 
 	<?php
 }
 
-function printIphoneErrorPage($messageTitle, $messageBody, $redirectURL) {
+function printMobileErrorPage($messageTitle, $messageBody, $redirectURL) {
 ?>
 	<div id="postError" title="Error" class="panel">
 		<h2 class="title"><?php echo htmlspecialchars($messageTitle);?></h2>
@@ -593,7 +652,7 @@ function printIphoneErrorPage($messageTitle, $messageBody, $redirectURL) {
 <?php
 }
 
-function printIphoneSimpleMessage($message, $redirectMessage, $redirectURL, $title = '') {
+function printMobileSimpleMessage($message, $redirectMessage, $redirectURL, $title = '') {
 ?>
 	<div id="postSuccess" title="Successfully" class="panel">
 		<div class="content">

@@ -6,12 +6,16 @@ define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
 if(empty($suri['id'])) {
-	printIphoneHtmlHeader();
+	printMobileHTMLHeader();
 ?>	
-	<ul id="home" title="<?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($context->getProperty('blog.title'),30));?>" selected="true">
+	<div data-role="page">
+<?php
+	printMobileHTMLMenu('','list');
+?>
+	<ul data-role="listview" id="home" title="<?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($context->getProperty('blog.title'),30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getBlogOwnerName($blogid);
-		$blogLogo = !is_null($context->getProperty('blog.logo')) ? printIphoneImageResizer($blogid, $context->getProperty('blog.logo'), 80) : "{$context->getProperty('service.path')}/resources/style/iphone/image/textcube_logo.png";
+		$blogLogo = !is_null($context->getProperty('blog.logo')) ? printMobileImageResizer($blogid, $context->getProperty('blog.logo'), 80) : "{$context->getProperty('service.path')}/resources/style/iphone/image/textcube_logo.png";
 		$itemsView = '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;
@@ -45,34 +49,47 @@ if(empty($suri['id'])) {
 		<li><a href="#textcube" class="link"><span class="colorText"><span class="c1">T</span><span class="c2">e</span><span class="c3">x</span><span class="c4">t</span><span class="c5">c</span><span class="c6">u</span><span class="c7">b</span><span class="c8">e</span></span></a></li>
 	</ul>
 
-	<ul id="categories" title="Categories" selected="false">
+	<div data-role="page" id="categories">
+<?php
+	printMobileHTMLMenu();
+?>	<ul data-role="listview" title="Categories" selected="false">
 	<?php
 		$totalPosts = getEntriesTotalCount($blogid);
 		$categories = getCategories($blogid);
-		print printIphoneCategoriesView($totalPosts, $categories, true);	
+		print printMobileCategoriesView($totalPosts, $categories, true);	
 	?>
 	</ul>
-
-	<ul id="archives" title="Archives" selected="false">
+	</div>
+	<div data-role="page" id="archives">
+<?php
+	printMobileHTMLMenu();
+?>	<ul data-role="listview" title="Archives" selected="false">
 	<?php
-		$archives = printIphoneArchives($blogid);
-		print printIphoneArchivesView($archives);	
+		$archives = printMobileArchives($blogid);
+		print printMobileArchivesView($archives);	
 	?>
 	</ul>
-
-	<ul id="tags" title="Tags" selected="false">
+	</div>
+	
+	<div data-role="page" id="tags">
+<?php
+	printMobileHTMLMenu();
+?>	<ul data-role="listview" title="Tags" selected="false">
 		<li class="group"><span class="left">Random Tags (100)</span><span class="right">&nbsp;</span></li>
 		<li class="panel">
 		<div class="content padding5">
 			<ul class="tag_list">
 				<?php
-					$tags = printIphoneTags($blogid, 'random', 100);
-					print printIphoneTagsView($tags);	
+					$tags = printMobileTags($blogid, 'random', 100);
+					print printMobileTagsView($tags);	
 				?>	
 			</ul>
 		</div>
 		</li>
 	</ul>
+	</div>
+	
+	<div data-role="page" id="search">
 
     <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $context->getProperty('uri.blog');?>/search">
         <fieldset>
@@ -85,8 +102,10 @@ if(empty($suri['id'])) {
 			<input id="qString" type="text" name="search" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
 		</fieldset>
     </form>
-
-	<div id="textcube" title="TEXTCUBE" selected="false">
+	</div>
+	
+	<div data-role="page" id="textcube" title="TEXTCUBE" selected="false">
+		<?php printMobileHTMLMenu();?>
 		<div class="textcubeLogo">&nbsp;</div>
 		<div class="textcubeVersion">
 			Brand yourself! : <?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?>
@@ -102,6 +121,6 @@ if(empty($suri['id'])) {
 		</div>
 	</div>
 <?php
-	printIphoneHtmlFooter();
+	printMobileHTMLFooter();
 }
 ?>

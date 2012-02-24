@@ -25,8 +25,8 @@ define( "OPENID_LIBRARY_ROOT", ROOT . "/library/contrib/phpopenid/" );
 define( "XPATH_LIBRARY_ROOT", ROOT . "/library/contrib/phpxpath/" );
 define( "Auth_OpenID_NO_MATH_SUPPORT", 1 );
 define( "OPENID_PASSWORD", "-OPENID-" );
-define('JQUERY_VERSION','1.5.1');
-define('JQUERYMOBILE_VERSION','1.0rc1');
+define('JQUERY_VERSION','1.6.4.min');
+define('JQUERYMOBILE_VERSION','1.0.1.min');
 
 // Define global variable for legacy support.
 // This settings are set to default for configuration.

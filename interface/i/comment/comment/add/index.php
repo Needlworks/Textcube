@@ -20,9 +20,9 @@ if(!Validator::validate($IV))
 	Respond::NotFoundPage();
 list($entryId) = getCommentAttributes($blogid, $replyId, 'entry');
 if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
-	printIphoneErrorPage(_text('댓글 작성 오류.'), _text('이름을 입력해 주세요.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
+	printMobileErrorPage(_text('댓글 작성 오류.'), _text('이름을 입력해 주세요.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
 } else if (!doesHaveOwnership() && empty($_GET["comment_$replyId"])) {
-	printIphoneErrorPage(_text('댓글 작성 오류.'), _text('내용을 입력해 주세요.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
+	printMobileErrorPage(_text('댓글 작성 오류.'), _text('내용을 입력해 주세요.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
@@ -40,13 +40,13 @@ if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
 		} else {
 			$blockMessage = _textf('%1 은 차단되었습니다.', $result);
 		}
-		printIphoneErrorPage(_text('댓글 작성이 차단되었습니다.'), $blockMessage, $context->getProperty('uri.blog')."/comment/$entryId");
+		printMobileErrorPage(_text('댓글 작성이 차단되었습니다.'), $blockMessage, $context->getProperty('uri.blog')."/comment/$entryId");
 	} else if ($result === false) {
-		printIphoneErrorPage(_text('댓글 작성 오류.'), _text('댓글을 작성할 수 없었습니다.'), $context->getProperty('uri.blog')."/comment/$entryId");
+		printMobileErrorPage(_text('댓글 작성 오류.'), _text('댓글을 작성할 수 없었습니다.'), $context->getProperty('uri.blog')."/comment/$entryId");
 	} else {
 		setcookie('guestName', $comment['name'], time() + 2592000, $context->getProperty('uri.blog'));
 		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $context->getProperty('uri.blog'));
-		printIphoneSimpleMessage(_text('댓글이 등록되었습니다.'), _text('댓글 페이지로 이동'), $context->getProperty('uri.blog')."/comment/$entryId");
+		printMobileSimpleMessage(_text('댓글이 등록되었습니다.'), _text('댓글 페이지로 이동'), $context->getProperty('uri.blog')."/comment/$entryId");
 	}
 }
 ?>

@@ -5,9 +5,9 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-if (false) {
-	fetchConfigVal();
-}
+$context = Model_Context::getInstance();
+printMobileHTMLHeader();
+printMobileHTMLMenu();
 if(!empty($suri['id'])) $period = $suri['id'];
 else $period = Timestamp::getYearMonth();
 
@@ -17,9 +17,9 @@ if(isset($period)) {
 	$list = array('title' => getPeriodLabel($period), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	?>
-	<ul class="posts" id="archive_<?php echo $suri['page'];?>" title="<?php echo getPeriodLabel($period);?>" selected="false">
+	<ul data-role="listview" class="posts" id="archive_<?php echo $suri['page'];?>" title="<?php echo getPeriodLabel($period);?>" selected="false">
 	<?php
-		$itemsView = '<li class="group">'.CRLF;
+		$itemsView = '<li class="group ui-bar ui-bar-e">'.CRLF;
 		$itemsView .= '	<span class="left">' . getPeriodLabel($period) . ' ('.$list['count'].')</span>'.CRLF;
 		$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
@@ -35,26 +35,14 @@ if(isset($period)) {
 			$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 			$itemsView .= '		<div class="post">'.CRLF;
 			$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
-			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' . 'Comments(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
+			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' ._text('댓글'). '(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
 			$itemsView .= '		</div>'.CRLF;
 			$itemsView .= '	</a>'.CRLF;
 			$itemsView .= '</li>'.CRLF;
 		}
-
-		$itemsView .= '<li class="pagination">'.CRLF;
-		if(isset($paging['prev'])){
-			$itemsView .= '<a href="' .$context->getProperty('uri.blog') . '/archive/' . $period . '?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a>'.CRLF;
-		}
-		if (isset($paging['next'])) {
-			$itemsView .= '<a href="' .$context->getProperty('uri.blog') . '/archive/' . $period . '?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a>'.CRLF;
-		}
-		if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
-			$itemsView .= '<strong>' . $suri['page'] . '</strong>'.CRLF;
-		}
-		$itemsView .= '</li>'.CRLF;
+		$itemsView .= '</ul>'.CRLF;
 		print $itemsView;
-	?>
-	</ul>
-<?php
+		print printMobileListNavigation($paging,'archive/',$period);
+printMobileHTMLFooter();
 }
 ?>

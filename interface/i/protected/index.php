@@ -15,6 +15,6 @@ if(!is_null($entry) && isset($_POST['password']) && $entry['password'] == $_POST
 	setcookie('GUEST_PASSWORD', $_POST['password'], time() + 86400, $context->getProperty('uri.blog')."/");
 	header("Location: ".$context->getProperty('uri.blog')."/entry/{$suri['id']}");
 }else{
-	printIphoneErrorPage(_text('Password (again)!'), _text('Wrong password.'), $context->getProperty('uri.blog')."/entry/{$suri['id']}");
+	printMobileErrorPage(_text('Password (again)!'), _text('Wrong password.'), $context->getProperty('uri.blog')."/entry/{$suri['id']}");
 }
 ?>

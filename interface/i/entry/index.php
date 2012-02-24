@@ -5,23 +5,27 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+$context = Model_Context::getInstance();
+printMobileHTMLHeader();
+
 if(empty($suri['id']) && empty($suri['value'])) {
+	printMobileHTMLMenu('','list');
 	$blog['entriesOnList'] = 8;
 	if(!$listWithPaging = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnList']))
 		$listWithPaging = array(array(), array('total' => 0));
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 ?>
-	<ul class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
+	<ul data-role="listview" class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
 <?php
-	$itemsView = '<li class="group">'.CRLF;
+	$itemsView = '<li class="group ui-bar ui-bar-e">'.CRLF;
 	$itemsView .= '	<span class="left">'._text('글목록').'('.$list['count'].')</span>'.CRLF;
 	$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 	$itemsView .= '</li>'.CRLF;
 	foreach ($list['items'] as $item) {	
 		$author = User::getName($item['userid']);
-		if($imageName = printIphoneAttachmentExtract($item['content'])){
-			$imageSrc = printIphoneImageResizer($blogid, $imageName, 28);
+		if($imageName = printMobileAttachmentExtract($item['content'])){
+			$imageSrc = printMobileImageResizer($blogid, $imageName, 28);
 		}else{
 			$imageSrc = $context->getProperty('service.path') . '/resources/style/iphone/image/noPostThumb.png';
 		}
@@ -35,30 +39,18 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		$itemsView .= '	</a>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 	}
-
-	$itemsView .= '<li class="pagination">'.CRLF;
-	if(isset($paging['prev'])){
-		$itemsView .= '<a href="' .$context->getProperty('uri.blog') . '/entry?page=' . $paging['prev'] . '" class="previous">'._textf('%1 페이지',$paging['prev']) . '</a>'.CRLF;
-	}
-	if (isset($paging['next'])) {
-		$itemsView .= '<a href="' .$context->getProperty('uri.blog') . '/entry?page=' . $paging['next'] . '" class="next">'._textf('%1 페이지',$paging['next']) . '</a>'.CRLF;
-	}
-	if ($suri['page'] > 1 && $suri['page'] != $paging['pages']) {
-		$itemsView .= '<strong>' . $suri['page'] . '</strong>'.CRLF;
-	}
-	$itemsView .= '</li>'.CRLF;
+	$itemsView .= '</ul>'.CRLF;
 	print $itemsView;
-?>
-	</ul>
-<?php
+	print printMobileListNavigation($paging,'entry');
 } else {
 	if(!empty($suri['id'])) {
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 	} else if(!empty($suri['value'])) {
 		$entryPrint = true;
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
-		printIphoneHtmlHeader();
+		printMobileHtmlHeader();
 	}
+	printMobileHTMLMenu('','list');
 	
 	$entry = $entries ? $entries[0] : null;
 ?>
@@ -67,13 +59,13 @@ if(empty($suri['id']) && empty($suri['value'])) {
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
 			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
 		</div>
-		<div class="content"><?php printIphoneEntryContentView($blogid, $entry, null); ?></div>
+		<div class="content"><?php printMobileEntryContentView($blogid, $entry, null); ?></div>
 <?php 
 	$entryTags = getTags($entry['blogid'], $entry['id']);
 	if (sizeof($entryTags) > 0) {
 ?>
-		<h2 class="tags_title">Tags</h2>
-		<div class="entry_tags">
+		<div class="entry_tags" data-role="content" data-theme="c">
+		<h3 class="tags_title">Tags</h3>
 <?php
 		$tags = array();
 		$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
@@ -83,6 +75,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		echo implode(",\r\n", array_values($tags));
 ?>
 		</div>
+	</div>
 <?php
 	}
 ?>
@@ -90,19 +83,15 @@ if(empty($suri['id']) && empty($suri['value'])) {
 <?php 
 	
 	if(doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
-		printIphoneNavigation($entry, true, true, $paging);
+		printMobileNavigation($entry, true, true, $paging);
 	} else {
-		printIphoneNavigation($entry, false, false, $paging);
+		printMobileNavigation($entry, false, false, $paging);
 	}
-?>
-        </fieldset>
-	</div>
-<?php
 	if(!empty($entryPrint)) {
 ?>
 		</div>
 <?php
-		printIphoneHtmlFooter();
 	}
 }
+printMobileHTMLFooter();
 ?>

@@ -5,6 +5,10 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+printMobileHTMLHeader();
+printMobileHTMLMenu('','comment');
+
+
 if(isset($_GET['page'])) $page = $_GET['page'];
 else $page = 1;
 if(!empty($suri['id'])) {	// entry-related comment print
@@ -13,11 +17,11 @@ if(!empty($suri['id'])) {	// entry-related comment print
 ?>
 <div id="comment_<?php echo $entry['id']."_".time();?>" title="<?php echo _text('댓글');?> : <?php echo htmlspecialchars($entry['title']);?>" selected="false">
 <?php
-	printIphoneCommentView($entry['id']);
+	printMobileCommentView($entry['id']);
 ?>
 	<fieldset class="navi margin-top10">
 <?php
-	printIphoneNavigation($entry, false, true);
+	printMobileNavigation($entry, false, true);
 ?>
 	</fieldset>
 </div>
@@ -27,14 +31,11 @@ if(!empty($suri['id'])) {	// entry-related comment print
 ?>
 <div id="comment_<?php echo time();?>" title="<?php echo _text('최근 댓글');?>" selected="false">
 <?php
-	printIphoneRecentCommentView($page);
+	printMobileRecentCommentView($page);
+	printMobileNavigation($entry, false, false, $paging, 'comment');
 ?>
-	<fieldset class="navi margin-top10">
-<?php
-	printIphoneNavigation($entry, false, false, $paging, 'comment');
-?>
-	</fieldset>
 </div>
 <?php
 }
+printMobileHTMLFooter();
 ?>

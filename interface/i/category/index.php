@@ -5,9 +5,7 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-if (false) {
-	fetchConfigVal();
-}
+
 $category = $suri['id'];
 if(isset($category)) {
 	$blog['entriesOnList'] = 8;
@@ -24,8 +22,8 @@ if(isset($category)) {
 		$itemsView .= '</li>'.CRLF;
 		foreach ($list['items'] as $item) {	
 			$author = User::getName($item['userid']);
-			if($imageName = printIphoneAttachmentExtract(printIphoneEntryContent($blogid, $item['userid'], $item['id']))){
-				$imageSrc = printIphoneImageResizer($blogid, $imageName, 28);
+			if($imageName = printMobileAttachmentExtract(printMobileEntryContent($blogid, $item['userid'], $item['id']))){
+				$imageSrc = printMobileImageResizer($blogid, $imageName, 28);
 			}else{
 				$imageSrc = $context->getProperty('service.path') . '/resources/style/iphone/image/noPostThumb.png';
 			}
