@@ -1,1 +1,17 @@
 @charset "utf-8";
+
+.comment {
+}
+
+.comment p.ui-li-aside {
+	margin-right:50px;
+}
+
+.comment p.body {
+	margin-top:25px;
+}
+.comment_button {
+	position:absolute;
+	top:0;
+	right:5px;
+}

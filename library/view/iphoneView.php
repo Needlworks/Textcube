@@ -507,7 +507,7 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 					<?php echo Timestamp::format5($commentItem['written']);?>
 				</p>
 				<p class="right">
-					<div data-role="controlgroup">
+					<div class="comment_button" data-role="controlgroup" data-type="horizontal">
 						<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>" data-role="button" data-icon="plus" data-iconpos="notext"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> 
 						<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>" data-role="button" data-icon="delete" data-iconpos="notext"><?php echo _text('지우기');?></a>
 					</div>
@@ -527,7 +527,9 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 					<?php echo Timestamp::format5($commentSubItem['written']);?>
 				</p>
 				<p class="right">
-					<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext"><?php echo _text('지우기');?></a><br />
+					<div class="comment_button" data-role="controlgroup" data-type="horizontal">
+						<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext"><?php echo _text('지우기');?></a>
+					</div>
 				</p>
 				<p class="body">
 				<?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('Secret Comment').' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?>

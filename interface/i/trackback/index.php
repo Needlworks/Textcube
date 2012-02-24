@@ -31,5 +31,6 @@ if(!empty($suri['id'])) {
 ?>
 </div>
 <?php
+printMobileHTMLFooter();
 }
 ?>
