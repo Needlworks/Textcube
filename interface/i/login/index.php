@@ -12,6 +12,7 @@ $IV = array(
 );
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
+requireView('iphoneView');
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
@@ -41,17 +42,18 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		$message=_text('권한이 없습니다.');
 	}
 }
-
 if(!doesHaveOwnership()) {
+	printMobileHTMLHeader();
+	printMobileHTMLMenu();
 	?>
 	<form id="Login" method="GET" action="<?php echo $blogURL;?>/login" title="Login" class="panel" selected="false">
         <h2><?php echo _text('블로그 로그인');?></h2>
-        <fieldset>
 			<?php if($message) { ?>
-			<div class="row">
-				<label><span class="loginError"><?php echo $message;?></span></label>
+			<div data-rel="dialog" class="row">
+				<span class="loginError"><?php echo $message;?></span>
 			</div>
 			<?php };?>
+        <fieldset>
             <div class="row">
 				<label for="loginid"><?php echo _text('E-mail');?></label>
 				<input type="email" class="input-text" id="loginid" name="loginid" value="<?php echo htmlspecialchars(empty($_POST['loginid']) ? (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : $_COOKIE['TSSESSION_LOGINID']) : $_POST['loginid']);?>" maxlength="64" tabindex="1" />
@@ -68,18 +70,23 @@ if(!doesHaveOwnership()) {
 		<input type="hidden" id="save" class="checkbox" name="save" />    
 		<input type="hidden" name="requestURI" value="#home" />
 
-		<a href="#" class="whiteButton " type="submit"><?php echo _text('블로그 로그인');?></a>
+		<a href="#" class="whiteButton" type="submit"><?php echo _text('블로그 로그인');?></a>
 	</form>
 <?php
 } else {
+	printMobileHTMLHeader();
+	printMobileHTMLMenu();
 ?>
 	<div id="Login" title="Login" class="panel" selected="false">
-		<div class="content">
-			<?php echo _text('로그인 하였습니다.');?>
+		<div class="content center">
+			<h2><?php echo _text('로그인 하였습니다.');?></h2>
 		</div>
-		<a href="#" onclick="self.location.reload();" class="whiteButton margin-top10"><?php echo _text('첫 페이지로 돌아가기');?></a>
-		<a href="<?php echo $defaultURL."/owner/center/dashboard";?>" onclick="window.location.href='<?php echo $defaultURL."/owner/center/dashboard";?>'" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
+		<div data-role="controlgroup">
+		<a href="#" data-role="button" onclick="self.location.reload();" class="whiteButton margin-top10"><?php echo _text('블로그 페이지로 돌아가기');?></a>
+		<a data-role="button" data-theme="e" href="<?php echo $defaultURL."/owner/center/dashboard";?>" onclick="window.location.href='<?php echo $defaultURL."/owner/center/dashboard";?>'" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
+		</div>
 	</div>
 <?php
+	printMobileHTMLFooter();
 }
 ?>

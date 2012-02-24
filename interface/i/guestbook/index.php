@@ -5,6 +5,8 @@
 define('__TEXTCUBE_IPHONE__', true);
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
+printMobileHTMLHeader();
+printMobileHTMLMenu('','guestbook');
 if(isset($suri['id'])) $page = $suri['id'];
 else $page = 1;
 ?>
@@ -18,3 +20,6 @@ else $page = 1;
 ?>
 	</fieldset>
 </div>
+<?php
+printMobileHTMLFooter();
+?>

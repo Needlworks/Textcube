@@ -13,6 +13,9 @@ select {
 	margin-left:100px !important;
 
 }
+.center {
+	text-align:center;
+}
 .comment {
 }
 
