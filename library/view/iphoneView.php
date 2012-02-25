@@ -578,6 +578,7 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 	if($mode != 'recent') {	
 		printMobileCommentFormView($entryId, ($entryId == 0 ? _text('방명록 쓰기') : _text('댓글 쓰기')), 'comment');
 	}
+	return array($comments, $paging);
 }
 
 function printMobileGuestbookView($page) {

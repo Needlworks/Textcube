@@ -12,7 +12,7 @@ else $page = 1;
 ?>
 <div id="guestbook_<?php echo time();?>" title="<?php echo _text('방명록');?>" selected="false">
 <?php
-	printMobileGuestbookView($page);
+	list($comments, $paging) = printMobileGuestbookView($page);
 	printMobileNavigation(0, false, false, $paging, 'guestbook');
 ?>
 </div>

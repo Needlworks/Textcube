@@ -28,7 +28,7 @@ if(!empty($suri['id'])) {	// entry-related comment print
 ?>
 <div id="comment_<?php echo time();?>" title="<?php echo _text('최근 댓글');?>" selected="false">
 <?php
-	printMobileRecentCommentView($page);
+	list($comments, $paging) = printMobileRecentCommentView($page);
 	printMobileNavigation($entry, false, false, $paging, 'comment');
 ?>
 </div>
