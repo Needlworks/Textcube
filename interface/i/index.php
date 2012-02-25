@@ -48,6 +48,7 @@ if(empty($suri['id'])) {
 	?>
 		<li><a href="#textcube" class="link"><span class="colorText"><span class="c1">T</span><span class="c2">e</span><span class="c3">x</span><span class="c4">t</span><span class="c5">c</span><span class="c6">u</span><span class="c7">b</span><span class="c8">e</span></span></a></li>
 	</ul>
+	<?php echo printMobileHTMLFooter();?>
   </div>
 <?php
 	 ?>
@@ -122,6 +123,5 @@ if(empty($suri['id'])) {
 		</div>
 	</div>
 <?php
-	printMobileHTMLFooter();
 }
 ?>

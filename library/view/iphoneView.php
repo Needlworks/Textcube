@@ -229,6 +229,10 @@ function printMobileHTMLHeader($title = '') {
 
 function printMobileHTMLFooter() {
 ?>
+	<div data-role="content" class="ui-bar" data-theme="c"><span class="footer_text"><?php echo _textf('이 페이지는 %1 %2 로 구동됩니다',TEXTCUBE_NAME,TEXTCUBE_VERSION);?></span>
+		<a data-role="button" data-theme="d" data-inline="true" data-icon="refresh"><?php echo _text('데스크탑 화면');?></a>
+	</div>
+
 	</body>
 </html>
 <?php
@@ -439,7 +443,6 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	$context = Model_Context::getInstance();
 	global $suri, $blogURL;
 ?>
-<!--	<div data-role="footer" class="ui-bar" data-theme="c">-->
 		<div data-role="navbar" data-theme="c">
 			<ul>
 		<?php
@@ -593,7 +596,7 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 	global $blogURL;
 ?>
 	
-	<form method="GET" action="<?php echo $blogURL;?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
+	<form method="POST" action="<?php echo $blogURL;?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
 	<h3><?php echo $title;?></h3>
 	<fieldset>
 		<?php
@@ -603,7 +606,7 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 		<input type="hidden" id="secret_<?php echo $entryId;?>" name="secret_<?php echo $entryId;?>" value="0" />
 	</fieldset>
 	<fieldset class="ui-grid-a">
-		<div class="ui-block-b"><label for="secret_<?php echo $entryId;?>" ><?php echo _text('비밀 댓글 여부');?></label></div>
+		<div class="ui-block-b"><label for="secret_<?php echo $entryId;?>" ><?php echo _text('공개 여부');?></label></div>
 		<div class="ui-block-a"><select name="secretButton" id="secret_<?php echo $entryId;?>" data-role="slider">
 			<option value="0"><?php echo _text('공개');?></option>
 			<option value="1"><?php echo _text('비공개');?></option>
@@ -611,19 +614,20 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 		</div>
 	</fieldset>
 	<fieldset>
-		<div data-role="fieldcontain">
+		<div data-role="fieldcontain" class="ui-hide-label">
 			<label for="name_<?php echo $entryId;?>"><?php echo _text('이름');?></label>
-			<input type="text" id="name_<?php echo $entryId;?>" name="name_<?php echo $entryId;?>" value="<?php echo isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : '';?>" />
+			<input type="text" id="name_<?php echo $entryId;?>" name="name_<?php echo $entryId;?>" value="<?php echo isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : '';?>" placeholder="<?php echo _text('이름');?>" />
 			<label for="password_<?php echo $entryId;?>"><?php echo _text('비밀번호');?></label>
-			<input type="password" id="password_<?php echo $entryId;?>" name="password_<?php echo $entryId;?>" />
+			<input type="password" id="password_<?php echo $entryId;?>" name="password_<?php echo $entryId;?>" placeholder="<?php echo _text('비밀번호');?>"/>
+
 			<label for="homepage_<?php echo $entryId;?>"><?php echo _text('홈페이지');?></label>
-			<input type="text" id="homepage_<?php echo $entryId;?>" name="homepage_<?php echo $entryId;?>"  value="<?php echo (isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://';?>" />
+			<input type="text" id="homepage_<?php echo $entryId;?>" name="homepage_<?php echo $entryId;?>"  value="<?php echo (isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://';?>" placeholder="<?php echo _text('홈페이지');?>"/>
 		</div>
 		<?php
 	}
 ?>
-		<div class="row">
-			<textarea cols="40" rows="6" id="comment_<?php echo $entryId;?>" name="comment_<?php echo $entryId;?>"></textarea>
+		<div data-role="fieldcontain" class="ui-hide-label">
+			<textarea cols="40" rows="6" id="comment_<?php echo $entryId;?>" name="comment_<?php echo $entryId;?>" placeholder="<?php echo _text('내용을 입력하세요');?>"></textarea>
 		</div>
 	</fieldset>
 	<fieldset class="ui-grid-a">
@@ -636,25 +640,31 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 }
 
 function printMobileErrorPage($messageTitle, $messageBody, $redirectURL) {
+	printMobileHTMLHeader();
+	printMobileHTMLMenu();
 ?>
 	<div id="postError" title="Error" class="panel">
 		<h2 class="title"><?php echo htmlspecialchars($messageTitle);?></h2>
-		<div class="content">
+		<div class="content ui-bar">
 			<?php echo htmlspecialchars($messageBody);?>
 		</div>
-		<a href="<?php echo $redirectURL;?>" class="whiteButton margin-top10"><?php echo _text('이전 페이지로 돌아가기');?></a>
+		<a data-role="button" data-transition="reverse slide" href="<?php echo $redirectURL;?>"><?php echo _text('이전 페이지로 돌아가기');?></a>
 	</div>
 <?php
+	printMobileHTMLFooter();
 }
 
 function printMobileSimpleMessage($message, $redirectMessage, $redirectURL, $title = '') {
+	printMobileHTMLHeader();
+	printMobileHTMLMenu();
 ?>
 	<div id="postSuccess" title="Successfully" class="panel">
-		<div class="content">
+		<div class="content ui-bar">
 			<?php echo htmlspecialchars($message);?>
 		</div>
-		<a href="<?php echo $redirectURL;?>" class="whiteButton margin-top10"><?php echo htmlspecialchars($redirectMessage);?></a>
+		<a data-role="button" data-transition="reverse slide" href="<?php echo $redirectURL;?>"><?php echo htmlspecialchars($redirectMessage);?></a>
 	</div>
 <?php
+	printMobileHTMLFooter();
 }
 ?>

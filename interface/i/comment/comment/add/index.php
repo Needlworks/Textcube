@@ -8,7 +8,7 @@ requireView('iphoneView');
 requireStrictRoute();
 $replyId = $suri['id'];
 $IV = array(
-	'GET' => array(
+	'POST' => array(
 		"name_$replyId" => array('string', 'default' => null),
 		"password_$replyId" => array('string', 'default' => ''),
 		"secret_$replyId" => array('string', 'default' => null),
@@ -19,19 +19,19 @@ $IV = array(
 if(!Validator::validate($IV))
 	Respond::NotFoundPage();
 list($entryId) = getCommentAttributes($blogid, $replyId, 'entry');
-if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
+if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	printMobileErrorPage(_text('댓글 작성 오류.'), _text('이름을 입력해 주세요.'), "$blogURL/comment/comment/$replyId");
-} else if (!doesHaveOwnership() && empty($_GET["comment_$replyId"])) {
+} else if (!doesHaveOwnership() && empty($_POST["comment_$replyId"])) {
 	printMobileErrorPage(_text('댓글 작성 오류.'), _text('내용을 입력해 주세요.'), "$blogURL/comment/comment/$replyId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
 	$comment['parent'] = $replyId;
-	$comment['name'] = empty($_GET["name_$replyId"]) ? '' : $_GET["name_$replyId"];
-	$comment['password'] = empty($_GET["password_$replyId"]) ? '' : $_GET["password_$replyId"];
-	$comment['homepage'] = empty($_GET["homepage_$replyId"]) || ($_GET["homepage_$replyId"] == 'http://') ? '' : $_GET["homepage_$replyId"];
-	$comment['secret'] = empty($_GET["secret_$replyId"]) ? 0 : 1;
-	$comment['comment'] = $_GET["comment_$replyId"];
+	$comment['name'] = empty($_POST["name_$replyId"]) ? '' : $_POST["name_$replyId"];
+	$comment['password'] = empty($_POST["password_$replyId"]) ? '' : $_POST["password_$replyId"];
+	$comment['homepage'] = empty($_POST["homepage_$replyId"]) || ($_POST["homepage_$replyId"] == 'http://') ? '' : $_POST["homepage_$replyId"];
+	$comment['secret'] = empty($_POST["secret_$replyId"]) ? 0 : 1;
+	$comment['comment'] = $_POST["comment_$replyId"];
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	$result = addComment($blogid, $comment);
 	if (in_array($result, array('ip', 'name', 'homepage', 'comment', 'openidonly', 'etc'))) {

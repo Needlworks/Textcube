@@ -22,6 +22,10 @@
 	padding-top:5px;
 }
 
+.footer_text {
+	font-size:0.625em;
+	text-align:center;
+}
 /*** Post lists ***/
 li.post_item .image {
 	display:block;
