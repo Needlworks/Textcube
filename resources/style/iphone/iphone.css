@@ -55,6 +55,7 @@ li.post_item .post .description {
 	font-size:1em;
 }
 
+.panel h3,
 .entry_tags h3 {
 	border-left:10px solid #ccc;
 	font-size:1em;
