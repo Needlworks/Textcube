@@ -490,6 +490,7 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 }
 
 function printMobileTrackbackView($entryId, $page, $mode = null) {
+	$context = Model_Context::getInstance();
 	global $paging, $blogid;
 	if($mode == 'recent') {
 		list($trackbacks,$paging) = getRemoteResponsesWithPaging($blogid, -1, $page, 10, null, '?page=');
@@ -505,12 +506,9 @@ function printMobileTrackbackView($entryId, $page, $mode = null) {
 ?>
 		<ul data-role="listview" data-inset="true" id="trackback_<?php echo $commentItem['id'];?>" class="trackback">
 			<li class="group">
-				<span class="left">
+				<a href="<?php echo $context->getProperty('uri.blog');?>/entry/<?php echo $trackback['entry'];?>">
 					<?php echo htmlspecialchars($trackback['subject']);?>
-				</span>
-				<span class="right">
-					<a href="<?php echo $blogURL;?>/i/entry/<?php echo $trackback['entry'];?>"><?php echo  _text('글보기');?></a>
-				</span>
+				</a>
 			</li>
 			<li class="body">
 				<p class="ui-li-aside"><?php echo Timestamp::format5($trackback['written']);?></p>
