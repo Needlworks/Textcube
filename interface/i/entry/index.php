@@ -19,7 +19,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	<ul data-role="listview" class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
 <?php
 	$itemsView = '<li class="group ui-bar ui-bar-e">'.CRLF;
-	$itemsView .= '	<span class="left">'._text('글목록').'('.$list['count'].')</span>'.CRLF;
+	$itemsView .= '	<span class="left">'._text('글목록').'</span>('.$list['count'].')</span>'.CRLF;
 	$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
 	$itemsView .= '</li>'.CRLF;
 	foreach ($list['items'] as $item) {	
@@ -34,7 +34,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 		$itemsView .= '		<div class="post">'.CRLF;
 		$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
-		$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' . _text('댓글').'(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
+		$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . '</span><span class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</span>'.CRLF;
 		$itemsView .= '		</div>'.CRLF;
 		$itemsView .= '	</a>'.CRLF;
 		$itemsView .= '</li>'.CRLF;

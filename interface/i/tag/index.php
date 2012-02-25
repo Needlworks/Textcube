@@ -41,7 +41,7 @@ if(strlen($suri['value'])) {
 			$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 			$itemsView .= '		<div class="post">'.CRLF;
 			$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
-			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' ._text('댓글'). '(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
+			$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . '</span><span class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</span>'.CRLF;
 			$itemsView .= '		</div>'.CRLF;
 			$itemsView .= '	</a>'.CRLF;
 			$itemsView .= '</li>'.CRLF;
