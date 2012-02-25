@@ -41,7 +41,7 @@ if(isset($period)) {
 		}
 		$itemsView .= '</ul>'.CRLF;
 		print $itemsView;
-		print printMobileListNavigation($paging,'archive/',$period);
+		print printMobileListNavigation($paging,'archive/'.$period);
 printMobileHTMLFooter();
 }
 
