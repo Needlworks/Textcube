@@ -1,29 +1,35 @@
 @charset "utf-8";
 
-label {
+.commentForm label {
 	position:absolute;
+	right:5px;
 	line-height:2em;
+	color:#bbb !important;
 }
 
-input {
-	margin-left:100px;
-}
+/*input {
+	padding-left:100px;
+}*/
 
-select {
+/*select {
 	margin-left:100px !important;
+}*/
 
-}
 .center {
 	text-align:center;
 }
 
 .blog_info {
-	height:80px;
+	height:81px;
+	padding:0 !important;
 }
 
 .blog_info .logo {
 	float:left;
 	padding-right:15px;
+}
+.blog_info .blog_container {
+	padding-top:10px;
 }
 
 .blog_info .description {
