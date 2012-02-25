@@ -211,13 +211,6 @@ function printMobileHTMLHeader($title = '') {
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/iphone.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.css" />
-<?php
-	if(Setting::getBlogSettingGlobal('useBlogIconAsIphoneShortcut',true) && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
-?>
-	<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default')."/index.gif";?>" />
-<?php
-	}
-?>
 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery.mobile/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.js"></script>
 	<!--<script>
@@ -303,7 +296,6 @@ function printMobileFreeImageResizer($content) {
 
 function printMobileImageResizer($blogid, $filename, $cropSize){
 	global $serviceURL;
-	requireComponent('Textcube.Function.misc');
 
 	if (!is_dir(ROOT."/cache/thumbnail")) {
 		@mkdir(ROOT."/cache/thumbnail");
