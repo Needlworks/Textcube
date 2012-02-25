@@ -245,7 +245,7 @@ function printMobileHTMLMenu($title = '',$menu='') {
 	<div data-role="header" class="toolbar">
 		<h1 id="pageTitle"><?php echo htmlspecialchars($context->getProperty('blog.title'));?></h1>
 		<a data-role="button" data-rel="back" data-icon="back" data-iconpos="notext" id="backButton" class="button" href="#"><?php echo _text('뒤로');?></a>
-		<a data-role="button" data-icon="search" class="button" href="#searchForm" id="searchButton" onclick="searchAction(true);"><?php echo _text('검색');?></a>
+		<a data-role="button" data-icon="search" data-transition="slidedown" class="link" href="<?php echo $context->getProperty('uri.blog');?>/search" id="searchButton"  data-rel="dialog"><?php echo _text('검색');?></a>
 	</div>
 	<div data-role="navbar" data-position="fixed" class="toolbar shortcut">
 		<ul>

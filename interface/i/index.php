@@ -92,20 +92,6 @@ if(empty($suri['id'])) {
 	</ul>
 	</div>
 	
-	<div data-role="page" id="search">
-    <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $blogURL;?>/search">
-        <fieldset>
-            <h1><?php echo _text('글 검색');?></h1>
-            <a class="button leftButton" type="cancel" onclick="searchAction(false);"><?php echo _text('취소');?></a>
-            <a class="button blueButton" type="submit"><?php echo _text('검색');?></a>
-            
-            <div class="searchIcon"></div>
-			<img id="clearButton" class="clearButton" src="<?php echo $service['path'];?>/resources/image/spacer.gif" onclick="cancelAction(this);" />
-			<input id="qString" type="text" name="search" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
-		</fieldset>
-    </form>
-	</div>
-	
 	<div data-role="page" id="textcube" title="TEXTCUBE" selected="false">
 		<?php printMobileHTMLMenu();?>
 		<div class="textcubeLogo">&nbsp;</div>
