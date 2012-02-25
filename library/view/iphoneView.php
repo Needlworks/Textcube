@@ -78,18 +78,18 @@ function printMobileCategoriesView($totalPosts, $categories) {
 function printMobilePrintTreeView($tree, $xhtml=true) {
 	if ($xhtml) {
 		$printCategory  = '<li class="category"><a href="' . htmlspecialchars($tree['link']) . '" class="link">' . htmlspecialchars($tree['label']);
-		$printCategory .= ' <span class="c_cnt">' . $tree['value'] . '</span>';
+		$printCategory .= ' <span class="c_cnt ui-li-count">' . $tree['value'] . '</span>';
 		$printCategory .= '</a></li>';
 		for ($i=0; $i<count($tree['children']); $i++) {
 			$child = $tree['children'][$i];
 			$printCategory .= '<li class="category" data-theme="b"><a href="' . htmlspecialchars($child['link']) . '" class="link">' . htmlspecialchars($child['label']);
-			$printCategory .= ' <span class="c_cnt">' . $child['value'] . '</span>';
+			$printCategory .= ' <span class="c_cnt ui-li-count">' . $child['value'] . '</span>';
 			$printCategory .= '</a></li>';
 			if (sizeof($child['children']) > 0) {
 				for ($j=0; $j<count($child['children']); $j++) {
 					$leaf = $child['children'][$j];
 					$printCategory .= '<li class="category_sub"><a href="' . htmlspecialchars($leaf['link']) . '" class="link">&bull;&nbsp; ' . htmlspecialchars($leaf['label']);
-					$printCategory .= ' <span class="c_cnt">' . $leaf['value'] . '</span>';
+					$printCategory .= ' <span class="c_cnt ui-li-count">' . $leaf['value'] . '</span>';
 					$printCategory .= '</a></li>';
 				}
 			}
