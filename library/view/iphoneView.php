@@ -613,8 +613,8 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 		<input type="hidden" id="secret_<?php echo $entryId;?>" name="secret_<?php echo $entryId;?>" value="0" />
 	</fieldset>
 	<fieldset class="ui-grid-a">
-		<div class="ui-block-a"><label for="secret_<?php echo $entryId;?>" ><?php echo _text('비밀 댓글');?></label></div>
-		<div class="ui-block-b"><select name="secretButton" id="secret_<?php echo $entryId;?>" data-role="slider">
+		<div class="ui-block-b"><label for="secret_<?php echo $entryId;?>" ><?php echo _text('비밀 댓글');?></label></div>
+		<div class="ui-block-a"><select name="secretButton" id="secret_<?php echo $entryId;?>" data-role="slider">
 			<option value="0">|</option>
 			<option value="1">O</option>
 			</select>
