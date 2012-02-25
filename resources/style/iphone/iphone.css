@@ -3,17 +3,10 @@
 .commentForm label {
 	position:absolute;
 	right:5px;
+	padding-top:10px;
 	line-height:2em;
-	color:#bbb !important;
+	color:#aaa !important;
 }
-
-/*input {
-	padding-left:100px;
-}*/
-
-/*select {
-	margin-left:100px !important;
-}*/
 
 .center {
 	text-align:center;
