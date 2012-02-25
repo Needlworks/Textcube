@@ -17,6 +17,21 @@ select {
 	text-align:center;
 }
 
+.blog_info {
+	height:80px;
+}
+
+.blog_info .logo {
+	float:left;
+	padding-right:15px;
+}
+
+.blog_info .description {
+	display:block;
+	margin-top:5px;
+	padding-top:5px;
+}
+
 /*** Post lists ***/
 li.post_item .image {
 	display:block;
