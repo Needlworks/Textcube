@@ -124,11 +124,11 @@ function printMobileArchivesView($archives) {
 	foreach ($archives as $archive) {
 		$newPeriod = substr($archive['period'],0,4);
 		if($newPeriod != $oldPeriod){
-			$printArchive .= '<li class="group"><span class="left">' . $newPeriod . '</span><span class="right">&nbsp;</span></li>';
+			$printArchive .= '<li data-role="list-divider" class="group"><span class="left">' . $newPeriod . '</span><span class="right">&nbsp;</span></li>';
 		}
 		$dateName = date("F Y",(mktime(0,0,0,substr($archive['period'],4),1,substr($archive['period'],0,4))));
 		$printArchive .= '<li class="archive"><a href="' . $blogURL . '/archive/' . $archive['period'] . '" class="link">' . $dateName;
-		$printArchive .= ' <span class="c_cnt">' . $archive['count'] . '</span>';
+		$printArchive .= ' <span class="ui-li-count">' . $archive['count'] . '</span>';
 		$printArchive .= '</a></li>';
 		$oldPeriod = substr($archive['period'],0,4);
 	}

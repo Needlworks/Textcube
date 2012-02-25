@@ -16,7 +16,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 ?>
-	<ul data-role="listview" class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
+	<ul data-role="listview" class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false" data-inset="true">
 <?php
 	$itemsView = '<li class="group ui-bar ui-bar-e">'.CRLF;
 	$itemsView .= '	<span class="left">'._text('글목록').'</span>('.$list['count'].')</span>'.CRLF;
@@ -25,17 +25,16 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	foreach ($list['items'] as $item) {	
 		$author = User::getName($item['userid']);
 		if($imageName = printMobileAttachmentExtract($item['content'])){
-			$imageSrc = printMobileImageResizer($blogid, $imageName, 55);
+			$imageSrc = printMobileImageResizer($blogid, $imageName, 64);
 		}else{
 			$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 		}
 		$itemsView .= '<li class="post_item">'.CRLF;
-		$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="55px" height="55px" /></span>'.CRLF;
 		$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
-		$itemsView .= '		<div class="post">'.CRLF;
-		$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
-		$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . '</span><span class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</span>'.CRLF;
-		$itemsView .= '		</div>'.CRLF;
+		
+		$itemsView .= '	<img src="' . $imageSrc . '"  />'.CRLF;
+		$itemsView .= '	<h3>'.fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</h3>'.CRLF;
+		$itemsView .= '	<p>' . Timestamp::format5($item['published']) . '</span><span class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</p>'.CRLF;
 		$itemsView .= '	</a>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 	}
