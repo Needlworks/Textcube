@@ -23,11 +23,11 @@ li.post_item .image {
 	float:left;
 }
 
-li.post_item .image img{
-	border:3px solid #ccc;
+/*li.post_item .image img{
+	border:1px solid #ccc;
 	margin:6px;
 }
-
+*/
 li.post_item .post .title {
 	display:block;
 }

@@ -25,12 +25,12 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	foreach ($list['items'] as $item) {	
 		$author = User::getName($item['userid']);
 		if($imageName = printMobileAttachmentExtract($item['content'])){
-			$imageSrc = printMobileImageResizer($blogid, $imageName, 28);
+			$imageSrc = printMobileImageResizer($blogid, $imageName, 55);
 		}else{
 			$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
 		}
 		$itemsView .= '<li class="post_item">'.CRLF;
-		$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="36px" height="36px" /></span>'.CRLF;
+		$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="55px" height="55px" /></span>'.CRLF;
 		$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
 		$itemsView .= '		<div class="post">'.CRLF;
 		$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
