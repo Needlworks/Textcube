@@ -13,12 +13,8 @@ else $page = 1;
 <div id="guestbook_<?php echo time();?>" title="<?php echo _text('방명록');?>" selected="false">
 <?php
 	printMobileGuestbookView($page);
-?>
-	<fieldset class="navi margin-top10">
-<?php
 	printMobileNavigation(0, false, false, $paging, 'guestbook');
 ?>
-	</fieldset>
 </div>
 <?php
 printMobileHTMLFooter();
