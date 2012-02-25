@@ -1,13 +1,4 @@
 @charset "utf-8";
-
-.commentForm label {
-	position:absolute;
-	right:5px;
-	padding-top:10px;
-	line-height:2em;
-	color:#aaa !important;
-}
-
 .center {
 	text-align:center;
 }
@@ -86,4 +77,16 @@ li.post_item .post .description {
 	top:0;
 	right:5px;
 }
+/*** Comment Form ***/
+.commentForm h3 {
+	padding-left:15px;
+	border-left:10px solid #ccc;
+}
 
+.commentForm label {
+	position:absolute;
+	right:5px;
+	padding-top:10px;
+	line-height:2em;
+	color:#aaa !important;
+}

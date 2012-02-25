@@ -604,7 +604,7 @@ function printMobileCommentFormView($entryId, $title, $actionURL) {
 ?>
 	
 	<form method="GET" action="<?php echo $blogURL;?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
-	<h2><?php echo $title;?></h2>
+	<h3><?php echo $title;?></h3>
 	<fieldset>
 		<?php
 	if (!doesHaveOwnership()) {
