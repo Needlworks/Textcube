@@ -18,9 +18,6 @@ if(!empty($suri['id'])) {	// entry-related comment print
 <div id="comment_<?php echo $entry['id']."_".time();?>" title="<?php echo _text('댓글');?> : <?php echo htmlspecialchars($entry['title']);?>" selected="false">
 <?php
 	printMobileCommentView($entry['id']);
-?>
-	<fieldset class="navi margin-top10">
-<?php
 	printMobileNavigation($entry, false, true);
 ?>
 	</fieldset>

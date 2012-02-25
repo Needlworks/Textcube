@@ -57,11 +57,14 @@ li.post_item .post .description {
 }
 
 .comment p.ui-li-aside {
-	margin-right:50px;
+	padding-right:50px;
 }
 
 .comment p.body {
 	margin-top:25px;
+}
+.comment li.groupSub {
+	border-left:20px solid #ccc;
 }
 
 .comment_button {
