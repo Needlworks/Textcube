@@ -448,7 +448,7 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-				<li><a data-role="button" data-theme="d" data-icon="arrow-l" data-transition="reverse slide" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
+				<li><a data-role="button" data-theme="d" data-icon="arrow-l" data-transition="reverse slide" href="<?php echo $blogURL.'/'.$mode;?><?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
@@ -475,7 +475,7 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 	}
 	if (isset($paging['next'])) {
 ?>
-				<li><a data-role="button" data-theme="d" data-icon="arrow-r" data-transition="slide" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
+				<li><a data-role="button" data-theme="d" data-icon="arrow-r" data-transition="slide" href="<?php echo $blogURL.'/'.$mode;?><?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
 		<?php
 	}
 ?>
