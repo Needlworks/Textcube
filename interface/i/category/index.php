@@ -33,7 +33,8 @@ if(isset($category)) {
 		
 		$itemsView .= '	<img src="' . $imageSrc . '"  />'.CRLF;
 		$itemsView .= '	<h3>'.fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</h3>'.CRLF;
-		$itemsView .= '	<p>' . Timestamp::format5($item['published']) . '</span><span class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</p>'.CRLF;
+		$itemsView .= '	<p class="ui-li-aside">' . Timestamp::format5($item['published']) . '</span><span class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</p>'.CRLF;
+		$itemsView .= '	<p>'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($item['content'])), 150)).'</p>'.CRLF;
 		$itemsView .= '	</a>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 	}
