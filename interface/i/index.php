@@ -25,8 +25,9 @@ if(empty($suri['id'])) {
 		$itemsView .= '	</div>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		print $itemsView;
+		// Recent posts
 	?>
-		<li><a href="<?php echo $blogURL;?>/entry" rel="external" class="link"><?php echo _text('글목록');?></a></li>
+		<li><a href="<?php echo $blogURL;?>/entry" rel="external" class="link"><?php echo _text('전체 글목록');?></a></li>
 		<li><a href="#categories" class="link"><?php echo _text('분류');?></a></li>
 		<li><a href="#archives" class="link"><?php echo _text('보관목록');?></a></li>
 		<li><a href="#tags" class="link"><?php echo _text('태그');?></a></li>
