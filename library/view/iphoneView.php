@@ -31,14 +31,16 @@ function printMobileEntryContent($blogid, $userid, $id) {
 	return $result;
 }
 
-function printMobileEntryListView($entries,$listid, $title, $paging, $count = 0) {
+function printMobileEntryListView($entries,$listid, $title, $paging, $count = 0,$header = true) {
 	$context = Model_Context::getInstance();
 	$itemsView = '<ul data-role="listview" class="posts" id="'.$listid.'" title="'.$title.'" selected="false" data-inset="true">'.CRLF;
-	$itemsView .= '<li class="group ui-bar ui-bar-e">'.CRLF;
-	$itemsView .= '	<h3>'.$title.'</h3>'.CRLF;
-	$itemsView .= '	<span class="ui-li-count">'.$count.'</span>'.CRLF;
-	$itemsView .= '	<span class="ui-li-aside">'._text('페이지').' '. $paging['page'] . ' / '.$paging['pages'].'</span>'.CRLF;
-	$itemsView .= '</li>'.CRLF;
+	if($header) {
+		$itemsView .= '<li class="group ui-bar ui-bar-e">'.CRLF;
+		$itemsView .= '	<h3>'.$title.'</h3>'.CRLF;
+		$itemsView .= '	<span class="ui-li-count">'.$count.'</span>'.CRLF;
+		$itemsView .= '	<span class="ui-li-aside">'._text('페이지').' '. $paging['page'] . ' / '.$paging['pages'].'</span>'.CRLF;
+		$itemsView .= '</li>'.CRLF;
+	}
 	foreach ($entries as $item) {	
 		$author = User::getName($item['userid']);
 		if($imageName = printMobileAttachmentExtract($item['content'])){

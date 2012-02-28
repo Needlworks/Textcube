@@ -26,10 +26,12 @@ if(empty($suri['id'])) {
 		$itemsView .= '</li>'.CRLF;
 		print $itemsView;
 		// Recent posts
-		if($listWithPaging = getEntriesWithPaging($blogid, $suri['page'], 3)) {
+		if($listWithPaging = getEntriesWithPaging($blogid, 1, 3)) {
 			$list = $listWithPaging[0];
 			$paging = $listWithPaging[1];
-			print printMobileEntryListView($list['items'],'recent_posts_'.$suri['page'],_text('글목록'),$paging, $list['count']);
+			$list = array('title' => '', 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
+			print '<li data-role="list-divider" class="group">'._text('최근 글').'</li>'.CRLF; 
+			print printMobileEntryListView($list['items'],'recent_posts',_text('글목록'),$paging, 0,false);
 		}
 	?>
 		<li data-role="list-divider"><?php echo _text('메뉴');?></li>
