@@ -31,6 +31,39 @@ function printMobileEntryContent($blogid, $userid, $id) {
 	return $result;
 }
 
+function printMobileEntryListView($entries,$listid, $title, $paging, $count = 0) {
+	$context = Model_Context::getInstance();
+	$itemsView = '<ul data-role="listview" class="posts" id="'.$listid.'" title="'.$title.'" selected="false" data-inset="true">'.CRLF;
+	$itemsView .= '<li class="group ui-bar ui-bar-e">'.CRLF;
+	$itemsView .= '	<h3>'.$title.'</h3>'.CRLF;
+	$itemsView .= '	<span class="ui-li-count">'.$count.'</span>'.CRLF;
+	$itemsView .= '	<span class="ui-li-aside">'._text('페이지').' '. $paging['page'] . ' / '.$paging['pages'].'</span>'.CRLF;
+	$itemsView .= '</li>'.CRLF;
+	foreach ($entries as $item) {	
+		$author = User::getName($item['userid']);
+		if($imageName = printMobileAttachmentExtract($item['content'])){
+			$imageSrc = printMobileImageResizer($context->getProperty('blog.id'), $imageName, 80);
+		}else{
+			$imageSrc = $context->getProperty('service.path') . '/resources/style/iphone/image/noPostThumb.png';
+		}
+		$itemsView .= '<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-btn-up-c" style="font-size:8pt;font-weight:normal">';
+		$itemsView .= '	' . Timestamp::format5($item['published']) . '</li>'.CRLF;
+		$itemsView .= '<li class="post_item">'.CRLF;
+		$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
+		
+		$itemsView .= '	<img src="' . $imageSrc . '"  />'.CRLF;
+		$itemsView .= '	<h3>'.fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</h3>'.CRLF;
+		$itemsView .= '	<p class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</p>'.CRLF;
+		if(!empty($item['content'])) {
+			$itemsView .= '	<p>'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($item['content'])), 150)).'</p>'.CRLF;
+		}
+		$itemsView .= '	</a>'.CRLF;
+		$itemsView .= '</li>'.CRLF;
+	}
+	$itemsView .= '</ul>'.CRLF;
+	return $itemsView;
+}
+
 function printMobileCategoriesView($totalPosts, $categories) {
 	global $blogURL, $service, $blog;
 	requireModel('blog.category');
