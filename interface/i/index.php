@@ -27,23 +27,9 @@ if(empty($suri['id'])) {
 		print $itemsView;
 		// Recent posts
 		if($listWithPaging = getEntriesWithPaging($blogid, $suri['page'], 3)) {
-			$itemsView = '<li data-role="list-divider" class="group">'._text('최근 글').'</li>'.CRLF;
-			foreach($listWithPaging[0] as $item) {
-				if($imageName = printMobileAttachmentExtract($item['content'])){
-					$imageSrc = printMobileImageResizer($blogid, $imageName, 80);
-				}else{
-					$imageSrc = $service['path'] . '/resources/style/iphone/image/noPostThumb.png';
-				}
-				$itemsView .= '<li class="post_item">'.CRLF;
-				$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
-				$itemsView .= '	<img src="' . $imageSrc . '"  />'.CRLF;
-				$itemsView .= '	<h3>'.fireEvent('ViewListTitleMobile', htmlspecialchars($item['title'])) . '</h3>'.CRLF;
-				$itemsView .= '	<p class="ui-li-aside">' . Timestamp::format5($item['published']) . '</span><span class="ui-li-count"> ' . _textf('댓글 %1개',($item['comments'] > 0 ? $item['comments'] : 0))  . '</p>'.CRLF;
-				$itemsView .= '	<p>'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($item['content'])), 150)).'</p>'.CRLF;
-				$itemsView .= '	</a>'.CRLF;
-				$itemsView .= '</li>'.CRLF;
-			}
-			print $itemsView;
+			$list = $listWithPaging[0];
+			$paging = $listWithPaging[1];
+			print printMobileEntryListView($list['items'],'recent_posts_'.$suri['page'],_text('글목록'),$paging, $list['count']);
 		}
 	?>
 		<li data-role="list-divider"><?php echo _text('메뉴');?></li>
