@@ -566,7 +566,7 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 	} else {
 		foreach ($comments as $commentItem) {
 ?>
-		<ul data-role="listview" id="comment_<?php echo $commentItem['id'];?>" class="comment">
+		<ul data-role="listview" data-inset="true" id="comment_<?php echo $commentItem['id'];?>" class="comment">
 			<li class="group">
 				<p class="left">
 					<?php if(!empty($commentItem['name'])) { ?><strong><?php echo htmlspecialchars($commentItem['name']);?></strong><?php } ?>
@@ -580,15 +580,15 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 						<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>" data-role="button" data-icon="delete" data-iconpos="notext"><?php echo _text('지우기');?></a>
 					</div>
 				</p>
-				<p class="body">
+			</li>
+			<li class="body">
 				<?php echo ($commentItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'.($entryId == 0 ? _text('비밀 방명록') : _text('비밀 댓글')).' &gt;&gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentItem['comment'])));?>
-				</p>
 			</li>
 			<?php
 			foreach (getCommentComments($commentItem['id']) as $commentSubItem) {
 ?>
 			<li class="groupSub">
-				<p class="left">&nbsp;Re :
+				<p class="left">Re :
 					<?php if(!empty($commentSubItem['name'])) { ?><strong><?php echo htmlspecialchars($commentSubItem['name']);?></strong><?php } ?>
 				</p>
 				<p class="ui-li-aside">
@@ -599,9 +599,9 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 						<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext"><?php echo _text('지우기');?></a>
 					</div>
 				</p>
-				<p class="body">
+			</li>
+			<li class="body">
 				<?php echo ($commentSubItem['secret'] && doesHaveOwnership() ? '<div class="hiddenComment" style="font-weight: bold; color: #e11">'._t('비밀 댓글').' &gt;</div>' : '').nl2br(addLinkSense(htmlspecialchars($commentSubItem['comment'])));?>
-				</p>
 			</li>
 			<?php
 			}
