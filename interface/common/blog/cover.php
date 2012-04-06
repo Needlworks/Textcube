@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -7,9 +7,9 @@
 if (isset($cache->contents)) {
 	dress('cover', $cache->contents, $view);
 } else if (isset($skin)) {
-	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+	if( rtrim( $suri['url'], '/' ) == $context->getProperty('uri.path') ) {
 		/* same code exists in entries.php */
-		$automaticLink .= "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"{$defaultURL}/foaf\" />\n";
+		$automaticLink .= "<link rel=\"meta\" type=\"application/rdf+xml\" title=\"FOAF\" href=\"".$context->getProperty('uri.default')."/foaf\" />\n";
 	}
 	$coverView = $skin->cover;
 	$itemsView = '';
@@ -25,7 +25,7 @@ if (isset($cache->contents)) {
 		$coverView = addWebSlice($coverView, 'coverPageWebslice',  htmlspecialchars($blog['title'].' - '._t('표지')));
 	}
 	dress('cover', $coverView, $view);
-	dress('foaf_url', "$defaultURL/foaf", $view);
+	dress('foaf_url', $context->getProperty('uri.default')."/foaf", $view);
 
 	if(isset($cache)) { 
 		$cache->contents = $coverView;

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -17,8 +17,10 @@ require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
+$ctx = Model_Context::getInstance();
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Skin($ctx->getProperty('skin.skin'));
+
 $sidebarCount = count($skin->sidebarBasicModules);
 
 $module = explode(':', $_REQUEST['moduleId']);
@@ -29,7 +31,7 @@ if (($module !== false) && (count($module) == 3) &&
 	$sidebarOrder = getSidebarModuleOrderData($sidebarCount);
 	$sidebarOrder = addSidebarModuleOrderData($sidebarOrder, $_REQUEST['sidebarNumber'], $_REQUEST['modulePos'], $module);
 	if (!is_null($sidebarOrder)) {
-		setBlogSetting("sidebarOrder", serialize($sidebarOrder));
+		Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarOrder));
 		$skin->purgeCache();
 	}
 }
@@ -38,7 +40,7 @@ if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMo
 
 if($ajaxcall == false) {
 	if ($_SERVER['REQUEST_METHOD'] != 'POST')
-		header('Location: '. $blogURL . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
+		header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/sidebar' . $_REQUEST['viewMode']);
 } else {
 	Respond::ResultPage(0);
 }

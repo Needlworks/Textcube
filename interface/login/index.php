@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -18,6 +18,7 @@ $IV = array(
 		'refererURI' => array('string', 'default' => null),
 		'reset' => array(array('on') ,'default' => null),
 		'save' => array('any', 'default' => null),
+		'autologin' => array(array('on') ,'default' => null),
 		'teamblogPatch' => array('string', 'default' => null)
 	)
 );
@@ -26,7 +27,6 @@ define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/library/preprocessor.php';
 $context = Model_Context::getInstance(); 
 
-//$blogURL = getBlogURL();
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
 if (isset($_GET['password']))
@@ -43,7 +43,6 @@ else $_POST['refererURI'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REF
 $message = '';
 $showPasswordReset = false;
 if (isset($_GET['session']) && isset($_GET['requestURI'])) {
-	global $service;
 	setcookie( Session::getName(), $_GET['session'], 0, $context->getProperty('service.session_cookie_path'), $context->getProperty('service.session_cookie_domain'));
 	header('Location: ' . $_GET['requestURI']);
 	exit;
@@ -53,7 +52,11 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 	else 
 		$message = _text('권한이 없습니다.');
 } else if (!empty($_POST['loginid']) && !empty($_POST['password'])) {
-	$isLogin = login($_POST['loginid'],$_POST['password']);
+	if(!empty($_POST['autologin'])) {
+		$isLogin = login($_POST['loginid'],$_POST['password'],(Timestamp::getUNIXtime() + $context->getProperty('service.autologinTimeout')));
+	} else {
+		$isLogin = login($_POST['loginid'],$_POST['password'],(Timestamp::getUNIXtime() + $context->getProperty('service.timeout')));		
+	}
 	if (!$isLogin) {
 		$message = _text('아이디 또는 비밀번호가 틀렸습니다.');
 		if (!doesHaveMembership() && isLoginId(getBlogId(), $_POST['loginid'])){
@@ -97,18 +100,18 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 <?php
 	}
 ?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.css" />
 	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie.css" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie.css" />
 	<![endif]-->
 	<!--[if IE 7]>
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie7.css" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie7.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie7.css" />
+		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie7.css" />
 	<![endif]-->
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.min.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
@@ -116,7 +119,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		//<![CDATA[
 			var servicePath = "<?php echo $context->getProperty('service.path');?>";
 			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 
 			window.addEventListener("load", execLoadFunction, false);
 			
@@ -167,7 +170,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 			<div id="data-outbox">
 				<div id="login-box">
 					<div id="logo-box">
-						<img src="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
+						<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고');?>" />
 					</div>
 					<form method="post" action="">
 						<input type="hidden" name="requestURI" value="<?php echo htmlspecialchars($_POST['requestURI']);?>" />
@@ -185,6 +188,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
 								<dd>
 									<div id="email-save"><input type="checkbox" id="save" class="checkbox" name="save"<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? '' : 'checked="checked"');?> /><label for="save"><?php echo _text('이메일 저장');?></label></div>
+									<div id="permanent-login"><input type="checkbox" id="autologin" class="checkbox" name="autologin" /><label for="autologin"><?php echo _textf('%1 동안 로그인 상태 유지',Timestamp::getHumanReadablePeriod($context->getProperty('service.autologinTimeout')));?></label></div>
 									<?php echo ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /><label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '');?>
 								</dd>
 							</dl>

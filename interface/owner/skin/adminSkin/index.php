@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -36,9 +36,9 @@ foreach(new DirectoryIterator(ROOT.'/skin/admin/') as $skinFile) {
 
 	$preview = "";
 	if (file_exists($skinFile->getPathname()."/preview.jpg"))
-		$preview = "{$service['path']}/skin/admin/".$skinFile->getFilename()."/preview.jpg";
+		$preview = "{$context->getProperty('service.path')}/skin/admin/".$skinFile->getFilename()."/preview.jpg";
 	if (file_exists($skinFile->getPathname()."/preview.gif"))
-		$preview = "{$service['path']}/skin/admin/".$skinFile->getFilename()."/preview.gif";
+		$preview = "{$context->getProperty('service.path')}/skin/admin/".$skinFile->getFilename()."/preview.gif";
 	
 	if (file_exists($skinFile->getPathname()."/index.xml")) {
 		$xml = file_get_contents($skinFile->getPathname()."/index.xml");
@@ -72,7 +72,7 @@ foreach(new DirectoryIterator(ROOT.'/skin/admin/') as $skinFile) {
 							//<![CDATA[
 								function selectSkin(name) {
 									try {
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/adminSkin/set/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/adminSkin/set/");
 										request.onSuccess = function() {
 											isSkinModified = false;
 											PM.showMessage("<?php echo _t('성공적으로 변경했습니다.');?>", "center", "bottom");
@@ -101,7 +101,7 @@ foreach(new DirectoryIterator(ROOT.'/skin/admin/') as $skinFile) {
 									} else {
 										viewtype = 'iconview';
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/saveScope");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/saveScope");
 
 									request.onSuccess = function() {
 										document.getElementById('search-form').submit();
@@ -126,15 +126,15 @@ foreach(new DirectoryIterator(ROOT.'/skin/admin/') as $skinFile) {
 <?php
 if (file_exists(ROOT."/skin/admin/".$currentAdminSkin."/preview.jpg")) {
 ?>
-										<img src="<?php echo $service['path'];?>/skin/admin/<?php echo $currentAdminSkin;?>/preview.jpg" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $context->getProperty('service.path');?>/skin/admin/<?php echo $currentAdminSkin;?>/preview.jpg" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 } else if (file_exists(ROOT."/skin/admin/".$currentAdminSkin."/preview.gif")) {
 ?>
-										<img src="<?php echo $service['path'];?>/skin/admin/<?php echo $currentAdminSkin;?>/preview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $context->getProperty('service.path');?>/skin/admin/<?php echo $currentAdminSkin;?>/preview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 } else {
 ?>
-										<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 }
 ?>
@@ -180,7 +180,7 @@ if (file_exists(ROOT . "/skin/admin/{$currentAdminSkin}/index.xml")) {
 						
 						<div id="part-skin-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('사용 가능한 스킨 목록');?></span></h2>
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin/adminSkin">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/adminSkin">
 								
 								<h2><?php echo _t('검색');?></h2>
 								<div id="search-box" class="section">
@@ -189,8 +189,8 @@ if (file_exists(ROOT . "/skin/admin/{$currentAdminSkin}/index.xml")) {
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').submit();return false;" />
 								</div>
 							</form>
-							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/skin">
-								<dl id="viewmode-box" class="line">
+							<form id="skin-search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin">
+								<dl id="viewmode-line" class="line">
 									<dt class="hidden"><?php echo _t('출력 설정');?></dt>
 									<dd id="viewmode-line-align">
 										<input type="radio" class="radio" id="list-view" name="viewType" value="listview" onclick="changeList(this);return false;"<?php echo $listType == 'listview' ? ' checked="checked"' : '';?> /><label for="list-view"><?php echo _t('리스트 보기');?></label>
@@ -214,7 +214,7 @@ for ($i = 0; $i < count($skins); $i++) {
 <?php
 	if ($skin['preview'] == '') {
 ?>
-										<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
+										<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/noPreview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
 	} else {
 ?>
@@ -239,7 +239,7 @@ for ($i = 0; $i < count($skins); $i++) {
 ?>
 										</div>
 										<div id="button_<?php echo $skin['name'];?>" class="button-box">
-											<a class="apply-button button" href="<?php echo $blogURL;?>/owner/skin/adminSkin/set/?adminSkin=<?php echo urlencode($skin['name']);?>" onclick="selectSkin('<?php echo $skin['name'];?>'); return false;"><span><?php echo _t('적용');?></span></a>
+											<a class="apply-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/adminSkin/set/?adminSkin=<?php echo urlencode($skin['name']);?>" onclick="selectSkin('<?php echo $skin['name'];?>'); return false;"><span><?php echo _t('적용');?></span></a>
 										</div>
 									</div>
 								</div>

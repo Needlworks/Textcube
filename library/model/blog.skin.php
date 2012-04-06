@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -53,7 +53,6 @@ function reloadSkin($blogid)
 
 function selectSkin($blogid, $skinName) {
 	global $database, $service;
-	requireComponent('Needlworks.Cache.PageCache');
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (empty($skinName))
@@ -109,7 +108,11 @@ function selectSkin($blogid, $skinName) {
 		$value = $xmls->getValue('/skin/default/lengthOfRecentNotice');
 		if (!empty($value) || is_numeric($value))
 			$assignments['recentNoticeLength'] = $value;
-		
+	
+		$value = $xmls->getValue('/skin/default/lengthOfRecentPage');
+		if (!empty($value) || is_numeric($value))
+			$assignments['recentPageLength'] = $value;
+
 		$value = $xmls->getValue('/skin/default/lengthOfRecentEntry');
 		if (!empty($value) || is_numeric($value))
 			$assignments['recentEntryLength'] = $value;

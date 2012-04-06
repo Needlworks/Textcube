@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -45,8 +45,8 @@ if (isset($cache->contents)) {
 	$buttonView = '<div id="line-more-page">'.CRLF.$buttonView.CRLF.'</div>';
 	dress('line_button', $buttonView, $lineView);
 	$lineView = fireEvent('ViewLine', $lineView, $lines);
-	dress('line_rssurl',$defaultURL.'/rss/line',$lineView);
-	dress('line_atomurl',$defaultURL.'/atom/line',$lineView);
+	dress('line_rssurl',$context->getProperty('uri.default').'/rss/line',$lineView);
+	dress('line_atomurl',$context->getProperty('uri.default').'/atom/line',$lineView);
 
 //	if(empty($lines)) $lineView = $lineView.CRLF.'[##_paging_line_##]';
 	

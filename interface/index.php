@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if (isset($_POST['page']))
@@ -47,15 +47,14 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 require ROOT . '/library/preprocessor.php';
 
 // Redirect for ipod touch / iPhone
-$browserUtil = Utils_Browser::getInstance();
-if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true)){
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
 	if(isset($suri['id'])) {
 		$slogan = getSloganById($blogid, $suri['id']);
 		if(!empty($slogan)) {
-			header("Location: $blogURL/i/entry/".URL::encode($slogan)); exit;
+			header("Location: ".$context->getProperty('uri.blog')."/i/entry/".URL::encode($slogan)); exit;
 		}
 	} else {
-		header("Location: $blogURL/i"); exit;
+		header("Location: ".$context->getProperty('uri.blog')."/i"); exit;
 	}
 }
 publishEntries();

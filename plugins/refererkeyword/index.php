@@ -113,9 +113,9 @@ function bringSearchWord($originalURL,$originalHost){
 	else if(preg_match('@/search/(?:\w+/)*([^/?]+)@i', $originalURL, $matches)){
 		$decodedKeyword = unified_decode($matches[1]);
 		$decodedURL = unified_decode($originalURL);}
-if(!UTF8::validate($decodedKeyword)){
-	$decodedKeyword = UTF8::correct(UTF8::bring($decodedKeyword));
-	$decodedURL = UTF8::correct(UTF8::bring($decodedURL));}
+if(!Utils_Unicode::validate($decodedKeyword)){
+	$decodedKeyword = Utils_Unicode::correct(Utils_Unicode::bring($decodedKeyword));
+	$decodedURL = Utils_Unicode::correct(Utils_Unicode::bring($decodedURL));}
 
 	return array($decodedKeyword, $decodedURL);
 }
@@ -384,7 +384,7 @@ for ($i=0; $i<sizeof($keywordlist); $i++) {
 										<td class="<?php echo $urlClassName; ?>"></td>
 										<td class="refererurl">
 <?php
-			echo "<a href=\"".Misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".UTF8::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
+			echo "<a href=\"".Misc::escapeJSInAttribute($splitRefererURL)."\" onclick=\"window.open(this.href); return false;\">".Utils_Unicode::lessenAsEm(htmlspecialchars($decodeURL), 90)."</a>";
 			$j++;
 		}
 		

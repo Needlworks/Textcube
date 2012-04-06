@@ -1,5 +1,5 @@
 <?php 
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -7,7 +7,7 @@ function getArchives($blogid, $option = 'yearmonth') {
 	global $database;
 	$archives = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$skinSetting = getSkinSettings($blogid);
+	$skinSetting = Setting::getSkinSettings($blogid);
 	$archivesOnPage = $skinSetting['archivesOnPage'];
 	
 	switch (POD::dbms()) {

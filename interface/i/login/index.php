@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -42,11 +42,12 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 		$message=_text('권한이 없습니다.');
 	}
 }
+
 if(!doesHaveOwnership()) {
 	printMobileHTMLHeader();
 	printMobileHTMLMenu();
 	?>
-	<form id="Login" method="GET" action="<?php echo $blogURL;?>/login" title="Login" class="panel" selected="false">
+	<form id="Login" method="GET" action="<?php echo $context->getProperty('uri.blog');?>/login" title="Login" class="panel" selected="false">
         <h2><?php echo _text('블로그 로그인');?></h2>
 			<?php if($message) { ?>
 			<div data-rel="dialog" class="row">
@@ -70,7 +71,7 @@ if(!doesHaveOwnership()) {
 		<input type="hidden" id="save" class="checkbox" name="save" />    
 		<input type="hidden" name="requestURI" value="#home" />
 
-		<a href="#" class="whiteButton" type="submit"><?php echo _text('블로그 로그인');?></a>
+		<a href="#" class="whiteButton " type="submit"><?php echo _text('블로그 로그인');?></a>
 	</form>
 <?php
 } else {
@@ -83,7 +84,7 @@ if(!doesHaveOwnership()) {
 		</div>
 		<div data-role="controlgroup">
 		<a href="#" data-role="button" data-theme="c" onclick="self.location.reload();" class="whiteButton margin-top10"><?php echo _text('블로그 페이지로 돌아가기');?></a>
-		<a data-role="button" data-theme="c" href="<?php echo $defaultURL."/owner/center/dashboard";?>" onclick="window.location.href='<?php echo $defaultURL."/owner/center/dashboard";?>'" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
+		<a data-role="button" data-theme="c" href="<?php echo $context->getProperty('uri.default')."/owner/center/dashboard";?>" onclick="window.location.href='<?php echo $context->getProperty('uri.default')."/owner/center/dashboard";?>'" class="whiteButton margin-top10"><?php echo _text('관리 패널로 들어가기');?></a>
 		</div>
 	</div>
 <?php

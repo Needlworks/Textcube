@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -7,7 +7,7 @@ requireModel("blog.link");
 
 if( isset($_POST['usexfn']) ) {
 	updateXfn( $blogid, $_POST );
-	header( "Location: ${_SERVER['REQUEST_URI']}" );
+	header( "Location: {$_SERVER['REQUEST_URI']}" );
 }
 
 $page=1;
@@ -25,7 +25,7 @@ require ROOT . '/interface/common/owner/header.php';
 							//<![CDATA[
 							//]]>
 						</script>
-						
+
 						<div id="part-link-list" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('친구 관계를 설정합니다');?></span></h2>
 <?php
@@ -56,7 +56,7 @@ if (sizeof($links) > 0) {
 for ($i=0; $i<sizeof($links); $i++) {
 	$link = $links[$i];
 	$xfn = $link['xfn'];
-	$xfn_items = split( ' ', $xfn );
+	$xfn_items = preg_split( '/ /', $xfn );
 
 	$check_me         =
 	$check_met        =
@@ -83,18 +83,18 @@ for ($i=0; $i<sizeof($links); $i++) {
 		${'check_'.$item} = 'checked';
 	}
 
-	$check_none_friendship = 
+	$check_none_friendship =
 		( $check_contact || $check_friend || $check_acquaintance ) ? '' : 'checked';
-	$check_none_family = 
+	$check_none_family =
 		( $check_child || $check_sibling || $check_parent || $check_kin || $check_spouse ) ? '':'checked';
-	$check_none_geographical = 
+	$check_none_geographical =
 		( $check_coresident || $check_neighbor ) ? '' : 'checked';
 
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($links) - 1) ? ' last-line' : '';
 ?>
 									<tr id="link_id_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="xfn-homepage"><a href="<?php echo $blogURL;?>/owner/network/link/edit/<?php echo $link['id'];?>" title="<?php echo htmlspecialchars($link['url']);?>"><?php echo htmlspecialchars(UTF8::lessen($link['name'],12));?></a>
+										<td class="xfn-homepage"><a href="<?php echo $context->getProperty('uri.blog');?>/owner/network/link/edit/<?php echo $link['id'];?>" title="<?php echo htmlspecialchars($link['url']);?>"><?php echo htmlspecialchars(Utils_Unicode::lessen($link['name'],12));?></a>
 										<input type="hidden" name="xfn<?php echo $link['id'];?>" id="xfn_id_<?php echo $link['id'];?>" value="<?php echo $xfn; ?>"/>
 										</td>
 										<td class="xfn-edit">
@@ -102,8 +102,8 @@ for ($i=0; $i<sizeof($links); $i++) {
 										</td>
 										<td class="xfn-edit">
 										<label for="friendship-contact_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="contact" id="friendship-contact_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_contact; ?> /> <?php echo _t('연락처를 아는')?></label>
-										<label for="friendship-aquaintance_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="acquaintance" id="friendship-aquaintance_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_acquaintance; ?> /> <?php echo _t('일로서 아는');?></label> 
-										<label for="friendship-friend_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="friend" id="friendship-friend_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_friend; ?> /> <?php echo _t('잘 아는'); ?> </label> 
+										<label for="friendship-aquaintance_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="acquaintance" id="friendship-aquaintance_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_acquaintance; ?> /> <?php echo _t('일로서 아는');?></label>
+										<label for="friendship-friend_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="friend" id="friendship-friend_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_friend; ?> /> <?php echo _t('잘 아는'); ?> </label>
 										<label for="friendship-none_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="" id="friendship-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_friendship; ?> /> <?php echo _t('모르는'); ?></label>
 										</td>
 										<td class="xfn-edit">
@@ -120,26 +120,26 @@ for ($i=0; $i<sizeof($links); $i++) {
 										</label>
 										</td>
 										<td class="xfn-edit">
-										<label for="co-resident_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="co-resident" id="co-resident_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_coresident; ?> /> <?php echo _t('같이 사는'); ?></label> 
-										<label for="neighbor_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="neighbor" id="neighbor_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_neighbor; ?> /> <?php echo _t('이웃에 사는'); ?></label> 
+										<label for="co-resident_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="co-resident" id="co-resident_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_coresident; ?> /> <?php echo _t('같이 사는'); ?></label>
+										<label for="neighbor_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="neighbor" id="neighbor_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_neighbor; ?> /> <?php echo _t('이웃에 사는'); ?></label>
 										<label for="geographical-none_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="" id="geographical-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_geographical; ?> /> <?php echo _t('비공개');?></label>
 										</td>
 										<td class="xfn-edit">
-										<label for="family-child_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="child" id="family-child_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_child; ?> /> <?php echo _t('자녀'); ?></label> 
-										<label for="family-parent_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="parent" id="family-parent_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_parent; ?> /> <?php echo _t('부모'); ?></label> 
-										<label for="family-sibling_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="sibling" id="family-sibling_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_sibling; ?> /> <?php echo _t('형제,자매'); ?></label> 
-										<label for="family-spouse_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="spouse" id="family-spouse_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_spouse;?> /> <?php echo _t('배우자'); ?></label> 
+										<label for="family-child_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="child" id="family-child_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_child; ?> /> <?php echo _t('자녀'); ?></label>
+										<label for="family-parent_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="parent" id="family-parent_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_parent; ?> /> <?php echo _t('부모'); ?></label>
+										<label for="family-sibling_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="sibling" id="family-sibling_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_sibling; ?> /> <?php echo _t('형제,자매'); ?></label>
+										<label for="family-spouse_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="spouse" id="family-spouse_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_spouse;?> /> <?php echo _t('배우자'); ?></label>
 										<label for="family-kin_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="kin" id="family-kin_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_kin; ?> /> <?php echo _t('친척'); ?></label>
 
 										<label for="family-none_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="" id="family-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_family; ?> /> <?php echo _t('관계 없음'); ?></label>
 										</td>
 										<td class="xfn-edit">
-										<label for="muse_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="muse" id="muse_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_muse; ?> /> <?php echo _t('기분좋은') ?></label> 
-										<label for="crush_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="crush" id="crush_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_crush; ?> /> <?php echo _t('매력적인');?></label> 
-										<label for="date_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="date" id="date_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_date; ?> /> <?php echo _t('만나는'); ?></label> 
+										<label for="muse_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="muse" id="muse_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_muse; ?> /> <?php echo _t('기분좋은') ?></label>
+										<label for="crush_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="crush" id="crush_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_crush; ?> /> <?php echo _t('매력적인');?></label>
+										<label for="date_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="date" id="date_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_date; ?> /> <?php echo _t('만나는'); ?></label>
 										<label for="sweetheart_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="sweetheart" id="sweetheart_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_sweetheart; ?> /> <?php echo _t('오직하나뿐인') ?></label>
 										</td>
-										          
+
 									</tr>
 <?php
 }
@@ -149,7 +149,7 @@ if (sizeof($links) > 0) echo "									</tbody>";
 							<div class="button-box">
 								<input type="submit" class="edit-button input-button" value="<?php echo _t('저장하기');?>" />
 								<span class="hidden">|</span>
-								<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/network/link/xfn'" />
+								<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $context->getProperty('uri.blog');?>/owner/network/link/xfn'" />
 							</div>
 							</form>
 

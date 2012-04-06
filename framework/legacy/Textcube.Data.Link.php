@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -159,19 +159,19 @@ class Link {
 			$query->setQualifier('category', 'equals', $this->category);
 		}		
 		if (isset($this->url)) {
-			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
+			$this->url = Utils_Unicode::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setQualifier('url', 'equals', $this->url, true);
 		}
 		if (isset($this->title)) {
-			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
+			$this->title = Utils_Unicode::lessenAsEncoding(trim($this->title), 255);
 			if (empty($this->title))
 				return $this->_error('title');
 			$query->setAttribute('name', $this->title, true);
 		}
 		if (isset($this->feed)) {
-			$this->feed = UTF8::lessenAsEncoding(trim($this->feed), 255);
+			$this->feed = Utils_Unicode::lessenAsEncoding(trim($this->feed), 255);
 			if (empty($this->feed))
 				return $this->_error('feed');
 			$query->setAttribute('rss', $this->feed, true);
@@ -182,7 +182,7 @@ class Link {
 			$query->setAttribute('written', $this->registered);
 		}
 		if (isset($this->xfn)) {
-			$this->xfn = UTF8::lessenAsEncoding(trim($this->xfn), 255);
+			$this->xfn = Utils_Unicode::lessenAsEncoding(trim($this->xfn), 255);
 			if (empty($this->xfn))
 				return $this->_error('xfn');
 			$query->setAttribute('xfn', $this->xfn, true);

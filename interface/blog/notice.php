@@ -1,9 +1,10 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 
+define('__TEXTCUBE_NOTICE__',true);
 if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0)) {
 	if (!isset($suri['id']) || (Setting::getBlogSettingGlobal('useSloganOnPost',1) == 1)) {
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'], true);

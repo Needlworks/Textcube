@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -36,7 +36,7 @@ function timeInterval($start, $current) {
 	} else if (31104000 <= $interval) {
 		return ceil($interval / 60 / 60 / 24 / 30 / 12) . _text('년');
 	}
-	return ceil($interval / 60 / 60 / 24 / 30 / 12 / 100) . _test('세기');
+	return ceil($interval / 60 / 60 / 24 / 30 / 12 / 100) . _text('세기');
 }
 
 function getTimeFromPeriod($period) {

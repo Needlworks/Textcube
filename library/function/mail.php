@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -20,12 +20,12 @@ function sendEmail($senderName, $senderEmail, $name, $email, $subject, $message 
 	$mail->AltBody  = 'To view this email message, open the email with html enabled mailer.';
 	$mail->AddAddress( $email, $name );
 
-	if( !getServiceSetting( 'useCustomSMTP', 0 ) ) {
+	if( !Setting::getServiceSettingGlobal( 'useCustomSMTP', 0 ) ) {
 		$mail->IsMail();
 	} else {
 		$mail->IsSMTP();
-		$mail->Host = getServiceSetting( 'smtpHost', '127.0.0.1' );
-		$mail->Port = getServiceSetting( 'smtpPort', 25 );
+		$mail->Host = Setting::getServiceSettingGlobal( 'smtpHost', '127.0.0.1' );
+		$mail->Port = Setting::getServiceSettingGlobal( 'smtpPort', 25 );
 	}
 
 	ob_start();

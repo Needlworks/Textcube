@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -18,7 +18,7 @@ $list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' 
 
 $tagName = getTagById(getBlogId(),$_POST['tagId']);
 $numberOfPosts = $list['count'];
-$entryList = '<a href="'.$blogURL.'/owner/entry/?tagId='.$_POST['tagId'].'">'._f('"%1" 태그를 갖는 모든 글의 목록을 봅니다',$tagName).'</a>';
+$entryList = '<a href="'.$context->getProperty('uri.blog').'/owner/entry/?tagId='.$_POST['tagId'].'">'._f('"%1" 태그를 갖는 모든 글의 목록을 봅니다',$tagName).'</a>';
 $result = array('error'=>0,
 	'tagName'=> $tagName,
 	'numberOfPosts' => $numberOfPosts,

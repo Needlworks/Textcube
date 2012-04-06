@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if(count($_POST) > 0) {
@@ -22,23 +22,23 @@ requireStrictRoute();
 	<head>
 		<title><?php echo _t('File Uploader');?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.css" />
-		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie.css" /><![endif]-->
-		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie7.css" /><![endif]-->
-		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/editor.css" />
+		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/editor.ie.css" /><![endif]-->
+		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/editor.ie7.css" /><![endif]-->
+		<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.min.js"></script>
 		<script type="text/javascript">jQuery.noConflict();</script>
-		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
+		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
+		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
-				var servicePath = "<?php echo $service['path'];?>";
-				var blogURL = "<?php echo $blogURL;?>";
-				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+				var servicePath = "<?php echo $context->getProperty('service.path');?>";
+				var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+				var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 				var oSelect = window.parent.document.getElementById('TCfilelist');
 				
 				function addAttachOption(value) {
 					try {
-						//window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
+						//window.parent.makeCrossDamainSubmit("<?php echo $context->getProperty('uri.blog');?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
 						if (!isSafari) {
 							if (isWin) {
 								var fileName = value.substring(value.lastIndexOf('\\')+1);
@@ -117,7 +117,7 @@ if (count($_FILES) == 1) {
 ?>
 					oSelect.appendChild(oOption);
 					//oSelect.selectedIndex = oSelect.options.length - 1;
-					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$blogid/{$attachment['name']}" : "{$blogURL}/resources/image/spacer.gif");?>";
+					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$context->getProperty('uri.blog')}/attach/$blogid/{$attachment['name']}" : "{$context->getProperty('uri.blog')}/resources/image/spacer.gif");?>";
 					parent.refreshFileSize();
 				} catch(e) {
 				alert('['+e.message+']');

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -17,7 +17,7 @@ if (isset($checkFunction)) unset($checkFunction);
 							//<![CDATA[
 								function checkForceTextcubeVersion() {
 									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 									else
 										alert("<?php echo _t('점검 없이 이 기능을 사용할 수 없습니다.');?>");
 								}
@@ -32,7 +32,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 								}
 							//]]>
 						</script>
@@ -45,7 +45,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-										window.location.href = "<?php echo $blogURL;?>/checkup";
+										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 								}
 							//]]>
 						</script>
@@ -98,7 +98,7 @@ if (false) forceCheckBlog('');
 								}
 								
 								function backupData() {
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents-yes").checked);
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/data/backup?includeFileContents=" + document.getElementById("includeFileContents-yes").checked);
 									PM.addRequest(request, "<?php echo _t('백업을 저장하고 있습니다.');?>");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
@@ -113,12 +113,12 @@ if (false) forceCheckBlog('');
 								}
 								
 								function exportData() {
-									window.location.href = "<?php echo $blogURL;?>/owner/data/export?includeFileContents=" + document.getElementById("includeFileContents-yes").checked;
+									window.location.href = "<?php echo $context->getProperty('uri.blog');?>/owner/data/export?includeFileContents=" + document.getElementById("includeFileContents-yes").checked;
 									hideDialog();
 								}
 								
 								function downloadBackup() {
-									window.location.href = "<?php echo $blogURL;?>/owner/data/download";
+									window.location.href = "<?php echo $context->getProperty('uri.blog');?>/owner/data/download";
 									hideDialog();
 								}
 								
@@ -159,7 +159,7 @@ if (false) forceCheckBlog('');
 										confirmativePassword.focus();
 										return false;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/data/remove");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/data/remove");
 									PM.addRequest(request, "<?php echo _t('데이터를 삭제하고 있습니다.');?>");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
@@ -182,7 +182,7 @@ if (false) forceCheckBlog('');
 										
 										for (var i=0; i<pluginIcons.length; ++i) {
 											var temp = pluginIcons[i].src;
-											pluginIcons[i].setAttribute('src', "<?php echo $service['path'];?>/resources/image/spacer.gif");
+											pluginIcons[i].setAttribute('src', "<?php echo $context->getProperty('service.path');?>/resources/image/spacer.gif");
 											pluginIcons[i].style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + temp + '", sizingMethod="scale")';
 										}
 									}
@@ -195,14 +195,14 @@ if (false) forceCheckBlog('');
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="correctData(); return false">
-									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbCorrect.png" alt="<?php echo _t('데이터 교정 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbCorrect.png" alt="<?php echo _t('데이터 교정 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('비정상적인 데이터를 교정합니다.<br />동적인 캐쉬 데이터는 재계산하여 저장합니다.');?>
 								</p>
 							</div>
 							
-							<form id="dataCorrector" method="get" action="<?php echo $blogURL;?>/owner/data/correct" target="blackhole"></form>
+							<form id="dataCorrector" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/correct" target="blackhole"></form>
 							
 							<div id="correctingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
 								<h3 id="correctingDataDialogTitle"></h3>
@@ -223,14 +223,14 @@ if(Acl::check("group.creators")) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="optimizeData()">
-									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbOptimize.png" alt="<?php echo _t('데이터베이스 최적화 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbOptimize.png" alt="<?php echo _t('데이터베이스 최적화 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('잦은 입출력으로 비효율적이 된 데이터베이스를 최적화 합니다.');?>
 								</p>
 							</div>
 							
-							<form id="dataOptimizer" method="get" action="<?php echo $blogURL;?>/owner/data/optimize" target="blackhole"></form>
+							<form id="dataOptimizer" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/optimize" target="blackhole"></form>
 							
 							<div id="optimizingDataDialog" class="system-dialog" style="position: absolute; display: none; z-index: 110;">
 								<h3 id="optimizingDataDialogTitle"></h3>
@@ -251,7 +251,7 @@ if(Acl::check("group.creators")) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBExport')">
-									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbExport.png" alt="<?php echo _t('데이터 백업 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbExport.png" alt="<?php echo _t('데이터 백업 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('현재의 모든 데이터를 TTXML형태의 백업파일로 보관합니다.<br />첨부파일을 포함시킬 수 있으며, 복원할 경우 자동으로 첨부파일이 처리됩니다.<br />백업파일은 서버에 저장하거나 다운받으실 수 있습니다.');?>
@@ -270,7 +270,7 @@ if(Acl::check("group.creators")) {
 ?>
 								<p>
 									 <?php echo _t('복원을 위하여 외부에서 백업 파일에 접근하려면 아래의 주소를 이용하세요.');?></p>
-								<p class="url"><?php echo $defaultURL."/ttxml?loginid=".User::getEmail(getUserId())."&key=".$apikey;?></p>
+								<p class="url"><?php echo $context->getProperty('uri.default')."/ttxml?loginid=".User::getEmail(getUserId())."&key=".$apikey;?></p>
 <?php
 		} else {
 ?>
@@ -284,7 +284,7 @@ if(Acl::check("group.creators")) {
 <?php
 	}
 ?>
-							<form id="DBExportDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/backup" style="position: absolute; display: none; z-index: 100;">
+							<form id="DBExportDialog" class="dialog" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/backup" style="position: absolute; display: none; z-index: 100;">
 								<h3><?php echo _t('데이터 백업을 시작합니다');?></h3>
 								
 								<div class="message-body">
@@ -324,14 +324,14 @@ if(defined('__TEXTCUBE_NO_FANCY_URL__')) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="<?php echo forceCheckBlog("showDialog('DBImport');"); ?> return false">
-									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbImport.png" alt="<?php echo _t('데이터 복원 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbImport.png" alt="<?php echo _t('데이터 복원 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('백업파일을 읽어서 데이터를 복원합니다.<br />백업파일에 첨부파일이 포함되어 있으면 첨부파일도 자동으로 복원됩니다.<br />이전 버전으로부터의 데이터도 복원을 통해 가져올 수 있습니다.');?>
 								</p>
 							</div>
 							<div id="DBImportDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
-								<form id="dataImporter" method="post" action="<?php echo $blogURL;?>/owner/data/import" enctype="multipart/form-data" target="blackhole">
+								<form id="dataImporter" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/import" enctype="multipart/form-data" target="blackhole">
 									<h3><?php echo _t('데이터 복원을 시작합니다');?></h3>
 									
 									<div class="message-body">
@@ -391,14 +391,14 @@ if ($backup) {
 							
 							<div class="data-inbox main-explain-box">
 								<div class="image" onclick="showDialog('DBRemove')">
-									<img src="<?php echo $service['path'].$adminSkinSetting['skin'];?>/image/dbClear.png" alt="<?php echo _t('데이터 삭제 이미지');?>" />
+									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbClear.png" alt="<?php echo _t('데이터 삭제 이미지');?>" />
 								</div>
 								<p class="explain">
 									<?php echo _t('텍스트큐브의 모든 데이터를 삭제합니다.<br />첨부파일의 삭제 여부를 선택하실 수 있습니다.<br />데이터의 복원은 백업파일을 통해서만 가능하므로 먼저 백업을 하시기 바랍니다.');?>
 								</p>
 							</div>
 							
-							<form id="DBRemoveDialog" class="dialog" method="get" action="<?php echo $blogURL;?>/owner/data/remove" style="position: absolute; display: none; z-index: 100;">
+							<form id="DBRemoveDialog" class="dialog" method="get" action="<?php echo $context->getProperty('uri.blog');?>/owner/data/remove" style="position: absolute; display: none; z-index: 100;">
 								<h3><?php echo _t('데이터 삭제를 시작합니다');?></h3>
 								
 								<div class="message-body">

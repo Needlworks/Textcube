@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_IPHONE__', true);
@@ -18,6 +18,9 @@ if(!empty($suri['id'])) {	// entry-related comment print
 <div id="comment_<?php echo $entry['id']."_".time();?>" title="<?php echo _text('댓글');?> : <?php echo htmlspecialchars($entry['title']);?>" selected="false">
 <?php
 	printMobileCommentView($entry['id']);
+?>
+	<fieldset class="navi margin-top10">
+<?php
 	printMobileNavigation($entry, false, true);
 ?>
 	</fieldset>
@@ -28,7 +31,7 @@ if(!empty($suri['id'])) {	// entry-related comment print
 ?>
 <div id="comment_<?php echo time();?>" title="<?php echo _text('최근 댓글');?>" selected="false">
 <?php
-	list($comments, $paging) = printMobileRecentCommentView($page);
+	printMobileRecentCommentView($page);
 	printMobileNavigation($entry, false, false, $paging, 'comment');
 ?>
 </div>

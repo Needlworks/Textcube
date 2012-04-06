@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.1">
-  <title xml:lang="ko">FAS : Frypan Antispam Service</title>
-  <title xml:lang="en">FAS : Frypan Antispam Service</title>
-  <link>http://antispam.textcube.org</link>
-  <version>0.1 beta</version>
-  <description xml:lang="ko">니들웍스에서 제공하는 스팸 코멘트/트랙백 차단 서비스를 사용합니다.</description>
-  <description xml:lang="en">Deny spam comments and trackback supplyed by Needlworks.</description>
+  <title xml:lang="ko">EAS-Eolin Antispam Service</title>
+  <title xml:lang="en">EAS-Eolin Antispam Service</title>
+  <link>http://antispam.eolin.com</link>
+  <version>0.96 beta</version>
+  <description xml:lang="ko">EOLIN에서 제공하는 스팸 코멘트/트랙백 차단 서비스를 사용합니다.</description>
+  <description xml:lang="en">Deny spam comments and trackback supplyed by EOLIN.</description>
   <license>GPL</license>
-  <author xml:lang="en" link="http://www.needlworks.org">Needlworks</author>
-  <author xml:lang="ko" link="http://www.needlworks.org">니들웍스</author>
+  <author xml:lang="en" link="http://www.google.com">Google Inc.</author>
+  <author xml:lang="ko" link="http://www.google.com">구글</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
   <requirements>
     <textcube>
@@ -16,7 +16,7 @@
 	</textcube>
   </requirements>
   <binding>
-    <listener event="AddingTrackback" handler="FAS_AddingTrackback" />
-    <listener event="AddingComment" handler="FAS_AddingComment" />
+    <listener event="AddingTrackback" handler="EAS_AddingTrackback" />
+    <listener event="AddingComment" handler="EAS_AddingComment" />
   </binding>
 </plugin>

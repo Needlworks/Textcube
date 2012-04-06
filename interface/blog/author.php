@@ -1,11 +1,8 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
 
 $cache = pageCache::getInstance();
 $author = empty($suri['value']) ? '' : $suri['value'];
@@ -25,6 +22,7 @@ if ($skinSetting['showListOnAuthor'] != 0) {
 		$listView = $cache->contents;
 	}
 	require ROOT . '/interface/common/blog/begin.php';
+	$listFeedURL = 'author/'.URL::encode($author);
 	require ROOT . '/interface/common/blog/list.php';
 }
 

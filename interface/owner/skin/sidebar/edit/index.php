@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -18,8 +18,9 @@ require ROOT . '/library/preprocessor.php';
 requireLibrary('blog.skin');
 requireModel("blog.sidebar");
 requireStrictRoute();
+$ctx = Model_Context::getInstance();
 
-$skin = new Skin($skinSetting['skin']);
+$skin = new Skin($ctx->getProperty('skin.skin'));
 $sidebarCount = count($skin->sidebarBasicModules);
 $sidebarOrderData = getSidebarModuleOrderData($sidebarCount);
 
@@ -127,7 +128,7 @@ if ($ajaxcall == false) {
 $modeParam = !empty($_REQUEST['viewMode']) ? '&' . $_REQUEST['viewMode'] : '';
 
 echo '<h2 class="caption"><span class="main-text">' . $title . '</span></h2>';
-echo '<form action="' . $blogURL . '/owner/skin/sidebar/setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
+echo '<form action="' . $context->getProperty('uri.blog') . '/owner/skin/sidebar/setPlugin?sidebarNumber=', $sidebarNumber, '&modulePos=', $modulePos, $modeParam, '" method="POST" >';
 echo '	<div class="field-box">';
 echo $result;
 echo '	</div>';

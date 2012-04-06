@@ -78,10 +78,9 @@ h3
 
 #title-line dd .input-text
 {
-	border                           : 0px;
-	border-bottom                    : 1px solid #ccc;
+	border                           : 1px solid #ccc;
 	vertical-align                   : middle;
-	width                            : 60%;
+	width                            : 700px;
 	height							 : 25px;
 	margin-left                      : 0;
 	padding: 0 5px;
@@ -919,16 +918,5 @@ dl#power-line
 	position                         : fixed !important;
 	top                              : 80px !important;
 	height                           : 30px !important;
-	z-index                          : 190;
+	z-index                          : 99;
 }
-
-.mceExternalToolbar {
-	position                         : fixed !important;
-	top                              : 80px !important;
-	height                           : 30px !important;
-	z-index                          : 100;
-	display:block;
-	border:0 !important;
-}
-.defaultSkin .mceExternalClose { display:none !important;}
-.defaultSkin td.mceToolbar {background:transparent !important;}

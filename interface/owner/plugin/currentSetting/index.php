@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -10,7 +10,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 
-$targetURL = $hostURL.preg_replace( '/(currentSetting)$/' , 'receiveConfig' , $folderURL );
+$targetURL = $context->getProperty('uri.host').preg_replace( '/(currentSetting)$/' , 'receiveConfig' , $context->getProperty('uri.folder') );
 $pluginName = $_GET['Name'];
 $tabName = $_GET['Tab'];
 $active = in_array($pluginName, $activePlugins);
@@ -54,9 +54,9 @@ if (!$xmls->doesExist('/plugin/binding/config') || !$active) {
 }
 
 if (file_exists(ROOT . "/plugins/{$pluginName}/images/icon_plugin.png")) {
-	$iconPath = $serviceURL . "/plugins/{$pluginName}/images/icon_plugin.png";
+	$iconPath = $context->getProperty('uri.service') . "/plugins/{$pluginName}/images/icon_plugin.png";
 } else {
-	$iconPath = $serviceURL . $adminSkinSetting['skin'] . "/image/icon_plugin.png";
+	$iconPath = $context->getProperty('uri.service') . $context->getProperty('panel.skin') . "/image/icon_plugin.png";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -64,18 +64,18 @@ if (file_exists(ROOT . "/plugins/{$pluginName}/images/icon_plugin.png")) {
 <head>
 	<title><?php echo _f("%1 설정", $pluginAttrs['title']);?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/plugin-config.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/plugin-config.css" />
 <?php
 if (true === file_exists(ROOT . "/plugins/$pluginName/plugin-config.css")) {
 ?>
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'];?>/plugins/<?php echo $pluginName;?>/plugin-config.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path');?>/plugins/<?php echo $pluginName;?>/plugin-config.css" />
 <?php
 }
 ?>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.min.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/pluginconfig.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/pluginconfig.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			var fieldnamelist = <?php echo $result['script'] ;?>;

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class UserInfo {
@@ -136,7 +136,7 @@ class UserInfo {
 		}
 		
 		if (isset($this->loginid)) {
-			$this->loginid = UTF8::lessenAsEncoding(trim($this->loginid), 64);
+			$this->loginid = Utils_Unicode::lessenAsEncoding(trim($this->loginid), 64);
 			if(empty($this->loginid))
 				return $this->_error('loginid');
 			$query->setAttribute('loginid', $this->loginid,true);
@@ -150,7 +150,7 @@ class UserInfo {
 		}
 	
 		if (isset($this->name)) {
-			$this->name = UTF8::lessenAsEncoding(trim($this->name), 32);
+			$this->name = Utils_Unicode::lessenAsEncoding(trim($this->name), 32);
 			if(empty($this->name))
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name,true);

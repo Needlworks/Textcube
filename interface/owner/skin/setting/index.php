@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -55,7 +55,7 @@ $selected = 0;
 										showListOnSearch = 2;
 									else 
 										showListOnSearch = 1;
-									
+
 									if(document.getElementById('expandComment').checked) 
 										expandComment = 1;
 									else 
@@ -117,15 +117,16 @@ $selected = 0;
 									param += 'expandTrackback='+expandTrackback +'&';
 									param += 'sortCommentsBy='+encodeURIComponent(sortCommentsBy)+'&';
 									param += 'recentNoticeLength='+getValueById('recentNoticeLength') +'&';
+									param += 'recentPageLength='+getValueById('recentPageLength') +'&';
 									param += 'recentEntryLength='+getValueById('recentEntryLength') +'&';
 									param += 'recentCommentLength='+getValueById('recentCommentLength') +'&';
-									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';
+									param += 'recentTrackbackLength='+getValueById('recentTrackbackLength') +'&';				
 									param += 'linkLength='+getValueById('linkLength') +'&';
 									param += 'useAjaxComment='+ useAjaxComment +'&';
 									param += 'useMicroformat='+ useMicroformat +'&';
 									param += 'useFOAF='+ useFOAF +'&';
 
-									var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/owner/skin/setting/skin/');
+									var request = new HTTPRequest("POST", '<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/skin/');
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 									}
@@ -138,7 +139,7 @@ $selected = 0;
 								function changeTreeStyle() {	
 									var param = '';
 									param += 'name='+document.getElementById('tree').value+'&';
-									param += 'url=<?php echo $service['path'];?>/skin/tree/'+document.getElementById('tree').value+'&';
+									param += 'url=<?php echo $context->getProperty('service.path');?>/skin/tree/'+document.getElementById('tree').value+'&';
 									param += 'showValue='+(document.getElementById('showValue').checked ? 1:0)+'&';
 									param += 'itemColor='+document.getElementById('colorOnTree').value+'&';
 									param += 'itemBgColor='+document.getElementById('bgColorOnTree').value+'&';
@@ -146,7 +147,7 @@ $selected = 0;
 									param += 'activeItemBgColor='+document.getElementById('activeBgColorOnTree').value+'&';
 									param += 'labelLength='+document.getElementById('labelLengthOnTree').value+'&';
 									
-									document.getElementById('treePreview').src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview/?"+param;
+									document.getElementById('treePreview').src="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/tree/preview/?"+param;
 								}
 							//]]>
 						</script>
@@ -155,7 +156,7 @@ $selected = 0;
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('panel_skin_setting','link',_t('스킨에 따라 표시되는 여러 값들을 세세하게 변경합니다'));?></span></h2>
 							
 							<div id="panel_skin_setting" class="data-inbox folding">
-								<form id="skinSetting" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
+								<form id="skinSetting" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
 									<fieldset id="per-page-container" class="container">
 										<legend><?php echo _t('출력 숫자 조절');?></legend>
 <?php
@@ -427,7 +428,48 @@ ob_end_clean();
 <?php
 ob_start();
 ?>
+												<select id="recentPageLength" name="recentPageLength">
+<?php
+for ($i = 3; $i < 50; $i++) {
+	if ($i == $skinSetting['recentPageLength'])
+		$checked = ' selected="selected"';
+	else
+		$checked = '';
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+for ($i = 50; $i < 1000; $i = $i + 50) {
+	if ($i == $skinSetting['recentPageLength']) {
+		$checked = ' selected="selected"';
+	} else if (($i < $skinSetting['recentPageLength']) && (($i + 50) > $skinSetting['recentPageLength'])) {
+		$checked = ' selected="selected"';
+?>
+													<option value="<?php echo $skinSetting['recentPageLength'];?>" <?php echo $checked;?>><?php echo $skinSetting['recentPageLength'];?></option>
+<?php
+		$checked = '';
+	} else {
+		$checked = '';
+	}
+?>
+													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
+<?php
+}
+?>
 
+
+												</select>
+<?php
+$arg = ob_get_contents();
+ob_end_clean();
+?>
+										<dl id="page-length-line" class="line">
+											<dt><span class="label"><?php echo _t('페이지 제목 길이');?></span></dt>
+											<dd><?php echo _f('페이지 제목을 %1 글자로 표시합니다.', $arg);?></dd>
+										</dl>
+<?php
+ob_start();
+?>
 												<select id="recentNoticeLength" name="recentNoticeLength">
 <?php
 for ($i = 3; $i < 50; $i++) {
@@ -723,11 +765,11 @@ ob_end_clean();
 						<div id="part-skin-tree" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('분류 디자인을 변경합니다');?></span></h2>
 							
-							<form id="setSkinForm" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
+							<form id="setSkinForm" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
 									<div id="tree-preview-box">
 										<div class="title"><?php echo _t('미리보기');?></div>
-										<iframe id="treePreview" src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
+										<iframe id="treePreview" src="<?php echo $context->getProperty('uri.blog');?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
 									</div>
 									
 									<div class="section">

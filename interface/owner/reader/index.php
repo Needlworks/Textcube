@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_READER__', true);
@@ -50,7 +50,7 @@ $setting = getReaderSetting($blogid);
 					var s_loadingOPML = "<?php echo _t('OPML 파일을 가져오고 있습니다.');?>";
 				//]]>
 			</script>
-			<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/reader.js"></script>
+			<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/reader.js"></script>
 			<script type="text/javascript">
 				//<![CDATA[
 					var Reader = new TTReader();
@@ -90,7 +90,7 @@ if(defined('__TEXTCUBE_READER_SUBMENU__'))
 				
 				<div id="reader-menu-box">
 					<ul id="reader-menu">
-						<li id="all-read"><a href="<?php echo $blogURL . '/owner/network/reader';?>"><span class="text"><?php echo _t('전체 보기');?></span></a></li>
+						<li id="all-read"><a href="<?php echo $context->getProperty('uri.blog') . '/owner/network/reader';?>"><span class="text"><?php echo _t('전체 보기');?></span></a></li>
 						<li id="scrap"><span id="starredOnlyIndicator" class="scrap-off-icon bullet"><span class="text"></span></span><a href="#void" onclick="Reader.showStarredOnly(); return false;"><span class="text"><?php echo _t('스크랩한 글 보기');?></span></a></li>
 						<li id="setting" class="configureText"><a id="settingLabel" href="#void" onclick="Reader.toggleConfigure(); return false;"><span class="text"><?php echo _t('설정');?></span></a></li>
 						<li id="feed-update"><a href="#void" onclick="Reader.updateAllFeeds(); return false;"><span class="text"><?php echo _t('모든 피드 새로고침');?><span id="progress"></span></span></a></li>
@@ -141,7 +141,7 @@ printFeeds($blogid);
 								<h2 class="caption"><span class="main-text"><?php echo _t('설정');?></span></h2>
 								
 								<div class="data-inbox">
-									<form id="reader-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/reader/config/save/" target="hiddenFrame">
+									<form id="reader-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/reader/config/save/" target="hiddenFrame">
 <?php
 if (getUserId() == 1) {
 ?>
@@ -207,7 +207,7 @@ if (getUserId() == 1) {
 										</div>
 									</form>
 									
-									<form id="opml-section" class="section" method="post" action="<?php echo $blogURL;?>/owner/reader/opml/import/file/" enctype="multipart/form-data" target="hiddenFrame">
+									<form id="opml-section" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/reader/opml/import/file/" enctype="multipart/form-data" target="hiddenFrame">
 										<fieldset class="container">
 											<legend class="title"><?php echo _t('OPML 관리');?></legend>
 											
@@ -261,7 +261,7 @@ if (getUserId() == 1) {
 								
 								<div id="post-list" class="data-inbox">
 									<div class="title">
-										<a id="totalList" href="<?php echo $blogURL;?>/owner/network/reader" title="<?php echo _t('글 목록을 전부 출력합니다.');?>"><span class="text"><?php echo _t('전체 목록');?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
+										<a id="totalList" href="<?php echo $context->getProperty('uri.blog');?>/owner/network/reader" title="<?php echo _t('글 목록을 전부 출력합니다.');?>"><span class="text"><?php echo _t('전체 목록');?></span></a><span class="count">(<span id="entriesShown">0</span>/<span id="entriesTotal">0</span>)</span>
 										<span class="hidden">|</span>
 										<a id="iconMoreEntries" href="#void" onclick="Reader.listScroll(1); return false;" title="<?php echo _t('지나간 글 정보를 더 읽어옵니다.');?>"><span class="text"><?php echo _t('더 읽어오기');?></span></a>
 									</div>
@@ -280,7 +280,7 @@ printFeedEntries($blogid,0,0,true);
 										<a class="shortcut-button button" href="#void" onclick="document.getElementById('shortcuts').style.display = document.getElementById('shortcuts').style.display=='none' ? 'block' : 'none'"><span class="text"><?php echo _t('단축키');?></span></a>
 									</div>
 									
-									<div id="shortcuts">
+									<div id="shortcuts" style="display: none;">
 										<h3 class="title"><?php echo _t('단축키');?></h3>
 										
 										<ul>

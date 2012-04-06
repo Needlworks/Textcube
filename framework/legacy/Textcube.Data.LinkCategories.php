@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -154,7 +154,7 @@ class LinkCategories {
 			$query->setQualifier('priority', 'equals', $this->priority);
 		}
 		if (isset($this->name)) {
-			$this->url = UTF8::lessenAsEncoding(trim($this->name), 255);
+			$this->url = Utils_Unicode::lessenAsEncoding(trim($this->name), 255);
 			if (empty($this->name))
 				return $this->_error('name');
 			$query->setQualifier('name', 'equals', $this->name, true);

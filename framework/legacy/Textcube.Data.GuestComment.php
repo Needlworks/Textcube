@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class GuestComment {
@@ -145,19 +145,19 @@ class GuestComment {
 			$query->setAttribute('replier', $this->commenter);
 		}
 		if (isset($this->name)) {
-			$this->name = UTF8::lessenAsEncoding(trim($this->name), 80);
+			$this->name = Utils_Unicode::lessenAsEncoding(trim($this->name), 80);
 			if (empty($this->name))
 				return $this->_error('name');
 			$query->setAttribute('name', $this->name, true);
 		}
 		if (isset($this->openid)) {
-			$this->openid = UTF8::lessenAsEncoding(trim($this->openid), 128);
+			$this->openid = Utils_Unicode::lessenAsEncoding(trim($this->openid), 128);
 			if (empty($this->openid))
 				return $this->_error('openid');
 			$query->setAttribute('openid', $this->openid, true);
 		}
 		if (isset($this->homepage)) {
-			$this->homepage = UTF8::lessenAsEncoding(trim($this->homepage), 80);
+			$this->homepage = Utils_Unicode::lessenAsEncoding(trim($this->homepage), 80);
 			if (empty($this->homepage))
 				return $this->_error('homepage');
 			$query->setAttribute('homepage', $this->homepage, true);
@@ -184,7 +184,7 @@ class GuestComment {
 			$query->setAttribute('isfiltered', Validator::getBit($this->isfiltered));
    		}
 		if (isset($this->password)) {
-			$this->password = UTF8::lessenAsEncoding($this->password, 32);
+			$this->password = Utils_Unicode::lessenAsEncoding($this->password, 32);
 			$query->setAttribute('password', $this->password, true);
 			$this->password = null;
 		}

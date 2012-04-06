@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -26,7 +26,7 @@ $tabsClass['edit'] = true;
 									} else {
 										uri = document.getElementById('editForm').rss.value;
 									}
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/network/link/site/?rss=" + uri);
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/network/link/site/?rss=" + uri);
 									request.onVerify = function() {
 										return (this.getText("/response/url") != "")
 									}
@@ -77,7 +77,7 @@ $tabsClass['edit'] = true;
 <?php
 require ROOT . '/interface/common/owner/linkTab.php';
 ?>
-							<form id="editForm" method="post" action="<?php echo $blogURL;?>/owner/network/link/edit/">
+							<form id="editForm" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/network/link/edit/">
 								<input type="hidden" name="id" value="<?php echo $suri['value'];?>" />
 								
 								<div class="data-inbox">
@@ -116,7 +116,7 @@ foreach ($categories as $category) {
 								<div class="button-box">
 									<input type="submit" class="edit-button input-button" value="<?php echo _t('저장하기');?>" onclick="updateLink(); return false;" />
 									<span class="hidden">|</span>
-									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $blogURL;?>/owner/network/link'" />
+									<input type="button" class="cancel-button input-button" value="<?php echo _t('취소하기');?>" onclick="window.location.href='<?php echo $context->getProperty('uri.blog');?>/owner/network/link'" />
 								</div>
 							</form>
 						</div>

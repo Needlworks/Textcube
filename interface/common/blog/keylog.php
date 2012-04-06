@@ -1,20 +1,19 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // $keylog : $keylog (explanation for specific keyword)
 // $entries : Posts that contain specific keyword.
 
-$adminSkinSetting['skin'] = "/skin/admin/".getBlogSetting("adminSkin", "canon");
 $skin = new KeylogSkin($skinSetting['keylogSkin']);
-$out = str_replace("[##_SKIN_head_end_##]", '<script type="text/javascript">//<![CDATA' . CRLF . 'var servicePath = "' . $service['path'] . '"; var blogURL = "' . $blogURL . '"; var adminSkin = "' . $adminSkinSetting['skin'] . '";//]]></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/common2.js"></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/gallery.js"></script>' . $skin->skin, $skin->outter);
+$out = str_replace("[##_SKIN_head_end_##]", '<script type="text/javascript">//<![CDATA' . CRLF . 'var servicePath = "' . $context->getProperty('service.path') . '"; var blogURL = "' . $context->getProperty('uri.blog') . '"; var adminSkin = "' . $context->getProperty('panel.skin','canon') . '";//]]></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/common2.js"></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/gallery.js"></script>' . $skin->skin, $skin->outter);
 $keylogView = $skin->keylog;
 $itemsView = '';
 $contentContainer = array();
 foreach ($entries as $item) {
 	$itemView = $skin->keylogItem;
-	dress('blog_rep_link', "$blogURL/{$item['id']}", $itemView);
+	dress('blog_rep_link', $context->getProperty('uri.blog')."/{$item['id']}", $itemView);
 	dress('blog_rep_title', htmlspecialchars($item['title']), $itemView);
 	dress('blog_rep_regdate', Timestamp::format3($item['published']), $itemView);
 	if ($item['comments'] > 0)

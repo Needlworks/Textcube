@@ -20,7 +20,7 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 function FM_Markdown_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true) {
 	global $blog;
 	$view = FM_Markdown_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
-    if (!$blog['publishWholeOnRSS']) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);
+    if (!$blog['publishWholeOnRSS']) $view = Utils_Unicode::lessen(removeAllTags(stripHTML($view)), 255);
 		return $view;
 }
 ?>

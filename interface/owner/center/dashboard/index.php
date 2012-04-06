@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -285,6 +285,7 @@ $secondposition = array(0, 0);
 if(Acl::check('group.owners')) {
 	if(!isset($_REQUEST['edit'])) {
 ?>
+
 								<ul id="widget-tabs-box" class="tabs-box">
 									<li class="dashboard selected"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('알림판');?></a></li>
 									<li class="edit"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a></li>
@@ -294,15 +295,12 @@ if(Acl::check('group.owners')) {
 	} else {
 ?>
 								<ul id="widget-tabs-box" class="tabs-box">
-									<li class="dashboard selected"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('돌아가기');?></a></li>
+									<li class="dashboard"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard"><?php echo _t('알림판');?></a></li>
+									<li class="edit selected"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit"><?php echo _t('편집');?></a></li>
+									<li class="activate"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/plugin?visibility=center"><?php echo _t('위젯 켜고 끄기');?></a>
 								</ul>
 <?php
 	}
-} else {
-?>
-								<ul class="tabs-box">
-								</ul>
-<?php
 }
 ?>
 								<div id="widget-container-0" class="panel widget-container">
@@ -373,7 +371,7 @@ if(Acl::check('group.owners')) {
 <?php
 	} else {
 ?>
-								<div class="button-box">
+								<div id="widget-button-bottom" class="button-box">
 									<input type="button" class="input-button" value="<?php echo _t('돌아가기');?>" onclick="window.location.href='<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard'; return false;" />
 								</div>
 <?php
@@ -493,7 +491,7 @@ function getDefaultCenterPanel($mapping) {
 			$latestEntry = getEntry($blogid,$latestEntryId);
 			if(!is_null($latestEntry)) {
 ?>
-												<li class="modifyPost"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(UTF8::lessenAsEm($latestEntry['title'],10)));?></a></li>
+												<li class="modifyPost"><a href="<?php echo $ctx->getProperty('uri.blog');?>/owner/entry/edit/<?php echo $latestEntry['id'];?>"><?php echo _f('최근글(%1) 수정', htmlspecialchars(Utils_Unicode::lessenAsEm($latestEntry['title'],10)));?></a></li>
 <?php
 			}
 		}
@@ -610,7 +608,7 @@ function getDefaultCenterPanel($mapping) {
 			}
 ?>
 														</td>
-														<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],20));?></a></td>
+														<td class="title"><a href="<?php echo $item['link'];?>"><?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($item['title'],20));?></a></td>
 													</tr>
 <?php
 		}
@@ -664,7 +662,7 @@ function getDefaultCenterPanel($mapping) {
 ?>
 													<tr>
 														<td class="date"><?php echo Timestamp::format2($item['written']);?></td>
-														<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(UTF8::lessenAsEm($item['title'],35));?></a></td>
+														<td class="title"><a href="<?php echo $item['permalink'];?>" onclick="return openLinkInNewWindow(this);" ><?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($item['title'],35));?></a></td>
 													</tr>
 <?php
 			}

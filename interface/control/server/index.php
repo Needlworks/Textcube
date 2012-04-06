@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -91,6 +91,7 @@ closedir($handler);
 								param += 'useSessionDebugMode='+useSessionDebugMode +'&';
 								param += 'useRewriteDebugMode='+useRewriteDebugMode +'&';
 								param += 'timeout='+getEncodedValueById('timeout') +'&';
+								param += 'autologinTimeout='+getEncodedValueById('autologinTimeout') +'&';
 								param += 'skin='+getEncodedValueById('skin') +'&';
 								param += 'faviconDailyTraffic='+getEncodedValueById('faviconDailyTraffic') +'&';
 								param += 'language='+getEncodedValueById('language') +'&';
@@ -98,7 +99,7 @@ closedir($handler);
 								param += 'encoding='+getEncodedValueById('encoding') +'&';
 								param += 'serviceurl='+getEncodedValueById('serviceurl') + '&';
 								param += 'externalResourceURL='+getEncodedValueById('externalResourceURL');
-								var request = new HTTPRequest("POST", '<?php echo $blogURL;?>/control/server/config/');
+								var request = new HTTPRequest("POST", '<?php echo $context->getProperty('uri.blog');?>/control/server/config/');
 								request.onSuccess = function() {
 									PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 								}
@@ -112,8 +113,8 @@ closedir($handler);
 								var useCustomSMTP = document.getElementById('useCustomSMTP').checked?1:0;
 								var smtpHost = document.getElementById('smtpHost').value;
 								var smtpPort = document.getElementById('smtpPort').value;
-								
-								var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/control/server/mailhost/");
+
+								var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/control/server/mailhost/");
 								request.onVerify = function() {
 									return this.getText("/response/error") == 0;
 								}
@@ -132,7 +133,7 @@ if(!defined('__TEXTCUBE_NO_FANCY_URL__')) {
 								if(!confirm('<?php echo _f('적용하시면 기존의 %1 파일이 변경됩니다. 이 변경사항은 되돌릴 수 없습니다. 그래도 적용하시겠습니까?','.htaccess');?>')) return;
 								var htaccess = document.getElementById('rewrite');
 
-								var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/control/server/rewrite/");
+								var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/control/server/rewrite/");
 								request.onSuccess = function() {
 									PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 								}
@@ -168,17 +169,24 @@ if (!is_writable(ROOT . "/config.php")) {
 }
 ?>
 							</div>
-							
+
 							<div class="data-inbox">
-								<form id="configSetting" class="section" method="post" action="<?php echo $blogURL;?>/control/server/config" enctype="application/x-www-form-urlencoded">
+								<form id="configSetting" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/control/server/config" enctype="application/x-www-form-urlencoded">
 									<fieldset id="cache-container" class="container">
 										<legend><?php echo _t('기본 설정');?></legend>
-										
+
 										<dl id="timeout-line" class="line">
 											<dt><span class="label"><?php echo _t('세션 타임아웃');?></span></dt>
 											<dd>
-												<input id="timeout" type="text" class="input-text" name="timeout" size="5" value="<?php echo $service['timeout'];?>" />											
+												<input id="timeout" type="text" class="input-text" name="timeout" size="5" value="<?php echo $service['timeout'];?>" />
 												<label for="timeout"><?php echo _t('세션 타임 아웃까지의 시간을 설정합니다. 단위는 초입니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="autologin-timeout-line" class="line">
+											<dt><span class="label"><?php echo _t('자동 로그인 타임아웃');?></span></dt>
+											<dd>
+												<input id="autologinTimeout" type="text" class="input-text" name="autologinTimeout" size="11" value="<?php echo $service['autologinTimeout'];?>" />
+												<label for="autologinTimeout"><?php echo _t('자동 로그인 세션 타임 아웃까지의 시간을 설정합니다. 단위는 초입니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="skin-line" class="line">
@@ -198,10 +206,10 @@ foreach ($skinList as $skin => $value) {
 										<dl id="favicon-line" class="line">
 											<dt><span class="label"><?php echo _t('파비콘 트래픽');?></span></dt>
 											<dd>
-												<input id="faviconDailyTraffic" type="text" class="input-text" name="faviconDailyTraffic" size="5" value="<?php echo $service['favicon_daily_traffic'];?>" />											
+												<input id="faviconDailyTraffic" type="text" class="input-text" name="faviconDailyTraffic" size="5" value="<?php echo $service['favicon_daily_traffic'];?>" />
 												<label for="faviconDailyTraffic"><?php echo _t('블로그 파비콘이 하루에 소모하는 트래픽을 제한합니다. 단위는 Megabyte 입니다.');?></label>
 											</dd>
-										</dl>											
+										</dl>
 										<dl id="language-line" class="line">
 											<dt><span class="label"><?php echo _t('언어');?></span></dt>
 											<dd>
@@ -243,8 +251,7 @@ foreach($encodingList as $enc) {
 
 <?php
 }
-//											<input id="encoding" type="text" class="input-text" name="encoding" size="13" value="<?php echo $service['encoding'];?>" />
-?>											
+?>
 												</select>
 
 <label for="encoding"><?php echo _t('이 서비스의 기본 인코딩을 설정합니다.');?></label>
@@ -253,7 +260,7 @@ foreach($encodingList as $enc) {
 										<dl id="serviceurl-line" class="line">
 											<dt><span class="label"><?php echo _t('서비스 리소스 경로');?></span></dt>
 											<dd>
-												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $serviceURL;?>" />											
+												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $context->getProperty('uri.service');?>" />
 												<label for="serviceurl"><?php echo _t('이 서비스가 참조할 경로를 강제로 지정합니다.').'<br />'._t('정적인 파일들 (script, attach, image, style 하위 디렉토리)을 별도의 경로로 관리할 수 있습니다. 다른 웹 프로그램을 같은 도메인에서 운영할 때 동작이 방해받는 경우, 또는 서버에 걸리는 부하를 분산하고 싶은 경우 지정하면 됩니다.');?></label>
 											</dd>
 										</dl>
@@ -299,7 +306,7 @@ foreach($encodingList as $enc) {
 											</dd>
 										</dl>
 									</fieldset>
-									
+
 									<fieldset id="option-container" class="container">
 										<dl id="numeric-rss-line" class="line">
 											<dt><span class="label"><?php echo _t('RSS 주소를 숫자로 사용');?></span></dt>
@@ -314,11 +321,11 @@ foreach($encodingList as $enc) {
 											</dd>
 										</dl>
 										<dl id="eolin-suggestion-line" class="line">
-											<dt><span class="label"><?php echo _t('이올린 태그 추천 사용');?></span></dt>
+											<dt><span class="label"><?php echo _t('원격 태그 추천 사용');?></span></dt>
 											<dd>
-												<input type="checkbox" id="disableEolinSuggestion" class="checkbox" name="disableEolinSuggestion"<?php echo !$service['disableEolinSuggestion'] ? ' checked="checked"' : '';?> /><label for="disableEolinSuggestion"><?php echo _t('글 작성시 태그나 지역로그를 입력할 때 이올린 서버로부터 자동 추천 단어를 받아 옵니다.');?></label>
+												<input type="checkbox" id="disableEolinSuggestion" class="checkbox" name="disableEolinSuggestion"<?php echo !$service['disableEolinSuggestion'] ? ' checked="checked"' : '';?> /><label for="disableEolinSuggestion"><?php echo _t('글 작성시 태그나 지역로그를 입력할 때 텍스트큐브 서버로부터 자동 추천 단어를 받아 옵니다.');?></label>
 											</dd>
-										</dl>											
+										</dl>
 										<dl id="blog-visibility-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 공개 설정 변경 허용');?></span></dt>
 											<dd>
@@ -328,7 +335,7 @@ foreach($encodingList as $enc) {
 										<dl id="blog-service-visibility-line" class="line">
 											<dt><span class="label"><?php echo _t('블로그 서비스 공개 정도');?></span></dt>
 											<dd>
-												<input type="checkbox" id="requireLogin" class="checkbox" name="requireLogin"<?php echo $service['requirelogin'] ? ' checked="checked"' : '';?> /><label for="requireLogin"><?php echo _t('다중 블로그 모드에서 블로그 회원만 다른 블로그를 볼 수 있도록 합니다. 비공개 블로그 커뮤니티에 유용합니다.');?></label>
+												<input type="checkbox" id="requireLogin" class="checkbox" name="requireLogin"<?php echo isset($service['requirelogin']) && !empty($service['requirelogin']) ? ' checked="checked"' : '';?> /><label for="requireLogin"><?php echo _t('다중 블로그 모드에서 블로그 회원만 다른 블로그를 볼 수 있도록 합니다. 비공개 블로그 커뮤니티에 유용합니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="flash-clipboard--line" class="line">
@@ -344,10 +351,10 @@ foreach($encodingList as $enc) {
 											</dd>
 										</dl>
 									</fieldset>
-									
+
 									<fieldset id="debug-container" class="container">
 										<legend><?php echo _t('디버그 모드 조절');?></legend>
-										
+
 										<dl id="debugmode-line" class="line">
 											<dt><span class="label"><?php echo _t('디버그 모드 사용');?></span></dt>
 											<dd>
@@ -373,24 +380,24 @@ foreach($encodingList as $enc) {
 								</form>
 							</div>
 						</div>
-							
+
 						<div id="part-control-mailhost" class="part">
 							<h2 class="caption"><span class="main-text"><?php	echo _t('메일 보낼 서버를 지정합니다');?></span></h2>
-							
+
 							<div class="data-inbox">
-								<form class="section" method="post" action="<?php echo $blogURL;?>/control/server/mailhost">
+								<form class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/control/server/mailhost">
 									<dl>
 										<dt class="title"><span class="label"><?php	echo _t('메일 서버 설정');?></span></dt>
 										<dd>
 
 											<div class="line">
-												<input id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( getServiceSetting( 'useCustomSMTP', 0 ) ) { echo "checked='checked'"; } ?> />
+												<input id="useCustomSMTP" type="checkbox" class="checkbox" name="useCustomSMTP" value="1" <?php if( $context->getProperty('service.useCustomSMTP',0)) { echo "checked='checked'"; } ?> />
 												<label for="useCustomSMTP"><?php echo _t('메일서버 지정'); ?></label>
 											</div>
 											<div class="line">
 												<label for="smtpHost"><?php echo _t('메일서버 IP 주소:포트'); ?></label>
-												<input id="smtpHost" type="text" class="input-text" name="smtpHost" value="<?php echo getServiceSetting( 'smtpHost', '127.0.0.1' ); ?>" /> :
-												<input id="smtpPort" type="text" class="input-text" name="smtpPort" value="<?php echo getServiceSetting( 'smtpPort', 25 );?>" />
+												<input id="smtpHost" type="text" class="input-text" name="smtpHost" value="<?php echo $context->getProperty('service.smtpHost', '127.0.0.1' ); ?>" /> :
+												<input id="smtpPort" type="text" class="input-text" name="smtpPort" value="<?php echo $context->getProperty('service.smtpPort', 25 );?>" />
 											</div>
 										</dd>
 									</dl>
@@ -400,7 +407,7 @@ foreach($encodingList as $enc) {
 								</form>
 							</div>
 						</div>
-						
+
 						<hr class="hidden" />
 <?php
 if(!defined('__TEXTCUBE_NO_FANCY_URL__')) {
@@ -415,10 +422,10 @@ if (!is_writable(ROOT . "/.htaccess")) {
 								<p class="waring"><?php echo _f('파일 쓰기 권한이 없습니다. 웹서버가 %1 파일의 쓰기 권한을 가지고 있는지 확인하세요.','.htaccess').' '._t('아래의 설정을 저장하셔도 반영되지 않습니다.');?></p>
 <?php
 }
-?>								
+?>
 							</div>
 							<div class="data-inbox">
-								<form id="rewriteSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/control/server/rewrite/">
+								<form id="rewriteSectionForm" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/control/server/rewrite/">
 
 									<div id="rewrite-container">
 										<textarea id="rewrite" name="htaccess" cols="100" rows="20" onkeyup="htaccessSaved=false"><?php echo htmlspecialchars($htaccessContent);?></textarea>
@@ -428,11 +435,11 @@ if (!is_writable(ROOT . "/.htaccess")) {
 										<input type="reset" class="reset-button input-button" value="<?php echo _t('되돌리기');?>" />
 										<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="setRewrite(); return false;" />
 									</div>
-								</form>						
+								</form>
 							</div>
 						</div>
 						<hr class="hidden" />
-<?php 
+<?php
 }
 if (isset($_GET['message'])) {
 	$msg = escapeJSInCData($_GET['message']);

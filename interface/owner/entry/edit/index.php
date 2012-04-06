@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -47,14 +47,15 @@ if (defined('__TEXTCUBE_POST__') && isset($_GET['category'])) {
 }
 
 if(isset($_POST['slogan'])) $_GET['slogan'] = $_POST['slogan'];
-if(defined('__TEXTCUBE_ADD__') && (isset($_GET['slogan']))) {
+if(defined('__TEXTCUBE_POST__') && (isset($_GET['slogan']))) {
 	$entry['slogan'] = $_GET['slogan'];
+	$entry['title'] = $_GET['slogan'];
 }
 
 // Check whether or not user has permission to edit.
 if(Acl::check('group.editors')===false && !empty($suri['id'])) {
 	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
-		@header("location:".$blogURL ."/owner/entry");
+		@header("location:".$context->getProperty('uri.blog') ."/owner/entry");
 		exit; 
 	}
 }
@@ -74,6 +75,9 @@ switch($entry['category']) {
 		break;
 	case -2:
 		$titleText = _t('공지');
+		break;
+	case -3:
+		$titleText = _t('페이지');
 		break;
 	case -4:
 		$titleText = _t('서식');
@@ -95,8 +99,8 @@ if (defined('__TEXTCUBE_POST__')) {
 	printOwnerEditorScript($entry['id']);
 }
 ?>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/generaltag.js"></script>
-						<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/locationtag.js"></script>
+						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/generaltag.js"></script>
+						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/locationtag.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var enclosured = "<?php echo getEnclosure($entry['id']);?>";
@@ -135,7 +139,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										try { uploader.SetVariable("/:enclosure", filename); } catch(e) { }
 									}
 									
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/attach/enclosure/");
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/attach/enclosure/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
 										var fileList = document.getElementById("TCfilelist");
@@ -336,7 +340,7 @@ if (isset($_GET['returnURL'])) {
 												return null;
 										}
 
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/loadTemplate/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/loadTemplate/");
 										request.message = "<?php echo _t('불러오고 있습니다');?>";
 										request.onSuccess = function () {
 											PM.removeRequest(this);
@@ -380,14 +384,15 @@ if (isset($_GET['returnURL'])) {
 											return false;											
 										}
 										if(entryManager.isSaved == true) {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
+											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/draft/"+entryManager.entryId);
 										} else {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
+											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/add/");
 										}
 										if(entryManager.autoSave != true) {
 											request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										}
 										request.onSuccess = function () {
+											document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 											PM.removeRequest(this);
 											if(entryManager.autoSave == true) {
 												document.getElementById("saveButton").value = "<?php echo _t('자동으로 저장됨');?>";
@@ -420,6 +425,7 @@ if (isset($_GET['returnURL'])) {
 											}
 										}
 										request.onError = function () {
+											document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 											PM.removeRequest(this);
 											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
 											this.nowsaving = false;
@@ -429,12 +435,13 @@ if (isset($_GET['returnURL'])) {
 										} else {
 											PM.addRequest(request);
 										}											
+										document.getElementById("saveButton").value = "<?php echo _t('저장중...');?>";
 										request.send(data);
 
 										return true;
 									}
 									this.openPreviewPopup = function () {
-										window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+										window.open("<?php echo $context->getProperty('uri.blog');?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 									}
 									this.saveAndReturn = function () {
 										this.nowsaving = true;
@@ -442,9 +449,9 @@ if (isset($_GET['returnURL'])) {
 										if (data == null)
 											return false;
 										if(entryManager.isSaved == true) {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/finish/"+entryManager.entryId);
+											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/finish/"+entryManager.entryId);
 										} else {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/finish/");
+											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/finish/");
 										}
 
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
@@ -453,6 +460,7 @@ if (isset($_GET['returnURL'])) {
 												return false;
 											}
 											PM.removeRequest(this);
+											editor.finalize();
 											var returnURI = "";
 											var oForm = document.forms[0];
 											var changedPermalink = trim(oForm.permalink.value);
@@ -472,7 +480,7 @@ if (isset($_GET['popupEditor'])) {
 											if(originalPermalink == changedPermalink) {
 												returnURI = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
 											} else {
-												returnURI = "<?php echo escapeJSInCData("$blogURL/" . $entry['id']);?>";
+												returnURI = "<?php echo escapeJSInCData($context->getProperty('uri.blog')) ."/" . $entry['id'];?>";
 											}
 <?php
 	}
@@ -481,7 +489,7 @@ if (isset($_GET['popupEditor'])) {
 <?php
 } else {
 ?>
-											window.location.href = "<?php echo $blogURL;?>/owner/entry";
+											window.location.href = "<?php echo $context->getProperty('uri.blog');?>/owner/entry";
 <?php
 }
 ?>
@@ -531,7 +539,7 @@ if (isset($_GET['popupEditor'])) {
 									this.preview = function () {
 										this.isPreview = true;
 										if (!this.save()) {
-											entryManager.openPreviewPopup();
+											this.openPreviewPopup();
 											this.isPreview = false;
 										}
 										return;
@@ -541,7 +549,7 @@ if (isset($_GET['popupEditor'])) {
 								var entryManager;
 
 								function keepSessionAlive() {
-									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/keep/");
+									var request = new HTTPRequest("<?php echo $context->getProperty('uri.blog');?>/owner/keep/");
 									request.persistent = false;
 									request.onVerify = function () {
 										return true;
@@ -557,6 +565,7 @@ if (isset($_GET['popupEditor'])) {
 											document.getElementById("category").disabled = true;
 											break;
 										case "type_notice":
+										case "type_page":
 											document.getElementById("title-line-label").innerHTML = "<?php echo _t('제목');?>";
 											document.getElementById("category").disabled = true;
 											break;
@@ -593,21 +602,12 @@ if (isset($_GET['popupEditor'])) {
 									}
 									if (type == "type_notice") {
 										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/entry/$"), "/notice/");
+									} else if (type == "type_page") {
+										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/entry/$"), "/page/");
 									} else {
-										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/notice/$"), "/entry/");
+										document.getElementById("permalink-prefix").innerHTML = document.getElementById("permalink-prefix").innerHTML.replace(new RegExp("/[notice|page]/$"), "/entry/");
 									}
 									return true;
-								}
-								
-								function viewWhatIsEolin() {
-									document.getElementById('TCfilelist').style.visibility = 'hidden';
-									dialog = document.getElementById('eolinDialog');
-									PM.showPanel(dialog);
-								}
-								
-								function closeWhatIsEolin() {
-									document.getElementById('TCfilelist').style.visibility = 'visible';
-									document.getElementById('eolinDialog').style.display = 'none';
 								}
 								
 								function toggleTemplateDialog() {
@@ -620,14 +620,14 @@ if (isset($_GET['popupEditor'])) {
 								}
 
 								function returnToList() {
-									window.location.href='<?php echo $blogURL;?>/owner/entry';
+									window.location.href='<?php echo $context->getProperty('uri.blog');?>/owner/entry';
 									return true;
 								}
 
 							//]]>
 						</script>
 						
-						<form id="editor-form" method="post" action="<?php echo $blogURL;?>/owner/entry">
+						<form id="editor-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/entry">
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?php
 
@@ -657,6 +657,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										<dl id="category-line" class="line">
 											<dt><label for="category"><?php echo _t('분류');?></label></dt>
 											<dd>
+												<div class="entrytype-page"><input type="radio" id="type_page" class="radio" name="entrytype" value="-3" onclick="checkCategory('type_page')"<?php echo ($entry['category'] == -3 ? ' checked="checked"' : '');?> /><label for="type_page"><?php echo _t('페이지');?></label></div>
 												<div class="entrytype-notice"><input type="radio" id="type_notice" class="radio" name="entrytype" value="-2" onclick="checkCategory('type_notice')"<?php echo ($entry['category'] == -2 ? ' checked="checked"' : '');?> /><label for="type_notice"><?php echo _t('공지');?></label></div>
 												<div class="entrytype-keyword"><input type="radio" id="type_keyword" class="radio" name="entrytype" value="-1" onclick="checkCategory('type_keyword')"<?php echo ($entry['category'] == -1 ? ' checked="checked"' : '');?> /><label for="type_keyword"><?php echo _t('키워드');?></label></div>
 												<div class="entrytype-template"><input type="radio" id="type_template" class="radio" name="entrytype" value="-4" onclick="checkCategory('type_template')"<?php echo ($entry['category'] == -4 ? ' checked="checked"' : '');?> /><label for="type_template"><?php echo _t('서식');?></label></div>
@@ -766,12 +767,12 @@ if (count($templateLists) == 0) {
 											<div id="attachment-container" class="container">
 <?php
 $param = array(
-		'uploadPath'=> "$blogURL/owner/entry/attachmulti/", 
-		'singleUploadPath'=> "$blogURL/owner/entry/attach/", 
-		'deletePath'=>"$blogURL/owner/entry/detach/multi/",
-		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/", 
-		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/", 
-		'fileSizePath'=> "$blogURL/owner/entry/size?parent=");		
+		'uploadPath'=>       $context->getProperty('uri.blog')."/owner/entry/attachmulti/", 
+		'singleUploadPath'=> $context->getProperty('uri.blog')."/owner/entry/attach/", 
+		'deletePath'=>       $context->getProperty('uri.blog')."/owner/entry/detach/multi/",
+		'labelingPath'=>     $context->getProperty('uri.blog')."/owner/entry/attachmulti/list/", 
+		'refreshPath'=>      $context->getProperty('uri.blog')."/owner/entry/attachmulti/refresh/", 
+		'fileSizePath'=>     $context->getProperty('uri.blog')."/owner/entry/size?parent=");		
 printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 ?>
 											</div>
@@ -849,8 +850,10 @@ printEntryFileUploadButton($entry['id']);
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
-												<dd>
+												<dd class="permalink-input">
 													<samp id="permalink-prefix"><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" onkeypress="return preventEnter(event);" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
+												</dd>
+												<dd>
 													<p>* <?php echo _t('입력하지 않으면 글의 제목이 절대 주소가 됩니다.');?></p>
 												</dd>
 											</dl>
@@ -947,28 +950,6 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 							</div>
 						</form>
 						<div id="feather" class="clear"></div>
-						<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
-							<div class="temp-box">
-								<h4><?php echo _t('이올린이란?');?></h4>
-								
-								<p class="message">
-									<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
-								</p>
-								
-								<h4><?php echo _t('발행 방법');?></h4>
-								
-								<p class="message">
-									<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 "발행"으로 체크하면 됩니다.');?></em>
-									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
-								</p>
-							
-								<div class="button-box">
-									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
-									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
-					 			</div>
-					 		</div>
-				 		</div>
-				 		
 						<script type="text/javascript">
 							//<![CDATA[
 								var contentformatterObj = document.getElementById('contentformatter');
@@ -985,6 +966,8 @@ switch($entry['category']) {
 		echo 'type_keyword';break;
 	case -2:
 		echo 'type_notice';break;
+	case -3:
+		echo 'type_page';break;
 	case -4:
 		echo 'type_template';break;
 	default:

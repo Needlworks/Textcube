@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -15,7 +15,6 @@ require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
 
-global $blogURL;
 $page = $_GET['page'];
 
 ?>
@@ -65,7 +64,7 @@ if($userlist){
 ?>
 					<tr id="table-user-list_<?php echo $row['userid'];?>">
 						<td><?php echo $row['userid']?></td>
-						<td><a href="<?php echo $blogURL;?>/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid'];?></a></td>
+						<td><a href="<?php echo $context->getProperty('uri.blog');?>/control/user/detail/<?php echo $row['userid']?>"><?php echo $row['loginid'];?></a></td>
 						<td><?php echo $row['name']?></td>
 						<td><?php echo ($row['lastlogin']?date("Y/m/d H:i:s T",$row['lastlogin']):'<span class="warning">'._t('아직 로그인하지 않았습니다.').'</span>');?></td>
 						<td><?php if(empty($row['lastlogin']) || null !== Setting::getUserSettingGlobal('AuthToken',null,$row['userid'])) echo Setting::getUserSettingGlobal('AuthToken',null,$row['userid']);?></td>

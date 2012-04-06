@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_IPHONE__', true);
@@ -8,7 +8,7 @@ requireView('iphoneView');
 requireStrictRoute();
 $replyId = $suri['id'];
 $IV = array(
-	'POST' => array(
+	'GET' => array(
 		"name_$replyId" => array('string', 'default' => null),
 		"password_$replyId" => array('string', 'default' => ''),
 		"secret_$replyId" => array('string', 'default' => null),
@@ -19,19 +19,19 @@ $IV = array(
 if(!Validator::validate($IV))
 	Respond::NotFoundPage();
 list($entryId) = getCommentAttributes($blogid, $replyId, 'entry');
-if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
-	printMobileErrorPage(_text('댓글 작성 오류.'), _text('이름을 입력해 주세요.'), "$blogURL/comment/comment/$replyId");
-} else if (!doesHaveOwnership() && empty($_POST["comment_$replyId"])) {
-	printMobileErrorPage(_text('댓글 작성 오류.'), _text('내용을 입력해 주세요.'), "$blogURL/comment/comment/$replyId");
+if (!doesHaveOwnership() && empty($_GET["name_$replyId"])) {
+	printMobileErrorPage(_text('댓글 작성 오류.'), _text('이름을 입력해 주세요.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
+} else if (!doesHaveOwnership() && empty($_GET["comment_$replyId"])) {
+	printMobileErrorPage(_text('댓글 작성 오류.'), _text('내용을 입력해 주세요.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
 	$comment['parent'] = $replyId;
-	$comment['name'] = empty($_POST["name_$replyId"]) ? '' : $_POST["name_$replyId"];
-	$comment['password'] = empty($_POST["password_$replyId"]) ? '' : $_POST["password_$replyId"];
-	$comment['homepage'] = empty($_POST["homepage_$replyId"]) || ($_POST["homepage_$replyId"] == 'http://') ? '' : $_POST["homepage_$replyId"];
-	$comment['secret'] = empty($_POST["secret_$replyId"]) ? 0 : 1;
-	$comment['comment'] = $_POST["comment_$replyId"];
+	$comment['name'] = empty($_GET["name_$replyId"]) ? '' : $_GET["name_$replyId"];
+	$comment['password'] = empty($_GET["password_$replyId"]) ? '' : $_GET["password_$replyId"];
+	$comment['homepage'] = empty($_GET["homepage_$replyId"]) || ($_GET["homepage_$replyId"] == 'http://') ? '' : $_GET["homepage_$replyId"];
+	$comment['secret'] = empty($_GET["secret_$replyId"]) ? 0 : 1;
+	$comment['comment'] = $_GET["comment_$replyId"];
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 	$result = addComment($blogid, $comment);
 	if (in_array($result, array('ip', 'name', 'homepage', 'comment', 'openidonly', 'etc'))) {
@@ -40,13 +40,13 @@ if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 		} else {
 			$blockMessage = _textf('%1 은 차단되었습니다.', $result);
 		}
-		printMobileErrorPage(_text('댓글 작성이 차단되었습니다.'), $blockMessage, "$blogURL/comment/$entryId");
+		printMobileErrorPage(_text('댓글 작성이 차단되었습니다.'), $blockMessage, $context->getProperty('uri.blog')."/comment/$entryId");
 	} else if ($result === false) {
-		printMobileErrorPage(_text('댓글 작성 오류.'), _text('댓글을 작성할 수 없었습니다.'), "$blogURL/comment/$entryId");
+		printMobileErrorPage(_text('댓글 작성 오류.'), _text('댓글을 작성할 수 없었습니다.'), $context->getProperty('uri.blog')."/comment/$entryId");
 	} else {
-		setcookie('guestName', $comment['name'], time() + 2592000, $blogURL);
-		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $blogURL);
-		printMobileSimpleMessage(_text('댓글이 등록되었습니다.'), _text('댓글 페이지로 이동'), "$blogURL/comment/$entryId");
+		setcookie('guestName', $comment['name'], time() + 2592000, $context->getProperty('uri.blog'));
+		setcookie('guestHomepage', $comment['homepage'], time() + 2592000, $context->getProperty('uri.blog'));
+		printMobileSimpleMessage(_text('댓글이 등록되었습니다.'), _text('댓글 페이지로 이동'), $context->getProperty('uri.blog')."/comment/$entryId");
 	}
 }
 ?>

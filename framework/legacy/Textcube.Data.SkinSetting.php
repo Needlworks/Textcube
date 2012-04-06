@@ -1,13 +1,13 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class SkinSetting {
-	function SkinSetting() {
+	function __construct() {
 		$this->reset();
 	}
 
-	function reset() {
+	public function reset() {
 		$this->error =
 		$this->skin =
 		$this->entriesOnRecent =
@@ -19,6 +19,7 @@ class SkinSetting {
 		$this->expandComment =
 		$this->expandTrackback =
 		$this->recentNoticeLength =
+		$this->recentPageLength =
 		$this->recentEntryLength =
 		$this->recentTrackbackLength =
 		$this->linkLength =
@@ -34,8 +35,7 @@ class SkinSetting {
 			null;
 	}
 	
-	function load($fields = '*') {
-		global $database;
+	public function load($fields = '*') {
 		$this->reset();
 		$pool = DBModel::getInstance();
 		$pool->reset('SkinSettings');
@@ -53,7 +53,7 @@ class SkinSetting {
 		return false;
 	}
 	
-	function save() {
+	public function save() {
 		if (isset($this->skin)) {
 			if (strncmp($this->skin, 'customize/', 10) == 0) {
 				if (strcmp($this->skin, "customize/".getBlogId()) != 0)
@@ -105,6 +105,11 @@ class SkinSetting {
 				return $this->_error('recentNoticeLength');
 			Setting::setSkinSetting('recentNoticeLength', $this->recentNoticeLength);
 		}
+		if (isset($this->recentPageLength)) {
+			if (!Validator::number($this->recentPageLength, 0))
+				return $this->_error('recentPageLength');
+			Setting::setSkinSetting('recentPageLength', $this->recentPageLength);
+		}
 		if (isset($this->recentTrackbackLength)) {
 			if (!Validator::number($this->recentTrackbackLength, 0))
 				return $this->_error('recentTrackbackLength');
@@ -142,7 +147,7 @@ class SkinSetting {
 		return true;
 	}
 
-	function _error($error) {
+	public function _error($error) {
 		$this->error = $error;
 		return false;
 	}

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -25,7 +25,7 @@ if (!empty($listView)) {
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				fireEvent('ViewListName', htmlspecialchars($author)),
 				((!empty($skinSetting['showListWithTotalEntries'])) ? "#entry_".$item['id'] :
-				"$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($item['slogan'],$service['useEncodedURL']) : $item['id'])).(isset($list['category']) ? '?category='.$list['category'] : ''),
+				$context->getProperty('uri.blog')."/" . ($context->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($item['slogan'],$service['useEncodedURL']) : $item['id'])).(isset($list['category']) ? '?category='.$list['category'] : ''),
 				fireEvent('ViewListTitle', htmlspecialchars($item['title'])),
 				($item['comments'] > 0) ? "({$item['comments']})" : ''
 			),
@@ -39,7 +39,6 @@ if (!empty($listView)) {
 	dress('list_atom_url', $context->getProperty('uri.default').'/atom/'.$listFeedURL, $listView);
 	$listView = fireEvent('ViewList', $listView, $list);
 	if(empty($entries)) $listView = $listView.CRLF.'[##_paging_list_##]';
-	
 	dress('list', $listView, $view);
 	if(isset($cache)) { 
 		$cache->contents = $listView;

@@ -1,9 +1,11 @@
-<?php 
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+<?php
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $confirmString = '';
+$context = Model_Context::getInstance();
+
 if (empty($comment['name']) ) {
 	if( isset($_SESSION['openid']['nickname'])) {
 		$comment['name'] = $_SESSION['openid']['nickname'];
@@ -22,7 +24,7 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') ) {
 $pageHeadTitle = $pageTitle;
 if( Acl::getIdentity('openid') ) {
 	$pageHeadTitle = $pageTitle;
-	$pageTitle = "$pageTitle ( <img src=\"".$service['path']."/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> ".OpenID::getDisplayName(Acl::getIdentity('openid')).")";
+	$pageTitle = "$pageTitle ( <img src=\"".$ctx->getProperty('service.path')."/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> ".OpenID::getDisplayName(Acl::getIdentity('openid')).")";
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -30,15 +32,15 @@ if( Acl::getIdentity('openid') ) {
 <head>
 	<title><?php echo $pageHeadTitle ;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-comment.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/popup-comment.css" />
 	<script type="text/javascript">
 		//<![CDATA[
-			var servicePath = "<?php echo $service['path'];?>";
-			var blogURL = "<?php echo $blogURL;?>";
-			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var servicePath = "<?php echo $context->getProperty('service.path');?>";
+			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $service['path'].'/resources' : $service['resourcepath']);?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $ctx->getProperty('service.path').'/resources' : $ctx->getProperty('service.resourcepath'));?>/script/common2.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			function submitComment() {
@@ -48,20 +50,20 @@ if( Acl::getIdentity('openid') ) {
 				var tempOnClick = oButton.onclick;
 				oButton.onclick = 'return false;';
 				trimAll(oForm);
-<?php 
+<?php
 if (!doesHaveMembership()) {
 ?>
 				if (!checkValue(oForm.name, '<?php echo escapeJSInCData(_text('이름을 입력해 주십시오.'));?>')) {
 					oButton.value = '<?php echo _text('완료');?>';
-					oButton.onclick = tempOnClick; 
+					oButton.onclick = tempOnClick;
 					return false;
 				}
-<?php 
+<?php
 }
 ?>
 				if (!checkValue(oForm.comment, '<?php echo escapeJSInCData(_text('댓글을 입력해 주십시오.'));?>')) {
 					oButton.value = '<?php echo _text('완료');?>';
-					oButton.onclick = tempOnClick; 
+					oButton.onclick = tempOnClick;
 					return false;
 				}
 				oForm.submit();
@@ -80,25 +82,25 @@ if (!doesHaveMembership()) {
 
 if (!doesHaveMembership()) {
 ?>
-<body<?php echo $writerClass;?> onLoad="document.commentToComment.name.focus()">
-<?php 
+<body<?php echo $writerClass;?> onload="document.commentToComment.name.focus()">
+<?php
 } else {
 ?>
 <body<?php echo $writerClass;?> onload="document.commentToComment.comment.focus()">
-<?php 
+<?php
 }
 ?>
-	<form name="commentToComment" method="post" action="<?php echo ($_POST['mode'] == 'edit' ? $blogURL . '/comment/delete/' . $suri['id'] : $suri['url']);?>">
+	<form name="commentToComment" method="post" action="<?php echo ($_POST['mode'] == 'edit' ? $context->getProperty('uri.blog') . '/comment/delete/' . $context->getProperty('suri.id'): $context->getProperty('suri.url');?>">
 		<input type="hidden" name="mode" value="commit" />
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" />
-		
+
 		<div id="comment-reply-box">
-			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
-			
+			<img src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
+
 			<div class="title"><span class="text" id="title"><?php echo $pageTitle ;?></span></div>
 <?php
 if($viewMode == 'comment') {
-	$parent = getComment(getBlogId(), $suri['id'], null, false);
+	$parent = getComment(getBlogId(), $context->getProperty('suri.id'), null, false);
 	if(($parent['secret'] == 1) && !doesHaveOwnership()) {
 		$parent['name'] = $parent['written'] = $parent['comment'] = _t('[비밀댓글]');
 	}
@@ -137,9 +139,9 @@ if($viewMode == 'comment') {
 			</div>
 <?php
 }
-?>			
+?>
 			<div id="command-box">
-<?php 
+<?php
 if (!doesHaveOwnership()) {
 	if (!doesHaveMembership()) {
 ?>
@@ -147,7 +149,7 @@ if (!doesHaveOwnership()) {
 					<dt><label for="name"><?php echo _text('이름');?></label></dt>
 					<dd><input type="text" id="name" class="input-text" name="name" value="<?php echo htmlspecialchars($comment['name']);?>" /></dd>
 				</dl>
-<?php 
+<?php
 if( !Acl::getIdentity('openid') ) { ?>
 				<dl class="password-line">
 					<dt><label for="password"><?php echo _text('비밀번호');?></label></dt>
@@ -158,7 +160,7 @@ if( !Acl::getIdentity('openid') ) { ?>
 					<dt><label for="homepage"><?php echo _text('홈페이지');?></label></dt>
 					<dd><input type="text" class="input-text" id="homepage" name="homepage" value="<?php echo (empty($comment['homepage']) ? 'http://' : htmlspecialchars($comment['homepage']));?>" /></dd>
 				</dl>
-<?php 
+<?php
 	}
 ?>
 				<dl class="secret-line">
@@ -167,18 +169,18 @@ if( !Acl::getIdentity('openid') ) { ?>
 						<label for="secret"><?php echo _text('비밀글로 등록');?></label>
 					</dd>
 				</dl>
-	<?php 
+	<?php
 }
 
 if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($comment['replier']) || ($comment['replier'] != getUserId()))) {
 	$confirmString = "if( confirmOverwrite() )";
 }
-?>			
+?>
 				<dl class="content-line">
 					<dt><label for="comment"><?php echo _text('내용');?></label></dt>
 					<dd><textarea id="comment" name="comment" cols="45" rows="9" style="height: <?php echo (!doesHaveOwnership() && !doesHaveOwnership()) ? 150 : 242;?>px;"><?php echo htmlspecialchars($comment['comment']);?></textarea></dd>
 				</dl>
-				
+
 				<div class="button-box">
 					<input type="button" class="input-button" id="commentSubmit" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment()" />
 				</div>

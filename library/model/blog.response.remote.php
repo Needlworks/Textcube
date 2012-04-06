@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -299,7 +299,6 @@ function sendTrackbackPing($entryId, $permalink, $url, $site, $title) {
 }
 
 function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
-	global $database, $blog, $defaultURL;
 	if (empty($url))
 		return 5;
 	$post = new Post;
@@ -320,10 +319,10 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	$title = correctTTForXmlText($title);
 	$excerpt = correctTTForXmlText($excerpt);
 
-	$url = UTF8::lessenAsEncoding($url);
-	$site = UTF8::lessenAsEncoding($site);
-	$title = UTF8::lessenAsEncoding($title);
-	$excerpt = UTF8::lessenAsEncoding($excerpt);
+	$url = Utils_Unicode::lessenAsEncoding($url);
+	$site = Utils_Unicode::lessenAsEncoding($site);
+	$title = Utils_Unicode::lessenAsEncoding($title);
+	$excerpt = Utils_Unicode::lessenAsEncoding($excerpt);
 
 	$trackback = new Trackback();
 	$trackback->entry = $entry;
@@ -358,18 +357,17 @@ function revertTrackback($blogid, $id) {
 }
 
 function sendTrackback($blogid, $entryId, $url) {
-	global $defaultURL, $blog;
 	requireModel('blog.entry');
 	requireModel('blog.keyword');
-	
+	$context = Model_Context::getInstance();	
 	$entry = getEntry($blogid, $entryId);
 	if (is_null($entry))
 		return false;
-	$link = "$defaultURL/$entryId";
+	$link = $context->getProperty('uri.default')."/".$entryId;
 	$title = htmlspecialchars($entry['title']);
 	$entry['content'] = getEntryContentView($blogid, $entryId, $entry['content'], $entry['contentformatter'], getKeywordNames($blogid));
-	$excerpt = str_tag_on(UTF8::lessen(removeAllTags(stripHTML($entry['content'])), 255));
-	$blogTitle = $blog['title'];
+	$excerpt = str_tag_on(Utils_Unicode::lessen(removeAllTags(stripHTML($entry['content'])), 255));
+	$blogTitle = $context->getProperty('blog.title');
 	$isNeedConvert = 
 		strpos($url, '/rserver.php?') !== false // 구버전 태터
 		|| strpos($url, 'blog.naver.com/tb') !== false // 네이버 블로그
@@ -381,9 +379,9 @@ function sendTrackback($blogid, $entryId, $url) {
 		|| strpos($url, 'www.cine21.com/Movies/tb.php') !== false // cine21
 		;
 	if ($isNeedConvert) {
-		$title = UTF8::convert($title, 'EUC-KR');
-		$excerpt = UTF8::convert($excerpt, 'EUC-KR');
-		$blogTitle = UTF8::convert($blogTitle, 'EUC-KR');
+		$title = Utils_Unicode::convert($title, 'EUC-KR');
+		$excerpt = Utils_Unicode::convert($excerpt, 'EUC-KR');
+		$blogTitle = Utils_Unicode::convert($blogTitle, 'EUC-KR');
 		$content = "url=" . rawurlencode($link) . "&title=" . rawurlencode($title) . "&blog_name=" . rawurlencode($blogTitle) . "&excerpt=" . rawurlencode($excerpt);
 		$request = new HTTPRequest('POST', $url);
 		$request->contentType = 'application/x-www-form-urlencoded; charset=euc-kr';
@@ -396,10 +394,10 @@ function sendTrackback($blogid, $entryId, $url) {
 	}
 	
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-//		$url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
+//		$url = POD::escapeString(Utils_Unicode::lessenAsEncoding($url, 255));
 		$trackbacklog = new TrackbackLog;
 		$trackbacklog->entry = $entryId;
-		$trackbacklog->url = POD::escapeString(UTF8::lessenAsEncoding($url, 255));
+		$trackbacklog->url = POD::escapeString(Utils_Unicode::lessenAsEncoding($url, 255));
 		$trackbacklog->add();
 //		POD::query("INSERT INTO {$database['prefix']}TrackbackLogs VALUES ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;

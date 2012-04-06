@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('NO_SESSION', true);
@@ -22,7 +22,7 @@ if(!empty($suri['id'])) {
 	if(in_array($categoryId, getCategoryVisibilityList($blogid, 'private'))) return false;
 	$categoryTitle = $suri['value'];
 } else { 	// If no category is mentioned, redirect it to total rss.
-	header ("Location: $hostURL$blogURL/rss");
+	header ("Location: ".$context->getProperty('uri.host').$context->getProperty('uri.blog')."/rss");
 	exit;
 }
 

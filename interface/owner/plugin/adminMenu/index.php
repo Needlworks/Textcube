@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -28,15 +28,15 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		$plugin = $adminMenuMappings[$_REQUEST['name']]['plugin'];
 		$handler = $adminMenuMappings[$_REQUEST['name']]['handler'];
 
-		$pluginAccessURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin;
-		$pluginMenuURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin . '/' . $handler;
-		$pluginHandlerURL = $blogURL . '/owner/plugin/adminHandler?name=' . $plugin;
+		$pluginAccessURL = $context->getProperty('uri.blog') . '/owner/plugin/adminMenu?name=' . $plugin;
+		$pluginMenuURL = $context->getProperty('uri.blog') . '/owner/plugin/adminMenu?name=' . $plugin . '/' . $handler;
+		$pluginHandlerURL = $context->getProperty('uri.blog') . '/owner/plugin/adminHandler?name=' . $plugin;
 		$pluginSelfURL = $pluginMenuURL;
 
 		$pluginAccessParam = '?name=' . $plugin;
 		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
 		
-		$pluginURL = "{$service['path']}/plugins/{$plugin}";
+		$pluginURL = "{$context->getProperty('service.path')}/plugins/{$plugin}";
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		$pluginName = $plugin;
 

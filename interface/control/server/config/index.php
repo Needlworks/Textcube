@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -16,6 +16,7 @@ $IV = array(
 		'serviceurl'             => array('string'),
 		'skin'                   => array('string'),
 		'timeout'                => array('int'),
+		'autologinTimeout'       => array('int'),
 		'timezone'               => array('string'),
 		'useDebugMode'           => array('int',0,1),
 		'useEncodedURL'          => array('int',0,1),
@@ -37,6 +38,7 @@ requireModel('blog.service');
 requireStrictRoute();
 $matchTable = array(
 	'timeout' => 'timeout',
+	'autologinTimeout' => 'autologinTimeout',
 	'skin'    =>'skin',
 	'language'=>'language',
 	'timezone'=>'timezone',

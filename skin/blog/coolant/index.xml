@@ -2,7 +2,7 @@
 <skin>
 	<information>
 		<name>Coolant (textcube ver.)</name>
-		<version>3.0.3</version>
+		<version>3.1.0</version>
 		<description>
 			<![CDATA[본문 이미지 최대 가로 사이즈: 450px
 			]]>
@@ -26,6 +26,7 @@
 		<expandComment>0</expandComment>
 		<expandTrackback>0</expandTrackback>
 		<lengthOfRecentNotice>40</lengthOfRecentNotice>
+		<lengthOfRecentPage>40</lengthOfRecentPage>
 		<lengthOfRecentEntry>40</lengthOfRecentEntry>
 		<lengthOfRecentComment>40</lengthOfRecentComment>
 		<lengthOfRecentTrackback>40</lengthOfRecentTrackback>
@@ -40,6 +41,6 @@
 			<none>No Trackback</none>
 			<single>A trackback</single>
 		</trackbackMessage>
-		<contentWidth>470</contentWidth>
+		<contentWidth>450</contentWidth>
 	</default>
 </skin>

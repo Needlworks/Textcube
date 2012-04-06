@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -66,12 +66,11 @@ if( $openid_identity ) {
 } else {
 	if( empty($tr['openid_errormsg']) ) {
 		/* OpenID request path.. */
-		global $blogURL;
 		$tid = Transaction::pickle( array('_POST' => $_POST, 'HTTP_REFERER' => $_SERVER['HTTP_REFERER'] ) );
-		$requestURI = urlencode("$blogURL/comment/addopenid/$entryId?tid=$tid&__T__=".$_GET['__T__']);
+		$requestURI = urlencode($context->getProperty('uri.blog')."/comment/addopenid/$entryId?tid=$tid&__T__=".$_GET['__T__']);
 
 		/* eas_mode will redirect your browser to the IdP authentication page in EAS4.js addComment-onError handler */
-		header( "Location: $blogURL/login/openid?action=try_auth&openid_remember=y&requestURI=$requestURI&fallbackURI=".urlencode($_POST["requestURI"]).
+		header( "Location: ".$context->getProperty('uri.blog')."/login/openid?action=try_auth&openid_remember=y&requestURI=$requestURI&fallbackURI=".urlencode($_POST["requestURI"]).
 			"&openid_identifier=".urlencode($_POST["openid_identifier_$entryId"]) );
 		exit;
 	} else {

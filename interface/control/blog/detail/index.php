@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $service['admin_script']='control.js';
@@ -216,10 +216,9 @@ $pool = DBModel::getInstance();
 							</div>
 							
 							<div class="button-box">
-								<input type="submit" class="input-button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;" value="<?php echo _t("블로그 삭제");?>" />
-								<span class="hidden">|</span>
-								<?php if (!$isRepBlog) { ?><input type="submit" class="input-button" href="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;" value="<?php echo _t('대표 블로그 설정');?>" /><span class="hidden">|</span><?php } ?>
-								<input type="submit" class="input-button" onclick="location.href='<?php echo $context->getProperty('uri.blog');?>/control/blog'" value="<?php echo _t("돌아가기");?>" />
+								<a class="button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;"><?php echo _t("블로그 삭제");?></a>
+								<?php if ($bid != Setting::getServiceSettingGlobal("defaultBlogId",1)) { ?><a class="button" href="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;"><?php echo _t('대표 블로그 설정');?></a><?php } ?>
+								<a class="button" href="<?php echo $context->getProperty('uri.blog');?>/control/blog"><?php echo _t("돌아가기");?></a>
 							</div>
 						</div>
 <?php

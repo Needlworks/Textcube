@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -15,8 +15,9 @@ define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/preprocessor.php';
 $ctx = Model_Context::getInstance();
 $userURL = $ctx->getProperty('user.homepage');
-$blogURL = $ctx->getProperty('uri.blog');
-if (substr($blogURL, -1) != '/') $blogURL .= '/';
+if (substr($context->getProperty('uri.blog'), -1) != '/') {
+	$context->setProperty('uri.blog', $context->getProperty('uri.blog').'/');
+}
 if (!isset($userURL) ) $userURL = '/';
 if (substr($userURL, -1) != '/') $userURL .= '/';
 
@@ -26,9 +27,9 @@ if (doesHaveMembership()) {
 	if (!empty($_POST['requestURI']))
 		$returnURL = $_POST['requestURI'];
 	else
-		$returnURL = $blogURL;
+		$returnURL = $context->getProperty('uri.blog');
 } else {
-	$returnURL = $blogURL;
+	$returnURL = $context->getProperty('uri.blog');
 }
 logout();
 header("Location: $returnURL");

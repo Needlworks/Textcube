@@ -1,9 +1,9 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class DailyStatistics {
-	function DailyStatistics() {
+	function __construct() {
 		$this->reset();
 	}
 
@@ -14,7 +14,7 @@ class DailyStatistics {
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'datemark DESC') {
-		global $database;
+		$ctx = Model_Context::getInstance();
 		if (is_numeric($filter))
 			$filter = 'AND datemark = ' . $filter;
 		else if (!empty($filter))
@@ -22,7 +22,7 @@ class DailyStatistics {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields FROM {$database['prefix']}DailyStatistics WHERE blogid = ".getBlogId()." $filter $sort");
+		$this->_result = POD::query("SELECT $fields FROM ".$ctx->getProperty('database.prefix')."DailyStatistics WHERE blogid = ".getBlogId()." $filter $sort");
 		if ($this->_result) {
 			if ($this->_count = POD::num_rows($this->_result))
 				return $this->shift();

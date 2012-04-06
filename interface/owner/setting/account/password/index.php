@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 $result = false;
-$isAuthToken = getUserSetting('AuthToken',false) ? true : false;
+$isAuthToken = Setting::getUserSetting('AuthToken',false,true) ? true : false;
 if($_POST['pwd'] != '' && (($_POST['prevPwd'] != '') || ($isAuthToken != false))) {
 	$result = changePassword(getUserId(), $_POST['pwd'], $_POST['prevPwd'], $isAuthToken);
 }

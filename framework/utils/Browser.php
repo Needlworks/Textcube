@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -18,9 +18,9 @@ final class Utils_Browser extends Singleton
 	public function getBrowserName() {
 		/// Blocking (is in development)
 		$ctx = Model_Context::getInstance();
-//		if($ctx->getProperty('service.usemobileadmin',true) === false) {
-//			return 'unknown';
-//		}
+		if($ctx->getProperty('service.usemobileadmin',true) === false) {
+			return 'unknown';
+		}
 		if(!is_null($this->browserName)) return $this->browserName;
 		if(isset($_SERVER['HTTP_USER_AGENT'])) {
 			if(strpos($_SERVER['HTTP_USER_AGENT'],'iPhone') ||

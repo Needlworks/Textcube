@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -13,7 +13,7 @@ if(isset($cache->contents)) {
 	foreach ($siteTags as $siteTag) {
 		$itemView = $skin->siteTagItem;
 		dress('tag_name', htmlspecialchars($siteTag['name']), $itemView);
-		dress('tag_link', "$blogURL/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag',true) ? URL::encode($siteTag['name'],$service['useEncodedURL']) : $siteTag['id']), $itemView);
+		dress('tag_link', $context->getProperty('uri.blog')."/tag/" . ($context->getProperty('blog.useSloganOnTag',true) ? URL::encode($siteTag['name'],$service['useEncodedURL']) : $siteTag['id']), $itemView);
 		dress('tag_class', "cloud" . getTagFrequency($siteTag['name'], $maxTagFreq, $minTagFreq), $itemView);
 		$itemsView .= $itemView;
 	}

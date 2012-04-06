@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -28,7 +28,7 @@ else {
 	else {
 		$message = '대표 주소 변경에 실패 하였습니다.';
 	}
-	Respond::NoticePage($message, $blogURL."/owner/setting/account");
+	Respond::NoticePage($message, $context->getProperty('uri.blog')."/owner/setting/account");
 }
 */
 ?>

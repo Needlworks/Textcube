@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if (isset($_POST['page']))
@@ -98,7 +98,7 @@ if($tabsClass['received'] == true) {
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
 										
-										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
+										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/" + param);
 										var iconList = document.getElementsByTagName("a");	
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
@@ -125,7 +125,7 @@ if($tabsClass['received'] == true) {
 								trashTrackback = function(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/delete/" + id);
 									request.onSuccess = function() {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('걸린글을 삭제하였습니다.');?>","center", "bottom");
@@ -142,7 +142,7 @@ if($tabsClass['received'] == true) {
 								sendTrackbackResponse = function(id,entryId) {
 									if (!confirm("<?php echo _t('선택된 걸린글에 답글로 글을 겁니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/reply/" + entryId);
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/reply/" + entryId);
 									request.onSuccess = function() {
 										PM.removeRequest(this);
 										PM.showMessage("<?php echo _t('글을 걸었습니다.');?>","center", "bottom");
@@ -167,7 +167,7 @@ if($tabsClass['received'] == true) {
 											if ((oElement.name == "entry") && oElement.checked)
 												targets[targets.length] = oElement.value;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/delete/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/delete/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -181,7 +181,7 @@ if($tabsClass['received'] == true) {
 ?>
 								removeTrackbackLog = function(id) {
 									if (confirm("<?php echo _t('선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?');?>")) {
-										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
+										var request = new HTTPRequest("<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/" + id);
 										request.onSuccess = function () {
 											document.getElementById('list-form').submit();
 										}
@@ -203,7 +203,7 @@ if($tabsClass['received'] == true) {
 											if ((oElement.name == "entry") && oElement.checked)
 												targets[targets.length] = oElement.value;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/log/remove/");
+										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -271,7 +271,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 ?>
 
 
-							<form id="category-form" class="category-box" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
+							<form id="category-form" class="category-box" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback">
 								<div class="section">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 <?php
@@ -298,7 +298,7 @@ foreach (getCategories($blogid) as $category) {
 								</div>
 							</form>
 
-							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
+							<form id="list-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback">
 <?php
 	if(!isset($tabsClass['received'])) {
 ?>
@@ -362,11 +362,11 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	if(isset($tabsClass['received'])) {
 		if ($isFilterURL) {
 ?>
-												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
+												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 		} else {
 ?>
-												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
+												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 		}
 ?>
@@ -397,7 +397,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if(isset($tabsClass['received'])) {
 ?>
-												<span class="excerpt"><?php echo UTF8::lessenAsEm(htmlspecialchars($trackback['excerpt']),40);?></span>
+												<span class="excerpt"><?php echo Utils_Unicode::lessenAsEm(htmlspecialchars($trackback['excerpt']),40);?></span>
 <?php
 	}
 ?>
@@ -409,11 +409,11 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 		if ($isIpFiltered) {
 ?>
-												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
+												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 		} else {
 ?>
-												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
+												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 		}
 ?>
@@ -430,11 +430,11 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if(isset($tabsClass['received'])) {
 ?>
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trackback/delete/<?php echo $trackback['id'];?>" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/delete/<?php echo $trackback['id'];?>" onclick="trashTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 <?php
 	} else {
 ?>
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trackback/log/remove/<?php echo $trackback['id'];?>" onclick="removeTrackbackLog(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기 기록을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/<?php echo $trackback['id'];?>" onclick="removeTrackbackLog(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 글걸기 기록을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 <?php
 	}
 ?>
@@ -498,7 +498,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">

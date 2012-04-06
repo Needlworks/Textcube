@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -9,11 +9,11 @@
 
 // From Tattertools 1.0 to Tattertools 1.0.x
 function isUTF8($str) {
-	return UTF8::validate($str);
+	return Utils_Unicode::validate($str);
 }
 
 function utf8Lessen($str, $length, $tail = '..') {
-	return UTF8::lessen($str, $length, $tail);
+	return Utils_Unicode::lessen($str, $length, $tail);
 }
 
 function iconvWrapper($from, $to, $str) {

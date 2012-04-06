@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -31,8 +31,8 @@ final class Model_URIHandler extends Singleton
 		$this->context->useNamespace('service');
 		
 		$url             = $this->uri['fullpath'];
-		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1,true);
-		$this->suri            = array('url' => $url, 'value' => '');
+		$defaultblogid   = $this->context->getProperty('defaultBlogId',1);
+		$this->suri      = array('url' => $url, 'value' => '');
 		$this->blogid    = null;
 		$this->uri['isStrictBlogURL'] = true;
 		$depth           = substr_count($this->context->getProperty('path'), '/');
@@ -115,7 +115,7 @@ final class Model_URIHandler extends Singleton
 	}
 	
 	private function __URIvariableParser() {
-		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
+		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;	// To support legacy for global variables.
 		$blogid        = $this->blogid;
 		$gCacheStorage = new globalCacheStorage; // Initialize global cache
 
