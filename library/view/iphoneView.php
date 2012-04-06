@@ -46,7 +46,7 @@ function printMobileEntryListView($entries,$listid, $title, $paging, $count = 0,
 		if($imageName = printMobileAttachmentExtract($item['content'])){
 			$imageSrc = printMobileImageResizer($context->getProperty('blog.id'), $imageName, 80);
 		}else{
-			$imageSrc = $context->getProperty('service.path') . '/resources/style/iphone/image/noPostThumb.png';
+			$imageSrc = $context->getProperty('service.path') . '/resources/style/iphone/images/noPostThumb.png';
 		}
 		$itemsView .= '<li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-btn-up-c" style="font-size:8pt;font-weight:normal">';
 		$itemsView .= '	' . Timestamp::format5($item['published']) . '</li>'.CRLF;
