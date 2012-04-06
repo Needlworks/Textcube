@@ -4,14 +4,14 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
-	global $blogURL;
+	$context = Model_Context::getInstance();
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
 		print '<div class="entry_body" data-role="content" data-theme="d">' . printMobileFreeImageResizer($content) . '</div>';
 	} else {
 	?>
 	<p><b><?php echo _text('Protected post!');?></b></p>
-	<form id="passwordForm" class="dialog" method="post" action="<?php echo $blogURL;?>/protected/<?php echo $entry['id'];?>">
+	<form id="passwordForm" class="dialog" method="post" action="<?php echo $ctx->getInstance('uri.blog');?>/protected/<?php echo $entry['id'];?>">
 		<fieldset>
 			<label for="password"><?php echo _text('Password:');?></label>
 			<input type="password" id="password" name="password" />
@@ -23,12 +23,12 @@ function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 }
 
 function printMobileEntryContent($blogid, $userid, $id) {
-	global $database;
-	$result = POD::queryCell("SELECT content 
-		FROM {$database['prefix']}Entries
-		WHERE 
-			blogid = $blogid AND userid = $userid AND id = $id");
-	return $result;
+	$pool = DBModel::getInstance();
+	$pool->reset('Entries');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('userid','eq',$userid);
+	$pool->setQualifier('id','eq',$id);
+	return $pool->getCell('content');
 }
 
 function printMobileEntryListView($entries,$listid, $title, $paging, $count = 0,$header = true) {
@@ -67,14 +67,14 @@ function printMobileEntryListView($entries,$listid, $title, $paging, $count = 0,
 }
 
 function printMobileCategoriesView($totalPosts, $categories) {
-	global $blogURL, $service, $blog;
+	$context = Model_Context::getInstance();
 	requireModel('blog.category');
 	requireLibrary('blog.skin');
-	$blogid = getBlogId();
+	$blogid = $context->getProperty('blog.id');
 	$categoryCount = 0;
 	$categoryCountAll = 0;
 	$parentCategoryCount = 0;
-	$tree = array('id' => 0, 'label' => 'All Category', 'value' => $totalPosts, 'link' => "$blogURL/category/0", 'children' => array());
+	$tree = array('id' => 0, 'label' => 'All Category', 'value' => $totalPosts, 'link' => $context->getProperty('uri.blog')."/category/0", 'children' => array());
 	foreach ($categories as $category1) {
 		$children = array();
 		if(doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {
@@ -84,7 +84,7 @@ function printMobileCategoriesView($totalPosts, $categories) {
 						array('id' => $category2['id'], 
 							'label' => $category2['name'], 
 							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
-							'link' => "$blogURL/category/" . $category2['id'], 
+							'link' => "$context->getProperty('uri.blog')/category/" . $category2['id'], 
 							'children' => array()
 						)
 					);
@@ -98,7 +98,7 @@ function printMobileCategoriesView($totalPosts, $categories) {
 					array('id' => $category1['id'], 
 						'label' => $category1['name'], 
 						'value' => $categoryCount + $parentCategoryCount, 
-						'link' => "$blogURL/category/" . $category1['id'], 
+						'link' => "$context->getProperty('uri.blog')/category/" . $category1['id'], 
 						'children' => $children)
 				);
 			}
@@ -133,26 +133,8 @@ function printMobilePrintTreeView($tree, $xhtml=true) {
 	}
 }
 
-function printMobileArchives($blogid) {
-	global $database;
-	$archives = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$skinSetting = Setting::getSkinSettings($blogid);
-	$result = POD::queryAllWithDBCache("SELECT EXTRACT(year_month FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
-		FROM {$database['prefix']}Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-		GROUP BY period 
-		ORDER BY period 
-		DESC ");
-	if ($result) {
-		foreach($result as $archive)
-			array_push($archives, $archive);
-	}
-	return $archives;
-}
-
 function printMobileArchivesView($archives) {
-	global $blogURL;
+	$context = Model_Context::getInstance();
 	$oldPeriod = '';
 	$newPeriod = '';
 	$printArchive = '';
@@ -162,7 +144,7 @@ function printMobileArchivesView($archives) {
 			$printArchive .= '<li data-role="list-divider" class="group"><span class="left">' . $newPeriod . '</span><span class="right">&nbsp;</span></li>';
 		}
 		$dateName = date("F Y",(mktime(0,0,0,substr($archive['period'],4),1,substr($archive['period'],0,4))));
-		$printArchive .= '<li class="archive"><a href="' . $blogURL . '/archive/' . $archive['period'] . '" class="link">' . $dateName;
+		$printArchive .= '<li class="archive"><a href="' . $context->getProperty('uri.blog'). '/archive/' . $archive['period'] . '" class="link">' . $dateName;
 		$printArchive .= ' <span class="ui-li-count">' . $archive['count'] . '</span>';
 		$printArchive .= '</a></li>';
 		$oldPeriod = substr($archive['period'],0,4);
@@ -171,27 +153,27 @@ function printMobileArchivesView($archives) {
 }
 
 function printMobileTags($blogid, $flag = 'random', $max = 10) {
-	global $database, $skinSetting;
+	$context = Model_Context::getInstance();
 	$tags = array();
 	$aux = "limit $max";
 	if ($flag == 'count') { // order by count
-			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
-				{$database['prefix']}TagRelations r, 
-				{$database['prefix']}Entries e 
+			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM ".$context->getProperty('database.prefix')."Tags t,
+				".$context->getProperty('database.prefix')."TagRelations r, 
+				".$context->getProperty('database.prefix')."Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag, name, cnt, t.id
 				ORDER BY cnt DESC $aux");
 	} else if ($flag == 'name') {  // order by name
-			$tags = POD::queryAll("SELECT DISTINCT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
-				{$database['prefix']}TagRelations r,
-				{$database['prefix']}Entries e 
+			$tags = POD::queryAll("SELECT DISTINCT name, count(*) AS cnt, t.id FROM ".$context->getProperty('database.prefix')."Tags t, 
+				".$context->getProperty('database.prefix')."TagRelations r,
+				".$context->getProperty('database.prefix')."Entries e 
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag, name, cnt, t.id 
 				ORDER BY t.name $aux");
 	} else { // random
-			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t,
-				{$database['prefix']}TagRelations r,
-				{$database['prefix']}Entries e
+			$tags = POD::queryAll("SELECT name, count(*) AS cnt, t.id FROM ".$context->getProperty('database.prefix')."Tags t,
+				".$context->getProperty('database.prefix')."TagRelations r,
+				".$context->getProperty('database.prefix')."Entries e
 				WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
 				GROUP BY r.tag 
 				ORDER BY RAND() $aux");
@@ -200,11 +182,11 @@ function printMobileTags($blogid, $flag = 'random', $max = 10) {
 }
 
 function printMobileTagsView($tags) {
-	global $blogURL, $service;
+	$context = Model_Context::getInstance();
 	ob_start();
 	list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
 	foreach ($tags as $tag) {
-		$printTag .= '<li class="tag"> <a href="' . $blogURL . '/tag/' . $tag['id'] . '" class="cloud' . getTagFrequency($tag, $maxTagFreq, $minTagFreq).'" >' . htmlspecialchars($tag['name']);
+		$printTag .= '<li class="tag"> <a href="' . $context->getProperty('uri.blog') . '/tag/' . $tag['id'] . '" class="cloud' . getTagFrequency($tag, $maxTagFreq, $minTagFreq).'" >' . htmlspecialchars($tag['name']);
 		$printTag .= '</a> </li>';
 	}
 	$view = ob_get_contents();
@@ -213,8 +195,9 @@ function printMobileTagsView($tags) {
 }
 
 function printMobileLinksView($links) {
-	global $blogURL, $skinSetting, $suri, $pathURL;
-	if( rtrim( $suri['url'], '/' ) == $pathURL ) {
+	$context = Model_Context::getInstance();
+	
+	if( rtrim( $suri['url'], '/' ) == $context->getProperty('uri.path') ) {
 		$home = true;
 	} else {
 		$home = false;
@@ -229,7 +212,7 @@ function printMobileLinksView($links) {
 			$linkView .= '<li data-theme="b">'. htmlspecialchars(UTF8::lessenAsEm($link['categoryName'], $skinSetting['linkLength'])) . '</li>'.CRLF;
 			$categoryName = $link['categoryName'];			
 		}  
-		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(UTF8::lessenAsEm($link['name'], $skinSetting['linkLength'])) . '</a></li>'.CRLF;
+		$linkView .= '<li><a href="' . htmlspecialchars($link['url']) . '" class="link" target="_blank">' . htmlspecialchars(UTF8::lessenAsEm($link['name'], $context->getProperty('skin.linkLength'))) . '</a></li>'.CRLF;
 	}
 	return $linkView;
 }
@@ -294,8 +277,8 @@ function printMobileHTMLMenu($title = '',$menu='') {
 }
 
 function printMobileAttachmentExtract($content){
-	global $service;
-	$blogid = getBlogId();
+	$context = Model_Context::getInstance();
+	$blogid = $context->getProperty('blog.id');
 	$result = null;
 
 	if(preg_match_all('/\[##_(1R|1L|1C|2C|3C|iMazing|Gallery)\|[^|]*\.(gif|jpg|jpeg|png|bmp|GIF|JPG|JPEG|PNG|BMP)\|.*_##\]/si', $content, $matches)) {
@@ -315,8 +298,8 @@ function printMobileAttachmentExtract($content){
 }
 
 function printMobileFreeImageResizer($content) {
-	global $service, $blogURL;
-	$blogid = getBlogId();
+	$context = Model_Context::getInstance();
+	$blogid = $context->getProperty('blog.id');
 	$pattern1 = "@<img.+src=['\"](.+)['\"].*>@Usi";
 	$pattern2 = $service['path'] . "/attach/{$blogid}/";
 
@@ -325,7 +308,7 @@ function printMobileFreeImageResizer($content) {
 			preg_match($pattern1, $imageTag, $matche);
 			if (strpos($matche[1], $pattern2) === 0) {
 				$filename = basename($matche[1]);
-				$replaceTag = preg_replace($pattern1 , "<img src=\"{$blogURL}/imageResizer/?f={$filename}\" alt=\"\" />", $matche[0]);
+				$replaceTag = preg_replace($pattern1 , "<img src=\"".$context->getProperty('uri.blog')."/imageResizer/?f={$filename}\" alt=\"\" />", $matche[0]);
 				$content = str_replace($matche[0], $replaceTag, $content);
 			}
 		}
@@ -334,8 +317,8 @@ function printMobileFreeImageResizer($content) {
 }
 
 function printMobileImageResizer($blogid, $filename, $cropSize){
-	global $serviceURL;
-
+	$context = Model_Context::getInstance();
+	$serviceURL = $context->getProperty('uri.service');
 	if (!is_dir(ROOT."/cache/thumbnail")) {
 		@mkdir(ROOT."/cache/thumbnail");
 		@chmod(ROOT."/cache/thumbnail", 0777);
@@ -371,7 +354,8 @@ function printMobileImageResizer($blogid, $filename, $cropSize){
 }
 
 function printMobileCropProcess($blogid, $filename, $cropSize) {
-	global $serviceURL;
+	$context = Model_Context::getInstance();
+	$serviceURL = $context->getProperty('uri.service');
 	$tempFile = null;
 	$imageURL = null;
 	if(stristr($filename, 'http://') ){
@@ -476,41 +460,40 @@ function printMobileListNavigation($paging,$postfix) {
 
 function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback = true, $paging = null, $mode = 'entry') {
 	$context = Model_Context::getInstance();
-	global $suri, $blogURL;
 ?>
 		<div data-role="navbar" data-theme="c">
 			<ul>
 		<?php
 	if (isset($paging['prev'])) {
 ?>
-				<li><a data-role="button" data-theme="d" data-icon="arrow-l" data-transition="reverse slide" href="<?php echo $blogURL.'/'.$mode;?><?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
+				<li><a data-role="button" data-theme="d" data-icon="arrow-l" data-transition="reverse slide" href="<?php echo $context->getProperty('uri.blog').'/'.$mode;?><?php echo $paging['prefix'].$paging['prev'];?>" accesskey="1"><?php echo _text('이전 페이지');?></a></li>
 		<?php
 	}
 	if (!isset($paging)) {
 ?>	
-				<li><a data-role="button" data-transition="flip" href="<?php echo $blogURL.'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('원 글 보기');?></a></li>
+				<li><a data-role="button" data-transition="flip" href="<?php echo $context->getProperty('uri.blog').'/'.$mode;?>/<?php echo $entry['id'];?>" accesskey="3"><?php echo _text('원 글 보기');?></a></li>
 		<?php
 	}
 	if ($jumpToComment) {
 ?>
-				<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $blogURL;?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
+				<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $context->getProperty('uri.blog');?>/comment/<?php echo $entry['id'];?>" accesskey="4"><?php echo _text('댓글 보기');?> (<?php echo $entry['comments'];?>)</a></li>
 		<?php
 	}
 	if ($jumpToTrackback) {
 ?>
-				<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $blogURL;?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
+				<li><a data-role="button" data-icon="info" data-transition="flip" href="<?php echo $context->getProperty('uri.blog');?>/trackback/<?php echo $entry['id'];?>" accesskey="5"><?php echo _text('트랙백 보기');?> (<?php echo $entry['trackbacks'];?>)</a></li>
 		<?php
 	}
-	if ($suri['directive'] != '/i') {
+	if ($context->getProperty('suri.directive') != '/i') {
 	/*
 ?>
-				<li><a href="<?php echo $blogURL;?>" onclick="window.location.href='<?php echo $blogURL;?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
+				<li><a href="<?php echo $context->getProperty('uri.blog');?>" onclick="window.location.href='<?php echo $context->getProperty('uri.blog');?>';" accesskey="6"><?php echo _text('첫화면으로 돌아가기');?></a></li>
 		<?php
 	*/
 	}
 	if (isset($paging['next'])) {
 ?>
-				<li><a data-role="button" data-theme="d" data-icon="arrow-r" data-transition="slide" href="<?php echo $blogURL.'/'.$mode;?><?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
+				<li><a data-role="button" data-theme="d" data-icon="arrow-r" data-transition="slide" href="<?php echo $context->getProperty('uri.blog').'/'.$mode;?><?php echo $paging['prefix'].$paging['next'];?>" accesskey="2"><?php echo _text('다음 페이지');?></a></li>
 		<?php
 	}
 ?>
@@ -521,7 +504,8 @@ function printMobileNavigation($entry, $jumpToComment = true, $jumpToTrackback =
 
 function printMobileTrackbackView($entryId, $page, $mode = null) {
 	$context = Model_Context::getInstance();
-	global $paging, $blogid;
+	$blogid = $context->getProperty('blog.id');
+	global $paging;
 	if($mode == 'recent') {
 		list($trackbacks,$paging) = getRemoteResponsesWithPaging($blogid, -1, $page, 10, null, '?page=');
 	} else {
@@ -551,7 +535,9 @@ function printMobileTrackbackView($entryId, $page, $mode = null) {
 }
 
 function printMobileCommentView($entryId, $page = null, $mode = null) {
-	global $blogURL, $blogid, $skinSetting, $paging;
+	$context = Model_Context::getInstance();
+	$blogid = $context->getProperty('blog.id');
+	global $paging;
 	if ($mode == 'recent') {	// Recent comments
 		list($comments, $paging) = getCommentsWithPaging($blogid, $page, 10, null, '?page=');
 	} else if(!is_null($page)) {	// Guestbook
@@ -576,8 +562,8 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 				</p>
 				<p class="right">
 					<div class="comment_button" data-role="controlgroup" data-type="horizontal">
-						<a href="<?php echo $blogURL;?>/comment/comment/<?php echo $commentItem['id'];?>" data-role="button" data-icon="plus" data-iconpos="notext"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> 
-						<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentItem['id'];?>" data-role="button" data-icon="delete" data-iconpos="notext"><?php echo _text('지우기');?></a>
+						<a href="<?php echo $context->getProperty('uri.blog');?>/comment/comment/<?php echo $commentItem['id'];?>" data-role="button" data-icon="plus" data-iconpos="notext"><?php echo ($entryId == 0 ? _text('방명록에 댓글 달기') : _text('댓글에 댓글 달기'));?></a> 
+						<a href="<?php echo $context->getProperty('uri.blog');?>/comment/delete/<?php echo $commentItem['id'];?>" data-role="button" data-icon="delete" data-iconpos="notext"><?php echo _text('지우기');?></a>
 					</div>
 				</p>
 			</li>
@@ -596,7 +582,7 @@ function printMobileCommentView($entryId, $page = null, $mode = null) {
 				</p>
 				<p class="right">
 					<div class="comment_button" data-role="controlgroup" data-type="horizontal">
-						<a href="<?php echo $blogURL;?>/comment/delete/<?php echo $commentSubItem['id'];?>" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext"><?php echo _text('지우기');?></a>
+						<a href="<?php echo $context->getProperty('uri.blog');?>/comment/delete/<?php echo $commentSubItem['id'];?>" data-role="button" data-icon="delete" data-inline="true" data-iconpos="notext"><?php echo _text('지우기');?></a>
 					</div>
 				</p>
 			</li>
@@ -629,10 +615,9 @@ function printMobileRecentTrackbackView($page) {
 }
 
 function printMobileCommentFormView($entryId, $title, $actionURL) {
-	global $blogURL;
 ?>
 	
-	<form method="POST" action="<?php echo $blogURL;?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
+	<form method="POST" action="<?php echo $context->getProperty('uri.blog');?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
 	<h3><?php echo $title;?></h3>
 	<fieldset>
 		<?php

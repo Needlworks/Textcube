@@ -77,7 +77,7 @@ if(empty($suri['id'])) {
 	printMobileHTMLMenu();
 ?>	<ul data-role="listview" title="Archives" selected="false">
 	<?php
-		$archives = printMobileArchives($blogid);
+		$archives = getArchives($blogid);
 		print printMobileArchivesView($archives);	
 	?>
 	</ul>
