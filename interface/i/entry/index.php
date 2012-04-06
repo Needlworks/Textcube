@@ -15,32 +15,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		$listWithPaging = array(array(), array('total' => 0));
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
-?>
-	<ul data-role="listview" class="posts" id="blog_posts_<?php echo $suri['page'];?>" title="<?php echo _text('글목록');?>" selected="false">
-<?php
-	$itemsView = '<li class="group ui-bar ui-bar-e">'.CRLF;
-	$itemsView .= '	<span class="left">'._text('글목록').'('.$list['count'].')</span>'.CRLF;
-	$itemsView .= '	<span class="right">Page <span class="now_page">' . $paging['page'] . '</span> / '.$paging['pages'].'</span>'.CRLF;
-	$itemsView .= '</li>'.CRLF;
-	foreach ($list['items'] as $item) {	
-		$author = User::getName($item['userid']);
-		if($imageName = printMobileAttachmentExtract($item['content'])){
-			$imageSrc = printMobileImageResizer($blogid, $imageName, 28);
-		}else{
-			$imageSrc = $context->getProperty('service.path') . '/resources/style/iphone/image/noPostThumb.png';
-		}
-		$itemsView .= '<li class="post_item">'.CRLF;
-		$itemsView .= '	<span class="image"><img src="' . $imageSrc . '" width="28" height="28" /></span>'.CRLF;
-		$itemsView .= '	<a href="' . $context->getProperty('uri.blog') . '/entry/' . $item['id'] . '" class="link">'.CRLF;
-		$itemsView .= '		<div class="post">'.CRLF;
-		$itemsView .= '			<span class="title">' . fireEvent('ViewListTitle', htmlspecialchars($item['title'])) . '</span>'.CRLF;
-		$itemsView .= '			<span class="description">' . Timestamp::format5($item['published']) . ', ' . 'Comments(' . ($item['comments'] > 0 ? $item['comments'] : 0) . ')' . '</span>'.CRLF;
-		$itemsView .= '		</div>'.CRLF;
-		$itemsView .= '	</a>'.CRLF;
-		$itemsView .= '</li>'.CRLF;
-	}
-	$itemsView .= '</ul>'.CRLF;
-	print $itemsView;
+	print printMobileEntryListView($list['items'],'blog_posts_'.$suri['page'],_text('글목록'),$paging, $list['count']);
 	print printMobileListNavigation($paging,'entry');
 } else {
 	if(!empty($suri['id'])) {
@@ -48,7 +23,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	} else if(!empty($suri['value'])) {
 		$entryPrint = true;
 		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value']);
-		printMobileHtmlHeader();
+	//	printMobileHTMLHeader();
 	}
 	printMobileHTMLMenu('','list');
 	
@@ -57,7 +32,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	<div id="post_<?php echo $entry['id'];?>" title="<?php echo htmlspecialchars($entry['title']);?>" class="panel"<?php echo (!empty($entryPrint) ? 'selected="true"' : '');?>>
 		<div class="entry_info">
 			<h2><?php echo htmlspecialchars($entry['title']);?></h2>
-			<h2 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h2>
+			<h3 class="noBorderLine"><?php echo Timestamp::format5($entry['published']);?></h3>
 		</div>
 		<div class="content"><?php printMobileEntryContentView($blogid, $entry, null); ?></div>
 <?php 
@@ -70,7 +45,7 @@ if(empty($suri['id']) && empty($suri['value'])) {
 		$tags = array();
 		$relTag = Setting::getBlogSettingGlobal('useMicroformat', 3)>1 && (count($entries) == 1 || !empty($skin->hentryExisted) );
 		foreach ($entryTags as $entryTag) {
-			$tags[$entryTag['name']] = "<a href=\"".$context->getProperty('uri.blog')."/tag/" . $entryTag['id'] . '">' . htmlspecialchars($entryTag['name']) . '</a>';
+			$tags[$entryTag['name']] = '<a href="'.$context->getProperty('uri.blog').'/tag/' . $entryTag['id'] . '">' . htmlspecialchars($entryTag['name']) . '</a>';
 		}
 		echo implode(",\r\n", array_values($tags));
 ?>
@@ -78,10 +53,6 @@ if(empty($suri['id']) && empty($suri['value'])) {
 	</div>
 <?php
 	}
-?>
-        <fieldset class="margin-top10">
-<?php 
-	
 	if(doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
 		printMobileNavigation($entry, true, true, $paging);
 	} else {
@@ -93,5 +64,6 @@ if(empty($suri['id']) && empty($suri['value'])) {
 <?php
 	}
 }
+
 printMobileHTMLFooter();
 ?>

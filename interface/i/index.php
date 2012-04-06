@@ -15,7 +15,7 @@ if(empty($suri['id'])) {
 	<ul data-role="listview" id="home" title="<?php echo htmlspecialchars(Utils_Unicode::lessenAsEm($context->getProperty('blog.title'),30));?>" selected="true">
 	<?php
 		$blogAuthor = User::getBlogOwnerName($blogid);
-		$blogLogo = !is_null($context->getProperty('blog.logo')) ? printMobileImageResizer($blogid, $context->getProperty('blog.logo'), 80) : "{$context->getProperty('service.path')}/resources/style/iphone/image/textcube_logo.png";
+		$blogLogo = (!is_null($context->getProperty('blog.logo')) && $context->getProperty('blog.logo') != "")  ? printMobileImageResizer($blogid, $context->getProperty('blog.logo'), 80) : $context->getProperty('service.path')."/resources/style/iphone/images/textcube_logo.png";
 		$itemsView = '<li class="blog_info">'.CRLF;
 		$itemsView .= '	<div class="logo"><img src="' . $blogLogo . '" /></div>'.CRLF;
 		$itemsView .= '	<div class="blog_container">'.CRLF;
@@ -25,30 +25,42 @@ if(empty($suri['id'])) {
 		$itemsView .= '	</div>'.CRLF;
 		$itemsView .= '</li>'.CRLF;
 		print $itemsView;
+		// Recent posts
+		if($listWithPaging = getEntriesWithPaging($blogid, 1, 3)) {
+			$list = $listWithPaging[0];
+			$paging = $listWithPaging[1];
+			$list = array('title' => '', 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
+			print '<li data-role="list-divider" class="group">'._text('최근 글').'</li>'.CRLF; 
+			print printMobileEntryListView($list['items'],'recent_posts',_text('글목록'),$paging, 0,false);
+		}
 	?>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/entry" class="link"><?php echo _text('글목록');?></a></li>
+		<li data-role="list-divider"><?php echo _text('메뉴');?></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/entry" rel="external" class="link"><?php echo _text('전체 글목록');?></a></li>
 		<li><a href="#categories" class="link"><?php echo _text('분류');?></a></li>
 		<li><a href="#archives" class="link"><?php echo _text('보관목록');?></a></li>
 		<li><a href="#tags" class="link"><?php echo _text('태그');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment" class="link"><?php echo _text('최근 댓글');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback" class="link"><?php echo _text('최근 트랙백');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook" class="link"><?php echo _text('방명록');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/link" class="link"><?php echo _text('링크');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/comment" rel="external" class="link"><?php echo _text('최근 댓글');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/trackback" rel="external" class="link"><?php echo _text('최근 트랙백');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/guestbook" rel="external" class="link"><?php echo _text('방명록');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/link" rel="external" class="link"><?php echo _text('링크');?></a></li>
 	<?php
 		if (doesHaveOwnership()) {
 	?>
-		<li><a href="<?php echo $context->getProperty('uri.default');?>/owner/center/dashboard" onclick="window.location.href='<?php echo $context->getProperty('uri.default');?>/owner/center/dashboard'" class="link dashboard"><?php echo _text('관리 패널');?></a></li>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/logout" class="link logout"><?php echo _text('로그아웃');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.default');?>/owner/center/dashboard" rel="external" href="<?php echo $context->getProperty('uri.default');?>/owner/center/dashboard" class="link dashboard"><?php echo _text('관리 패널');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/logout" rel="external" class="link logout"><?php echo _text('로그아웃');?></a></li>
 	<?php
 		}else{
 	?>
-		<li><a href="<?php echo $context->getProperty('uri.blog');?>/login" class="link"><?php echo _text('로그인');?></a></li>
+		<li><a href="<?php echo $context->getProperty('uri.blog');?>/login" rel="external" class="link"><?php echo _text('로그인');?></a></li>
 	<?php
 		}
 	?>
 		<li><a href="#textcube" class="link"><span class="colorText"><span class="c1">T</span><span class="c2">e</span><span class="c3">x</span><span class="c4">t</span><span class="c5">c</span><span class="c6">u</span><span class="c7">b</span><span class="c8">e</span></span></a></li>
 	</ul>
-
+	<?php echo printMobileHTMLFooter();?>
+  </div>
+<?php
+	 ?>
 	<div data-role="page" id="categories">
 <?php
 	printMobileHTMLMenu();
@@ -65,7 +77,7 @@ if(empty($suri['id'])) {
 	printMobileHTMLMenu();
 ?>	<ul data-role="listview" title="Archives" selected="false">
 	<?php
-		$archives = printMobileArchives($blogid);
+		$archives = getArchives($blogid);
 		print printMobileArchivesView($archives);	
 	?>
 	</ul>
@@ -89,21 +101,6 @@ if(empty($suri['id'])) {
 	</ul>
 	</div>
 	
-	<div data-role="page" id="search">
-
-    <form id="searchForm" method="GET" class="dialog snug editorBar" action="<?php echo $context->getProperty('uri.blog');?>/search">
-        <fieldset>
-            <h1><?php echo _text('글 검색');?></h1>
-            <a class="button leftButton" type="cancel" onclick="searchAction(false);"><?php echo _text('취소');?></a>
-            <a class="button blueButton" type="submit"><?php echo _text('검색');?></a>
-            
-            <div class="searchIcon"></div>
-			<img id="clearButton" class="clearButton" src="<?php echo $context->getProperty('service.path');?>/resources/image/spacer.gif" onclick="cancelAction(this);" />
-			<input id="qString" type="text" name="search" autocomplete="off" unedited="true" class="search" onkeyup="searchKeywordCheck(this);" onkeydown="searchKeywordCheck(this);" />
-		</fieldset>
-    </form>
-	</div>
-	
 	<div data-role="page" id="textcube" title="TEXTCUBE" selected="false">
 		<?php printMobileHTMLMenu();?>
 		<div class="textcubeLogo">&nbsp;</div>
@@ -121,6 +118,5 @@ if(empty($suri['id'])) {
 		</div>
 	</div>
 <?php
-	printMobileHTMLFooter();
 }
 ?>
