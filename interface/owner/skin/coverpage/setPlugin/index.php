@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $ajaxcall= false;
@@ -73,10 +73,10 @@ foreach($parameters as $item)
 $eventName = 'ModifyPluginParam_'.$plugin;
 fireEvent($eventName,null,$plugin);
 $coverpageOrderData[$coverpageNumber][$modulePos]['parameters'] = $newParameter;
-Setting::setBlogSetting("coverpageOrder", serialize($coverpageOrderData));
+setBlogSetting("coverpageOrder", serialize($coverpageOrderData));
 
 if ($ajaxcall == false) {
 	if ($_REQUEST['viewMode'] != '') $_REQUEST['viewMode'] = '?' . $_REQUEST['viewMode'];
-	header('Location: '. $context->getProperty('uri.blog') . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
+	header('Location: '. $blogURL . '/owner/skin/coverpage' . $_REQUEST['viewMode']);
 }
 ?>

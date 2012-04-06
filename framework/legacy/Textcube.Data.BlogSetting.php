@@ -1,9 +1,9 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class BlogSetting {
-	function __construct() {
+	function BlogSetting() {
 		$this->reset();
 	}
 
@@ -89,65 +89,65 @@ class BlogSetting {
 			$this->name = trim($this->name);
 			if (!BlogSetting::validateName($this->name))
 				return $this->_error('name');
-			Setting::setBlogSettingGlobal('name', $this->name);
+			setBlogSetting('name', $this->name);
 		}
 		if (isset($this->secondaryDomain)) {
 			$this->secondaryDomain = trim($this->secondaryDomain);
 			if (!Validator::domain($this->secondaryDomain))
 				return $this->_error('secondaryDomain');
-			Setting::setBlogSettingGlobal('secondaryDomain', $this->secondaryDomain);
+			setBlogSetting('secondaryDomain', $this->secondaryDomain);
 		}
 		if (isset($this->defaultDomain))
-			Setting::setBlogSettingGlobal('defaultDomain', Validator::getBit($this->defaultDomain));
+			setBlogSetting('defaultDomain', Validator::getBit($this->defaultDomain));
 		if (isset($this->title)) {
 			$this->title = trim($this->title);
-			Setting::setBlogSettingGlobal('title', $this->title);
+			setBlogSetting('title', $this->title);
 		}
 		if (isset($this->description)) {
 			$this->description = trim($this->description);
-			Setting::setBlogSettingGlobal('description', $this->description);
+			setBlogSetting('description', $this->description);
 		}
 		if (isset($this->banner)) {
 			if ((strlen($this->banner) != 0) && !Validator::filename($this->banner))
 				return $this->_error('banner');
-			Setting::setBlogSettingGlobal('logo', $this->banner);
+			setBlogSetting('logo', $this->banner);
 		}
 		if (isset($this->useSloganOnPost))
-			Setting::setBlogSettingGlobal('useSloganOnPost', Validator::getBit($this->useSloganOnPost));
+			setBlogSetting('useSloganOnPost', Validator::getBit($this->useSloganOnPost));
 		if (isset($this->useSloganOnCategory))
-			Setting::setBlogSettingGlobal('useSloganOnCategory', Validator::getBit($this->useSloganOnCategory));
+			setBlogSetting('useSloganOnCategory', Validator::getBit($this->useSloganOnCategory));
 		if (isset($this->useSloganOnTag))
-			Setting::setBlogSettingGlobal('useSloganOnTag', Validator::getBit($this->useSloganOnTag));
+			setBlogSetting('useSloganOnTag', Validator::getBit($this->useSloganOnTag));
 		if (isset($this->postsOnPage)) {
 			if (!Validator::number($this->postsOnPage, 1))
 				return $this->_error('postsOnPage');
-			Setting::setBlogSettingGlobal('entriesOnPage', $this->postsOnPage);
+			setBlogSetting('entriesOnPage', $this->postsOnPage);
 		}
 		if (isset($this->postsOnList)) {
 			if (!Validator::number($this->postsOnList, 1))
 				return $this->_error('postsOnList');
-			Setting::setBlogSettingGlobal('entriesOnList', $this->postsOnList);
+			setBlogSetting('entriesOnList', $this->postsOnList);
 		}
 		if (isset($this->postsOnFeed)) {
 			if (!Validator::number($this->postsOnFeed, 1))
 				return $this->_error('postsOnFeed');
-			Setting::setBlogSettingGlobal('entriesOnRSS', $this->postsOnFeed);
+			setBlogSetting('entriesOnRSS', $this->postsOnFeed);
 		}
 		if (isset($this->publishWholeOnFeed))
-			Setting::setBlogSettingGlobal('publishWholeOnRSS', Validator::getBit($this->publishWholeOnFeed));
+			setBlogSetting('publishWholeOnRSS', Validator::getBit($this->publishWholeOnFeed));
 		if (isset($this->acceptGuestComment))
-			Setting::setBlogSettingGlobal('allowWriteOnGuestbook', Validator::getBit($this->acceptGuestComment));
+			setBlogSetting('allowWriteOnGuestbook', Validator::getBit($this->acceptGuestComment));
 		if (isset($this->acceptcommentOnGuestComment))
-			Setting::setBlogSettingGlobal('allowWriteDblCommentOnGuestbook', Validator::getBit($this->acceptcommentOnGuestComment));
+			setBlogSetting('allowWriteDblCommentOnGuestbook', Validator::getBit($this->acceptcommentOnGuestComment));
 		if (isset($this->language)) {
 			if (!Validator::language($this->language))
 				return $this->_error('language');
-			Setting::setBlogSettingGlobal('language', $this->language);
+			setBlogSetting('language', $this->language);
 		}
 		if (isset($this->timezone)) {
 			if (empty($this->timezone))
 				return $this->_error('timezone');
-			Setting::setBlogSettingGlobal('timezone', $this->timezone);
+			setBlogSetting('timezone', $this->timezone);
 		}
 		return true;
 	}

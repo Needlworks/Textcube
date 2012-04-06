@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class CommentNotifiedSiteInfo {
@@ -140,15 +140,15 @@ class CommentNotifiedSiteInfo {
 			$query->setQualifier('id', 'equals',$this->id);
 		}
 		if (isset($this->title)) {
-			$this->title = Utils_Unicode::lessenAsEncoding(trim($this->title), 255);
+			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
 			$query->setAttribute('title', $this->title, true);
 		}
 		if (isset($this->name)) {
-			$this->name = Utils_Unicode::lessenAsEncoding(trim($this->name), 255);
+			$this->name = UTF8::lessenAsEncoding(trim($this->name), 255);
 			$query->setAttribute('name', $this->name, true);
 		}
 		if (isset($this->url)) {
-			$this->url = Utils_Unicode::lessenAsEncoding(trim($this->url), 255);
+			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setAttribute('url', $this->url, true);

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -66,7 +66,7 @@ EOS
 						<script type="text/javascript">
 							//<![CDATA[
 							function deleteLine(id) {
-								var request = new HTTPRequest("POST","<?php echo $context->getProperty('uri.blog');?>/owner/entry/line/delete/");
+								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/line/delete/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
 									deleteBlock = document.getElementById("line_"+id);
@@ -82,7 +82,7 @@ EOS
 							}
 							
 							function getMoreContent(page,lines,mode) {
-								var request = new HTTPRequest("POST","<?php echo $context->getProperty('uri.blog');?>/owner/entry/line/more/");
+								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/owner/entry/line/more/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
 									contentView = this.getText("/response/contentView");
@@ -118,7 +118,7 @@ EOS
 								contentForm = document.getElementById("line-write");
 								content = contentForm.value;
 								
-								var request = new HTTPRequest("POST","<?php echo $context->getProperty('uri.blog');?>/line/");
+								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/line/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
 									PM.showMessage("<?php echo _t('새 라인을 저장했습니다.');?>", "center", "bottom");
@@ -139,18 +139,18 @@ EOS
 						<div id="part-post-line" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('라인을 관리합니다');?></span></h2>
 
-							<form id="line-menuform" class="line-box" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/entry/line">
+							<form id="line-menuform" class="line-box" method="post" action="<?php echo $blogURL;?>/owner/entry/line">
 								<ul id="line-tabs-box" class="tabs-box">
-									<li class="line-public<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>""><a href="<?php echo $context->getProperty('uri.blog');?>/owner/entry/line"><?php echo _t('전체');?></a></li>
-									<li class="line-public<?php echo isset($tabsClass['public']) ? ' selected' : NULL;?>""><a href="<?php echo $context->getProperty('uri.blog');?>/owner/entry/line?category=public"><?php echo _t('공개');?></a></li>
-									<li class="line-private<?php echo isset($tabsClass['private']) ? ' selected' : NULL;?>""><a href="<?php echo $context->getProperty('uri.blog');?>/owner/entry/line?category=private"><?php echo _t('비공개');?></a></li>
+									<li class="line-public<?php echo isset($tabsClass['all']) ? ' selected' : NULL;?>""><a href="<?php echo $blogURL;?>/owner/entry/line"><?php echo _t('전체');?></a></li>
+									<li class="line-public<?php echo isset($tabsClass['public']) ? ' selected' : NULL;?>""><a href="<?php echo $blogURL;?>/owner/entry/line?category=public"><?php echo _t('공개');?></a></li>
+									<li class="line-private<?php echo isset($tabsClass['private']) ? ' selected' : NULL;?>""><a href="<?php echo $blogURL;?>/owner/entry/line?category=private"><?php echo _t('비공개');?></a></li>
 								</ul>
 							</form>
 
 							<hr class="hidden" />
 							
 							<div id="line-content-box">
-								<form id="line-write-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/line">
+								<form id="line-write-form" method="post" action="<?php echo $blogURL;?>/line">
 									<input type="text" id="line-write" value="<?php echo _t('내용을 입력하세요');?>" onkeypress="if (event.keyCode == 13) { return false; }" onclick="if(this.value=='<?php echo _t('내용을 입력하세요');?>') { this.value = ''}" />
 									<input type="submit" class="input-button" value="<?php echo _t('라인 쓰기');?>" onclick="writeLine();return false;" />
 
@@ -165,7 +165,7 @@ EOS
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/entry/line">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/entry/line">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">

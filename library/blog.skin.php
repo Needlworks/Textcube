@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -21,7 +21,6 @@ class Skin {
 	var $noticeItem;
 	var $recentNotice;
 	var $recentNoticeItem;
-	var $pageItem;
 	var $locative;
 	var $locativeSpot;
 	var $locativeEntry;
@@ -93,14 +92,11 @@ class Skin {
 	var $dressTags = array();
 
 	function __construct($name, $previewMode = false) {
-		global $__gDressTags;
-		
-		$context = Model_Context::getInstance();
-		
+		global $service, $blogURL, $suri, $blog, $__gDressTags, $serviceURL;
 		$this->cache = new pageCache;
 		$this->cache->reset('skinCache');
 		$__gDressTags = array();
-		if($previewMode == true || ($context->getProperty('service.skincache') != true) || !$this->loadCache()) {
+		if($previewMode == true || ($service['skincache'] != true) || !$this->loadCache()) {
 			$this->noneCommentMessage = Setting::getBlogSettingGlobal('noneCommentMessage',null);
 			$this->singleCommentMessage = Setting::getBlogSettingGlobal('singleCommentMessage',null);
 			$this->noneTrackbackMessage = Setting::getBlogSettingGlobal('noneTrackbackMessage',null);
@@ -110,6 +106,7 @@ class Skin {
 			//$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
 			//$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
 			$this->microformatDebug = array();
+			
 			if (strncmp($name, 'customize/', 10) == 0) {
 				$name = "customize/".getBlogId();
 			} else {
@@ -117,17 +114,17 @@ class Skin {
 			}
 			
 			if (($name == '.') || ($name == '..')) {
-				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
+				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
 			
 			$filename = ROOT . "/skin/blog/$name/skin.html";
 			
 			if (!is_file($filename)) {
-				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
+				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
 			
 			if (!$sval = file_get_contents($filename))
-				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
+				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 	
 			replaceSkinTag($sval, 'html');
 			replaceSkinTag($sval, 'head');
@@ -193,12 +190,12 @@ class Skin {
 			$this->coverpageBasicModules[0] = array();
 			$this->coverpageName[0] =_t('표지');
 	
-			$sval = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $sval);
+			$sval = str_replace('./', "{$serviceURL}/skin/blog/$name/", $sval);
 	
-			$this->noneCommentMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->noneCommentMessage);
-			$this->singleCommentMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->singleCommentMessage);
-			$this->noneTrackbackMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->noneTrackbackMessage);
-			$this->singleTrackbackMessage = str_replace('./', $context->getProperty('uri.service')."/skin/blog/$name/", $this->singleTrackbackMessage);
+			$this->noneCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneCommentMessage);
+			$this->singleCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleCommentMessage);
+			$this->noneTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneTrackbackMessage);
+			$this->singleTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleTrackbackMessage);
 	
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);
@@ -228,7 +225,6 @@ class Skin {
 			list($sval, $this->keyword) = $this->cutSkinTag($sval, 'keyword');
 
 			list($sval, $this->noticeItem) = $this->cutSkinTag($sval, 'notice_rep');
-			list($sval, $this->pageItem) = $this->cutSkinTag($sval, 'page_rep');
 			list($sval, $this->keylogItem) = $this->cutSkinTag($sval, 'keylog_rep');
 			list($sval, $this->recentNoticeItem) = $this->cutSkinTag($sval, 'rct_notice_rep');
 			list($sval, $this->recentNotice) = $this->cutSkinTag($sval, 'rct_notice');
@@ -612,43 +608,42 @@ class KeylogSkin {
 }
 
 function dressStaticElements(& $view) {
+	global $blogid, $blog, $defaultURL, $blogURL, $service, $serviceURL;
 	$ctx = Model_Context::getInstance();
-	$blogid = $ctx->getProperty('blog.id');
 	$writer = User::getBlogOwnerName($blogid);
 
-	dress('title', htmlspecialchars( $ctx->getProperty('blog.title')), $view);
+	dress('title', htmlspecialchars($blog['title']), $view);
 	dress('blogger', htmlspecialchars($writer), $view);
-	dress('desc', htmlspecialchars( $ctx->getProperty('blog.description')), $view);
-	$logo = $ctx->getProperty('blog.logo');
-	if (!empty($logo))
-		dress('image', $ctx->getProperty('uri.service')."/attach/$blogid/". $ctx->getProperty('blog.logo'), $view);
+	dress('desc', htmlspecialchars($blog['description']), $view);
+	if (!empty($blog['logo']))
+		dress('image', "{$serviceURL}/attach/$blogid/{$blog['logo']}", $view);
 	else
-		dress('image',  $ctx->getProperty('uri.service')."/resources/image/spacer.gif", $view);
-	dress('blog_link', $ctx->getProperty('uri.blog')."/", $view);
-	dress('keylog_link',  $ctx->getProperty('uri.blog')."/keylog", $view);
-	dress('localog_link',  $ctx->getProperty('uri.blog')."/location", $view);
-	dress('taglog_link',  $ctx->getProperty('uri.blog')."/tag", $view);
-	dress('guestbook_link',  $ctx->getProperty('uri.blog')."/guestbook", $view);
+		dress('image', "{$serviceURL}/resources/image/spacer.gif", $view);
+	dress('blog_link', "$blogURL/", $view);
+	dress('keylog_link', "$blogURL/keylog", $view);
+	dress('localog_link', "$blogURL/location", $view);
+	dress('taglog_link', "$blogURL/tag", $view);
+	dress('guestbook_link', "$blogURL/guestbook", $view);
 	
-	if($ctx->getProperty('blog.rssURL',null) != null) {
-		dress('rss_url',  $ctx->getProperty('blog.rssURL'), $view);
-	} else {
-		dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view);
+    if($ctx->getProperty('blog.rssURL',null) != null) { 
+		dress('rss_url',  $ctx->getProperty('blog.rssURL'), $view); 
+	} else { 
+		dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view); 
+	} 
+	dress('response_rss_url', "$defaultURL/rss/response", $view);
+	dress('comment_rss_url', "$defaultURL/rss/comment", $view);
+	dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
+	
+    if($ctx->getProperty('blog.atomURL',null) != null) { 
+		dress('atom_url',  $ctx->getProperty('blog.atomURL'), $view); 
+	} else { 
+		dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view); 
 	}
-	dress('response_rss_url',  $ctx->getProperty('uri.default')."/rss/response", $view);
-	dress('comment_rss_url',  $ctx->getProperty('uri.default')."/rss/comment", $view);
-	dress('trackback_rss_url',  $ctx->getProperty('uri.default')."/rss/trackback", $view);
+	dress('response_atom_url', "$defaultURL/atom/response", $view);
+	dress('comment_atom_url', "$defaultURL/atom/comment", $view);
+	dress('trackback_atom_url', "$defaultURL/atom/trackback", $view);
 	
-	if($ctx->getProperty('blog.atomURL',null) != null) {
-		dress('atom_url',  $ctx->getProperty('blog.atomURL'), $view);
-	} else {
-		dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view);
-	}
-	dress('response_atom_url',  $ctx->getProperty('uri.default')."/atom/response", $view);
-	dress('comment_atom_url',  $ctx->getProperty('uri.default')."/atom/comment", $view);
-	dress('trackback_atom_url',  $ctx->getProperty('uri.default')."/atom/trackback", $view);
-	
-	dress('owner_url',  $ctx->getProperty('uri.blog')."/owner", $view);
+	dress('owner_url', "$blogURL/owner", $view);
 	dress('textcube_name', TEXTCUBE_NAME, $view);
 	dress('textcube_version', TEXTCUBE_VERSION, $view);
 	dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.
@@ -673,16 +668,11 @@ function replaceSkinTag( & $contents, $tag) {
 }
 
 function insertGeneratorVersion(&$contents) {
-	if (stripos($contents, '<meta charset="utf-8">') !== false) {
-		$pattern = '/(<meta charset="utf-8">)/Ui';
-	} else {
-		$pattern = '/(<head>)/Ui';
-	}
+	$pattern = '/(<head>)/Ui';
 	$replacement = '$1'.CRLF.'<meta name="generator" content="'.TEXTCUBE_NAME.' '.TEXTCUBE_VERSION.'" />';
 
 	$contents = preg_replace($pattern, $replacement, $contents);
 }
-
 
 function setTempTag($name) {
 	return "[#####_#####_#####_{$name}_#####_#####_#####]";

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__NO_ADMINPANEL__',true);
@@ -27,13 +27,13 @@ $__requireModel = array(
 	'blog.comment',
 	'blog.entry',
 	'blog.keyword',
-	'blog.page',
 	'blog.notice',
 	'blog.link',
 	'blog.locative',
 	'blog.sidebar',
 	'blog.response.remote',
 	'blog.tag',
+	'blog.user',
 	'common.setting',
 	'common.plugin',
 	'common.module',

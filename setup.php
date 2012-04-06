@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -1173,14 +1173,14 @@ INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'timezone', '$baseTimezo
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'modern');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultFormatter', 'ttml');
 INSERT INTO {$_POST['dbPrefix']}Plugins VALUES (1, 'CL_OpenID', null);
-INSERT INTO {$_POST['dbPrefix']}SkinSettings VALUES (1,'skin','musicpaper');
+INSERT INTO {$_POST['dbPrefix']}SkinSettings VALUES (1,'skin','coolant');
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}FeedGroups (blogid) values(1);
 INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibility, location, title, slogan, contentformatter, contenteditor, starred, acceptcomment, accepttrackback, created, published, modified, content) VALUES (1, 1, 1, 0, 2, '/', '".POD::escapeString(_t('환영합니다'))."', 'welcome', 'ttml', 'modern', 0, 1, 1, ".Timestamp::getUNIXtime().", ".Timestamp::getUNIXtime().",".Timestamp::getUNIXtime().",'".POD::escapeString(getDefaultPostContent())."')";
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
 				if (!empty($sub) && !POD::query($sub, false)) {
-					$tables = getTables('2.0',$_POST['dbPrefix']);
+					$tables = getTables('1.8',$_POST['dbPrefix']);
 					foreach ($tables as $table) {
 						if (POD::dbms()=='Cubrid') {
 							@POD::query("DROP ".$table);
@@ -1306,7 +1306,7 @@ ini_set('display_errors', 'off');
 \$service['type'] = '{$_POST['type']}';
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
-\$service['skin'] = 'musicpaper';
+\$service['skin'] = 'coolant';
 \$service['favicon_daily_traffic'] = 10; // 10MB
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //\$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
@@ -1316,16 +1316,6 @@ ini_set('display_errors', 'off');
 //\$service['debug_rewrite_module'] = true; // rewrite handling module debuging.
 //\$service['session_cookie_path'] = \$service['path']; // for avoiding spoiling other textcube's session id sharing root.
 //\$service['allowBlogVisibilitySetting'] = true; // Allow service users to change blog visibility.
-//\$service['externalresources'] = false;  // Loads resources from external storage.
-//\$service['resourcepath'] = 'http://example.com/resource';	// Specify the full URI of external resource.
-//\$service['favicon_daily_traffic'] = 10; // Set favicon traffic limitation. default is 10MB.
-//\$service['skincache'] = true;        // Use skin pre-fetching. Textcube will parse static elements (blog name, title…) only when you change skin. Reduces CPU loads.
-//\$database['port'] = 3639;            // Database port number
-//\$database['dbms'] = 'MySQL';         // DBMS. (MySQL, MySQLi, PostgreSQL, Cubrid.)
-//\$service['memcached'] = true;       // Using memcache to handle session and cache
-//\$memcached['server'] = 'localhost';  // Where memcache server is.
-//\$service['requirelogin'] = false;    // Force log-in process to every blogs. (for private blog service)
-//\$service['jqueryURL'] = '';		// Add URL if you want to use external jquery via CDN. e.g.) Microsoft's CDN: http://ajax.aspnetcdn.com/ajax/jQuery/ 
 ?>"
             );
             fclose($fp);
@@ -1451,18 +1441,7 @@ EOF;
 				$entriesMatched = preg_match('/Entries$/', $table);
 
 
-				if ($entriesMatched && checkTables('2.0', $prefix = substr($table, 0, strlen($table) - 7))) {
-?>
-      <tr>
-        <th><?php echo $prefix;?></th>
-        <th>2.0</th>
-        <td><?php echo implode(', ', getTables('2.0', $prefix));?></td>
-	    <th><input type="radio" name="target" value="2.0_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
-      </tr>
-<?php
-					$ckeckedString = '';
-
-				} else if ($entriesMatched && checkTables('1.8', $prefix = substr($table, 0, strlen($table) - 7))) {
+				if ($entriesMatched && checkTables('1.8', $prefix = substr($table, 0, strlen($table) - 7))) {
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
@@ -1707,8 +1686,6 @@ function checkTables($version, $prefix) {
 
 function getTables($version, $prefix) {
 	switch ($version) {
-		case '2.0':
-			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Lines", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}RemoteResponseLogs", "{$prefix}RemoteResponses", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}Widgets", "{$prefix}XMLRPCPingSettings", "{$prefix}Privileges", "{$prefix}PageCacheLog");
 		case '1.8':
 			return array("{$prefix}Attachments", "{$prefix}BlogSettings", "{$prefix}BlogStatistics", "{$prefix}Categories", "{$prefix}Comments", "{$prefix}CommentsNotified", "{$prefix}CommentsNotifiedQueue", "{$prefix}CommentsNotifiedSiteInfo", "{$prefix}DailyStatistics", "{$prefix}Entries", "{$prefix}EntriesArchive", "{$prefix}FeedGroupRelations", "{$prefix}FeedGroups", "{$prefix}FeedItems", "{$prefix}FeedReads", "{$prefix}Feeds", "{$prefix}FeedSettings", "{$prefix}FeedStarred", "{$prefix}Filters", "{$prefix}Lines", "{$prefix}Links", "{$prefix}LinkCategories", "{$prefix}OpenIDUsers", "{$prefix}Plugins", "{$prefix}RefererLogs", "{$prefix}RefererStatistics", "{$prefix}ReservedWords", "{$prefix}ServiceSettings", "{$prefix}Sessions", "{$prefix}SessionVisits", "{$prefix}SkinSettings", "{$prefix}TagRelations", "{$prefix}Tags", "{$prefix}RemoteResponseLogs", "{$prefix}RemoteResponses", "{$prefix}Users", "{$prefix}UserSettings", "{$prefix}Widgets", "{$prefix}XMLRPCPingSettings", "{$prefix}Privileges", "{$prefix}PageCacheLog");
 		case '1.7':

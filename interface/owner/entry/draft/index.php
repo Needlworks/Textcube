@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -46,7 +46,7 @@ $entry['accepttrackback'] = empty($_POST['accepttrackback']) ? 0 : 1;
 $entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 $id = saveDraftEntry($blogid, $entry);
 if ($id > 0) {
-	Setting::setBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),$id);
+	setBlogSetting('LatestEditedEntry_user'.getUserId(),$id);
 	$result = array();
 	$result['error'] = ($id > 0) ? 0 : 1;
 	$result['entryId'] = $id;

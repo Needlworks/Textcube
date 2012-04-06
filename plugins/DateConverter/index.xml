@@ -27,7 +27,7 @@
 		<listener event="ViewListDate">convertDateLangLD</listener>
 		<listener event="ViewNoticeDate">convertDateLangND</listener>
 		<listener event="ViewPostDate">convertDateLangPD</listener>
-	<!--	<listener event="ViewRecentCommentDate">convertDateLangRCD</listener>-->
+		<listener event="ViewRecentCommentDate">convertDateLangRCD</listener>
 		<listener event="ViewRecentTrackbackDate">convertDateLangRTD</listener>
 		<listener event="ViewTrackbackDate">convertDateLangTD</listener>
 		

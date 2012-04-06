@@ -23,7 +23,7 @@ function getObject(target) {
 Standardizer.prototype.namespace = "Eolin.Application.Framework";
 Standardizer.prototype.name      = "Eolin Standardizer";
 Standardizer.prototype.verion    = "1.0";
-Standardizer.prototype.copyright = "Copyright (c) 2005,2011 Needlworks / Tatter & Company. All rights reserved.";
+Standardizer.prototype.copyright = "Copyright (c) 2005,2008 Needlworks / Tatter & Company. All rights reserved.";
 
 function Standardizer(){};
 

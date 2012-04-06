@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if (isset($_POST['page']))
@@ -65,7 +65,7 @@ require ROOT . '/interface/common/owner/header.php';
 								deleteComment = function(id) {
 									if (!confirm("<?php echo _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/notify/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/notify/delete/" + id);
 									request.onSuccess = function () {
 										document.getElementById('list-form').submit();
 									}
@@ -82,7 +82,7 @@ require ROOT . '/interface/common/owner/header.php';
 										if ((oElement.name == "entry") && oElement.checked)
 											targets[targets.length] = oElement.value;
 									}
-									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/notify/delete");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/notify/delete");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -101,7 +101,7 @@ require ROOT . '/interface/common/owner/header.php';
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
 										
-										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/" + param);
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
 										var iconList = document.getElementsByTagName("a");	
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
@@ -180,7 +180,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 								<p class="explain"><?php echo _t('다른 사람의 블로그에 단 댓글에 대한 댓글이 등록되면 알려줍니다. 알리미가 동작하기 위해서는 댓글 작성시 홈페이지 기입란에 자신의 블로그 주소를 입력하셔야 합니다.');?></p>
 							</div>
 							
-							<form id="list-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/notify">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/notify">
 <?php
 	if(isset($_POST['search'])) echo '								<input type="hidden" name="search" value="'.$_POST['search'].'" />'.CRLF;
 	if(isset($_POST['withSearch'])) echo '								<input type="hidden" name="withSearch" value="'.$_POST['withSearch'].'" />'.CRLF;
@@ -238,11 +238,11 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 <?php
 	if ($isNameFiltered) {
 ?>
-												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
+												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=unblock" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 	} else {
 ?>
-												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
+												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=block" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 	}
 ?>
@@ -272,7 +272,7 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 												<a class="commentURL" href="<?php echo $comment['url'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('댓글이 작성된 위치로 직접 이동합니다.');?>"><?php echo htmlspecialchars($comment['comment']);?></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/entry/notify/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/notify/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php
@@ -331,7 +331,7 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/notify">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/notify">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">

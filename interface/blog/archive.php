@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -14,7 +14,6 @@ if ($skinSetting['showListOnArchive'] != 0) {
 	$list = array('title' => getPeriodLabel($period), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	if($skinSetting['showListOnArchive'] == 1) $skinSetting['showListWithTotalEntries'] = true;
-	$listFeedURL = 'archive/'.$period;
 	require ROOT . '/interface/common/blog/list.php';
 }
 $entries = array();

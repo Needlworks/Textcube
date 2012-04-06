@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -56,11 +56,11 @@ if (empty($suri['id']) || !is_null($entry)) {
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 	$entry['draft'] = 0;
 	if(strpos($entry['slogan'],'TCDraftPost') === 0) $entry['slogan'] = $entry['title'];
-	
+
 	if(empty($suri['id'])) {
 		if ($id = addEntry($blogid, $entry)) {
 			fireEvent('AddPost', $id, $entry);
-			Setting::setBlogSetting('LatestEditedEntry_user'.getUserId(),$id,true);
+			setBlogSetting('LatestEditedEntry_user'.getUserId(),$id);
 			$result = array();
 			$result['error'] = (($id !== false) === true ? 0 : 1);
 			$result['entryId'] = $id;
@@ -70,7 +70,7 @@ if (empty($suri['id']) || !is_null($entry)) {
 	} else {
 		if($id = updateEntry($blogid, $entry, $updateDraft)) {
 			fireEvent('UpdatePost', $id, $entry);
-			Setting::setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id'],true);
+			setBlogSetting('LatestEditedEntry_user'.getUserId(),$suri['id']);
 			Respond::ResultPage(0);
 			exit;
 		}

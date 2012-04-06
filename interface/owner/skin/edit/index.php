@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -50,7 +50,7 @@ require ROOT . '/interface/common/owner/header.php';
 										if(mode == 'skin' && currentTag != 'all') {
 											skinData = skinCode;
 											currentCode = document.getElementById(mode).value;
-											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/crop/");									
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/crop/");									
 											request.onSuccess = function() {
 												skinData = this.getText("/response/skinCode");
 												saveSkinCode(mode,skinData,file);
@@ -72,14 +72,14 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 								}
 								function saveSkinCode(mode,skinData,file) {
-									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/skin/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/skin/");
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 										
 										if (mode == 'skin') {
 											skinHTMLSaved = true;
 											if(document.getElementById('skin-download').innerHTML == '') {
-												document.getElementById('skin-download').innerHTML = '<a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>';
+												document.getElementById('skin-download').innerHTML = '<a href="<?php echo $blogURL;?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>';
 											}
 										} else {
 											skinStyleSaved = true;
@@ -98,7 +98,7 @@ require ROOT . '/interface/common/owner/header.php';
 
 								function changeTab(mode,tag) {
 									currentCode = document.getElementById(mode).value;
-									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/crop/");									
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/crop/");									
 									request.onSuccess = function() {
 										PM.showMessage("<?php echo _t('불러왔습니다.');?>", "center", "bottom");
 										document.getElementById(mode).value = (this.getText("/response/code") ? this.getText("/response/code") : ''); 
@@ -131,23 +131,21 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									return true;
 								}
-
-
 <?php
-if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT . "/skin/blog/".$context->getProperty('skin.skin')."/" . $currentStyleFile)) {
+if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/" . $currentStyleFile)) {
 ?>		
 								var currentStyleLiNumber = 0;
 								var documentIcons = new Array();
 								documentIcons['css_off'] = new Image();
-								documentIcons['css_off'].src = '<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_off.gif';
+								documentIcons['css_off'].src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_css_document_off.gif';
 								documentIcons['css_on'] = new Image();
-								documentIcons['css_on'].src = '<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_on.gif';
+								documentIcons['css_on'].src = '<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_css_document_on.gif';
 								
 								function changeCSSFile(obj, file) {
 									if (skinStyleSaved == false && confirm("<?php echo _t('변경된 스타일이 아직 저장되지 않았습니다.\n저장하시겠습니까?');?>"))
 										setSkin('style');
 									
-									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/loadCSS/");
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/skin/edit/loadCSS/");
 									request.onSuccess = function() {
 										document.getElementById('cssSectionForm').s_cache_style_css.value = this.getText("/response/content");
 										document.getElementById('cssSectionForm').file.value = file;
@@ -231,14 +229,14 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 									<li id="skin-cover"><a href="#" onclick="changeTab('skin','cover');return false;"><?php echo _t('표지');?></a></li>
 								</ul>
 								
-								<form id="htmlSectionForm" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/skin/">
+								<form id="htmlSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/edit/skin/">
 									<ul>
-										<li class="selected"><a><img src="<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a>
+										<li class="selected"><a><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a>
 											<span id="skin-download" class="download">
 <?php
 if (file_exists(ROOT . "/skin/blog/customize/".getBlogId()."/skin.html")) {
 ?>
-											<a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>
+											<a href="<?php echo $blogURL;?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>
 <?php
 }
 ?>
@@ -283,7 +281,7 @@ if (count($styleFileList) > 0) {
 ?>
 								<hr class="hidden" />
 								
-								<form id="cssSectionForm" class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/skin/">
+								<form id="cssSectionForm" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/edit/skin/">
 									<ul>
 <?php
 	$count = 0;
@@ -292,11 +290,11 @@ if (count($styleFileList) > 0) {
 		$tempFile = str_replace(ROOT . "/skin/blog/{$skinSetting['skin']}/", '', $styleFile);
 		if ($tempFile == $currentStyleFile) {
 ?>
-										<li class="selected"><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><strong><img src="<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_on.gif" alt="" /><?php echo basename($tempFile);?></strong></a></li>
+										<li class="selected"><a href="<?php echo $blogURL;?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><strong><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_css_document_on.gif" alt="" /><?php echo basename($tempFile);?></strong></a></li>
 <?php
 		} else {
 ?>
-										<li><a href="<?php echo $context->getProperty('uri.blog');?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><img src="<?php echo $context->getProperty('uri.service') . $context->getProperty('panel.skin');?>/image/img_css_document_off.gif" alt="" /><?php echo basename($tempFile);?></a></li>
+										<li><a href="<?php echo $blogURL;?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_css_document_off.gif" alt="" /><?php echo basename($tempFile);?></a></li>
 <?php
 		}
 		

@@ -6,9 +6,9 @@ define( 'OPENID_REGISTERS', 10 );
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
-global $database, $context->getProperty('uri.blog'), $context->getProperty('uri.host');
+global $database, $blogURL, $hostURL;
 
-$menu_url = $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/owner/communication/openid";
+$menu_url = $hostURL . $blogURL . "/owner/communication/openid";
 $menu1 = $menu_url . "?mode=1";
 $menu2 = $menu_url . "?mode=3";
 $menu3 = $menu_url . "?mode=5";
@@ -49,7 +49,7 @@ case 1:
 $openid_list = array();
 for( $i=0; $i<OPENID_REGISTERS; $i++ )
 {
-	$openid_identity = Setting::getUserSetting( "openid." . $i ,null,true);
+	$openid_identity = getUserSetting( "openid." . $i );
 	if( !empty($openid_identity) ) {
 		array_push( $openid_list, $openid_identity );
 	}

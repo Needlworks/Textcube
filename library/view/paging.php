@@ -1,10 +1,10 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getPagingView( & $paging, & $template, & $itemTemplate, $useSkinCache = false) {
-	$ctx = Model_Context::getInstance();
+	global $service;
 	if (($paging === false) || empty($paging['page'])) {
 		$paging['url'] = NULL;
 		$paging['prefix'] = NULL;
@@ -15,7 +15,7 @@ function getPagingView( & $paging, & $template, & $itemTemplate, $useSkinCache =
 		$paging['next'] = NULL;
 	}
 	
-	$url = str_replace('/%3F/', '/?/', URL::encode($paging['url'], $ctx->getProperty('service.useEncodedURL')));
+	$url = str_replace('/%3F/', '/?/', URL::encode($paging['url'], $service['useEncodedURL']));
 	$prefix = $paging['prefix'];
 	$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 	ob_start();

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -120,12 +120,12 @@ final class Model_Line extends DBModel {
 /// Private members	
 	private function validate() {
 		if(is_null($this->id)) $this->id = $this->getNextId();
-		$this->category = Utils_Unicode::lessenAsByte($this->category, 11);
-		$this->content = Utils_Unicode::lessenAsByte($this->content, 512);
+		$this->category = UTF8::lessenAsByte($this->category, 11);
+		$this->content = UTF8::lessenAsByte($this->content, 512);
 		if(empty($this->author)) {
 			$this->author = User::getName();	
 		}
-		$this->author = Utils_Unicode::lessenAsByte($this->author, 32);
+		$this->author = UTF8::lessenAsByte($this->author, 32);
 		if(!Validator::isInteger($this->blogid, 1)) return $this->error('blogid');		
 		if(!Validator::timestamp($this->created)) return $this->error('created');
 		return true;

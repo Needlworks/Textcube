@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_LOGIN__',true);
@@ -16,17 +16,18 @@ if (Setting::getBlogSettingGlobal('useBlogAPI', 0) != 1) {
 
 function SendRSD()
 {
-	$context = Model_Context::getInstance();
-	$blogid = $context->getProperty('blog.id');
-	$homeurl = $context->getProperty('uri.host').$context->getProperty('uri.blog');
+	global $hostURL, $blogURL;
+	global $blogid;
+	$homeurl = $hostURL.$blogURL;
 	$apiurl = $homeurl . "/api";
+	$blogid = $blogid;
 
 	header( "Content-type: text/xml", true );
 
-	print( '<?xml version="1.0" encoding="utf-8" ?>
+	print( '<?xml version="1.0" encoding="utf-8" ?> 
 <rsd xmlns="http://archipelago.phrasewise.com/rsd" version="1.0">
     <service xmlns="">
-        <engineName>Textcube</engineName>
+        <engineName>Textcube</engineName> 
         <engineLink>http://www.textcube.org/</engineLink>
         <homePageLink>' . $homeurl . '/</homePageLink>
         <apis>

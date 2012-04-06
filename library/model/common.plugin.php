@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -20,7 +20,7 @@ function clearPluginSettingCache()
 }
 
 function activatePlugin($name) {
-	global $activePlugins, $gCacheStorage;
+	global $database, $activePlugins, $gCacheStorage;
 	if (in_array($name, $activePlugins))
 		return true;
 	if (!preg_match('/^[-a-zA-Z0-9_ ]+$/', $name))
@@ -57,18 +57,11 @@ function activatePlugin($name) {
 		return false;
 	}
 	$pluginName = $name;
-	$pool = DBModel::getInstance();
-	$pool->reset('Plugins');
-	$pool->setAttribute('blogid',getBlogId());
-	$pool->setAttribute('name',Utils_Unicode::lessenAsEncoding($name, 255),true);
-	$pool->setAttribute('settings',null);
-	$result = $pool->insert();
-
-//	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 255));
-//	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
+	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 255));
+	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
-	return ($result == true);
+	return ($result == 1);
 }
 
 function deactivatePlugin($name) {
@@ -114,7 +107,7 @@ function updatePluginConfig( $name , $setVal) {
 	if (!in_array($name, $activePlugins))
 		return false;
 	$pluginName = $name;
-	$name = POD::escapeString( Utils_Unicode::lessenAsEncoding($name, 255) ) ;
+	$name = POD::escapeString( UTF8::lessenAsEncoding($name, 255) ) ;
 	$setting = serialize(Setting::fetchConfigXML($setVal));
 	$pool = DBModel::getInstance();
 	$pool->reset('Plugins');
@@ -186,23 +179,22 @@ function getPluginInformation($plugin) {
 }
 
 function treatPluginTable($plugin, $name, $fields, $keys, $version) {
-	$context = Model_Context::getInstance();
-//	global $context;
-	if(doesExistTable($context->getProperty('database.prefix'). $name)) {
+	global $database;
+	if(doesExistTable($database['prefix'] . $name)) {
 		$keyname = 'Database_' . $name;
 		$value = $plugin;
-		$result = Setting::getServiceSetting($keyname,null, true);
+		$result = getServiceSetting($keyname, null);
 		if (is_null($result)) {
-			$keyname = Utils_Unicode::lessenAsEncoding($keyname, 32);
-			$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
+			$keyname = UTF8::lessenAsEncoding($keyname, 32);
+			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
 			$query = DBModel::getInstance();
 			$query->reset('ServiceSettings');
 			$query->setAttribute('name',$keyname,true);
 			$query->setAttribute('value',$value,true);
 			$query->insert();
 		} else {
-			$keyname = Utils_Unicode::lessenAsEncoding($keyname, 32);
-			$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
+			$keyname = UTF8::lessenAsEncoding($keyname, 32);
+			$value = UTF8::lessenAsEncoding($plugin . '/' . $version , 255);
 			$values = explode('/', $result, 2);
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
@@ -218,7 +210,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		}
 		return true;
 	} else {
-		$query = "CREATE TABLE ".$context->getProperty('database.prefix').$name." (blogid int(11) NOT NULL default 0,";
+		$query = "CREATE TABLE {$database['prefix']}{$name} (blogid int(11) NOT NULL default 0,";
 		$isaiExists = false;
 		$index = '';
 		foreach($fields as $field) {
@@ -244,10 +236,9 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		$query .= ") TYPE=MyISAM ";
 		$query .= (POD::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
 		if (POD::execute($query)) {
-				$keyname = Utils_Unicode::lessenAsEncoding('Database_' . $name, 32);
-				$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
-				Setting::setServiceSetting($keyname, $value, true);
-				#POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
+				$keyname = POD::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
+				$value = POD::escapeString(UTF8::lessenAsEncoding($plugin . '/' . $version , 255));
+				POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}
 		else return false;
@@ -273,19 +264,20 @@ function deletePluginTable($name) {
 
 function getPluginTableName() {
 	requireModel('common.setting');
-	$ctx = Model_Context::getInstance();
+
+	global $database;
 	
 	$likeEscape = array ( '/_/' , '/%/' );
 	$likeReplace = array ( '\\_' , '\\%' );
-	$escapename = preg_replace($likeEscape, $likeReplace, $ctx->getProperty('database.prefix'));
+	$escapename = preg_replace($likeEscape, $likeReplace, $database['prefix']);
 
 	$dbtables = POD::tableList($escapename);
 
-	$dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames',true);
+	$dbCaseInsensitive = getServiceSetting('lowercaseTableNames');
 	if($dbCaseInsensitive === null) {
 		$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
 		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
-		Setting::setServiceSetting('lowercaseTableNames',$dbCaseInsensitive,true);
+		setServiceSetting('lowercaseTableNames',$dbCaseInsensitive);
 	}
 
 	$definedTables = getDefinedTableNames();
@@ -308,6 +300,7 @@ function getPluginTableName() {
 	}
 	return $dbtables;
 }
+
 
 /***** Events and configuration handles *****/
 
@@ -499,7 +492,7 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 	
 	if (count($newSidebarAllOrders) > 0) {
 		if (($previewMode == false) && !is_null($sidebarAllOrders)) {
-			Setting::setBlogSettingGlobal("sidebarOrder", serialize($sidebarAllOrders));
+			setBlogSetting("sidebarOrder", serialize($sidebarAllOrders));
 			CacheControl::flushSkin();
 		}
 	}

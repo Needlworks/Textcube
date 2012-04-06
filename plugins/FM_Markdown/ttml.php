@@ -1,13 +1,12 @@
 <?php
 // PHP TTML parser
-// Version 2.0 (2011.1.7)
-// 2004-2011 Needlworks / TNF / Tatter and Company
+// Version 1.8 (2010.7.6)
+// 2004-2009 Needlworks / TNF / Tatter and Company
 // Original TTML is created by JH, 2004.4
 // TTML port for Tattertools 1.0 by papacha, 2005.10
 // TTML Module port for Tattertools 1.1 by lifthrasiir, 2007.1
 // TTML External library for Textcube 1.6 by inureyes, 2008.1
 // TTML External library for Textcube 1.8 by inureyes, 2010.7
-// TTML External library for Textcube 2.0 by inureyes, 2011.1
 
 function FM_TTML_bindTags($id, $content) {
 	for ($no = 0; (($start = strpos($content, '[#M_')) !== false) && (($end = strpos($content, '_M#]', $start + 4)) !== false); $no++) {
@@ -30,12 +29,12 @@ function FM_TTML_bindTags($id, $content) {
 }
 
 function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
-	$context = Model_Context::getInstance();
+	global $service, $hostURL, $blogURL, $serviceURL;
 	requireModel('blog.attachment');
 	$blogid = getBlogId();
 	getAttachments($blogid, $entryId); // For attachment caching.
-	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? $context->getProperty('uri.service')."/attach/$blogid" : $folderURL), $content);
-	$view = str_replace('http://tt_attach_path/', ($useAbsolutePath ? $context->getProperty('uri.service')."/attach/$blogid/" : ($folderURL . '/')), $view);
+	$view = str_replace('[##_ATTACH_PATH_##]', ($useAbsolutePath ? "{$serviceURL}/attach/$blogid" : $folderURL), $content);
+	$view = str_replace('http://tt_attach_path/', ($useAbsolutePath ? "{$serviceURL}/attach/$blogid/" : ($folderURL . '/')), $view);
 	$count = 0;
 	$bWritedGalleryJS = false;
 	
@@ -140,7 +139,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 							$setHeight = $galleryAttributes['height'];
 						}
 						$item[1] = str_replace("'", '&#39;', $item[1]);
-						$buf .= $id . '.appendImage("' . ($useAbsolutePath ? $context->getProperty('uri.service')."/attach/$blogid/$item[0]" : "$folderURL/$item[0]") . '", "' . htmlspecialchars($item[1]) . '", ' . intval($setWidth) . ', ' . intval($setHeight) . ");";
+						$buf .= $id . '.appendImage("' . ($useAbsolutePath ? "{$serviceURL}/attach/$blogid/$item[0]" : "$folderURL/$item[0]") . '", "' . htmlspecialchars($item[1]) . '", ' . intval($setWidth) . ', ' . intval($setHeight) . ");";
 					}
 				}
 				$buf .= "			{$id}.show();" . CRLF;
@@ -163,7 +162,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 					
 						$buf .= '<div class="imageblock center" style="text-align: center; clear: both;">';
 						if ($useAbsolutePath)
-							$buf .= '		<img src="' . $context->getProperty('uri.service') . "/attach/" . $blogid . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
+							$buf .= '		<img src="' . $serviceURL . "/attach/" . $blogid . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
 						else
 							$buf .= '		<img src="' . $folderURL . "/" . $item[0] . '" width="' . intval($setWidth) . '" height="' . intval($setHeight) . '" alt="' . _text('사용자 삽입 이미지') . '" />' . CRLF;
 						if(!empty($item[1]))
@@ -189,7 +188,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				$imgStr = '';
 				for ($i = 0; $i < count($imgs); $i += 2) {
 					if ($imgs[$i] != '') {
-						$imgStr .= $context->getProperty('service.path') . '/attach/' . $blogid . '/' . $imgs[$i];
+						$imgStr .= $service['path'] . '/attach/' . $blogid . '/' . $imgs[$i];
 						if ($i < (count($imgs) - 2))
 							$imgStr .= '*!';
 					}
@@ -199,12 +198,12 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				} else {
 					$caption = '';
 				}
-				$buf .= '<div style="clear: both; text-align: center"><img src="' . ($useAbsolutePath ? $context->getProperty('uri.service') : $context->getProperty('service.path')) . '/resources/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $context->getProperty('service.path') . '/iMazing?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowinterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $blogid . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $context->getProperty('service.path') . '\')" />';
+				$buf .= '<div style="clear: both; text-align: center"><img src="' . ($useAbsolutePath ? $serviceURL : $service['path']) . '/resources/image/gallery/gallery_enlarge.gif" alt="' . _text('확대') . '" style="cursor:pointer" onclick="openFullScreen(\'' . $service['path'] . '/iMazing?d=' . urlencode($id) . '&f=' . urlencode($params['frame']) . '&t=' . urlencode($params['transition']) . '&n=' . urlencode($params['navigation']) . '&si=' . urlencode($params['slideshowinterval']) . '&p=' . urlencode($params['page']) . '&a=' . urlencode($params['align']) . '&o=' . $blogid . '&i=' . $imgStr . '\',\'' . htmlspecialchars(str_replace("'", "&#39;", $attributes[count($attributes) - 1])) . '\',\'' . $service['path'] . '\')" />';
 				$buf .= '<div id="iMazingContainer'.$id.'" class="iMazingContainer" style="width:'.$params['width'].'px; height:'.$params['height'].'px;"></div><script type="text/javascript">//<![CDATA['.CRLF;
-				$buf .= 'iMazing' . $id . 'Str = getEmbedCode(\'' . $context->getProperty('service.path') . '/resources/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowinterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $context->getProperty('service.path') . '/resources/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");';
+				$buf .= 'iMazing' . $id . 'Str = getEmbedCode(\'' . $service['path'] . '/resources/script/gallery/iMazing/main.swf\',\'100%\',\'100%\',\'iMazing' . $id . '\',\'#FFFFFF\',"image=' . $imgStr . '&amp;frame=' . $params['frame'] . '&amp;transition=' . $params['transition'] . '&amp;navigation=' . $params['navigation'] . '&amp;slideshowInterval=' . $params['slideshowinterval'] . '&amp;page=' . $params['page'] . '&amp;align=' . $params['align'] . '&amp;skinPath=' . $service['path'] . '/resources/script/gallery/iMazing/&amp;","false"); writeCode(iMazing' . $id . 'Str, "iMazingContainer'.$id.'");';
 				$buf .= '//]]></script><noscript>';
 				for ($i = 0; $i < count($imgs); $i += 2)
-				    $buf .= '<img src="'.($useAbsolutePath ? $context->getProperty('uri.service') : $context->getProperty('service.path')).'/attach/'.$blogid.'/'.$imgs[$i].'" alt="" />';
+				    $buf .= '<img src="'.($useAbsolutePath ? $serviceURL : $service['path']).'/attach/'.$blogid.'/'.$imgs[$i].'" alt="" />';
 				$buf .= '</noscript>';
 				$buf .= $caption . '</div>';
 			}
@@ -241,7 +240,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 						continue;
 					} else {
 						if ($i < (count($imgs) - 1))
-							$imgStr .= $context->getProperty('service.path')."/attach/$blogid/" . urlencode($imgs[$i]) . '*!';
+							$imgStr .= "{$service['path']}/attach/$blogid/" . urlencode($imgs[$i]) . '*!';
 					}
 				}
 				if (!empty($attributes[count($attributes) - 1])) {
@@ -252,11 +251,11 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 				
 				$buf .= '<div id="jukeBox' . $id . 'Div" style="margin-left: auto; margin-right: auto; width:' . $width . '; height:' . $height . ';"><div id="jukeBoxContainer'.$id.'" style="width:' . $width . '; height:' . $height . ';"></div>';
 				$buf .= '<script type="text/javascript">//<![CDATA['.CRLF;
-				$buf .= 'writeCode(getEmbedCode(\'' . $context->getProperty('service.path') . '/resources/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")';
+				$buf .= 'writeCode(getEmbedCode(\'' . $service['path'] . '/resources/script/jukebox/flash/main.swf\',\'100%\',\'100%\',\'jukeBox' . $id . 'Flash\',\'#FFFFFF\',"sounds=' . $imgStr . '&amp;autoplay=' . $params['autoplay'] . '&amp;visible=' . $params['visible'] . '&amp;id=' . $id . '","false"), "jukeBoxContainer'.$id.'")';
 				$buf .= '//]]></script><noscript>';
 				for ($i = 0; $i < count($imgs); $i++) {
 					if ($i % 2 == 0)
-						$buf .= '<a href="'.($useAbsolutePath ? $context->getProperty('uri.service') : $context->getProperty('service.path')).'/attach/'.$blogid.'/'.$imgs[$i].'">';
+						$buf .= '<a href="'.($useAbsolutePath ? $serviceURL : $service['path']).'/attach/'.$blogid.'/'.$imgs[$i].'">';
 					else
 						$buf .= htmlspecialchars($imgs[$i]).'</a><br/>';
 				}
@@ -341,11 +340,11 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 }
 
 function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderURL, $imageBlocks = 1, $useAbsolutePath = true, $bRssMode = false, $onclickFlag=false) {
-	$context = Model_Context::getInstance();
+	global $database, $skinSetting, $service, $blogURL, $hostURL, $serviceURL;
 	$blogid = getBlogId();
 	$path = "$folderPath/$filename";
 	if ($useAbsolutePath)
-		$url = $context->getProperty('uri.service')."/attach/$blogid/$filename";
+		$url = "$serviceURL/attach/$blogid/$filename";
 	else
 		$url = "$folderURL/$filename";
 	$fileInfo = getAttachmentByOnlyName($blogid, $filename);
@@ -360,7 +359,7 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 				}
 
 				if ($bPassing == false)
-					return fireEvent('ViewAttachedImageMobile', "<img src=\"".$context->getProperty('uri.blog')."/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\" />", $path);
+					return fireEvent('ViewAttachedImageMobile', "<img src=\"$blogURL/imageResizer/?f=" . urlencode($filename) . "\" alt=\"\" />", $path);
 			}
 			/*if ($bRssMode == true) {
 				$property = str_replace('&quot;', '"', $property);
@@ -399,9 +398,9 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 			break;
 		default:
 			if (file_exists(ROOT . '/resources/image/extension/' . Misc::getFileExtension($fileInfo['label']) . '.gif')) {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $context->getProperty('uri.host') : '') . $context->getProperty('uri.blog') . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $context->getProperty('uri.service') : $context->getProperty('service.path')) . '/resources/image/extension/' . Misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $serviceURL : $service['path']) . '/resources/image/extension/' . Misc::getFileExtension($fileInfo['label']) . '.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			} else {
-				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $context->getProperty('uri.host') : '') . $context->getProperty('uri.blog') . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $context->getProperty('uri.service') : $context->getProperty('service.path')) . '/resources/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
+				return '<a class="extensionIcon" href="' . ($useAbsolutePath ? $hostURL : '') . $blogURL . '/attachment/' . $filename . '">' . fireEvent('ViewAttachedFileExtension', '<img src="' . ($useAbsolutePath ? $serviceURL : $service['path']) . '/resources/image/extension/unknown.gif" alt="" />') . ' ' . htmlspecialchars($fileInfo['label']) . '</a>';
 			}
 			break;
 	}

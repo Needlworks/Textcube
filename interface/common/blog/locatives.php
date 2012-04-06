@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -17,7 +17,7 @@ foreach ($locatives as $locative) {
 	}
 	$entryView = $skin->locativeEntry;
 	dress('local_info_depth', $depth + 20, $entryView);
-	dress('local_info_link', $context->getProperty('uri.blog')."/" . ($context->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']), $entryView);
+	dress('local_info_link', "$blogURL/" . ($blog['useSloganOnPost'] ? 'entry/' . URL::encode($locative['slogan'],$service['useEncodedURL']) : $locative['id']), $entryView);
 	dress('local_info_title', htmlspecialchars($locative['title']), $entryView);
 	dress('local_info_author', User::getName($locative['userid']), $entryView);
 	$locativeView .= $entryView;

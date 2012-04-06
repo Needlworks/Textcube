@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -16,12 +16,12 @@ require ROOT . '/interface/common/owner/header.php';
 									<q xml:lang="la" title="<?php echo _t('모든 만물은 책이요 그림이요 또한 거울이니');?>">Omnis mundi creatura quasi liber et pictura nobis est, et speculum</q><br />
 									<cite><?php echo _t('움베르트 에코 -장미의 이름- 중');?></cite>
 								</p>
-								<div id="copyright"><?php echo _t('&copy; 2004 - 2011. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.');?></div>
+								<div id="copyright"><?php echo _t('&copy; 2004 - 2010. 모든 저작권은 개발자 및 공헌자에게 있습니다.<br />텍스트큐브는 니들웍스/TNF에서 개발합니다.<br />텍스트큐브와 텍스트큐브 로고는 니들웍스의 상표입니다.');?></div>
 								<div id="XHTML-ValidIcon">
 									<img src="http://www.w3.org/Icons/valid-xhtml11-blue" alt="Valid XHTML 1.1!" />
 								</div>
 								<div id="Needlworks-Icon">
-									<img src="<?php echo $context->getProperty('uri.service');?>/resources/image/needlworks.png" alt="Made by Needlworks / TNF" />
+									<img src="<?php echo $serviceURL;?>/resources/image/needlworks.png" alt="Made by Needlworks / TNF" />
 								</div>
 								<div class="clear"></div>
 							</div>

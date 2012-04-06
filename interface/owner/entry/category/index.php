@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if(count($_POST) > 0) {
@@ -16,7 +16,6 @@ if(count($_POST) > 0) {
 	);
 }
 require ROOT . '/library/preprocessor.php';
-$context = Model_Context::getInstance();
 requireModel('blog.category');
 requireModel('blog.entry');
 if (!empty($_POST['id']))
@@ -172,7 +171,7 @@ require ROOT . '/interface/common/owner/header.php';
 									</div>
 								</div>
 
-								<form class="section" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/entry/category">
+								<form class="section" method="post" action="<?php echo $blogURL;?>/owner/entry/category">
 									<fieldset id="property-box" class="container">
 										<legend><?php echo _t('분류 관리 및 설정');?></legend>
 
@@ -189,7 +188,7 @@ if ($depth <= 1) {
 ?>
 											<dd>
 												<div class="field-box">
-													<input type="text" id="newCategory" class="input-text" name="newCategory" onkeyup="if (event.keyCode == 13 &amp;&amp; validateText(this.value)) {addCategory();return false;}" />
+													<input type="text" id="newCategory" class="input-text" name="newCategory" onkeyup="if (event.keyCode == 13 &amp;&amp; validateText(this.value)) {addCategory()}" />
 													<input type="button" class="add-button input-button" value="<?php echo _t('추가하기');?>" onclick="addCategory(); return false;" />
 												</div>
 												<p>
@@ -273,7 +272,7 @@ if ($selected == 0) {
 } else {
 ?>
 												<div class="field-box">
-													<input type="button" class="remove-button input-button" value="<?php echo _t('삭제하기');?>" onclick="removeCategory();return false;" />
+													<input type="button" class="remove-button input-button" value="<?php echo _t('삭제하기');?>" onclick="removeCategory();" />
 												</div>
 <?php
 }

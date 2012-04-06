@@ -48,7 +48,7 @@ function _getRecentEntriesView($entries,$template){
 		$view = $template;
 		Misc::dress('rctps_rep_link',$context->getProperty('uri.blog')."/".$entry['id'],$view);
 		Misc::dress('rctps_rep_edit_link',$context->getProperty('uri.blog')."/owner/entry/edit/".$entry['id'],$view);
-		Misc::dress('rctps_rep_title',htmlspecialchars(Utils_Unicode::lessenAsEm($entry['title'],30)),$view);
+		Misc::dress('rctps_rep_title',htmlspecialchars(UTF8::lessenAsEm($entry['title'],30)),$view);
 		Misc::dress('rctps_rep_rp_cnt',"<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments']>0?"({$entry['comments']})":'').'</span>',$view);
 		print $view;
 	}

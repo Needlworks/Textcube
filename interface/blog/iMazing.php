@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -24,7 +24,7 @@ foreach($images as $value) {
 ?>
 <html>
 	<head>
-		<script type="text/javascript" src="<?php echo $context->getProperty('service.path').'/resources/script/flash.js';?>"></script>
+		<script type="text/javascript" src="<?php echo $service['path'].'/resources/script/flash.js';?>"></script>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style type="text/css">
 			/*<![CDATA[*/
@@ -48,8 +48,8 @@ foreach($images as $value) {
 			   "codebase","http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0", 
 			   "width" , "100%",
 			   "height" , "100%",
-			   "src" , "<?php echo $context->getProperty('service.path');?>/resources/script/gallery/iMazing/main",
-			   "FlashVars", "image=<?php echo $imageStr;?>&frame=<?php echo $_GET["f"];?>&transition=<?php echo $_GET["t"];?>&navigation=<?php echo $_GET["n"];?>&slideshowInterval=<?php echo $_GET["si"];?>&page=<?php echo $_GET["p"];?>&align=<?php echo $_GET["a"];?>&skinPath=<?php echo $context->getProperty('service.path');?>/resources/script/gallery/iMazing/&",
+			   "src" , "<?php echo $service['path'];?>/resources/script/gallery/iMazing/main",
+			   "FlashVars", "image=<?php echo $imageStr;?>&frame=<?php echo $_GET["f"];?>&transition=<?php echo $_GET["t"];?>&navigation=<?php echo $_GET["n"];?>&slideshowInterval=<?php echo $_GET["si"];?>&page=<?php echo $_GET["p"];?>&align=<?php echo $_GET["a"];?>&skinPath=<?php echo $service['path'];?>/resources/script/gallery/iMazing/&",
 			   "allowscriptAccess", "sameDomain", 
 			   "menu", "false");
 		//]]>

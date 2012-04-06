@@ -96,7 +96,7 @@ function MT_Cover_getRecentEntries($parameters){
 		$html .= '			<span class="date">'.Timestamp::format5($entry['published']).'</span>'.CRLF;
 		$html .= '			<span class="author"><span class="preposition">by </span>'.User::getName($entry['userid']).'</span>'.CRLF;
 		$html .= '		</div>'.CRLF;
-		$html .= '		<div class="post_content">'.htmlspecialchars(Utils_Unicode::lessenAsEm(removeAllTags(stripHTML($entry['content'])), $data['contentLength'])).'</div>'.CRLF;
+		$html .= '		<div class="post_content">'.htmlspecialchars(UTF8::lessenAsEm(removeAllTags(stripHTML($entry['content'])), $data['contentLength'])).'</div>'.CRLF;
 		$html .=		$tagLabelView;
 		$html .= '		<div class="clear"></div>'.CRLF;
 		$html .= '	</div>';

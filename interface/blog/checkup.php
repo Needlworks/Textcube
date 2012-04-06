@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -76,13 +76,13 @@ function clearCache() {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
-	<link rel="stylesheet" media="screen" type="text/css" href="<?php echo $context->getProperty('service.path')?>/resources/style/setup/style.css" />
+	<link rel="stylesheet" media="screen" type="text/css" href="<?php echo $service['path']?>/resources/style/setup/style.css" />
 </head>
 <body>
 	<div id="container">
 		<form id="checkup">
 			<div id="title">
-				<h1><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
+				<h1><img src="<?php echo $service['path']?>/resources/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
 			</div>
 
 			<div id="inner">
@@ -802,15 +802,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
-	/* From Textcube 1.9 */
-	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Sessions expires")) {
-		$changed = true;
-		echo '<li>', _text('자동 로그인을 위해 세션 테이블 구조를 수정합니다.'), ': ';
-		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Sessions ADD expires int(11) NOT NULL DEFAULT 0 AFTER updated"))
-			showCheckupMessage(true);
-		else
-			showCheckupMessage(false);
-	}
+	
 }
 
 /***** Common parts. *****/
@@ -835,7 +827,7 @@ if ((preg_match('@rewrite\.php@', $content) == 0 ) ||
 #</IfModule>
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
-RewriteBase ".$context->getProperty('service.path')."/
+RewriteBase ".$service['path']."/
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^(cache)+/+(.+[^/])\\.(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
@@ -875,7 +867,7 @@ if (((!file_exists(ROOT . '/cache/CHECKUP')) || (trim(file_get_contents(ROOT . '
 				</div>
 
 				<div id="navigation">
-					<a href="<?php echo $context->getProperty('uri.blog').'/owner/center/dashboard';?>"><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
+					<a href="<?php echo $blogURL.'/owner/center/dashboard';?>"><img src="<?php echo $service['path']?>/resources/style/setup/image/icon_ok.gif" width="74" height="24" alt="돌아가기" /></a>
 				</div>
 			</div>
 		</form>

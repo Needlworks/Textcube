@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -32,7 +32,6 @@ function filterJavaScript($str, $removeScript = true) {
 		$patterns = array(
 			'/<\/?iframe.*?>/si',
 			'/<script.*?<\/script>/si',
-			'/<embed.*?<\/embed>/si',
 			'/<object.*?type=["\']?text\/x-scriptlet["\']?.*?>(.*?<\/object>)?/si',
 			'/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si',
 			'/<link.*?>/si'

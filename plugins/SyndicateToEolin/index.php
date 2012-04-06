@@ -45,8 +45,8 @@ function SyndicateToEolin ($entryId, $entry, $mode) {
 		$summary['blogTitle'] = $context->getProperty('blog.title');
 		$summary['language']  = $context->getProperty('blog.language');
 		$summary['permalink'] = $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}": $entry['id']);
-		$summary['title']     = Utils_Unicode::lessenAsByte($entry['title'],255);
-		$summary['content']   = Utils_Unicode::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'])), 1023, '');
+		$summary['title']     = UTF8::lessenAsByte($entry['title'],255);
+		$summary['content']   = UTF8::lessenAsByte(stripHTML(getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'])), 1023, '');
 		$summary['author'] = User::authorName($entry['userid'],$entryId);
 		$summary['tags'] = Tag::getTagsWithEntryId($blogid, $entry);
 		$summary['location'] = $entry['location'];

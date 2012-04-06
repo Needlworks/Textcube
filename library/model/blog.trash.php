@@ -1,7 +1,9 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
+
+//require 'common.correctTT.php';
 
 function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $ip, $search, $page, $count) {
 	global $database;
@@ -127,15 +129,11 @@ function deleteTrackbackTrash($blogid, $id) {
 }
 
 function restoreTrackbackTrash($blogid, $id) {
-   	$pool = DBModel::getInstance();
-   	$pool->reset('RemoteResponses');
-   	$pool->setQualifier('blogid','eq',$blogid);
-   	$pool->setQualifier('id','eq',$id);
-   	$entry = $pool->getCell('entry');
- 	if ($entry === null)
+   	global $database;
+	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
+	if ($entry === null)
 		return false;
-	$pool->setAttribute('isfiltered',0);
-	if(!$pool->update())
+	if (!POD::execute("UPDATE {$database['prefix']}RemoteResponses SET isfiltered = 0 WHERE blogid = $blogid AND id = $id"))
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;
@@ -143,19 +141,14 @@ function restoreTrackbackTrash($blogid, $id) {
 }
 
 function trashVan() {
+   	global $database;
+	requireModel('common.setting');
 	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 86400) {
-		$pool = DBModel::getInstance();
-		$pool->reset('Comments');
-		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-1296000);
-		$pool->setQualifier('isfiltered','b',0);
-		$pool->delete();
-		$pool->reset('RemoteResponses');
-		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-1296000);
-		$pool->setQualifier('isfiltered','b',0);
-		$pool->delete();
-		$pool->reset('RefererLogs');
-		$pool->setQualifier('referred','s',Timestamp::getUNIXtime()-604800);
-		$pool->delete();
+//		var_dump(Timestamp::getUNIXtime());
+//		var_dump(Setting::getServiceSetting('lastTrashSweep',0, true));
+		POD::execute("DELETE FROM {$database['prefix']}Comments where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
+		POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < ".Timestamp::getUNIXtime()." - 604800");
 		Setting::setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime(),true);
 	}
 	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastNoticeRead',0, true) > 43200) {
@@ -164,19 +157,16 @@ function trashVan() {
 	}
 }
 
-function emptyTrash($comment = true){
+function emptyTrash($comment = true)
+{
+   	global $database;
+	requireModel('common.setting');
 	$blogid = getBlogId();
-	$pool = DBModel::getInstance();
 	if ($comment == true) {
-		$pool->reset('Comments');
-		$pool->setQualifier('blogid','eq',$blogid);
-		$pool->setQualifier('isfiltered','b',0);
-		$pool->delete();
+		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isfiltered > 0");
 	} else {
-		$pool->reset('RemoteResponses');
-		$pool->setQualifier('blogid','eq',$blogid);
-		$pool->setQualifier('isfiltered','b',0);
-		$pool->delete();
+		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where blogid = ".$blogid." and isfiltered > 0");
 	}
 }
+
 ?>

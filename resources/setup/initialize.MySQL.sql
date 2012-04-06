@@ -232,7 +232,7 @@ CREATE TABLE [##_dbPrefix_##]Lines (
   root varchar(11) NOT NULL default 'default',
   category varchar(11) NOT NULL default 'public',
   author varchar(32) NOT NULL default '',
-  content mediumtext NOT NULL default '', 
+  content mediumtext NOT NULL, 
   permalink varchar(128) NOT NULL default '',  
   created int(11) NOT NULL default 0,
   PRIMARY KEY (id),
@@ -333,7 +333,6 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
   timer float NOT NULL default '0',
   created int(11) NOT NULL default '0',
   updated int(11) NOT NULL default '0',
-  expires int(11) NOT NULL default '0',
   PRIMARY KEY  (id,address),
   KEY updated (updated)
 ) [##_charset_##];
@@ -416,7 +415,7 @@ CREATE TABLE [##_dbPrefix_##]Widgets (
   height int(11) DEFAULT NULL,
   scrolling int(1) default 0,
   feature varchar(32) default 'opensocial',
-  content text NOT NULL default '',
+  content text NOT NULL,
   PRIMARY KEY(id),
   KEY(blogid)
 ) [##_charset_##];

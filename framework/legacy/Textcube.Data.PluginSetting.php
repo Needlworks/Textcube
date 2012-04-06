@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class PluginSetting {
@@ -79,7 +79,7 @@ class PluginSetting {
 		$query = DBModel::getInstance();
 		$query->reset('Plugins');
 		$query->setQualifier('blogid', 'equals', getBlogId());
-		$query->setQualifier('name', 'equals', Utils_Unicode::lessenAsEncoding($this->name, 255), true);
+		$query->setQualifier('name', 'equals', UTF8::lessenAsEncoding($this->name, 255), true);
 		if (isset($this->setting))
 			$query->setAttribute('settings', $this->setting, true);
 		return $query;

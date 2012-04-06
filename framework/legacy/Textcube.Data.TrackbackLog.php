@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class TrackbackLog {
@@ -112,7 +112,7 @@ class TrackbackLog {
 			$query->setAttribute('entry', $this->entry);
 		}
 		if (isset($this->url)) {
-			$this->url = Utils_Unicode::lessenAsEncoding(trim($this->url), 255);
+			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setAttribute('url', $this->url, true);

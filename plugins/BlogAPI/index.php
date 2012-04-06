@@ -1,14 +1,14 @@
 <?php
-/* BlogAPI RSD automarker for Textcube 2.0
+/* BlogAPI RSD automarker for Textcube 1.8
    ----------------------------------
-   Version 2.0
+   Version 1.8
    Needlworks development team.
 
    Creator          : coolengineer
    Maintainer       : coolengineer
 
    Created at       : 2006.8.6
-   Last modified at : 2011.2.3
+   Last modified at : 2010.4.30
  
  This plugin adds RSD link into blog skin.
  For the detail, visit http://forum.tattersite.com/ko
@@ -25,8 +25,8 @@
 */
 function AddRSD($target)
 {
-	$ctx = Model_Context::getInstance();
-	$target .= '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$ctx->getProperty('uri.host').$ctx->getProperty('uri.blog').'/api?rsd" />'.CRLF;
+	global $hostURL, $blogURL;
+	$target .= '<link rel="EditURI" type="application/rsd+xml" title="RSD" href="'.$hostURL.$blogURL.'/api?rsd" />'.CRLF;
 	return $target;
 }
 ?>

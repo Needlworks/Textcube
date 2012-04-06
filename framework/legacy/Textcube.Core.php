@@ -1,9 +1,9 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-/* This component contains 'User', 'Blog' and 'Transaction' class.
+/* This component contains 'User', 'Blog' and 'Transaction' class. 
    NOTE : Classes described below are actually not object. Usually they are static.*/
 
 // for Global Cache
@@ -21,7 +21,7 @@ class User {
 		}
 		return $__gCacheUserNames[$userid] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
 	}
-
+	
 	static function getUserIdByName($name) {
 		global $database, $__gCacheUserNames;
 		if (!isset($name))
@@ -34,21 +34,22 @@ class User {
 		$__gCacheUserNames[$userid] = $name;
 		return $userid;
 	}
-
+	
 	static function getUserNamesOfBlog($blogid) {
 		// TODO : Caching with global cache component. (Usually it is not changing easily.)
-		$pool = DBModel::getInstance();
-		$pool->reset('Privileges');
-		$pool->setQualifier('blogid','eq',$blogid);
-		$authorIds = $pool->getColumn('userid');
-		$pool->reset('Users');
-		$pool->setQualifier('userid','hasOneOf',$authorIds);
-		return $pool->getAll('userid,name');
+		global $database;
+		$authorIds = POD::queryColumn("SELECT userid
+			FROM {$database['prefix']}Privileges
+			WHERE blogid = $blogid");
+		$authorInfo = POD::queryAll("SELECT userid, name
+			FROM {$database['prefix']}Users
+			WHERE userid IN (".implode(",",$authorIds).")");
+		return $authorInfo;
 	}
 
 	static function getBlogOwnerName($blogid) {
 		global $database;
-		$ownerUserId = POD::queryCell("SELECT userid
+		$ownerUserId = POD::queryCell("SELECT userid 
 			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid
 				AND acl > 15");
@@ -57,7 +58,7 @@ class User {
 
 	static function getBlogOwner($blogid) {
 		global $database;
-		$ownerUserId = POD::queryCell("SELECT userid
+		$ownerUserId = POD::queryCell("SELECT userid 
 			FROM {$database['prefix']}Privileges
 			WHERE blogid = $blogid
 				AND acl > 15");
@@ -78,7 +79,7 @@ class User {
 		$loginid = POD::escapeString($loginid);
 		return POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE loginid = '".$loginid."'");
 	}
-
+	
 	static function getBlogs($userid = null) {
 		global $database;
 		if (!isset($userid))
@@ -95,7 +96,7 @@ class User {
 
 	static function getHomepageType($userid = null) {
 		global $database;
-		if (!isset($userid))
+		if (!isset($userid)) 
 			$userid = getUserId();
 		$info = unserialize(Setting::getUserSettingGlobal('userLinkInfo','',$userid));
 		if(!empty($info)) $type = $info['type'];
@@ -106,10 +107,11 @@ class User {
 	}
 
 	static function getHomepage($userid = null) {
-		if (!isset($userid) || empty($userid))
+		global $database;
+		if (!isset($userid) || empty($userid)) 
 			$userid = getUserId();
 		$info = unserialize(Setting::getUserSettingGlobal('userLinkInfo','',$userid));
-		if(is_null($info)) $info = array('type' => 'default');
+		if(is_null($info)) $info = array('type' => 'default'); 
 		switch ($info['type']) {
 			case "external" :
 				$homepage = $info['url'];
@@ -117,7 +119,7 @@ class User {
 			case "internal" :
 				$homepage = getDefaultURL($info['blogid']);
 				break;
-			case "author" :
+			case "author" : 
 				$homepage = getDefaultURL($info['blogid'])."/author/".URL::encode(User::getName($userid));
 				break;
 			case "default" :
@@ -130,14 +132,14 @@ class User {
 	static function setHomepage($type, $homepage, $blogid = null, $userid = null) {
 		global $database;
 		$types = array("internal","author","external","default");
-		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성.
+		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성. 
 			$userid = getUserId();
 		$info['blogid'] = is_null($blogid) ? getBlogId() : $blogid;
 		$info['url'] = is_null($homepage) ? null : $homepage;
 		if (in_array($type,$types)) {
 			$info['type'] = $type;
 			switch ($type) {
-				case "internal" : case "author" :
+				case "internal" : case "author" : 
 					$info['url'] = null;
 					break;
 				case "external" :
@@ -157,10 +159,10 @@ class User {
 		}
 		return false;
 	}
-
+	
 	static function confirmPassword($userid = null, $password) {
 		global $database;
-		if(empty($userid)) $userid = getUserId();
+		if(empty($userid)) $userid = getUserId(); 
 		$password = md5($password);
 		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $userid AND password = '$password'");
 	}
@@ -180,7 +182,7 @@ class User {
 	}
 	static function changeBlog(){
 		global $database, $blogURL, $blog, $service;
-		$blogid = getBlogId();
+		$blogid = getBlogId();	
 
 		$blogList = User::getBlogs();
 		if (count($blogList) == 0) {
@@ -189,7 +191,7 @@ class User {
 
 		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		foreach($blogList as $info){
-			$title = Utils_Unicode::lessen(Setting::getBlogSettingGlobal("title",null,$info,true), 30);
+			$title = UTF8::lessen(Setting::getBlogSettingGlobal("title",null,$info,true), 30);
 			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
 			$changeBlogView .= str_repeat(TAB,7).'<option value="' . $info . '"';
 			if($info == $blogid) $changeBlogView .= ' selected="selected"';
@@ -198,19 +200,19 @@ class User {
 		$changeBlogView .= str_repeat(TAB,6).'</select>'.CRLF;
 		return $changeBlogView;
 	}
-
+	
 	static function changeSetting($userid, $email, $nickname) {
 		global $database;
-		if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return false;
-		$email = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
-		$nickname = POD::escapeString(Utils_Unicode::lessenAsEncoding($nickname, 32));
+		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return false;
+		$email = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
+		$nickname = POD::escapeString(UTF8::lessenAsEncoding($nickname, 32));
 		if ($email == '' || $nickname == '') {
 			return false;
 		}
 		if (POD::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE name = '$nickname' AND userid <> $userid")) {
 			return false;
 		} else {
-			$result = POD::query("UPDATE {$database['prefix']}Users SET loginid = '$email', name = '$nickname' WHERE userid = $userid");
+			$result = POD::query("UPDATE {$database['prefix']}Users SET loginid = '$email', name = '$nickname' WHERE userid = $userid");		
 			if (!$result) {
 				return false;
 			} else {
@@ -225,18 +227,18 @@ class User {
 			return 1;
 		if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
 			return 2;
-
-		if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return 11;
-
-		$loginid = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
-		$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 32));
+	
+		if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
+	
+		$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
+		$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
 		$password = User::__generatePassword();
 		$authtoken = md5(User::__generatePassword());
-
+	
 		if (POD::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE loginid = '$loginid'")) {
 			return 9;	// User already exists.
 		}
-
+	
 		if (POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Users WHERE name = '$name'")) {
 			$name = $name . '.' . time();
 		}
@@ -251,13 +253,13 @@ class User {
 		}
 		return true;
 	}
-
+	
 	/*@static@*/
 	function remove($userid) {
 		global $database;
 		if ($userid == 1)
 			return false;
-		if (!isset($userid))
+		if (!isset($userid)) 
 			return false;
 		$blogs = User::getOwnedBlogs($userid);
 		$sql = "UPDATE {$database['prefix']}Comments SET replier = NULL WHERE replier = ".$userid;
@@ -272,7 +274,7 @@ class User {
 		User::removePermanent($userid);
 		return true;
 	}
-
+	
 	static function removePermanent($userid) {
 		global $database;
 		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1") ) {
@@ -281,7 +283,7 @@ class User {
 			return false;
 		}
 	}
-
+	
 	static function __generatePassword() {
 		return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
 	}
@@ -300,32 +302,32 @@ class Blog {
 	function changeOwner($blogid,$userid) {
 		global $database;
 		POD::execute("UPDATE {$database['prefix']}Privileges SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
-
+	
 		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid = $blogid and userid = $userid");
-
+	
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
-			POD::query("INSERT INTO {$database['prefix']}Privileges
+			POD::query("INSERT INTO {$database['prefix']}Privileges  
 				VALUES($blogid, $userid, '".BITWISE_OWNER."', UNIX_TIMESTAMP(), 0)");
 		} else {
-			POD::execute("UPDATE {$database['prefix']}Privileges SET acl = ".BITWISE_OWNER."
+			POD::execute("UPDATE {$database['prefix']}Privileges SET acl = ".BITWISE_OWNER." 
 				WHERE blogid = ".$blogid." and userid = " . $userid);
 		}
 		return true;
 	}
-
+	
 	/*@static@*/
 	/* TODO : remove model dependency (addBlog, sendInvitationMail) */
 	function addUser($email, $name, $comment, $senderName, $senderEmail) {
 		requireModel('blog.user');
 		requireModel('blog.blogSetting');
 		global $database,$service,$blogURL,$hostURL,$user,$blog;
-
+	
 		$blogid = getBlogId();
 		if(empty($email))
 			return 1;
 		if(!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/',$email))
 			return array( 2, _t('이메일이 바르지 않습니다.') );
-
+		
 		$isUserExists = User::getUserIdByEmail($email);
 		if(empty($isUserExists)) { // If user is not exist
 			User::add($email,$name);
@@ -344,10 +346,10 @@ class Blog {
 		if ($blogid == null) {
 			$blogid = getBlogId();
 		}
-		POD::execute("UPDATE {$database['prefix']}Entries
-			SET userid = ".User::getBlogOwner($blogid)."
+		POD::execute("UPDATE {$database['prefix']}Entries 
+			SET userid = ".User::getBlogOwner($blogid)." 
 			WHERE blogid = ".$blogid." AND userid = ".$userid);
-
+	
 		// Delete ACL relation.
 		if(!POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'"))
 			return false;
@@ -357,18 +359,18 @@ class Blog {
 		}
 		return true;
 	}
-
+	
 	/*@static@*/
 	function changeACLofUser($blogid, $userid, $ACLtype, $switch) {  // Change user priviledge on the blog.
 		global $database;
 		if(empty($ACLtype) || empty($userid))
 			return false;
 		$acl = POD::queryCell("SELECT acl
-				FROM {$database['prefix']}Privileges
+				FROM {$database['prefix']}Privileges 
 				WHERE blogid=$blogid and userid=$userid");
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			$name = User::getName($userid);
-			POD::query("INSERT INTO {$database['prefix']}Privileges
+			POD::query("INSERT INTO {$database['prefix']}Privileges  
 					VALUES($blogid, $userid, 0, UNIX_TIMESTAMP(), 0)");
 			$acl = 0;
 		}
@@ -388,8 +390,8 @@ class Blog {
 		} else {
 			$acl &= ~$bitwise;
 		}
-		return POD::execute("UPDATE {$database['prefix']}Privileges
-			SET acl = ".$acl."
+		return POD::execute("UPDATE {$database['prefix']}Privileges 
+			SET acl = ".$acl." 
 			WHERE blogid = ".$blogid." and userid = ".$userid);
 	}
 }
@@ -397,8 +399,8 @@ class Blog {
 class Transaction {
 	function pickle($data) {
 		$pickle_dir = ROOT.DS."cache".DS."pickle".DS;
-		if( !file_exists( $pickle_dir ) ) {
-			mkdir( $pickle_dir );
+		if( !isset( $_SESSION['pickle'] ) ) {
+			$_SESSION['pickle'] = array();
 		}
 		$tid = sprintf("%010dP%s",time(),md5( microtime(true) ));
 		while( file_exists( $pickle_dir.$tid ) ) {

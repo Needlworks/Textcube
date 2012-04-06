@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -43,15 +43,15 @@ if( !empty($_COOKIE['openid']) ) {
 <html><head>
 <title><?php echo _text('텍스트큐브') .":". _text('오픈아이디 인증'); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.css" />
 <!--[if lte IE 6]>
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie.css" />
 <![endif]-->
 <!--[if IE 7]>
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie7.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie7.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/basic.ie7.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$adminSkinSetting['skin'];?>/login.ie7.css" />
 <![endif]-->
 </head>
 <body id="body-login" onload="document.getElementById('openid_identifier').focus()">

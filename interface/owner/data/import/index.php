@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 ini_set('display_errors', 'off');
@@ -308,7 +308,7 @@ function importer($path, $node, $line) {
 						array_push($post->tags, $node['tag'][$i]['.value']);
 				}
 			}
-			if (floatval(Setting::getServiceSettingGlobal('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
+			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
 				$post->content = nl2brWithHTML($post->content);
 			if (!$post->add())
 				user_error(__LINE__ . $post->error);
@@ -439,63 +439,6 @@ function importer($path, $node, $line) {
 				}
 			}
 			return true;
-		case '/blog/page':
-			setProgress($item++ / $items * 100, _t('페이지를 복원하고 있습니다.'));
-			$page = new Page();
-			$page->id = $node['id'][0]['.value'];
-			$page->slogan = @$node['.attributes']['slogan'];
-			$page->visibility = $node['visibility'][0]['.value'];
-			if(isset($node['starred'][0]['.value'])) 
-				$page->starred = $node['starred'][0]['.value'];
-			else $page->starred = 0;
-			$page->title = $node['title'][0]['.value'];
-			$page->content = $node['content'][0]['.value'];
-			$page->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
-			$page->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
-			$page->published = $node['published'][0]['.value'];
-			$page->created = @$node['created'][0]['.value'];
-			$page->modified = @$node['modified'][0]['.value'];
-			if (floatval(Setting::getServiceSettingGlobal('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
-				$page->content = nl2brWithHTML($page->content);
-			if (!$page->add())
-				user_error(__LINE__ . $page->error);
-			if (isset($node['attachment'])) {
-				for ($i = 0; $i < count($node['attachment']); $i++) {
-					$attachment = new Attachment();
-					$attachment->parent = $page->id;
-					$cursor = & $node['attachment'][$i];
-					$attachment->name = $cursor['name'][0]['.value'];
-					$attachment->label = $cursor['label'][0]['.value'];
-					$attachment->mime = @$cursor['.attributes']['mime'];
-					$attachment->size = $cursor['.attributes']['size'];
-					$attachment->width = $cursor['.attributes']['width'];
-					$attachment->height = $cursor['.attributes']['height'];
-					$attachment->enclosure = @$cursor['enclosure'][0]['.value'];
-					$attachment->attached = $cursor['attached'][0]['.value'];
-					$attachment->downloads = @$cursor['downloads'][0]['.value'];
-					if (Attachment::doesExist($attachment->name)) {
-						if (!$attachment->add())
-							user_error(__LINE__ . $attachment->error);
-						$page2 = new Page();
-						if ($page2->open($page->id, 'id, content')) {
-							$page2->content = str_replace($cursor['name'][0]['.value'], $attachment->name, $page2->content);
-							$page2->update();
-							$page2->close();
-						}
-						unset($page2);
-					} else {
-						if (!$attachment->add())
-							user_error(__LINE__ . $attachment->error);
-					}
-					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
-						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
-						fclose($cursor['content'][0]['.stream']);
-						unset($cursor['content'][0]['.stream']);
-					}
-				}
-			}
-			return true;
 		case '/blog/notice':
 			setProgress($item++ / $items * 100, _t('공지를 복원하고 있습니다.'));
 			$notice = new Notice();
@@ -512,7 +455,7 @@ function importer($path, $node, $line) {
 			$notice->published = $node['published'][0]['.value'];
 			$notice->created = @$node['created'][0]['.value'];
 			$notice->modified = @$node['modified'][0]['.value'];
-			if (floatval(Setting::getServiceSettingGlobal('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
+			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
 				$notice->content = nl2brWithHTML($notice->content);
 			if (!$notice->add())
 				user_error(__LINE__ . $notice->error);
@@ -568,7 +511,7 @@ function importer($path, $node, $line) {
 			$keyword->published = $node['published'][0]['.value'];
 			$keyword->created = @$node['created'][0]['.value'];
 			$keyword->modified = @$node['modified'][0]['.value'];
-			if (floatval(Setting::getServiceSettingGlobal('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
+			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
 				$keyword->description = nl2brWithHTML($keyword->description);
 			if (!$keyword->add())
 				user_error(__LINE__ . $keyword->error);

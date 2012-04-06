@@ -1,9 +1,11 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-function doesHaveOpenIDPriv(&$comment) {
+function doesHaveOpenIDPriv( & $comment )
+{
+	global $database;
 	$blogid = getBlogId();
 	$openid = Acl::getIdentity('openid');
 
@@ -17,17 +19,13 @@ function doesHaveOpenIDPriv(&$comment) {
 		return false;
 	}
 	$openid = POD::escapeString($openid);
-	
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$comment['parent']);
-	$pool->setQualifier('openid','eq',$openid,true);
-	$row = $pool->getRow();
+	$row = POD::queryRow("SELECT * from {$database['prefix']}Comments ".
+		"WHERE blogid = $blogid and id = {$comment['parent']} and openid='{$openid}'" );
 	return !empty($row);
 }
 
-function decorateComment(&$comment){
+function decorateComment( & $comment )
+{
 	$authorized = doesHaveOwnership();
 	$comment['hidden'] = false;
 	$comment['name'] = htmlspecialchars($comment['name']);
@@ -49,17 +47,18 @@ function decorateComment(&$comment){
 }
 
 function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count, $isGuestbook = false) {
-	$ctx = Model_Context::getInstance();
+	global $database;
+
 	$postfix = '';
 	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
 	else $userLimit = '';
 	$sql = "SELECT c.*, e.title, c2.name AS parentName
-		FROM ".$ctx->getProperty('database.prefix')."Comments c
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0$userLimit
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid
+		FROM {$database['prefix']}Comments c
+		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0$userLimit
+		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid
 		WHERE c.blogid = $blogid AND c.isfiltered = 0";
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent = $category");
+		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
 		array_push($categories, $category);
 		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
 		$postfix .= '&amp;category=' . rawurlencode($category);
@@ -90,12 +89,13 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 }
 
 function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $count) {
-	$ctx = Model_Context::getInstance();
+	global $database;
+
 	$postfix = '&amp;status=guestbook';
 
 	$sql = "SELECT c.*, c2.name AS parentName
-		FROM ".$ctx->getProperty('database.prefix')."Comments c
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid
+		FROM {$database['prefix']}Comments c
+		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid
 		WHERE c.blogid = $blogid AND c.entry = 0 AND c.isfiltered = 0";
 	if (!empty($name)) {
 		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
@@ -122,7 +122,7 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 }
 
 function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
-	$ctx = Model_Context::getInstance();
+	global $database;
 	$postfix = '';
 
 	if (empty($name) && empty($ip) && empty($search)) {
@@ -133,9 +133,9 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 					csiteinfo.url AS siteUrl,
 					csiteinfo.modified AS siteModified
 				FROM
-					".$ctx->getProperty('database.prefix')."CommentsNotified c
+					{$database['prefix']}CommentsNotified c
 				LEFT JOIN
-						".$ctx->getProperty('database.prefix')."CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
+						{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
 				WHERE c.blogid = $blogid AND (c.parent is null)";
 		$sql .= ' ORDER BY c.modified DESC';
 	} else {
@@ -143,7 +143,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 			$search = escapeSearchString($search);
 		}
 
-		$preQuery = "SELECT parent FROM ".$ctx->getProperty('database.prefix')."CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
+		$preQuery = "SELECT parent FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
 		if (!empty($name))
 			$preQuery .= ' AND name = \''. POD::escapeString($name) . '\' ';
 		if (!empty($ip))
@@ -162,9 +162,9 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 				csiteinfo.url AS siteUrl,
 				csiteinfo.modified AS siteModified
 			FROM
-				".$ctx->getProperty('database.prefix')."CommentsNotified c
+				{$database['prefix']}CommentsNotified c
 				LEFT JOIN
-				".$ctx->getProperty('database.prefix')."CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
+				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
 			WHERE c.blogid = $blogid AND (c.parent is null) ";
 		if (!empty($name)) {
 			$sql .= ' AND ( c.name = \'' . POD::escapeString($name) . '\') ' ;
@@ -191,7 +191,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 }
 
 function getCommentCommentsNotified($parent) {
-	$ctx = Model_Context::getInstance();
+	global $database;
 	$comments = array();
 	$authorized = doesHaveOwnership();
 	$sql = "SELECT
@@ -201,9 +201,9 @@ function getCommentCommentsNotified($parent) {
 				csiteinfo.url AS siteUrl,
 				csiteinfo.modified AS siteModified
 			FROM
-				".$ctx->getProperty('database.prefix')."CommentsNotified c
+				{$database['prefix']}CommentsNotified c
 				LEFT JOIN
-				".$ctx->getProperty('database.prefix')."CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
+				{$database['prefix']}CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
 			WHERE c.blogid = ".getBlogId()." AND c.parent = $parent";
 	$sql .= ' ORDER BY c.written ASC';
 	if ($result = POD::queryAll($sql)) {
@@ -222,13 +222,12 @@ function getCommentCommentsNotified($parent) {
 }
 
 function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null, $order = 'ASC') {
-
-	$ctx = Model_Context::getInstance();
+	global $database;
 	$comments = array();
 	if($entryId != -1) {
 		$filter = 'AND entry = '.$entryId;
 	} else $filter = 'AND entry > 0';
-	$sql = "SELECT * FROM ".$ctx->getProperty('database.prefix')."Comments
+	$sql = "SELECT * FROM {$database['prefix']}Comments
 		WHERE blogid = $blogid $filter
 			AND parent IS NULL
 			AND isfiltered = 0
@@ -240,13 +239,13 @@ function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url =
 }
 
 function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null) {
-	$ctx = Model_Context::getInstance();
+	global $database;
 	$comments = array();
 	$sql = "SELECT r.*
 		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
-			INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
-			LEFT OUTER JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+			{$database['prefix']}Comments r
+			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
+			LEFT OUTER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE
 			r.blogid = $blogid AND e.draft = 0 AND r.parent IS NULL".(doesHaveOwnership() ? "" : " AND e.visibility >= 2").getPrivateCategoryExclusionQuery($blogid)."
 			AND r.entry > 0 AND r.isfiltered = 0
@@ -257,35 +256,26 @@ function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?
 	$comments = coverComments($comments);
 	return array($comments, $paging);
 }
-
 function getCommentsWithPagingForGuestbook($blogid, $page, $count) {
-	return getCommentsWithPagingByEntryId($blogid, 0, $page, $count);
+	return getCommentsWithPagingByEntryId($blogid, 0, $page, $count, null, '?page=','',null, 'DESC');
 }
 
 function getCommentAttributes($blogid, $id, $attributeNames) {
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);
-	return $pool->getRow($attributeNames);
+	global $database;
+	return POD::queryRow("SELECT $attributeNames FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
 }
 
 function getComments($entry,$order = 'ASC') {
+	global $database;
 	$comments = array();
-	$context = Model_Context::getInstance();
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$context->getProperty('blog.id'));
-	$pool->setQualifier('entry','eq',$entry);
-	$pool->setQualifier('parent','eq',NULL);
-	$pool->setQualifier('isfiltered','eq',0);
-	if ( $entry == 0 ) $pool->setOrder('written','desc');
-	else if ($order == 'DESC') {
-		$pool->setOrder('id','desc');
-	} else {
-		$pool->setOrder('id','asc');
-	}
-	if ($result = $pool->getAll()) {
+	$aux = ($entry == 0 ? 'ORDER BY written DESC' : 'ORDER BY id '.($order == 'DESC' ? 'DESC' : 'ASC'));
+	$sql = "SELECT *
+		FROM {$database['prefix']}Comments
+		WHERE blogid = ".getBlogId()."
+			AND entry = $entry
+			AND parent IS NULL
+			AND isfiltered = 0 $aux";
+	if ($result = POD::queryAll($sql)) {
 		$comments = coverComments($result);
 	}
 	return $comments;
@@ -312,24 +302,19 @@ function coverComments($comments) {
 }
 
 function getCommentComments($parent,$parentComment=null) {
+	global $database;
 	$comments = array();
 	$authorized = doesHaveOwnership();
-
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',getBlogId());
-	$pool->setQualifier('parent','eq',$parent);
-	$pool->setQualifier('isfiltered','eq',0);
-	$pool->setOrder('written');
-	
-	$row = $pool->getRow();	
-	
-	if ($result = $pool->getAll()) {
+	if ($result = POD::queryAll("SELECT *
+		FROM {$database['prefix']}Comments
+		WHERE blogid = ".getBlogId()."
+			AND parent = $parent
+			AND isfiltered = 0
+		ORDER BY written")) {
 		if( $parentComment == null ) {
-			$pool->reset('Comments');
-			$pool->setQualifier('blogid','eq',getBlogId());
-			$pool->setQualifier('id','eq',$parent);
-			$parentComment = $pool->getRow();
+			$parentComment = POD::queryRow(
+				"SELECT * FROM {$database['prefix']}Comments ".
+				"  WHERE blogid = ".getBlogId()." AND id = $parent" );
 		}
 		$parentByOpenid = !empty( $parentComment['openid'] );
 		foreach ($result as $comment) {
@@ -353,31 +338,31 @@ function getCommentComments($parent,$parentComment=null) {
 }
 
 function isCommentWriter($blogid, $commentid) {
+	global $database;
 	if (!doesHaveMembership())
 		return false;
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$commentid);
-	$pool->setQualifier('replier','eq',getUserId());
-	return $pool->doesExist('replier');
+	return POD::queryExistence("SELECT replier
+		FROM {$database['prefix']}Comments
+		WHERE blogid = $blogid
+			AND id = $commentid
+			AND replier = " . getUserId());
 }
 
 function getComment($blogid, $id, $password, $restriction = true) {
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);
-	
+	global $database;
+	$sql = "SELECT *
+		FROM {$database['prefix']}Comments
+		WHERE blogid = $blogid
+			AND id = $id";
 	if($restriction == true) {
 		if (!doesHaveOwnership()) {
 			if (doesHaveMembership())
-				$pool->setQualifier('replier','eq',getUserId());
+				$sql .= ' AND replier = ' . getUserId();
 			else
-				$pool->setQualifier('password','eq',md5($password),true);
+				$sql .= ' AND password = \'' . md5($password) . '\'';
 		}
 	}
-	if ($result = $pool->getRow()) {
+	if ($result = POD::queryRow($sql)) {
 		if($restriction != true) $result['password'] = null; // scope.
 		return $result;
 	}
@@ -385,13 +370,13 @@ function getComment($blogid, $id, $password, $restriction = true) {
 }
 
 function getCommentList($blogid, $search) {
-	$ctx = Model_Context::getInstance();
+	global $database;
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
 	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 '.getPrivateCategoryExclusionQuery($blogid);
 	if ($result = POD::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
-		FROM ".$ctx->getProperty('database.prefix')."Comments c
-		INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON c.entry = e.id AND c.blogid = e.blogid AND e.draft = 0
+		FROM {$database['prefix']}Comments c
+		INNER JOIN {$database['prefix']}Entries e ON c.entry = e.id AND c.blogid = e.blogid AND e.draft = 0
 		WHERE c.entry > 0
 			AND c.blogid = $blogid $authorized
 			AND c.isfiltered = 0
@@ -404,29 +389,27 @@ function getCommentList($blogid, $search) {
 }
 
 function updateCommentsOfEntry($blogid, $entryId) {
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('entry','eq',$entryId);
-	$pool->setQualifier('isfiltered','eq',0);
-	$commentCount = $pool->getCell('COUNT(*)');
-	
-	$pool->reset('Entries');
-	$pool->setAttribute('comments',$commentCount);
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$entryId);
-	$pool->update();
+	global $database;
+	requireComponent('Needlworks.Cache.PageCache');
+	$commentCount = POD::queryCell("SELECT COUNT(*)
+		FROM {$database['prefix']}Comments
+		WHERE blogid = $blogid
+			AND entry = $entryId
+			AND isfiltered = 0");
+	POD::query("UPDATE {$database['prefix']}Entries
+		SET comments = $commentCount
+		WHERE blogid = $blogid
+			AND id = $entryId");
 	if($entryId >=0) CacheControl::flushEntry($entryId);
 	return $commentCount;
 }
 
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
 	return true;
-/*	Legacy code.
-	global $blog;
+	global $database, $blog;
 	$blogid = getBlogId();
 	if($slogan = POD::queryCell("SELECT slogan
-		FROM ".$ctx->getProperty('database.prefix')."Entries
+		FROM {$database['prefix']}Entries
 		WHERE blogid = $blogid
 			AND id = $entryId
 			AND draft = 0
@@ -441,12 +424,12 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 		);
 		$rpc->async = true;
 		$rpc->call('sync.comment', $summary);
-	}*/
+	}
 }
 
 function addComment($blogid, & $comment) {
-	$pool = DBModel::getInstance();
-		
+	global $database, $user, $blog, $defaultURL;
+
 	$openid = Acl::getIdentity('openid');
 	$filtered = 0;
 
@@ -476,60 +459,55 @@ function addComment($blogid, & $comment) {
 	}
 
 	$comment['homepage'] = stripHTML($comment['homepage']);
-	$comment['name'] = Utils_Unicode::lessenAsEncoding($comment['name'], 80);
-	$comment['homepage'] = Utils_Unicode::lessenAsEncoding($comment['homepage'], 80);
-	$comment['comment'] = Utils_Unicode::lessenAsEncoding($comment['comment'], 65535);
+	$comment['name'] = UTF8::lessenAsEncoding($comment['name'], 80);
+	$comment['homepage'] = UTF8::lessenAsEncoding($comment['homepage'], 80);
+	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
 
 	if (!doesHaveOwnership() && $comment['entry'] != 0) {
-		$pool->reset('Entries');
-		$pool->setQualifier('blogid','eq',$blogid);
-		$pool->setQualifier('id','eq',$comment['entry']);
-		$pool->setQualifier('draft','eq',0);
-		$pool->setQualifier('visibility','b',0);
-		$pool->setQualifier('acceptcomment','eq',1);
-		$result = $pool->getCount();
+		$result = POD::queryCount("SELECT *
+			FROM {$database['prefix']}Entries
+			WHERE blogid = $blogid
+				AND id = {$comment['entry']}
+				AND draft = 0
+				AND visibility > 0
+				AND acceptcomment = 1");
 		if (!$result || $result == 0)
 			return false;
 	}
-	$parent = $comment['parent'] == null ? null : $comment['parent'];
-	$userid = getUserId();
-	if (!empty($userid)) {
-		$comment['replier'] = $userid;
-		$name = User::getName($userid);
+	$parent = $comment['parent'] == null ? 'null' : $comment['parent'];
+	if ($user !== null) {
+		$comment['replier'] = getUserId();
+		$name = POD::escapeString($user['name']);
 		$password = '';
-		$homepage = User::getHomepage($userid);
-		if( empty($homepage) && $openid ) { $homepage = $openid; }
+		$homepage = POD::escapeString($user['homepage']);
+		if( empty($homepage) && $openid ) { $homepage = POD::escapeString($openid); }
 	} else {
-		$comment['replier'] = null;
-		$name = $comment['name'];
+		$comment['replier'] = 'null';
+		$name = POD::escapeString($comment['name']);
 		$password = empty($comment['password']) ? '' : md5($comment['password']);
-		$homepage = $comment['homepage'];
+		$homepage = POD::escapeString($comment['homepage']);
 	}
-	$comment0 = $comment['comment'];
-	$filteredAux = ($filtered == 1 ? Timestamp::getUNIXtime() : 0);
+	$comment0 = POD::escapeString($comment['comment']);
+	$filteredAux = ($filtered == 1 ? "UNIX_TIMESTAMP()" : 0);
 	$insertId = getCommentsMaxId() + 1;
-	
-	$pool->reset('Comments');
-	$pool->setAttribute('blogid',$blogid);
-	$pool->setAttribute('replier',$comment['replier']);
-	$pool->setAttribute('id',$insertId);
-	if (is_null($openid)) {
-		$pool->setAttribute('openid','',true);
-	} else {
-		$pool->setAttribute('openid',$openid,true);
-	}
-	$pool->setAttribute('entry',$comment['entry']);
-	$pool->setAttribute('parent',$parent);
-	$pool->setAttribute('name',$name,true);
-	$pool->setAttribute('password',$password,true);
-	$pool->setAttribute('homepage',$homepage,true);
-	$pool->setAttribute('secret',$comment['secret']);
-	$pool->setAttribute('comment',$comment0,true);
-	$pool->setAttribute('ip',$comment['ip'],true);
-	$pool->setAttribute('written',Timestamp::getUNIXtime());
-	$pool->setAttribute('isfiltered',$filteredAux);
-	$result = $pool->insert();	
-	
+	$result = POD::query("INSERT INTO {$database['prefix']}Comments
+		(blogid,replier,id,openid,entry,parent,name,password,homepage,secret,comment,ip,written,isfiltered)
+		VALUES (
+			$blogid,
+			{$comment['replier']},
+			$insertId,
+			'$openid',
+			{$comment['entry']},
+			$parent,
+			'$name',
+			'$password',
+			'$homepage',
+			{$comment['secret']},
+			'$comment0',
+			'{$comment['ip']}',
+			UNIX_TIMESTAMP(),
+			$filteredAux
+		)");
 	if ($result) {
 		$id = $insertId;
 		if($filtered != 1) {
@@ -537,14 +515,10 @@ function addComment($blogid, & $comment) {
 			CacheControl::flushDBCache('comment');
 			if ($parent != 'null' && $comment['secret'] < 1) {
 				$insertId = getCommentsNotifiedQueueMaxId() + 1;
-				$pool->reset('CommentsNotifiedQueue');
-				$pool->setAttribute('blogid',$blogid);
-				$pool->setAttribute('id',$insertId);
-				$pool->setAttribute('commentid',$id);
-				$pool->setAttribute('sendstatus',0);
-				$pool->setAttribute('checkdate',0);
-				$pool->setAttribute('written',Timestamp::getUNIXtime());
-				$pool->insert();
+				POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedQueue
+						( blogid , id, commentid , sendstatus , checkdate , written )
+					VALUES
+						('".$blogid."' , '".$insertId."', '" . $id . "', '0', '0', UNIX_TIMESTAMP())");
 			}
 			updateCommentsOfEntry($blogid, $comment['entry']);
 			fireEvent($comment['entry'] ? 'AddComment' : 'AddGuestComment', $id, $comment);
@@ -557,6 +531,8 @@ function addComment($blogid, & $comment) {
 }
 
 function updateComment($blogid, $comment, $password) {
+	global $database, $user;
+
 	$openid = Acl::getIdentity('openid');
 	if (!doesHaveOwnership()) {
 		// if filtered, only block and not send to trash
@@ -574,69 +550,67 @@ function updateComment($blogid, $comment, $password) {
 		}
 	}
 
-	$pool = DBModel::getInstance();
-
 	$comment['homepage'] = stripHTML($comment['homepage']);
-	$comment['name'] = Utils_Unicode::lessenAsEncoding($comment['name'], 80);
-	$comment['homepage'] = Utils_Unicode::lessenAsEncoding($comment['homepage'], 80);
-	$comment['comment'] = Utils_Unicode::lessenAsEncoding($comment['comment'], 65535);
-
-	$guestcomment = false;
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid', 'eq',$blogid);
-	$pool->setQualifier('id',     'eq',$comment['id']);
-	$pool->setQualifier('replier','eq', NULL);
-	if ($pool->doesExist()) {
-		$guestcomment = true;
-	}
-	
-	$pool->reset('Comments');
+	$comment['name'] = UTF8::lessenAsEncoding($comment['name'], 80);
+	$comment['homepage'] = UTF8::lessenAsEncoding($comment['homepage'], 80);
+	$comment['comment'] = UTF8::lessenAsEncoding($comment['comment'], 65535);
 
 	$setPassword = '';
-	$userid = getUserId();
-	if (!empty($userid)) {
-		$comment['replier'] = $userid;
-		$name = User::getName($userid);
-		$homepage = User::getHomepage($userid);
-		$pool->setAttribute('password','',true);		
-		if( empty($homepage) && $openid ) { $homepage = $openid; }
+	if ($user !== null) {
+		$comment['replier'] = getUserId();
+		$name = POD::escapeString($user['name']);
+		$setPassword = 'password = \'\',';
+		$homepage = POD::escapeString($user['homepage']);
+		if( empty($homepage) && $openid ) { $homepage = POD::escapeString($openid); }
 	} else {
-		$name = $comment['name'];
+		$name = POD::escapeString($comment['name']);
 		if ($comment['password'] !== true)
-			$pool->setAttribute('password',(empty($comment['password']) ? '' : md5($comment['password'])),true);
-		$homepage = $comment['homepage'];
+			$setPassword = 'password = \'' . (empty($comment['password']) ? '' : md5($comment['password'])) . '\', ';
+		$homepage = POD::escapeString($comment['homepage']);
 	}
-	$comment0 = $comment['comment'];
-	
+	$comment0 = POD::escapeString($comment['comment']);
+
+	$guestcomment = false;
+	if (POD::queryExistence("SELECT *
+		FROM {$database['prefix']}Comments
+		WHERE blogid = $blogid
+			AND id = {$comment['id']}
+			AND replier IS NULL")) {
+		$guestcomment = true;
+	}
+
 	$wherePassword = '';
 	if (!doesHaveOwnership()) {
 		if ($guestcomment == false) {
 			if (!doesHaveMembership())
 				return false;
-			$pool->setQualifier('replier','eq',$userid);
-		} else {
+			$wherePassword = ' AND replier = ' . getUserId();
+		}
+		else
+		{
 			if( empty($password) && $openid ) {
-				$pool->setQualifier('openid','eq',$openid,true);
+				$wherePassword = ' AND openid = \'' . $openid . '\'';
 			} else {
-				$pool->setQualifier('password','eq',md5($password),true);
+				$wherePassword = ' AND password = \'' . md5($password) . '\'';
 			}
 		}
 	}
 
 	$replier = is_null($comment['replier']) ? 'NULL' : "'{$comment['replier']}'";
-	
-	$pool->setAttribute('name',$name,true);
-	$pool->setAttribute('homepage',$homepage,true);
-	$pool->setAttribute('secret',$comment['secret']);
-	$pool->setAttribute('comment',$comment0,true);
-	$pool->setAttribute('ip',$comment['ip'],true);
-	$pool->setAttribute('written',Timestamp::getUNIXtime());
-	$pool->setAttribute('isfiltered',$comment['isfiltered']);
-	$pool->setAttribute('replier',$replier);
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$comment['id']);
-	$result = $pool->update();
 
+	$result = POD::query("UPDATE {$database['prefix']}Comments
+				SET
+					name = '$name',
+					$setPassword
+					homepage = '$homepage',
+					secret = {$comment['secret']},
+					comment = '$comment0',
+					ip = '{$comment['ip']}',
+					written = UNIX_TIMESTAMP(),
+					isfiltered = {$comment['isfiltered']},
+					replier = {$replier}
+				WHERE blogid = $blogid
+					AND id = {$comment['id']} $wherePassword");
 	if($result) {
 		CacheControl::flushCommentRSS($comment['entry']); // Assume blogid = current blogid.
 		CacheControl::flushDBCache('comment');
@@ -645,41 +619,39 @@ function updateComment($blogid, $comment, $password) {
 }
 
 function deleteComment($blogid, $id, $entry, $password) {
+	global $database;
+
 	if (!is_numeric($id)) return false;
 	if (!is_numeric($entry)) return false;
 
-
-	$pool = DBModel::getInstance();
-
 	$guestcomment = false;
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid', 'eq', $blogid);
-	$pool->setQualifier('id',     'eq', $id);
-	$pool->setQualifier('replier','eq', NULL);
-	if ($pool->doesExist()) {
+	if (POD::queryExistence("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id AND replier IS NULL")) {
 		$guestcomment = true;
 	}
-	
+
 	$wherePassword = '';
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);
-	$pool->setQualifier('entry','eq',$entry);
+
+	$sql = "DELETE FROM {$database['prefix']}Comments
+		WHERE blogid = $blogid
+			AND id = $id
+			AND entry = $entry";
 	if (!doesHaveOwnership()) {
 		if( Acl::getIdentity('openid') && empty($password) ) {
-			$pool->setQualifier('openid',Acl::getIdentity('openid'),true);
+			$wherePassword = ' AND openid = \'' . Acl::getIdentity('openid') . '\'';
 		} else {
 			if ($guestcomment == false) {
 				if (!doesHaveMembership()) {
 					return false;
 				}
-				$pool->setQualifier('replier','eq',getUserId());
-			} else {
-				$pool->setQualifier('password','eq',md5($password),true);
+				$wherePassword = ' AND replier = ' . getUserId();
+			}
+			else
+			{
+				$wherePassword = ' AND password = \'' . md5($password) . '\'';
 			}
 		}
 	}
-	if($pool->getCount()) {
+	if(POD::queryCount($sql . $wherePassword)) {
 		CacheControl::flushCommentRSS($entry);
 		CacheControl::flushDBCache('comment');
 		updateCommentsOfEntry($blogid, $entry);
@@ -689,28 +661,24 @@ function deleteComment($blogid, $id, $entry, $password) {
 }
 
 function trashComment($blogid, $id, $entry, $password) {
+	global $database;
 	if (!doesHaveOwnership()) {
 		return false;
 	}
 	if (!is_numeric($id)) return false;
 	if (!is_numeric($entry)) return false;
-
-	$pool = DBModel::getInstance();	
-	$pool->reset('Comments');
-	$pool->setAttribute('isfiltered',Timestamp::getUNIXtime());
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id'    ,'eq',$id);
-	$pool->setQualifier('entry' ,'eq',$entry);
-	$affected = $pool->update('count');
-
-	$pool->reset('Comments');
-	$pool->setAttribute('isfiltered',Timestamp::getUNIXtime());
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('parent','eq',$id);
-	$pool->setQualifier('entry' ,'eq',$entry);
-
-	$affectedChildren = $pool->update('count');
-
+	$sql = "UPDATE {$database['prefix']}Comments
+		SET isfiltered = UNIX_TIMESTAMP()
+		WHERE blogid = $blogid
+			AND id = $id
+			AND entry = $entry";
+	$affected = POD::queryCount($sql);
+	$sql = "UPDATE {$database['prefix']}Comments
+		SET isfiltered = UNIX_TIMESTAMP()
+		WHERE blogid = $blogid
+			AND parent = $id
+			AND entry = $entry";
+	$affectedChildren = POD::queryCount($sql);
 	if ($affected + $affectedChildren > 0) {
 		CacheControl::flushCommentRSS($entry);
 		CacheControl::flushDBCache('comment');
@@ -720,31 +688,54 @@ function trashComment($blogid, $id, $entry, $password) {
 	return false;
 }
 
+function revertComment($blogid, $id, $entry, $password) {
+	// not used, so
+	return false;
+	global $database;
+	if (!doesHaveOwnership()) {
+		return false;
+	}
+	if (!is_numeric($id)) return false;
+	if (!is_numeric($entry)) return false;
+	$sql = "UPDATE {$database['prefix']}Comments
+		SET isfiltered = 0
+		WHERE blogid = $blogid
+			AND id = $id
+			AND entry = $entry";
+	if(POD::query($sql)) {
+		CacheControl::flushCommentRSS($entry);
+		CacheControl::flushDBCache('comment');
+		updateCommentsOfEntry($blogid, $entry);
+		return true;
+	}
+	return false;
+}
+
 function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
-	$ctx = Model_Context::getInstance();
+	global $skinSetting, $database;
 	$comments = array();
 	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
 	else $userLimit = '';
 	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT r.*, e.title, e.slogan
 		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
-			INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0$userLimit
+			{$database['prefix']}Comments r
+			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0$userLimit
 		WHERE
 			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isfiltered = 0
 		ORDER BY
 			r.written
-		DESC LIMIT ".($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent')) :
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']) :
 		"SELECT r.*, e.title, e.slogan
 		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
-			INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
-			LEFT OUTER JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+			{$database['prefix']}Comments r
+			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
+			LEFT OUTER JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
 		WHERE
 			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2".getPrivateCategoryExclusionQuery($blogid)
 			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isfiltered = 0
 		ORDER BY
 			r.written
-		DESC LIMIT ".($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent'));
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'comment')) {
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
@@ -761,16 +752,16 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 }
 
 function getRecentGuestbook($blogid,$count = false) {
-	$ctx = Model_Context::getInstance();	
+	global $skinSetting, $database;
 	$comments = array();
 	$sql = "SELECT r.*
 		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
+			{$database['prefix']}Comments r
 		WHERE
 			r.blogid = $blogid AND r.entry = 0 AND r.isfiltered = 0
 		ORDER BY
 			r.written
-		DESC LIMIT ".($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent'));
+		DESC LIMIT ".($count != false ? $count : $skinSetting['commentsOnRecent']);
 
 	if ($result = POD::queryAll($sql)) {
 		foreach($result as $comment) {
@@ -786,15 +777,14 @@ function getRecentGuestbook($blogid,$count = false) {
 	}
 	return $comments;
 }
-
 function getGuestbookPageById($blogid, $id) {
 	return getCommentPageById($blogid, 0, $id);
 }
 
 function getCommentPageById($blogid, $entryId, $commentId) {
-	$ctx = Model_Context::getInstance();
+	global $database, $skinSetting;
 	$totalGuestbookId = POD::queryColumn("SELECT id
-		FROM ".$ctx->getProperty('database.prefix')."Comments
+		FROM {$database['prefix']}Comments
 		WHERE
 			blogid = $blogid AND entry = $entryId AND isfiltered = 0 AND parent is null
 		ORDER BY
@@ -802,7 +792,7 @@ function getCommentPageById($blogid, $entryId, $commentId) {
 	$order = array_search($commentId, $totalGuestbookId);
 	if($order == false) {
 		$parentCommentId = POD::queryCell("SELECT parent
-			FROM ".$ctx->getProperty('database.prefix')."Comments
+			FROM {$database['prefix']}Comments
 			WHERE
 				blogid = $blogid AND entry = $entryId AND isfiltered = 0 AND id = $commentId");
 		if($parentCommentId != false) {
@@ -811,41 +801,32 @@ function getCommentPageById($blogid, $entryId, $commentId) {
 			return false;
 		}
 	}
-	$base = ($entryId == 0 ? $ctx->getProperty('skin.commentsOnGuestbook') : $ctx->getProperty('skin.commentsOnEntry'));
+	$base = ($entryId == 0 ? $skinSetting['commentsOnGuestbook'] : $skinSetting['commentsOnEntry']);
 	return intval($order / $base)+1;
 }
 
 function deleteCommentInOwner($blogid, $id) {
+	global $database;
 	if (!is_numeric($id)) return false;
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);
-	$entryId = $pool->getCell('entry');
-	if($pool->delete()) {
-		$pool->unsetQualifier('id');
-		$pool->setQualifier('parent','eq',$id);
-		if($pool->delete()) {
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	if(POD::queryCount("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id") == 1) {
+		if (POD::query("DELETE FROM {$database['prefix']}Comments WHERE blogid = $blogid AND parent = $id")) {
 			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
-		}			
+		}
 	}
 	return false;
 }
 
 function trashCommentInOwner($blogid, $id) {
+	global $database;
 	if (!is_numeric($id)) return false;
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);
-	$entryId = $pool->getCell('entry');
-	$pool->setAttribute('isfiltered',Timestamp::getUNIXtime());
-	if($pool->update()) {
-		$pool->unsetQualifier('id');
-		$pool->setQualifier('parent','eq',$id);
-		if($pool->update()) {
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+//	$result = POD::queryCount("UPDATE {$database['prefix']}Comments SET isfiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id");
+//	if ($result && $result == 1) {
+	if(POD::query("UPDATE {$database['prefix']}Comments SET isfiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $id")) {
+		if (POD::query("UPDATE {$database['prefix']}Comments SET isfiltered = UNIX_TIMESTAMP() WHERE blogid = $blogid AND parent = $id")) {
 			CacheControl::flushCommentRSS($entryId);
 			CacheControl::flushDBCache('comment');
 			updateCommentsOfEntry($blogid, $entryId);
@@ -856,13 +837,8 @@ function trashCommentInOwner($blogid, $id) {
 }
 
 function trashCommentInOwnerByIP($blogid, $ip) {
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('ip','eq',$ip,true);
-	$ids = $pool->getColumn('id');
-
+	global $database;
+	$ids = POD::queryColumn("SELECT id FROM {$database['prefix']}Comments WHERE blogid = $blogid AND ip = '".$ip."'");
 	foreach ($ids as $id) {
 		trashCommentInOwner($blogid, $id);
 	}
@@ -870,19 +846,12 @@ function trashCommentInOwnerByIP($blogid, $ip) {
 }
 
 function revertCommentInOwner($blogid, $id) {
+	global $database;
 	if (!is_numeric($id)) return false;
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);
-	$entryId = $pool->getCell('entry');
-	$parent = $pool->getCell('parent');
-	$pool->setAttribute('isfiltered',0);
-	if($pool->update()) {
-		if(!is_null($parent)) {
-			$pool->setQualifier('id','eq',$parent);
-		}	
-		if (is_null($parent) || $pool->update()) {
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	$parent = POD::queryCell("SELECT parent FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = $id");
+	if(POD::queryCount("UPDATE {$database['prefix']}Comments SET isfiltered = 0 WHERE blogid = $blogid AND id = $id") == 1) {
+		if (is_null($parent) || POD::query("UPDATE {$database['prefix']}Comments SET isfiltered = 0 WHERE blogid = $blogid AND id = $parent")) {
 			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
@@ -892,19 +861,14 @@ function revertCommentInOwner($blogid, $id) {
 }
 
 function deleteCommentNotifiedInOwner($blogid, $id) {
+	global $database;
 	if (!is_numeric($id)) return false;
 
 	fireEvent('DeleteCommentNotified', $id);
 
-	$pool = DBModel::getInstance();
-	$pool->reset('CommentsNotified');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);
-	$entryId = $pool->getCell('entry');
-	if($pool->delete()) {
-		$pool->unsetQualifier('id');
-		$pool->setQualifier('parent','eq',$id);
-		if($pool->delete()) {
+	$entryId = POD::queryCell("SELECT entry FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id");
+	if(POD::queryCount("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND id = $id") == 1) {
+		if (POD::query("DELETE FROM {$database['prefix']}CommentsNotified WHERE blogid = $blogid AND parent = $id")) {
 			updateCommentsOfEntry($blogid, $entryId);
 			CacheControl::flushCommentNotifyRSS();
 			return true;
@@ -914,7 +878,7 @@ function deleteCommentNotifiedInOwner($blogid, $id) {
 }
 
 function notifyComment() {
-	$ctx = Model_Context::getInstance();
+	global $database, $service, $blog, $defaultURL;
 	$blogid = getBlogId();
 	$sql = "SELECT
 				CN.*,
@@ -924,9 +888,9 @@ function notifyComment() {
 				CNQ.checkdate AS checkdate,
 				CNQ.written  AS queueWritten
 			FROM
-				".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue AS CNQ
+				{$database['prefix']}CommentsNotifiedQueue AS CNQ
 			LEFT JOIN
-				".$ctx->getProperty('database.prefix')."Comments AS CN ON CNQ.commentid = CN.id
+				{$database['prefix']}Comments AS CN ON CNQ.commentid = CN.id
 			WHERE
 				CNQ.sendstatus = 0
 				and CN.parent is not null
@@ -935,30 +899,30 @@ function notifyComment() {
 	if (empty($queue) && empty($queue['queueId'])) {
 		return false;
 	}
-	$comments = (POD::queryRow("SELECT * FROM ".$ctx->getProperty('database.prefix')."Comments WHERE blogid = $blogid AND id = {$queue['commentid']}"));
+	$comments = (POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$queue['commentid']}"));
 	if (empty($comments['parent']) || $comments['secret'] == 1) {
-		POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$parentComments = POD::queryRow("SELECT * FROM ".$ctx->getProperty('database.prefix')."Comments WHERE blogid = $blogid AND id = {$comments['parent']}");
+	$parentComments = (POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = {$comments['parent']}"));
 	if (empty($parentComments['homepage'])) {
-		POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 		return false;
 	}
-	$entry = POD::queryRow("SELECT * FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id={$comments['entry']}");
+	$entry = (POD::queryRow("SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id={$comments['entry']}"));
 	if(is_null($entry)) {
-		$r1_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/guestbook/".$parentComments['id']."#guestbook".$parentComments['id']);
-		$r2_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/guestbook/".$comments['id']."#guestbook".$comments['id']);
-		$entry['title'] = _textf('%1 블로그의 방명록',$ctx->getProperty('blog.title'));
-		$entryPermaLink = $ctx->getProperty('uri.default')."/guestbook/";
+		$r1_comment_check_url = rawurlencode("$defaultURL/guestbook/".$parentComments['id']."#guestbook".$parentComments['id']);
+		$r2_comment_check_url = rawurlencode("$defaultURL/guestbook/".$comments['id']."#guestbook".$comments['id']);
+		$entry['title'] = _textf('%1 블로그의 방명록',$blog['title']);
+		$entryPermaLink = "$defaultURL/guestbook/";
 		$entry['id'] = 0;
 	} else {
-		$r1_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $parentComments['id']);
-		$r2_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $comments['id']);
-		$entryPermaLink = $ctx->getProperty('uri.default')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']);
+		$r1_comment_check_url = rawurlencode("$defaultURL/" . ($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $parentComments['id']);
+		$r2_comment_check_url = rawurlencode("$defaultURL/" . ($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $comments['id']);
+		$entryPermaLink = "$defaultURL/" . ($blog['useSloganOnPost'] ? "entry/{$entry['slogan']}" : $entry['id']);
 	}
 
-	$data = "url=" . rawurlencode($ctx->getProperty('uri.default')) . "&mode=fb" . "&s_home_title=" . rawurlencode($ctx->getProperty('blog.title')) . "&s_post_title=" . rawurlencode($entry['title']) . "&s_name=" . rawurlencode($comments['name']) . "&s_no=" . rawurlencode($comments['entry']) . "&s_url=" . rawurlencode($entryPermaLink) . "&r1_name=" . rawurlencode($parentComments['name']) . "&r1_no=" . rawurlencode($parentComments['id']) . "&r1_pno=" . rawurlencode($comments['entry']) . "&r1_rno=0" . "&r1_homepage=" . rawurlencode($parentComments['homepage']) . "&r1_regdate=" . rawurlencode($parentComments['written']) . "&r1_url=" . $r1_comment_check_url. "&r2_name=" . rawurlencode($comments['name']) . "&r2_no=" . rawurlencode($comments['id']) . "&r2_pno=" . rawurlencode($comments['entry']) . "&r2_rno=" . rawurlencode($comments['parent']) . "&r2_homepage=" . rawurlencode($comments['homepage']) . "&r2_regdate=" . rawurlencode($comments['written']) . "&r2_url=" . $r2_comment_check_url . "&r1_body=" . rawurlencode($parentComments['comment']) . "&r2_body=" . rawurlencode($comments['comment']);
+	$data = "url=" . rawurlencode($defaultURL) . "&mode=fb" . "&s_home_title=" . rawurlencode($blog['title']) . "&s_post_title=" . rawurlencode($entry['title']) . "&s_name=" . rawurlencode($comments['name']) . "&s_no=" . rawurlencode($comments['entry']) . "&s_url=" . rawurlencode($entryPermaLink) . "&r1_name=" . rawurlencode($parentComments['name']) . "&r1_no=" . rawurlencode($parentComments['id']) . "&r1_pno=" . rawurlencode($comments['entry']) . "&r1_rno=0" . "&r1_homepage=" . rawurlencode($parentComments['homepage']) . "&r1_regdate=" . rawurlencode($parentComments['written']) . "&r1_url=" . $r1_comment_check_url. "&r2_name=" . rawurlencode($comments['name']) . "&r2_no=" . rawurlencode($comments['id']) . "&r2_pno=" . rawurlencode($comments['entry']) . "&r2_rno=" . rawurlencode($comments['parent']) . "&r2_homepage=" . rawurlencode($comments['homepage']) . "&r2_regdate=" . rawurlencode($comments['written']) . "&r2_url=" . $r2_comment_check_url . "&r1_body=" . rawurlencode($parentComments['comment']) . "&r2_body=" . rawurlencode($comments['comment']);
 	if (strpos($parentComments['homepage'], "http://") === false) {
 		$homepage = 'http://' . $parentComments['homepage'];
 	} else {
@@ -980,151 +944,93 @@ function notifyComment() {
 				}
 			}
 		}
+	} else {
 	}
-	POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+	POD::execute("DELETE FROM {$database['prefix']}CommentsNotifiedQueue WHERE id={$queue['queueId']}");
 }
 
 function receiveNotifiedComment($post) {
 	if (empty($post['mode']) || $post['mode'] != 'fb')
 		return 1;
-	$ctx = Model_Context::getInstance();
+	global $database;
 
 	CacheControl::flushCommentNotifyRSS();
 	$post = fireEvent('ReceiveNotifiedComment', $post);
 	if ($post === false) return 7;
 
-	$pool = DBModel::getInstance();
 	$blogid = getBlogId();
-	$title          = Utils_Unicode::lessenAsEncoding($post['s_home_title'], 255);
-	$name           = Utils_Unicode::lessenAsEncoding($post['s_name'], 255);
-	$entryId        = $post['s_no'];
-	$homepage       = Utils_Unicode::lessenAsEncoding($post['url'], 255);
-	$entryurl       = $post['s_url'];
-	$entrytitle     = $post['s_post_title'];
-	$parent_id      = $post['r1_no'];
-	$parent_name    = Utils_Unicode::lessenAsEncoding($post['r1_name'], 80);
-	$parent_parent  = $post['r1_rno'];
-	$parent_homepage = Utils_Unicode::lessenAsEncoding($post['r1_homepage'], 80);
+	$title = POD::escapeString(UTF8::lessenAsEncoding($post['s_home_title'], 255));
+	$name = POD::escapeString(UTF8::lessenAsEncoding($post['s_name'], 255));
+	$entryId = POD::escapeString($post['s_no']);
+	$homepage = POD::escapeString(UTF8::lessenAsEncoding($post['url'], 255));
+	$entryurl = POD::escapeString($post['s_url']);
+	$entrytitle = POD::escapeString($post['s_post_title']);
+	$parent_id = $post['r1_no'];
+	$parent_name = POD::escapeString(UTF8::lessenAsEncoding($post['r1_name'], 80));
+	$parent_parent = $post['r1_rno'];
+	$parent_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r1_homepage'], 80));
 	$parent_written = $post['r1_regdate'];
-	$parent_comment = $post['r1_body'];
-	$parent_url     = Utils_Unicode::lessenAsEncoding($post['r1_url'], 255);
-	$child_id       = $post['r2_no'];
-	$child_name     = Utils_Unicode::lessenAsEncoding($post['r2_name'], 80);
-	$child_parent   = $post['r2_rno'];
-	$child_homepage = Utils_Unicode::lessenAsEncoding($post['r2_homepage'], 80);
-	$child_written  = $post['r2_regdate'];
-	$child_comment  = $post['r2_body'];
-	$child_url      = Utils_Unicode::lessenAsEncoding($post['r2_url'],255);
-	
-	$pool->reset('CommentsNotifiedSiteInfo');
-	$pool->setQualifier('url','eq',$homepage);
-	$siteid = $pool->getCell('id');
-	
+	$parent_comment = POD::escapeString($post['r1_body']);
+	$parent_url = POD::escapeString(UTF8::lessenAsEncoding($post['r1_url'], 255));
+	$child_id = $post['r2_no'];
+	$child_name = POD::escapeString(UTF8::lessenAsEncoding($post['r2_name'], 80));
+	$child_parent = $post['r2_rno'];
+	$child_homepage = POD::escapeString(UTF8::lessenAsEncoding($post['r2_homepage'], 80));
+	$child_written = $post['r2_regdate'];
+	$child_comment = POD::escapeString($post['r2_body']);
+	$child_url = POD::escapeString(UTF8::lessenAsEncoding($post['r2_url'],255));
+	$siteid = POD::queryCell("SELECT id FROM {$database['prefix']}CommentsNotifiedSiteInfo WHERE url = '$homepage'");
 	if (empty($siteid)) {
 		$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
-		$pool->reset('CommentsNotifiedSiteInfo');
-		$pool->setAttribute('id',$insertId);
-		$pool->setAttribute('title',$title,true);
-		$pool->setAttribute('name',$name,true);
-		$pool->setAttribute('url',$homepage,true);
-		$pool->setAttribute('modified',Timestamp::getUNIXtime());
-		if($pool->insert())
+		if (POD::execute("INSERT INTO {$database['prefix']}CommentsNotifiedSiteInfo
+			( id, title, name, url, modified)
+			VALUES ($insertId, '$title', '$name', '$homepage', UNIX_TIMESTAMP());"))
 			$siteid = $insertId;
 		else
 			return 2;
 	}
-	$pool->reset('CommentsNotified');
-	$pool->setQualifier('entry','eq',$entryId);
-	$pool->setQualifier('siteid','eq',$siteid);
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('remoteid','eq',$parent_id);
-	$parentId = $pool->getCell('id');
+	$parentId = POD::queryCell("SELECT id
+		FROM {$database['prefix']}CommentsNotified
+		WHERE entry = $entryId
+			AND siteid = $siteid
+			AND blogid = $blogid
+			AND remoteid = $parent_id");
 	if (empty($parentId)) {
 		$insertId = getCommentsNotifiedMaxId() + 1;
-
-		$pool->reset('CommentsNotified');
-		$pool->setAttribute('blogid',$blogid);
-		$pool->setAttribute('replier',NULL);
-		$pool->setAttribute('id',$insertId);
-		$pool->setAttribute('entry',$entryId);
-		$pool->setAttribute('parent',(empty($parent_parent) ? NULL : $parent_parent));
-		$pool->setAttribute('name',$parent_name,true);
-		$pool->setAttribute('password','',true);
-		$pool->setAttribute('homepage',$parent_homepage,true);		
-		$pool->setAttribute('secret','',true);
-		$pool->setAttribute('comment',$parent_comment, true);
-		$pool->setAttribute('ip','',true);
-		$pool->setAttribute('written',$parent_written,true);
-		$pool->setAttribute('modified',Timestamp::getUNIXtime());
-		$pool->setAttribute('siteid',$siteid);
-		$pool->setAttribute('isnew',1);
-		$pool->setAttribute('url',$parent_url,true);
-		$pool->setAttribute('remoteid',$parent_id);
-		$pool->setAttribute('entrytitle',$entrytitle,true);
-		$pool->setAttribute('entryurl',$entryurl,true);
-		
-		if(!$pool->insert()) {
+		$sql = "INSERT INTO {$database['prefix']}CommentsNotified
+			( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteid , isnew , url , remoteid ,entrytitle , entryurl )
+			VALUES (
+				$blogid, NULL , $insertId, " . $entryId . ", " . (empty($parent_parent) ? 'null' : $parent_parent) . ", '" . $parent_name . "', '', '" . $parent_homepage . "', '', '" . $parent_comment . "', '', " . $parent_written . ",UNIX_TIMESTAMP(), " . $siteid . ", 1, '" . $parent_url . "'," . $parent_id . ", '" . $entrytitle . "', '" . $entryurl . "'
+)";
+		if (!POD::execute($sql))
 			return 3;
-		}
 		$parentId = $insertId;
 	}
-	$pool->reset('CommentsNotified');
-	$pool->setQualifier('siteid','eq',$siteid);
-	$pool->setQualifier('remoteid','eq',$child_id);
-	if($pool->getCount() > 0)
+	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}CommentsNotified WHERE siteid=$siteid AND remoteid=$child_id") > 0)
 		return 4;
 	$insertId = getCommentsNotifiedMaxId() + 1;
-
-	$pool->reset('CommentsNotified');
-	$pool->setAttribute('blogid',$blogid);
-	$pool->setAttribute('replier',NULL);
-	$pool->setAttribute('id',$insertId);
-	$pool->setAttribute('entry',$entryId);
-	$pool->setAttribute('parent',$parentId);
-	$pool->setAttribute('name',$child_name,true);
-	$pool->setAttribute('password','',true);
-	$pool->setAttribute('homepage',$child_homepage,true);		
-	$pool->setAttribute('secret','',true);
-	$pool->setAttribute('comment',$child_comment, true);
-	$pool->setAttribute('ip','',true);
-	$pool->setAttribute('written',$child_written,true);
-	$pool->setAttribute('modified',Timestamp::getUNIXtime());
-	$pool->setAttribute('siteid',$siteid);
-	$pool->setAttribute('isnew',1);
-	$pool->setAttribute('url',$child_url,true);
-	$pool->setAttribute('remoteid',$child_id);
-	$pool->setAttribute('entrytitle',$entrytitle,true);
-	$pool->setAttribute('entryurl',$entryurl,true);
-	if (!$pool->insert())
+	$sql = "INSERT INTO {$database['prefix']}CommentsNotified
+		( blogid , replier , id , entry , parent , name , password , homepage , secret , comment , ip , written, modified , siteid , isnew , url , remoteid ,entrytitle , entryurl )
+		VALUES (
+			$blogid, NULL , $insertId, " . $entryId . ", $parentId, '$child_name', '', '$child_homepage', '', '$child_comment', '', $child_written, UNIX_TIMESTAMP(), $siteid, 1, '$child_url', $child_id, '$entrytitle', '$entryurl')";
+	if (!POD::execute($sql))
 		return 5;
-	$pool->reset('CommentsNotified');
-	$pool->setAttribute('modified',Timestamp::getUNIXtime());
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$parentId);
-	if(!$pool->update())
+	$sql = "UPDATE {$database['prefix']}CommentsNotified SET modified = UNIX_TIMESTAMP() WHERE blogid = $blogid AND id = $parentId";
+	if (!POD::execute($sql))
 		return 6;
 	return 0;
 }
 
 function getCommentCount($blogid, $entryId = null) {
-	$pool = DBModel::getInstance();
-	$pool->reset('Entries');
-	$pool->setQualifier('blogid','eq',$blogid);		
-	if (is_null($entryId)) {
-		$pool->setQualifier('draft','eq',0);
-		return $pool->getCell('SUM(comments)');
-	}
-	$pool->setQualifier('id','eq',$entryId);
-	$pool->setQualifier('draft','eq',0);
-	return $pool->getCell('comments');
+	global $database;
+	if (is_null($entryId))
+		return POD::queryCell("SELECT SUM(comments) FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft= 0 ");
+	return POD::queryCell("SELECT comments FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 }
 
 function getGuestbookCount($blogid) {
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('entry','eq',0);
-	return $pool->getCount('id');
+	global $database;
+	return POD::queryCell("SELECT count(id) FROM {$database['prefix']}Comments WHERE blogid = $blogid AND entry = 0");
 }
 
 function getCommentCountPart($commentCount, &$skin) {
@@ -1146,39 +1052,35 @@ function getCommentCountPart($commentCount, &$skin) {
 	return array("rp_count", $commentView);
 }
 
-function getCommentsMaxId($blogid = null) {
-	if(is_null($blogid)) $blogid = getBlogId();
-	$pool = DBModel::getInstance();
-	$pool->reset('Comments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$maxId = $pool->getCell('max(id)');
+function getCommentsMaxId() {
+	global $database;
+	$maxId = POD::queryCell("SELECT max(id)
+		FROM {$database['prefix']}Comments
+		WHERE blogid = ".getBlogId());
 	return empty($maxId) ? 0 : $maxId;
 }
 
-function getCommentsNotifiedMaxId($blogid = null) {
-	if(is_null($blogid)) $blogid = getBlogId();
-	$pool = DBModel::getInstance();
-	$pool->reset('CommentsNotified');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$maxId = $pool->getCell('max(id)');
+function getCommentsNotifiedMaxId() {
+	global $database;
+	$maxId = POD::queryCell("SELECT max(id)
+		FROM {$database['prefix']}CommentsNotified
+		WHERE blogid = ".getBlogId());
 	return empty($maxId) ? 0 : $maxId;
 }
 
-function getCommentsNotifiedQueueMaxId($blogid = null) {
-	if(is_null($blogid)) $blogid = getBlogId();
-	$pool = DBModel::getInstance();
-	$pool->reset('CommentsNotifiedQueue');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$maxId = $pool->getCell('max(id)');
+function getCommentsNotifiedQueueMaxId() {
+	global $database;
+	$maxId = POD::queryCell("SELECT max(id)
+		FROM {$database['prefix']}CommentsNotifiedQueue
+		WHERE blogid = ".getBlogId());
 	return empty($maxId) ? 0 : $maxId;
 }
 
-function getCommentsNotifiedSiteInfoMaxId($blogid = null) {
-	if(is_null($blogid)) $blogid = getBlogId();
-	$pool = DBModel::getInstance();
-	$pool->reset('CommentsNotifiedSiteInfo');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$maxId = $pool->getCell('max(id)');
+function getCommentsNotifiedSiteInfoMaxId() {
+	global $database;
+	$maxId = POD::queryCell("SELECT max(id)
+		FROM {$database['prefix']}CommentsNotifiedSiteInfo");
 	return empty($maxId) ? 0 : $maxId;
 }
+
 ?>

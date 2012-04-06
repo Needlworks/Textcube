@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_HEADER_XML__',true);
@@ -20,7 +20,7 @@ $provider->setDescriptor('Description',Setting::getBlogSetting('description','DE
 $provider->setDescriptor('Url',null);
 $provider->addAttribute('/OpenSearchDescription', 'xmlns', 'http://a9.com/-/spec/opensearch/1.1/');
 $provider->addAttribute('/OpenSearchDescription/Url','type','text/html');
-$provider->addAttribute('/OpenSearchDescription/Url','template',$context->getProperty('uri.default').'/line?key='.$password.'&amp;mode='.$visibility.'&amp;content={searchTerms}');
+$provider->addAttribute('/OpenSearchDescription/Url','template',$defaultURL.'/line?key='.$password.'&amp;mode='.$visibility.'&amp;content={searchTerms}');
 $provider->setDescriptor('Language', Setting::getBlogSetting('language','ko-kr',true));
 $provider->setDescriptor('OutputEncoding', 'utf-8');
 $provider->setDescriptor('InputEncoding','utf-8');

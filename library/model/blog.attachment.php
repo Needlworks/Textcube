@@ -1,5 +1,5 @@
 <?php 
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -57,7 +57,7 @@ function getAttachmentFromCache($blogid, $value, $filter = 'name') {
 }
 
 function getAttachmentByName($blogid, $parent, $name) {
-	global $__gCacheAttachment;
+	global $database, $__gCacheAttachment;
 	if(!isset($__gCacheAttachment))
 		getAttachments($blogid, $parent);
 	if($result = getAttachmentFromCache($blogid, $name, 'name') && $result['parent'] == $parent) {
@@ -105,19 +105,22 @@ function getAttachmentSize($blogid=null, $parent = null) {
 }
 
 function getAttachmentSizeLabel($blogid=null, $parent = null) {
+	//return number_format(ceil(getAttachmentSize($blogid,$parent)/1024)).' / '.number_format(ceil(getAttachmentSize($blogid)/1024)).' (KByte)';
 	return number_format(ceil(getAttachmentSize($blogid,$parent)/1024)).' (KByte)';
 }
 
 function addAttachment($blogid, $parent, $file) {
-	$pool = DBModel::getInstance();
+	global $database;
 	if (empty($file['name']) || ($file['error'] != 0))
 		return false;
+	$filename = $file['name'];
+
+	$pool = DBModel::getInstance();
 	$pool->reset('Attachments');
 	$pool->setQualifier('blogid','equals',$blogid);
 	$pool->setQualifier('parent','equals',$parent);
-	$pool->setQualifier('label','equals',$file['name'], true);
-	
-	if($pool->getCount() > 0) {
+	$pool->setQualifier('label','equals',$filename,true);
+	if($pool->getCell('count(*)') > 0) {
 		return false;
 	}
 	$attachment = array();
@@ -156,8 +159,8 @@ function addAttachment($blogid, $parent, $file) {
 	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
 		return false;
 	@chmod($attachment['path'], 0666);
-	$attachment['label'] = Utils_Unicode::lessenAsEncoding($attachment['label'], 64);
-	$attachment['mime']  = Utils_Unicode::lessenAsEncoding($attachment['mime'], 32);
+	$attachment['label'] = UTF8::lessenAsEncoding($attachment['label'], 64);
+	$attachment['mime']  = UTF8::lessenAsEncoding($attachment['mime'], 32);
 
 
 	$pool->reset('Attachments');
@@ -200,6 +203,7 @@ function deleteAttachment($blogid, $parent, $name) {
 }
 
 function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
+	global $database;
 	$path = ROOT . "/attach/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
@@ -273,6 +277,8 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 	clearFeed();
 	return true;
 }
+
+
 
 function deleteAttachments($blogid, $parent) {
 	$attachments = getAttachments($blogid, $parent);

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -394,21 +394,7 @@ class CacheControl {
 		CacheControl::flushRSS();
 		return true;
 	}
-	
-	function flushArchive($period = null) {
-		global $database;
-		if(empty($period)) $period = '';
-		$periodLists = POD::queryColumn("SELECT name
-			FROM {$database['prefix']}PageCacheLog
-			WHERE blogid = ".getBlogId()."
-			AND (name like 'archiveList-".$period."%' 
-				OR name like 'archiveRSS-".$period."%'
-				OR name like 'archiveATOM-".$period."%')");
-		CacheControl::purgeItems($periodLists);
-		CacheControl::flushRSS();
-		return true;
-	}
-	
+
 	function flushAuthor($authorId = null) {
 		global $database;
 		if(empty($authorId)) $authorId = '';
@@ -482,13 +468,11 @@ class CacheControl {
 			AND (name like 'entry-".$entryId."-%' OR name like '%RSS-".$entryId."' OR name like '%ATOM-".$entryId."')");
 		if(!empty($Entries)) CacheControl::purgeItems($Entries);
 		if(!empty($entryId)) {
-			$entry = POD::queryRow("SELECT userid, category, published FROM {$database['prefix']}Entries
+			$entry = POD::queryRow("SELECT userid, category FROM {$database['prefix']}Entries
 				WHERE blogid = ".getBlogId()." AND id = $entryId");
 			if(!empty($entry)) {
-				$entry['period'] = Timestamp::getYearMonth($entry['published']);
 				CacheControl::flushAuthor($entry['userid']);
 				CacheControl::flushCategory($entry['category']);
-				CacheControl::flushArchive($entry['period']);
 				CacheControl::flushDBCache('entry');
 			}
 		} else {

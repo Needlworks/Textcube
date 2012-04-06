@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Misc {
@@ -259,7 +259,7 @@ class Misc {
 		return false;
 	}
 	function isMetaBlog() {
-		return (getBlogId() == Setting::getServiceSettingGlobal("defaultBlogId",1) ? true : false);
+		return (getBlogId() == getServiceSetting("defaultBlogId",1) ? true : false);
 	}
 
 /***** Functions below are legacy support : THEY WILL BE REMOVED AFTER 1.6 MILESTONE. *****/
@@ -324,15 +324,15 @@ class Misc {
 	}
 
 	function getServiceSetting($name, $default = null) {
-		return Setting::getServiceSetting($name, $default, true);
+		return Setting::getServiceSetting($name, $default);
 	}
 
 	function setServiceSetting($name, $value) {
-		return Setting::setServiceSetting($name, true);
+		return Setting::setServiceSetting($name);
 	}
 
 	function removeServiceSetting($name) {
-		return Setting::removeServiceSetting($name, true);
+		return Setting::removeServiceSetting($name);
 	}
 	
 	function getBlogSettingRowsPerPage($default = null) {

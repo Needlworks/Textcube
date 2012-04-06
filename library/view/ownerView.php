@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -89,7 +89,6 @@ function printOwnerEditorScript($entryId = false) {
 			}
 		}*/
 	}
-
 ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -208,8 +207,9 @@ function printOwnerEditorScript($entryId = false) {
 }
 
 function printEntryFileList($attachments, $param) {
+	global $blogURL, $adminSkinSetting;
 	$context = Model_Context::getInstance();
-	$spacerURL = $context->getProperty('service.path').$context->getProperty('panel.skin').'/image/spacer.gif';
+	$spacerURL = $context->getProperty('service.path').$adminSkinSetting['skin'].'/image/spacer.gif';
 
 	$blogid = getBlogId();
 	if(empty($attachments) || (
@@ -218,7 +218,7 @@ function printEntryFileList($attachments, $param) {
 	strpos($attachments[0]['name'] ,'.png') === false)) {
 		$fileName =  $spacerURL;
 	} else {
-		$fileName = $context->getProperty('service.path')."/attach/$blogid/".$attachments[0]['name'];
+		$fileName = "{$context->getProperty('service.path')}/attach/$blogid/{$attachments[0]['name']}";
 	}
 ?>
 											<div id="previewSelected" style="width: 120px; height: 90px;"><span class="text"><?php echo _t('미리보기');?></span></div>

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Post {
@@ -318,7 +318,7 @@ class Post {
 		else
 			$slogan0 = $this->slogan = $this->makeSlogan($this->title);
 			
-		$slogan0 = Utils_Unicode::lessenAsEncoding($slogan0, 255);
+		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
 //			$checkSlogan = POD::escapeString($this->slogan);
@@ -333,7 +333,7 @@ class Post {
 					return $this->_error('update');
 				return true;
 			}
-			$this->slogan = Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i;
+			$this->slogan = UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i;
 		}
 		// if try saveSlogan again, slogan string has more $i
 		return $this->_error('limit');
@@ -367,7 +367,7 @@ class Post {
 		$ret = array();
 		
 		foreach ($tags as $tag) {
-			$tag = Utils_Unicode::lessenAsEncoding($tag, 255, '');
+			$tag = UTF8::lessenAsEncoding($tag, 255, '');
 			$tag = str_replace('&quot;', '"', $tag);
 			$tag = str_replace('&#39;', '\'', $tag);
 			$tag = preg_replace('/ +/', ' ', $tag);
@@ -560,7 +560,7 @@ class Post {
 			$query->setQualifier('userid', 'equals', $this->userid);
 		} 
 		if (isset($this->title))
-			$query->setAttribute('title', Utils_Unicode::lessenAsEncoding($this->title, 255), true);
+			$query->setAttribute('title', UTF8::lessenAsEncoding($this->title, 255), true);
 		if (isset($this->content)) {
 			$query->setAttribute('content', $this->content, true);
 			$query->setAttribute('contentformatter', $this->contentformatter, true);
@@ -600,7 +600,7 @@ class Post {
 			$query->setAttribute('category', $this->category);
 		}
 		if (isset($this->location))
-			$query->setAttribute('location', Utils_Unicode::lessenAsEncoding($this->location, 255), true);
+			$query->setAttribute('location', UTF8::lessenAsEncoding($this->location, 255), true);
 		if (isset($this->password))
 			$query->setAttribute('password', $this->password, true);
 		if (isset($this->acceptcomment))

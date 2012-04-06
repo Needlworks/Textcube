@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 /*@protected, static@*/
@@ -30,7 +30,7 @@ class Tag {
 
 		$taglist = array();
 		foreach($tmptaglist as $tag) {
-			$tag = POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($tag), 255));
+			$tag = POD::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 			array_push($taglist, $tag);
 		}
 		// step 1. Insert Tags
@@ -95,7 +95,7 @@ class Tag {
 			$tmpoldtaglist = array();
 		$oldtaglist = array();
 		foreach($tmpoldtaglist as $tag) {
-			$tag = POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($tag), 255));
+			$tag = POD::escapeString(UTF8::lessenAsEncoding(trim($tag), 255));
 			array_push($oldtaglist, $tag);
 		}
 		$deletedTagList = array_diff($oldtaglist, $taglist);

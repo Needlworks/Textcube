@@ -1,4 +1,4 @@
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -72,34 +72,5 @@ function rolloverClass(obj, type) {
 			}
 		}
 	}
-}
-
-function toggleDialog(content,popWidth) {
-    var dialogID = 'dialog-box'; // Default dialog ID
-	document.getElementById(dialogID).innerHTML = content;
-    //Fade in the Popup and add close button
-    jQuery('#' + dialogID).fadeIn().css({ 'width': Number( popWidth ) }).prepend('<a href="#" class="close"><span>Close</span></a>');
-
-    var popMargTop = (jQuery('#' + dialogID).height() + 20) / 2;
-    var popMargLeft = (jQuery('#' + dialogID).width() + 20) / 2;
-
-    //Apply Margin to Popup
-    jQuery('#' + dialogID).css({
-        'margin-top' : -popMargTop,
-        'margin-left' : -popMargLeft
-    });
-
-    //Fade in Background
-    jQuery('body').append('<div id="fade"></div>');
-    jQuery('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer - .css({'filter' : 'alpha(opacity=80)'}) is used to fix the IE Bug on fading transparencies 
-	
-	//Close Popups and Fade Layer
-	jQuery('a.close, #fade').live('click', function() { //When clicking on the close or fade layer.
-	    jQuery('#fade , .dialog').fadeOut(function() {
-	        jQuery('#fade, a.close').remove();  //fade them both out
-	    });
-	    return false;
-	});
-	return false;
 }
 //]]>

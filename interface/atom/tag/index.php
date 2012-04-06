@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('NO_SESSION', true);
@@ -21,7 +21,7 @@ if(!empty($suri['id'])) {
  	$tagId = getTagId($blogid, $suri['value']);
 	$tagTitle = $suri['value'];
 } else { 	// If no tag is mentioned, redirect it to total atom.
-	header ("Location: ".$context->getProperty('uri.host').$context->getProperty('uri.blog')."/atom");
+	header ("Location: $hostURL$blogURL/atom");
 	exit;
 }
 

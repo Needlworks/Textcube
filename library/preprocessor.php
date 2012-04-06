@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -139,10 +139,10 @@ $uri->URIParser();
 $uri->VariableParser();
 
 /// Setting global variables
-if($context->getProperty('service.legacymode') == true) {
+//if($context->getProperty('service.legacyMode') == true) {
 	$legacy = Model_LegacySupport::getInstance();
 	$legacy->addSupport('URLglobals');
-}
+//}
 
 /** INITIALIZE : Session (if necessary)
     -----------------------------------
@@ -210,35 +210,33 @@ if (!defined('NO_INITIALIZAION')) {
 		unset($languageDomain);
 		unset($language);
 	}
-/** Resource Options
-    ----------------
-	Determine the resource URLs and paths.
-*/
-	if(is_null($context->getProperty('service.jqueryURL'))) {
-		$context->setProperty('service.jqueryURL',$context->getProperty('service.path')."/resources/script/jquery/");
-	}
+	
 /** Administration panel skin / editor template
     -------------------------------------------
     When necessary, loads admin panel skin information.
 */
 	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
+		$adminSkinSetting = array();
+		
+		/// TODO : This is a test routine. we should abstract this.
 		$browser = Utils_Browser::getInstance();
 		if($browser->isMobile()) {
-			$context->setProperty('panel.skin', "/skin/admin/mobile");
+			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {
+
 			if(!is_null($context->getProperty('service.adminskin'))) {
-				$context->setProperty('panel.skin',"/skin/admin/".$context->getProperty('service.adminskin'));
+				$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
 			} else {
-				$context->setProperty('panel.skin',"/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "canon"));
+				$adminSkinSetting['skin'] = "/skin/admin/".Setting::getBlogSettingGlobal("adminSkin", "whitedream");
 			}
 		}
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
 	
-		if (file_exists(ROOT . "/skin/blog/".$context->getProperty('skin.skin')."/wysiwyg.css"))
-			$context->setProperty('panel.editorTemplate',"/skin/blog/".$context->getProperty('skin.skin')."/wysiwyg.css");
+		if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/wysiwyg.css"))
+			$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
 		else
-			$context->setProperty('panel.editorTemplate',"/resources/style/default-wysiwyg.css");
+			$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
 	}
 }
 	
@@ -265,15 +263,16 @@ if($context->getProperty('uri.interfaceType') == 'blog' && !defined('__TEXTCUBE_
 		else if($blogVisibility == 1) requireMembership();
 	}
 }
+
 if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))) {
 	requireOwnership();     // Check access control list
 	if(!empty($_SESSION['acl'])) {
-		$requiredPriv = Aco::getRequiredPrivFromUrl( $context->getProperty('suri.directive') );
+		$requiredPriv = Aco::getRequiredPrivFromUrl( $suri['directive'] );
 		if( !empty($requiredPriv) && !Acl::check($requiredPriv) ) {
 			if( in_array( 'group.administrators', $requiredPriv ) ) {
-				header("location:".$context->getProperty('uri.blog')."/owner/center/dashboard"); exit;
+				header("location:".$blogURL ."/owner/center/dashboard"); exit;
 			} else {
-				header("location:".$context->getProperty('uri.blog')."/owner/entry"); exit;
+				header("location:".$blogURL ."/owner/entry"); exit;
 			}
 		}
 	

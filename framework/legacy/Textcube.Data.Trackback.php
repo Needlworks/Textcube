@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Trackback {
@@ -127,21 +127,21 @@ class Trackback {
 			$query->setQualifier('entry', 'equals', $this->entry);
 		}
 		if (isset($this->url)) {
-			$this->url = Utils_Unicode::lessenAsEncoding(trim($this->url), 255);
+			$this->url = UTF8::lessenAsEncoding(trim($this->url), 255);
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setQualifier('url', 'equals', $this->url, true);
 		}
 		if (isset($this->site)) {
-			$this->site = Utils_Unicode::lessenAsEncoding(trim($this->site), 255);
+			$this->site = UTF8::lessenAsEncoding(trim($this->site), 255);
 			$query->setAttribute('site', $this->site, true);
 		}
 		if (isset($this->title)) {
-			$this->title = Utils_Unicode::lessenAsEncoding(trim($this->title), 255);
+			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
 			$query->setAttribute('subject', $this->title, true);
 		}
 		if (isset($this->excerpt)) {
-			$this->excerpt = Utils_Unicode::lessenAsEncoding(trim($this->excerpt), 255);
+			$this->excerpt = UTF8::lessenAsEncoding(trim($this->excerpt), 255);
 			$query->setAttribute('excerpt', $this->excerpt, true);
 		}
 		if (isset($this->ip)) {

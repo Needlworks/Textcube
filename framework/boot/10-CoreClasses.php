@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -175,16 +175,16 @@ final class Validator {
 						break;
 					case 'url':
 					case 'string':
-						if (!Utils_Unicode::validate($value)) {
-							$value = Utils_Unicode::bring($value);
-							if (!Utils_Unicode::validate($value))
+						if (!UTF8::validate($value)) {
+							$value = UTF8::bring($value);
+							if (!UTF8::validate($value))
 								return false;
 						}
-						$value = $array[$key] = Utils_Unicode::correct($value);
+						$value = $array[$key] = UTF8::correct($value);
 
-						if (isset($rule[1]) && (Utils_Unicode::length($value) < $rule[1]))
+						if (isset($rule[1]) && (UTF8::length($value) < $rule[1]))
 							return false;
-						if (isset($rule[2]) && (Utils_Unicode::length($value) > $rule[2]))
+						if (isset($rule[2]) && (UTF8::length($value) > $rule[2]))
 							return false;
 						break;
 					case 'list':
@@ -596,21 +596,6 @@ final class Timestamp {
 		return intval(isset($time) ? date('U', $time) : date('U'));
 	}
 		
-	static function getHumanReadablePeriod($time = null) {
-		$deviation = abs(Timestamp::getUNIXtime($time));
-		if ($deviation < 60) {
-			return _f('%1초',$deviation);		
-		} else if ($deviation < 3600) {
-			return _f('%1분',intval($deviation/60));
-		} else if ($deviation < 86400) {
-			return _f('%1시간',intval($deviation/3600));
-		} else if ($deviation < 604800) {
-			return _f('%1일',intval($deviation/86400));
-		} else {
-			return _f('%1주',intval($deviation/604800));
-		}					
-	}	
-	
 	static function getHumanReadable($time = null, $from = null) {
 		if(is_null($from)) $deviation = Timestamp::getUNIXtime() - Timestamp::getUNIXtime($time);
 		else $deviation = Timestamp::getUNIXtime($from) - Timestamp::getUNIXtime($time);
@@ -786,13 +771,13 @@ class XMLStruct {
 	}
 
 	function open($xml, $encoding = null, $nsenabled = false) {
-		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !Utils_Unicode::validate($xml)) {
+		if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !UTF8::validate($xml)) {
 			if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
 				$encoding = $matches[1];
 				$xml = preg_replace('/^(<\?xml[^<]*\s+encoding=)["\']?[\w-]+["\']?/', '$1"utf-8"', $xml, 1);
 			}
 			if (strcasecmp($encoding, 'utf-8')) {
-				$xml = Utils_Unicode::bring($xml, $encoding);
+				$xml = UTF8::bring($xml, $encoding);
 				if (is_null($xml)) {
 					$this->error = XML_ERROR_UNKNOWN_ENCODING;
 					return false;
@@ -864,7 +849,7 @@ class XMLStruct {
 						}
 					}
 				}
-				if (!xml_parse($p, Utils_Unicode::correct($chunk, '?'), false)) {
+				if (!xml_parse($p, UTF8::correct($chunk, '?'), false)) {
 					fclose($fp);
 					return $this->_error($p);
 				}

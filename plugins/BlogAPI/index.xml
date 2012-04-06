@@ -4,7 +4,7 @@
   <title xml:lang="en">Blog API</title>
   <title xml:lang="ja">Blog API</title>
   <link>http://needlworks.org/</link>
-  <version>2.0</version>
+  <version>1.8</version>
   <description xml:lang="en">This helps blog editor discover automatically blog's profile</description>
   <description xml:lang="ko">편집기 환경 설정에 블로그 주소만 입력하여도 자동 설정되도록 합니다.</description>
   <description xml:lang="ja">ブログのURLだけを入力しても記事作成用ソフトウェアからAPI アドレスを認識できるように設定します。</description>
@@ -15,7 +15,7 @@
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <textcube>
-	  <minVersion>2.0</minVersion>
+	  <minVersion>1.8</minVersion>
 	</textcube>
   </requirements>
   <binding>

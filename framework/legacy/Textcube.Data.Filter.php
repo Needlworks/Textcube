@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Filter {
@@ -177,7 +177,7 @@ class Filter {
 				$query->setQualifier('filtertype', 'equals', $this->type, false);
 		}
 		if (isset($this->pattern)) {
-			$this->pattern = Utils_Unicode::lessenAsEncoding(trim($this->pattern), 255);
+			$this->pattern = UTF8::lessenAsEncoding(trim($this->pattern), 255);
 			if (empty($this->pattern))
 				return $this->_error('pattern');
 			if (isset($this->id))

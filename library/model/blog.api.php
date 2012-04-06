@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -292,7 +292,7 @@ function api_get_post( $post, $type = "bl" )
 { 
 	$post->loadTags();
 	//$params = func_get_args();
-	$ctx = Model_Context::getInstance();
+	global $hostURL, $blogURL;
 	return array( 
 			"userid" => "",
 			"dateCreated" => api_dateiso8601( $post->created ),
@@ -301,8 +301,8 @@ function api_get_post( $post, $type = "bl" )
 			"title" =>  api_escape_content($post->title),
 			"postid" => $post->id,
 			"categories" => array( api_getCategoryNameById($post->category) ),
-			"link" => $ctx->getProperty('uri.host') . $ctx->getProperty('uri.blog') . "/" . $post->id ,
-			"permaLink" => $ctx->getProperty('uri.host') . $ctx->getProperty('uri.blog') . "/" . $post->id ,
+			"link" => $hostURL . $blogURL . "/" . $post->id ,
+			"permaLink" => $hostURL . $blogURL . "/" . $post->id ,
 			"description" => ($type == "mt" ? $post->content : "" ),
 			"content" => $post->content,
 			"mt_allow_comments" => $post->acceptcomment ? 1 : 0,
@@ -321,14 +321,12 @@ function api_file_hash( $content )
 
 
 function api_addAttachment($blogid,$parent,$file) {
-
-	$pool = DBModel::getInstance();
-		
+	global $database;
+	
 	$attachment=array();
 	$attachment['parent']=$parent?$parent:0;
 	$attachment['label']=Path::getBaseName($file['name']);
-	$label=Utils_Unicode::lessenAsEncoding($attachment['label'],64);
-	
+	$label=POD::escapeString(UTF8::lessenAsEncoding($attachment['label'],64));
 	$attachment['size']=$file['size'];
 	$extension=Path::getExtension($attachment['label']);
 	switch(strtolower($extension)) {
@@ -349,14 +347,8 @@ function api_addAttachment($blogid,$parent,$file) {
 			return false;
 		@chmod($path,0777);
 	}
-	$pool->reset('Attachments');
-	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('parent','eq',$parent);
-	$pool->setQualifier('label','eq',$label,true);
 	
-	$oldFile = $pool->getCell('name');
-		
-//	$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
+	$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
 	
 	if ($oldFile !== null) {
 		$attachment['name'] = $oldFile;
@@ -385,33 +377,19 @@ function api_addAttachment($blogid,$parent,$file) {
 	}
 	
 	if($imageAttributes=@getimagesize($file['tmp_name'])) {
-		$attachment['mime']  = $imageAttributes['mime'];
-		$attachment['width'] = $imageAttributes[0];
-		$attachment['height']= $imageAttributes[1];
+		$attachment['mime']=$imageAttributes['mime'];
+		$attachment['width']=$imageAttributes[0];
+		$attachment['height']=$imageAttributes[1];
 	}else{
 		$attachment['mime']=Misc::getMIMEType($extension);
 		$attachment['width']=0;
 		$attachment['height']=0;
 	}
 	
-	$attachment['mime']=Utils_Unicode::lessenAsEncoding($attachment['mime'], 32);
+	$attachment['mime']=UTF8::lessenAsEncoding($attachment['mime'], 32);
 	
 	@chmod($attachment['path'],0666);
-	
-	$pool->reset('Attachments');
-	$pool->setAttribute('blogid',$blogid);
-	$pool->setAttribute('parent',$attachment['parent']);
-	$pool->setAttribute('name',$attachment['name'],true);
-	$pool->setAttribute('label',$label,true);
-	$pool->setAttribute('mime',$attachment['mime'],true);
-	$pool->setAttribute('size',$attachment['size'],true);
-	$pool->setAttribute('width',$attachment['width']);
-	$pool->setAttribute('height',$attachment['height']);
-	$pool->setAttribute('attached',Timestamp::getUNIXtime());
-	$pool->setAttribute('downloads',0);
-	$pool->setAttribute('enclosure',0);	
-	$result = $pool->insert();
-
+	$result=POD::query("insert into {$database['prefix']}Attachments values ($blogid, {$attachment['parent']}, '{$attachment['name']}', '$label', '{$attachment['mime']}', {$attachment['size']}, {$attachment['width']}, {$attachment['height']}, UNIX_TIMESTAMP(), 0,0)");
 	if(!$result) {
 		@unlink($attachment['path']);
 		return false;
@@ -428,41 +406,29 @@ function api_get_attaches( $content)
 	return $matches[1];
 }
 
-function api_update_attaches( $parent, $attaches = null) {
-	$pool = DBModel::getInstance();
-
+function api_update_attaches( $parent, $attaches = null)
+{
+	global $database;
 	if (is_null($attaches)) {
-		$pool->reset('Attachments');
-		$pool->setQualifier('blogid','eq',getBlogId());
-		$pool->setQualifier('parent','eq',0);
-		$pool->setAttribute('parent','eq',$parent);
-		$pool->update();
+		POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0");		
 	} else {
-		foreach( $attaches as $att ) {
-			$pool->reset('Attachments');
-			$pool->setQualifier('blogid','eq',getBlogId());
-			$pool->setQualifier('parent','eq',0);
-			$pool->setQualifier('name','eq',$att,true);
-			$pool->update();
+		foreach( $attaches as $att )
+		{
+			$att = POD::escapeString($att);
+			POD::query( "update {$database['prefix']}Attachments set parent=$parent where blogid=".getBlogId()." and parent=0 and name='" . $att . "'");
 		}
 	}
 }
 
-function api_update_attaches_with_replace($entryId) {
-	$pool = DBModel::getInstance();	
-	$pool->reset('Attachments');
-	$pool->setQualifier('blogid','eq',getBlogId());
-	$pool->setQualifier('parent','eq',0);
-	$newFiles = $pool->getAll('name,label');
-		
+function api_update_attaches_with_replace($entryId)
+{
+	global $database;
+	
+	$newFiles = POD::queryAll("SELECT name, label FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=0");
 	if( $newFiles ) {
 		foreach($newFiles as $newfile) {
-			$newfile['label'] = Utils_Unicode::lessenAsEncoding($newfile['label'], 64);
-			$pool->reset('Attachments');
-			$pool->setQualifier('blogid','eq',getBlogId());
-			$pool->setQualifier('parent','eq',$entryId);
-			$pool->setQualifier('label','eq',$newfile['label'],true);
-			$oldFile = $pool->getCell('name');
+			$newfile['label'] = POD::escapeString(UTF8::lessenAsEncoding($newfile['label'], 64));
+			$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=".getBlogId()." AND parent=$entryId AND label='{$newfile['label']}'");
 		
 			if (!is_null($oldFile)) {
 				deleteAttachment(getBlogId(), $entryId, $oldFile);
@@ -530,7 +496,8 @@ function api_BlogAPI()
 
 function blogger_getUsersBlogs()
 {
-	$context = Model_Context::getInstance();
+	global $blog, $hostURL, $blogURL;
+
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -540,9 +507,9 @@ function blogger_getUsersBlogs()
 
 	$blogs = array( 
 		array( 
-				"url" => $context->getProperty('uri.host') . $context->getProperty('uri.blog'),
+				"url" => $hostURL . $blogURL,
 				"blogid" => (string)getBlogId(),
-				"blogName" => $context->getProperty('blog.title'),
+				"blogName" => $blog['title'],
 		) 
 	);
 	return $blogs;
@@ -710,9 +677,9 @@ function blogger_getTemplate()
 
 /*--------- MetaWebLog API functions -----------*/
 
-function metaWeblog_getCategories() {
-	$ctx = Model_Context::getInstance();
-	
+function metaWeblog_getCategories()
+{
+	global $hostURL, $blogURL;
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )
@@ -728,7 +695,7 @@ function metaWeblog_getCategories() {
 	while($category->id)
 	{
 		array_push( $cat, array( 
-			'htmlUrl' => $ctx->getProperty('uri.host').$ctx->getProperty('uri.blog')."/category/" . $category->label,
+			'htmlUrl' => "$hostURL$blogURL/category/" . $category->label,
 			//'rssUrl' => "",
 			'categoryName' => $category->label,
 			'description' => $category->label,
@@ -748,7 +715,9 @@ function metaWeblog_getCategories() {
 
 }
 
-function mt_getCategoryList() {
+
+function mt_getCategoryList()
+{
 	$params = func_get_args();
 	$result = api_login( $params[1], $params[2] );
 	if( $result )

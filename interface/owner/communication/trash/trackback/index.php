@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if (isset($_POST['page']))
@@ -68,7 +68,7 @@ require ROOT . '/interface/common/owner/header.php';
 										param  	=  '?value='	+ encodeURIComponent(value);
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
-										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/" + param);
+										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
 										var iconList = document.getElementsByTagName("a");	
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
@@ -95,7 +95,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function deleteTrackback(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback/delete/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/trackback/delete/" + id);
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -108,7 +108,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function deleteTrackbackAll() {
 									if (!confirm("<?php echo _t('휴지통 내의 모든 걸린글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/emptyTrash/?type=2&ajaxcall");
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=2&ajaxcall");
 									request.onSuccess = function() {
 										window.location.reload();
 									}
@@ -130,7 +130,7 @@ require ROOT . '/interface/common/owner/header.php';
 												targets+=oElement.value+'~*_)';
 											}
 										}
-										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback/delete/");
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trash/trackback/delete/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -146,7 +146,7 @@ require ROOT . '/interface/common/owner/header.php';
 								function revertTrackback(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 복원합니다. 계속 하시겠습니까?');?>"))
 										return;
-									var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback/revert/" + id);
+									var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trash/trackback/revert/" + id);
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
@@ -168,7 +168,7 @@ require ROOT . '/interface/common/owner/header.php';
 												targets+=oElement.value+'~*_)';
 											}
 										}
-										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback/revert/");
+										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trash/trackback/revert/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
@@ -282,7 +282,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 								<p class="explain"><?php echo _t('휴지통에 버려진 걸린글은 15일이 지나면 자동으로 지워집니다. 광고 걸린글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
 							</div>								
 
-							<form id="trash-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash">
+							<form id="trash-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash">
 								<fieldset class="section">
 									<legend><?php echo _t('삭제된 파일 보기 설정');?></legend>
 									
@@ -304,7 +304,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 								</fieldset>
 							</form>
 							
-							<form id="list-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback">
+							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/trackback">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
@@ -352,15 +352,15 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if ($isFilterURL) {
 ?>
-												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
+												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=unblock" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 	} else {
 ?>
-												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
+												<a id="urlFilter<?php echo $currentSite;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($filteredURL);?>&amp;mode=url&amp;command=block" onclick="changeState(this,'<?php echo $filteredURL;?>','url'); return false;" title="<?php echo _t('이 사이트는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 	}
 ?>
-												<a href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback?url=<?php echo urlencode(escapeJSInAttribute($trackback['url']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
+												<a href="<?php echo $blogURL;?>/owner/communication/trash/trackback?url=<?php echo urlencode(escapeJSInAttribute($trackback['url']));?>" title="<?php echo _t('이 사이트에서 건 글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($trackback['site']);?></a>
 											</td>
 											<td class="category">
 <?php
@@ -382,21 +382,21 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 <?php
 	if ($isIpFiltered) {
 ?>
-												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
+												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=unblock" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
 <?php
 	} else {
 ?>
-												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
+												<a id="ipFilter<?php echo urlencode($trackback['ip']);?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode($trackback['ip']);?>&amp;mode=ip&amp;command=block" onclick="changeState(this,'<?php echo urlencode($trackback['ip']);?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
 <?php
 	}
 ?>
-												<a href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
+												<a href="<?php echo $blogURL;?>/owner/communication/trash/trackback?ip=<?php echo urlencode(escapeJSInAttribute($trackback['ip']));?>" title="<?php echo _t('이 IP로 등록된 걸린글 목록을 보여줍니다.');?>"><span class="text"><?php echo $trackback['ip'];?></span></a>
 											</td>
 											<td class="revert">
-												<a class="revert-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback/revert/<?php echo $trackback['id'];?>" onclick="revertTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
+												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/communication/trash/trackback/revert/<?php echo $trackback['id'];?>" onclick="revertTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
 											</td>
 											<td class="delete">
-												<a class="delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback/delete/<?php echo $trackback['id'];?>" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
+												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/trackback/delete/<?php echo $trackback['id'];?>" onclick="deleteTrackback(<?php echo $trackback['id'];?>); return false;" title="<?php echo _t('이 걸린글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
 											</td>
 										</tr>
 <?php
@@ -459,7 +459,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							
 							<hr class="hidden" />
 							
-							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/trackback">
+							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/trackback">
 								<h2><?php echo _t('검색');?></h2>
 								
 								<div class="section">
@@ -471,7 +471,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 							
 							<div class="button-box">
-								<a class="all-delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/emptyTrash/?type=2" onclick="deleteTrackbackAll(); return false;" title="<?php echo _t('휴지통의 걸린글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
+								<a class="all-delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=2" onclick="deleteTrackbackAll(); return false;" title="<?php echo _t('휴지통의 걸린글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
 							</div>
 						</div>
 <?php

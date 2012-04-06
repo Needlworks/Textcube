@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Notice {
@@ -189,7 +189,7 @@ class Notice {
 		else
 			$slogan0 = $this->slogan = $this->makeSlogan($this->title);
 			
-		$slogan0 = Utils_Unicode::lessenAsEncoding($slogan0, 255);
+		$slogan0 = UTF8::lessenAsEncoding($slogan0, 255);
 
 		for ($i = 1; $i < 1000; $i++) {
 //			$checkSlogan = POD::escapeString($this->slogan);
@@ -204,7 +204,7 @@ class Notice {
 					return $this->_error('update');
 				return true;
 			}
-			$this->slogan = Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i;
+			$this->slogan = UTF8::lessenAsEncoding($slogan0, 245) . '-' . $i;
 		}
 		// if try saveSlogan again, slogan string has more $i
 		return $this->_error('limit');

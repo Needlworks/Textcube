@@ -6,6 +6,7 @@ body
 {
 	background-color                 : #FFFFFF;
 	color: #666;
+	font-size:0.8em;
 }
 
 #data-outbox

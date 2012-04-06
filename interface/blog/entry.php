@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -15,9 +15,9 @@ require ROOT . '/library/preprocessor.php';
 
 if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
 	if(empty($suri['value'])) {
-		header("Location: ".$context->getProperty('uri.blog')."/i"); exit;
+		header("Location: $blogURL/i"); exit;
 	} else {
-		header("Location: ".$context->getProperty('uri.blog')."/i/entry/".$suri['value']); exit;
+		header("Location: $blogURL/i/entry/".$suri['value']); exit;
 	}
 }
 
@@ -45,7 +45,7 @@ if(empty($suri['value'])) {
 fireEvent('OBStart');
 require ROOT . '/interface/common/blog/begin.php';
 
-$automaticLink = "<link rel=\"stylesheet\" href=\"".$context->getProperty('uri.service')."/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+$automaticLink = "<link rel=\"stylesheet\" href=\"{$serviceURL}/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
 if (empty($suri['value'])) {
@@ -53,10 +53,10 @@ if (empty($suri['value'])) {
 } else if (empty($entries)) {
 	header('HTTP/1.1 404 Not Found');
 	if (empty($skin->pageError)) { 
-		dress('article_rep', fireEvent('ViewErrorPage','<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>'), $view);
+		dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
 	} else {
 		dress('article_rep', NULL, $view); 
-		dress('page_error', fireEvent('ViewErrorPage',$skin->pageError), $view);
+		dress('page_error', $skin->pageError, $view);
 	}
 	unset($paging);
 } else {

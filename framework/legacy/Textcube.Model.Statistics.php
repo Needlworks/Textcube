@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -97,8 +97,8 @@ class Statistics {
 						return;
 					if (!fireEvent('AddingRefererLog', true, array('host' => $referer['host'], 'url' => $_SERVER['HTTP_REFERER'])))
 						return;
-					$host = POD::escapeString(Utils_Unicode::lessenAsEncoding($referer['host'], 64));
-					$url = POD::escapeString(Utils_Unicode::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
+					$host = POD::escapeString(UTF8::lessenAsEncoding($referer['host'], 64));
+					$url = POD::escapeString(UTF8::lessenAsEncoding($_SERVER['HTTP_REFERER'], 255));
 					POD::query("INSERT INTO {$database['prefix']}RefererLogs values($blogid, '$host', '$url', UNIX_TIMESTAMP())");
 //					POD::query("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < UNIX_TIMESTAMP() - 604800");	// Moved to trashVan
 					if (!POD::queryCount("UPDATE {$database['prefix']}RefererStatistics SET count = count + 1 WHERE blogid = $blogid AND host = '$host' LIMIT 1"))

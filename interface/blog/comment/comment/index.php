@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_ADMINPANEL__',true);
@@ -18,12 +18,12 @@ requireModel('blog.comment');
 
 if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit') || !Setting::getBlogSettingGlobal('acceptComments',1)) {
 	if (!empty($_POST['name']))
-		setcookie('guestName', $_POST['name'], time() + 2592000, $context->getProperty('uri.blog')."/");
+		setcookie('guestName', $_POST['name'], time() + 2592000, "$blogURL/");
 	if (!empty($_POST['homepage']) && ($_POST['homepage'] != 'http://')) {
 		if (strpos($_POST['homepage'], 'http://') === 0)
-			setcookie('guestHomepage', $_POST['homepage'], time() + 2592000, $context->getProperty('uri.blog')."/");
+			setcookie('guestHomepage', $_POST['homepage'], time() + 2592000, "$blogURL/");
 		else
-			setcookie('guestHomepage', 'http://' . $_POST['homepage'], time() + 2592000, $context->getProperty('uri.blog')."/");
+			setcookie('guestHomepage', 'http://' . $_POST['homepage'], time() + 2592000, "$blogURL/");
 	}
 	$comment = array();
 	list($comment['entry']) = getCommentAttributes($blogid, $suri['id'], 'entry');
@@ -56,9 +56,9 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		if(!$comment['secret']) {
 			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries 
 				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptcomment = 1"))
-//				sendCommentPing($comment['entry'], $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
+				sendCommentPing($comment['entry'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
-		$skin = new Skin($context->getProperty('skin.skin'));
+		$skin = new Skin($skinSetting['skin']);
 		printHtmlHeader();
 ?>
 <script type="text/javascript">

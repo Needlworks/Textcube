@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2011, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2012, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -41,12 +41,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	exit;
 } else {
 	if (!empty($userName)) {
-		setcookie('guestName', $userName, time() + 2592000, $context->getProperty('uri.blog')."/");
+		setcookie('guestName', $userName, time() + 2592000, "$blogURL/");
 	}
 	if (!empty($userHomepage) && ($userHomepage != 'http://')) {
 		if (strpos($userHomepage, 'http://') !== 0)
 			$userHomepage = "http://$userHomepage";
-		setcookie('guestHomepage', $userHomepage, time() + 2592000, $context->getProperty('uri.blog')."/");
+		setcookie('guestHomepage', $userHomepage, time() + 2592000, "$blogURL/");
 	}
 	if( Acl::getIdentity( 'openid' ) ) {
 		OpenIDConsumer::updateUserInfo( $userName, $userHomepage );
@@ -104,10 +104,10 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$pool->setQualifier('acceptcomment','equals',1);
 			$row = $pool->getAll('*');
 			if(!empty($row))
-				sendCommentPing($entryId, $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
+				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		requireModel('blog.skin');
-		$skin = new Skin($context->getProperty('skin.skin'));
+		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {
 			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);

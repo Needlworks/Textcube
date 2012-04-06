@@ -2,6 +2,9 @@
 //require_once ROOT."/library/include.blog.php";
 function errorExit($code)
 {
+//	global $skin, $skinSetting, $suri, $defaultURL, $blog;
+//	global $service, $blogURL, $defaultURL, $serviceURL, $gCacheStorage;
+
 	$status_msg = array(
 		'400' => 'Bad Request',
 		'401' => 'Unauthorized',

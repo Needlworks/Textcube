@@ -1,33 +1,42 @@
 @charset "utf-8";
-
-label {
-	position:absolute;
-	line-height:2em;
-}
-
-input {
-	margin-left:100px;
-}
-
-select {
-	margin-left:100px !important;
-
-}
 .center {
 	text-align:center;
 }
 
+.blog_info {
+	height:85px;
+	padding:0 !important;
+}
+
+.blog_info .logo {
+	float:left;
+	padding-right:15px;
+}
+.blog_info .blog_container {
+	padding-top:10px;
+}
+
+.blog_info .description {
+	display:block;
+	margin-top:5px;
+	padding-top:5px;
+}
+
+.footer_text {
+	font-size:0.625em;
+	text-align:center;
+}
 /*** Post lists ***/
 li.post_item .image {
 	display:block;
 	float:left;
 }
 
-li.post_item .image img{
-	border:3px solid #ccc;
+/*li.post_item .image img{
+	border:1px solid #ccc;
 	margin:6px;
 }
-
+*/
 li.post_item .post .title {
 	display:block;
 }
@@ -46,6 +55,7 @@ li.post_item .post .description {
 	font-size:1em;
 }
 
+.panel h3,
 .entry_tags h3 {
 	border-left:10px solid #ccc;
 	font-size:1em;
@@ -57,11 +67,14 @@ li.post_item .post .description {
 }
 
 .comment p.ui-li-aside {
-	margin-right:50px;
+	padding-right:50px;
 }
 
 .comment p.body {
 	margin-top:25px;
+}
+.comment li.groupSub {
+	border-left:20px solid #ccc;
 }
 
 .comment_button {
@@ -69,4 +82,16 @@ li.post_item .post .description {
 	top:0;
 	right:5px;
 }
+/*** Comment Form ***/
+.commentForm h3 {
+	padding-left:15px;
+	border-left:10px solid #ccc;
+}
 
+.commentForm label {
+	position:absolute;
+	right:5px;
+	padding-top:10px;
+	line-height:2em;
+	color:#aaa !important;
+}

@@ -23,6 +23,10 @@ h2
 	display                          : none !important;
 }
 
+#sub-menu
+{
+	width                            : 250px !important;
+}
 /* menu -----------------------------------------------------------------------------------------*/
 #data-outbox
 {
@@ -34,11 +38,11 @@ h2
 {
 	background-color                 : #FFFFFF;
 	position                         : fixed;
-	top                              : 35px;
+	top                              : 30px;
 	z-index                          : 100;
 	width                            : 100%;
 	margin                           : 5px 0 0 0;
-	padding                          : 5px 0 0 0;
+	padding                          : 5px 0 0 250px;
 }
 
 #pannel
@@ -53,9 +57,8 @@ h2
 #toggleBar
 {
 	position:fixed;
-	top:80px;
-	left:150px;
-	z-index:180;
+	top:75px;
+	z-index:90;
 }
 #reader-menu
 {
@@ -240,7 +243,7 @@ h2
 	background-color                 : #D2D2CC !important;
 	border                           : none !important;
 	margin                           : 0 !important;
-	padding                          : 8px 0 8px 0 !important;
+	padding                          : 8px 0 8px 250px !important;
 
 }
 
@@ -637,7 +640,7 @@ ul#feedList li .edit-button span
 #configure
 {
 	background-color                 : #D2D2CC;
-	padding                          : 0;
+	padding                          : 0 0 8px 250px;
 }
 
 #configure .data-inbox
@@ -822,9 +825,9 @@ ul#feedList li .edit-button span
 {
 	left                             : 0;
 	position                         : absolute;
-	z-index                          : 20;
+	z-index                          : 200;
 	width                            : 250px !important;
-	padding-bottom:100px;/**/
+	/*padding-bottom:0px;*/
 }
 
 #post-list .title
@@ -873,7 +876,7 @@ ul#feedList li .edit-button span
 	border                           : 4px solid #B4B4A1;
 	clear                            : both;
 /*	height                           : 480px;*/
-	height                           : 300px;
+	min-height                       : 300px;
 	overflow-y                       : auto;
 	overflow-x                       : hidden;
 	padding                          : 5px;

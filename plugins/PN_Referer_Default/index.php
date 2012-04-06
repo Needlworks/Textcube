@@ -93,7 +93,7 @@ function PN_Referer_Default()
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="date"><?php echo Timestamp::formatDate($record['referred']);?></td>
-										<td class="address"><a href="<?php echo Misc::escapeJSInAttribute($record['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url']);?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(Utils_Unicode::lessenAsEm($record['url'], 70)), $record);?></a></td>
+										<td class="address"><a href="<?php echo Misc::escapeJSInAttribute($record['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url']);?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(UTF8::lessenAsEm($record['url'], 70)), $record);?></a></td>
 									</tr>
 <?php
 	}
