@@ -93,6 +93,7 @@ class Skin {
 
 	function __construct($name, $previewMode = false) {
 		global $service, $blogURL, $suri, $blog, $__gDressTags, $serviceURL;
+		$context = Model_Context::getInstance();
 		$this->cache = new pageCache;
 		$this->cache->reset('skinCache');
 		$__gDressTags = array();
@@ -125,7 +126,7 @@ class Skin {
 			
 			if (!$sval = file_get_contents($filename))
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
-	
+			
 			replaceSkinTag($sval, 'html');
 			replaceSkinTag($sval, 'head');
 			replaceSkinTag($sval, 'body');
@@ -135,6 +136,9 @@ class Skin {
 			$sval = str_replace('</s_t3>','',$sval);
 
 			// Static patch. (To increase speed)
+			if ($context->getProperty('service.useNatureSkinFormat') == true) {
+				$sval = Model_NatureSkin::convert($sval,'global');
+			}
 			dressStaticElements($sval);
 			
 			// 사이드바 작업.
@@ -319,6 +323,7 @@ class Skin {
 			
 			list($sval, $this->link_rep) = $this->cutSkinTag($sval, 'link_rep');
 			list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
+
 			$this->outter = $sval;
 			$this->applyMicroformats();
 			$this->dressTags = $__gDressTags;
@@ -328,6 +333,7 @@ class Skin {
 	
 	function cutSkinTag($contents, $tag, $replace = null) {
 		global $__gDressTags;
+		$context = Model_Context::getInstance();
 		if(!isset($__gDressTags)) $__gDressTags = array();
 		if (is_null($replace)) {
 			$replace = "[##_{$tag}_##]";
@@ -342,6 +348,9 @@ class Skin {
 		$inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
 		$outter = substr($contents, 0, $begin) . $replace . substr($contents, $end + $tagSize + 1);
 		if(!in_array($tag, $__gDressTags)) array_push($__gDressTags, $tag);
+		if ($context->getProperty('service.useNatureSkinFormat') == true) {
+			$inner = Model_NatureSkin::convert($inner,$tag);
+		}
 		return array($outter, $inner);
 	}
 	
