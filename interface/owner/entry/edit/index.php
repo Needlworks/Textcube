@@ -58,6 +58,13 @@ if(Acl::check('group.editors')===false && !empty($suri['id'])) {
 		exit; 
 	}
 }
+// Read editor configuration
+$editors = getAllEditors();
+if (isset($_GET['editor']) && in_array($_GET['editor'],array_keys($editors))) {
+	$entry['contenteditor'] = $_GET['editor'];
+}
+
+$context->setProperty('editor.key',$entry['contenteditor']);
 
 if (isset($_GET['popupEditor'])) {
 	require ROOT . '/interface/common/owner/headerForPopupEditor.php';
@@ -81,13 +88,6 @@ switch($entry['category']) {
 	default:
 		$titleText = _t('글');
 }
-
-$editors = getAllEditors();
-if (isset($_GET['editor']) && in_array($_GET['editor'],array_keys($editors))) {
-	$entry['contenteditor'] = $_GET['editor'];
-}
-
-$context->setProperty('editor.key',$entry['contenteditor']);
 
 if (defined('__TEXTCUBE_POST__')) {
 	printOwnerEditorScript();
