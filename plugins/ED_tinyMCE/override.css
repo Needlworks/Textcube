@@ -9,8 +9,12 @@
     display:block !important;
     border:0 !important;
 }
-.mceExternalClose { display:none !important;}
-td.mceToolbar {background:#fff !important;}
+.mceExternalClose { 
+    display:none !important;
+}
+td.mceToolbar {
+    background:#fff !important;
+}
 #save-section {
     position: fixed !important;
     top: 35px;
