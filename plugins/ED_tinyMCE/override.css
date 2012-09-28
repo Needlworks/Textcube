@@ -4,7 +4,8 @@
     position                         : fixed !important;
     top                              : 83px !important;
     height                           : 30px !important;
-    z-index                          : 50;
+    z-index                          : 500;
+	background-color                 : #fff !important;
     display:block !important;
     border:0 !important;
 }

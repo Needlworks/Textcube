@@ -18,8 +18,7 @@ function tinyMCE_editorinit(&$editor) {
 				// General options
 				mode : 'exact',
 				theme : 'advanced',
-				skin : "o2k7",
-				skin_variant : "silver",
+				skin : "default",
 				language : '<?php echo strtolower($context->getProperty('blog.language'));?>',
 				popup_css_add: "<?php echo $pluginURL;?>/popup.css",
 <?php
@@ -93,10 +92,12 @@ function tinyMCE_editorinit(&$editor) {
 
 function tinyMCE_adminheader($target, $mother) {
 	global $suri, $pluginURL;
-
-	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
-		$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tiny_mce/tiny_mce.js\"></script>\n";
-		$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"$pluginURL/override.css\" />\n";
+    $context = Model_Context::getInstance();
+	if ($context->getProperty('editor.key') == 'tinyMCE') {
+		if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
+			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tiny_mce/tiny_mce.js\"></script>\n";
+			$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"$pluginURL/override.css\" />\n";
+		}
 	}
 	return $target;
 }
