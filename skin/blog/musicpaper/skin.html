@@ -55,10 +55,12 @@
 	</s_cover>
 	<s_list>  <!-- List section ................................................................. -->
 	<section class="list search">
-		<article>
+		<header>
 			<h2>Search Results for '[##_list_conform_##]'</h2>
 			<a href="[##_list_atom_url_##]"><img src="./images/atom_12.png" alt="ATOM Icon" /></a>
 			<h3>[##_list_count_##] items</h3>
+		</header>			
+		<article>
 			<s_list_rep>
 			<dl>
 				<dt class="title"><a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a></dt>
@@ -72,8 +74,10 @@
 	</s_list>
 	<s_rplist> <!-- Replies List section ........................................................ -->
 	<section class="list comment">
-		<article>
+		<header>
 			<h2>[##_rplist_count_##] Comments</h2>
+		</header>
+		<article>
 			<s_rplist_rep>
 			<dl>
 				<dt class="content"><a href="[##_rplist_rep_link_##]">[##_rplist_rep_body_##]</a></dt>
@@ -86,8 +90,11 @@
 	</s_rplist>
 	<s_tblist> <!-- Trackbacks/Pingbacks List section ............................................ -->
 	<section class="list trackback">
+		<header>
+			<h2>[##_tblist_count_##] Trackbacks about '[##_tblist_conform_##]'</h2>									
+		</header>
 		<article>
-			<h2>[##_tblist_count_##] Trackbacks about '[##_tblist_conform_##]'</h2>									<s_tblist_rep>
+			<s_tblist_rep>
 			<dl>
 				<dt><a href="[##_tblist_rep_link_##]">[##_tblist_rep_subject_##]</a></dt>
 				<dd class="title">[##_tblist_rep_subject_##]</dd>
@@ -101,14 +108,15 @@
 	</s_tblist>
 	<s_line> <!-- Line List section .............................................................. -->
 	<section class="line">
-		<article>
+		<header>
 			<hgroup>
 				<h1>Lines</h1>
 				<h2>Instant myself</h2>
 			</hgroup>
 			<a href="[##_line_rssurl_##]"><img src="./images/rss_12.png" alt="RSS Icon" /></a>		
 			<a href="[##_line_atomurl_##]"><img src="./images/atom_12.png" alt="ATOM Icon" /></a>
-			
+		</header>
+		<article>
 			<s_line_rep>
 			<dl>
 				<dt class="regdate"><time datetime="[##_line_rep_regdate_##]">[##_line_rep_regdate_##]</time></dt>
@@ -126,11 +134,13 @@
 	</s_line>
 	<s_local> <!-- Location Log section .......................................................... -->
 	<section class="location">
-		<article>
+		<header>
 			<hgroup>
 				<h1>Log via location</a></h1>
 				<h2>Where posts are related to</h2>
 			</hgroup>
+		</header>
+		<article>
 			<dl>
 			<s_local_spot_rep>
 				<dt class="[##_local_spot_depth_##]">[##_local_spot_##]</dt>
@@ -147,11 +157,13 @@
 	</s_local>
 	<s_tag> <!-- Tag list section ................................................................ -->
 	<section class="tag">	
-		<article>
+		<header>
 			<hgroup>
 				<h1>Tag Cloud</h1>
 				<h2>Keywords with size based on popularity</h2>
 			</hgroup>
+		</header>
+		<article>
 			<ul>
 			<s_tag_rep>
 				<li><a href="[##_tag_link_##]" class="[##_tag_class_##]">[##_tag_name_##]</a></li>					</s_tag_rep>
@@ -161,34 +173,33 @@
 	</s_tag>
 	<s_guest> <!-- Guestbook section .............................................................-->
 	<section class="guestbook write">
-		<article>
+		<header>
 			<hgroup>
 				<h1>Guestbook</h1>
 				<h2>Leave your greetings</h2>
 			</hgroup>
+		</header>
+		<article>
 			<s_guest_input_form>
-				<fieldset>
-				<s_guest_member>
-					<s_guest_form>
-					<input type="text" id="[##_guest_input_name_##]" name="[##_guest_input_name_##]" value="[##_guest_name_##]" maxlength="20" required="required" />
-					<label for="[##_guest_input_name_##]">Your Name <em>(required)</em></label>
+			<fieldset>
+			<s_guest_member>
+				<s_guest_form>
+				<input type="text" id="[##_guest_input_name_##]" name="[##_guest_input_name_##]" value="[##_guest_name_##]" maxlength="20" required="required" />
+				<label for="[##_guest_input_name_##]">Your Name <em>(required)</em></label>
 
-					<input type="password" id="[##_guest_input_password_##]" name="[##_guest_input_password_##]" value="[##_guest_password_##]" required="required" />
-					<label for="[##_guest_input_password_##]">Password <em>(required)</em></label>
+				<input type="password" id="[##_guest_input_password_##]" name="[##_guest_input_password_##]" value="[##_guest_password_##]" required="required" />
+				<label for="[##_guest_input_password_##]">Password <em>(required)</em></label>
 
-					<input type="url" id="[##_guest_input_homepage_##]" name="[##_guest_input_homepage_##]" value="[##_guest_homepage_##]" />
-					<label for="[##_guest_input_homepage_##]">Your Website Address</label>
-
-					</s_guest_form>
-
-					<input type="checkbox" id="[##_guest_input_is_secret_##]" name="[##_guest_input_is_secret_##]" class="checkbox" value="1" />
-					<label for="[##_guest_input_is_secret_##]">Leave as secret</label>
-
-				</s_guest_member>
-					<textarea name="[##_guest_textarea_body_##]" rows="10" cols="50" required="required"></textarea>
-						
-					<button type="submit" class="submit button" value="Submit" onclick="[##_guest_onclick_submit_##]">Submit</button>
-				</fieldset>
+				<input type="url" id="[##_guest_input_homepage_##]" name="[##_guest_input_homepage_##]" value="[##_guest_homepage_##]" />
+				<label for="[##_guest_input_homepage_##]">Your Website Address</label>
+				</s_guest_form>
+				<input type="checkbox" id="[##_guest_input_is_secret_##]" name="[##_guest_input_is_secret_##]" class="checkbox" value="1" />
+				<label for="[##_guest_input_is_secret_##]">Leave as secret</label>
+			</s_guest_member>
+				<textarea name="[##_guest_textarea_body_##]" rows="10" cols="50" required="required"></textarea>
+					
+				<button type="submit" class="submit button" value="Submit" onclick="[##_guest_onclick_submit_##]">Submit</button>
+			</fieldset>
 			</s_guest_input_form>
 		</article>
 	</section>
@@ -223,16 +234,18 @@
 			</s_guest_rep>
 			</dl>
 		</article>
-	</section>	
 	</s_guest_container>
+	</section>
 	</s_guest>
 	<s_keyword> <!-- Keyword list .......................................................... -->
 	<section class="keyword">
-		<article>
+		<header>
 			<hgroup>
 				<h1>Keywords</h1>
 				<h2>My keywords</h2>
 			</hgroup>
+		</header>
+		<article>
 			<ul>
 			<s_keyword_rep>
 				<li><a href="#void" onclick="[##_onclick_keyword_##]">[##_keyword_label_##]</a></li>
@@ -243,62 +256,68 @@
 	</s_keyword>
 	<s_keylog_rep> <!-- Keylog post section (for tag description, etc..) ...................  -->
 	<section class="keylog post">
-		<article>
+		<header>
 			<h2>[##_keylog_rep_title_##]</h2>
+		</header>
+		<article>
 			[##_keylog_rep_desc_##]
 		</article>
 	</section>
 	</s_keylog_rep>
 	<s_notice_rep> <!-- Notice and pages section ............................................ -->
 	<section class="notice pages post">
+		<header>
+			<h2><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></h2>
+		</header>
 		<article>
-			<header>
-				<h2><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></h2>
-				<ul>
-					<li class="date"><dfn>Posted</dfn> at <time>[##_notice_rep_date_##]</time></li>
-					<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
-					<li class="category"><dfn>Filed</dfn> under <a href="[##_blog_link_##]notice">Notice</a></li>
-				</ul>
-			</header>
+			<ul>
+				<li class="date"><dfn>Posted</dfn> at <time>[##_notice_rep_date_##]</time></li>
+				<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
+				<li class="category"><dfn>Filed</dfn> under <a href="[##_blog_link_##]notice">Notice</a></li>
+			</ul>
 			[##_notice_rep_desc_##]
+		</article>
 	</section>
 	</s_notice_rep>
 	<s_page_rep> <!-- Notice and pages section ............................................ -->
 	<section class="page pages post">
+		<header>
+			<h2><a href="[##_page_rep_link_##]">[##_page_rep_title_##]</a></h2>
+		</header>
 		<article>
-			<header>
-				<h2><a href="[##_page_rep_link_##]">[##_page_rep_title_##]</a></h2>
-				<ul>
-					<li class="date"><dfn>Posted</dfn> at <time>[##_page_rep_date_##]</time></li>
-					<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
-				</ul>
-			</header>
+			<ul>
+				<li class="date"><dfn>Posted</dfn> at <time>[##_page_rep_date_##]</time></li>
+				<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
+			</ul>
 			[##_page_rep_desc_##]
+		</article>
 	</section>
 	</s_page_rep>
+
 	<s_article_protected> <!-- Protected Posts section ...................................... -->
 	<section class="protected post">
+		<header>
+			<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
+			<ul>
+				<li class="date"><dfn>Posted</dfn> at <time>[##_article_rep_date_##]</time></li>
+				<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
+				<li class="category"><dfn>Filed</dfn> under <a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></li>
+			</ul>
+		</header>
 		<article>
-			<header>
-				<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>
-				<ul>
-					<li class="date"><dfn>Posted</dfn> at <time>[##_article_rep_date_##]</time></li>
-					<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
-					<li class="category"><dfn>Filed</dfn> under <a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></li>
-				</ul>
-			</header>
 			<p>Please type the <em>correct password</em> to view this content.</p>
 			<input id="[##_article_password_##]" name="[##_article_password_##]" type="password" onkeydown="if (event.keyCode == 13) [##_article_dissolve_##]" />
 			<button type="button" class="submit button" value="Submit" onclick="[##_article_dissolve_##]" />
 		</article>
 	</section>
 	</s_article_protected>
+
 	<s_article_rep> <!-- Post section ....................................................... -->
 	<section class="post [##_article_rep_category_body_id_##]">
+		<header>
+			<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>			
+		</header>
 		<article class="post [##_article_rep_category_body_id_##]">
-			<header>
-				<h2><a href="[##_article_rep_link_##]">[##_article_rep_title_##]</a></h2>			
-			</header>
 			<s_ad_div> <!-- Administration-only menus for post .................................. -->
 			<menu class="admin">
 				<li><strong>[##_s_ad_s1_label_##]</strong> Post.</li>
@@ -356,6 +375,7 @@
 			</dl>
 		</article>
 	</section>
+
 	<s_tb> <!-- Trackback lists ....................................................... -->
 	<section class="trackbacks">
 		<article>
@@ -369,8 +389,11 @@
 	</section>
 	<s_tb_container> <!-- Trackback list container …................................. -->
 	<section class="trackbacks list">
-		<h3>Trackbacks List</h3>
-		<dl>
+		<header>
+			<h3>Trackbacks List</h3>
+		</header>
+		<article>
+			<dl>
 		<s_tb_rep>
 			<dt id="[##_tb_rep_id_##]">
 				<h4><a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_title_##]</a></h4>
@@ -380,17 +403,21 @@
 			<dd class="delete"><command onclick="[##_tb_rep_onclick_delete_##]; return false" title="Delete">Delete</command></dd>
 			<dd class="content"><p>[##_tb_rep_desc_##]</p></dd>
 		</s_tb_rep>
-		</dl>
+			</dl>
+		</article>
 	</section>
 	</s_tb_container>
 	</s_tb>
 	<s_rp> <!-- Comments  ............................................................. -->
 	<s_rp_container>
 	<section class="comments">
-		<hgroup>
-			<h1>Comments</h1>
-			<h2>ATOM Feed : [##_article_rep_rp_atomurl_##]</h2>
-		</hgroup>
+		<header>
+			<hgroup>
+				<h1>Comments</h1>
+				<h2>ATOM Feed : [##_article_rep_rp_atomurl_##]</h2>
+			</hgroup>
+		</header>
+		<article>
 		<dl class="comments">
 		<s_rp_rep>
 			<dt id="[##_rp_rep_id_##]" class="[##_rp_rep_class_##]">
@@ -421,14 +448,18 @@
 			</s_rp2_container>
 		</s_rp_rep>
 		</dl>
+		</article>
 	</section>
 	</s_rp_container>
 	<s_rp_input_form> <!-- Write form for comments  ...................................... -->	
 	<section class="write comments">
-		<hgroup>
-			<h1>Comments</h1>
-			<h2>Leave your comment</h2>
-		</hgroup>
+		<header>
+			<hgroup>
+				<h1>Comments</h1>
+				<h2>Leave your comment</h2>
+			</hgroup>
+		</header>
+		<article>
 		<fieldset>
 		<s_rp_member>
 			<s_rp_guest>
@@ -445,6 +476,7 @@
 			<textarea name="[##_rp_input_comment_##]" rows="10" cols="65"></textarea>
 			<button type="submit" class="submit button" value="Submit" onclick="[##_rp_onclick_submit_##]">Submit</button>
 		</fieldset>
+		</article>
 	</section>
 	</s_rp_input_form>
 	</s_rp>
