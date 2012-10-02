@@ -328,6 +328,7 @@ h3
 	font-size                        : 0.9em;
 	padding                          : 8px 0 3px 0;
 	text-align                       : right;
+	cursor                           : pointer;
 }
 
 .entry-editor-property h4
@@ -640,20 +641,30 @@ h3
 {
 	background-color                 : #FFF;
 	margin                           : 10px 20px 10px 0;
-	position                         : relative;
-	width                            : 100%;
+/*	position                         : relative;*/
+/*	width                            : 100%;*/
 /*	width                            : 550px;*/
 /*	float                            : left;*/
 	border: 1px solid #F2F2F2;
+	position:absolute;
+	top:100%;
+	left:50%;
+	margin-top:-200px;
+	margin-left:-370px;
+	width:900px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+	box-shadow: 0 0 10px rgba(0,0,0,0.3);	
 
 }
 
 #upload-section h3
 {
 	background-color                 : #F2F2F2;
-	display                          : none;
 	padding                          : 10px 10px 3px 10px;
-
 }
 
 #upload-detail
