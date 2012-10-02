@@ -78,9 +78,10 @@ h3
 
 #title-line dd .input-text
 {
-	border                           : 1px solid #ccc;
+	border                           : 0px;
+	border-bottom                    : 1px solid #ccc;
 	vertical-align                   : middle;
-	width                            : 700px;
+	width                            : 60%;
 	height							 : 25px;
 	margin-left                      : 0;
 	padding: 0 5px;
@@ -299,17 +300,18 @@ h3
 	background-color                 : rgba(255,255,255,0.8);
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
-	position                         : absolute;
+	/*position                         : absolute;*/
+	position                         : fixed;
 	z-index                          : 150;
 	right                            : 0;
-	top                              : 0;
+	top                              : 80px;
 	width                            : 245px;
-	
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
-	
+	border-radius: 3px;
 	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.3);
 	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+	box-shadow: 0 3px 10px rgba(0,0,0,0.3);
 }
 
 #templateDialog
@@ -320,12 +322,13 @@ h3
 	
 }
 
-.entry-editor-property .entry-editor-property-option
+.entry-editor-property .entry-editor-property-control
 {
 	border-bottom                    : 1px solid #EEEEEE;
 	font-size                        : 0.9em;
 	padding                          : 8px 0 3px 0;
 	text-align                       : right;
+	cursor                           : pointer;
 }
 
 .entry-editor-property h4
@@ -345,6 +348,7 @@ h3
 	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, AppleGothic, '굴림', Gulim, sans-serif;
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
+	max-width                        : 250px;
 }
 
 .entry-editor-property dl
@@ -358,7 +362,7 @@ h3
 {
 	border                           : none;
 	color                            : #666666;
-	font-family                      : 돋움, Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	height                           : auto;
@@ -389,7 +393,7 @@ h3
 
 .entry-editor-property dl dd select.file-list
 {
-	height                           : 220px;
+	height                           : 200px;
 	margin-bottom                    : 0;
 	width                            : 200px !important;
 }
@@ -461,6 +465,78 @@ h3
 .propertyObject_chunk
 {
 	height                           : 200px;
+}
+
+.entry-editor-property-option
+{
+	display:none;
+}
+
+.property-window-Gallery
+{
+	top:50% !important;
+	left:50% !important;
+	margin-top:-250px !important;
+	margin-left:-300px !important;
+	height :500px !important;
+	width :600px !important;
+	z-index : 600 !important;
+}
+
+.property-window-Gallery .preview-box
+{
+	position : fixed;
+	top:50%;
+	left:50%;
+	margin-top:-150px;
+	margin-left:20px;
+}
+
+.property-window-Gallery .preview-box img
+{
+	margin: auto auto !important;
+	width                            : 250px !important;
+}
+
+.property-window-Gallery .button-box
+{
+	position:absolute;
+	display:block;
+	top:50%;
+	left:50%;
+	margin-top:0;
+	margin-left:-50px !important;
+	text-align                       : left !important;
+}
+.property-window-Gallery .button-box .button 
+{
+	padding:0 !important;
+}
+.property-window-Gallery .button-box .button .text
+{
+	display:none;
+}
+
+.property-window-Gallery .button-box .up-button
+{
+	display:block !important;
+	margin-top:5px !important;
+	width:30px !important;
+    height:90px;
+	background:url("./image/img_moveup_module.jpg") no-repeat center center !important;
+}
+
+.property-window-Gallery .button-box .dn-button
+{
+	display:block !important;
+	margin-top:10px !important;
+	width:30px !important;
+    height:90px;
+	background:url("./image/img_movedown_module.jpg") no-repeat center center !important;
+}
+.property-window-Gallery .button-box .divider
+{
+	display: none;
 }
 /* Save -----------------------------------------------------------------------------------------*/
 #save-section
@@ -565,20 +641,30 @@ h3
 {
 	background-color                 : #FFF;
 	margin                           : 10px 20px 10px 0;
-	position                         : relative;
-	width                            : 100%;
+/*	position                         : relative;*/
+/*	width                            : 100%;*/
 /*	width                            : 550px;*/
 /*	float                            : left;*/
 	border: 1px solid #F2F2F2;
+	position:absolute;
+	top:100%;
+	left:50%;
+	margin-top:-200px;
+	margin-left:-370px;
+	width:900px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+	box-shadow: 0 0 10px rgba(0,0,0,0.3);	
 
 }
 
 #upload-section h3
 {
 	background-color                 : #F2F2F2;
-	display                          : none;
 	padding                          : 10px 10px 3px 10px;
-
 }
 
 #upload-detail
@@ -918,5 +1004,16 @@ dl#power-line
 	position                         : fixed !important;
 	top                              : 80px !important;
 	height                           : 30px !important;
-	z-index                          : 99;
+	z-index                          : 190;
 }
+
+.mceExternalToolbar {
+	position                         : fixed !important;
+	top                              : 80px !important;
+	height                           : 30px !important;
+	z-index                          : 100;
+	display:block;
+	border:0 !important;
+}
+.defaultSkin .mceExternalClose { display:none !important;}
+.defaultSkin td.mceToolbar {background:transparent !important;}
