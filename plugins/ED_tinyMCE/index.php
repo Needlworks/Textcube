@@ -10,7 +10,7 @@ function tinyMCE_editorinit(&$editor) {
 	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$config = Setting::fetchConfigVal($configVal);
-	if(empty($config['editormode'])) $config['editormode'] = 'advanced';
+	if(empty($config['editormode'])) $config['editormode'] = 'simple';
 	if(empty($config['width'])) $config['width'] = 'full';
 	ob_start();
 ?>
@@ -26,8 +26,9 @@ function tinyMCE_editorinit(&$editor) {
 ?>
 				plugins : "autolink,autoresize,lists,style,advimage,advlink,emotions,inlinepopups,preview,media,contextmenu,fullscreen,noneditable,visualchars,xhtmlxtras,advlist,TTMLsupport",
 				// Theme options
-				theme_advanced_buttons1 : "tcsave,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,preview,fullscreen",
-				theme_advanced_buttons2 : "undo,redo,|,bullist,numlist,|,outdent,indent,blockquote,hr,tcmoreless,|,tcattach,link,unlink,anchor,image,media,code,|,forecolor,backcolor,|,charmap,emotions,|,visualchars,restoredraft",
+				theme_advanced_buttons1 : "tcsave,|,visualchars,bold,italic,underline,strikethrough,|,styleselect,formatselect,fontselect,fontsizeselect,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,hr,tcmoreless",
+				theme_advanced_buttons2 : "tcattach,image,media,|,charmap,emotions,|,link,unlink,anchor,|,undo,redo,|,code,preview,fullscreen",
+
 				theme_advanced_buttons3 : "",
 				theme_advanced_buttons4 : "",
 <?php
@@ -35,8 +36,9 @@ function tinyMCE_editorinit(&$editor) {
 ?>
 				plugins : "autolink,autoresize,lists,pagebreak,style,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,wordcount,advlist,TTMLsupport",
 				// Theme options
-				theme_advanced_buttons1 : "tcsave,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking,pagebreak,restoredraft,|,styleprops,|,code,cleanup,|,preview,fullscreen",
-				theme_advanced_buttons2 : "undo,redo,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,tcmoreless,|,sub,sup,|,tcattach,link,unlink,anchor,image,charmap,media,advhr,|,forecolor,backcolor,|,tablecontrols,|,hr,removeformat,visualaid,|,ltr,rtl",
+				theme_advanced_buttons1 : "tcsave,|,visualchars,bold,italic,underline,strikethrough,|,styleselect,formatselect,fontselect,fontsizeselect,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,hr,tcmoreless",
+				theme_advanced_buttons2 : "tcattach,image,media,|,charmap,emotions,|,sub,sup,|,link,unlink,anchor,advhr,|,tablecontrols,|,hr,removeformat,visualaid,|,ltr,rtl,|,search,replace,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking,pagebreak,restoredraft,|,styleprops,|,undo,redo,|,code,cleanup,preview,fullscreen",
+
 				theme_advanced_buttons3 : "",
 				theme_advanced_buttons4 : "",
 <?php
@@ -47,7 +49,7 @@ function tinyMCE_editorinit(&$editor) {
 				theme_advanced_statusbar_location : "bottom",
 				theme_advanced_resizing : true,
 
-				// Example content CSS (should be your site CSS)
+				// content CSS
 				content_css : "<?php echo (file_exists(ROOT.'/skin/blog/'.$context->getProperty('skin.skin').'/wysiwyg.css') ? $context->getProperty('uri.service').'/skin/blog/'.$context->getProperty('skin.skin').'/wysiwyg.css' : $context->getProperty('uri.service').'/resources/style/default-wysiwyg.css');?>",
 
 				// Drop lists for link/image/media dialogs
