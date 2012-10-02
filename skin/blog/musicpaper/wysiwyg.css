@@ -1,0 +1,286 @@
+@charset "utf-8";
+
+*
+{
+	margin: 0;
+	padding: 0;
+}
+
+body
+{
+	background-color: #fff;
+	color: #666;
+	font: 1.2em/1.7 Helvetica, AppleGothic, Gulim, '굴림', sans-serif;
+	font-size: 75%;
+}
+
+a
+{
+	color : #333 !important; 
+	border-bottom: 1px dashed #c39;
+	text-decoration: none !important;
+}
+
+blockquote
+{
+	margin: 1.7em auto;
+	padding: 0 10px;
+	width: 80%;
+	color: #50b4ca;
+	border-left: 2px solid #ddd;
+}
+
+dfn, em, cite, address
+{
+	font-style: normal;
+}
+
+h1
+{
+	font: normal 2.17em arial, 'Trebuchet MS', Verdana, Sans-Serif;
+}
+
+h1 a
+{
+	color: #e23c8e;
+}
+
+h2
+{
+	padding-bottom: .5em;
+	background: #fff url('./images/bg_h2.gif') repeat-x 0 100%;
+	border-bottom: 1px solid #fff;
+	font-size: 1.5em;
+	letter-spacing: -1px;
+	color: #accb53;
+}
+
+h3
+{
+	font: bold 1.17em/1.5 Arial, Helvetica, Sans-Serif;
+	background-color: #faf9f8;
+	border-bottom: 1px solid #eee;
+	color: #accb53;
+}
+
+h4
+{
+	font-size: 1.08em;
+}
+
+fieldset
+{
+	clear: both;
+}
+
+hr
+{
+	display: block;
+	margin-bottom: 1em;
+}
+
+p
+{
+	margin-bottom: 1.7em;
+}
+
+code
+{
+	font-family: Monaco, 'Courier New', monospace;
+}
+
+pre
+{
+	margin-left: 0.8em;
+	margin-bottom: 1.5em;
+	padding: 0.4em;
+	border-top: 1px dashed #ccc;
+	border-bottom: 1px dashed #ccc;
+}
+
+ol
+{
+	margin: 1em 0 1.5em 50px;
+}
+
+ul
+{
+	list-style: none;
+	margin: 1em 0 1.5em 30px;
+}
+
+ul li
+{
+	padding-left: 20px;
+	background: url('./images/bullet_atricleUl.gif') no-repeat 0 .3em;
+}
+
+/* Special Classes */
+
+.tattermoreless
+{
+	background-color: #faf9f8;
+	border-top: solid 1px #eee;
+	border-bottom: solid 1px #eee;
+	margin-top: 10px;
+	padding: 1em 10px;
+}
+
+img.tatterImageLeft
+{
+	border: 5px solid #eee !important;
+	cursor: move !important;
+	display: block;
+	float: left;
+	margin: 0 10px .5em 0 !important;
+}
+
+img.tatterImageCenter
+{
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	margin: 0 auto 1.5em auto;
+}
+
+img.tatterImageRight
+{
+	border: 5px solid #eee !important;
+	cursor: move !important;
+	display: block;
+	float: right;
+	margin: 0 0 .5em 10px !important;
+}
+
+img.tatterImageDual
+{
+	background-color: #fffaa7;
+	background-image: url('./images/editor/img_dual.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	height: 120px;
+	margin: 0 auto 1.5em auto;
+	width: 95%;
+}
+
+img.tatterImageTriple
+{
+	background-color: #fffaa7;
+	background-image: url('./images/editor/img_triple.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	height: 120px;
+	margin: 0 auto 1.5em auto;
+	width: 95%;
+}
+
+img.tatterImazing
+{
+	background-color: #fffaa7;
+	background-image: url('./images/editor/img_imazing.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	/*height: 200px;*/
+	margin: 0 auto 1.5em auto;
+	/*width: 95%;*/
+}
+
+img.tatterGallery
+{
+	background-color: #fffaa7;
+	background-image: url('./images/editor/img_gallery.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	/*height: 200px;*/
+	margin: 0 auto 1.5em auto;
+	/*width: 95%;*/
+}
+
+img.tatterJukebox
+{
+	background-color: #fffaa7;
+	background-image: url('./images/editor/img_jukebox.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	height: 50px;
+	margin: 0 auto;
+	width: 320px;
+}
+
+img.tatterImageFree
+{
+	cursor: move !important;
+}
+
+img.tatterEmbed, img.tatterObject
+{
+	background-color: #fffaa7;
+	background-image: url('./images/editor/img_embed.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	/*height: 50px;*/
+	margin: 0 auto;
+	/*width: 320px;*/
+}
+
+img.tatterFlash
+{
+	background-color: #fffaa7;
+	background-image: url('./images/editor/img_flash.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+	border: 5px solid #eee !important;
+	clear: both;
+	cursor: move !important;
+	display: block;
+	/*height: 50px;*/
+	margin: 0 auto;
+	/*width: 320px;*/
+}
+
+table
+{
+	border-collapse: collapse;
+	margin: 0.5em;
+}
+
+th, td
+{
+	padding: 0.2em 0.5em;
+	border: 1px solid #ccc;
+}
+
+dt
+{
+	font-weight: bold;
+}
+
+dd
+{
+	padding-left: 1.2em;
+}
