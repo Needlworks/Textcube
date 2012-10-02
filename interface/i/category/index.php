@@ -10,7 +10,7 @@ printMobileHTMLMenu('','list');
 $category = $suri['id'];
 if(isset($category)) {
 	$blog['entriesOnList'] = 8;
-	if(!$listWithPaging = getEntryListWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList']))
+	if(!$listWithPaging = getEntriesWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList'],1))
 		$listWithPaging = array(array(), array('total' => 0));
 	$list = array('title' => (empty($suri['value']) ? getCategoryLabelById($blogid, 0) : $suri['value']), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];

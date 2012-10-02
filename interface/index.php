@@ -39,6 +39,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$IV = array(
 		'GET' => array(
 			'page' => array('int', 1, 'default' => 1),
+			'mode' => array(array('mobile','desktop','tablet'),'mandatory'=>false),
 			'category' => array('int', 0, 'mandatory'=>false)
 		)
 	);
@@ -48,7 +49,9 @@ require ROOT . '/library/preprocessor.php';
 
 // Redirect for ipod touch / iPhone
 $browserUtil = Utils_Browser::getInstance();
-if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true)){
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true) 
+		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop') 
+		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['mode'],array('desktop')))) {
 	if(isset($suri['id'])) {
 		$slogan = getSloganById($blogid, $suri['id']);
 		if(!empty($slogan)) {
@@ -58,6 +61,7 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile(
 		header("Location: $blogURL/i"); exit;
 	}
 }
+$_SESSION['mode'] = 'desktop';
 publishEntries();
 
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifier.

@@ -6,6 +6,7 @@ $IV = array(
 		'GET' => array(
 			'category' => array('int',0,'mandatory'=>false),
 			'page' => array('int', 1, 'default' => 1),
+			'mode' => array(array('mobile','desktop','tablet'),'mandatory'=>false),			
 			'commentId' => array('int',0,'mandatory'=>false),
 			'commentInput' => array('bool','mandatory'=>false)
 			)
@@ -13,7 +14,10 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 
-if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
+$browserUtil = Utils_Browser::getInstance();
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true) 
+		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop') 
+		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['mode'],array('desktop')))) {
 	if(empty($suri['value'])) {
 		header("Location: $blogURL/i"); exit;
 	} else {

@@ -84,7 +84,7 @@ function printMobileCategoriesView($totalPosts, $categories) {
 						array('id' => $category2['id'], 
 							'label' => $category2['name'], 
 							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
-							'link' => "$context->getProperty('uri.blog')/category/" . $category2['id'], 
+							'link' => $context->getProperty('uri.blog')."/category/" . $category2['id'], 
 							'children' => array()
 						)
 					);
@@ -98,7 +98,7 @@ function printMobileCategoriesView($totalPosts, $categories) {
 					array('id' => $category1['id'], 
 						'label' => $category1['name'], 
 						'value' => $categoryCount + $parentCategoryCount, 
-						'link' => "$context->getProperty('uri.blog')/category/" . $category1['id'], 
+						'link' => $context->getProperty('uri.blog')."/category/" . $category1['id'], 
 						'children' => $children)
 				);
 			}
@@ -246,9 +246,19 @@ function printMobileHTMLHeader($title = '') {
 }
 
 function printMobileHTMLFooter() {
+	global $blogURL;
+	$context = Model_Context::getInstance();
+	if(!is_null($context->getProperty('suri.id'))) {
+		$slogan = getSloganById($context->getProperty('blog.id'), $context->getProperty('suri.id'));
+	} else if(!is_null($context->getProperty('suri.value'))) {
+		$slogan = $context->getProperty('suri.value');		
+	}
+	$link = $context->getProperty('uri.basicblog').substr($context->getProperty('suri.directive'),2).'/'.
+	URL::encode($slogan)."?mode=desktop";
+
 ?>
 	<div data-role="content" class="ui-bar" data-theme="c"><span class="footer_text"><?php echo _textf('이 페이지는 %1 %2 로 구동됩니다',TEXTCUBE_NAME,TEXTCUBE_VERSION);?></span>
-		<a data-role="button" data-theme="d" data-inline="true" data-icon="refresh"><?php echo _text('데스크탑 화면');?></a>
+		<a href="<?php echo $link;?>" data-role="button" data-theme="d" data-inline="false" data-icon="refresh" rel="external"><?php echo _text('데스크탑 화면');?></a>
 	</div>
 
 	</body>
@@ -301,7 +311,7 @@ function printMobileFreeImageResizer($content) {
 	$context = Model_Context::getInstance();
 	$blogid = $context->getProperty('blog.id');
 	$pattern1 = "@<img.+src=['\"](.+)['\"].*>@Usi";
-	$pattern2 = $service['path'] . "/attach/{$blogid}/";
+	$pattern2 = $context->getProperty('service.path') . "/attach/{$blogid}/";
 
 	if (preg_match_all($pattern1, $content, $matches)) {
 		foreach($matches[0] as $imageTag) {
