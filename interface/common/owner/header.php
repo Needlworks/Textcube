@@ -382,6 +382,16 @@ if (file_exists(ROOT . $context->getProperty('panel.skin')."/custom.js")) {
 ?>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/custom.js"></script>
 <?php
+<<<<<<< HEAD
+=======
+}
+if($service['interface'] == 'simple') {
+	if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {
+?>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/mootools.js"></script>
+<?php
+	}
+>>>>>>> fcadc1d...  refs #1604 : desktop-mobile change now works.
 }
 if( isset($service['admin_script']) ) {
 	if( is_array($service['admin_script']) ) {

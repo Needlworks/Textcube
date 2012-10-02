@@ -39,6 +39,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 	$IV = array(
 		'GET' => array(
 			'page' => array('int', 1, 'default' => 1),
+			'mode' => array(array('mobile','desktop','tablet'),'mandatory'=>false),
 			'category' => array('int', 0, 'mandatory'=>false)
 		)
 	);
@@ -47,7 +48,14 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 require ROOT . '/library/preprocessor.php';
 
 // Redirect for ipod touch / iPhone
+<<<<<<< HEAD
 if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'],'iPod') || strpos($_SERVER['HTTP_USER_AGENT'],'iPhone')))){
+=======
+$browserUtil = Utils_Browser::getInstance();
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true) 
+		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop') 
+		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['mode'],array('desktop')))) {
+>>>>>>> fcadc1d...  refs #1604 : desktop-mobile change now works.
 	if(isset($suri['id'])) {
 		$slogan = getSloganById($blogid, $suri['id']);
 		if(!empty($slogan)) {
@@ -57,6 +65,7 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && (isset($_SERVER['HTTP_US
 		header("Location: ".$context->getProperty('uri.blog')."/i"); exit;
 	}
 }
+$_SESSION['mode'] = 'desktop';
 publishEntries();
 
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifier.

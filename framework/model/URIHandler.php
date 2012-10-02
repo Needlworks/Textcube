@@ -179,10 +179,15 @@ final class Model_URIHandler extends Singleton
 		$this->uri['blog'] = $this->uri['path'].$this->__getFancyURLpostfix();
 		$this->uri['folder'] = rtrim($this->uri['blog'] . $suri['directive'], '/');
 
+		$this->uri['basicblog'] = $this->uri['blog'];
 		if (defined('__TEXTCUBE_MOBILE__')) {
 			$this->uri['blog'] .= '/m';
+			$_SESSION['mode'] = 'mobile';
 		} else if (defined('__TEXTCUBE_IPHONE__')) {
 			$this->uri['blog'] .= '/i';
+			$_SESSION['mode'] = 'mobile';
+		} else {
+			$_SESSION['mode'] = 'desktop';
 		}
 
 		$this->blog = $blog;
