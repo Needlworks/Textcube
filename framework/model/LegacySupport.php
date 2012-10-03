@@ -10,10 +10,6 @@ final class Model_LegacySupport extends Singleton {
 		return self::_getInstance(__CLASS__);
 	}
 
-	protected function __construct() {
-	
-	}
-
 	public function addSupport($parameters) {
 		if(!is_array($parameters)) {
 			$parameters = array($parameters);
