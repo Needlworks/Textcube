@@ -13,7 +13,7 @@ final class Model_URIHandler extends Singleton
 		return self::_getInstance(__CLASS__);
 	}
 
-	protected function __construct() {
+	public function __construct() {
 		$this->__URIInterpreter();
 		$this->context = Model_Context::getInstance();
 	}

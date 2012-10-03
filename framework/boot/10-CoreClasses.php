@@ -4,28 +4,62 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /// Singleton implementation.
-abstract class Singleton {
-	private static $instances = array();
+if(version_compare(PHP_VERSION, '5.3.0','>=')) { // >= 5.3 Singleton implementation 
+	class Singleton {
+		// If your model support higher than PHP 5.3, you do not implement getInstance method.
+		// However, models for prior to PHP 5.3 should have getInstance method. 
+		// See below (<5.3 Compatible singleton implementation) 
+		private static $instances;
 
-	protected function __construct() {
-	}
-
-	final protected static function _getInstance($className) {
-		if (!array_key_exists($className, self::$instances)) {
-			self::$instances[$className] = new $className();
+		public function __construct() {
+			$c = get_class($this);
+			if(isset(self::$instances[$c])) {
+				throw new Exception('You can not create more than one copy of a singleton.');
+			} else {
+				self::$instances[$c] = $this;
+			}
 		}
-		return self::$instances[$className];
+		public static function _getInstance($p = null) {
+			$c = get_called_class();
+			if (!isset(self::$instances[$c])) {
+				$args = func_get_args();
+				$reflection_object = new ReflectionClass($c);
+				self::$instances[$c] = $reflection_object->newInstanceArgs($args);
+			}
+			return self::$instances[$c];
+		}
+		public static function getInstance() {
+			return self::_getInstance();
+		}
+		public function __clone() {
+			throw new Exception('You can not clone a singleton.');
+		}
 	}
+} else { //  < 5.3 Compatible Singleton implementation.
+	class Singleton {
+		private static $instances = array();
 
-	/*
-	// You should implement this method to the final class. (An example is below.)
-	// This is mainly because "late static bindings" is supported after PHP 5.3.
+		protected function __construct() {
+		}
 
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
+		final protected static function _getInstance($className) {
+			if (!array_key_exists($className, self::$instances)) {
+				self::$instances[$className] = new $className();
+			}
+			return self::$instances[$className];
+		}
+
+		/*
+		// If your model support prior to PHP 5.3, you should implement this method to the final class. 
+		// (An example is below.)
+		// This is mainly because "late static bindings" is supported after PHP 5.3.
+
+		public static function getInstance() {
+			return self::_getInstance(__CLASS__);
+		}
+		*/
+		public static function getInstance(){}
 	}
-	*/
-	abstract public static function getInstance();
 }
 
 /// String manipulation class
