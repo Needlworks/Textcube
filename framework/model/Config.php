@@ -10,8 +10,8 @@ final class Model_Config extends Singleton {
 		return self::_getInstance(__CLASS__);
 	}
 
-	protected function __construct($id = 'textcube') {
-		$this->__basicConfigLoader($id);
+	public function __construct() {
+		$this->__basicConfigLoader('textcube');
 	}
 	
 	private function __basicConfigLoader($id) {
