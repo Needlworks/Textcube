@@ -373,7 +373,6 @@ if (getBlogId()) {
 		$pageCache->contents = serialize($p);	
 		$pageCache->update();
 	}
-	if(empty($formatterCount)) { // Any formatter is used, add the ttml formatter.
 	if(!array_key_exists('ttml',$formatterCount)) { // Any formatter is used, add the ttml formatter.
 		activatePlugin('FM_TTML');
 	}
