@@ -347,7 +347,7 @@ function setDefaultPost($blogid, $userid) {
 	$entry['title']            = _t('환영합니다!');
 	$entry['slogan']           = 'welcome';
 	$entry['contentformatter'] = 'ttml';
-	$entry['contenteditor']    = 'modern';
+	$entry['contenteditor']    = 'tinyMCE';
 	$entry['starred']          = 0;
 	$entry['acceptcomment']    = 1;
 	$entry['accepttrackback']  = 1;
