@@ -41,6 +41,7 @@ $conditions = array();
 $conditions['blogid'] = getBlogId();
 $conditions['page'] = $_GET['page'];
 if(isset($_GET['category'])) $conditions['category'] = $_GET['category'];
+if(isset($_POST['category'])) $conditions['category'] = $_POST['category'];
 if(isset($_POST['search'])) $conditions['keyword'] = $_POST['search'];
 $conditions['linesforpage'] = 15;
 
@@ -98,8 +99,9 @@ EOS
 								PM.addRequest(request, "<?php echo _t('라인을 불러오고 있습니다.');?>");
 								request.send("page="+page
 									+"&lines="+lines<?php
-									if(isset($conditions['category'])) echo '+"&category="+'.$conditions['category'];
-									if(isset($conditions['keyword'])) echo '+"&keyword='.htmlspecialchars($searchKeyword).'"';?>);
+	if(isset($conditions['category'])) echo '+"&category='.$conditions['category'].'"';
+	if(isset($conditions['keyword'])) echo '+"&keyword='.htmlspecialchars($searchKeyword).'"';
+?>);
 							}
 							
 							function updateList(contentView, buttonView, position) {
@@ -131,7 +133,7 @@ EOS
 									alert("<?php echo _t('라인을 저장할 수 없었습니다.');?>");
 								}
 								PM.addRequest(request, "<?php echo _t('라인을 저장하고 있습니다.');?>");
-								request.send("content="+content+"&mode=ajax");				
+								request.send("content="+content+"&category=<?php echo $conditions['category'];?>&mode=ajax");				
 							}
 							//]]>
 						</script>

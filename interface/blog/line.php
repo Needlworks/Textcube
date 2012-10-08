@@ -10,11 +10,13 @@ $IV = array(
 		'key' => array('string','default'=>''),
 		'mode' => array('string','default'=>'url'),
 		'content' => array('string','default'=>''),
+		'category' => array('string','default'=>'public'),
 		'page' => array('int',1,'default'=>'')
 	),
 	'POST' => array(
 		'key' => array('string','default'=>''),
 		'mode' => array('string','default'=>'url'),
+		'category' => array('string','default'=>'public'),
 		'content' => array('string','default'=>'')
 	)
 );
@@ -28,10 +30,12 @@ if(!empty($_POST['content'])) {
 		$key = null;
 	}
 	$content = $_POST['content'];
+	$category = $_POST['category'];
 	$mode = $_POST['mode'];
 } else {
 	$key = $_GET['key'];
 	$content = $_GET['content'];
+	$category = $_GET['category'];
 	$mode = $_GET['mode'];
 }
 
@@ -42,6 +46,7 @@ if(!empty($content)) {
 	$password = Setting::getBlogSetting('LinePassword', null, true);
 	if(($password === $key) || doesHaveOwnership()) {
 		$lineobj->content = $content;
+		$lineobj->category = $category;
 		$result = $lineobj->add();
 		fireEvent('AddLine',$result, $lineobj);
 		$cache = pageCache::getInstance();
