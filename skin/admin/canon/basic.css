@@ -1331,9 +1331,6 @@ table.data-inbox tbody tr td.inactive-class
 
 #layout-footer
 {
-	/*background-image                 : url("./image/bg_body_bottom.png");
-	background-position              : left top;
-	background-repeat                : repeat-x;*/
 	background-color                 : #FFFFFF;
 	font-size                        : 0.9em;
 	margin                           : 0 auto;
