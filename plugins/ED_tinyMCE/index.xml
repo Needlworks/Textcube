@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.1">
+	<title xml:lang="en">tinyMCE Editor</title>
+	<title xml:lang="ko">tinyMCE 편집기</title>
+	<link>http://needlworks.org/</link>
+	<version>1.9</version>
+	<description xml:lang="en">Provides an easy-to-use WYSIWYG editor interface.</description>
+	<description xml:lang="ko">사용하기 쉬운 편집기 환경을 제공합니다.</description>
+	<description xml:lang="ja">tinyMCE WYSIWYGに編集環境を転換</description>
+	<license>GPLv2</license>
+	<author xml:lang="en" link="http://forest.nubimaru.com/">inureyes</author>
+	<author xml:lang="ko" link="http://forest.nubimaru.com/"><![CDATA[inureyes]]></author>
+	<safety changeData="yes" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="yes" />
+	<requirements>
+		<textcube>1.9</textcube>
+	</requirements>
+	<binding>
+		<listener event="ShowAdminHeader">tinyMCE_adminheader</listener>
+
+		<editor xml:lang="en" id="tinyMCE" name="tinyMCE">
+			<initialize>tinyMCE_editorinit</initialize>
+			<usedFor formatter="html" />
+			<usedFor formatter="ttml" />
+			<!--<usedFor formatter="markdown" />
+			<usedFor formatter="textile" />-->
+		</editor>
+		<editor xml:lang="ko" id="tinyMCE" name="tinyMCE">
+			<initialize>tinyMCE_editorinit</initialize>
+			<usedFor formatter="html" />
+			<usedFor formatter="ttml" />
+			<!--usedFor formatter="markdown" />
+			<usedFor formatter="textile" />-->
+		</editor>
+		<editor xml:lang="ja" id="tinyMCE" name="tinyMCE">
+			<initialize>tinyMCE_editorinit</initialize>
+			<usedFor formatter="html" />
+			<usedFor formatter="ttml" />
+			<!--usedFor formatter="markdown" />
+			<usedFor formatter="textile" />-->
+		</editor>
+		<config xml:lang="ko" dataValHandler="tinyMCE_handleconfig">
+			<window width="500" height="260" />
+			<fieldset legend="기본 설정">
+				<field title="에디터 편집 모드" type="select" name="editormode">
+					<op value="simple" checked="checked"><![CDATA[간단]]></op>
+					<op value="advanced"><![CDATA[상세]]></op>
+				</field>
+			</fieldset>
+			<fieldset legend="상세 설정">
+				<field title="에디터 폭" type="select" name="width">
+					<op value="skin"><![CDATA[스킨 지정 폭]]></op>
+					<op value="full" checked="checked"><![CDATA[화면 폭]]></op>
+				</field>
+			</fieldset>
+		</config>
+		<config xml:lang="en" dataValHandler="tinyMCE_handleconfig">
+			<window width="500" height="260" />
+			<fieldset legend="Settings">
+				<field title="Editing mode" type="select" name="editormode">
+					<op value="simple" checked="checked"><![CDATA[Simple]]></op>
+					<op value="advanced"><![CDATA[Advanced]]></op>
+				</field>
+			</fieldset>
+			<fieldset legend="Editor">
+				<field title="Width" type="select" name="width">
+					<op value="skin"><![CDATA[Skin-specified]]></op>
+					<op value="full" checked="checked"><![CDATA[Full-screen width]]></op>
+				</field>
+			</fieldset>
+		</config>
+		<config xml:lang="ja" dataValHandler="tinyMCE_handleconfig">
+			<window width="500" height="260" />
+			<fieldset legend="Settings">
+				<field title="Editing mode" type="select" name="editormode">
+					<op value="simple" checked="checked"><![CDATA[Simple]]></op>
+					<op value="advanced"><![CDATA[Advanced]]></op>
+				</field>
+			</fieldset>
+			<fieldset legend="Editor">
+				<field title="Width" type="select" name="width">
+					<op value="skin"><![CDATA[Skin-specified]]></op>
+					<op value="full" checked="checked"><![CDATA[Full-screen width]]></op>
+				</field>
+			</fieldset>
+		</config>
+	</binding>
+</plugin>
