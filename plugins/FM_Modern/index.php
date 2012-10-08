@@ -6,7 +6,7 @@ function FM_Modern_handleconfig($configVal) {
 	return true;
 }
 
-function FM_Modern_editorinit(&$editor) {
+function FM_Modern_editorinit($editor) {
 	global $service, $configVal, $entry;
 	$blogid = getBlogId();
 	if (is_null($configVal) || empty($configVal)) {
