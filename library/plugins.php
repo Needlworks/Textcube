@@ -373,10 +373,10 @@ if (getBlogId()) {
 		$pageCache->contents = serialize($p);	
 		$pageCache->update();
 	}
-	if(!array_key_exists('ttml',$formatterCount)) { // Any formatter is used, add the ttml formatter.
+	if(!array_key_exists('ttml',$formatterMappings)) { // Any formatter is used, add the ttml formatter.
 		activatePlugin('FM_TTML');
 	}
-	if(count($editorCount)==1) { // Any editor is used, add the textcube editor.
+	if(count($editorMappings)==1) { // Any editor is used, add the textcube editor.
 		activatePlugin('ED_tinyMCE');
 	}
 	// sort mapping by its name, with exception for default formatter and editor

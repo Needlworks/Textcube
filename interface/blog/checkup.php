@@ -96,7 +96,7 @@ function clearCache() {
 						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION);?></li>
 					</ul>
 <?php
-	if(version_compare($currentVersion,'1.8.0') < 0) {
+	if(version_compare($currentVersion,'1.8.0','<')) {
 ?>
 					<h3><?php echo _text('업그레이드 안내');?></h3>
 					<ul id="upgradeInstruction">
@@ -803,6 +803,20 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	/* From Textcube 1.9 */
+	if (version_compare($currentVersion, '1.9.0','<')) { 
+		$changed = true;
+		echo '<li>', _text('기본 에디터를 변경합니다.'), ': ';
+		$query = DBModel::getInstance();
+		$query->reset('BlogSettings');
+		$query->setQualifier('name','equals','defaultEditor',true);
+		$query->setQualifier('value','equals','modern',true);
+		$query->setAttribute('value','tinyMCE',true);
+		if($query->update())
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
+	/* From Textcube 2.0 */
 	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Sessions expires")) {
 		$changed = true;
 		echo '<li>', _text('자동 로그인을 위해 세션 테이블 구조를 수정합니다.'), ': ';
