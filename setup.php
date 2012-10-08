@@ -1180,7 +1180,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
             $query = explode(';', trim($schema));
             foreach ($query as $sub) {
 				if (!empty($sub) && !POD::query($sub, false)) {
-					$tables = getTables('1.8',$_POST['dbPrefix']);
+					$tables = getTables('1.9',$_POST['dbPrefix']);
 					foreach ($tables as $table) {
 						if (POD::dbms()=='Cubrid') {
 							@POD::query("DROP ".$table);
@@ -1445,7 +1445,7 @@ EOF;
 ?>
       <tr>
         <th><?php echo $prefix;?></th>
-        <th>1.8</th>
+        <th>1.8 / 1.9</th>
         <td><?php echo implode(', ', getTables('1.8', $prefix));?></td>
 	    <th><input type="radio" name="target" value="1.8_<?php echo $prefix;?>" <?php echo $ckeckedString;?>/></th>
       </tr>
