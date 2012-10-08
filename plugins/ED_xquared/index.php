@@ -6,7 +6,7 @@ function Xquared_handleconfig($configVal) {
 	return true;
 }
 
-function Xquared_editorinit(&$editor) {
+function Xquared_editorinit($editor) {
 	global $configVal, $entry, $pluginURL;
 	$blogid = getBlogId();
 	if (is_null($configVal) || empty($configVal)) {

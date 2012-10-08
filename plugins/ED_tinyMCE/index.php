@@ -5,7 +5,7 @@ function tinyMCE_handleconfig($configVal) {
 	return true;
 }
 
-function tinyMCE_editorinit(&$editor) {
+function tinyMCE_editorinit($editor) {
 	global $configVal, $entry, $pluginURL;
 	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
