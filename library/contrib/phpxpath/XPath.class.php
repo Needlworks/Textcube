@@ -196,7 +196,7 @@ class XPathBase {
    */
   function XPathBase() {
     # $this->bDebugXmlParse = TRUE;
-    $this->properties['verboseLevel'] = 1;  // 0=silent, 1 and above produce verbose output (an echo to screen). 
+    $this->properties['verboseLevel'] = 0;  // 0=silent, 1 and above produce verbose output (an echo to screen). 
     
     if (!isSet($_ENV)) {  // Note: $_ENV introduced in 4.1.0. In earlier versions, use $HTTP_ENV_VARS.
       $_ENV = $GLOBALS['HTTP_ENV_VARS'];
@@ -263,22 +263,26 @@ class XPathBase {
           $brackets--;
           if ($brackets<0) {
             $bracketMisscount = TRUE;
-            break 2;
+            $i = $leng;
+            break;
           }
           if ($stack[$brackets] != '(') {
             $bracketMissmatsh = TRUE;
-            break 2;
+            $i = $leng;
+            break;
           }
           break;
         case ']' : 
           $brackets--;
           if ($brackets<0) {
             $bracketMisscount = TRUE;
-            break 2;
+            $i = $leng;
+            break;
           }
           if ($stack[$brackets] != '[') {
             $bracketMissmatsh = TRUE;
-            break 2;
+            $i = $leng;
+            break;
           }
           break;
       }
@@ -822,8 +826,6 @@ class XPathEngine extends XPathBase {
     'NoNodeMatch'           => "The supplied xPath-query '%s' does not match *any* node in the xml document.",
     'RootNodeAlreadyExists' => "An xml document may have only one root node."
     );
-
-  var $ns = array(); // Name space prefix array
     
   /**
    * Constructor
@@ -875,36 +877,6 @@ class XPathEngine extends XPathBase {
     $this->_indexIsDirty = FALSE;
   }
   
-  //-----------------------------------------------------------------------------------------
-  // XPathEngine              ------  Namespace stuff -------
-  //-----------------------------------------------------------------------------------------
-  
-  function _expandNS( $steps ) {
-    $return_steps = array();
-	foreach( $steps as $s ) {
-		foreach( $this->ns as $prefix => $uri ) {
-			if( substr( $s, 0, strlen($prefix) + 1) == "$prefix:" ) {
-				$s = "$uri:" . substr( $s, strlen($prefix) + 1 );
-				break;
-			}
-		}
-		array_push( $return_steps, $s );
-	}
-	return $return_steps;
-  }
-  
-  function _unexpandNS( $nodeName ) {
-	foreach( $this->ns as $prefix => $uri ) {
-		$nodeName = str_replace( $uri, $prefix, $nodeName );
-	}
-	return $nodeName;
-  }
-  
-  function registerNamespace($prefix, $uri)
-  {
-	$this->ns[$prefix] = $uri;
-	return true;
-  } 
   
   //-----------------------------------------------------------------------------------------
   // XPathEngine              ------  Get / Set Stuff  ------                                
@@ -1002,9 +974,8 @@ class XPathEngine extends XPathBase {
    * @return                 (array)  The node, or FALSE if the node wasn't found.
    */
   function &getNode($absoluteXPath='') {
-    $n = false;
     if ($absoluteXPath==='/') $absoluteXPath = '';
-    if (!isSet($this->nodeIndex[$absoluteXPath])) return $n;
+    if (!isSet($this->nodeIndex[$absoluteXPath])) return FALSE;
     if ($this->_indexIsDirty) $this->reindexNodeTree();
     return $this->nodeIndex[$absoluteXPath];
   }
@@ -1057,7 +1028,7 @@ class XPathEngine extends XPathBase {
       }
             
       // Xpath contains a 'text()'-function, thus goes right to a text node. If so interpret the Xpath.
-      if (preg_match(":(.*)/text\\(\\)(\\[(.*)\\])?$:U", $absoluteXPath, $matches)) {
+      if (preg_match(":(.*)/text\(\)(\[(.*)\])?$:U", $absoluteXPath, $matches)) {
         $absoluteXPath = $matches[1];
  
         if (!isSet($this->nodeIndex[$absoluteXPath])) {
@@ -1709,7 +1680,7 @@ class XPathEngine extends XPathBase {
       $this->parseSkipWhiteCache = isSet($this->parseOptions[XML_OPTION_SKIP_WHITE]) ? $this->parseOptions[XML_OPTION_SKIP_WHITE] : FALSE;
       
       // Create an XML parser.
-      $parser = xml_parser_create_ns();
+      $parser = xml_parser_create();
       // Set default XML parser options.
       if (is_array($this->parseOptions)) {
         foreach($this->parseOptions as $key => $val) {
@@ -1794,7 +1765,6 @@ class XPathEngine extends XPathBase {
       $this->_displayError('XML error in file at line'. xml_get_current_line_number($parser) .'. Empty name.', __LINE__, __FILE__);
       return;
     }
-    $nodeName = $this->_unexpandNS( $nodeName );
 
     // Trim accumulated text if necessary.
     if ($this->parseSkipWhiteCache) {
@@ -1848,8 +1818,7 @@ class XPathEngine extends XPathBase {
    * @param $name   (string) Name of the closing tag found in the document.
    * @see       _handleStartElement(), _handleCharacterData()
    */
-  function _handleEndElement($parser, $nodeName) {
-    $name = $this->_unexpandNS( $nodeName );
+  function _handleEndElement($parser, $name) {
     if (($this->parsedTextLocation=='') 
         && empty($this->nodeStack[$this->parseStackIndex]['textParts'])) {
       // We reach this point when parsing a tag of format <foo/>. The 'textParts'-array 
@@ -2688,7 +2657,7 @@ class XPathEngine extends XPathBase {
       {
         // Check whether it's all wrapped in a function.  will be like count(.*) where .* is anything
         // text() will try to be matched here, so just explicitly ignore it
-        $regex = ":^([^\\(\\)\\[\\]/]*)\\s*\\((.*)\\)$:U";
+        $regex = ":^([^\(\)\[\]/]*)\s*\((.*)\)$:U";
         if (preg_match($regex, $xPathQuery, $aMatch) && $xPathQuery != "text()") {
           $function = $aMatch[1];
           $data     = $aMatch[2];
@@ -2708,7 +2677,7 @@ class XPathEngine extends XPathBase {
       // | '(' Expr ')'  
       // If it is surrounded by () then trim the brackets
       $bBrackets = FALSE;
-      if (preg_match(":^\\((.*)\\):", $xPathQuery, $aMatches)) {
+      if (preg_match(":^\((.*)\):", $xPathQuery, $aMatches)) {
         // Do not keep trimming off the () as we could have "(() and ())"
         $bBrackets = TRUE;
         $xPathQuery = $aMatches[1];
@@ -3780,9 +3749,7 @@ class XPathEngine extends XPathBase {
     );
 
     $cacheKey = $step;
-	$LastFailedStep = '';
     do { // parse block
-      $parseBlock = 1;
 
       if (isset($aResultsCache[$cacheKey])) {
         return $aResultsCache[$cacheKey];
@@ -3806,14 +3773,14 @@ class XPathEngine extends XPathBase {
         $step = '.';
         $axis['axis']      = 'self';
         $axis['node-test'] = '*';
-        break $parseBlock;
+        break;
       }
 
       if ($step == '..') {
         // Select the parent axis.
         $axis['axis']      = 'parent';
         $axis['node-test'] = '*';
-        break $parseBlock;
+        break;
       }
 
       ///////////////////////////////////////////////////
@@ -3865,7 +3832,7 @@ class XPathEngine extends XPathBase {
       if ($step == '*') {
         // Use the child axis and select all children.
         $axis['node-test'] = '*';
-        break $parseBlock;
+        break;
       }
 
       // ### I'm pretty sure our current handling of cdata is a fudge, and we should
@@ -3873,7 +3840,7 @@ class XPathEngine extends XPathBase {
       if ($step == "text()") {
         // Handle the text node
         $axis["node-test"] = "cdata";
-        break $parseBlock;
+        break;
       }
 
       // There are a few node tests that we match verbatim.
@@ -3882,14 +3849,14 @@ class XPathEngine extends XPathBase {
           || $step == "text()"
           || $step == "processing-instruction") {
         $axis["node-test"] = $step;
-        break $parseBlock;
+        break;
       }
 
       // processing-instruction() is allowed to take an argument, but if it does, the argument
       // is a literal, which we will have parsed out to $[number].
-      if (preg_match(":processing-instruction\\(\\$\\d*\\):", $step)) {
+      if (preg_match(":processing-instruction\(\$\d*\):", $step)) {
         $axis["node-test"] = $step;
-        break $parseBlock;
+        break;
       }
 
       // The only remaining way this can be a step, is if the remaining string is a simple name
@@ -3906,7 +3873,7 @@ class XPathEngine extends XPathBase {
       // NameTest   ::= '*'  
       //                | NCName ':' '*'  
       //                | (NCName ':')? NCName
-      $NCName = "[a-zA-Z][\\w\\.\\-_]*";
+      $NCName = "[a-zA-Z][\w\.\-_]*";
       if (preg_match("/^$NCName:$NCName$/", $step)
         || preg_match("/^$NCName:*$/", $step)) {
         $axis['node-test'] = $step;
@@ -3917,7 +3884,7 @@ class XPathEngine extends XPathBase {
         // Not currently recursing
         $LastFailedStep = '';
         $LastFailedContext = '';
-        break $parseBlock;
+        break;
       } 
 
       // It's not a node then, we must treat it as a PrimaryExpr
@@ -5859,7 +5826,7 @@ class XPath extends XPathEngine {
         continue;
       }
       return array($this->nodeIndex[$absoluteXPath]['attributes'][$attribute]);
-    } else if (preg_match(":(.*)/text\\(\\)(\\[(.*)\\])?$:U", $xPathQuery, $matches)) {
+    } else if (preg_match(":(.*)/text\(\)(\[(.*)\])?$:U", $xPathQuery, $matches)) {
       $absoluteXPath = $matches[1];
       $textPartNr = $matches[2];      
       return array($this->nodeIndex[$absoluteXPath]['textParts'][$textPartNr]);
@@ -6082,7 +6049,7 @@ class XPath extends XPathEngine {
       }
       
       // Check if it's a Xpath reference direct to a text-part(s). (xpath ends with text()[<part-number>])
-      if (preg_match(":(.*)/text\\(\\)(\\[(.*)\\])?$:U", $xPathQuery, $matches)) {
+      if (preg_match(":(.*)/text\(\)(\[(.*)\])?$:U", $xPathQuery, $matches)) {
         $xPathQuery = $matches[1];
         // default to the first text node if a text node was not specified
         $textPartNr = isSet($matches[2]) ? substr($matches[2],1,-1) : 1;
