@@ -18,17 +18,17 @@ function MT_Cover_getRecentEntries($parameters){
 	}
 	$entryLength = isset($parameters['entryLength'])?$parameters['entryLength']:10;
 
-	if (!is_dir(ROOT."/cache/thumbnail")) {
-		@mkdir(ROOT."/cache/thumbnail");
-		@chmod(ROOT."/cache/thumbnail", 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail")) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail");
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail", 0777);
 	}
-	if (!is_dir(ROOT."/cache/thumbnail/" . getBlogId())) {
-		@mkdir(ROOT."/cache/thumbnail/" . getBlogId());
-		@chmod(ROOT."/cache/thumbnail/" . getBlogId(), 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId())) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId());
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId(), 0777);
 	}
-	if (!is_dir(ROOT."/cache/thumbnail/" . getBlogId() . "/coverPostThumbnail/")) {
-		@mkdir(ROOT."/cache/thumbnail/" . getBlogId() . "/coverPostThumbnail/");
-		@chmod(ROOT."/cache/thumbnail/" . getBlogId() . "/coverPostThumbnail/", 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId() . "/coverPostThumbnail/")) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId() . "/coverPostThumbnail/");
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId() . "/coverPostThumbnail/", 0777);
 	}
 
 	$page = ($data['paging'] == '1' && !empty($_GET['page'])) ? intval($_GET['page']) : 1;
@@ -149,7 +149,7 @@ function MT_Cover_getImageResizer($blogid, $filename, $cropSize){
 			$thumbFilename = MT_Cover_getRemoteImageFilename($filename);
 		}
 
-		$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/coverPostThumbnail/th_{$thumbFilename}";
+		$thumbnailSrc = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/coverPostThumbnail/th_{$thumbFilename}";
 		if (!file_exists($thumbnailSrc)) {
 			$imageURL = MT_Cover_getCropProcess($blogid, $filename, $cropSize);
 		} else {
@@ -174,10 +174,10 @@ function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
 	if(stristr($filename, 'http://') ){
 		list($originSrc, $filename, $tempFile) = MT_Cover_getCreateRemoteImage($blogid, $filename);
 	} else {
-		$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
+		$originSrc = __TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$filename}";
 	}
 
-	$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/coverPostThumbnail/th_{$filename}";
+	$thumbnailSrc = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/coverPostThumbnail/th_{$filename}";
 	if (file_exists($originSrc)) {
 		requireComponent('Textcube.Function.Image');
 		$imageInfo = getimagesize($originSrc);
@@ -205,7 +205,7 @@ function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
 
 function MT_Cover_getCreateRemoteImage($blogid, $filename) {
 	$fileObject = false;
-	$tmpDirectory = ROOT . "/cache/thumbnail/{$blogid}/coverPostThumbnail/";
+	$tmpDirectory = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/coverPostThumbnail/";
 	$tempFilename = tempnam($tmpDirectory, "remote_");
 	$fileObject = @fopen($tempFilename, "w");
 

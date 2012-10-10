@@ -20,9 +20,9 @@ if (false) {
 if(validateAPIKey($blogid, $_GET['loginid'], $_GET['key'])) {
 	$userid = User::getUserIdByEmail($_GET['loginid']);
 	if(in_array($blogid, User::getOwnedBlogs($userid))) { 
-		if (file_exists(ROOT . "/cache/backup/$blogid.xml")) {
+		if (file_exists(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml")) {
 			header('Content-Type: text/xml; charset=utf-8');
-			$fileHandle = fopen(ROOT . "/cache/backup/$blogid.xml", 'r+');
+			$fileHandle = fopen(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml", 'r+');
 			while(!feof($fileHandle)) {
 				$buffer = fread($fileHandle, 4096);
 				print $buffer;

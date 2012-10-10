@@ -44,8 +44,8 @@ class DataMaintenance {
 			}
 		}
 		
-		if (file_exists(ROOT . "/cache/rss/$blogid.xml"))
-			unlink(ROOT . "/cache/rss/$blogid.xml");
+		if (file_exists(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml"))
+			unlink(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml");
 		
 		if ($removeAttachments) {
 			Path::removeFiles(Path::combine(ROOT, 'attach', $blogid));

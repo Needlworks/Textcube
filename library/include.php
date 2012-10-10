@@ -12,9 +12,9 @@ foreach($__requireComponent as $lib) {
 	require ROOT .'/framework/legacy/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
-if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(ROOT.'/cache/code/'.$codeName)) {
+if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(__TEXTCUBE_CACHE_DIR__.'/code/'.$codeName)) {
 	$codeCacheRead = true;
-	require(ROOT.'/cache/code/'.$codeName);
+	require(__TEXTCUBE_CACHE_DIR__.'/code/'.$codeName);
 } else {
 	$codeCacheRead = false;
 	foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {

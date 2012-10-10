@@ -21,7 +21,7 @@ $view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[
 $automaticLink = "	<link rel=\"stylesheet\" href=\"".$context->getProperty('uri.service')."/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 dress('SKIN_head_end', $automaticLink."[##_SKIN_head_end_##]", $view);
 
-if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
+if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(__TEXTCUBE_ATTACH_DIR__."/".$context->getProperty('blog.id')."/index.gif")) {
 	dress('SKIN_head_end', '<link rel="apple-touch-icon" href="'.$context->getProperty('uri.default')."/index.gif".'" />'."[##_SKIN_head_end_##]",$view);
 }
 

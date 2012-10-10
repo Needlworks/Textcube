@@ -14,7 +14,7 @@ class Debug {
 		switch ($backend_name) {
 		case 'logfile':
 			// always open in append mode
-			$this->file = fopen(ROOT . '/cache/debug.log', 'a');
+			$this->file = fopen(__TEXTCUBE_CACHE_DIR__.'/debug.log', 'a');
 			if ($this->file === FALSE)
 				throw new DebuggerError("Creation failed because cache/debug.log couldn't be opened.");
 			if ($options != NULL && $options['truncate'] == TRUE)

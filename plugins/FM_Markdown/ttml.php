@@ -410,8 +410,8 @@ function FM_TTML_getAttachmentBinder($filename, $property, $folderPath, $folderU
 function FM_TTML_createNewProperty($filename, $imageWidth, $property) {
 	$blogid = getBlogId();
 	$image = Utils_Image::getInstance();
-	if (in_array($image->getImageType(ROOT."/attach/$blogid/$filename"), array('gif', 'png', 'jpg', 'bmp')))
-		return $image->resizeImageToContent($property, ROOT."/attach/$blogid/$filename", $imageWidth);
+	if (in_array($image->getImageType(__TEXTCUBE_ATTACH_DIR__."/$blogid/$filename"), array('gif', 'png', 'jpg', 'bmp')))
+		return $image->resizeImageToContent($property, __TEXTCUBE_ATTACH_DIR__."/$blogid/$filename", $imageWidth);
 	else
 		return array($property, false);
 }

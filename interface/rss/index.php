@@ -12,11 +12,11 @@ requireModel("blog.feed");
 requireModel("blog.entry");
 requireStrictBlogURL();
 publishEntries();
-if (!file_exists(ROOT . "/cache/rss/$blogid.xml"))
+if (!file_exists(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml"))
 	refreshFeed($blogid,'rss');
 header('Content-Type: application/rss+xml; charset=utf-8');
-$fileHandle = fopen(ROOT . "/cache/rss/$blogid.xml", 'r+');
-$result = fread($fileHandle, filesize(ROOT . "/cache/rss/$blogid.xml"));
+$fileHandle = fopen(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml", 'r+');
+$result = fread($fileHandle, filesize(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml"));
 fclose($fileHandle);
 fireEvent('FeedOBStart');
 echo fireEvent('ViewRSS', $result);

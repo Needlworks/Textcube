@@ -133,7 +133,7 @@ function addAttachment($blogid, $parent, $file) {
 	if ((strlen($extension) > 6) || ($extension == '')) {
 		$extension = 'xxx';
 	}
-	$path = ROOT . "/attach/$blogid";
+	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	if (!is_dir($path)) {
 		mkdir($path);
 		if (!is_dir($path))
@@ -190,8 +190,8 @@ function deleteAttachment($blogid, $parent, $name) {
 	$pool->setQualifier('blogid','equals',$blogid);
 	$pool->setQualifier('name','equals',$name,true);
 	if($pool->delete()) {	
-		if( file_exists( ROOT . "/attach/$blogid/$origname") ) {
-			@unlink(ROOT . "/attach/$blogid/$origname");
+		if( file_exists( __TEXTCUBE_ATTACH_DIR__."/$blogid/$origname") ) {
+			@unlink(__TEXTCUBE_ATTACH_DIR__."/$blogid/$origname");
 		}
 		clearFeed();
 		return true;
@@ -200,7 +200,7 @@ function deleteAttachment($blogid, $parent, $name) {
 }
 
 function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
-	$path = ROOT . "/attach/$blogid";
+	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	$attachments = getAttachments($blogid, $originalEntryId);
 	if(empty($attachments)) return true;
 
@@ -241,12 +241,12 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 }
 function deleteTotalAttachment($blogid) {
 	requireModel('blog.feed');
-	$d = dir(ROOT."/attach/$blogid");
+	$d = dir(__TEXTCUBE_ATTACH_DIR__."/$blogid");
 	while($file = $d->read()) {
-		if(is_file(ROOT."/attach/$blogid/$file"))
-			unlink(ROOT."/attach/$blogid/$file");
+		if(is_file(__TEXTCUBE_ATTACH_DIR__."/$blogid/$file"))
+			unlink(__TEXTCUBE_ATTACH_DIR__."/$blogid/$file");
 	}
-	rmdir(ROOT."/attach/$blogid/");
+	rmdir(__TEXTCUBE_ATTACH_DIR__."/$blogid/");
 	clearFeed();
 	return true;
 }
@@ -266,7 +266,7 @@ function deleteAttachmentMulti($blogid, $parent, $names) {
 		$pool->setQualifier('parent','eq',intval($parent));
 		$pool->setQualifier('name','eq',$name,true);
 		if($pool->delete()) {	
-			unlink(ROOT . "/attach/$blogid/$origname");
+			unlink(__TEXTCUBE_ATTACH_DIR__."/$blogid/$origname");
 		} else {
 		}
 	}

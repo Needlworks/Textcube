@@ -10,7 +10,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireView('mobileView');
-$imagePath = ROOT . "/attach/$blogid/{$_GET['f']}";
+$imagePath = __TEXTCUBE_ATTACH_DIR__."/$blogid/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {
 	$imageInfo = @getimagesize($imagePath);
 	if (function_exists('gd_info')) {

@@ -408,12 +408,12 @@ function dumpToHeader($data) {
 }
 
 function dumpAsFile($data) {
-	if(!is_dir(ROOT."/cache")) {
-		@mkdir(ROOT."/cache");
-		@chmod(ROOT."/cache",0777);
+	if(!is_dir(__TEXTCUBE_CACHE_DIR__."")) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."");
+		@chmod(__TEXTCUBE_CACHE_DIR__."",0777);
 	}
 
-	$dumpFile = ROOT.'/cache/dump';
+	$dumpFile = __TEXTCUBE_CACHE_DIR__.'/dump';
 	if(file_exists($dumpFile)) {
 		$dumpedLog = @file_get_contents($dumpFile);
 	} else {

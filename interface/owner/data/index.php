@@ -4,10 +4,10 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 $backup = null;
-if (file_exists(ROOT . "/cache/backup/$blogid.xml.gz"))
-	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml.gz");
-else if (file_exists(ROOT . "/cache/backup/$blogid.xml"))
-	$backup = filemtime(ROOT . "/cache/backup/$blogid.xml");
+if (file_exists(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml.gz"))
+	$backup = filemtime(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml.gz");
+else if (file_exists(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml"))
+	$backup = filemtime(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml");
 require ROOT . '/interface/common/owner/header.php';
 
 if (isset($checkFunction)) unset($checkFunction);
@@ -25,7 +25,7 @@ if (isset($checkFunction)) unset($checkFunction);
 						</script>
 <?php
 
-if (!file_exists(ROOT . '/cache/CHECKUP')) {
+if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -38,7 +38,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 						</script>
 <?php
 	$checkFunction = 'checkForceTextcubeVersion();';
-} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) {
+} else if (file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP') != TEXTCUBE_VERSION) {
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -258,8 +258,8 @@ if(Acl::check("group.creators")) {
 								</p>
 							</div>
 <?php
-	if(file_exists(ROOT . "/cache/backup/$blogid.xml")) {
-		$fileTime = Timestamp::format5(filectime(ROOT . "/cache/backup/$blogid.xml"));
+	if(file_exists(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml")) {
+		$fileTime = Timestamp::format5(filectime(__TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml"));
 
 ?>
 							<div class="notification-box">

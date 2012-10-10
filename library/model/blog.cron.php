@@ -27,7 +27,7 @@ function dumbCronScheduler($checkOnly=true)
 					'Daily' => 60*60*24,
 					'1w'  => 60*60*24*7 );
 	/* Events: Cron1m, Cron5m, Cron30m, Cron1h, Cron2h, Cron6h, Cron12h */
-	$log_file = ROOT.'/cache/cronlog.txt';
+	$log_file = __TEXTCUBE_CACHE_DIR__.'/cronlog.txt';
 	$log = fopen( $log_file, "a" );
 	foreach( $schedules as $d => $diff ) {
 		if( !isset( $dumbCronStamps[$d] ) ) {

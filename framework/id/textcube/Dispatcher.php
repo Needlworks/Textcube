@@ -9,6 +9,7 @@ final class Dispatcher {
 	public $uri, $interfacePath;
 	
 	protected function __construct() {
+		$this->pathSelector();
 		$this->URIinterpreter();
 	}
 	
@@ -22,7 +23,13 @@ final class Dispatcher {
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
     }
-    
+
+	private function pathSelector() {
+		define('__TEXTCUBE_CONFIG_FILE__',ROOT.'/config.php');
+		define('__TEXTCUBE_CACHE_DIR__',ROOT.'/cache');
+		define('__TEXTCUBE_ATTACH_DIR__',ROOT.'/attach');
+	}
+
 	private function URIinterpreter() {
 		global $service;
 		/* Workaround for IIS environment */
@@ -30,7 +37,7 @@ final class Dispatcher {
 			$_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
 			if(isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) $_SERVER['REQUEST_URI'] .= '?'.$_SERVER['QUERY_STRING'];
 		}
-		if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists(ROOT.'/config.php')) require_once ROOT."/config.php";
+		if (!empty($_SERVER['PRELOAD_CONFIG']) && file_exists(__TEXTCUBE_CONFIG_FILE__)) require_once __TEXTCUBE_CONFIG_FILE__;
 		// IIS 7.0 and URL Rewrite Module CTP, but non-ASCII URLs are NOT supported.
 		if (isset($_SERVER['HTTP_X_ORIGINAL_URL'])) {
 			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_ORIGINAL_URL'];
