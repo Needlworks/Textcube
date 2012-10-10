@@ -80,7 +80,7 @@ function printOwnerEditorScript($entryId = false) {
 		$contentWidth = Misc::getContentWidth();
 		/*
 		if($skin = $context->getProperty('skin.skin')) {
-			if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
+			if($xml = @file_get_contents(__TEXTCUBE_SKIN_DIR__."/$skin/index.xml")) {
 				$xmls = new XMLStruct();
 				$xmls->open($xml, $context->getProperty('service.encoding'));
 				if($xmls->getValue('/skin/default/contentWidth')) {

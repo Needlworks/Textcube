@@ -13,21 +13,21 @@ if(isset($_POST['search'])) {
 $listType = Setting::getBlogSettingGlobal('skinViewType', 'iconview');
 
 $skins = array();
-$dirHandler = dir(ROOT . "/skin/blog");
+$dirHandler = dir(__TEXTCUBE_SKIN_DIR__."");
 while ($file = $dirHandler->read()) {
 	$skin = array();
 	if ($file == '.' || $file == '..')
 		continue;
-	if (!file_exists(ROOT . "/skin/blog/$file/skin.html"))
+	if (!file_exists(__TEXTCUBE_SKIN_DIR__."/$file/skin.html"))
 		continue;
 	$preview = "";
-	if (file_exists(ROOT . "/skin/blog/$file/preview.jpg"))
+	if (file_exists(__TEXTCUBE_SKIN_DIR__."/$file/preview.jpg"))
 		$preview = "{$service['path']}/skin/blog/$file/preview.jpg";
-	if (file_exists(ROOT . "/skin/blog/$file/preview.gif"))
+	if (file_exists(__TEXTCUBE_SKIN_DIR__."/$file/preview.gif"))
 		$preview = "{$service['path']}/skin/blog/$file/preview.gif";
 	
-	if (file_exists(ROOT . "/skin/blog/$file/index.xml")) {
-		$xml = file_get_contents(ROOT . "/skin/blog/$file/index.xml");
+	if (file_exists(__TEXTCUBE_SKIN_DIR__."/$file/index.xml")) {
+		$xml = file_get_contents(__TEXTCUBE_SKIN_DIR__."/$file/index.xml");
 		$xmls = new XMLStruct();
 		$xmls->open($xml, $service['encoding']);
 		$skin['skinName']     = $xmls->getValue('/skin/information/name');
@@ -47,7 +47,7 @@ while ($file = $dirHandler->read()) {
 		(stristr($skin['description'],$search) === false)) continue; // Search.
 
 	$skin['name'] = $file;
-	$skin['path'] = ROOT . "/skin/blog/$file/";
+	$skin['path'] = __TEXTCUBE_SKIN_DIR__."/$file/";
 	$skin['preview'] = $preview;
 	
 	array_push($skins, $skin);
@@ -129,11 +129,11 @@ function writeValue($value, $label, $className) {
 									<a id="currentSkinAnchor"></a>
 									<div id="currentPreview" class="preview">
 <?php
-if (file_exists(ROOT."/skin/blog/".$skinSetting['skin']."/preview.jpg")) {
+if (file_exists(__TEXTCUBE_SKIN_DIR__."/".$skinSetting['skin']."/preview.jpg")) {
 ?>
 										<img src="<?php echo $service['path'];?>/skin/blog/<?php echo $skinSetting['skin'];?>/preview.jpg" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
-} else if (file_exists(ROOT."/skin/blog/".$skinSetting['skin']."/preview.gif")) {
+} else if (file_exists(__TEXTCUBE_SKIN_DIR__."/".$skinSetting['skin']."/preview.gif")) {
 ?>
 										<img src="<?php echo $service['path'];?>/skin/blog/<?php echo $skinSetting['skin'];?>/preview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
@@ -146,11 +146,11 @@ if (file_exists(ROOT."/skin/blog/".$skinSetting['skin']."/preview.jpg")) {
 									</div>								
 									<div class="information">
 <?php
-if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
+if (file_exists(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/index.xml")) {
 ?>
 										<div id="currentInfo">
 <?php
-	$xml = file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml");
+	$xml = file_get_contents(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
 	$xmls->open($xml, $service['encoding']);
 	writeValue('<span class="skin-name">' . $xmls->getValue('/skin/information/name') . '</span> <span class="version">ver.' . $xmls->getValue('/skin/information/version') . ($skinSetting['skin'] == "customize/$blogid" ? _t('(사용자 수정본)') : NULL) . '</span>', _t('제목'), "title");

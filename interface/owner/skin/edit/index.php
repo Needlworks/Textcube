@@ -5,7 +5,7 @@
 require ROOT . '/library/preprocessor.php';
 // get style files list in current skin.
 $styleFileList = array();
-$tempStyleFileList = Misc::getFileListByRegExp(ROOT . "/skin/blog/{$skinSetting['skin']}", '\.css$', true);
+$tempStyleFileList = Misc::getFileListByRegExp(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}", '\.css$', true);
 
 foreach ($tempStyleFileList as $styleFile) {
 	$styleFileList[basename($styleFile)] = $styleFile;
@@ -19,20 +19,20 @@ if (isset($_GET['style'])) {
 	$currentStyleFile = $_GET['style'];
 } else {
 	$tempKeys = array_keys($styleFileList);
-	$currentStyleFile = str_replace(ROOT . "/skin/blog/{$skinSetting['skin']}/", '', $styleFileList[$tempKeys[0]]);
+	$currentStyleFile = str_replace(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/", '', $styleFileList[$tempKeys[0]]);
 }
 
 $skin = '';
-if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/skin.html")) {
-	$skin = @file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/skin.html");
+if (file_exists(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/skin.html")) {
+	$skin = @file_get_contents(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/skin.html");
 }
 $skin_keyword = '';
-if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/skin_keyword.html")) {
-	$skin_keyword = @file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/skin_keyword.html");
+if (file_exists(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/skin_keyword.html")) {
+	$skin_keyword = @file_get_contents(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/skin_keyword.html");
 }
 
-$htmlFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', strrev(decoct(fileperms(ROOT . "/skin/blog/{$skinSetting['skin']}/skin.html"))));
-$styleFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', $temp = strrev(decoct(fileperms(ROOT . "/skin/blog/{$skinSetting['skin']}/" . $currentStyleFile))));
+$htmlFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', strrev(decoct(fileperms(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/skin.html"))));
+$styleFilePerms = preg_replace('@^[0-9]{2}|[0-9]{2}$@', '', $temp = strrev(decoct(fileperms(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/" . $currentStyleFile))));
 
 require ROOT . '/interface/common/owner/header.php';
 
@@ -132,7 +132,7 @@ require ROOT . '/interface/common/owner/header.php';
 									return true;
 								}
 <?php
-if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/" . $currentStyleFile)) {
+if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/" . $currentStyleFile)) {
 ?>		
 								var currentStyleLiNumber = 0;
 								var documentIcons = new Array();
@@ -194,8 +194,8 @@ if (count($styleFileList) > 0 && !empty($currentStyleFile) && file_exists(ROOT .
 							//]]>
 						</script>
 <?php
-if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
-	$xml = file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml");
+if (file_exists(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/index.xml")) {
+	$xml = file_get_contents(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/index.xml");
 	$xmls = new XMLStruct();
 	$xmls->open($xml, $service['encoding']);
 	$skinName = $xmls->getValue('/skin/information/name') . ($skinSetting['skin'] == "customize/$blogid" ? _t('(수정한 스킨)') : NULL);
@@ -234,7 +234,7 @@ if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/index.xml")) {
 										<li class="selected"><a><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_html_document_on.gif" alt="" /><strong>skin.html</strong></a>
 											<span id="skin-download" class="download">
 <?php
-if (file_exists(ROOT . "/skin/blog/customize/".getBlogId()."/skin.html")) {
+if (file_exists(__TEXTCUBE_SKIN_CUSTOM_DIR__."/".getBlogId()."/skin.html")) {
 ?>
 											<a href="<?php echo $blogURL;?>/owner/skin/edit/download/?file=skin.html"><?php echo _t('내려받기');?></a>
 <?php
@@ -275,7 +275,7 @@ if ($htmlFilePerms >= 6) {
 								
 <?php
 // get current style's contents.
-$currentStyleContents = file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/{$currentStyleFile}");
+$currentStyleContents = file_get_contents(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/{$currentStyleFile}");
 
 if (count($styleFileList) > 0) {
 ?>
@@ -287,7 +287,7 @@ if (count($styleFileList) > 0) {
 	$count = 0;
 	
 	foreach ($styleFileList as $styleFile) {
-		$tempFile = str_replace(ROOT . "/skin/blog/{$skinSetting['skin']}/", '', $styleFile);
+		$tempFile = str_replace(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/", '', $styleFile);
 		if ($tempFile == $currentStyleFile) {
 ?>
 										<li class="selected"><a href="<?php echo $blogURL;?>/owner/skin/edit/?style=<?php echo $tempFile;?>" onclick="changeCSSFile(this, '<?php echo $tempFile;?>'); return false;"><strong><img src="<?php echo $serviceURL . $adminSkinSetting['skin'];?>/image/img_css_document_on.gif" alt="" /><?php echo basename($tempFile);?></strong></a></li>

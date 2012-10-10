@@ -233,7 +233,7 @@ if (!defined('NO_INITIALIZAION')) {
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
 	
-		if (file_exists(ROOT . "/skin/blog/{$skinSetting['skin']}/wysiwyg.css"))
+		if (file_exists(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/wysiwyg.css"))
 			$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
 		else
 			$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
