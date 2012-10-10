@@ -106,7 +106,7 @@ switch (@$_POST['importFrom']) {
 		finish(_t('잘못된 요청입니다.'));
 		break;
 	case 'server':
-		$backup = ROOT . "/cache/backup/$blogid.xml";
+		$backup = __TEXTCUBE_CACHE_DIR__."/backup/$blogid.xml";
 		break;
 	case 'uploaded':
 		if (@$_FILES['backupPath']['error'] !== 0)
@@ -114,15 +114,15 @@ switch (@$_POST['importFrom']) {
 		$backup = $_FILES['backupPath']['tmp_name'];
 		break;
 	case 'web':
-		if (!file_exists(ROOT . '/cache/import')) {
-			mkdir(ROOT . '/cache/import');
-			@chmod(ROOT . '/cache/import', 0777);
+		if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/import')) {
+			mkdir(__TEXTCUBE_CACHE_DIR__.'/import');
+			@chmod(__TEXTCUBE_CACHE_DIR__.'/import', 0777);
 		}
-		if (!is_dir(ROOT . '/cache/import')) {
+		if (!is_dir(__TEXTCUBE_CACHE_DIR__.'/import')) {
 			finish(_t('백업파일을 저장할 공간에 권한이 없습니다.'));
 		}
 		$request = new HTTPRequest($_POST['backupURL']);
-		$backup = ROOT . "/cache/import/$blogid.xml";
+		$backup = __TEXTCUBE_CACHE_DIR__."/import/$blogid.xml";
 		$request->pathToSave = $backup;
 		if (!$request->send()) {
 			finish(_t('백업파일이 손상되었거나 가져올 수 없습니다.'));
@@ -157,8 +157,8 @@ if (!$xmls->openFile($backup, Validator::getBool(@$_POST['correctData']))) {
 }
 
 $xmls->close();
-if (file_exists(ROOT . "/cache/import/$blogid.xml"))
-	@unlink(ROOT . "/cache/import/$blogid.xml");
+if (file_exists(__TEXTCUBE_CACHE_DIR__."/import/$blogid.xml"))
+	@unlink(__TEXTCUBE_CACHE_DIR__."/import/$blogid.xml");
 setProgress(100, _t('완료되었습니다.'));
 finish();
 

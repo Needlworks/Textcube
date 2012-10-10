@@ -195,7 +195,7 @@ if (isset($_REQUEST['edit'])) {
 									document.getElementById("form-quilt").submit();
 								}
 <?php
-if (!file_exists(ROOT . '/cache/CHECKUP')) {
+if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
 ?>
 								
 								window.addEventListener("load", checkTextcubeVersion, false);
@@ -205,7 +205,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 								}
 <?php
 } else {
-	$current_version = trim(file_get_contents(ROOT . '/cache/CHECKUP'));
+	$current_version = trim(file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP'));
 	if ($current_version != TEXTCUBE_VERSION) {
 ?>
 								

@@ -318,7 +318,7 @@ function getAddAttachment($file){
 		return false;
 	$attachment = array();
 	$attachment['ext'] = Misc::getFileExtension(Path::getBaseName($file['name']));
-	$path = ROOT."/attach/".getBlogId()."/team";
+	$path = __TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/team";
 	if(!is_dir($path)){
 		mkdir($path);
 		if(!is_dir($path))
@@ -350,7 +350,7 @@ function getDeleteAttachment($filename){
 	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 	if($tmpImage){
 		POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
-		@unlink(ROOT."/attach/".getBlogId()."/team/".$tmpImage);
+		@unlink(__TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/team/".$tmpImage);
 	}
 	$result = "{$serviceURL}/resources/image/spacer.gif";
 	return $result;

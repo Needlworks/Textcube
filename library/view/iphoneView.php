@@ -235,7 +235,7 @@ function printMobileHTMLHeader($title = '') {
 		$(document).bind("mobileinit", function(){$.mobile.touchOverflowEnabled = true;});
 	</script>-->
 <?php
-	if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
+	if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(__TEXTCUBE_ATTACH_DIR__."/".$context->getProperty('blog.id')."/index.gif")) {
 ?>	<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default');?>/index.gif" />
 <?php
 	}
@@ -329,17 +329,17 @@ function printMobileFreeImageResizer($content) {
 function printMobileImageResizer($blogid, $filename, $cropSize){
 	$context = Model_Context::getInstance();
 	$serviceURL = $context->getProperty('uri.service');
-	if (!is_dir(ROOT."/cache/thumbnail")) {
-		@mkdir(ROOT."/cache/thumbnail");
-		@chmod(ROOT."/cache/thumbnail", 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail")) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail");
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail", 0777);
 	}
-	if (!is_dir(ROOT."/cache/thumbnail/" . $blogid)) {
-		@mkdir(ROOT."/cache/thumbnail/" . $blogid);
-		@chmod(ROOT."/cache/thumbnail/" . $blogid, 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid)) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid);
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid, 0777);
 	}
-	if (!is_dir(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/")) {
-		@mkdir(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/");
-		@chmod(ROOT."/cache/thumbnail/" . $blogid . "/iphoneThumbnail/", 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid . "/iphoneThumbnail/")) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid . "/iphoneThumbnail/");
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid . "/iphoneThumbnail/", 0777);
 	}
 	
 	$thumbFilename = $filename;
@@ -349,7 +349,7 @@ function printMobileImageResizer($blogid, $filename, $cropSize){
 			$thumbFilename = printMobileRemoteImageFilename($filename);
 		}
 
-		$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
+		$thumbnailSrc = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/iphoneThumbnail/th_{$thumbFilename}";
 		if (!file_exists($thumbnailSrc)) {
 			$imageURL = printMobileCropProcess($blogid, $filename, $cropSize);
 		} else {
@@ -371,10 +371,10 @@ function printMobileCropProcess($blogid, $filename, $cropSize) {
 	if(stristr($filename, 'http://') ){
 		list($originSrc, $filename, $tempFile) = printMobileCreateRemoteImage($blogid, $filename);
 	} else {
-		$originSrc = ROOT . "/attach/{$blogid}/{$filename}";
+		$originSrc = __TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$filename}";
 	}
 
-	$thumbnailSrc = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/th_{$filename}";
+	$thumbnailSrc = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/iphoneThumbnail/th_{$filename}";
 	if (file_exists($originSrc)) {
 		$imageInfo = getimagesize($originSrc);
 
@@ -401,7 +401,7 @@ function printMobileCropProcess($blogid, $filename, $cropSize) {
 
 function printMobileCreateRemoteImage($blogid, $filename) {
 	$fileObject = false;
-	$tmpDirectory = ROOT . "/cache/thumbnail/{$blogid}/iphoneThumbnail/";
+	$tmpDirectory = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/iphoneThumbnail/";
 	$tempFilename = tempnam($tmpDirectory, "remote_");
 	$fileObject = @fopen($tempFilename, "w");
 

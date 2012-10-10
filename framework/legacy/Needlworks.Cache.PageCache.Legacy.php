@@ -78,13 +78,13 @@ class pageCache {
 	}
 
 	function initialize() {
-		 if (!is_dir(ROOT."/cache/pageCache/".getBlogId())){
-			 if(!is_dir(ROOT."/cache/pageCache")) {
-				 @mkdir(ROOT."/cache/pageCache");
-				 @chmod(ROOT."/cache/pageCache",0777);
+		 if (!is_dir(__TEXTCUBE_CACHE_DIR__."/pageCache/".getBlogId())){
+			 if(!is_dir(__TEXTCUBE_CACHE_DIR__."/pageCache")) {
+				 @mkdir(__TEXTCUBE_CACHE_DIR__."/pageCache");
+				 @chmod(__TEXTCUBE_CACHE_DIR__."/pageCache",0777);
 			 }
-			 @mkdir(ROOT."/cache/pageCache/".getBlogId());
-			 @chmod(ROOT."/cache/pageCache/".getBlogId(),0777);
+			 @mkdir(__TEXTCUBE_CACHE_DIR__."/pageCache/".getBlogId());
+			 @chmod(__TEXTCUBE_CACHE_DIR__."/pageCache/".getBlogId(),0777);
 		 }
 	}
 	function purge () {
@@ -114,8 +114,8 @@ class pageCache {
 		$this->filenameOwner = abs(crc32($this->realNameOwner)).'.cache';
 		$this->filenameGuest = abs(crc32($this->realNameGuest)).'.cache';
 		$this->filename = doesHaveOwnership() ? $this->filenameOwner : $this->filenameGuest;
-		$this->absoluteFilePathOwner = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameOwner;
-		$this->absoluteFilePathGuest = ROOT.'/cache/pageCache/'.getBlogId()."/".$this->filenameGuest;
+		$this->absoluteFilePathOwner = __TEXTCUBE_CACHE_DIR__.'/pageCache/'.getBlogId()."/".$this->filenameOwner;
+		$this->absoluteFilePathGuest = __TEXTCUBE_CACHE_DIR__.'/pageCache/'.getBlogId()."/".$this->filenameGuest;
 		$this->absoluteFilePath = doesHaveOwnership() ? $this->absoluteFilePathOwner : $this->absoluteFilePathGuest;
 		return true;
 	}
@@ -302,7 +302,7 @@ class CacheControl {
 		global $database;
 		if(empty($blogid)) $blogid = getBlogId();
 		
-		$dir = ROOT . '/cache/pageCache/'.$blogid;
+		$dir = __TEXTCUBE_CACHE_DIR__.'/pageCache/'.$blogid;
 		if( !file_exists($dir) ) return true;
 		if(!($dirHandle = @opendir($dir))) return true;
 		while(($object = readdir($dirHandle))) {
@@ -409,8 +409,8 @@ class CacheControl {
 		return true;
 	}
 	function flushRSS() {
-		if (file_exists(ROOT . "/cache/rss/".getBlogId().".xml"))
-			@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
+		if (file_exists(__TEXTCUBE_CACHE_DIR__."/rss/".getBlogId().".xml"))
+			@unlink(__TEXTCUBE_CACHE_DIR__."/rss/".getBlogId().".xml");
 		CacheControl::flushCommentRSS();
 		CacheControl::flushTrackbackRSS();
 		CacheControl::flushResponseRSS();
@@ -577,9 +577,9 @@ class CodeCache {
 	}
 	
 	function initialize() {
-		 if (!is_dir(ROOT."/cache/code")){
-			 @mkdir(ROOT."/cache/code");
-			 @chmod(ROOT."/cache/code",0777);
+		 if (!is_dir(__TEXTCUBE_CACHE_DIR__."/code")){
+			 @mkdir(__TEXTCUBE_CACHE_DIR__."/code");
+			 @chmod(__TEXTCUBE_CACHE_DIR__."/code",0777);
 		 }
 	}
 	
@@ -587,7 +587,7 @@ class CodeCache {
 		if(!empty($this->name)) $this->__getCodes();	// Get source codes.
 		if(empty($this->code)) return $this->_error(2);
 		$this->initialize();
-		$this->fileName = ROOT."/cache/code/".$this->name;
+		$this->fileName = __TEXTCUBE_CACHE_DIR__."/code/".$this->name;
 		$fileHandle = fopen($this->fileName,'w');
 		if(fwrite($fileHandle, $this->code)){
 			fclose($fileHandle);

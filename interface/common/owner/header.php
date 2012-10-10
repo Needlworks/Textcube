@@ -276,7 +276,7 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 <?php
 	}
-	if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(ROOT."/attach/".$context->getProperty('blog.id')."/index.gif")) {
+	if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(__TEXTCUBE_ATTACH_DIR__."/".$context->getProperty('blog.id')."/index.gif")) {
 ?>
 	<link rel="apple-touch-icon" href="<?php echo $context->getProperty('uri.default')."/index.gif";?>" />
 <?php

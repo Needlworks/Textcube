@@ -11,8 +11,8 @@ require ROOT . '/library/model/blog.skin.php';
 requireModel('common.setting');
 requireModel('blog.entry');
 
-if(!file_exists(ROOT . '/cache/CHECKUP')) $currentVersion = _text('첫번째 점검');
-else $currentVersion = file_get_contents(ROOT . '/cache/CHECKUP');
+if(!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) $currentVersion = _text('첫번째 점검');
+else $currentVersion = file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP');
 
 function setSkinSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
@@ -860,12 +860,12 @@ RewriteRule ^(.*)$ rewrite.php [L,QSA]
 	}
 }
 
-if (((!file_exists(ROOT . '/cache/CHECKUP')) || (trim(file_get_contents(ROOT . '/cache/CHECKUP')) != TEXTCUBE_VERSION)) && ($succeed == true)) {
-	$fp = fopen(ROOT . '/cache/CHECKUP', 'w');
+if (((!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) || (trim(file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) != TEXTCUBE_VERSION)) && ($succeed == true)) {
+	$fp = fopen(__TEXTCUBE_CACHE_DIR__.'/CHECKUP', 'w');
 	if ($fp !== FALSE) {
 		fwrite($fp, TEXTCUBE_VERSION);
 		fclose($fp);
-		@chmod(ROOT . '/cache/CHECKUP', 0666);
+		@chmod(__TEXTCUBE_CACHE_DIR__.'/CHECKUP', 0666);
 		clearCache();
 	}
 }

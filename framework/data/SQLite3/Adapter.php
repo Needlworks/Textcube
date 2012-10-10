@@ -20,7 +20,7 @@ class DBAdapter implements IAdapter {
 			$database['server'] = $port[0];
 			$database['port'] = $port[1];
 		}
-		self::$db = new SQLite3(ROOT.'/cache/'.$database['database'].'.db');
+		self::$db = new SQLite3(__TEXTCUBE_CACHE_DIR__.'/'.$database['database'].'.db');
 		
 		if(!self::$db) return false;
 

@@ -30,7 +30,7 @@ function refreshFeed($blogid, $mode = 'both') {
 	$channel['items'] = getFeedItemByEntries($result);
 	// RSS
 	if($mode == 'both' || $mode == 'rss') {
-		$path = ROOT . '/cache/rss';
+		$path = __TEXTCUBE_CACHE_DIR__.'/rss';
 		if (file_exists($path)) {
 			if (!is_dir($path))
 				return false;
@@ -51,7 +51,7 @@ function refreshFeed($blogid, $mode = 'both') {
 	}
 	// ATOM
 	if($mode == 'both' || $mode == 'atom') {
-		$path = ROOT . '/cache/atom';
+		$path = __TEXTCUBE_CACHE_DIR__.'/atom';
 		if (file_exists($path)) {
 			if (!is_dir($path))
 				return false;
@@ -87,8 +87,8 @@ function initializeRSSchannel($blogid = null) {
 	$channel['pubDate'] = Timestamp::getUNIXtime();
 	$channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-	if ((Setting::getBlogSettingGlobal('visibility',2) == 2) && !empty($blog['logo']) && file_exists(ROOT."/attach/$blogid/{$blog['logo']}")) {
-		$logoInfo = getimagesize(ROOT."/attach/$blogid/{$blog['logo']}");
+	if ((Setting::getBlogSettingGlobal('visibility',2) == 2) && !empty($blog['logo']) && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$blog['logo']}")) {
+		$logoInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$blog['logo']}");
 		$channel['url'] = $serviceURL."/attach/".$blogid."/".$blog['logo'];
 		$channel['width'] = $logoInfo[0];
 		$channel['height'] = $logoInfo[1];
@@ -558,7 +558,7 @@ function publishRSS($blogid, $data) {
 	if(!empty($data['channel']['feed_link'])) {
 		echo '		<atom:link href="', $data['channel']['feed_link'] , '" rel="self" type="application/rss+xml" />', CRLF;
 	}
-	if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/{$context->getProperty('blog.logo')}")) {
+	if ($context->getProperty('blog.logo') && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$context->getProperty('blog.logo')}")) {
 		echo '		<image>', CRLF;
 		echo '		<title>', htmlspecialchars($data['channel']['title'], ENT_QUOTES), '</title>', CRLF;
 		echo '		<url>', $data['channel']['url'], '</url>', CRLF;
@@ -599,10 +599,10 @@ function publishRSS($blogid, $data) {
 }
 
 function clearFeed() {
-	if (file_exists(ROOT . "/cache/rss/".getBlogId().".xml"))
-		@unlink(ROOT . "/cache/rss/".getBlogId().".xml");
-	if (file_exists(ROOT . "/cache/atom/".getBlogId().".xml"))
-		@unlink(ROOT . "/cache/atom/".getBlogId().".xml");
+	if (file_exists(__TEXTCUBE_CACHE_DIR__."/rss/".getBlogId().".xml"))
+		@unlink(__TEXTCUBE_CACHE_DIR__."/rss/".getBlogId().".xml");
+	if (file_exists(__TEXTCUBE_CACHE_DIR__."/atom/".getBlogId().".xml"))
+		@unlink(__TEXTCUBE_CACHE_DIR__."/atom/".getBlogId().".xml");
 }
 
 

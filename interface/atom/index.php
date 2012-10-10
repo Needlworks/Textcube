@@ -14,11 +14,11 @@ requireModel("blog.entry");
 requireStrictBlogURL();
 
 publishEntries();
-if (!file_exists(ROOT . "/cache/atom/$blogid.xml"))
+if (!file_exists(__TEXTCUBE_CACHE_DIR__."/atom/$blogid.xml"))
 	refreshFeed($blogid,'atom');
 header('Content-Type: application/atom+xml; charset=utf-8');
-$fileHandle = fopen(ROOT . "/cache/atom/$blogid.xml", 'r+');
-$result = fread($fileHandle, filesize(ROOT . "/cache/atom/$blogid.xml"));
+$fileHandle = fopen(__TEXTCUBE_CACHE_DIR__."/atom/$blogid.xml", 'r+');
+$result = fread($fileHandle, filesize(__TEXTCUBE_CACHE_DIR__."/atom/$blogid.xml"));
 fclose($fileHandle);
 fireEvent('FeedOBStart');
 echo fireEvent('ViewATOM', $result);

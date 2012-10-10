@@ -340,7 +340,7 @@ function api_addAttachment($blogid,$parent,$file) {
 	}
 	
 	/* Create directory for owner */
-	$path = ROOT . "/attach/$blogid";
+	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	if(!is_dir($path)) {
 		mkdir($path);
 		if(!is_dir($path))

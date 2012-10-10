@@ -157,7 +157,7 @@ class OpenIDConsumer extends OpenID {
 		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/SReg.php";
 		require_once OPENID_LIBRARY_ROOT."Auth/OpenID/AX.php";
 
-		$store_path = ROOT . "/cache/openidstore";
+		$store_path = __TEXTCUBE_CACHE_DIR__."/openidstore";
 
 		if (!file_exists($store_path) &&
 			!mkdir($store_path)) {

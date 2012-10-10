@@ -6,7 +6,7 @@ if(!function_exists('Markdown')) require_once 'markdown.php';
 
 function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
 	global $service;
-	$path = ROOT . "/attach/$blogid";
+	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	$url = "{$service['path']}/attach/$blogid";
 	if(!function_exists('FM_TTML_bindAttachments')) { // To reduce the amount of loading code!
 		require_once 'ttml.php';

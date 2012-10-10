@@ -54,8 +54,8 @@ if (getBlogId()) {
 		$editorCount     = 0;
 		$formatterCount  = 0;
 		if(!empty($activePlugins)) {
-			if (file_exists(ROOT . "/cache/code/plugins-".getBlogId().".php")) {
-				require_once(ROOT . "/cache/code/plugins-".getBlogId().".php");
+			if (file_exists(__TEXTCUBE_CACHE_DIR__."/code/plugins-".getBlogId().".php")) {
+				require_once(__TEXTCUBE_CACHE_DIR__."/code/plugins-".getBlogId().".php");
 				// TODO : set the editor / formatter count while using plugin php cache.
 			} else {
 				foreach ($activePlugins as $plugin) {

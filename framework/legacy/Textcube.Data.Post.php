@@ -213,8 +213,8 @@ class Post {
 				WHERE blogid = ".getBlogId()." AND parent = ".$this->id);
 			if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND parent = ".$this->id)) {
 				foreach($attachNames as $attachName) {
-					if( file_exists( ROOT . "/attach/".getBlogId()."/$attachName") ) {
-						@unlink(ROOT . "/attach/".getBlogId()."/$attachName");
+					if( file_exists( __TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/$attachName") ) {
+						@unlink(__TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/$attachName");
 					}
 				}
 			}

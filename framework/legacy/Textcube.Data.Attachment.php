@@ -125,7 +125,7 @@ class Attachment {
 	/*@static@*/
 	function confirmFolder() {
 		global $service;
-		$path = ROOT . "/attach/".getBlogId();
+		$path = __TEXTCUBE_ATTACH_DIR__."/".getBlogId();
 		if (!file_exists($path)) {
 			mkdir($path);
 			if (isset($service['umask']))
