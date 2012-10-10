@@ -6,7 +6,7 @@
 require_once ROOT . '/library/preprocessor.php';
 
 if( empty($icon_path) ) {
-	$icon_path = ROOT . "/attach/$blogid/favicon.ico";
+	$icon_path = __TEXTCUBE_ATTACH_DIR__."/$blogid/favicon.ico";
 	if( !file_exists($icon_path) ) {
 		$icon_path = ROOT . '/resources/image/icon_favicon_default.ico';
 	}
@@ -30,7 +30,7 @@ if( !empty($_SERVER["HTTP_REFERER"]) && $icon_size > 0 ) {
 		( empty($service['favicon_daily_traffic']) ? 10 : $service['favicon_daily_traffic'] ) *1024*1024; /* 10 MB/day */
 
 	if( $host != $_SERVER['HTTP_HOST'] ) {
-		define( 'REFERER_STAT', ROOT . "/cache/favicon_traffic.dat" );
+		define( 'REFERER_STAT', __TEXTCUBE_CACHE_DIR__."/favicon_traffic.dat" );
 		if( file_exists( REFERER_STAT ) ) {
 			$referer = unserialize( file_get_contents( REFERER_STAT ) );
 		}

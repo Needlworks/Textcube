@@ -9,7 +9,7 @@ if(!class_exists('Textile')) require_once 'classTextile.php';
 function FM_Textile_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
 	global $service;
 	$textile = new Textile();
-	$path = ROOT . "/attach/$blogid";
+	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	$url = "{$service['path']}/attach/$blogid";
 	if(!function_exists('FM_TTML_bindAttachments')) { // To reduce the amount of loading code!
 		require_once 'ttml.php';

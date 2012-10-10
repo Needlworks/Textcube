@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireView('iphoneView');
-$imagePath = ROOT . "/attach/$blogid/{$_GET['f']}";
+$imagePath = __TEXTCUBE_ATTACH_DIR__."/$blogid/{$_GET['f']}";
 if ($fp = @fopen($imagePath, 'r')) {
 	if(isset($_GET['m']) && !empty($_GET['m'])){
 		if (file_exists($imagePath)) {

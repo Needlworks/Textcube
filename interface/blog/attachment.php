@@ -7,7 +7,7 @@ if (empty($suri['value']))
 	Respond::NotFoundPage();
 if (!$attachment = getAttachmentByOnlyName($blogid, $suri['value']))
 	Respond::NotFoundPage();
-$fp = fopen(ROOT . "/attach/$blogid/{$attachment['name']}", 'rb');
+$fp = fopen(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment['name']}", 'rb');
 if (!$fp)
 	Respond::NotFoundPage();
 $fstat = fstat($fp);

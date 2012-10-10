@@ -140,7 +140,7 @@ require ROOT . '/interface/common/owner/header.php';
 						<script type="text/javascript">
 							//<![CDATA[
 <?php
-if (!file_exists(ROOT . '/cache/CHECKUP')) {
+if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
 ?>
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
@@ -148,7 +148,7 @@ if (!file_exists(ROOT . '/cache/CHECKUP')) {
 										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 								}
 <?php
-} else if (file_get_contents(ROOT . '/cache/CHECKUP') != TEXTCUBE_VERSION) {
+} else if (file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP') != TEXTCUBE_VERSION) {
 ?>
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {

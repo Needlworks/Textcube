@@ -535,8 +535,8 @@ if ($service['type'] != 'single') {
 											<dt><span class="label"><?php echo _t('로고 그림');?></span></dt>
 											<dd>
 <?php
-if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/".$context->getProperty('blog.logo'))) {
-	$logoInfo = @getimagesize(ROOT."/attach/$blogid/".$context->getProperty('blog.logo'));
+if ($context->getProperty('blog.logo') && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/".$context->getProperty('blog.logo'))) {
+	$logoInfo = @getimagesize(__TEXTCUBE_ATTACH_DIR__."/$blogid/".$context->getProperty('blog.logo'));
 	if ($logoInfo[0] > 150) {
 ?>
 												<a href="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/<?php echo $context->getProperty('blog.logo');?>" onclick="window.open(this.href); return false;"><img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/<?php echo $context->getProperty('blog.logo');?>" width="150" border="1" alt="<?php echo _t('사용자 로고');?>" /></a>
@@ -557,18 +557,18 @@ if ($context->getProperty('blog.logo') && file_exists(ROOT."/attach/$blogid/".$c
 											<dt><span class="label"><?php echo _t('파비콘');?></span></dt>
 											<dd>
 <?php
-if (file_exists(ROOT."/attach/$blogid/favicon.ico") && !stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
+if (file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/favicon.ico") && !stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
 ?>
 												<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/favicon.ico" border="1" alt="<?php echo _t('파비콘');?>" />
 <?php
-} else if (file_exists(ROOT."/attach/$blogid/favicon.ico") && stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
+} else if (file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/favicon.ico") && stristr($_SERVER['HTTP_USER_AGENT'], ' MSIE')) {
 ?>
 												<a id="favicon-preview" href="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/favicon.ico"><?php echo _t('미리 보기');?></a>
 <?php
 }
 ?>
 												<input type="file" class="input-file" name="favicon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(ROOT."/attach/$blogid/favicon.ico") ? '' : ' disabled="disabled"';?> /><label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteFavicon" name="deleteFavicon" value="yes"<?php echo file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/favicon.ico") ? '' : ' disabled="disabled"';?> /><label for="deleteFavicon"><?php echo _t('파비콘을 초기화합니다.');?></label></div>
 												<p><?php echo _t('파비콘은 웹 브라우저의 즐겨찾기나 주소 입력줄에 보이는 그림입니다.');?></p>
 											</dd>
 										</dl>
@@ -583,8 +583,8 @@ if (file_exists(ROOT."/attach/$blogid/favicon.ico") && !stristr($_SERVER['HTTP_U
 											<dt><span class="label"><?php echo _t('블로그 아이콘');?></span></dt>
 											<dd>
 <?php
-if (file_exists(ROOT."/attach/$blogid/index.gif")) {
-	$blogIconInfo = getimagesize(ROOT."/attach/$blogid/index.gif");
+if (file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/index.gif")) {
+	$blogIconInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__."/$blogid/index.gif");
 	if ($blogIconInfo != false) {
 ?>
 												<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/index.gif"<?php echo ($blogIconInfo[0] > 48) ? ' width="48"' : '';?> border="1" alt="<?php echo _t('블로그 아이콘');?>" />
@@ -593,7 +593,7 @@ if (file_exists(ROOT."/attach/$blogid/index.gif")) {
 }
 ?>
 												<input type="file" class="input-file" name="blogIcon" />
-												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(ROOT."/attach/$blogid/index.gif") ? '' : ' disabled="disabled"';?> /><label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.');?></label></div>
+												<div class="init-box"><input type="checkbox" class="checkbox" id="deleteBlogIcon" name="deleteBlogIcon" value="yes"<?php echo file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/index.gif") ? '' : ' disabled="disabled"';?> /><label for="deleteBlogIcon"><?php echo _t('블로그 아이콘을 초기화합니다.');?></label></div>
 												<div class="init-box"><input type="checkbox" class="checkbox" id="useBlogIconAsIphoneShortcut" name="useBlogIconAsIphoneShortcut" <?php echo (Setting::getBlogSettingGlobal('useBlogIconAsIphoneShortcut',true) ? ' checked="checked"' : '');?> /><label for="useBlogIconAsIphoneShortcut"><?php echo _t('iPhone / iPod Touch에서 블로그 아이콘을 바로가기 아이콘으로 사용합니다.');?></label></div>
 												<p><?php echo _t('블로그 아이콘은 댓글과 방명록에서 사용됩니다. 크기는 16×16 이상, 48×48 이하까지 지원합니다.');?></p>
 											</dd>

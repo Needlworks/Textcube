@@ -47,7 +47,7 @@ if (!empty($_FILES['logo']['tmp_name'])) {
 
 // 파비콘 처리.
 if ($_POST['deleteFavicon'] == "yes") {
-	unlink(ROOT."/attach/$blogid/favicon.ico");
+	unlink(__TEXTCUBE_ATTACH_DIR__."/$blogid/favicon.ico");
 	array_push($errorText, _t('파비콘을 초기화 하였습니다.'));
 }
 
@@ -57,8 +57,8 @@ if (!empty($_FILES['favicon']['tmp_name'])) {
 	} else { 
 		Attachment::confirmFolder();
 	
-		if (move_uploaded_file($_FILES['favicon']['tmp_name'], ROOT."/attach/$blogid/favicon.ico")) {
-			@chmod(ROOT . "/attach/$blogid/favicon.ico", 0666);
+		if (move_uploaded_file($_FILES['favicon']['tmp_name'], __TEXTCUBE_ATTACH_DIR__."/$blogid/favicon.ico")) {
+			@chmod(__TEXTCUBE_ATTACH_DIR__."/$blogid/favicon.ico", 0666);
 			array_push($errorText, _t('파비콘을 변경하였습니다.'));
 		}
 	}
@@ -66,7 +66,7 @@ if (!empty($_FILES['favicon']['tmp_name'])) {
 
 // 블로그 아이콘 처리.
 if ($_POST['deleteBlogIcon'] == "yes") {
-	unlink(ROOT."/attach/$blogid/index.gif");
+	unlink(__TEXTCUBE_ATTACH_DIR__."/$blogid/index.gif");
 	array_push($errorText, _t('블로그 아이콘을 초기화 하였습니다.'));
 }
 
@@ -78,8 +78,8 @@ if (!empty($_FILES['blogIcon']['tmp_name'])) {
 	} else { 
 		Attachment::confirmFolder();
 		
-		if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], ROOT . "/attach/$blogid/index.gif")) {
-			@chmod(ROOT . "/attach/$blogid/index.gif", 0666);
+		if (move_uploaded_file($_FILES['blogIcon']['tmp_name'], __TEXTCUBE_ATTACH_DIR__."/$blogid/index.gif")) {
+			@chmod(__TEXTCUBE_ATTACH_DIR__."/$blogid/index.gif", 0666);
 			array_push($errorText, _t('블로그 아이콘을 변경하였습니다.'));
 		} else {
 			

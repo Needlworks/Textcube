@@ -19,7 +19,7 @@ final class Model_Config extends Singleton {
 		$this->settings = array();
 		if (file_exists(ROOT.'/framework/id/load')) $id = trim(file_get_contents(ROOT.'/framework/id/load'));
 		require_once(ROOT.'/framework/id/'.$id.'/config.default.php');	// Loading default configuration
-		if (file_exists(ROOT.'/config.php')) @include(ROOT.'/config.php');	// Override configuration
+		if (file_exists(__TEXTCUBE_CONFIG_FILE__)) @include(__TEXTCUBE_CONFIG_FILE__);	// Override configuration
 		// Map port setting.
 		if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 			$service['port'] = $_SERVER['SERVER_PORT'];

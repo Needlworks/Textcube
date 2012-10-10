@@ -9,18 +9,18 @@ function resampleImage($imgString, $filename, $useAbsolutePath = true) {
 	$blogid = getBlogId();
 	$context = Model_Context::getInstance();
 
-	if (!extension_loaded('gd') || !file_exists(ROOT . "/attach/{$blogid}/{$filename}")) {
+	if (!extension_loaded('gd') || !file_exists(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$filename}")) {
 		return $imgString;
 	}
 
-	if (!is_dir(ROOT."/cache/thumbnail")) {
-		@mkdir(ROOT."/cache/thumbnail");
-		@chmod(ROOT."/cache/thumbnail", 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail")) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail");
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail", 0777);
 	}
 
-	if (!is_dir(ROOT."/cache/thumbnail/".getBlogId())) {
-		@mkdir(ROOT."/cache/thumbnail/".getBlogId());
-		@chmod(ROOT."/cache/thumbnail/".getBlogId(), 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/".getBlogId())) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/".getBlogId());
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/".getBlogId(), 0777);
 	}
 
 	$origImageSrc = ($useAbsolutePath ? $context->getProperty('uri.service') : $context->getProperty('uri.path')) . "/attach/{$blogid}/{$filename}";

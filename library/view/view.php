@@ -1276,9 +1276,9 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 						$tempFileName = $matches[1].'.'.$matches[4];
 
 					$newImage = $images[$i][0];
-					if (file_exists(ROOT . "/attach/{$blogid}/{$tempFileName}")) {
+					if (file_exists(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}")) {
 						$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
-						$tempOriginInfo = getimagesize(ROOT . "/attach/{$blogid}/{$tempFileName}");
+						$tempOriginInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}");
 						if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
 							$image = Utils_Image::getInstance();
 							list($tempImageURL, $tempImageWidth, $tempImageHeight, $tempImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));

@@ -6,7 +6,7 @@ if(!function_exists('FM_TTML_bindAttachments')) require_once 'ttml.php';
 
 function FM_TTML_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
 	global $service;
-	$path = ROOT . "/attach/$blogid";
+	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	$url = "{$service['path']}/attach/$blogid";
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 //	if (is_array($keywords)) $view = FM_TTML_bindKeywords($keywords, $view);

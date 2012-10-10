@@ -541,7 +541,7 @@ class Utils_Image extends Singleton {
 			if (preg_match('/(.+)\.w(\d{1,})\-h(\d{1,})\.(.+)/', $filename, $matches))
 				$filename = $matches[1].'.'.$matches[4];
 
-			if (file_exists(ROOT."/attach/{$blogid}/{$filename}") && !in_array($filename, $result))
+			if (file_exists(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$filename}") && !in_array($filename, $result))
 				$result[] = $filename;
 		}
 
@@ -563,7 +563,7 @@ class Utils_Image extends Singleton {
 		$force = isset($options['force']) ? $options['force'] : false;
 		$absolute = isset($options['absolute']) ? $options['absolute'] : true;
 
-		$originSrc = ROOT."/attach/{$blogid}/{$filename}";
+		$originSrc = __TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$filename}";
 		$originURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path'))."/attach/{$blogid}/{$filename}";
 
 		if (!file_exists($originSrc)) return false;
@@ -575,13 +575,13 @@ class Utils_Image extends Singleton {
 
 		if (!extension_loaded('gd')) return array($originURL, $originWidth, $originHeight, $originSrc);
 
-		if (!is_dir(ROOT."/cache/thumbnail")) {
-			@mkdir(ROOT."/cache/thumbnail");
-			@chmod(ROOT."/cache/thumbnail", 0777);
+		if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail")) {
+			@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail");
+			@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail", 0777);
 		}
-		if (!is_dir(ROOT."/cache/thumbnail/" . $blogid)) {
-			@mkdir(ROOT."/cache/thumbnail/" .$blogid);
-			@chmod(ROOT."/cache/thumbnail/" . $blogid, 0777);
+		if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid)) {
+			@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" .$blogid);
+			@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $blogid, 0777);
 		}
 
 		$this->imageFile = $originSrc;
@@ -614,7 +614,7 @@ class Utils_Image extends Singleton {
 			$resizeHeight = $tempHeight;
 		}
 		$resizeFilename = preg_replace("/\\.([[:alnum:]]+)$/i", ".w{$resizeWidth}-h{$resizeHeight}.\\1", $filename);
-		$resizeSrc = ROOT . "/cache/thumbnail/{$blogid}/{$resizeFilename}";
+		$resizeSrc = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/{$resizeFilename}";
 		$resizeURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path')) . "/cache/thumbnail/{$blogid}/{$resizeFilename}";
 
 		if($force) @unlink($resizeSrc);
