@@ -3,17 +3,19 @@ Textcube: Brand Yourself - Personalized web publishing platform
 
 ## DESCRIPTION
 
-Textcube is an opensource tool to archive and share the experiences and thoughts. 
+Textcube is an opensource tool to archive and share the experiences, ideas, opinions and thoughts. 
 
 Supports import/export individual data via XML compatible with other solutions in 'Tattertools Project'
-
-Textcube is based on online publishing platform 'Tattertools,' started by JH in 2004, developed by TNC in 2005 and GPLized in 2006. Tatter Network Foundation (TNF) developed Tattertools with TNC from Apr. 2006, and completely developed by Needlworks/TNF from Nov. 2006.
 
 * Strong support of non-latin compatibility including Korean/Japanese/Chinese
 * Supports various installation environments (webservers,databases and languages)
 * Provides and extensible plugin and skin architecture
 * Expandable from individual blog to blog service platform.
 * Supports easy backup and restore via TTXML format, which is supported by various platforms of 'Project Tattertools.'
+
+## HISTORY
+
+Textcube is based on online publishing platform 'Tattertools,' started by JH in 2004, developed by TNC in 2005 and GPLized in 2006. Tatter Network Foundation (TNF) developed Tattertools with TNC from Apr. 2006. Needlworks/TNF was dedicated to Tattertools' development from Nov. 2006, and started developing 'Project S2' as its successor. 'Textcube' was named by YJ Park, and made its debut in Aug. 2007.
 
 ## REQUIREMENTS (CURRENT VERSION)
 Textcube supports various environments. However, you need at least one webserver supporting PHP environments, one database engine
