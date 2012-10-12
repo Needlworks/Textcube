@@ -625,7 +625,8 @@ function printMobileRecentTrackbackView($page) {
 }
 
 function printMobileCommentFormView($entryId, $title, $actionURL) {
-?>
+	$context = Model_Context::getInstance();
+	?>
 	
 	<form method="POST" action="<?php echo $context->getProperty('uri.blog');?>/<?php echo $actionURL;?>/add/<?php echo $entryId;?>" class="commentForm">
 	<h3><?php echo $title;?></h3>
