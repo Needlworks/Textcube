@@ -51,9 +51,9 @@ final class Session {
 	
 	public static function destroy($id, $setCookie = false) {
 		//self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
-		self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}");
-		self::$mc->delete(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}");
-		return self::$mc->delete(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}",0);
+		self::$mc->delete(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}",0);
+		return self::$mc->delete(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",0);
 	}
 	
 	public static function gc($maxLifeTime = false) {
@@ -71,7 +71,7 @@ final class Session {
 			if (($id = self::getAnonymousSession()) !== false)
 				return $id;
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",true,0,self::$context->getProperty('service.timeout'));
+			$result = self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",true,0,self::$context->getProperty('service.timeout'));
 			if ($result > 0) {
 				$result = self::$mc->set(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}",$id,0,self::$context->getProperty('service.timeout'));
 				return $id;
