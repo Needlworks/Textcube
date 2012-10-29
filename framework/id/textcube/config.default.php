@@ -5,7 +5,7 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION', '1.9.0 : Beta 6');
+define('TEXTCUBE_VERSION', '1.9.0 : Release Candidate 1');
 define('TEXTCUBE_REVISION', 'root-main-branch1.9-r29');
 define('TEXTCUBE_CODENAME', 'Largo');
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2012. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
@@ -41,7 +41,7 @@ $service['domain'] = '';
 $service['path'] = '';
 $service['language'] = 'ko';
 $service['timezone'] = 'Asia/Seoul';
-$service['encoding'] = 'EUC-KR';
+$service['encoding'] = 'UTF-8';
 $service['umask'] = 0;
 $service['skin'] = 'coolant';
 if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['fancyURL'] = 1;
