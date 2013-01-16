@@ -7,9 +7,9 @@ require ROOT . '/library/preprocessor.php';
 define('__TEXTCUBE_PAGE__',true);
 if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0)) {
 	if (!isset($suri['id']) || (Setting::getBlogSettingGlobal('useSloganOnPost',1) == 1)) {
-		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'], true);
+		list($entries, $paging) = getEntryWithPagingBySlogan($blogid, $suri['value'], 'page');
 	} else {
-		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
+		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], 'page');
 	}
 	if(count($entries) === 1) unset($paging);
 	fireEvent('OBStart');
