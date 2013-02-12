@@ -111,7 +111,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie7.css" />
 	<![endif]-->
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
