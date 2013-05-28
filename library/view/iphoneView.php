@@ -224,7 +224,7 @@ function printMobileHTMLHeader($title = '') {
 <html> 
 	
 <head>
-	<title><a href="<?php echo $context->getProperty('uri.blog');?>"><?php echo $title;?></a></title>
+	<title><?php echo $title;?></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/iphone.css" />
