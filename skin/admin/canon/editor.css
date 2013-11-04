@@ -1009,10 +1009,10 @@ dl#power-line
 
 .mceExternalToolbar {
 	position                         : fixed !important;
-	top                              : 80px !important;
 	height                           : 30px !important;
 	z-index                          : 100;
-	display:block;
+	top                              : 83px !important;
+    display:block;
 	border:0 !important;
 }
 .defaultSkin .mceExternalClose { display:none !important;}

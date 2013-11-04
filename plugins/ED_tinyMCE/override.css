@@ -2,7 +2,6 @@
 /* This stylesheet overrides administration panel skin, to make uploader section float. */
 .mceExternalToolbar {
     position                         : fixed !important;
-    top                              : 83px !important;
     height                           : 30px !important;
     z-index                          : 100;
 	background-color                 : #fff !important;
