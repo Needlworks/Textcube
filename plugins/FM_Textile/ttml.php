@@ -1,7 +1,7 @@
 <?php
 // PHP TTML parser
 // Version 2.0 (2011.1.7)
-// 2004-2013 Needlworks / TNF / Tatter and Company
+// 2004-2014 Needlworks / TNF / Tatter and Company
 // Original TTML is created by JH, 2004.4
 // TTML port for Tattertools 1.0 by papacha, 2005.10
 // TTML Module port for Tattertools 1.1 by lifthrasiir, 2007.1

@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2004-2013, The Dojo Foundation
+	Copyright (c) 2004-2014, The Dojo Foundation
 	All Rights Reserved.
 
 	Licensed under the Academic Free License version 2.1 or above OR the
