@@ -817,11 +817,11 @@ class Auth_OpenID_CheckIDRequest extends Auth_OpenID_Request {
      */
     function returnToVerified()
     {
-    	$fetcher = Auth_Yadis_Yadis::getHTTPFetcher();
+        $fetcher = Auth_Yadis_Yadis::getHTTPFetcher();
         return call_user_func_array($this->verifyReturnTo,
                                     array($this->trust_root, $this->return_to, $fetcher));
     }
-    
+
     static function fromMessage($message, $server)
     {
         $mode = $message->getArg(Auth_OpenID_OPENID_NS, 'mode');
@@ -1704,7 +1704,7 @@ class Auth_OpenID_Server {
     {
         if (method_exists($this, "openid_" . $request->mode)) {
             $handler = array($this, "openid_" . $request->mode);
-            return call_user_func($handler, &$request);
+            return call_user_func_array($handler, array($request));
         }
         return null;
     }
