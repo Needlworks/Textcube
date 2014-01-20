@@ -1415,6 +1415,7 @@ EOF;
       </ul>
       <p>
 		<?php if (checkIIS()) echo _t('새로 IIS용 Rewrite 모듈을 설치하셨다면 <b>.htaccess 내용을 모듈 설정에 적용</b>해주십시오.<br />'); ?>
+		<?php echo '<li style="color:red">', _t('보안 관련 안내'), ': ', '<br /><span class="instruction">', _t('보안을 위하여 설치때 필요했던 권한 중 일부를 제거해주세요. FTP 프로그램으로 권한을 수정하시거나 다음의 명령을 터미널에 붙여 넣으시면 됩니다'), '<br />', 'chmod 0755 '.$root, '</span></li>';?>
         <?php echo _t('텍스트큐브 관리 툴로 로그인 하신 후 필요사항을 수정해 주십시오.');?><br />
         <?php echo _t('텍스트큐브를 이용해 주셔서 감사합니다.');?>
       </p>
