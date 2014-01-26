@@ -106,7 +106,8 @@ final class Session {
 	
 	private static function getAnonymousSession() {
 		if(is_null(self::$context)) self::initialize();
-		$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+		//$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+		$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE userid IS NULL AND preexistence IS NULL");
 		if ($result)
 			return $result;
 		return false;
