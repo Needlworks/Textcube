@@ -314,7 +314,7 @@ function GoogleMap_LocationLogView($target) {
 		if ($found) // found, just output
 			echo "\t\t\tGMap_addLocationMarkDirect(locationMap, {address:plugin.gmap.normalizeAddress('{$locative['location']}'), path:'{$locative['location']}', original_path:'{$locative['location']}'}, '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), new google.maps.LatLng($lat, $lng), boundary, locations, false);\n";
 		else // try to find in the client
-			echo "\t\t\ttofind.push([locationMap, '{$locative['location']}', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations]);\n";
+			echo "\t\t\ttofind.push([locationMap, '".str_replace("'", "\\'",$locative['location'])."', '".str_replace("'", "\\'", $locative['title'])."', encodeURI('".str_replace("'", "\\'", $locative['link'])."'), boundary, locations]);\n";
 		$count++;
 	}
 ?>
