@@ -8,7 +8,7 @@
 global $fileCachedResult;
 
 class DBAdapter implements IAdapter {
-	static $db;
+	static $db = null;
 	static $cachedResult, $dbProperties, $escapeTag, $lastQueryType;
 		
 	/*@static@*/
@@ -259,6 +259,7 @@ class DBAdapter implements IAdapter {
 	}
 	
 	public static function escapeString($string, $link = null){
+		if(!self::$db) return mysql_escape_string($string);
 		if(is_null(self::$escapeTag)) {
 			if ( function_exists('mysql_real_escape_string') && (mysql_real_escape_string('ㅋ') == 'ㅋ')) {
 				self::$escapeTag = 'real';
