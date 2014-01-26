@@ -119,7 +119,10 @@ EOS
 							function writeLine() {
 								contentForm = document.getElementById("line-write");
 								content = contentForm.value;
-								
+								if(content.length > 511) {
+									alert("<php echo _t('작성된 라인의 길이가 너무 깁니다.');?>");
+									return false;
+								}
 								var request = new HTTPRequest("POST","<?php echo $blogURL;?>/line/");
 								request.onSuccess = function () {
 									PM.removeRequest(this);
