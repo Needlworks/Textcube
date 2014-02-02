@@ -23,7 +23,7 @@ if(strlen($suri['value'])) {
 	$list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	print printMobileEntryListView($list['items'],'tag_'.$suri['page'],getTagById($blogid, $suri['id']),$paging, $list['count']);
-	print printMobileListNavigation($paging,'tag/' . $suri['id']);
+	if ($context->getProperty('blog.entriesOnList') < $list['count']) print printMobileListNavigation($paging,'tag/' . $suri['id']);
 }
 printMobileHTMLFooter();
 ?>

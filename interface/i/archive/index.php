@@ -17,7 +17,7 @@ if(isset($period)) {
 	$list = array('title' => getPeriodLabel($period), 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
 	$paging = $listWithPaging[1];
 	print printMobileEntryListView($list['items'],'archive_'.$suri['page'],getPeriodLabel($period),$paging, $list['count']);
-	print printMobileListNavigation($paging,'archive/'.$period);
+	if ($context->getProperty('blog.entriesOnList') < $list['count']) print printMobileListNavigation($paging,'archive/'.$period);
 	printMobileHTMLFooter();
 }
 ?>
