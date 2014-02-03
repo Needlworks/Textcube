@@ -118,6 +118,8 @@ if(!is_null($context->getProperty('database.database'))) {
 	}
 	POD::cacheLoad();
 	register_shutdown_function( array('POD','cacheSave') );
+	$context->setProperty('database.connected',true);
+	//register_shutdown_function( array('POD','unbind') );
 }
 $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 /// Memcache module bind (if possible)
@@ -156,6 +158,7 @@ if (!defined('NO_SESSION')) {
 	// Workaround for servers that modifies session cookie to its own way
 	$sess_cookie_params = session_get_cookie_params();
 	$context->setProperty('service.session_cookie_domain',$sess_cookie_params['domain']);
+	register_shutdown_function('session_write_close');
 	if (session_start() !== true) {
 		header('HTTP/1.1 503 Service Unavailable');
 		exit;
@@ -279,4 +282,9 @@ if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))
 	
 	}
 }
+// DBMS unbind should work after session close.
+if(	$context->getProperty('database.connected') == true) {
+	register_shutdown_function( array('POD','unbind') );
+}
+
 ?>
