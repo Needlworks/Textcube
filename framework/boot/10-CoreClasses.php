@@ -699,7 +699,7 @@ final class Timer {
 	public function fetch($decimalPlaces = 3) {
 		return sprintf('%.3f', round(($this->getMicrotime() - $this->start), $decimalPlaces));
 	}
-	public function getMicroTime() {
+	public static function getMicroTime() {
 		list($usec, $sec) = explode(' ', microtime());
 		return (float)$usec + (float)$sec;
 	}
