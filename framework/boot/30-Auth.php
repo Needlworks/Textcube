@@ -271,7 +271,7 @@ class Acl {
 		/* Remain for compatibility */
 	}
 
-	function getIdentity( $domain ) {
+	static function getIdentity( $domain ) {
 		if( empty($_SESSION['identity'][$domain]) ) {
 			return null;
 		}
