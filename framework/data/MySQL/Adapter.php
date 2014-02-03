@@ -268,7 +268,7 @@ class DBAdapter implements IAdapter {
 			}
 		}
 		if(self::$escapeTag == 'real') {
-			return is_null($link) ? mysql_escape_string($string) : mysql_real_escape_string($string, $link);
+			return is_null($link) ? mysql_real_escape_string($string) : mysql_real_escape_string($string, $link);
 		} else {
 			return mysql_escape_string($string);
 		}
