@@ -44,7 +44,7 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$tcSqlQueryEndTime = explode(' ', microtime());
 	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
 	if( !$client_encoding ) {
-		$client_encoding = str_replace('_','-',mysqli_client_encoding(POD::$db));
+		$client_encoding = str_replace('_','-',mysqli_character_set_name(POD::$db));
 	}
 
 	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
