@@ -673,6 +673,7 @@ class CodeCache {
 		$this->name =
 		$this->fileName =
 		null;
+		$this->sources = array();
 	}
 	
 	private function initialize() {
@@ -699,24 +700,9 @@ class CodeCache {
 	
 	/*@ private @*/
 	private function __getCodes() {
-		global $__requireComponent, $__requireView, $__requireLibrary, $__requireBasics, $__requireInit, $__requireModel;
 		$code = '';
-/*		foreach($__requireComponent as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/components/'.$lib.'.php');
-		}*/
-		foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/'.$lib.'.php');
-		}
-		foreach($__requireModel as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/model/'.$lib.'.php');
-		}
-		
-		foreach($__requireView as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/view/'.$lib.'.php');
-		}
-		
-		foreach($__requireInit as $lib) {
-			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .'/library/'.$lib.'.php');
+		foreach($this->sources as $lib) {
+			if(strpos($lib,'DEBUG') === false) $code .= file_get_contents(ROOT .$lib);
 		}
 		$this->code = $code;
 	}
