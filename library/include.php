@@ -34,9 +34,17 @@ if(isset($service['codecache']) && ($service['codecache'] == true) && file_exist
 }
 if(isset($service['codecache'])
 		&& $service['codecache'] == true && $codeCacheRead == false) {
-	requireComponent('Needlworks.Cache.PageCache');
 	$libCode = new CodeCache();
 	$libCode->name = $codeName;
+	foreach((array_merge($__requireBasics,$__requireLibrary)) as $lib) {
+		array_push($libCode->sources, '/library/'.$lib.'.php');
+	}
+	foreach($__requireModel as $lib) {
+		array_push($libCode->sources, '/library/model/'.$lib.'.php');
+	}
+	foreach($__requireView as $lib) {
+		array_push($libCode->sources, '/library/view/'.$lib.'.php');
+	}
 	$libCode->save();
 	unset($libCode);
 }
