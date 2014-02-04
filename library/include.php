@@ -12,6 +12,7 @@ foreach($__requireComponent as $lib) {
 	require ROOT .'/framework/legacy/'.$lib.'.php';
 } 
 /***** Loading code pieces *****/
+$codeName = $uri->uri['interfaceType'];
 if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(__TEXTCUBE_CACHE_DIR__.'/code/'.$codeName)) {
 	$codeCacheRead = true;
 	require(__TEXTCUBE_CACHE_DIR__.'/code/'.$codeName);
