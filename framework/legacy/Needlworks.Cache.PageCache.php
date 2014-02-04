@@ -688,6 +688,12 @@ class CodeCache {
 		$this->code = $code;
 	}
 	
+	public function flush() {
+		$this->initialize();
+		foreach (new DirectoryIterator(__TEXTCUBE_CACHE_DIR__."/code") as $code) {
+			if($code->isFile()) @unlink($code->getPathname());
+		}
+	}
 	private function _error($err = 0) {
 		var_dump($err);
 		return false;
