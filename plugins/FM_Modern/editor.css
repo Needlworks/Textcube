@@ -1,5 +1,44 @@
 @charset "utf-8";
 
+#category-section
+{
+	margin                           : 60px 20px 0 0 !important; 
+	padding                          : 5px 3px 5px 5px; 
+	width                            : 100%; 
+}
+
+#formatbox-container
+{
+	margin                           : 0 auto;
+	width                            : 100%;
+	position                         : fixed;
+	top                              : 80px;
+	height                           : 31px !important;
+	background-color                 : #fff;
+	color                            : #fff;
+	border-bottom                    : 1px solid #BBB;
+	z-index                          : 5;
+	padding: 0px 0 5px 150px;
+	margin: 0 0 0 -150px;
+}
+
+#upload-section
+{
+	background-color                 : #FFF;
+	margin                           : 10px 20px 10px 0;
+	position                         : relative;
+	width                            : 100%;
+	border: 1px solid #F2F2F2;
+}
+
+#insert-container
+{
+	position                         : absolute;
+	margin-top                       : -160px;
+	left                             : 680px;
+	width                            : 100px;
+}
+   
 /* PALETTE ------------------------------------------------------------------ */
 
 #moderneditor-palette

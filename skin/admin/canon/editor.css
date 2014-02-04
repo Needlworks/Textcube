@@ -639,26 +639,6 @@ h3
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
-	background-color                 : #FFF;
-	margin                           : 10px 20px 10px 0;
-/*	position                         : relative;*/
-/*	width                            : 100%;*/
-/*	width                            : 550px;*/
-/*	float                            : left;*/
-	border: 1px solid #F2F2F2;
-	position:absolute;
-	top:100%;
-	left:50%;
-	margin-top:-200px;
-	margin-left:-370px;
-	width:900px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	-moz-box-shadow: 0 0 10px rgba(0,0,0,0.3);
-	-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3);
-	box-shadow: 0 0 10px rgba(0,0,0,0.3);	
-
 }
 
 #upload-section h3
@@ -771,14 +751,6 @@ h3
 }
 
 /* insert buttons */
-#insert-container
-{
-	position                         : absolute;
-	top                              : 10px;
-	left                             : 685px;
-	width                            : 100px;
-}
-
 #insert-container
 {
 	float                            : left;

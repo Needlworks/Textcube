@@ -28,10 +28,32 @@ td.mceToolbar {
 #save-section .button-box .list-button  {
     display: none;
 }
+
 #upload-section {
+    background-color : #FFF;
+    margin : 10px 20px 10px 0;
     display:none;
     position:fixed;
-    bottom:10px;
     z-index:140;
     border-top:1px solid #bbb;
+	top:100%;
+    bottom:10px;
+	left:50%;
+	margin-top:-200px;
+	margin-left:-370px;
+    border: 1px solid #F2F2F2;
+    width:900px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);	
+}
+#insert-container
+{
+    position : absolute;
+    top : 10px;
+    left : 685px;
+    width : 100px;
 }
