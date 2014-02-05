@@ -19,7 +19,9 @@ if( file_exists( $another_config ) ) {
 	$_try_auth_url = $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/login/openid?action=try_auth&requestURI=$requestURI";
 	$_op_base = "http://www.example.com";
 	$_encoded_args      = base64_encode( "login_url:" . $_try_auth_url );
-	$openid_help_link   = $_op_base . "/affiliate/help/textcube/" . $_encoded_args;
-	$openid_signup_link = $_op_base . "/signup/textcube/" . $_encoded_args;
+	// Currently we have no use for OpenID descriptions.
+	// Just set to null to hide the links in the login screen.
+	$openid_help_link   = null; //$_op_base . "/affiliate/help/textcube/" . $_encoded_args;
+	$openid_signup_link = null; //$_op_base . "/signup/textcube/" . $_encoded_args;
 }
 ?>
