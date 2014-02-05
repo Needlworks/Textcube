@@ -88,7 +88,7 @@ function TryAuthByRequest()
 		require_once(ROOT.'/framework/legacy/Textcube.Control.Openid.php');
 		require_once OPENID_LIBRARY_ROOT."Auth/Yadis/XRI.php";
 		if( Auth_Yadis_identifierScheme($openid) == 'URI' ) {
-			$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.idtail.com");
+			$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.example.com");
 		}
 	}
 	if( $errmsg ) {

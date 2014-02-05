@@ -219,7 +219,7 @@ if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
 								<dt><label for="openid_identifier"><?php echo _text('관리자 계정과 연결된 오픈아이디');?></label></dt>
 								<dd>
 									<input type="text" class="input-text openid-identifier-login" id="openid_identifier" name="openid_identifier" value="<?php echo $cookie_openid; ?>" maxlength="256" />
-									<p class="example"><?php echo _text('예) textcube.idtail.com, textcube.myid.net'); ?></p>
+									<p class="example"><?php echo _text('예) textcube.example.com'); ?></p>
 								</dd>
 							</dl>
 							<dl id="openid-remember">
