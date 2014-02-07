@@ -59,6 +59,29 @@ CREATE TABLE [##_dbPrefix_##]Comments (
   KEY parent (parent),
   KEY isfiltered (isfiltered)
 ) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]TrashComments (
+  blogid int(11) NOT NULL default '0',
+  replier int(11) default NULL,
+  id int(11) NOT NULL,
+  openid varchar(128) NOT NULL default '',
+  entry int(11) NOT NULL default '0',
+  parent int(11) default NULL,
+  name varchar(80) NOT NULL default '',
+  password varchar(32) NOT NULL default '',
+  homepage varchar(80) NOT NULL default '',
+  secret int(1) NOT NULL default '0',
+  longitude FLOAT(10) NULL,
+  latitude FLOAT(10) NULL,
+  comment text NOT NULL,
+  ip varchar(15) NOT NULL default '',
+  written int(11) NOT NULL default '0',
+  isfiltered int(11) NOT NULL default '0',
+  PRIMARY KEY  (blogid, id),
+  KEY blogid (blogid),
+  KEY entry (entry),
+  KEY parent (parent),
+  KEY isfiltered (isfiltered)
+) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]CommentsNotified (
   blogid int(11) NOT NULL default '0',
   replier int(11) default NULL,
@@ -366,6 +389,23 @@ CREATE TABLE [##_dbPrefix_##]RemoteResponseLogs (
   UNIQUE KEY id (blogid, id)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]RemoteResponses (
+  id int(11) NOT NULL,
+  blogid int(11) NOT NULL default '0',
+  entry int(11) NOT NULL default '0',
+  responsetype enum('trackback','pingback') NOT NULL default 'trackback',
+  url varchar(255) NOT NULL default '',
+  writer int(11) default NULL,
+  site varchar(255) default '',
+  subject varchar(255) default '',
+  excerpt varchar(255) default '',
+  ip varchar(15) NOT NULL default '',
+  written int(11) NOT NULL default '0',
+  isfiltered int(11) NOT NULL default '0',
+  PRIMARY KEY (blogid, id),
+  KEY isfiltered (isfiltered),
+  KEY blogid (blogid, isfiltered, written)
+) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]TrashRemoteResponses (
   id int(11) NOT NULL,
   blogid int(11) NOT NULL default '0',
   entry int(11) NOT NULL default '0',

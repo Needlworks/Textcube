@@ -57,6 +57,27 @@ CREATE INDEX [##_dbPrefix_##]Comments_blogid_idx ON [##_dbPrefix_##]Comments (bl
 CREATE INDEX [##_dbPrefix_##]Comments_entry_idx ON [##_dbPrefix_##]Comments (entry);
 CREATE INDEX [##_dbPrefix_##]Comments_parent_idx ON [##_dbPrefix_##]Comments (parent);
 CREATE INDEX [##_dbPrefix_##]Comments_isfiltered_idx ON [##_dbPrefix_##]Comments (isfiltered);
+CREATE TABLE [##_dbPrefix_##]TrashComments (
+  blogid integer NOT NULL default 0,
+  replier integer default NULL,
+  id integer NOT NULL,
+  openid varchar(128) NOT NULL default '',
+  entry integer NOT NULL default 0,
+  parent integer default NULL,
+  name varchar(80) NOT NULL default '',
+  password varchar(32) NOT NULL default '',
+  homepage varchar(80) NOT NULL default '',
+  secret integer NOT NULL default 0,
+  comment text NOT NULL,
+  ip varchar(15) NOT NULL default '',
+  written integer NOT NULL default 0,
+  isfiltered integer NOT NULL default 0,
+  PRIMARY KEY  (blogid, id)
+) [##_charset_##];
+CREATE INDEX [##_dbPrefix_##]TrashComments_blogid_idx ON [##_dbPrefix_##]TrashComments (blogid);
+CREATE INDEX [##_dbPrefix_##]TrashComments_entry_idx ON [##_dbPrefix_##]TrashComments (entry);
+CREATE INDEX [##_dbPrefix_##]TrashComments_parent_idx ON [##_dbPrefix_##]TrashComments (parent);
+CREATE INDEX [##_dbPrefix_##]TrashComments_isfiltered_idx ON [##_dbPrefix_##]TrashComments (isfiltered);
 CREATE TABLE [##_dbPrefix_##]CommentsNotified (
   blogid integer NOT NULL default 0,
   replier integer default NULL,
@@ -380,6 +401,23 @@ CREATE TABLE [##_dbPrefix_##]RemoteResponses (
 ) [##_charset_##];
 CREATE INDEX [##_dbPrefix_##]RemoteResponses_isfiltered_idx ON [##_dbPrefix_##]RemoteResponses (isfiltered);
 CREATE INDEX [##_dbPrefix_##]RemoteResponses_blogid_isfiltered_written_idx ON [##_dbPrefix_##]RemoteResponses (blogid, isfiltered, written);
+CREATE TABLE [##_dbPrefix_##]TrashRemoteResponses (
+  id integer NOT NULL,
+  blogid integer NOT NULL default 0,
+  entry integer NOT NULL default 0,
+  responsetype varchar(10) NOT NULL default 'trackback',
+  url varchar(255) NOT NULL default '',
+  writer integer default NULL,
+  site varchar(255) NOT NULL default '',
+  subject varchar(255) NOT NULL default '',
+  excerpt varchar(255) NOT NULL default '',
+  ip varchar(15) NOT NULL default '',
+  written integer NOT NULL default 0,
+  isfiltered integer NOT NULL default 0,
+  PRIMARY KEY (blogid, id)
+) [##_charset_##];
+CREATE INDEX [##_dbPrefix_##]TrashRemoteResponses_isfiltered_idx ON [##_dbPrefix_##]TrashRemoteResponses (isfiltered);
+CREATE INDEX [##_dbPrefix_##]TrashRemoteResponses_blogid_isfiltered_written_idx ON [##_dbPrefix_##]TrashRemoteResponses (blogid, isfiltered, written);
 CREATE TABLE [##_dbPrefix_##]Users (
   userid integer NOT NULL default 1,
   loginid varchar(64) NOT NULL default '',
