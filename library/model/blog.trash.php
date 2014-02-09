@@ -141,14 +141,20 @@ function restoreTrackbackTrash($blogid, $id) {
 }
 
 function trashVan() {
-   	global $database;
-	requireModel('common.setting');
-	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 86400) {
-//		var_dump(Timestamp::getUNIXtime());
-//		var_dump(Setting::getServiceSetting('lastTrashSweep',0, true));
-		POD::execute("DELETE FROM {$database['prefix']}Comments where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
-		POD::execute("DELETE FROM {$database['prefix']}RemoteResponses where isfiltered < ".Timestamp::getUNIXtime()." - 1296000 AND isfiltered > 0");
-		POD::execute("DELETE FROM {$database['prefix']}RefererLogs WHERE referred < ".Timestamp::getUNIXtime()." - 604800");
+	$context = Model_Context::getInstance();
+	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 43200) {
+		$pool = DBModel::getInstance();
+		$pool->reset('Comments');
+		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-$context->getProperty('service.trashtimelimit',302400));
+		$pool->setQualifier('isfiltered','b',0);
+		$pool->delete();
+		$pool->reset('RemoteResponses');
+		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-$context->getProperty('service.trashtimelimit',302400));
+		$pool->setQualifier('isfiltered','b',0);
+		$pool->delete();
+		$pool->reset('RefererLogs');
+		$pool->setQualifier('referred','s',Timestamp::getUNIXtime()-604800);
+		$pool->delete();
 		Setting::setServiceSetting('lastTrashSweep',Timestamp::getUNIXtime(),true);
 	}
 	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastNoticeRead',0, true) > 43200) {
