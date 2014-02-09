@@ -165,9 +165,11 @@ function trashVan() {
 	}
 }
 
-function emptyTrash($comment = true){
-	$blogid = getBlogId();
+function emptyTrash($comment = true, $blogid = null)
 	$pool = DBModel::getInstance();
+	if (is_null($blogid)) {
+		$blogid = getBlogId();
+	}
 	if ($comment == true) {
 		$pool->reset('Comments');
 		$pool->setQualifier('blogid','eq',$blogid);

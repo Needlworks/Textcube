@@ -66,7 +66,17 @@ function clearCache() {
 	if(POD::execute("DELETE FROM {$database['prefix']}ServiceSettings WHERE name like 'TextcubeNotice%'"))
 		echo '<span class="result success">', _text('성공'), '</span></li>';
 	else echo '<span class="result fail">', _text('실패'), '</span></li>';
-	
+	if(!is_null($blogids = POD::queryColumn("SELECT DISTINCT blogid FROM {$database['prefix']}BlogSettings"))) {
+		$changed = true;
+		$errorlog = false;
+		echo '<li>', _textf('댓글 및 트랙백 휴지통을 비웁니다.'), ': ';
+		foreach($blogids as $ids) {
+			emptyTrash(true,$ids);
+			emptyTrash(false,$ids);
+		}
+		if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
+		else echo '<span class="result fail">', _text('실패'), '</span></li>';
+	}	
 	$isCleared = true;
 }
 
