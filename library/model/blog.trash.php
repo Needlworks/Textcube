@@ -163,11 +163,13 @@ function trashVan() {
 	}
 }
 
-function emptyTrash($comment = true)
+function emptyTrash($comment = true, $blogid = null)
 {
    	global $database;
 	requireModel('common.setting');
-	$blogid = getBlogId();
+	if (is_null($blogid)) {
+		$blogid = getBlogId();
+	}
 	if ($comment == true) {
 		POD::execute("DELETE FROM {$database['prefix']}Comments where blogid = ".$blogid." and isfiltered > 0");
 	} else {
