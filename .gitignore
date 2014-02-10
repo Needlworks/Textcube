@@ -8,3 +8,6 @@ ehthumbs.db
 Thumbs.db
 attach
 cache
+skin/blog/customize
+config.php
+.htaccess
