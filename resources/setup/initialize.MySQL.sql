@@ -356,6 +356,7 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
   timer float NOT NULL default '0',
   created int(11) NOT NULL default '0',
   updated int(11) NOT NULL default '0',
+  expires integer default 0 NOT NULL,
   PRIMARY KEY  (id,address),
   KEY updated (updated)
 ) [##_charset_##];
