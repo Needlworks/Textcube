@@ -828,8 +828,18 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
-	}	
-	
+			
+		echo '<li>', _text('기존 포스트의 에디터를 modern에서 tinyMCE로 변환합니다.'), ': ';
+		$query = DBModel::getInstance();
+		$query->reset('Entries');
+		$query->setQualifier('contenteditor','equals','modern',true);
+		$query->setQualifier('contentformatter','equals','ttml',true);
+		$query->setAttribute('contenteditor','tinyMCE',true);
+		if($query->update())
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
 }
 
 /***** Common parts. *****/
