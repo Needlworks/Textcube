@@ -817,7 +817,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	/* From Textcube 1.9 */
-	if (version_compare($currentVersion, '1.9.0','<')) { 
+	if (version_compare($currentVersion, '1.9.1','<')) { 
 		$changed = true;
 		echo '<li>', _text('기본 에디터를 변경합니다.'), ': ';
 		$query = DBModel::getInstance();
@@ -829,7 +829,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
-			
+
 		echo '<li>', _text('기존 포스트의 에디터를 modern에서 tinyMCE로 변환합니다.'), ': ';
 		$query = DBModel::getInstance();
 		$query->reset('Entries');
