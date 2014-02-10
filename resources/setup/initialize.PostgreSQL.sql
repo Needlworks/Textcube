@@ -352,7 +352,6 @@ CREATE TABLE [##_dbPrefix_##]Sessions (
   timer float NOT NULL default 0,
   created integer NOT NULL default 0,
   updated integer NOT NULL default 0,
-  expires integer NOT NULL default 0,
   PRIMARY KEY  (id,address)
 ) [##_charset_##];
 CREATE INDEX [##_dbPrefix_##]Sessions_updated_idx ON [##_dbPrefix_##]Sessions (updated);
