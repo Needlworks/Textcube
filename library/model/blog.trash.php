@@ -143,14 +143,15 @@ function restoreTrackbackTrash($blogid, $id) {
 }
 
 function trashVan() {
-	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 86400) {
+	$context = Model_Context::getInstance();
+	if(Timestamp::getUNIXtime() - Setting::getServiceSetting('lastTrashSweep',0, true) > 43200) {
 		$pool = DBModel::getInstance();
 		$pool->reset('Comments');
-		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-1296000);
+		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-$context->getProperty('service.trashtimelimit',302400));
 		$pool->setQualifier('isfiltered','b',0);
 		$pool->delete();
 		$pool->reset('RemoteResponses');
-		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-1296000);
+		$pool->setQualifier('isfiltered','s',Timestamp::getUNIXtime()-$context->getProperty('service.trashtimelimit',302400));
 		$pool->setQualifier('isfiltered','b',0);
 		$pool->delete();
 		$pool->reset('RefererLogs');

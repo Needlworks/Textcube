@@ -714,10 +714,94 @@ function trashComment($blogid, $id, $entry, $password) {
 	if ($affected + $affectedChildren > 0) {
 		CacheControl::flushCommentRSS($entry);
 		CacheControl::flushDBCache('comment');
+		filterTrashComments($blogid);
 		updateCommentsOfEntry($blogid, $entry);
 		return true;
 	}
 	return false;
+}
+
+function filterTrashComments($blogid,$id = null) {
+	if (!doesHaveOwnership()) {
+		return false;
+	}
+	$pool = DBModel::getInstance();	
+	$pool->reset('Comments');
+	if (is_null($id)) {
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('isfiltered','>',0);
+		$ids = $pool->getColumn('id');
+		if(!empty($ids)) {
+			foreach ($ids as $id) {
+				moveCommentToTrash($blogid, $id);
+			}
+		}
+	} else {
+		moveCommentToTrash($blogid, $id);		
+	}
+}
+
+function moveCommentToTrash($blogid, $id) {
+	// TODO: implement 'copy' method to DBModel and rewrite.
+	$pool->reset('Comments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id'    ,'eq',$id);
+	$comment = $pool->getRow();
+	// Write into trashcan
+	$pool->reset('TrashComments');
+	$pool->setAttribute('blogid',$comment['blogid']);
+	$pool->setAttribute('id'    ,$comment['id']);
+	$pool->setAttribute('entry' ,$comment['entry']);
+	$pool->setAttribute('parent',$comment['parent']);
+	$pool->setAttribute('openid',$comment['openid'],true);
+	$pool->setAttribute('name',  $comment['name'],true);
+	$pool->setAttribute('password',$comment['password'],true);
+	$pool->setAttribute('homepage',$comment['homepage'],true);
+	$pool->setAttribute('secret',$comment['secret']);
+	$pool->setAttribute('comment',$comment['comment'],true);
+	$pool->setAttribute('ip',    $comment['ip'],true);
+	$pool->setAttribute('written',$comment['written']);
+	$pool->setAttribute('isfiltered',Timestamp::getUNIXtime());
+	$result = $pool->insert();
+	if($result) {
+		$pool->reset('Comments');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('id'    ,'eq',$id);
+		$pool->setQualifier('entry' ,'eq',$comment['entry']);
+		return $pool->delete();
+	} else return false;
+}
+
+function revertTrashToComment($blogid, $id) {
+	// TODO: implement 'copy' method to DBModel and rewrite.
+	// BUG:  ID field could conflict with newly inserted ids.
+	$pool->reset('TrashComments');
+	$pool->setQualifier('blogid','eq',$blogid);
+	$pool->setQualifier('id'    ,'eq',$id);
+	$comment = $pool->getRow();
+	// Write into trashcan
+	$pool->reset('Comments');
+	$pool->setAttribute('blogid',$comment['blogid']);
+	$pool->setAttribute('id'    ,$comment['id']);
+	$pool->setAttribute('entry' ,$comment['entry']);
+	$pool->setAttribute('parent',$comment['parent']);
+	$pool->setAttribute('openid',$comment['openid'],true);
+	$pool->setAttribute('name',  $comment['name'],true);
+	$pool->setAttribute('password',$comment['password'],true);
+	$pool->setAttribute('homepage',$comment['homepage'],true);
+	$pool->setAttribute('secret',$comment['secret']);
+	$pool->setAttribute('comment',$comment['comment'],true);
+	$pool->setAttribute('ip',    $comment['ip'],true);
+	$pool->setAttribute('written',$comment['written']);
+	$pool->setAttribute('isfiltered',Timestamp::getUNIXtime());
+	$result = $pool->insert();
+	if($result) {
+		$pool->reset('TrashComments');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('id'    ,'eq',$id);
+		$pool->setQualifier('entry' ,'eq',$comment['entry']);
+		return $pool->delete();
+	} else return false;
 }
 
 function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
@@ -848,6 +932,7 @@ function trashCommentInOwner($blogid, $id) {
 		if($pool->update()) {
 			CacheControl::flushCommentRSS($entryId);
 			CacheControl::flushDBCache('comment');
+			filterTrashComments($blogid, $id);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
 		}
