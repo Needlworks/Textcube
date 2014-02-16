@@ -91,7 +91,7 @@ h3
 
 input
 {
-	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleSDGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 }
 
 label
@@ -135,14 +135,14 @@ option
 
 kbd, samp
 {
-	font-family                      : "Courier New", Courier, AppleGothic, '굴림', Gulim, monospace;
+	font-family                      : "Courier New", Courier, AppleSDGothic, '굴림', Gulim, monospace;
 	font-size                        : 11px; /* Sarafi에서 상대크기를 제대로 인식하지 못함. */
 }
 
 select
 {
 	font-size                        : 1em;
-	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleSDGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	vertical-align                   : middle;
 }
 
@@ -580,7 +580,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', end
 	border-right                     : solid 1px #BBB;
 	padding-top						 : 15px;
 	background-color                 : #eee;
-	
+	box-shadow              		 : 0 2px 3px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow               : 0 2px 3px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow               : 0 2px 3px rgba(0, 0, 0, 0.3);	
 }
 
 #sub-menu li

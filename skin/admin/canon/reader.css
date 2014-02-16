@@ -54,7 +54,7 @@ h2
 #pannel
 {
 	position                         : fixed;
-	top                              : 90px;
+	top                              : 83px;
 	left                             : 0;
 	z-index                          : 190;
 	width:auto;
@@ -649,7 +649,9 @@ ul#feedList li .edit-button span
 #configure
 {
 	background-color                 : #D2D2CC;
-	padding                          : 0;
+	margin                          : 0 0 0 250px;
+	padding                         : 0 8px 8px 0;
+	right:0;
 }
 
 #configure .data-inbox
@@ -815,8 +817,8 @@ ul#feedList li .edit-button span
 	position                         : fixed;
 	top:150px;
 	left:0;
-	margin-bottom:50px;
-	z-index:200 !important;
+	margin-bottom:100px;
+	z-index:190 !important;
 }
 
 #scrollPoint .caption
@@ -1056,7 +1058,7 @@ ul#feedList li .edit-button span
 {
 	color                            : #FFFFFF !important;
 	display                          : inline;
-	font-family                      : AppleGothic, '돋움', Dotum, '굴림', Gulim, sans-serif;
+	font-family                      : AppleSDGothic, Helvetica, '돋움', Dotum, '굴림', Gulim, sans-serif;
 	font-size                        : 90%;
 	letter-spacing                   : -1px;
 	margin-right                     : 5px;

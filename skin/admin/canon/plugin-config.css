@@ -16,7 +16,7 @@ abbr, acronym
 body
 {
 	background-color                 : #FFFFFF;
-	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleSDGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : small;
 	margin                           : 0;
 }
@@ -56,7 +56,7 @@ samp
 
 select
 {
-	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleSDGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : 12px;
 }
 
@@ -262,7 +262,7 @@ h1
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	cursor                           : pointer;
-	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : 'Lucida Grande', Arial, AppleSDGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
 	font-size                        : 12px;
 	font-weight                      : bold;
 	height                           : auto;

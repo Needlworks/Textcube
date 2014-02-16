@@ -527,7 +527,7 @@ div.notification-box
 .part .dialog .message-body .explain
 {
 	border-bottom                    : 1px dotted #CCCCCC;
-	font-family                      : AppleGothic, '돋움', Dotum, '굴림', Gulim, sans-serif;
+	font-family                      : AppleSDGothic, '돋움', Dotum, '굴림', Gulim, sans-serif;
 	font-size                        : 90%;
 	padding                          : 5px 5px 3px 5px;
 }
