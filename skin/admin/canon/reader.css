@@ -818,7 +818,8 @@ ul#feedList li .edit-button span
 	position                         : fixed;
 	top:150px;
 	left:0;
-	margin-bottom:100px;
+	height:300px;
+	margin-bottom:100px !important;
 	z-index:190 !important;
 }
 
@@ -887,9 +888,11 @@ ul#feedList li .edit-button span
 #listup
 {
 	background-color                 : #F1F1E9;
+	display:block;
+	position:relative;
 	border                           : 4px solid #B4B4A1;
 	clear                            : both;
-/*	height                           : 480px;*/
+	height                           : 480px;
 	min-height                       : 300px;
 	overflow-y                       : auto;
 	overflow-x                       : hidden;
@@ -1134,6 +1137,11 @@ ul#feedList li .edit-button span
 	border-bottom                    : 1px dashed #CCCCCC;
 	margin                           : 0 5px;
 	padding                          : 10px 5px 8px 5px;
+}
+
+#entryHead .title
+{
+	font-size:1.5em;
 }
 
 #entryHead .title a
