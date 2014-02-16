@@ -156,8 +156,7 @@ textarea
 	border                           : 1px solid #ccc;
 /*	font-size                        : 1em;*/
 	padding                          : 2px;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
+	border-radius: 2px;
 }
 
 
@@ -226,11 +225,8 @@ textarea
 	position                         : fixed;
 	top                              : 0;
 	right                            : 0;
-
 	z-index                          : 220;
-/*	box-shadow                       : -2px 2px 5px #ccc;
-	-webkit-box-shadow               : -2px 2px 5px #ccc;
-	-moz-box-shadow                  : -2px 2px 5px #ccc;*/
+/*	box-shadow                       : -2px 2px 5px #ccc;*/
 }
 
 #main-action li	
@@ -446,8 +442,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', end
 	background-image				 : -moz-linear-gradient(center top , #888 0px, #eee 4px);
 	padding                          : 0 0 5px 0;
 	box-shadow                  : 0 3px 3px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0,0,0,0.2);
-	-moz-box-shadow                  : 0 3px 3px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0,0,0,0.2);
-	-webkit-box-shadow               : 0 3px 3px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0,0,0,0.2);
 }
 
 #main-menu li:hover .sub-menu,
@@ -630,9 +624,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', end
 #sub-menu li:hover
 {
 	text-decoration                  : none !important;
-	
 	-webkit-text-shadow              : 0 0 5px #FFE13C !important;
 	-moz-text-shadow                 : 0 0 5px #FFE13C !important;
+	text-shadow                 : 0 0 5px #FFE13C !important;
 /*	background-color                 : #CCC;*/
 }
 
@@ -1556,12 +1550,7 @@ input.input-text, input.input-tag
 	right: 20px !important;
 	min-width: 150px;
 	border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
 	box-shadow: 0 5px 8px rgba(0,0,0,0.4);	
-	-moz-box-shadow: 0 5px 8px rgba(0,0,0,0.4);
-	-webkit-box-shadow: 0 5px 8px rgba(0,0,0,0.4);
-	
 }
 
 .ajaxProcessingMessage, .ajaxSuccessMessage

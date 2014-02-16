@@ -1077,7 +1077,7 @@ ul#feedList li .edit-button span
 	min-height                       : 620px;
 	margin                           : 0 6px 0 6px;
 	overflow                         : auto;
-	padding-top                      : 70px;
+	padding-top                      : 20px;
 	padding-bottom                   : 6px !important;
 	width                            : auto !important;
 }
@@ -1087,6 +1087,7 @@ ul#feedList li .edit-button span
 	color                            : #000000;
 	font-weight                      : bold;
 	margin-left                      : 10px;
+	font-size                        : 2em;
 }
 
 #post-content .title .divider
@@ -1125,9 +1126,7 @@ ul#feedList li .edit-button span
 	position                         : relative;
 	width                            : 97%;
 	z-index                          : 50;
-/*	box-shadow                       : -5px 3px 15px #aaa;
-	-webkit-box-shadow               : -5px 3px 15px #aaa;
-	-moz-box-shadow                  : -5px 3px 15px #aaa;*/
+	box-shadow                       : -5px 3px 10px #aaa;
 }
 
 #entryHead
