@@ -1080,8 +1080,7 @@ ul#feedList li .edit-button span
 	min-height                       : 620px;
 	margin                           : 0 6px 0 6px;
 	overflow                         : auto;
-	padding-top                      : 20px;
-	padding-bottom                   : 6px !important;
+	padding-top                      : 100px !important;
 	width                            : auto !important;
 }
 
