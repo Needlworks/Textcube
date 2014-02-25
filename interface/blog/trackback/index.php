@@ -14,7 +14,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-if(!Setting::getBlogSettingGlobal('acceptTrackbacks',1)) {
+if(!Setting::getBlogSettingGlobal('acceptTrackbacks',0)) {
 	Respond::PrintResult(array('error' => 1, 'message' => 'The entry does not accept trackback'));
 	exit;	
 }

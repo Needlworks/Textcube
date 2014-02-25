@@ -775,13 +775,13 @@ if( $openidlogodisplay ) {
 	$openidlogodisplay = "";
 }
 
-$acceptComments = Setting::getBlogSettingGlobal( "acceptComments", 1 );
+$acceptComments = Setting::getBlogSettingGlobal( "acceptComments", 0 );
 if( $acceptComments ) {
 	$acceptComments = "";
 } else {
 	$acceptComments = "checked='checked'";
 }
-$acceptTrackbacks = Setting::getBlogSettingGlobal( "acceptTrackbacks", 1 );
+$acceptTrackbacks = Setting::getBlogSettingGlobal( "acceptTrackbacks", 0 );
 if( $acceptTrackbacks ) {
 	$acceptTrackbacks = "";
 } else {
