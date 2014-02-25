@@ -16,7 +16,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireModel('blog.comment');
 
-if (!Setting::getBlogSettingGlobal('acceptComments',1) && !doesHaveOwnership()) {
+if (!Setting::getBlogSettingGlobal('acceptComments',0) && !doesHaveOwnership()) {
 	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
 	exit;	
 }

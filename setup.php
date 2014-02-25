@@ -1172,6 +1172,8 @@ INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'blogLanguage', '$baseLa
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'timezone', '$baseTimezone');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultEditor', 'tinyMCE');
 INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'defaultFormatter', 'ttml');
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'acceptTrackbacks', 1);
+INSERT INTO {$_POST['dbPrefix']}BlogSettings VALUES (1, 'acceptComments', 1);
 INSERT INTO {$_POST['dbPrefix']}Plugins VALUES (1, 'CL_OpenID', null);
 INSERT INTO {$_POST['dbPrefix']}SkinSettings VALUES (1,'skin','coolant');
 INSERT INTO {$_POST['dbPrefix']}FeedSettings (blogid) values(1);
