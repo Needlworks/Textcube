@@ -65,14 +65,11 @@ if(version_compare(PHP_VERSION, '5.3.0','>=')) { // >= 5.3 Singleton implementat
 /// String manipulation class
 final class String {
 	static function endsWith($string, $end) {
-		$longer = strlen($string) - strlen($end);
-		if ($longer < 0)
-			return false;
-		return (strcmp(substr($string, $longer), $end) == 0);
+		return substr_compare($string, $end, -strlen($end)) === 0;
 	}
 
 	static function startsWith($string, $start) {
-		return (strncmp($string, $start, strlen($start)) == 0);
+		return substr_compare($string, $start, 0, strlen($start)) === 0;
 	}
 }
 
