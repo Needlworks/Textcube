@@ -160,8 +160,6 @@ final class Session {
 //				AND address = '{$_SERVER['REMOTE_ADDR']}' 
 				."AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
 		if ($result) {
-			$result = self::query('execute',"UPDATE ".self::$context->getProperty('database.prefix')."Sessions ".
-					"SET userid = $userid WHERE id = '$id'");
 			return true;
 		}
 		return false;
