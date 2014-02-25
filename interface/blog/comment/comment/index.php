@@ -16,7 +16,11 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireModel('blog.comment');
 
-if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit') || !Setting::getBlogSettingGlobal('acceptComments',1)) {
+if (!Setting::getBlogSettingGlobal('acceptComments',1) && !doesHaveOwnership()) {
+	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
+	exit;	
+}
+if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit')) {
 	if (!empty($_POST['name']))
 		setcookie('guestName', $_POST['name'], time() + 2592000, "$blogURL/");
 	if (!empty($_POST['homepage']) && ($_POST['homepage'] != 'http://')) {
