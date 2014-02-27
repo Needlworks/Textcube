@@ -178,7 +178,7 @@ final class Model_URIHandler extends Singleton
 		$this->uri['host'] = 'http://' . $_SERVER['HTTP_HOST'] . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '');
 		$this->uri['blog'] = $this->uri['path'].$this->__getFancyURLpostfix();
 		$this->uri['folder'] = rtrim($this->uri['blog'] . $suri['directive'], '/');
-
+		$this->uri['permalink'] = $this->uri['default'].'/'.implode('/',$this->uri['fragment']);
 		$this->uri['basicblog'] = $this->uri['blog'];
 		if (defined('__TEXTCUBE_MOBILE__')) {
 			$this->uri['blog'] .= '/m';
