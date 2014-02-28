@@ -34,6 +34,32 @@
 	z-index: 100;
 }
 
+#TCmobileScreenButton
+{
+	display:block;
+	width:100%;
+	text-align:center;
+	font-size:2em !important;
+	background-color                 : #fbfbfb;
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #ccc;
+	cursor                           : pointer;
+	font-size                        : 1em;
+	height                           : 1.8em;
+	line-height                      : 2em;
+	padding                          : 2px 5px 2px 5px !important;
+	vertical-align                   : bottom;
+	background-image : -moz-linear-gradient(top, #fff, #eee);
+	background-image : -webkit-linear-gradient(top, #fff, #eee);
+	background-image : linear-gradient(top, #fff, #eee);
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color: #333;
+	text-shadow: 0 1px 0 #fff; 
+	margin-top: 12px;
+}
 select#commandBox option.default
 {
 	font-style: italic;
