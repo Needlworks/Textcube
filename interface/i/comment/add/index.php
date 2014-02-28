@@ -22,6 +22,9 @@ if (!doesHaveOwnership() && empty($_POST["name_$entryId"])) {
 	printMobileErrorPage(_text('댓글 작성 오류.'), _text('이름을 입력해 주세요.'), "$blogURL/comment/$entryId");
 } else if (!doesHaveOwnership() && empty($_POST["comment_$entryId"])) {
 	printMobileErrorPage(_text('댓글 작성 오류.'), _text('내용을 입력해 주세요.'), "$blogURL/comment/$entryId");
+} else if (!Setting::getBlogSettingGlobal('acceptComments',0) && !doesHaveOwnership()) {
+	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
+	exit;
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
