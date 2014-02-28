@@ -23,6 +23,9 @@ if (!doesHaveOwnership() && empty($_POST["name_$replyId"])) {
 	printMobileErrorPage(_text('댓글을 작성할 수 없습니다.'), _text('이름을 입력해 주십시오.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
 } else if (!doesHaveOwnership() && empty($_POST["comment_$replyId"])) {
 	printMobileErrorPage(_text('댓글을 작성할 수 없습니다.'), _text('본문을 입력해 주십시오.'), $context->getProperty('uri.blog')."/comment/comment/$replyId");
+} else if (!Setting::getBlogSettingGlobal('acceptComments',0) && !doesHaveOwnership()) {
+	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
+	exit;	
 } else {
 	$comment = array();
 	$comment['entry'] = $entryId;
