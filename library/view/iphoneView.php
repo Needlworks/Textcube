@@ -220,6 +220,7 @@ function printMobileLinksView($links) {
 function printMobileHTMLHeader($title = '') {
 	$context = Model_Context::getInstance();
 	$title = htmlspecialchars($context->getProperty('blog.title') . ' :: ' . $title);
+	$_SESSION['mode'] = 'smartphone';
 ?><!DOCTYPE html> 
 <html> 
 	

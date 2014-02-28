@@ -6,6 +6,7 @@
 $blogid = getBlogId();
 Statistics::updateVisitorStatistics($blogid);
 $stats = Statistics::getStatistics($blogid);
+$_SESSION['mode'] = 'desktop';
 if (!empty($entries) && (count($entries) == 1))
 	$pageTitle = $entries[0]['title'];
 else
@@ -17,14 +18,29 @@ $view = $skin->outter;
 $view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead().'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.
 $view = str_replace('[##_SKIN_body_start_##]',getUpperView(isset($paging) ? $paging : null).'[##_SKIN_body_start_##]', $view);
 $view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[##_SKIN_body_end_##]', $view); // care the order for js function overloading issue.
-$automaticLink = "	<link rel=\"stylesheet\" href=\"".$context->getProperty('uri.default')."/resources/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
+$automaticLink = "	<link rel=\"stylesheet\" href=\"".$context->getProperty('service.resourcepath')."/style/system.css\" type=\"text/css\" media=\"screen\" />\n";
 if (!is_null($context->getProperty('uri.permalink',null))) {
 	$canonicalLink = "  <link rel=\"canonical\" href=\"".$context->getProperty('uri.permalink')."\"/>\n";
 } else {
 	$canonicalLink = '';
 }
 dress('SKIN_head_end', $canonicalLink.$automaticLink."[##_SKIN_head_end_##]", $view);
-
+$browserUtil = Utils_Browser::getInstance();
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true)) {
+	if (!empty($context->getProperty('suri.id'))) {
+		$mobileDestinationItem = $context->getProperty('suri.id');
+		if ($context->getProperty('suri.directive') == '/') {
+			$mobileDestinationItem = 'entry/'.$mobileDestinationItem;
+		}
+	} else if(!empty($context->getProperty('suri.value'))) {
+		$mobileDestinationItem = URL::encode($context->getProperty('suri.value'));
+	} else {
+		$mobileDestinationItem = '';
+	}
+	$mobileLink = rtrim($context->getProperty('uri.basicblog'),'/').'/i/'.ltrim($context->getProperty('suri.directive').'/'.$mobileDestinationItem ."?mode=mobile",'/');
+	$backToMobileButton = '<a href="'.$mobileLink.'" id="TCmobileScreenButton">'._text('모바일 화면으로 이동').'</a>';
+	dress('SKIN_body_end', "[##_SKIN_body_end_##]".$backToMobileButton, $view);
+}
 
 if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(__TEXTCUBE_ATTACH_DIR__."/".$context->getProperty('blog.id')."/index.gif")) {
 	dress('SKIN_head_end', '<link rel="apple-touch-icon" href="'.$context->getProperty('uri.default')."/index.gif".'" />'."[##_SKIN_head_end_##]",$view);
