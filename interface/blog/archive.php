@@ -6,6 +6,7 @@ require ROOT . '/library/preprocessor.php';
 
 if(!empty($suri['id'])) $period = $suri['id'];
 else $period = Timestamp::getYearMonth();
+$listFeedURL = 'archive/'.$period;
 
 fireEvent('OBStart');
 require ROOT . '/interface/common/blog/begin.php';

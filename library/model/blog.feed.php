@@ -110,6 +110,16 @@ function getFeedItemByEntries($entries) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."?commentInput=true#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
 		}
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
+		if(!isset($row['author']) && isset($row['userid'])) {
+			$row['author'] = User::getName($row['userid']);
+		}
+		if(!isset($row['categoryName'])) {
+			if(isset($row['categoryLabel'])) {
+				$row['categoryName'] = $row['categoryLabel'];
+			} else {
+				$row['categoryName'] = null;	
+			}	
+		}
 		$item = array(
 			'id' => $row['id'], 
 			'title' => RSSMessage($row['title']), 
@@ -197,14 +207,14 @@ function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 	
 	if(empty($blogid)) $blogid = getBlogId();
 
-	$entry = POD::queryRow("SELECT slogan, visibility, category FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
+	$entry = POD::queryRow("SELECT slogan, visibility, category, title FROM {$database['prefix']}Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
 	$channel = array();
 
 	$channel = initializeRSSchannel($blogid);
-	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1에 달린 최근 댓글/트랙백 목록',$entry['slogan']));
+	$channel['title'] = RSSMessage($blog['title']. ': '._textf('%1에 달린 최근 댓글/트랙백 목록',$entry['title']));
 
 	$recentComment = getCommentFeedByEntryId($blogid,$entryId,true,$mode);
 	$recentTrackback = getTrackbackFeedByEntryId($blogid,$entryId,true,$mode);
@@ -521,6 +531,23 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	else if($mode == 'atom') return publishATOM($blogid, $rss);
 	return false;
 }
+
+function getFeedWithEntries($blogid, $entries, $title = null, $mode = 'rss'){
+	$context = Model_Context::getInstance();
+	$channel = array();
+	$channel = initializeRSSchannel($blogid);
+	if (!$entries)
+		$entries = array();
+	$channel['items'] = getFeedItemByEntries($entries);
+	if(!is_null($title)) {// TODO : change blog.title to support other blogs
+		$channel['title'] = RSSMessage($context->getProperty('blog.title'). ': '.htmlspecialchars($title));
+	}
+	$rss = array('channel' => $channel);
+	if($mode == 'rss') return publishRSS($blogid, $rss);
+	else if($mode == 'atom') return publishATOM($blogid, $rss);
+	return false;
+}
+
 function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 	global $blog;
 	$channel = array();
