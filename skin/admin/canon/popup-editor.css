@@ -1,6 +1,10 @@
 @charset "utf-8";
-
 /* Common ****************************************************************************************/
+
+body
+{
+	overflow-x:hidden;
+}
 
 h3
 {
@@ -11,38 +15,69 @@ h3
 
 #editor
 {
-	margin-left                      : 10px;
+/*	margin-left                      : 10px;*/
 	position                         : relative;
 }
 
+#feather
+{
+	height                           : 40px !important;
+	background                       : transparent;
+}
+
+#moderneditor-textbox .moderneditor-textarea
+{ 
+	font-size: 1em;
+}
+
+#moderneditor-palette .font-style, #moderneditor-palette .paragraph, #moderneditor-palette .special 
+{
+	background: none;
+}
+#moderneditor-palette .font-relatives
+{
+	padding: 0;
+}
+
+#layout-footer
+{
+	display: none;
+}
 /* title ----------------------------------------------------------------------------------------*/
 #title-section
 {
-	margin                           : 0 20px 0 0;
-	padding                          : 5px 3px 5px 5px;
-	width                            : 658px;
-}
+	position                         : fixed;
+	top                              : 0;
+	height                           : 40px;
+	z-index                          : 100;
+	width                            : 100%;
+	padding-left                     : 0;
+	background-color                 : #ffffff;	
+/*	background-image                 : url("./image/bg_menu_round.png");*/
 
+	padding-top: 10px;
+}
 #title-section dl
 {
-	border                           : none;
-	margin-bottom                    : 6px;
+	padding-top:6px;	
 }
 
 #title-section dl dt
 {
-	color                            : #666666;
-	font-weight                      : bold;
-	padding                          : 0 0 3px 0;
-	width                            : 70px !important;
+	color                            : #222;
+	padding                          : 6px 0 3px 15px;
+	width                            : 80px !important;
+	display: none;
 }
 
 #title-section dl dd
 {
-	margin-left                      : 80px;
+	margin-left                      : 0;
 }
 
-#title-section dl dd select
+
+#title-section dl dd select,
+#category-section dl dd select
 {
 	vertical-align                   : middle;
 	width                            : 160px;
@@ -50,16 +85,29 @@ h3
 
 #title-line dd .input-text
 {
-	border                           : 1px solid #999999;
+	border                           : 0px;
+	border-bottom                    : 1px solid #ccc;
 	vertical-align                   : middle;
-	width                            : 500px;
+	width                            : 60%;
+	height							 : 25px;
+	margin-left                      : 0;
+	padding: 0 5px;
+	font-size: 1.2em; 
 }
+
+#title-line label	{ display: none; }
 
 #starred
 {
-	width                            : 20px;
-	display                          : inline;
-	padding                          : 0 10px;
+
+	width                            : 20px !important;
+	display                          : block;
+	z-index                          : 210;
+	background-color                 : #ffffff !important;
+	filter                           : alpha(opacity=90);
+	opacity                          : .90;	
+	float: left;	
+	padding: 5px;
 }
 
 .star-icon span,
@@ -71,23 +119,51 @@ h3
 .star-icon a
 {
 	background-image                 : url("./image/icon_starred.gif");
+	background-color                 : #ffffff !important;
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
-	display                          : block; 
+	display                          : block;
 	width                            : 16px;
-	height                           : 20px;
+	height                           : 16px;
 	float                            : left;
 }
 
 .unstar-icon a
 {
 	background-image                 : url("./image/icon_unstarred.gif");
+	background-color                 : #ffffff !important;
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
 	display                          : block; 
 	width                            : 16px;
-	height                           : 20px;
+	height                           : 16px;
 	float                            : left;
+}
+
+#category-section
+{
+	margin                           : 98px 20px 0 0; 
+	padding                          : 5px 3px 5px 5px; 
+	width                            : 100%; 
+}
+
+#category-section dl
+{
+	border                           : none;
+	margin-bottom                    : 6px;
+}
+
+#category-section dl dt
+{
+	color                            : #666;
+	font-weight                      : bold;
+	padding                          : 0;
+	width                            : 70px !important;
+}
+
+#category-section dl dd
+{
+	margin-left                      : 60px;
 }
 
 #category-line
@@ -122,7 +198,7 @@ h3
 	clear                            : both;
 	margin                           : 0 0px 0 0;
 	padding                          : 0 0 5px 0;
-	width                            : 650px;
+	width                            : 100%;
 }
 
 #textarea-section dl.editoroption
@@ -131,6 +207,9 @@ h3
 	height                           : 24px;
 	padding                          : 5px 5px 4px 5px;
 	position                         : relative;
+	background						 : #fff;
+	float: right;
+	margin-top: -36px;
 }
 
 #textarea-section dl.editoroption dt
@@ -144,7 +223,7 @@ h3
 	position                         : relative;
 	top                              : 0;
 	text-align                       : right;
-	width                            : 80px;
+	width                            : 60px;
 }
 
 #textarea-section dl.editoroption dd
@@ -157,13 +236,35 @@ h3
 {
 	margin                           : 0;
 	vertical-align                   : middle;
-	width                            : 160px;
+	width                            : 100px;
 }
+
+/* editor */
+
+#formatbox-container
+{
+	margin                           : 0 auto;
+	width                            : 100%;
+	position                         : fixed;
+	top                              : 35px;
+	height                           : 61px;
+	background-color                 : #fff;
+	color                            : #fff;
+	border-bottom                    : 1px solid #BBB;
+	z-index                          : 5;
+	padding: 0px 0 5px 150px;
+	margin: 0 0 0 -150px;
+}
+
+
 
 #editWindow
 {
 	height                           : 448px;
-	width                            : 644px;
+	width                            : 95%;
+	margin: 0 auto;
+	padding: 10px;
+
 }
 
 #visualEditorWindow
@@ -202,31 +303,47 @@ h3
 .entry-editor-property
 {
 	background-color                 : #FFFFFF;
+	background-color                 : rgba(255,255,255,0.8);
 	border                           : 2px solid #999999;
 	padding                          : 0 10px 10px 10px;
-	position                         : absolute;
-	left                             : 670px;
-	top                              : 9px;
+	/*position                         : absolute;*/
+	position                         : fixed;
+	z-index                          : 150;
+	right                            : 0;
+	top                              : 80px;
 	width                            : 245px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	-moz-box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+	-webkit-box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+	box-shadow: 0 3px 10px rgba(0,0,0,0.3);
 }
 
-.entry-editor-property .entry-editor-property-option
+#templateDialog
+{
+	position: fixed;
+	top: 80px;
+	right: 40px;
+
+}
+
+.entry-editor-property .entry-editor-property-control
 {
 	border-bottom                    : 1px solid #EEEEEE;
-	font-family                      : 돋움, Dotum, sans-serif;
 	font-size                        : 0.9em;
 	padding                          : 8px 0 3px 0;
 	text-align                       : right;
+	cursor                           : pointer;
 }
 
 .entry-editor-property h4
 {
 	color                            : #000000;
 	display                          : block;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
 	font-size                        : 1em;
 	font-weight                      : bold;
-	margin                           : 10px 0 5px 0;
+	margin                           : 10px 0 15px 0;
 	text-align                       : center;
 }
 
@@ -234,9 +351,10 @@ h3
 {
 	border-bottom                    : 1px solid #666666;
 	color                            : #666666;
-	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, 굴림, Gulim, sans-serif;
+	font-family                      : Arial, 'Lucida Grande', Tahoma, Verdana, AppleSDGothic, '굴림', Gulim, sans-serif;
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
+	max-width                        : 250px;
 }
 
 .entry-editor-property dl
@@ -250,7 +368,7 @@ h3
 {
 	border                           : none;
 	color                            : #666666;
-	font-family                      : 돋움, Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : Dotum, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	height                           : auto;
@@ -281,7 +399,7 @@ h3
 
 .entry-editor-property dl dd select.file-list
 {
-	height                           : 220px;
+	height                           : 200px;
 	margin-bottom                    : 0;
 	width                            : 200px !important;
 }
@@ -350,14 +468,108 @@ h3
 	width                            : 220px !important;
 }
 
+.propertyObject_chunk
+{
+	height                           : 200px;
+}
+
+.entry-editor-property-option
+{
+	display:none;
+}
+
+.property-window-Gallery
+{
+	top:50% !important;
+	left:50% !important;
+	margin-top:-250px !important;
+	margin-left:-300px !important;
+	height :500px !important;
+	width :600px !important;
+	z-index : 600 !important;
+}
+
+.property-window-Gallery .preview-box
+{
+	position : fixed;
+	top:50%;
+	left:50%;
+	margin-top:-150px;
+	margin-left:20px;
+}
+
+.property-window-Gallery .preview-box img
+{
+	margin: auto auto !important;
+	width                            : 250px !important;
+}
+
+.property-window-Gallery .button-box
+{
+	position:absolute;
+	display:block;
+	top:50%;
+	left:50%;
+	margin-top:0;
+	margin-left:-50px !important;
+	text-align                       : left !important;
+}
+.property-window-Gallery .button-box .button 
+{
+	padding:0 !important;
+}
+.property-window-Gallery .button-box .button .text
+{
+	display:none;
+}
+
+.property-window-Gallery .button-box .up-button
+{
+	display:block !important;
+	margin-top:5px !important;
+	width:30px !important;
+	height:90px;
+	background:url("./image/img_moveup_module.jpg") no-repeat center center !important;
+}
+
+.property-window-Gallery .button-box .dn-button
+{
+	display:block !important;
+	margin-top:10px !important;
+	width:30px !important;
+	height:90px;
+	background:url("./image/img_movedown_module.jpg") no-repeat center center !important;
+}
+.property-window-Gallery .button-box .divider
+{
+	display: none;
+}
+/* Save -----------------------------------------------------------------------------------------*/
+#save-section
+{
+	margin                           : 0 auto;
+	padding                          : 0 5px 0 5px;
+	height                           : 75px;
+	position                         : fixed;
+	top                              :0 !important;
+}
+
 /* tag and location -----------------------------------------------------------------------------*/
 #taglocal-section
 {
-	background-color                 : #F2F2F2 !important;
-	margin                           : 0 20px 5px 0;
-	padding                          : 4px 5px 3px 5px;
-	width                            : 640px !important;
+	background-color                 : #FFFFFF !important;
+	margin                           : 0;
+	/*padding                          : 15px 5px 0 5px;*/
+	padding                          : 5px 0 0 0;
+	width                            : 100% !important;
+	height                           : 55px;
+/*	float                            : right !important;*/
+	border-top                       : 1px solid #EEEEEE;
+	border-left                      : 1px solid #EEEEEE;
+	border-right                     : 1px solid #EEEEEE;
 }
+
+
 
 #taglocal-section dl
 {
@@ -367,20 +579,23 @@ h3
 
 #taglocal-section dl dt
 {
-	color                            : #6B90C3;
+/*	color                            : #6B90C3;*/
+	color                            : #666;
 	font-weight                      : bold;
 	left                             : 0;
 	line-height                      : 20px;
-	padding                          : 0;
-	position                         : absolute;
-	top                              : 0;
-	text-align                       : right;
-	width                            : 70px;
+	padding                          : 5px 0 3px 10px;
+/*	position                         : absolute;
+	top                              : 0;*/
+	text-align                       : left;
+	width                            : 75px;
 }
 
 #taglocal-section dl dd
 {
 	margin-left                      : 80px;
+	border-left                      : 1px solid #EEEEEE;
+	padding							 : 5px 0 3px 10px
 }
 
 #taglocal-section dl dd .input-text
@@ -407,11 +622,6 @@ h3
 	vertical-align                   : middle;
 }
 
-#location
-{
-	word-break                       : break-all;
-}
-
 #location ul li
 {
 	background-image                 : url("./image/location_divider.gif");
@@ -428,20 +638,22 @@ h3
 	background-image                 : none;
 }
 
+
+
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
-	background-color                 : #F5F5F5;
-	margin                           : 5px 20px 2px 0;
-	position                         : relative;
-	width                            : 650px;
 }
 
 #upload-section h3
 {
-	background-color                 : #FFFFFF;
-	display                          : block;
+	background-color                 : #F2F2F2;
 	padding                          : 10px 10px 3px 10px;
+}
+
+#upload-detail
+{
+	display                          : none;
 }
 
 #attachment-container
@@ -456,6 +668,8 @@ h3
 	left                             : 12px;
 	position                         : absolute;
 	top                              : 10px;
+	height: 118px !Important;
+	width: 150px !important;
 }
 
 #previewSelected span
@@ -467,25 +681,29 @@ h3
 
 #attachManagerSelectNest
 {
-	margin-left                      : 144px;
+	margin-left                      : 174px;
 	width                            : 415px;
+/*	width                            : 315px;*/
 }
 
 #TCfilelist
 {
 	height                           : 120px;
 	margin-top                       : 10px;
-	width                            : 393px !important;
+	width                            : 500px !important;
+/*	width                            : 293px !important;*/
 }
 
 #fileUploadNest
 {
 	height                           : 3em;
-	padding-left                     : 144px !important;
+	padding-left                     : 170px !important;
 	overflow                         : hidden;
 	position                         : relative;
 	text-align                       : left;
 	width                            : 390px;
+	margin-top                       : 10px;
+	z-index                          : 0;
 }
 
 #fileUploadNest iframe
@@ -496,16 +714,18 @@ h3
 
 #uploaderNest
 {
-	margin-left                      : 136px;
+	margin-left                      : 165px;
+	position: relative;
+	z-index: 10;
 }
 
 #upload-section .input-button
 {
-	background-color                 : #FFFFFF;
+	background-color                 : #FFF;
 	background-image                 : url("./image/bg_button.png");
 	background-position              : left top;
 	background-repeat                : repeat-x;
-	border                           : 1px solid #000000;
+	border                           : 1px solid #000;
 	display                          : inline;
 	font-size                        : 1em;
 	height                           : 2em;
@@ -535,14 +755,6 @@ h3
 }
 
 /* insert buttons */
-#insert-container
-{
-	position                         : absolute;
-	top                              : 36px;
-	right                            : 5px;
-	width                            : 100px;
-}
-
 #insert-container
 {
 	float                            : left;
@@ -627,17 +839,24 @@ h3
 /* power ----------------------------------------------------------------------------------------*/
 #power-section
 {
+/*	background-color                 : #F5F5F5;*/
 	line-height                      : 17px;
-	margin                           : 0 20px 0 0px;
-	position                         : relative;
-	padding                          : 0 0 8px 0;
-	width                            : 650px;
+	margin                           : 0;
+	position                         : relative; 
+	padding                          : 8px 0 8px;
+	width                            : 100%;
+/*	float                            : left;*/
+/*	display                          : none;*/
+	border-left                      : 1px solid #EEEEEE;
+	border-right                      : 1px solid #EEEEEE;
+	border-bottom                      : 1px solid #EEEEEE;
 }
 
 #power-section dl
 {
-	border-bottom                    : 1px solid #DDDDDD;
-	border-top                       : 1px solid #FFFFFF;
+/*	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;*/
+	border                           : none;
 	position                         : relative;
 }
 
@@ -648,14 +867,14 @@ h3
 	position                         : absolute;
 	text-align                       : left;
 	top                              : 0;
-	width                            : 100px;
+	width                            : 60px;
 }
 
 #power-section dl dd
 {
 	border-left                      : 1px solid #EEEEEE;
 	padding                          : 5px 0 3px 10px;
-	margin-left                      : 130px;
+	margin-left                      : 80px;
 }
 
 #power-section dl dd .input-text
@@ -666,21 +885,22 @@ h3
 
 dl#permalink-line dd .input-text
 {
-	border                           : 1px solid #999999;
+	border                           : 1px solid #ccc;
 	width                            : 150px;
 }
 
 dl#permalink-line dd p
 {
-	font-family                      : 돋움, Dotum, sans-serif;
+	display                          : none;
+	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
 	font-size                        : 0.9em;
-	letter-spacing                   : -1px;
 	padding-right                    : 5px;
 	text-align                       : right;
 }
 
 dl#date-line dd div,
 dl#status-line dd div,
+dl#finish-line dd div,
 dl#entrytype-line dd div,
 dl#power-line dd div
 {
@@ -689,7 +909,7 @@ dl#power-line dd div
 
 dl#power-line
 {
-	border-bottom                    : 1px solid #DDDDDD !important;
+/*	border-bottom                    : 1px solid #DDDDDD !important;*/
 }
 
 .publish-preserve,
@@ -705,13 +925,12 @@ dl#power-line
 .button-box
 {
 	padding                          : 20px 0;
-	width                            : 650px;
+	width                            : 100%;
 }
 
 .button-box .input-button
 {
 	background-color                 : #FFFFFF;
-	background-image                 : none;
 	border                           : 1px solid #BBBBBB;
 	color                            : #000000;
 	font-weight                      : bold;
@@ -722,88 +941,40 @@ dl#power-line
 	vertical-align                   : middle;
 }
 
-/* Eolin Dialogue ********************************************************************************/
-
-#eolinDialog
+.preview-button,
+.list-button
 {
-	background-color                 : #FFFFFF;
-	background-image                 : url('./image/img_eolin_head.jpg');
-	background-repeat                : no-repeat;
-	border                           : 1px solid #666666;
-	padding                          : 58px 8px 15px 8px;
-	position                         : relative;
-	width                            : 492px;
+	height                           : 2em !important;
+	line-height                      : 2em !important;
 }
 
-#eolinDialog .temp-box
+/* Template Dialogue ********************************************************************************/
+
+#templateDialog dl dt
 {
-	border                           : 3px solid #4783B2;
+	margin                           : 10px 0 3px 0;
+	font-weight                      : bold !important;
 }
 
-#eolinDialog .temp-box h4
+#templateDialog dl dd.noItem
 {
-	border-bottom                    : 1px solid #E6E6E6;
-	color                            : #284A9F;
-	font-size                        : 1em;
-	font-weight                      : bold;
-	margin                           : 20px 15px 10px 15px;
+	border                           : 1px dotted #DBDBDB;
+	text-align                       : center;
+	padding                          : 10px;
 }
 
-#eolinDialog .temp-box em
+#templateDialog .button-box
 {
-	color                            : #646464;
-	display                          : block;
-	font-weight                      : bold;
-	margin-bottom                    : 5px;
+	padding                          : 10px 0 5px 0 !important;
 }
 
-#eolinDialog .temp-box p
-{
-	color                            : #7C7C7C;
-	line-height                      : 1.5em;
-	margin                           : 0 17px;
+.mceExternalToolbar {
+	position                         : fixed !important;
+	height                           : 30px !important;
+	z-index                          : 100;
+	top                              : 48px !important;
+	display:block;
+	border:0 !important;
 }
-
-#eolinDialog .button-box
-{
-	border-top                       : 1px solid #E6E6E6;
-	margin                           : 15px 15px 10px 15px;
-	padding                          : 15px 0 5px 0;
-	width                            : auto;
-}
-
-#eolinDialog .button-box button
-{
-	background-image                 : url('./image/bg_eolin_button.gif');
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	border                           : none;
-	color                            : #284A9F;
-	height                           : 36px;
-	width                            : 313px;
-}
-
-#eolinDialog .button-box button span
-{
-	background-image                 : url('./image/img_eolin_bullet.jpg');
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 16px;
-}
-
-#eolinDialog .button-box #close-button
-{
-	background-image                 : url('./image/img_eolin_close.jpg');
-	background-repeat                : no-repeat;
-	display                          : block;
-	height                           : 17px;
-	position                         : absolute;
-	top                              : 10px;
-	right                            : 10px;
-	width                            : 17px;
-}
-
-#eolinDialog .button-box #close-button span
-{
-	display                          : none;
-}
+.defaultSkin .mceExternalClose { display:none !important;}
+.defaultSkin td.mceToolbar {background:transparent !important;}
