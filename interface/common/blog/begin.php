@@ -28,12 +28,12 @@ $view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[
 
 $browserUtil = Utils_Browser::getInstance();
 if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true)) {
-	if (!empty($context->getProperty('suri.id'))) {
+	if ($context->getProperty('suri.id',null)!=null) {
 		$mobileDestinationItem = $context->getProperty('suri.id');
 		if ($context->getProperty('suri.directive') == '/') {
 			$mobileDestinationItem = 'entry/'.$mobileDestinationItem;
 		}
-	} else if(!empty($context->getProperty('suri.value'))) {
+	} else if($context->getProperty('suri.value',null) != null) {
 		$mobileDestinationItem = URL::encode($context->getProperty('suri.value'));
 	} else {
 		$mobileDestinationItem = '';
