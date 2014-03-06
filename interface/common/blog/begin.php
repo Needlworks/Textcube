@@ -41,8 +41,14 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile(
 	} else {
 		$mobileDestinationItem = '';
 	}
-	$mobileLink = rtrim($context->getProperty('uri.basicblog'),'/').'/i/'.ltrim($context->getProperty('suri.directive').'/'.$mobileDestinationItem ."?mode=mobile",'/');
-	$backToMobileButton = '<a href="'.$mobileLink.'" id="TCmobileScreenButton">'._text('모바일 화면으로 이동').'</a>';
+	if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
+		$modeChangeLink = $context->getProperty('uri.permalink').'?mode=desktop';
+		$modeChangeText = _text('데스크탑 화면으로 이동');
+	} else {
+		$modeChangeLink = $context->getProperty('uri.permalink').'?mode=mobile';
+		$modeChangeText = _text('모바일 화면으로 이동');
+	}
+	$backToMobileButton = '<a href="'.$modeChangeLink.'" id="TCmobileScreenButton">'.$modeChangeText.'</a>';
 	dress('SKIN_body_end', "[##_SKIN_body_end_##]".$backToMobileButton, $view);
 }
 
