@@ -1,4 +1,4 @@
-<?php 
+<?php
 /// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
@@ -11,8 +11,9 @@ if (!empty($entries) && (count($entries) == 1))
 	$pageTitle = $entries[0]['title'];
 else
 	$pageTitle = '';
-if (!isset($skin))
-	$skin = new Skin($skinSetting['skin']);
+if (!isset($skin)) {
+	$skin = new Skin($context->getProperty('skin.skin'));
+}
 $context = Model_Context::getInstance();
 $view = $skin->outter;
 $view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead().'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.

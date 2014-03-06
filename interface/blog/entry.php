@@ -6,24 +6,13 @@ $IV = array(
 		'GET' => array(
 			'category' => array('int',0,'mandatory'=>false),
 			'page' => array('int', 1, 'default' => 1),
-			'mode' => array(array('mobile','desktop','tablet'),'mandatory'=>false),			
+			'mode' => array(array('mobile','desktop','tablet'),'mandatory'=>false),
 			'commentId' => array('int',0,'mandatory'=>false),
 			'commentInput' => array('bool','mandatory'=>false)
 			)
 		);
 
 require ROOT . '/library/preprocessor.php';
-
-$browserUtil = Utils_Browser::getInstance();
-if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true) 
-		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop') 
-		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['mode'],array('desktop')))) {
-	if(empty($suri['value'])) {
-		header("Location: $blogURL/i"); exit;
-	} else {
-		header("Location: $blogURL/i/entry/".$suri['value']); exit;
-	}
-}
 
 if(empty($suri['value'])) {
 	list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
@@ -53,10 +42,10 @@ if (empty($suri['value'])) {
 	require ROOT . '/interface/common/blog/entries.php';
 } else if (empty($entries)) {
 	header('HTTP/1.1 404 Not Found');
-	if (empty($skin->pageError)) { 
+	if (empty($skin->pageError)) {
 		dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
 	} else {
-		dress('article_rep', NULL, $view); 
+		dress('article_rep', NULL, $view);
 		dress('page_error', $skin->pageError, $view);
 	}
 	unset($paging);

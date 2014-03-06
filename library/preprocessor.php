@@ -3,12 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-/** Pre-processor 
+/** Pre-processor
     -------------
-    * Performs Variable validation 
+    * Performs Variable validation
     * Loads components and models
     * Initialization
-    * Checks privilege 
+    * Checks privilege
 */
 $bootFiles = array();	// From PHP 5.3, DirectoryIterator does not gurantee the order.
 foreach (new DirectoryIterator(ROOT.'/framework/boot') as $fileInfo) {
@@ -20,9 +20,9 @@ foreach ($bootFiles as $bf) {
 }
 unset($bootFiles);
 
-/** CHECK : Basic POST/GET variable validation. 
+/** CHECK : Basic POST/GET variable validation.
     -------------------------------------------
-    Drops not allowed variables. 
+    Drops not allowed variables.
 */
 $valid = true;
 if (isset($IV)) $valid = $valid && Validator::validate($IV);
@@ -65,7 +65,7 @@ if (!$valid) {
 global $context, $uri;
 //global $config, $context, $uri;
 
-/// Loading configuration	
+/// Loading configuration
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
 $config  = Model_Config::getInstance();
 $uri     = Model_URIHandler::getInstance();
@@ -77,19 +77,33 @@ if($context->getProperty('service.debugmode') == true) {
 } else {
 	if(!function_exists('dumpAsFile')) {function dumpAsFile($dummy){return true;}}
 }
-    
-/** LOAD : Required components / models / views 
+
+/** LOAD : Required components / models / views
     -------------------------------------------
     include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
     Loading files from the file list.
 */
-
+/// Override mobile mode call
+$browserUtil = Utils_Browser::getInstance();
+if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() == true)
+		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop')
+		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['displayMode'],array('desktop')))) {
+    $context->setProperty('blog.displaymode','mobile');
+    if ($uri->uri['interfaceType'] == 'blog') {
+      $uri->uri['interfaceType'] = 'mobile';
+    }
+    $_SESSION['displaymode'] = 'mobile';
+    $context->setProperty('skin.skin','lucid');
+} else {
+  $context->setProperty('blog.displaymode','desktop');
+  $_SESSION['displaymode'] = 'desktop';
+}
 /// Reading necessary file list
 require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');
 /// Loading files.
 require_once (ROOT.'/library/include.php');
 
-/** INITIALIZE : Sending header 
+/** INITIALIZE : Sending header
     ---------------------------
 */
 if(!defined('__TEXTCUBE_CUSTOM_HEADER__')) {
@@ -125,7 +139,7 @@ $database['utf8'] = (POD::charset() == 'utf8') ? true : false;
 /// Memcache module bind (if possible)
 global $memcache;
 $memcache = null;
-if($context->getProperty('service.memcached') == true): 
+if($context->getProperty('service.memcached') == true):
 	$memcache = new Memcache;
 	$memcache->connect((!is_null($context->getProperty('memcached.server')) ? $context->getProperty('memcached.server') : 'localhost'));
 endif;
@@ -140,6 +154,9 @@ $uri = Model_URIHandler::getInstance();
 $uri->URIParser();
 $uri->VariableParser();
 
+if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
+  $context->setProperty('skin.skin','lucid');
+}
 /// Setting global variables
 //if($context->getProperty('service.legacyMode') == true) {
 	$legacy = Model_LegacySupport::getInstance();
@@ -169,7 +186,7 @@ if (!defined('NO_SESSION')) {
     ----------
 */
 if (!defined('NO_INITIALIZAION')) {
-/** User information 
+/** User information
     ----------------
     If connection is authenticated, load user information.
 */
@@ -180,7 +197,7 @@ if (!defined('NO_INITIALIZAION')) {
 	} else {
 		$user = null;
 	}
-	
+
 /** Timezone
     --------
     Blog-specific Timezone setting.
@@ -192,10 +209,10 @@ if (!defined('NO_INITIALIZAION')) {
 	}
 /** Locale Resources
     ----------------
-    Loads necessary locale resource. 
+    Loads necessary locale resource.
     (TODO : Reduce the capacity of i18n resource by dividing blog / adminpanel setting.
 */
-	
+
 /// Load administration panel locale.
 	if(!defined('NO_LOCALE')) {
 		if($context->getProperty('uri.interfaceType') == 'reader') { $languageDomain = 'owner'; }
@@ -213,14 +230,14 @@ if (!defined('NO_INITIALIZAION')) {
 		unset($languageDomain);
 		unset($language);
 	}
-	
+
 /** Administration panel skin / editor template
     -------------------------------------------
     When necessary, loads admin panel skin information.
 */
 	if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader')) || defined('__TEXTCUBE_ADMINPANEL__')) {
 		$adminSkinSetting = array();
-		
+
 		/// TODO : This is a test routine. we should abstract this.
 		$browser = Utils_Browser::getInstance();
 		if($browser->isMobile()) {
@@ -235,14 +252,14 @@ if (!defined('NO_INITIALIZAION')) {
 		}
 		// content 본문에 removeAllTags()가 적용되는 것을 방지하기 위한 프로세스를 위한 변수.
 		$contentContainer = array();
-	
+
 		if (file_exists(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}/wysiwyg.css"))
 			$adminSkinSetting['editorTemplate'] = "/skin/blog/{$skinSetting['skin']}/wysiwyg.css";
 		else
 			$adminSkinSetting['editorTemplate'] = "/resources/style/default-wysiwyg.css";
 	}
 }
-	
+
 /** INITIALIZE : Plugin module (if necessary)
     -------------------------------------------
     Load and bind specific plugin codes and initialze them.
@@ -251,7 +268,7 @@ if(in_array($context->getProperty('uri.interfaceType'), array('blog','owner','re
 	require_once(ROOT.'/library/plugins.php');
 }
 
-/** INITIALIZE : Access privilege Check 
+/** INITIALIZE : Access privilege Check
     -----------------------------------
     Checks privilege setting and block user (or connection).
 */
@@ -278,12 +295,11 @@ if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))
 				header("location:".$blogURL ."/owner/entry"); exit;
 			}
 		}
-	
+
 	}
 }
 // DBMS unbind should work after session close.
 if(	$context->getProperty('database.connected') == true) {
 	register_shutdown_function( array('POD','unbind') );
 }
-
 ?>
