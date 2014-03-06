@@ -1,18 +1,17 @@
 @charset "utf-8";
 /* This stylesheet overrides administration panel skin, to make uploader section float. */
-.mceExternalToolbar {
+.mce-toolbar-grp{
     position                         : fixed !important;
     height                           : 30px !important;
     z-index                          : 100;
+	top:80px;
 	background-color                 : #fff !important;
     display:block !important;
     border:0 !important;
-}
-.mceExternalClose { 
-    display:none !important;
-}
-td.mceToolbar {
     background:#fff !important;
+}
+.mce-fullscreen {
+	z-index:2000 !important;
 }
 #save-section {
     position: fixed !important;
