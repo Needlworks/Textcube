@@ -39,7 +39,7 @@
 			<usedFor formatter="textile" />-->
 		</editor>
 		<config xml:lang="ko" dataValHandler="tinyMCE_handleconfig">
-			<window width="500" height="260" />
+			<window width="500" height="360" />
 			<fieldset legend="기본 설정">
 				<field title="에디터 편집 모드" type="select" name="editormode">
 					<op value="simple" checked="checked"><![CDATA[간단]]></op>
@@ -54,7 +54,7 @@
 			</fieldset>
 		</config>
 		<config xml:lang="en" dataValHandler="tinyMCE_handleconfig">
-			<window width="500" height="260" />
+			<window width="500" height="360" />
 			<fieldset legend="Settings">
 				<field title="Editing mode" type="select" name="editormode">
 					<op value="simple" checked="checked"><![CDATA[Simple]]></op>
@@ -69,7 +69,7 @@
 			</fieldset>
 		</config>
 		<config xml:lang="ja" dataValHandler="tinyMCE_handleconfig">
-			<window width="500" height="260" />
+			<window width="500" height="360" />
 			<fieldset legend="Settings">
 				<field title="Editing mode" type="select" name="editormode">
 					<op value="simple" checked="checked"><![CDATA[Simple]]></op>
