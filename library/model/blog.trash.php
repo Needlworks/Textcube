@@ -165,7 +165,7 @@ function trashVan() {
 	}
 }
 
-function emptyTrash($comment = true, $blogid = null)
+function emptyTrash($comment = true, $blogid = null) {
 	$pool = DBModel::getInstance();
 	if (is_null($blogid)) {
 		$blogid = getBlogId();
