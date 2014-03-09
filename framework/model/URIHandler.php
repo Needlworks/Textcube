@@ -25,11 +25,11 @@ final class Model_URIHandler extends Singleton
 		$dispatcher = Dispatcher::getInstance();
 		$this->uri = $dispatcher->uri;
 	}
-	
+
 	private function __URIParser() {
 		if(!isset($this->uri)) $this->__URIInterpreter();
 		$this->context->useNamespace('service');
-		
+
 		$url             = $this->uri['fullpath'];
 		$defaultblogid   = Setting::getServiceSetting("defaultBlogId",1,true);
 		$this->suri            = array('url' => $url, 'value' => '');
@@ -52,7 +52,7 @@ final class Model_URIHandler extends Singleton
 					$domain = explode('.', $_SERVER['HTTP_HOST'], 2);
 					if ($domain[1] == $this->context->getProperty('domain')) {
 						$this->blogid = $this->__getBlogIdByName($domain[0]);
-						if ($this->blogid === null) 
+						if ($this->blogid === null)
 							$this->blogid = $this->__getBlogIdBySecondaryDomain($_SERVER['HTTP_HOST']);
 						} else {
 							$this->blogid = $this->__getBlogIdBySecondaryDomain($_SERVER['HTTP_HOST']);
@@ -113,7 +113,7 @@ final class Model_URIHandler extends Singleton
 		// Parse page.
 		$this->suri['page'] = empty($_POST['page']) ? (empty($_GET['page']) ? true : $_GET['page']) : $_POST['page'];
 	}
-	
+
 	private function __URIvariableParser() {
 		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;
 		$blogid        = $this->blogid;
@@ -178,7 +178,7 @@ final class Model_URIHandler extends Singleton
 		$this->uri['host'] = 'http://' . $_SERVER['HTTP_HOST'] . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '');
 		$this->uri['blog'] = $this->uri['path'].$this->__getFancyURLpostfix();
 		$this->uri['folder'] = rtrim($this->uri['blog'] . $suri['directive'], '/');
-		$this->uri['permalink'] = rtrim($this->uri['default'].$this->suri['directive'].(empty($this->suri['id']) ? '/'.$this->suri['value'] : '/'.$this->suri['id']),'/');
+		$this->uri['permalink'] = rtrim($this->uri['default'].$this->suri['directive'].(empty($this->suri['id']) ? '/'.$this->suri['value'] : '/'.ltrim($this->suri['id'],'/')),'/');
 		$this->uri['basicblog'] = $this->uri['blog'];
 		if (defined('__TEXTCUBE_MOBILE__')) {
 			$this->uri['blog'] .= '/m';
@@ -193,7 +193,7 @@ final class Model_URIHandler extends Singleton
 		$this->skin = $skinSetting;
 		$this->updateContext();
 	}
-	
+
 	function updateContext($ns = null) {
 		$this->context = Model_Context::getInstance();
 		if(!is_null($ns)) {
@@ -215,21 +215,21 @@ final class Model_URIHandler extends Singleton
 		$query->setQualifier('name','equals','name',true);
 		$query->setQualifier('value', 'equals', $name, true);
 		return $query->getCell('blogid');
-		return false;	
+		return false;
 	}
 
 	private function __getBlogIdBySecondaryDomain($domain) {
- 		return POD::queryCell("SELECT blogid FROM {$this->context->getProperty('database.prefix')}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");	
+ 		return POD::queryCell("SELECT blogid FROM {$this->context->getProperty('database.prefix')}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");
 	}
 
-	private function __getFancyURLpostfix() {	
+	private function __getFancyURLpostfix() {
 		switch($this->context->getProperty('service.fancyURL')) {
 			case 0: return '/index.php?';
 			case 1: return '/?';
 			case 2:default: return '';
 		}
 	}
-	
+
 	function __destruct() {
 		// Nothing to do: destruction of this class means the end of execution
 	}
@@ -239,7 +239,7 @@ final class Model_URIHandler extends Singleton
 /*
 function getBlogId() {
 	global $blogid;
-	return $blogid;	
+	return $blogid;
 }*/
 
 ?>
