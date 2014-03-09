@@ -55,6 +55,8 @@ function getMIMEType($ext, $filename = null) {
 				return 'application/x-hwp';
 			case 'pdf':
 				return 'application/pdf';
+			case 'js':
+				return 'application/javascript';
 			case 'odt':case 'ott':
 				return 'application/vnd.oasis.opendocument.text';
 			case 'ods':case 'ots':
