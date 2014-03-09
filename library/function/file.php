@@ -55,33 +55,35 @@ function getMIMEType($ext, $filename = null) {
 				return 'application/x-hwp';
 			case 'pdf':
 				return 'application/pdf';
+			case 'js':
+				return 'application/javascript';
 			case 'odt':case 'ott':
 				return 'application/vnd.oasis.opendocument.text';
 			case 'ods':case 'ots':
-				return 'application/vnd.oasis.opendocument.spreadsheet';	
+				return 'application/vnd.oasis.opendocument.spreadsheet';
 			case 'odp':case 'otp':
 				return 'application/vnd.oasis.opendocument.presentation';
-			case 'sxw':case 'stw':	
+			case 'sxw':case 'stw':
 				return '	application/vnd.sun.xml.writer';
-			case 'sxc':case 'stc':	
+			case 'sxc':case 'stc':
 				return '	application/vnd.sun.xml.calc';
-			case 'sxi':case 'sti':	
+			case 'sxi':case 'sti':
 				return '	application/vnd.sun.xml.impress';
 			case 'doc':
 				return 'application/vnd.ms-word';
 			case 'xls':case 'xla':case 'xlt':
 			case 'xlb':
-				return 'application/vnd.ms-excel';			
+				return 'application/vnd.ms-excel';
 			case 'ppt':case 'ppa':case 'pot':case 'pps':
 				return 'application/vnd.mspowerpoint';
 			case 'vsd':case 'vss':case 'vsw':
 				return 'application/vnd.visio';
 			case 'docx':case 'docm':
 			case 'pptx':case 'pptm':
-			case 'xlsx':case 'xlsm':	
+			case 'xlsx':case 'xlsm':
 				return 'application/vnd.openxmlformats';
 			case 'csv':
-				return 'text/comma-separated-values'; 
+				return 'text/comma-separated-values';
 			// Multimedia
 			case 'mpeg':case 'mpg':case 'mpe':
 				return 'video/mpeg';
@@ -103,7 +105,7 @@ function getMIMEType($ext, $filename = null) {
 			case '7z':
 				return 'application/x-7z-compressed';
 			case 'alz':
-				return 'application/x-alzip';				
+				return 'application/x-alzip';
 		}
 	}
 	return '';
@@ -111,16 +113,16 @@ function getMIMEType($ext, $filename = null) {
 
 function headerEtag($etag,$length,$lastmodified) {
 	$cache_hit = false;
-	if( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) || isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) { 
-		$cache_hit = true; 
-		if( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && $etag != $_SERVER['HTTP_IF_NONE_MATCH'] ) { 
-			$cache_hit = false; 
+	if( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) || isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) ) {
+		$cache_hit = true;
+		if( isset( $_SERVER['HTTP_IF_NONE_MATCH'] ) && $etag != $_SERVER['HTTP_IF_NONE_MATCH'] ) {
+			$cache_hit = false;
 		} else if( isset( $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) && $lastmodified != $_SERVER['HTTP_IF_MODIFIED_SINCE'] ) {
 			$cache_hit = false;
-		}   
-	}   
+		}
+	}
 
-	if( $cache_hit ) { header("HTTP/1.1 304 Not Modified", true, 304); } 
+	if( $cache_hit ) { header("HTTP/1.1 304 Not Modified", true, 304); }
 	else {
 		header("HTTP/1.1 200 Ok", true, 200);
 		header("Last-Modified: " . $lastmodified);
@@ -129,7 +131,7 @@ function headerEtag($etag,$length,$lastmodified) {
 		header("Cache-Control: max-age=" . 3600*24);
 		header("Pragma: cache");        // HTTP/1.0
 		header("Content-Length: $length");
-	}   
+	}
 	header("ETag: $etag");
 
 	return $cache_hit;
@@ -144,14 +146,14 @@ function dumpWithEtag($path) {
 	/* I think, it is a bad idea to check '..' and skip.
 	   but this is an annoyance to solve gracefully about whole HTTP request */
 	/* Kill them all requests with referencing parent directory */
-	if( strpos( $path, "/.." ) !== false || 
+	if( strpos( $path, "/.." ) !== false ||
 		strpos( $path, "\\.." ) !== false ||
 		strcasecmp( substr( $path, -3 ), "php" ) == 0 ||
 		!file_exists( $path ) ) {
 		header("HTTP/1.0 404 Not found");
 		exit;
 	}
-		
+
 	$fs = stat( $path );
 	if( !$fs || !$fs['size'] ) { header('HTTP/1.1 404 Not Found');exit; }
 	$etag = sprintf( "textcube-%x", (0x1234*$fs['size'])^$fs['mtime'] );
@@ -159,7 +161,7 @@ function dumpWithEtag($path) {
 	$length = $fs['size'];
 
 	if( !headerEtag($etag,$length,$lastmodified) ) {
-		header('Content-type: '.getMIMEType(null,$path)); 
+		header('Content-type: '.getMIMEType(null,$path));
 		$f =  fopen($path,"r");
 		if( !$f ) {
 			header("HTTP/1.0 404 Not found");
@@ -208,10 +210,10 @@ function deltree($dir) {
 
 function deleteFilesByRegExp($path, $regexp) {
 	$path = rtrim($path, '/') . '/';
-	
+
 	if (!file_exists($path))
 		return false;
-	
+
 	$handle = opendir($path);
 	while ($tempFile = readdir($handle)) {
 		if ($tempFile == '.' || $tempFile != '..') {
