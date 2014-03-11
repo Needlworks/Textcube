@@ -5,6 +5,7 @@
     height                           : 30px !important;
     z-index                          : 100;
 	top:80px;
+	left:175px;
 	background-color                 : #fff !important;
     display:block !important;
     border:0 !important;
@@ -12,6 +13,10 @@
 }
 .mce-fullscreen {
 	z-index:2000 !important;
+}
+.mce-container {
+	margin-left:auto !important;
+	margin-right:auto !important;
 }
 #save-section {
     position: fixed !important;

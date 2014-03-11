@@ -6,7 +6,7 @@ function tinyMCE_handleconfig($configVal) {
 }
 
 function tinyMCE_editorinit($editor) {
-	global $configVal, $entry, $pluginURL;
+	global $configVal, $entry, $pluginURL, $pluginPath;
 	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$config = Setting::fetchConfigVal($configVal);
@@ -19,7 +19,13 @@ function tinyMCE_editorinit($editor) {
 				selector : "textarea#editWindow",
 				mode : 'exact',
 				theme : 'modern',
-				//language : '<?php echo strtolower($context->getProperty('blog.language'));?>',
+<?php
+	if (file_exists($pluginPath.'/tinymce/langs/'.$context->getProperty('blog.language').'.js')) {
+?>
+				language : '<?php echo strtolower($context->getProperty('blog.language'));?>',
+<?php
+	}
+?>
 				popup_css_add: "<?php echo $pluginURL;?>/popup.css",
 				menubar: false,
 				fixed_toolbar_container: "#formatbox-container",
@@ -83,7 +89,7 @@ function tinyMCE_editorinit($editor) {
 				    ]}
 				],
 				forced_root_block : false,
-				width : "<?php echo ($config['width'] == 'full' ? '100%' : $context->getProperty('skin.contentWidth'));?>"
+				width : <?php echo ($config['width'] == 'full' ? '100%' : $context->getProperty('skin.contentWidth'));?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
 				this.render();
