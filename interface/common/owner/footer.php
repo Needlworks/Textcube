@@ -7,7 +7,7 @@
 			<div id="layout-footer">
 				<div id="login-information"><?php echo _f('%1 로 로그인','<strong>'.htmlspecialchars($writer).'</strong>');?></div>
 				<address><?php echo TEXTCUBE_COPYRIGHT;?></address>
-				<div id="version"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> : <?php echo TEXTCUBE_CODENAME;?></div>
+				<div id="version"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></div>
 			</div>
 		</div>
 	</div>

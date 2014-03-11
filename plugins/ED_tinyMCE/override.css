@@ -1,18 +1,29 @@
 @charset "utf-8";
 /* This stylesheet overrides administration panel skin, to make uploader section float. */
-.mceExternalToolbar {
+.mce-toolbar-grp{
     position                         : fixed !important;
     height                           : 30px !important;
     z-index                          : 100;
+	top:80px;
+	left:175px;
 	background-color                 : #fff !important;
     display:block !important;
     border:0 !important;
-}
-.mceExternalClose { 
-    display:none !important;
-}
-td.mceToolbar {
     background:#fff !important;
+}
+.mce-fullscreen {
+	z-index:2000 !important;
+}
+.mce-container {
+	margin-left:auto !important;
+	margin-right:auto !important;
+}
+.mce-container-body {
+	background-color:#fff !important;
+}
+.mce-edit-area {
+	margin:20px !important;
+	border:1px #eee dashed !important;
 }
 #save-section {
     position: fixed !important;

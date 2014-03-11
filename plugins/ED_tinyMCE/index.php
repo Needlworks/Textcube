@@ -6,7 +6,7 @@ function tinyMCE_handleconfig($configVal) {
 }
 
 function tinyMCE_editorinit($editor) {
-	global $configVal, $entry, $pluginURL;
+	global $configVal, $entry, $pluginURL, $pluginPath;
 	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$config = Setting::fetchConfigVal($configVal);
@@ -16,55 +16,81 @@ function tinyMCE_editorinit($editor) {
 ?>
 			var editor = new tinymce.Editor('editWindow', {
 				// General options
+				selector : "textarea#editWindow",
 				mode : 'exact',
-				theme : 'advanced',
-				skin : "default",
+				theme : 'modern',
+<?php
+	if (file_exists($pluginPath.'/tinymce/langs/'.$context->getProperty('blog.language').'.js')) {
+?>
 				language : '<?php echo strtolower($context->getProperty('blog.language'));?>',
-				popup_css_add: "<?php echo $pluginURL;?>/popup.css",
-<?php
-	if($config['editormode'] == 'simple') {
-?>
-				plugins : "autolink,autoresize,lists,style,advimage,advlink,emotions,inlinepopups,preview,media,contextmenu,fullscreen,noneditable,visualchars,xhtmlxtras,advlist,TTMLsupport",
-				// Theme options
-				theme_advanced_buttons1 : "tcsave,|,visualchars,bold,italic,underline,strikethrough,|,styleselect,formatselect,fontselect,fontsizeselect,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,hr,tcmoreless",
-				theme_advanced_buttons2 : "tcattach,image,media,|,charmap,emotions,|,link,unlink,anchor,|,undo,redo,|,code,preview,fullscreen",
-
-				theme_advanced_buttons3 : "",
-				theme_advanced_buttons4 : "",
-<?php
-	} else {
-?>
-				plugins : "autolink,autoresize,lists,pagebreak,style,table,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,wordcount,advlist,TTMLsupport",
-				// Theme options
-				theme_advanced_buttons1 : "tcsave,|,visualchars,bold,italic,underline,strikethrough,|,styleselect,formatselect,fontselect,fontsizeselect,forecolor,backcolor,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,|,outdent,indent,blockquote,hr,tcmoreless",
-				theme_advanced_buttons2 : "tcattach,image,media,|,charmap,emotions,|,sub,sup,|,link,unlink,anchor,advhr,|,tablecontrols,|,hr,removeformat,visualaid,|,ltr,rtl,|,search,replace,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking,pagebreak,restoredraft,|,styleprops,|,undo,redo,|,code,cleanup,preview,fullscreen",
-
-				theme_advanced_buttons3 : "",
-				theme_advanced_buttons4 : "",
 <?php
 	}
 ?>
-				theme_advanced_toolbar_location : "top",
-				theme_advanced_toolbar_align : "left",
-				theme_advanced_statusbar_location : "bottom",
-				theme_advanced_resizing : true,
+				popup_css_add: "<?php echo $pluginURL;?>/popup.css",
+				menubar: false,
+				fixed_toolbar_container: "#formatbox-container",
+				toolbar_location : "external",
+				toolbar_items_size: 'small',
+				//schema: "html5",
+        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],object",
 
+<?php
+	if($config['editormode'] == 'simple') {
+?>
+				plugins: [
+					"TTMLsupport advlist autolink link image lists print hr anchor autoresize",
+					"code fullscreen media visualblocks",
+					"table contextmenu directionality charmap textcolor"
+				],
+				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
+				toolbar2: "undo redo | tcattach image media charmap | hr link unlink anchor | table | removeformat | code fullscreen  visualblocks",
+<?php
+	} else {
+?>
+				plugins: [
+					"TTMLsupport advlist autolink link image lists charmap print hr anchor pagebreak table",
+					"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+					"table contextmenu directionality emoticons textcolor paste textcolor"
+				],
+
+				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
+				toolbar2: "undo redo | searchreplace | tcattach image media charmap insertdatetime | subscript superscript ltr rtl cite abbr acronym del ins | hr link unlink anchor | table | cut copy paste pastetext| removeformat code fullscreen visualblocks",
+
+<?php
+	}
+?>
 				// content CSS
 				content_css : "<?php echo (file_exists(__TEXTCUBE_SKIN_DIR__.'/'.$context->getProperty('skin.skin').'/wysiwyg.css') ? $context->getProperty('uri.service').'/skin/blog/'.$context->getProperty('skin.skin').'/wysiwyg.css' : $context->getProperty('uri.service').'/resources/style/default-wysiwyg.css');?>",
 
-				// Drop lists for link/image/media dialogs
-				external_link_list_url : "lists/link_list.js",
-				external_image_list_url : "lists/image_list.js",
-				media_external_list_url : "lists/media_list.js",
-
 				// Style formats
-				style_formats : [
-					{title : 'Bold text', inline : 'b'}
+				style_formats: [
+				    {title: 'Headers', items: [
+				        {title: 'h1', block: 'h1'},
+				        {title: 'h2', block: 'h2'},
+				        {title: 'h3', block: 'h3'},
+				        {title: 'h4', block: 'h4'},
+				        {title: 'h5', block: 'h5'},
+				        {title: 'h6', block: 'h6'}
+				    ]},
+
+				    {title: 'Blocks', items: [
+				        {title: 'p', block: 'p'},
+				        {title: 'div', block: 'div'},
+				        {title: 'pre', block: 'pre'}
+				    ]},
+
+				    {title: 'Containers', items: [
+				        {title: 'section', block: 'section', wrapper: true, merge_siblings: false},
+				        {title: 'article', block: 'article', wrapper: true, merge_siblings: false},
+				        {title: 'blockquote', block: 'blockquote', wrapper: true},
+				        {title: 'hgroup', block: 'hgroup', wrapper: true},
+				        {title: 'aside', block: 'aside', wrapper: true},
+				        {title: 'figure', block: 'figure', wrapper: true}
+				    ]}
 				],
 				forced_root_block : false,
-				width : "<?php echo ($config['width'] == 'full' ? '100%' : $context->getProperty('skin.contentWidth'));?>",
-				theme_advanced_toolbar_location : "external"
-			});
+				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
+			}, tinymce.EditorManager);
 			editor.initialize = function() {
 				this.render();
 			};
@@ -81,8 +107,8 @@ function tinyMCE_editorinit($editor) {
 			editor.syncEditorWindow = function() {
 				this.load();
 			};
-			editor.onKeyUp.add(editorChanged);
-			editor.onMouseDown.add(editorChanged);
+			editor.on('keyup',editorChanged);
+			editor.on('mousedown',editorChanged);
 			editor.propertyFilePath = "<?php echo $context->getProperty('uri.service');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
 			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
 			return editor;
@@ -97,7 +123,7 @@ function tinyMCE_adminheader($target, $mother) {
     $context = Model_Context::getInstance();
 	if ($context->getProperty('editor.key') == 'tinyMCE') {
 		if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
-			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tiny_mce/tiny_mce.js\"></script>\n";
+			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tinymce/tinymce.min.js\"></script>\n";
 			$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"$pluginURL/override.css\" />\n";
 		}
 	}
