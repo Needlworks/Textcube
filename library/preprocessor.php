@@ -92,11 +92,14 @@ if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() =
     if ($uri->uri['interfaceType'] == 'blog') {
       $uri->uri['interfaceType'] = 'mobile';
     }
-    $_SESSION['displaymode'] = 'mobile';
-    $context->setProperty('skin.skin','lucid');
+	$_SESSION['displaymode'] = 'mobile';
+	define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/default');
+	define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
 } else {
-  $context->setProperty('blog.displaymode','desktop');
   $_SESSION['displaymode'] = 'desktop';
+  define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/blog');
+  define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+  $context->setProperty('blog.displaymode','desktop');
 }
 /// Reading necessary file list
 require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');

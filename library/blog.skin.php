@@ -117,7 +117,6 @@ class Skin {
 			if (($name == '.') || ($name == '..')) {
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
-			
 			$filename = __TEXTCUBE_SKIN_DIR__."/$name/skin.html";
 			
 			if (!is_file($filename)) {

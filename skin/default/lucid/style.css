@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+.article-body {
+	margin-top: 15px;
+	margin-bottom: 30px;
+}
+
+ul.tags {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+}
+.tags li {
+	display: inline-block;
+	margin: 0 0 2px 0;
+	padding: 0;
+	vertical-align: middle;
+}
+.tags a {
+	display: block;
+	margin: 0;
+	padding: 2px 6px;
+	background: #f2f2f2;
+	border-radius: 3px;
+	color: gray;
+}
+.tags a:hover {
+	background: #555;
+	color: white;
+	text-decoration: none;
+}
+
+.tags .cloud5 {
+	font-size: 0.8em;
+}
+.tags .cloud4 {
+	font-size: 1.0em;
+}
+.tags .cloud3 {
+	font-size: 1.3em;
+}
+.tags .cloud2 {
+	font-size: 1.5em;
+}
+.tags .cloud1 {
+	font-size: 1.7em;
+}
+
+#namecardWidget .thumbnail { display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+#extramenuWidget .btn { text-align: left; }
