@@ -45,3 +45,6 @@ ul.tags {
 .tags .cloud1 {
 	font-size: 1.7em;
 }
+
+#namecardWidget .thumbnail { display: inline-block; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+#extramenuWidget .btn { text-align: left; }
