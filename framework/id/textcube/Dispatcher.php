@@ -23,12 +23,14 @@ final class Dispatcher {
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
     }
-
-	private function pathSelector() {
-		define('__TEXTCUBE_CONFIG_FILE__',ROOT.'/config.php');
-		define('__TEXTCUBE_CACHE_DIR__',ROOT.'/cache');
-		define('__TEXTCUBE_ATTACH_DIR__',ROOT.'/attach');
-	}
+    
+    private function pathSelector() {
+    	define('__TEXTCUBE_CONFIG_FILE__',ROOT.'/config.php');
+    	define('__TEXTCUBE_CACHE_DIR__',ROOT.'/cache');
+    	define('__TEXTCUBE_ATTACH_DIR__',ROOT.'/attach');
+    	//define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/blog');
+    	//define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+    }
 
 	private function URIinterpreter() {
 		global $service;

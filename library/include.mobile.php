@@ -43,5 +43,5 @@ $__requireView = array(
 	'html',						// Views
 	'paging.mobile',
 	'view',
-	'DEBUG : Views loaded.');
+	'DEBUG : Views loaded (Mobile).');
 ?>
