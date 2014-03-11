@@ -26,6 +26,15 @@
 	margin:20px !important;
 	border:1px #eee dashed !important;
 }
+.mce-flow-layout {
+/*	background-color:#f6f6f6 !important;*/
+}
+#textarea-section {
+	background-color: transparent !important;
+}
+#status-container {
+	display:none;
+}
 #save-section {
     position: fixed !important;
     top: 35px;
