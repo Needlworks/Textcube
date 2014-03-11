@@ -19,6 +19,13 @@
 	margin-left:auto !important;
 	margin-right:auto !important;
 }
+.mce-container-body {
+	background-color:#fff !important;
+}
+.mce-edit-area {
+	margin:20px !important;
+	border:1px #eee dashed !important;
+}
 #save-section {
     position: fixed !important;
     top: 35px;

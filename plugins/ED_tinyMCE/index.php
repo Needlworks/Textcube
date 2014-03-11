@@ -89,7 +89,7 @@ function tinyMCE_editorinit($editor) {
 				    ]}
 				],
 				forced_root_block : false,
-				width : <?php echo ($config['width'] == 'full' ? '100%' : $context->getProperty('skin.contentWidth'));?>
+				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
 				this.render();
