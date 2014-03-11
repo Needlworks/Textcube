@@ -170,7 +170,6 @@
 		<header>
 			<hgroup>
 				<h1>Tag Cloud</h1>
-				<h2>Keywords with size based on popularity</h2>
 			</hgroup>
 		</header>
 		<article>
@@ -186,7 +185,7 @@
 		<header>
 			<hgroup>
 				<h1>Guestbook</h1>
-				<h2>Leave your greetings</h2>
+				<p>Leave your greetings</p>
 			</hgroup>
 		</header>
 		<article>
@@ -331,12 +330,12 @@
 			<s_ad_div> <!-- Administration-only menus for post .................................. -->
 			<div class="row">
 			<div class="col-md-3">
-				Status: <strong>[##_s_ad_s1_label_##]</strong> Post
+				Status: <strong>[##_s_ad_s1_label_##]</strong>
 			</div>
 			<div class="col-md-9 text-right">
 				<div class="btn-group">
 					<button type="button" class="btn btn-info btn-xs" onclick="[##_s_ad_s2_onclick_##]" label="[##_s_ad_s2_label_##]" class="button"><i class="fa fa-retweet"></i> Change Status</button>
-					<a class="btn btn-default btn-xs" href="[##_s_ad_m_ btn-xslink_##]" class="button"><i class="fa fa-edit"></i> Edit</a></button>
+					<a class="btn btn-default btn-xs" href="[##_s_ad_m_link_##]" class="button"><i class="fa fa-edit"></i> Edit</a></button>
 					<button type="button" class="btn btn-default btn-xs" onclick="[##_s_ad_m_onclick_##]" class="button"><i class="fa fa-edit"></i> Edit (New window)</button>
 					<button type="button" class="btn btn-default btn-xs" onclick="[##_s_ad_t_onclick_##]" class="button"><i class="fa fa-reply"></i> Send trackback</button>
 					<button type="button" class="btn btn-danger btn-xs" onclick="[##_s_ad_d_onclick_##]" class="button"><i class="fa fa-trash-o"></i> Delete</button>
@@ -499,14 +498,16 @@
 	</s_rp_input_form>
 	</s_rp>
 	</s_article_rep>
-	<s_paging> <!-- Paging	.................................................................. -->
+	<s_paging>
+	<div class="text-center">
 	<ul class="pagination">
 		<li [##_no_more_prev_##]><a [##_prev_page_##] title="Previous page">&#171; Previous</a></li>
-	<s_paging_rep>
+		<s_paging_rep>
 		<li [##_paging_rep_item_prop_##]><a [##_paging_rep_link_##]>[##_paging_rep_link_num_##]</a></li>
-	</s_paging_rep>
+		</s_paging_rep>
 		<li [##_no_more_next_##]><a [##_next_page_##] title="Next page">Next &#187;</a></li>
 	</ul>
+	</div>
 	</s_paging>
 
 	</div><!-- end of sections -->
@@ -517,17 +518,18 @@
 	<s_sidebar_element>
 	<!-- Name card widget -->
 		<section id="namecardWidget" class="widget text-center">
-			<img src="[##_image_##]" alt="namecard image" />
-			<p class="description">
-			[##_desc_##]<br>
-			[##_blogger_##]
-			</p>
+			<div class="thumbnail">
+				<img src="[##_image_##]" alt="Namecard image" />
+				<div class="caption">
+					<strong>[##_desc_##]</strong><br>[##_blogger_##]
+				</div>
+			</div>
 		</section>
 	</s_sidebar_element>
 	<!-- Extra Menu widget -->
 	<s_sidebar_element>
 		<section id="extramenuWidget" class="widget text-center">
-			<div class="btn-group-vertical" style="width: 75%;">
+			<div class="btn-group-vertical">
 				<a href="[##_blog_link_##]" class="btn btn-default"><i class="fa fa-fw fa-home"></i> Home</a>
 				<a href="[##_blog_link_##]line" class="btn btn-default"><i class="fa fa-fw fa-comment-o"></i> Line</a>
 				<a href="[##_taglog_link_##]" class="btn btn-default"><i class="fa fa-fw fa-tags"></i> Tag List</a>
