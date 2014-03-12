@@ -20,7 +20,7 @@ check_xgettext:
 		
 filelist.txt:
 	@echo -n "* Listing up php files ($@) : "
-	@if test -f $@; then echo -n "$@ found, skip listing up : "; else find ../../{blog,components,lib,plugins,script,setup.php,skin} -name "*.php" > $@; fi
+	@if test -f $@; then echo -n "$@ found, skip listing up : "; else find ../../../{framework,library,plugins,resources,skin} -name "*.php" > $@; fi
 	@echo "`cat $@ | wc -l` files are found."
 	
 language_po:
