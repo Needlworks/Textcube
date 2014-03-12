@@ -73,7 +73,7 @@ final class Session {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			$result = self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",true,0,self::$context->getProperty('service.timeout'));
 			if ($result > 0) {
-				$result = self::$mc->set(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}",$id,0,self::$context->getProperty('service.timeout'));
+				$result = self::$mc->set(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}",$id,0,120); // anonymous session timeout is 120 sec.
 				return $id;
 			}
 		}
