@@ -233,7 +233,7 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		array_unshift($keys, 'blogid');
 		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
 		$query .= $index;
-		$query .= ") TYPE=MyISAM ";
+		$query .= ") ";
 		$query .= (POD::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
 		if (POD::execute($query)) {
 				$keyname = POD::escapeString(UTF8::lessenAsEncoding('Database_' . $name, 32));
