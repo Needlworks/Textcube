@@ -692,7 +692,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										
 										<dl class="editoroption">
 											<dt><label for="contentformatter"><?php echo _t('포매터');?></label></dt>
-											<dd><select id="contentformatter" name="contentformatter" onchange="return setFormatter(this.value, document.getElementById('contenteditor'), setCurrentEditor);">
+											<dd><select id="contentformatter" name="contentformatter" onchange="return setFormatter(this.value, document.getElementById('contenteditor'), changeEditor);">
 <?php
 	foreach (getAllFormatters() as $key => $formatter) {
 ?>
