@@ -50,7 +50,7 @@ function tinyMCE_editorinit($editor) {
 				plugins: [
 					"TTMLsupport advlist autolink link image lists charmap print hr anchor pagebreak table",
 					"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-					"table contextmenu directionality emoticons textcolor paste textcolor"
+					"table contextmenu directionality emoticons textcolor paste textcolor autoresize"
 				],
 
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
