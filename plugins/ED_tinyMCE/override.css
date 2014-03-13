@@ -12,6 +12,11 @@
 	background:#fff!important;
 }
 
+.popup-editor .mce-toolbar-grp {
+	top:45px;
+	left:3px;
+}
+
 .mce-fullscreen {
 	z-index:2000!important;
 }

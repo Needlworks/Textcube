@@ -3,7 +3,7 @@
 
 body
 {
-	overflow-x:hidden;
+	overflow-x:hidden !important;
 }
 
 h3
@@ -26,11 +26,11 @@ h3
 }
 
 #moderneditor-textbox .moderneditor-textarea
-{ 
+{
 	font-size: 1em;
 }
 
-#moderneditor-palette .font-style, #moderneditor-palette .paragraph, #moderneditor-palette .special 
+#moderneditor-palette .font-style, #moderneditor-palette .paragraph, #moderneditor-palette .special
 {
 	background: none;
 }
@@ -52,14 +52,14 @@ h3
 	z-index                          : 100;
 	width                            : 100%;
 	padding-left                     : 0;
-	background-color                 : #ffffff;	
+	background-color                 : #ffffff;
 /*	background-image                 : url("./image/bg_menu_round.png");*/
 
 	padding-top: 10px;
 }
 #title-section dl
 {
-	padding-top:6px;	
+	padding-top:6px;
 }
 
 #title-section dl dt
@@ -92,7 +92,7 @@ h3
 	height							 : 25px;
 	margin-left                      : 0;
 	padding: 0 5px;
-	font-size: 1.2em; 
+	font-size: 1.2em;
 }
 
 #title-line label	{ display: none; }
@@ -105,8 +105,8 @@ h3
 	z-index                          : 210;
 	background-color                 : #ffffff !important;
 	filter                           : alpha(opacity=90);
-	opacity                          : .90;	
-	float: left;	
+	opacity                          : .90;
+	float: left;
 	padding: 5px;
 }
 
@@ -134,7 +134,7 @@ h3
 	background-color                 : #ffffff !important;
 	background-position              : left bottom;
 	background-repeat                : no-repeat;
-	display                          : block; 
+	display                          : block;
 	width                            : 16px;
 	height                           : 16px;
 	float                            : left;
@@ -142,9 +142,9 @@ h3
 
 #category-section
 {
-	margin                           : 98px 20px 0 0; 
-	padding                          : 5px 3px 5px 5px; 
-	width                            : 100%; 
+	margin                           : 98px 20px 0 0;
+	padding                          : 5px 3px 5px 5px;
+	width                            : 100%;
 }
 
 #category-section dl
@@ -514,7 +514,7 @@ h3
 	margin-left:-50px !important;
 	text-align                       : left !important;
 }
-.property-window-Gallery .button-box .button 
+.property-window-Gallery .button-box .button
 {
 	padding:0 !important;
 }
@@ -702,7 +702,7 @@ h3
 	position                         : relative;
 	text-align                       : left;
 	width                            : 390px;
-	margin-top                       : 10px;
+	margin-top                       : -35px;
 	z-index                          : 0;
 }
 
@@ -842,7 +842,7 @@ h3
 /*	background-color                 : #F5F5F5;*/
 	line-height                      : 17px;
 	margin                           : 0;
-	position                         : relative; 
+	position                         : relative;
 	padding                          : 8px 0 8px;
 	width                            : 100%;
 /*	float                            : left;*/

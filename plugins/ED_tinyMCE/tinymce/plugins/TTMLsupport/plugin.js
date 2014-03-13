@@ -38,18 +38,33 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				e.content = t.HTMLtoTTML(e.content);
 			}
 		});
-		ed.on('NodeChange',function(e) {
-			t.showProperty(e.element);
-		});
-		ed.addCommand('textcubeToggleUploadDlg', function() {
-			var uploadDlg = document.getElementById('upload-section');
-			if (uploadDlg.style.display == "block") {
-				uploadDlg.style.display = "none";
-			} else {
-				uploadDlg.style.display = "block";
-			}
-		});
-		ed.addCommand('textcubeSavePost', function() {
+    var lastNode = null;
+    var showPropertyCall = null;
+    var uploadDlg = jQuery('#upload-section');
+    var uploadDlgCounter = true;
+    ed.on('NodeChange',function(e){
+      if(e.element==lastNode){
+        return false
+      } else {
+        clearTimeout(showPropertyCall);
+        lastNode=e.element;
+        showPropertyCall=setTimeout(t.showProperty(e.element),500);
+        if(uploadDlgCounter==false){
+          uploadDlg.slideUp(600);
+          uploadDlgCounter=true;
+        }
+      }
+    });
+    ed.addCommand('textcubeToggleUploadDlg',function(){
+      if(uploadDlg.is(':hidden')){
+        uploadDlg.slideDown(600);
+        setTimeout(function(){uploadDlgCounter=false},3000);
+      } else {
+        uploadDlg.slideUp(600);
+        uploadDlgCounter=true;
+      }
+    });
+    ed.addCommand('textcubeSavePost', function() {
 			entryManager.save();
 			return false;
 		});

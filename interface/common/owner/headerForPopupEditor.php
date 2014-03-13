@@ -86,7 +86,7 @@ include ROOT . '/resources/locale/messages.php';
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/editor3.js"></script> 
 <?php echo fireEvent('ShowAdminHeader', ''); ?>
 </head>
-<body id="body-entry"<?php echo (empty($htmlBodyEvents) ? '' : ' '.$htmlBodyEvents);?>>
+<body id="body-entry" class="popup-editor">
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">
