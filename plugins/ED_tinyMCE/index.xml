@@ -19,21 +19,18 @@
 
 		<editor xml:lang="en" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
-			<usedFor formatter="html" />
 			<usedFor formatter="ttml" />
 			<!--<usedFor formatter="markdown" />
 			<usedFor formatter="textile" />-->
 		</editor>
 		<editor xml:lang="ko" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
-			<usedFor formatter="html" />
 			<usedFor formatter="ttml" />
 			<!--usedFor formatter="markdown" />
 			<usedFor formatter="textile" />-->
 		</editor>
 		<editor xml:lang="ja" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
-			<usedFor formatter="html" />
 			<usedFor formatter="ttml" />
 			<!--usedFor formatter="markdown" />
 			<usedFor formatter="textile" />-->
