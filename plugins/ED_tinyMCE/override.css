@@ -17,6 +17,13 @@
 	left:3px;
 }
 
+.popup-editor #save-section {
+	position:fixed;
+	top:0!important;
+	margin:0!important;
+	padding:0!important;
+}
+
 .mce-fullscreen {
 	z-index:2000!important;
 }
