@@ -550,8 +550,6 @@ h3
 	margin                           : 0 auto;
 	padding                          : 0 5px 0 5px;
 	height                           : 75px;
-	position                         : fixed;
-	top                              :0 !important;
 }
 
 /* tag and location -----------------------------------------------------------------------------*/
