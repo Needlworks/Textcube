@@ -127,7 +127,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.textarea = textarea;
 	if(this.editMode == "WYSIWYG")
 		this.textarea.style.display = "none";
-	
+
 	// 디자인모드의 IFRAME을 생성한다
 	this.iframe = document.createElement("iframe");
 	this.iframe.id = "tatterVisualEditor";
@@ -167,7 +167,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	// Changing to browser desingmode.
 	try { this.contentDocument.designMode = "on"; }
 	catch(e) { return; }
-	
+
 	// IFRAME 안에 HTML을 작성한다
 	// Put HTML code into IFRAME
 	this.contentDocument.open("text/html", "replace");
@@ -193,7 +193,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	// Connect event handlers occurring in IFRAME
 	STD.addEventListener(this.contentDocument);
 	var eventHandler = function(event) { _this.eventHandler(event); };
-	
+
 	this.contentDocument.addEventListener("mousedown", eventHandler, false);
 	this.contentDocument.addEventListener("mouseup", eventHandler, false);
 	this.contentDocument.addEventListener("keydown", eventHandler, false);
@@ -202,7 +202,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	this.contentDocument.addEventListener("keyup", eventHandler, false);
 
 	this.lastSelectionRange = null;
-	
+
 	// editor height resize event
 	var target = (this.editMode == "WYSIWYG" ? this.iframe : textarea);
 	this.resizer = new TTEditorResizer(target, getObject('status-container'), [document, this.contentDocument]);
@@ -231,7 +231,7 @@ TTModernEditor.prototype.initialize = function(textarea) {
 	var scrollEventHandler = function() { _this.setPropertyPosition(); return true; };
 	this.scrollEventHandler_bounded = scrollEventHandler;
 	window.addEventListener("scroll", scrollEventHandler, false);
-	
+
 	if(this.editMode == "TEXTAREA")
 		this.iframe.style.display = "none";
 	// 데이터 싱크 과정.
@@ -370,7 +370,7 @@ TTModernEditor.prototype.ttml2html = function() {
 
 		str = str.replaceAll(search, replace);
 	}
-	
+
 	// iMazing 처리
 	var regImazing = new RegExp("\\[##_iMazing\\|(.*?)_##\\]", "");
 	while(result = regImazing.exec(str)) {
@@ -1640,7 +1640,7 @@ TTModernEditor.prototype.eventHandler = function(event) {
 			break;
 		case "keypress":
 			var range = this.getSelectionRange();
-			if(event.keyCode == 13) { 
+			if(event.keyCode == 13) {
 				if(this.newLineToParagraph) {
 					if(STD.isFirefox && !event.shiftKey) {
 						// TODO : test<br /> -> <p>test</p>
@@ -2209,12 +2209,13 @@ TTModernEditor.prototype.addObject = function(data) {
 				var moreattrs = '';
 				var longdesc;
 				if (data.mode == 'Image1L' || data.mode == 'Image1C' || data.mode == 'Image1R') {
-					if (new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(objects[0][0])) {
+					if (new RegExp("\.(jpe?g|gif|png|bmp|webm|svg)$", "i").test(objects[0][0])) {
 						src = this.propertyFilePath + objects[0][0];
+						moreattrs = objects[0][1];
 					} else {
-						objects[0][1] = this.styleUnknown;
+						objects[0][1] = '';
+						moreattrs = this.styleUnknown;
 					}
-					moreattrs = objects[0][1];
 					longdesc = data.mode.substr(5) + '|' + objects[0][0] + '|' + objects[0][1] + '|' + objects[0][2].replaceAll("|", "");
 				} else {
 					moreattrs = 'width="' + (parseInt(data.mode.substr(5)) * 100) + '" height="100"';
@@ -2408,7 +2409,7 @@ TTModernEditor.prototype.getEditorPalette = function(htmlonly) {
 	}
 	html = html.replace(new RegExp('__EDITOR__', 'g'), 'TTModernEditor.editors.' + this.name);
 	html = html.replace(new RegExp('__ID__', 'g'), this.id);
-	
+
 	if(htmlonly == true) {
 		return '<div id="moderneditor-palette">'+html+'</div>';
 	}
@@ -3013,4 +3014,3 @@ TTModernEditor.prototype.changeButtonStatus = function(obj, palette) {
 		}
 	}
 }
-
