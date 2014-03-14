@@ -85,9 +85,10 @@ if($context->getProperty('service.debugmode') == true) {
 */
 /// Override mobile mode call
 $browserUtil = Utils_Browser::getInstance();
-if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() == true)
-		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop')
-		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['displayMode'],array('desktop')))) {
+#if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() == true)
+#		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop')
+#		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['displayMode'],array('desktop')))) {
+if(true) {
     $context->setProperty('blog.displaymode','mobile');
     if ($uri->uri['interfaceType'] == 'blog') {
       $uri->uri['interfaceType'] = 'mobile';

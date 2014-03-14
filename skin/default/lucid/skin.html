@@ -350,45 +350,42 @@
 	</section>
 	<section class="summary">
 		<article>
-			<dl class="information">
-				<dd class="posted date"><dfn>Posted</dfn> at <time>[##_article_rep_date_##]</time></dd>
-				<dd class="modified date"><dfn>Last updated</dfn> at <time>[##_article_rep_date_modified_##]</time></dd>
-				<dd class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></dd>
-				<dd class="category"><dfn>Filed</dfn> under <a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></dd>
-				<dd class="category rss feed"><a href="[##_article_rep_category_rssurl_##]" onclick="window.open(this.href); return false"><img src="./images/rss_12.png" alt="RSS 2.0 feed" /></a></dd>
-				<dd class="category atom feed"><a href="[##_article_rep_category_atomurl_##]" onclick="window.open(this.href); return false"><img src="./images/atom_12.png" alt="ATOM 1.0 feed" /></a></dd>
-				<s_tag_label>
-				<dd class="tag">
-					<dl>
-						<dt class="tag">Tag</dt>
-						<dd class="tag">[##_tag_label_rep_##]</dd>
-					</dl>
-				</dd>
-				</s_tag_label>
+			<dl class="dl-horizontal information">
+			    <dt>Posted at</dt>
+			    <dd class="posted date"><time>[##_article_rep_date_##]</time></dd>
+			    <dt>Last updated</dt>
+			    <dd class="modified date"><time>[##_article_rep_date_modified_##]</time></dd>
+			    <dt>Author</dt>
+			    <dd class="author"><cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></dd>
+			    <dt>Category</dt>
+			    <dd class="category"><a href="[##_article_rep_category_link_##]">[##_article_rep_category_##]</a></dd>
+			    <dt>Track category via</dt>
+			    <dd class="category rss feed">
+				<a href="[##_article_rep_category_rssurl_##]" onclick="window.open(this.href); return false"><i class="fa fa-rss-square"></i> RSS 2.0 feed</a>
+				<a href="[##_article_rep_category_atomurl_##]" onclick="window.open(this.href); return false"><i class="fa fa-rss-square"></i> ATOM 1.0 feed</a>
+			    </dd>
+			    <s_tag_label>
+			    <dt>Tags</dt>
+			    <dd class="tag">[##_tag_label_rep_##]</dd>
+			    </s_tag_label>
 			</dl>		
-			<dl class="response">
-				<dt class="response">Response</dt>
+			<dl class="dl-horizontal response">
+				<dt class="response">Leave Responses</dt>
 				<dd class="response">
-					<menu>
-<!--					<command type="command" id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="button">-->
-					<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="button">
-					<s_tb_count>
-						<em>[##_article_rep_tb_cnt_##]</em> Trackbacks
-					</s_tb_count>
+					<div class="btn-group">
+					<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="btn btn-default btn-xs">
+					<s_tb_count><em>[##_article_rep_tb_cnt_##]</em> Trackbacks</s_tb_count>
 					</a>
-<!--					</command>,-->
-<!--					<command id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="button">-->
-					<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="button">
-					<s_rp_count>
-						<em>[##_article_rep_rp_cnt_##]</em> Comments
-					</s_rp_count>
+					<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="btn btn-default btn-xs">
+					<s_rp_count><em>[##_article_rep_rp_cnt_##]</em> Comments</s_rp_count>
 					</a>
-<!--					</command>-->
-					</menu>
+					</div>
 				</dd>
-				<dt class="feed">You can track responses via RSS / ATOM feed</dt>
-				<dd class="rss feed"><a href="[##_article_rep_response_rssurl_##]" onclick="window.open(this.href); return false"><img src="./images/rss_12.png" alt="RSS 2.0 feed" /></a></dd>
-				<dd class="atom feed"><a href="[##_article_rep_response_atomurl_##]" onclick="window.open(this.href); return false"><img src="./images/atom_12.png" alt="ATOM 1.0 feed" /></a></dd>
+				<dt class="feed">Track responses via</dt>
+				<dd class="feed">
+				    <a href="[##_article_rep_response_rssurl_##]" onclick="window.open(this.href); return false" class="rss feed"><i class="fa fa-rss-square"></i> RSS 2.0 feed</a>
+				    <a href="[##_article_rep_response_atomurl_##]" onclick="window.open(this.href); return false" class="atom feed"><i class="fa fa-rss-square"></i> ATOM 1.0 feed</a>
+				</dd>
 			</dl>
 		</article>
 	</section>
@@ -396,7 +393,7 @@
 	<s_tb> <!-- Trackback lists ....................................................... -->
 	<section class="trackbacks">
 		<article>
-			<dl>
+			<dl class="dl-horizontal">
 				<dt class="url"><dfn>Trackback <abbr title="Uniform Resource Locator">URL</abbr></dfn></dt>
 				<dd class="url">[##_tb_address_##]</dd>
 				<dt class="atom feed"><dfn>Trackback ATOM Feed</dfn></dt>
@@ -529,14 +526,14 @@
 	<!-- Extra Menu widget -->
 	<s_sidebar_element>
 		<section id="extramenuWidget" class="widget text-center">
-			<div class="btn-group-vertical">
-				<a href="[##_blog_link_##]" class="btn btn-default"><i class="fa fa-fw fa-home"></i> Home</a>
-				<a href="[##_blog_link_##]line" class="btn btn-default"><i class="fa fa-fw fa-comment-o"></i> Line</a>
-				<a href="[##_taglog_link_##]" class="btn btn-default"><i class="fa fa-fw fa-tags"></i> Tag List</a>
-				<a href="[##_localog_link_##]" class="btn btn-default"><i class="fa fa-fw fa-map-marker"></i> Location</a>
-				<a href="[##_blog_link_##]keylog" class="btn btn-default"><i class="fa fa-fw fa-flag"></i> Keywords</a>
-				<a href="[##_guestbook_link_##]" class="btn btn-default"><i class="fa fa-fw fa-pencil"></i> Guest Book</a>
-			</div>
+			<ul class="nav nav-pills nav-stacked">
+				<li><a href="[##_blog_link_##]"><i class="fa fa-fw fa-home"></i> Home</a>
+				<li><a href="[##_blog_link_##]line"><i class="fa fa-fw fa-comment-o"></i> Line</a>
+				<li><a href="[##_taglog_link_##]"><i class="fa fa-fw fa-tags"></i> Tag List</a>
+				<li><a href="[##_localog_link_##]"><i class="fa fa-fw fa-map-marker"></i> Location</a>
+				<li><a href="[##_blog_link_##]keylog"><i class="fa fa-fw fa-flag"></i> Keywords</a>
+				<li><a href="[##_guestbook_link_##]"><i class="fa fa-fw fa-pencil"></i> Guest Book</a>
+			</ul>
 		</section>
 	</s_sidebar_element>
 	<s_sidebar_element>
