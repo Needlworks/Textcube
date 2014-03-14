@@ -76,7 +76,7 @@ class Skin {
 	var $coverpageStorage = array();
 	var $coverpageOriginalContent = array();
 	var $coverpageName = array();
-	
+
 	var $line;
 	var $lineItem;
 	var $lineButton;
@@ -107,30 +107,30 @@ class Skin {
 			//$this->noneTrackbackMessage = $blog['noneTrackbackMessage'];
 			//$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
 			$this->microformatDebug = array();
-			
+
 			if (strncmp($name, 'customize/', 10) == 0) {
 				$name = "customize/".getBlogId();
 			} else {
 				$name = Path::getBaseName($name);
 			}
-			
+
 			if (($name == '.') || ($name == '..')) {
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
 			$filename = __TEXTCUBE_SKIN_DIR__."/$name/skin.html";
-			
+
 			if (!is_file($filename)) {
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
 			}
-			
+
 			if (!$sval = file_get_contents($filename))
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $blogURL."/owner");
-			
+
 			replaceSkinTag($sval, 'html');
 			replaceSkinTag($sval, 'head');
 			replaceSkinTag($sval, 'body');
 			insertGeneratorVersion($sval);
-			
+
 			$sval = str_replace('<s_t3>','',$sval);	// Prune s_t3. For Skin compatibility with < Textcube 1.7
 			$sval = str_replace('</s_t3>','',$sval);
 
@@ -139,7 +139,7 @@ class Skin {
 				$sval = Model_NatureSkin::convert($sval,'global');
 			}
 			dressStaticElements($sval);
-			
+
 			// 사이드바 작업.
 			$sidebarCount = 0;
 			$noNameCount = 1;
@@ -148,15 +148,15 @@ class Skin {
 				if (!isset($this->sidebarBasicModules[$sidebarCount]))
 					$this->sidebarBasicModules[$sidebarCount] = array();
 				list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
-				
+
 				$moduleCount = 0;
 				$matchcount = preg_match_all('@<s_sidebar_element>.*</s_sidebar_element>@isU', $this->sidebarOriginalContent[$sidebarCount], $matches);
 				if ($matchcount !== false) {
-					$rgSidebarContent = $matches[0];	
+					$rgSidebarContent = $matches[0];
 				} else {
 					$rgSidebarContent = array();
 				}
-				
+
 				for ($i=0; $i<count($rgSidebarContent); $i++) {
 					$taglength = 19; //strlen('<s_sidebar_element>');
 					$rgSidebarContent[$i] = substr($rgSidebarContent[$i], $taglength, strlen($rgSidebarContent[$i]) - 39);//2*$taglength - 1);
@@ -186,30 +186,30 @@ class Skin {
 				$this->sidebarName[$sidebarCount] = $tempTitle;
 				$sidebarCount++;
 			}
-	
+
 			handleSidebars($sval, $this, $previewMode);
-	
+
 			// 표지 작업.
 			$this->coverpageBasicModules[0] = array();
 			$this->coverpageName[0] =_t('표지');
-	
-			$sval = str_replace('./', "{$serviceURL}/skin/blog/$name/", $sval);
-	
+
+			$sval = str_replace('./', str_replace(ROOT, $serviceURL,__TEXTCUBE_SKIN_DIR__)."/$name/", $sval);
+
 			$this->noneCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneCommentMessage);
 			$this->singleCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleCommentMessage);
 			$this->noneTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneTrackbackMessage);
 			$this->singleTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleTrackbackMessage);
-	
+
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);
 			// Cutting skin.
 			list($sval, $this->coverItem) = $this->cutSkinTag($sval, 'cover_rep');
 			list($sval, $this->cover) = $this->cutSkinTag($sval, 'cover');
-			
+
 			list($sval, $this->lineItem) = $this->cutSkinTag($sval, 'line_rep');
 			list($sval, $this->lineButton) = $this->cutSkinTag($sval, 'line_button');
 			list($sval, $this->line) = $this->cutSkinTag($sval, 'line');
-	
+
 			list($sval, $this->listItem) = $this->cutSkinTag($sval, 'list_rep');
 			list($sval, $this->list) = $this->cutSkinTag($sval, 'list');
 
@@ -236,7 +236,7 @@ class Skin {
 			list($sval, $this->locativeEntry) = $this->cutSkinTag($sval, 'local_info_rep');
 			list($sval, $this->locativeSpot) = $this->cutSkinTag($sval, 'local_spot_rep');
 			list($sval, $this->locative) = $this->cutSkinTag($sval, 'local');
-	
+
 			list($sval, $this->guestSubContainer) = $this->cutSkinTag($sval, 'guest_reply_container');
 			if ($this->guestSubContainer == '') {
 				$this->guestSubContainer = '[##_guest_reply_rep_##]';
@@ -251,7 +251,7 @@ class Skin {
 			} else {
 				list($this->guestContainer, $this->guestItem) = $this->cutSkinTag($this->guestContainer, 'guest_rep');
 			}
-			
+
 			list($sval, $this->guestGuest) = $this->cutSkinTag($sval, 'guest_form');
 			list($sval, $this->guestMember) = $this->cutSkinTag($sval, 'guest_member');
 			list($sval, $this->guestForm) = $this->cutSkinTag($sval, 'guest_input_form');
@@ -270,21 +270,21 @@ class Skin {
 				$this->noneCommentMessage = '';
 				$this->singleCommentMessage = '';
 			}
-			
+
 			list($sval, $this->trackbackContainer) = $this->cutSkinTag($sval, 'tb_container');
 			if ($this->trackbackContainer == '') {
 				$this->trackbackContainer = '[##_tb_rep_##]';
 				list($sval, $this->trackback) = $this->cutSkinTag($sval, 'tb_rep', '[##_tb_container_##]');
 			} else {
 				list($this->trackbackContainer, $this->trackback) = $this->cutSkinTag($this->trackbackContainer, 'tb_rep');
-			}		
-			
+			}
+
 			list($sval, $this->trackbacks) = $this->cutSkinTag($sval, 'tb');
 			list($sval, $this->tagLabel) = $this->cutSkinTag($sval, 'tag_label');
 			list($sval, $this->siteTagItem) = $this->cutSkinTag($sval, 'tag_rep');
 			list($sval, $this->siteTag) = $this->cutSkinTag($sval, 'tag');
 			list($sval, $this->randomTags) = $this->cutSkinTag($sval, 'random_tags');
-			
+
 			list($sval, $this->commentSubContainer) = $this->cutSkinTag($sval, 'rp2_container');
 			if ($this->commentSubContainer == '') {
 				$this->commentSubContainer = '[##_rp2_rep_##]';
@@ -299,27 +299,27 @@ class Skin {
 			} else {
 				list($this->commentContainer, $this->commentItem) = $this->cutSkinTag($this->commentContainer, 'rp_rep');
 			}
-			
+
 			list($sval, $this->commentGuest) = $this->cutSkinTag($sval, 'rp_guest');
 			list($sval, $this->commentMember) = $this->cutSkinTag($sval, 'rp_member');
 			list($sval, $this->commentForm) = $this->cutSkinTag($sval, 'rp_input_form');
 			list($sval, $this->comment) = $this->cutSkinTag($sval, 'rp');
-			
-			list($sval, $this->pageError) = $this->cutSkinTag($sval, 'page_error'); 
+
+			list($sval, $this->pageError) = $this->cutSkinTag($sval, 'page_error');
 			list($sval, $this->entry) = $this->cutSkinTag($sval, 'article_rep');
 			list($sval, $this->pagingItem) = $this->cutSkinTag($sval, 'paging_rep');
 			list($sval, $this->paging) = $this->cutSkinTag($sval, 'paging');
 			list($sval, $this->archive) = $this->cutSkinTag($sval, 'archive_rep');
 			list($sval, $this->search) = $this->cutSkinTag($sval, 'search');
 			list($sval, $this->authorList) = $this->cutSkinTag($sval, 'author_rep');
-			
+
 			list($sval, $this->recentEntryItem) = $this->cutSkinTag($sval, 'rctps_rep');
 			list($sval, $this->recentEntry) = $this->cutSkinTag($sval, 'rctps');
 			list($sval, $this->recentCommentItem) = $this->cutSkinTag($sval, 'rctrp_rep');
 			list($sval, $this->recentComment) = $this->cutSkinTag($sval, 'rctrp');
 			list($sval, $this->recentTrackbackItem) = $this->cutSkinTag($sval, 'rcttb_rep');
 			list($sval, $this->recentTrackback) = $this->cutSkinTag($sval, 'rcttb');
-			
+
 			list($sval, $this->link_rep) = $this->cutSkinTag($sval, 'link_rep');
 			list($sval, $this->pageTitle) = $this->cutSkinTag($sval, 'page_title');
 
@@ -329,7 +329,7 @@ class Skin {
 			if($previewMode == false) $this->saveCache();
 		}
 	}
-	
+
 	function cutSkinTag($contents, $tag, $replace = null) {
 		global $__gDressTags;
 		$context = Model_Context::getInstance();
@@ -352,7 +352,7 @@ class Skin {
 		}
 		return array($outter, $inner);
 	}
-	
+
 	function cutSkinReplacer($contents, $tag, $replace = null) {
 		global $__gDressTags;
 		if (is_null($replace)) {
@@ -381,7 +381,7 @@ class Skin {
 		$this->cache->contents = serialize($skinCache);
 		return $this->cache->update();
 	}
-	
+
 	function loadCache() {
 		global $__gDressTags;
 		if(!$this->cache->load()) return false;
@@ -410,7 +410,7 @@ class Skin {
 
 		$useMicroformat = Setting::getBlogSettingGlobal('useMicroformat',3);
 		switch( $useMicroformat )
-		{ 
+		{
 			/* 1: none, 2: semantically sane, 3: insane but machine friendly */
 			case 1:
 			array_push( $this->microformatDebug, _text('Microformat-info: 스킨에 마이크로포맷 자동추가하지 않도록 설정되어 있습니다.') );
@@ -488,13 +488,13 @@ class Skin {
 		/* hAtom:updated, published */
 		if(Setting::getBlogSettingGlobal('useMicroformat',3)>2) {
 			/* Adding published, updated date */
-			$content = preg_replace( 
+			$content = preg_replace(
 					'@(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\2>)@sm',
 					"\\1
 					<div style=\"display:none\">
 					<abbr class=\"updated\" title=\"[##_article_rep_microformat_updated_##]\">[##_article_rep_date_##]</abbr>
 					<abbr class=\"published\" title=\"[##_article_rep_microformat_published_##]\">[##_article_rep_date_##]</abbr>
-					</div>", 
+					</div>",
 					$content );
 			if( preg_match( '@<abbr[^>]*?class=[\'"][^\'"]*\bupdated\b[^\'"]*[\'"][^>]*>@sm', $content ) ) {
 				array_push( $this->microformatDebug, _text('Microformat-info: hAtom용 발행일(published,updated)을 보이지 않게 추가하였습니다.') );
@@ -515,7 +515,7 @@ class Skin {
 				}
 			} else {
 				array_push( $this->microformatDebug, _text('Microformat-info: 작성자가 출력되지 않는 스킨입니다. 작성자를 보이지 않게 추가하였습니다.') );
-				$content = preg_replace( 
+				$content = preg_replace(
 					'@(<(div|td|span|p)[^>]*>[^<>]*?\[##_article_rep_desc_##\].*?</\2>)@sm',
 					"\\1
 					<span style=\"display:none\">[##_article_rep_author_##]</span>",
@@ -543,7 +543,7 @@ class Skin {
 		}
 
 		/* bookmark to A link */
-		addAttribute( $content, 'a', 'href', '##_article_rep_link_##', 
+		addAttribute( $content, 'a', 'href', '##_article_rep_link_##',
 			array( 'rel' => 'bookmark', 'title' => "[##_article_rep_title_##]" ) );
 		if( preg_match( '@<a\b[^>]*?rel=[\'"][^\'"]*bookmark[^\'"]*[\'"][^>]*>@sm', $content ) ) {
 			array_push( $this->microformatDebug, _text('Microformat-info: 제목에 bookmark를 추가합니다') );
@@ -600,7 +600,7 @@ class KeylogSkin {
 		list($sval, $this->keylog) = $this->cutSkinTag($sval, 'blog');
 		$this->outter = $sval;
 	}
-	
+
 	function cutSkinTag($contents, $tag) {
 		$tagSize = strlen($tag) + 4;
 		$begin = strpos($contents, "<s_$tag>");
@@ -632,25 +632,25 @@ function dressStaticElements(& $view) {
 	dress('localog_link', "$blogURL/location", $view);
 	dress('taglog_link', "$blogURL/tag", $view);
 	dress('guestbook_link', "$blogURL/guestbook", $view);
-	
-    if($ctx->getProperty('blog.rssURL',null) != null) { 
-		dress('rss_url',  $ctx->getProperty('blog.rssURL'), $view); 
-	} else { 
-		dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view); 
-	} 
+
+    if($ctx->getProperty('blog.rssURL',null) != null) {
+		dress('rss_url',  $ctx->getProperty('blog.rssURL'), $view);
+	} else {
+		dress('rss_url',  $ctx->getProperty('uri.default')."/rss", $view);
+	}
 	dress('response_rss_url', "$defaultURL/rss/response", $view);
 	dress('comment_rss_url', "$defaultURL/rss/comment", $view);
 	dress('trackback_rss_url', "$defaultURL/rss/trackback", $view);
-	
-    if($ctx->getProperty('blog.atomURL',null) != null) { 
-		dress('atom_url',  $ctx->getProperty('blog.atomURL'), $view); 
-	} else { 
-		dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view); 
+
+    if($ctx->getProperty('blog.atomURL',null) != null) {
+		dress('atom_url',  $ctx->getProperty('blog.atomURL'), $view);
+	} else {
+		dress('atom_url',  $ctx->getProperty('uri.default')."/atom", $view);
 	}
 	dress('response_atom_url', "$defaultURL/atom/response", $view);
 	dress('comment_atom_url', "$defaultURL/atom/comment", $view);
 	dress('trackback_atom_url', "$defaultURL/atom/trackback", $view);
-	
+
 	dress('owner_url', "$blogURL/owner", $view);
 	dress('textcube_name', TEXTCUBE_NAME, $view);
 	dress('textcube_version', TEXTCUBE_VERSION, $view);
@@ -662,7 +662,7 @@ function removeAllTags($contents) {
 	handleTags($contents);
 	$contents = preg_replace('/\[#M_[^|]*\|[^|]*\|/Us', '', str_replace('_M#]', '', preg_replace('/\[##_.+_##\]/Us', '', $contents)));
 	$contents = preg_replace('@<(s_[0-9a-zA-Z_]+)>.*?</\1>@s', '', $contents);
-	return $contents;	
+	return $contents;
 }
 
 function replaceSkinTag( & $contents, $tag) {
@@ -688,7 +688,7 @@ function setTempTag($name) {
 
 function revertTempTags($content) {
 	global $contentContainer;
-	
+
 	if(is_array($contentContainer)) {
 		$keys = array_keys($contentContainer);
 		for ($i=0; $i<count($keys); $i++) {
