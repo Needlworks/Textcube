@@ -87,6 +87,7 @@
 
 #insert-container {
 	position:absolute;
+	margin-top:0!important;
 	top:10px;
 	left:685px;
 	width:100px;
