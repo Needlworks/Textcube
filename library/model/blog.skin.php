@@ -5,11 +5,11 @@
 
 function setTreeSetting($blogid, $setting) {
 	requireLibrary('blog.skin');
-	
+
 	if(empty($setting['showValueOnTree'])) $setting['showValueOnTree'] = 0;
 	else $setting['showValueOnTree'] = 1;
 	foreach ($setting as $key => $value) {
-		Setting::setSkinSetting($key, $value, $blogid); 
+		Setting::setSkinSetting($key, $value, $blogid);
 	}
 	CacheControl::flushSkin();
 	Setting::getSkinSettings($blogid, true); // refresh skin cache
@@ -25,25 +25,25 @@ function reloadSkin($blogid)
 		$xmls = new XMLStruct();
 		if (!$xmls->open($xml, $context->getProperty('service.encoding')))
 			return;
-		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
-		if (is_null($value)) 
+		$value = $xmls->getValue('/skin/default/commentMessage/none');
+		if (is_null($value))
 			Setting::setBlogSetting('noneCommentMessage', NULL, true);
 		else
 			Setting::setBlogSetting('noneCommentMessage', $value, true);
 
-		$value = $xmls->getValue('/skin/default/commentMessage/single'); 
+		$value = $xmls->getValue('/skin/default/commentMessage/single');
 		if (is_null($value))
 			Setting::setBlogSetting('singleCommentMessage', NULL, true);
 		else
 			Setting::setBlogSetting('singleCommentMessage', $value, true);
 
-		$value = $xmls->getValue('/skin/default/trackbackMessage/none'); 
+		$value = $xmls->getValue('/skin/default/trackbackMessage/none');
 		if (is_null($value))
 			Setting::setBlogSetting('noneTrackbackMessage', NULL, true);
 		else
 			Setting::setBlogSetting('noneTrackbackMessage', $value, true);
 
-		$value = $xmls->getValue('/skin/default/trackbackMessage/single'); 
+		$value = $xmls->getValue('/skin/default/trackbackMessage/single');
 		if (is_null($value))
 			Setting::setBlogSetting('singleTrackbackMessage', NULL, true);
 		else
@@ -58,7 +58,7 @@ function selectSkin($blogid, $skinName) {
 	$blogid = getBlogId();
 	if (empty($skinName))
 		return _t('실패했습니다.');
-		
+
 	if (strncmp($skinName, 'customize/', 10) == 0) {
 		if (strcmp($skinName, "customize/$blogid") != 0)
 			return _t('실패 했습니다');
@@ -67,7 +67,7 @@ function selectSkin($blogid, $skinName) {
 		if (($skinName === '.') || ($skinName ==='..'))
 			return _t('실패 했습니다');
 	}
-		
+
 	if (file_exists(__TEXTCUBE_SKIN_DIR__."/$skinName/index.xml")) {
 		$xml = file_get_contents(__TEXTCUBE_SKIN_DIR__."/$skinName/index.xml");
 		$xmls = new XMLStruct();
@@ -77,43 +77,43 @@ function selectSkin($blogid, $skinName) {
 		$value = $xmls->getValue('/skin/default/recentEntries');
 		if (!empty($value) || is_numeric($value))
 			$assignments['entriesOnRecent'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/recentComments');
 		if (!empty($value) || is_numeric($value))
 			$assignments['commentsOnRecent'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/itemsOnGuestbook');
 		if (!empty($value) || is_numeric($value))
 			$assignments['commentsOnGuestbook'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/tagsInCloud');
 		if (!empty($value) || is_numeric($value))
 			$assignments['tagsOnTagbox'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/sortInCloud');
 		if (!empty($value) || is_numeric($value))
 			$assignments['tagboxAlign'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/recentTrackbacks');
 		if (!empty($value) || is_numeric($value))
 			$assignments['trackbacksOnRecent'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/expandComment');
 		if (isset($value))
 			$assignments['expandComment'] = ($value ? '1' : '0');
-		
+
 		$value = $xmls->getValue('/skin/default/expandTrackback');
 		if (isset($value))
 			$assignments['expandTrackback'] = ($value ? '1' : '0');
-		
+
 		$value = $xmls->getValue('/skin/default/lengthOfRecentNotice');
 		if (!empty($value) || is_numeric($value))
 			$assignments['recentNoticeLength'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/lengthOfRecentEntry');
 		if (!empty($value) || is_numeric($value))
 			$assignments['recentEntryLength'] = $value;
-		
+
 		$value = $xmls->getValue('/skin/default/lengthOfRecentComment');
 		if (!empty($value) || is_numeric($value))
 			$assignments['recentCommentLength'] = $value;
@@ -177,24 +177,31 @@ function selectSkin($blogid, $skinName) {
 		foreach($assignments as $name => $value) {
 			Setting::setSkinSetting($name, $value, $blogid);
 		}
-		
+		if ($xmls->doesExist('/skin/support')) {
+			foreach ($xmls->selectNodes('/skin/support') as $support) {
+				if (!empty($support['.attributes']['mobile']) && $support['.attributes']['mobile'] == true) {
+					/// Main skin supports mobile, too.
+					//Setting::setBlogSetting('useiPhoneUI',false,true);
+				}
+			}
+		}
 		// none/single/multiple
-		$value = $xmls->getValue('/skin/default/commentMessage/none'); 
-		if (is_null($value)) 
+		$value = $xmls->getValue('/skin/default/commentMessage/none');
+		if (is_null($value))
 			Setting::setBlogSetting('noneCommentMessage', NULL, true);
 		else
 			Setting::setBlogSetting('noneCommentMessage', $value, true);
-		$value = $xmls->getValue('/skin/default/commentMessage/single'); 
+		$value = $xmls->getValue('/skin/default/commentMessage/single');
 		if (is_null($value))
 			Setting::setBlogSetting('singleCommentMessage', NULL, true);
 		else
 			Setting::setBlogSetting('singleCommentMessage', $value, true);
-		$value = $xmls->getValue('/skin/default/trackbackMessage/none'); 
+		$value = $xmls->getValue('/skin/default/trackbackMessage/none');
 		if (is_null($value))
 			Setting::setBlogSetting('noneTrackbackMessage', NULL, true);
 		else
 			Setting::setBlogSetting('noneTrackbackMessage', $value, true);
-		$value = $xmls->getValue('/skin/default/trackbackMessage/single'); 
+		$value = $xmls->getValue('/skin/default/trackbackMessage/single');
 		if (is_null($value))
 			Setting::setBlogSetting('singleTrackbackMessage', NULL, true);
 		else
@@ -206,7 +213,7 @@ function selectSkin($blogid, $skinName) {
 		Setting::setBlogSetting('singleTrackbackMessage', NULL, true);
 		Setting::setSkinSetting('skin',$skinName, $blogid);
 	}
-	
+
 	Setting::removeBlogSetting("sidebarOrder",true);
 	CacheControl::flushAll();
 	CacheControl::flushSkin();
@@ -262,7 +269,7 @@ function getCSSContent($blogid, $file) {
 function setSkinSetting($blogid, $setting) {
 	global $database;
 	global $skinSetting;
-	
+
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (strncmp($skinSetting['skin'], 'customize/', 10) == 0) {
@@ -273,7 +280,7 @@ function setSkinSetting($blogid, $setting) {
 		if (($skinSetting['skin'] === '.') || ($skinSetting['skin'] ==='..'))
 			return _t('실패 했습니다');
 	}
-	
+
 	$skinpath = __TEXTCUBE_SKIN_DIR__.'/' . $skinSetting['skin'];
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');

@@ -14,7 +14,8 @@
 		<name>daybreaker</name>
 		<homepage>http://daybreaker.info</homepage>
 		<email>me@daybreaker.info</email>
-	</author> 
+	</author>
+	<support mobile=true />
 	<default>
 		<recentEntries>5</recentEntries>
 		<recentComments>5</recentComments>
