@@ -623,6 +623,11 @@ h3
 /* upload ---------------------------------------------------------------------------------------*/
 #upload-section
 {
+	background-color                 : #FFF;
+	margin                           : 10px auto 10px auto;
+	position                         : relative;
+	width                            : 780px;
+	border: 1px solid #F2F2F2;
 }
 
 #upload-section h3
@@ -735,9 +740,13 @@ h3
 }
 
 /* insert buttons */
+
 #insert-container
 {
-	float                            : left;
+	position                         : absolute;
+	margin-top                       : -160px;
+	left                             : 680px;
+	width                            : 100px;
 }
 
 #insert-container a
