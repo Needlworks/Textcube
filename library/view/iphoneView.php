@@ -6,7 +6,7 @@
 function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 	$context = Model_Context::getInstance();
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
-		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
+		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', true);
 		print '<div class="entry_body" data-role="content" data-theme="d">' . printMobileFreeImageResizer($content) . '</div>';
 	} else {
 	?>
@@ -232,7 +232,8 @@ function printMobileHTMLHeader($title = '') {
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.css" />
 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery.mobile/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.js"></script>
-	<!--<script>
+	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
+  <!--<script>
 		$(document).bind("mobileinit", function(){$.mobile.touchOverflowEnabled = true;});
 	</script>-->
 <?php
