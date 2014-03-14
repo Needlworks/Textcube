@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.0.0.140306
+ * Version 2.1.0.20140313
  *
  * Created       : May 30, 2011
- * Last modified : Mar 6, 2014
+ * Last modified : Mar 13, 2014
  *
  * Copyright 2011, 2014 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
@@ -38,18 +38,33 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				e.content = t.HTMLtoTTML(e.content);
 			}
 		});
-		ed.on('NodeChange',function(e) {
-			t.showProperty(e.element);
-		});
-		ed.addCommand('textcubeToggleUploadDlg', function() {
-			var uploadDlg = document.getElementById('upload-section');
-			if (uploadDlg.style.display == "block") {
-				uploadDlg.style.display = "none";
-			} else {
-				uploadDlg.style.display = "block";
-			}
-		});
-		ed.addCommand('textcubeSavePost', function() {
+    var lastNode = null;
+    var showPropertyCall = null;
+    var uploadDlg = jQuery('#upload-section');
+    var uploadDlgCounter = true;
+    ed.on('NodeChange',function(e){
+      if(e.element==lastNode){
+        return false
+      } else {
+        clearTimeout(showPropertyCall);
+        lastNode=e.element;
+        showPropertyCall=setTimeout(t.showProperty(e.element),500);
+        if(uploadDlgCounter==false){
+          uploadDlg.slideUp(600);
+          uploadDlgCounter=true;
+        }
+      }
+    });
+    ed.addCommand('textcubeToggleUploadDlg',function(){
+      if(uploadDlg.is(':hidden')){
+        uploadDlg.slideDown(600);
+        setTimeout(function(){uploadDlgCounter=false},3000);
+      } else {
+        uploadDlg.slideUp(600);
+        uploadDlgCounter=true;
+      }
+    });
+    ed.addCommand('textcubeSavePost', function() {
 			entryManager.save();
 			return false;
 		});
@@ -1568,29 +1583,30 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 		 addObject : function(data) {
 			 var t = this;
 			 var objects = data.objects;
-
 			 switch (data.mode) {
 				 case 'Image1L': case 'Image1C': case 'Image1R':
 					 if (t._isMediaFile(objects[0][0])) {
-						 getObject(t.id + "propertyInsertObject_type").value = "url";
+             getObject(t.id + "propertyInsertObject_type").value = "url";
 						 getObject(t.id + "propertyInsertObject_url").value = blogURL + "/attachment/" + objects[0][0];
 						 t.command("InsertObject");
 						 return true;
-					 }
-					 // *fall through*
+					 } else {
 
+           }
+					 // *fall through*
 				 case 'Image2C': case 'Image3C':
 					 try {
 						 var src = servicePath + adminSkin + "/image/spacer.gif";
 						 var moreattrs = '';
 						 var longdesc;
 						 if (data.mode == 'Image1L' || data.mode == 'Image1C' || data.mode == 'Image1R') {
-							 if (new RegExp("\.(jpe?g|gif|png|bmp)$", "i").test(objects[0][0])) {
+							 if (new RegExp("\.(jpe?g|gif|png|bmp|webm|svg)$", "i").test(objects[0][0])) {
 								 src = t.propertyFilePath + objects[0][0];
+                 moreattrs = objects[0][1];
 							 } else {
-								 objects[0][1] = t.styleUnknown;
+								 objects[0][1] = '';
+                 moreattrs = t.styleUnknown;
 							 }
-							 moreattrs = objects[0][1];
 							 longdesc = data.mode.substr(5) + '|' + objects[0][0] + '|' + objects[0][1] + '|' + objects[0][2].replaceAll("|", "");
 						 } else {
 							 moreattrs = 'width="' + (parseInt(data.mode.substr(5)) * 100) + '" height="100"';
@@ -1603,7 +1619,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 						 var className = {Image1L: 'tatterImageLeft', Image1C: 'tatterImageCenter', Image1R: 'tatterImageRight',
 							 Image2C: 'tatterImageDual', Image3C: 'tatterImageTriple'}[data.mode];
 						 var prefix = '<img class="' + className + '" src="' + src + '" ' + moreattrs + ' longdesc="' + t.addQuot(longdesc) + '" />';
-						 t.command("Raw", prefix);
+             t.command("Raw", prefix);
 						 return true;
 					 } catch(e) { }
 
@@ -1615,6 +1631,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 					 return true;
 
 				 case 'ImageFree':
+
 					 var prefix = '';
 					 for (var i = 0; objects[i]; ++i) {
 						 prefix += '<img class="tatterImageFree" src="' + t.propertyFilePath + objects[i][0] + '" longdesc="[##_ATTACH_PATH_##]/' + objects[i][0] + '" ' + objects[i][1] + ' />';
@@ -1642,12 +1659,12 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 					 //insertTag(t.textarea, '[##_' + code + '_##]', '');
 					 return true;
 			 }
-
 			 return false;
 		 },
 		 command : function(command, value1, value2) {
 			 var t = this;
-			 switch(command) {
+
+      switch(command) {
 				 case "MoreLessBlock":
 					 t.command("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
 					 break;
@@ -1691,7 +1708,6 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 								 case "wm": type = "video/x-ms-wm"; break;
 								 case "wvx": type = "video/x-ms-wvx"; break;
 							 }
-
 							 if(type === null) {
 								 alert(s_unknownFileType);
 								 return;
@@ -1753,7 +1769,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				 author : 'Jeongkyu Shin',
 				 authorurl : 'http://www.textcube.org',
 				 infourl : 'http://dev.textcube.org',
-				 version : "2.0"
+				 version : "2.1"
 			 };
 		 }
 });

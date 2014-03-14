@@ -12,11 +12,11 @@ final class Session {
 	private static $sConfig = null;
 	private static $context = null;
 	private static $pool = null;
-	
+
 	function __construct() {
 		$sessionMicrotime = Timer::getMicroTime();
 	}
-	
+
 	private static function initialize() {
 		self::$context = Model_Context::getInstance();
 		self::$pool = DBModel::getInstance();
@@ -25,24 +25,24 @@ final class Session {
 	public static function open($savePath, $sessionName) {
 		return true;
 	}
-	
+
 	public static function close() {
 		return true;
 	}
-	
+
 	public static function getName() {
-		if(is_null(self::$context)) self::initialize();	
+		if(is_null(self::$context)) self::initialize();
 		if( self::$sessionName == null ) {
 			if( self::$context->getProperty('service.session_cookie') !== null) {
 				self::$sessionName = self::$context->getProperty('service.session_cookie');
 			} else {
-				self::$sessionName = 'TSSESSION'.self::$context->getProperty('service.domain').self::$context->getProperty('service.path'); 
+				self::$sessionName = 'TSSESSION'.self::$context->getProperty('service.domain').self::$context->getProperty('service.path');
 				self::$sessionName = preg_replace( '/[^a-zA-Z0-9]/', '', self::$sessionName );
 			}
 		}
 		return self::$sessionName;
 	}
-	
+
 	public static function read($id) {
 		if(is_null(self::$context)) self::initialize();
 
@@ -53,7 +53,7 @@ final class Session {
 		}
 		return '';
 	}
-	
+
 	public static function write($id, $data) {
 		if(is_null(self::$context)) self::initialize();
 
@@ -69,8 +69,8 @@ final class Session {
 		$request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
 		$referer = isset($_SERVER['HTTP_REFERER']) ? POD::escapeString(substr($_SERVER['HTTP_REFERER'],0,255)) : '';
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
-		$result = self::query('count',"UPDATE ".self::$context->getProperty('database.prefix')."Sessions 
-				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = ".Timestamp::getUNIXtime()." 
+		$result = self::query('count',"UPDATE ".self::$context->getProperty('database.prefix')."Sessions
+				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = ".Timestamp::getUNIXtime()."
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		if ($result && $result == 1) {
 			@POD::commit();
@@ -78,7 +78,7 @@ final class Session {
 		}
 		return false;
 	}
-	
+
 	public static function destroy($id, $setCookie = false) {
 		if(is_null(self::$context)) self::initialize();
 		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions ".
@@ -86,42 +86,42 @@ final class Session {
 			"WHERE id = '$id'");
 		self::gc();
 	}
-	
+
 	public static function gc($maxLifeTime = false) {
 		if(is_null(self::$context)) self::initialize();
-		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions 
+		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions
 			WHERE updated < ".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')));
-		$result = self::query('all',"SELECT DISTINCT v.id, v.address 
-			FROM ".self::$context->getProperty('database.prefix')."SessionVisits v 
-			LEFT JOIN ".self::$context->getProperty('database.prefix')."Sessions s ON v.id = s.id AND v.address = s.address 
+		$result = self::query('all',"SELECT DISTINCT v.id, v.address
+			FROM ".self::$context->getProperty('database.prefix')."SessionVisits v
+			LEFT JOIN ".self::$context->getProperty('database.prefix')."Sessions s ON v.id = s.id AND v.address = s.address
 			WHERE s.id IS NULL AND s.address IS NULL");
 		if ($result) {
-			$gc = array();
 			foreach ($result as $g) {
 				self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."SessionVisits WHERE id = '{$g['id']}' AND address = '{$g['address']}'");
 			}
 		}
 		return true;
 	}
-	
+
 	private static function getAnonymousSession() {
 		if(is_null(self::$context)) self::initialize();
-		//$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
-		$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE userid IS NULL AND preexistence IS NULL");
+		$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+		//$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE userid IS NULL AND preexistence IS NULL");
 		if ($result)
 			return $result;
 		return false;
 	}
-	
+
 	private static function newAnonymousSession() {
 		if(is_null(self::$context)) self::initialize();
-		$meet_again_baby = 3600;
-		$t = self::$context->getProperty('service.timeout'); 
-		if( !empty($t)) { 
+		$meet_again_baby = 900;
+		$t = self::$context->getProperty('service.timeout');
+		if( !empty($t)) {
 			$meet_again_baby = self::$context->getProperty('service.timeout');
 		}
 
  		//If you are not a robot, subsequent UPDATE query will override to proper timestamp.
+		 //Anonymous session lifespan is 60 sec.
 		$meet_again_baby -= 60;
 
 		for ($i = 0; $i < 3; $i++) {
@@ -134,7 +134,7 @@ final class Session {
 		}
 		return false;
 	}
-	
+
 	public static function setSessionAnonymous($currentId) {
 		$id = self::getAnonymousSession();
 		if ($id !== false) {
@@ -149,34 +149,34 @@ final class Session {
 		}
 		return false;
 	}
-	
+
 	public static function isAuthorized($id) {
 		/* OpenID and Admin sessions are treated as authorized ones*/
 		if(is_null(self::$context)) self::initialize();
 
-		$result = self::query('cell',"SELECT id 
-			FROM ".self::$context->getProperty('database.prefix')."Sessions 
+		$result = self::query('cell',"SELECT id
+			FROM ".self::$context->getProperty('database.prefix')."Sessions
 			WHERE id = '$id' "
-//				AND address = '{$_SERVER['REMOTE_ADDR']}' 
+//				AND address = '{$_SERVER['REMOTE_ADDR']}'
 				."AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
 		if ($result) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public static function isGuestOpenIDSession($id) {
 		if(is_null(self::$context)) self::initialize();
-		$result = self::query('cell',"SELECT id 
-			FROM ".self::$context->getProperty('database.prefix')."Sessions 
-			WHERE id = '$id'". 
+		$result = self::query('cell',"SELECT id
+			FROM ".self::$context->getProperty('database.prefix')."Sessions
+			WHERE id = '$id'".
 //				AND address = '{$_SERVER['REMOTE_ADDR']}' AND userid < 0");
 				" AND userid < 0");
 		if ($result)
 			return true;
 		return false;
 	}
-	
+
 	public static function set() {
 		self::$sessionMicrotime = Timer::getMicroTime();
 		if( !empty($_GET['TSSESSION']) ) {
@@ -191,7 +191,7 @@ final class Session {
 			self::setSessionAnonymous($id);
 		}
 	}
-	
+
 	public static function authorize($blogid, $userid) {
 		if(is_null(self::$context)) self::initialize();
 
@@ -219,7 +219,7 @@ final class Session {
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			$result = self::query('execute',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions
-				(id, address, userid, created, updated) 
+				(id, address, userid, created, updated)
 				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, ".Timestamp::getUNIXtime().",".Timestamp::getUNIXtime().")");
 			if ($result) {
 				@session_id($id);
@@ -237,7 +237,7 @@ final class Session {
 
 		$result = self::DBQuery($mode,$sql);
 		if($result === false) {
-			if (self::$sessionDBRepair === false) {	
+			if (self::$sessionDBRepair === false) {
 				@POD::query("REPAIR TABLE ".self::$context->getProperty('database.prefix')."Sessions");
 				@POD::query("REPAIR TABLE ".self::$context->getProperty('database.prefix')."SessionVisits");
 				$result = self::DBQuery($mode,$sql);

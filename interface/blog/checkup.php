@@ -190,7 +190,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			KEY visibility (visibility),
 			KEY blogid (blogid, id),
 			KEY userid (userid, blogid)
-			) TYPE=MyISAM
+			) 
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);
@@ -212,7 +212,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  loginCount int(11) default NULL,
 		  data text,
 		  PRIMARY KEY  (blogid,openid)
-		) TYPE=MyISAM
+		) 
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);
@@ -380,7 +380,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  visibility tinyint(4) NOT NULL default '2',
 		  PRIMARY KEY (pid),
 		  UNIQUE KEY blogid (blogid, id)
-		) TYPE=MyISAM
+		) 
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
 			if (POD::execute("ALTER TABLE {$database['prefix']}Links 
@@ -543,7 +543,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				name varchar(32) NOT NULL default '',
 				value text NOT NULL,
 				PRIMARY KEY (blogid,name)
-			) TYPE=MyISAM
+			) 
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
 			$query = DBModel::getInstance();
@@ -735,7 +735,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  PRIMARY KEY (id),
 		  UNIQUE KEY (blogid, created),
 		  KEY (blogid, category, created)
-		) TYPE=MyISAM
+		) 
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);
@@ -777,7 +777,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  content text NOT NULL default '',
 		  PRIMARY KEY(id),
 		  KEY(blogid)
-		) TYPE=MyISAM
+		) 
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);

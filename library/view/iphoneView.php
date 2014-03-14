@@ -6,7 +6,7 @@
 function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
 	$context = Model_Context::getInstance();
 	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {
-		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', false);
+		$content = getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords, 'Post', true);
 		print '<div class="entry_body" data-role="content" data-theme="d">' . printMobileFreeImageResizer($content) . '</div>';
 	} else {
 	?>
@@ -232,7 +232,8 @@ function printMobileHTMLHeader($title = '') {
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/resources/style/iphone/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.css" />
 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery.mobile/jquery.mobile-<?php echo JQUERYMOBILE_VERSION;?>.js"></script>
-	<!--<script>
+	<script type="application/x-javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
+  <!--<script>
 		$(document).bind("mobileinit", function(){$.mobile.touchOverflowEnabled = true;});
 	</script>-->
 <?php
@@ -254,7 +255,12 @@ function printMobileHTMLFooter() {
 		$slogan = $context->getProperty('suri.value');
 	}
 	if($context->getProperty('blog.useSloganOnPost',true) == true && !empty($slogan)) {
-		$link = $context->getProperty('uri.basicblog').substr($context->getProperty('suri.directive'),2).'/'.URL::encode($slogan)."?mode=desktop";
+		if (!in_array(substr($context->getProperty('suri.directive'),3),array('comment','trackback'))) {
+			$dir = '/entry';
+		} else {
+			$dir = substr($context->getProperty('suri.directive'),2);
+		}
+		$link = $context->getProperty('uri.basicblog').$dir.'/'.URL::encode($slogan)."?mode=desktop";
 	} else {
 		$link = $context->getProperty('uri.basicblog').'/'.$context->getProperty('suri.id').'?mode=desktop';
 	}
