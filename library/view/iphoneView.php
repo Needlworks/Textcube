@@ -254,7 +254,12 @@ function printMobileHTMLFooter() {
 		$slogan = $context->getProperty('suri.value');
 	}
 	if($context->getProperty('blog.useSloganOnPost',true) == true && !empty($slogan)) {
-		$link = $context->getProperty('uri.basicblog').substr($context->getProperty('suri.directive'),2).'/'.URL::encode($slogan)."?mode=desktop";
+		if (!in_array(substr($context->getProperty('suri.directive'),3),array('comment','trackback'))) {
+			$dir = '/entry';
+		} else {
+			$dir = substr($context->getProperty('suri.directive'),2);
+		}
+		$link = $context->getProperty('uri.basicblog').$dir.'/'.URL::encode($slogan)."?mode=desktop";
 	} else {
 		$link = $context->getProperty('uri.basicblog').'/'.$context->getProperty('suri.id').'?mode=desktop';
 	}
