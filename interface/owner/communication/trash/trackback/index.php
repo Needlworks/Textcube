@@ -38,7 +38,7 @@ $site = empty($_POST['site']) ? '' : $_POST['site'];
 $url = empty($_POST['url']) ? '' : $_POST['url'];
 $ip = empty($_POST['ip']) ? '' : $_POST['ip'];
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10); 
+$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	Setting::setBlogSettingGlobal('rowsPerPage', $_POST['perPage']);
@@ -58,7 +58,7 @@ require ROOT . '/interface/common/owner/header.php';
 						<script type="text/javascript">
 							//<![CDATA[
 								function changeState(caller, value, mode) {
-									try {			
+									try {
 										if (caller.className == 'block-icon bullet') {
 											var command 	= 'unblock';
 										} else {
@@ -69,7 +69,7 @@ require ROOT . '/interface/common/owner/header.php';
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
-										var iconList = document.getElementsByTagName("a");	
+										var iconList = document.getElementsByTagName("a");
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
 											if(icon.id == null || icon.id.replace(/\-[0-9]+$/, '') != name) {
@@ -91,7 +91,7 @@ require ROOT . '/interface/common/owner/header.php';
 										alert(e.message);
 									}
 								}
-								
+
 								function deleteTrackback(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>"))
 										return;
@@ -104,7 +104,7 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									request.send();
 								}
-								
+
 								function deleteTrackbackAll() {
 									if (!confirm("<?php echo _t('휴지통 내의 모든 걸린글을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return;
@@ -117,7 +117,7 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									request.send();
 								}
-								
+
 								function deleteTrackbacks() {
 									try {
 										if (!confirm("<?php echo _t('선택된 걸린글을 삭제합니다. 계속 하시겠습니까?');?>"))
@@ -155,7 +155,7 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									request.send();
 								}
-								
+
 								function revertTrackbacks() {
 									try {
 										if (!confirm("<?php echo _t('선택된 걸린글을 복원합니다. 계속 하시겠습니까?');?>"))
@@ -191,17 +191,17 @@ require ROOT . '/interface/common/owner/header.php';
 										}
 									}
 								}
-								
+
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
 									removeItselfById('category-move-button');
-									
+
 									trashSelect = document.createElement("SELECT");
 									trashSelect.id = "category";
 									trashSelect.name = "category";
 									trashSelect.onchange = function() { document.getElementById('trash-form').page.value=1; document.getElementById('trash-form').submit(); return false; };
-									
+
 									trashOption = document.createElement("OPTION");
 									trashOption.innerHTML = "<?php echo _t('전체');?>";
 									trashOption.value = "0";
@@ -239,13 +239,13 @@ foreach (getCategories($blogid) as $category) {
 	}
 }
 ?>
-									
+
 									document.getElementById('track-radio-trackback').appendChild(trashSelect);
 								}
-								
+
 								function toggleThisTr(obj) {
 									objTR = getParentByTagName("TR", obj);
-									
+
 									if (objTR.className.match('inactive')) {
 										objTR.className = objTR.className.replace('inactive', 'active');
 									} else {
@@ -254,7 +254,7 @@ foreach (getCategories($blogid) as $category) {
 								}
 							//]]>
 						</script>
-						
+
 						<div id="part-post-trash" class="part">
 							<h2 class="caption">
 								<span class="main-text"><?php echo _t('삭제 대기중인 걸린글입니다');?></span>
@@ -265,7 +265,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 								<span class="filter-condition"><?php echo htmlspecialchars($site);?></span>
 <?php
 	}
-	
+
 	if (strlen($ip) > 0) {
 ?>
 								<span class="filter-condition"><?php echo htmlspecialchars($ip);?></span>
@@ -279,15 +279,15 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 ?>
 
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t('휴지통에 버려진 걸린글은 15일이 지나면 자동으로 지워집니다. 광고 걸린글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
-							</div>								
+								<p class="explain"><?php echo _t('휴지통에 버려진 걸린글은 일정 기간이 지나면 자동으로 지워집니다. 광고 걸린글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
+							</div>
 
 							<form id="trash-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash">
 								<fieldset class="section">
 									<legend><?php echo _t('삭제된 파일 보기 설정');?></legend>
-									
+
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-									
+
 									<dl id="trash-type-line" class="line">
 										<dt><?php echo _t('종류');?></dt>
 										<dd>
@@ -299,11 +299,11 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 											</div>
 										</dd>
 									</dl>
-									
+
 									<input type="submit" id="category-move-button" value="<?php echo _t('이동');?>" />
 								</fieldset>
 							</form>
-							
+
 							<form id="list-form" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/trackback">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
@@ -324,7 +324,7 @@ if (sizeof($trackbacks) > 0) echo "									<tbody>";
 $siteNumber = array();
 for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$trackback = $trackbacks[$i];
-	
+
 	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
 	$filteredURL = getURLForFilter($trackback['url']);
 
@@ -334,14 +334,14 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	} else {
 		$isIpFiltered = false;
 	}
-	
+
 	if (!isset($siteNumber[$trackback['site']])) {
 		$siteNumber[$trackback['site']] = $i;
 		$currentSite = $i;
 	} else {
 		$currentSite = $siteNumber[$trackback['site']];
 	}
-	
+
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
@@ -404,20 +404,20 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 if (sizeof($trackbacks) > 0) echo "									</tbody>";
 ?>
 								</table>
-								
+
 								<hr class="hidden" />
-								
+
 								<div class="data-subbox">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="site" value="" />
 									<input type="hidden" name="ip" value="" />
-									
+
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 걸린글을');?></span>
 										<input type="submit" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteTrackbacks(); return false;" />
 										<input type="submit" class="revert-button input-button" value="<?php echo _t('복구');?>" onclick="revertTrackbacks(); return false;" />
 									</div>
-									
+
 									<div id="page-section" class="section">
 										<div id="page-navigation">
 											<span id="page-list">
@@ -450,18 +450,18 @@ for ($i = 10; $i <= 30; $i += 5) {
 }
 ?>
 											</select>
-											
+
 											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1);?>
 										</div>
 									</div>
 								</div>
 							</form>
-							
+
 							<hr class="hidden" />
-							
+
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/trash/trackback">
 								<h2><?php echo _t('검색');?></h2>
-								
+
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('사이트명');?>, <?php echo _t('내용');?></label>
 									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
@@ -469,7 +469,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
 							</form>
-							
+
 							<div class="button-box">
 								<a class="all-delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/emptyTrash/?type=2" onclick="deleteTrackbackAll(); return false;" title="<?php echo _t('휴지통의 걸린글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
 							</div>
