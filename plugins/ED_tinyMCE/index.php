@@ -31,6 +31,7 @@ function tinyMCE_editorinit($editor) {
 				fixed_toolbar_container: "#formatbox-container",
 				toolbar_location : "external",
 				toolbar_items_size: 'small',
+				relative_urls: false,
 				//schema: "html5",
         extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],object",
 
