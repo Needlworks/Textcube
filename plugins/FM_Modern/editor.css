@@ -21,6 +21,10 @@
 	padding: 0px 0 5px 150px;
 	margin: 0 0 0 -150px;
 }
+#editWindow 
+{
+	line-height:130%;
+}
 .popup-editor #formatbox-container
 {
 	top                              : 45px;
