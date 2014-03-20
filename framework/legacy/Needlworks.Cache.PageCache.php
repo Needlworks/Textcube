@@ -373,9 +373,12 @@ class CacheControl {
 	function flushSkin($blogid = null) {
 		global $gCacheStorage;
 		if(empty($blogid)) $blogid = getBlogId();
-		$cache = pageCache::getInstance();
-		$cache->reset('skinCache');
-		$cache->purge();
+		$pool = DBModel::getInstance();
+		$pool->reset('PageCacheLog');
+		$pool->setQualifier('blogid','eq',$blogid);
+		$pool->setQualifier('name','like','skinCache-',true);
+		$candidates = $pool->getColumn('name');
+		if(!empty($candidates)) CacheControl::purgeItems($candidates);
 		$gCacheStorage->purge();
 	}
 	function flushCategory($categoryId = null) {
