@@ -98,7 +98,7 @@ class Skin {
 		$context = Model_Context::getInstance();
 
 		$this->cache = new pageCache;
-		$this->cache->reset('skinCache');
+		$this->cache->reset('skinCache-'.$name);
 		$__gDressTags = array();
 		if($previewMode == true || ($context->getProperty('service.skincache') != true) || !$this->loadCache()) {
 			$this->noneCommentMessage = Setting::getBlogSettingGlobal('noneCommentMessage',null);
