@@ -75,7 +75,7 @@ $baseLanguage = 'ko';
 if( !empty($_POST['Lang']) ) $baseLanguage = $_POST['Lang'];
 $locale = Locales::getInstance();
 $locale->setDomain('setup');
-if( $locale->setDirectory(ROOT.'/resource/locale/setup') ) $locale->set( $baseLanguage , "setup");
+if( $locale->setDirectory(ROOT.'/resources/locale/setup') ) $locale->set( $baseLanguage , "setup");
 
 if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0)) {
     header('HTTP/1.1 503 Service Unavailable');

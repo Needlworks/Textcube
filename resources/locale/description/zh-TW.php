@@ -1,6 +1,5 @@
 <?php // 正體中文
-/* contributed by Chieh (http://blog.chieh.tw)    */
-/* contributed by Hina (http://hina.ushiisland.net/blog/)    */
+/* contributed by Hina (http://blog.hinablue.me/)    */
 
 /* Timezones */
 $__text['Asia/Seoul'] = '韓國';
