@@ -33,7 +33,7 @@ if($urlFragments[0] == 'control' && Acl::check('group.creators')) {
 		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
 		array('menu'=>'network','title'=>_t('네트워크'),'link'=>'/owner/network/link'),
 		array('menu'=>'skin','title'=>_t('꾸미기'),'link'=>'/owner/skin'),
-		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),	
+		array('menu'=>'plugin','title'=>_t('플러그인'),'link'=>'/owner/plugin'),
 		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/blog')
 		);
 } else {
@@ -41,7 +41,7 @@ if($urlFragments[0] == 'control' && Acl::check('group.creators')) {
 		array('menu'=>'center','title'=>_t('센터'),'link'=>'/owner/center/dashboard'),
 		array('menu'=>'entry','title'=>_t('글'),'link'=>'/owner/entry'),
 		array('menu'=>'communication','title'=>_t('소통'),'link'=>'/owner/communication/comment'),
-		array('menu'=>'network','title'=>_t('네트워크'),'link'=>'/owner/network/link'),		
+		array('menu'=>'network','title'=>_t('네트워크'),'link'=>'/owner/network/link'),
 		array('menu'=>'setting','title'=>_t('설정'),'link'=>'/owner/setting/account')
 		);
 }
@@ -50,57 +50,48 @@ switch($blogMenu['topMenu']) {
 	case 'center':
 		$blogMenu['title'] = _t('센터');
 		$blogMenu['loadCSS'] = array('center');
-		$blogMenu['loadCSSIE6'] = array('center');
 		$blogMenu['loadCSSIE7'] = array('center');
 		break;
 	case 'entry':
 		$blogMenu['title'] = _t('글');
 		if ($blogMenu['contentMenu'] == 'post' || $blogMenu['contentMenu'] == 'edit') {
 			$blogMenu['loadCSS'] = array('post','editor');
-			$blogMenu['loadCSSIE6'] = array('post','editor');
 			$blogMenu['loadCSSIE7'] = array('post','editor');
 		} else {
 			$blogMenu['loadCSS'] = array('post');
-			$blogMenu['loadCSSIE6'] = array('post');
 			$blogMenu['loadCSSIE7'] = array('post');
 		}
-		
+
 		break;
 	case 'communication':
 		$blogMenu['title'] = _t('소통');
 		$blogMenu['loadCSS'] = array('communication');
-		$blogMenu['loadCSSIE6'] = array('communication');
 		$blogMenu['loadCSSIE7'] = array('communication');
 		break;
 	case 'network':
 		$blogMenu['title'] = _t('네트워크');
 		$blogMenu['loadCSS'] = array('network');
-		$blogMenu['loadCSSIE6'] = array('network');
 		$blogMenu['loadCSSIE7'] = array('network');
 		break;
 	case 'skin':
 		$blogMenu['title'] = _t('꾸미기');
 		$blogMenu['loadCSS'] = array('skin');
-		$blogMenu['loadCSSIE6'] = array('skin');
 		$blogMenu['loadCSSIE7'] = array('skin');
 		break;
 	case 'plugin':
 		$blogMenu['title'] = _t('플러그인');
 		$blogMenu['loadCSS'] = array('plugin');
-		$blogMenu['loadCSSIE6'] = array('plugin');
 		$blogMenu['loadCSSIE7'] = array('plugin');
 		break;
 	case 'setting':
 	case 'data':
 		$blogMenu['title'] = _t('설정');
 		$blogMenu['loadCSS'] = array('setting');
-		$blogMenu['loadCSSIE6'] = array('setting');
 		$blogMenu['loadCSSIE7'] = array('setting');
 		break;
 	case 'reader':
 		$blogMenu['title'] = _t('리더');
 		$blogMenu['loadCSS'] = array('reader');
-		$blogMenu['loadCSSIE6'] = array('reader');
 		$blogMenu['loadCSSIE7'] = array('reader');
 		break;
 	case 'control':
@@ -113,7 +104,6 @@ if(defined('__TEXTCUBE_READER_SUBMENU__') && $blogMenu['contentMenu'] == 'reader
 	$blogMenu['topMenu'] = 'network';
 	$blogMenu['title'] = _t('네트워크');
 	$blogMenu['loadCSS'] = array('reader');
-	$blogMenu['loadCSSIE6'] = array('reader');
 	$blogMenu['loadCSSIE7'] = array('reader');
 }
 // mapping data management to setting
@@ -192,14 +182,14 @@ if(isset($blogMenu['topMenu'])) {
 	}
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['network'] = array(
-			array('menu'=>'teamblog','title'=>_t('필진 목록'),'link'=>'/owner/network/teamblog'),			
+			array('menu'=>'teamblog','title'=>_t('필진 목록'),'link'=>'/owner/network/teamblog'),
 			array('menu'=>'link','title'=>_t('링크'),'link'=>'/owner/network/link')
 		);
 		if($service['reader'] == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
 	} else {
 		$blogContentMenuItem['network'] = array();
 		if($service['reader'] == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
-	}	
+	}
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['skin'] = array(
 			array('menu'=>'skin','title'=>_t('스킨 선택'),'link'=>'/owner/skin'),
@@ -246,11 +236,11 @@ if( empty($blogContentMenuItem) ) {
 }
 
 foreach($adminMenuMappings as $path => $pluginAdminMenuitem) {
-	if(isset($blogContentMenuItem[$pluginAdminMenuitem['topMenu']])) { 
-		if(count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) < $pluginAdminMenuitem['contentMenuOrder'] 
+	if(isset($blogContentMenuItem[$pluginAdminMenuitem['topMenu']])) {
+		if(count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]) < $pluginAdminMenuitem['contentMenuOrder']
 		  || $pluginAdminMenuitem['contentMenuOrder'] < 1)
 			$pluginAdminMenuitem['contentMenuOrder'] = count($blogContentMenuItem[$pluginAdminMenuitem['topMenu']]);
-		array_splice($blogContentMenuItem[$pluginAdminMenuitem['topMenu']], $pluginAdminMenuitem['contentMenuOrder'], 0, 
+		array_splice($blogContentMenuItem[$pluginAdminMenuitem['topMenu']], $pluginAdminMenuitem['contentMenuOrder'], 0,
 			array(array('menu'=>'adminMenu?name='.$path,
 			'title'=>$pluginAdminMenuitem['title'],
 			'link'=>'/owner/plugin/adminMenu?name='.$path))
@@ -296,27 +286,6 @@ foreach ($pluginListForCSS as $tempPluginDir) {
 	}
 }
 ?>
-	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie.css" />
-<?php
-// CSS for Internet Explorer 6
-if (array_key_exists('loadCSSIE6', $blogMenu)) {
-	foreach($blogMenu['loadCSSIE6'] as $loadCSS) {
-?>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/<?php echo $loadCSS;?>.ie.css" />
-<?php
-	}
-}
-
-foreach ($pluginListForCSS as $tempPluginDir) {
-	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie.css")) {
-?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie.css" />
-<?php
-	}
-}
-?>	
-	<![endif]-->
 	<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.ie7.css" />
 <?php
@@ -424,7 +393,7 @@ $helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuU
 		<div id="all-wrap">
 			<div id="layout-header">
 				<h1><?php echo _t('텍스트큐브 관리 페이지');?></h1>
-				
+
 				<div id="main-description-box">
 					<ul id="main-description">
 <?php
@@ -433,9 +402,9 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 						<li id="description-blogger"><span class="text"><?php echo _f('환영합니다. <em>%1</em>님.', htmlspecialchars($writer));?></span></li>
 					</ul>
 				</div>
-				
+
 				<hr class="hidden" />
-				
+
 				<div id="main-action-box">
 					<ul id="main-action">
 <?php if(Acl::check('group.creators')) { ?>
@@ -446,7 +415,7 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 						<li id="action-logout"><a href="<?php echo $blogURL;?>/logout" title="<?php echo _t('로그아웃하고 블로그 메인으로 이동합니다.');?>"><span class="text"><?php echo _t('로그아웃');?></span></a></li>
 					</ul>
 				</div>
-				
+
 				<hr class="hidden" />
 
 				<div id="main-blog-box">
@@ -462,19 +431,19 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				</div>
 
 				<hr class="hidden" />
-				
+
 				<h2><?php echo _t('메인메뉴');?></h2>
-				
+
 				<div id="main-menu-box">
 					<ul id="main-menu">
 						<li id="menu-textcube"><a href="<?php echo $blogURL.'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
-<?php //echo User::changeBlog();?>						
+<?php //echo User::changeBlog();?>
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
 						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>>
 							<a href="<?php echo $blogURL.$menuItem['link'];?>" class="menu-name"><span><?php echo $menuItem['title'];?></span><!--[if gte IE 7]><!--></a><!--<![endif]-->
-							<!--[if lte IE 6]><table><tr><td><![endif]-->							
+							<!--[if lte IE 6]><table><tr><td><![endif]-->
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
 	$firstChildClass = ' firstChild';
@@ -502,7 +471,7 @@ foreach($blogTopMenuItem as $menuItem) {
 	if(isset($_POST['status'])) {
 		if(($blogMenu['contentMenu'] == 'comment') && ($_POST['status'] == 'guestbook'))
 			$blogMenu['contentMenu'] = 'guestbook';
-		else if($blogMenu['contentMenu'] == 'trackback') 
+		else if($blogMenu['contentMenu'] == 'trackback')
 			$blogMenu['contentMenu'] = $blogMenu['contentMenu'].$_POST['status'];
 	} else if(in_array($blogMenu['contentMenu'],array('trashcomment','trashtrackback'))) {
 		$blogMenu['contentMenu'] = 'trash';
@@ -524,17 +493,17 @@ foreach($blogTopMenuItem as $menuItem) {
 								<li class="divider"><?php
 		} else {
 ?>
-								<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo 
-	((( $menuItem['menu'] == $blogMenu['topMenu'] && $blogMenu['contentMenu'] == $contentMenuItem['menu'])|| 
+								<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo
+	((( $menuItem['menu'] == $blogMenu['topMenu'] && $blogMenu['contentMenu'] == $contentMenuItem['menu'])||
 	(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 	($contentMenuItem['menu'] == 'add' && strpos($blogMenu['contentMenu'],'add') !== false) ||
 	($contentMenuItem['menu'] == 'blog' && strpos($blogMenu['contentMenu'],'blog') !== false && strpos($blogMenu['contentMenu'],'teamblog') === false) ||
 	($contentMenuItem['menu'] == 'user' && strpos($blogMenu['contentMenu'],'user') !== false) ||
-	($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? 
+	($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ?
 		" class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><?php
 		}
 		if($contentMenuItem['menu'] != 'divider') {
-?><a href="<?php 
+?><a href="<?php
 						echo $blogURL.
 							$contentMenuItem['link'].
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
@@ -556,7 +525,7 @@ foreach($blogTopMenuItem as $menuItem) {
 					</ul>
 				</div>
 			</div>
-			
+
 			<hr class="hidden" />
 <?php
 /********** Submenu part. ***********/
@@ -585,8 +554,8 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 			}
 		} else {
 			$PostIdStr = $contentMenuItem['menu'];
-			if(($blogMenu['contentMenu'] == $contentMenuItem['menu'] 
-				|| (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) 
+			if(($blogMenu['contentMenu'] == $contentMenuItem['menu']
+				|| (isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu']))
 				|| (in_array($contentMenuItem['menu'],array('blog','user')) && strpos($blogMenu['contentMenu'],'detail') !== false)
 				)) {
 				$submenuURL = $blogMenu['contentMenu'];
@@ -597,15 +566,15 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 						<li class="divider"><span class="divider"><?php echo $contentMenuItem['title'];?></span><?php
 		} else {
 ?>
-						<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo 
-						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] || 
+						<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo
+						(($blogMenu['contentMenu'] == $contentMenuItem['menu'] ||
 							(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 							($contentMenuItem['menu'] == 'add' && strpos($blogMenu['contentMenu'],'add') !== false) ||
 							($contentMenuItem['menu'] == 'blog' && strpos($blogMenu['contentMenu'],'blog') !== false && strpos($blogMenu['contentMenu'],'teamblog') === false) ||
 							($contentMenuItem['menu'] == 'user' && strpos($blogMenu['contentMenu'],'user') !== false) ||
 							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><?php
 			if($contentMenuItem['menu'] == 'divider') {?><span class="divider"><?php echo $contentMenuItem['title'];?></span><?php
-				} else {?><a href="<?php 
+				} else {?><a href="<?php
 						echo $blogURL.
 							$contentMenuItem['link'].
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
@@ -615,7 +584,7 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 <?php
 		$firstChildClass = null;
 	}
-	
+
 	$helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuURL : '');
 ?>
 					</ul>
@@ -626,7 +595,7 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 ?>
 				<hr class="hidden" />
-				
+
 				<div id="pseudo-box">
 					<div id="data-outbox">
 <?php
