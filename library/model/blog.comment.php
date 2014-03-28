@@ -743,6 +743,7 @@ function filterTrashComments($blogid,$id = null) {
 
 function moveCommentToTrash($blogid, $id) {
 	// TODO: implement 'copy' method to DBModel and rewrite.
+	$pool = DBModel::getInstance();	
 	$pool->reset('Comments');
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('id'    ,'eq',$id);
