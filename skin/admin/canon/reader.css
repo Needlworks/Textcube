@@ -42,7 +42,7 @@ h2
 {
 	background-color                 : #FFFFFF;
 	position                         : fixed;
-	top                              : 35px;
+	top                              : 30px;
 	z-index                          : 100;
 	width                            : auto;
 	right                            : 0;
@@ -254,6 +254,7 @@ h2
 	margin                           : 0 0 0 250px !important;
 	padding                          : 8px 0 8px 0 !important;
 	/*padding                          : 8px 0 8px 250px !important;*/
+
 }
 
 #groupsAndFeeds .data-inbox .section h3
@@ -839,9 +840,9 @@ ul#feedList li .edit-button span
 {
 	left                             : 0;
 	position                         : absolute;
-	z-index                          : 20;
+	z-index                          : 200;
 	width                            : 250px !important;
-	padding-bottom:100px;/**/
+	/*padding-bottom:0px;*/
 }
 
 #post-list .title
@@ -1079,8 +1080,7 @@ ul#feedList li .edit-button span
 	min-height                       : 620px;
 	margin                           : 0 6px 0 6px;
 	overflow                         : auto;
-	padding-top                      : 20px;
-	padding-bottom                   : 6px !important;
+	padding-top                      : 100px !important;
 	width                            : auto !important;
 }
 

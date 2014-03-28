@@ -211,8 +211,7 @@ table.data-inbox tbody tr td.ip
 
 #part-post-list table.data-inbox tbody tr td.category a.uncategorized,
 #part-post-list table.data-inbox tbody tr.keyword-line td.category a,
-#part-post-list table.data-inbox tbody tr.notice-line td.category a,
-#part-post-list table.data-inbox tbody tr.page-line td.category a
+#part-post-list table.data-inbox tbody tr.notice-line td.category a
 {
 	color                            : #BCBCBC;
 }
@@ -501,8 +500,7 @@ table.data-inbox tbody tr td.ip
 	float                            : left;
 }
 
-#tag-panel span.notice,
-#tag-panel span.page
+#tag-panel span.notice
 {
 	margin-top                       : 100px;
 	text-align                       : center;
