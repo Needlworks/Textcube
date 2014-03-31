@@ -64,5 +64,6 @@ $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
 $service['forceinstall'] = false;
-//$service['adminskin'] = 'whitedream'; 
+$service['useSSL'] = false;
+//$service['adminskin'] = 'whitedream';
 ?>
