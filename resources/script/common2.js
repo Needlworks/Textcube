@@ -767,7 +767,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 }
 
 function writeCode(str, id) {
-	str = str.replace('src="', 'src="http://' + document.domain + ((document.location.port)? ':'+document.location.port : ''));
+	str = str.replace('src="', 'src="' + ('https:' == document.location.protocol ? 'https://' : 'http://') + document.domain + ((document.location.port)? ':'+document.location.port : ''));
 	if(id == undefined) document.write(str);
 	else document.getElementById(id).innerHTML = str;
 }
