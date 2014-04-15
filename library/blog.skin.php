@@ -134,10 +134,11 @@ class Skin {
 			$sval = str_replace('<s_t3>','',$sval);	// Prune s_t3. For Skin compatibility with < Textcube 1.7
 			$sval = str_replace('</s_t3>','',$sval);
 
-			// Static patch. (To increase speed)
+			// NatureSkin support
 			if ($context->getProperty('service.useNatureSkinFormat') == true) {
 				$sval = Model_NatureSkin::convert($sval,'global');
 			}
+			// Static patch. (To increase speed)
 			dressStaticElements($sval);
 
 			// 사이드바 작업.
