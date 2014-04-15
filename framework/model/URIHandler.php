@@ -186,8 +186,6 @@ final class Model_URIHandler extends Singleton
 		} else if (defined('__TEXTCUBE_IPHONE__')) {
 			$this->uri['blog'] .= '/i';
 			$_SESSION['mode'] = 'mobile';
-		} else {
-			$_SESSION['mode'] = 'desktop';
 		}
 		$this->blog = $blog;
 		$this->skin = $skinSetting;
