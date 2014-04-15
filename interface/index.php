@@ -50,8 +50,8 @@ require ROOT . '/library/preprocessor.php';
 // Redirect for ipod touch / iPhone
 $browserUtil = Utils_Browser::getInstance();
 $context = Model_Context::getInstance();
-if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true) 
-		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop') 
+if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true)
+		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop')
 		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['mode'],array('desktop')))) {
 	if(isset($suri['id'])) {
 		if($context->getProperty('blog.useSloganOnPost',true) == true) {
@@ -85,7 +85,7 @@ if(empty($suri['id'])) {  // Without id.
 	$skin = new Skin($skinSetting['skin']);
 	$frontpage = Setting::getBlogSettingGlobal('frontpage','entry');
 	if (empty($suri['value']) && $suri["directive"] == "/" && ($frontpage != 'entry')) {
-		if($frontpage == 'cover' && isset($skin->cover)	&& count($coverpageMappings) > 0) {		
+		if($frontpage == 'cover' && isset($skin->cover)	&& count($coverpageMappings) > 0) {
 			define('__TEXTCUBE_COVER__',true);
 			require ROOT . '/interface/common/blog/begin.php';
 			dress('article_rep', '', $view);
@@ -121,7 +121,7 @@ if(empty($suri['id'])) {  // Without id.
 	} else { // Just normal entry view
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id']);
 	}
-	
+
 	if (isset($_POST['partial'])) { // Partial output.
 		header('Content-Type: text/plain; charset=utf-8');
 		$skin = new Skin($skinSetting['skin']);
@@ -134,10 +134,10 @@ if(empty($suri['id'])) {  // Without id.
 		require ROOT . '/interface/common/blog/begin.php';
 		if (empty($entries)) {
 			header('HTTP/1.1 404 Not Found');
-			if (empty($skin->pageError)) { 
+			if (empty($skin->pageError)) {
 				dress('article_rep', '<div class="TCwarning">' . _text('존재하지 않는 페이지입니다.') . '</div>', $view);
 			} else{
-				dress('article_rep', NULL, $view); 
+				dress('article_rep', NULL, $view);
 				dress('page_error', $skin->pageError, $view);
 			}
 			unset($paging);
