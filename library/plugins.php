@@ -37,15 +37,19 @@ if (getBlogId()) {
 	$pageCache->load();
 	
 	$pluginSettings = $pageCache->contents;	
+	$context = Model_Context::getInstance();
 
 	$storageList = array('activePlugins','eventMappings','tagMappings',
-		'sidebarMappings','coverpageMappings','centerMappings',//'storageMappings','storageKeymappings',
+		'coverpageMappings','centerMappings',//'storageMappings','storageKeymappings',
 		'adminMenuMappings','adminHandlerMappings','configMappings','editorMappings','formatterMappings',
-		'editorCount','formatterCount');
+		'editorCount','formatterCount','sidebarMappings');
 
 	$p = array();
 	if(!empty($pluginSettings)) {
 		$p = unserialize($pluginSettings);
+		if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
+			array_pop($storageList);
+		}
 		foreach ($storageList as $s) {
 			${$s} = $p[$s];	
 		}
@@ -166,7 +170,7 @@ if (getBlogId()) {
 								unset($title);
 								unset($center);
 							}
-							if ($xmls->doesExist('/plugin/binding/sidebar')) {
+							if ($context->getProperty('blog.displaymode','desktop')!='mobile' && $xmls->doesExist('/plugin/binding/sidebar')) {
 								$title = htmlspecialchars($xmls->getValue('/plugin/title[lang()]'));
 								foreach ($xmls->selectNodes('/plugin/binding/sidebar') as $sidebar) {
 									if (!empty($sidebar['.attributes']['handler'])) {
