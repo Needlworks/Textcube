@@ -24,8 +24,8 @@ function printHtmlFooter() {
 function dress($tag, $value, & $contents, $useCache = false, $forcePatch = false) {
 	global $__gDressTags;
 	if($useCache == true) {
-		if(strpos($tag, 'sidebar_') !== false || 
-			strpos($tag, 'coverpage_') !== false ||	
+		if(strpos($tag, 'sidebar_') !== false ||
+			strpos($tag, 'coverpage_') !== false ||
 			in_array($tag, $__gDressTags) ) {
 			$contents = str_replace("[##_{$tag}_##]", $value, $contents);
 			return true;
@@ -46,8 +46,8 @@ function dress($tag, $value, & $contents, $useCache = false, $forcePatch = false
 function dressInsertBefore($tag, $value, & $contents, $useCache = false, $forcePatch = false) {
 	global $__gDressTags;
 	if($useCache == true) {
-		if(strpos($tag, 'sidebar_') !== false || 
-			strpos($tag, 'coverpage_') !== false ||	
+		if(strpos($tag, 'sidebar_') !== false ||
+			strpos($tag, 'coverpage_') !== false ||
 			in_array($tag, $__gDressTags) ) {
 			$tempContents = preg_split("@\\[##_{$tag}_##\\]@iU", $contents, 2);
 			$contents = $tempContents[0].$value.'[##_'.$tag.'_##]'.$tempContents[1];
@@ -162,7 +162,7 @@ function getLowerView() {
 function getScriptsOnFoot() {
 	$context = Model_Context::getInstance();
 	ob_start();
-	if(($context->getProperty('service.reader') != false) && (gmmktime() - Setting::getServiceSetting('lastFeedUpdate',0) > 180)) {	
+	if(($context->getProperty('service.reader') != false) && (gmmktime() - Setting::getServiceSetting('lastFeedUpdate',0) > 180)) {
 ?>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -204,10 +204,10 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
 		$trackbacksContainer = '';
 	}
 
-	if ($ctx->getProperty('skin.expandTrackback') == 1 || 
-			(($ctx->getProperty('suri.url') != $ctx->getProperty('uri.blog').'/index.php' && 
-			  $ctx->getProperty('suri.url') != $ctx->getProperty('service.path').'/index.php') && 
-			 ($ctx->getProperty('suri.directive') == '/' || 
+	if ($ctx->getProperty('skin.expandTrackback') == 1 ||
+			(($ctx->getProperty('suri.url') != $ctx->getProperty('uri.blog').'/index.php' &&
+			  $ctx->getProperty('suri.url') != $ctx->getProperty('service.path').'/index.php') &&
+			 ($ctx->getProperty('suri.directive') == '/' ||
 				 $ctx->getProperty('suri.directive') == '/entry') && $ctx->getProperty('suri.value') != '')) {
 		$style = 'block';
 	} else {
@@ -286,7 +286,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			if($useAjaxBlock) {
 				list($comments, $paging) = getCommentsWithPagingByEntryId($blogid, $entry['id'], $page, $count,'loadComment','('.$entry['id'].',',',true,true);return false;',null, $context->getProperty('skin.sortCommentsBy','ASC'));
 			} else {
-				$comments = getComments($entry['id'],$context->getProperty('skin.sortCommentsBy','ASC'));	
+				$comments = getComments($entry['id'],$context->getProperty('skin.sortCommentsBy','ASC'));
 			}
 		}
 		if(empty($skin->dressCommentBlock)) {
@@ -306,10 +306,10 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			$subComments = getCommentComments($commentItem['id'],$commentItem);
 			foreach ($subComments as $commentSubItem) {
 				$commentSubItemView = ($isComment ? $skin->commentSubItem : $skin->guestSubItem);
-				
+
 				$commentSubItem['name'] = htmlspecialchars($commentSubItem['name']);
 				$commentSubItem['comment'] = htmlspecialchars($commentSubItem['comment']);
-				
+
 				$rp_class = $prefix1 . '_general';
 				if ($blogid == $commentSubItem['replier'])
 					$rp_class = $prefix1 . '_admin';
@@ -323,11 +323,11 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 					}
 				}
 				dress($prefix1 . '_rep_class', $rp_class, $commentSubItemView);
-	
+
 				if (dress($prefix1 . '_rep_id',($entry['id'] == 0 ? 'guestbook' : 'comment') . $commentSubItem['id'], $commentSubItemView) == false) {
 					$commentSubItemView = "<a id=\"comment{$commentSubItem['id']}\"></a>" . $commentSubItemView;
 				}
-				if (empty($commentSubItem['homepage']) || 
+				if (empty($commentSubItem['homepage']) ||
 					(($commentSubItem['secret'] == 1) && !doesHaveOwnership())) {
 					dress($prefix1 . '_rep_name', fireEvent(($isComment ? 'ViewCommenter' : 'ViewGuestCommenter'), "<span $fn_nickname>".$commentSubItem['name']."</span>", $commentSubItem), $commentSubItemView);
 				} else {
@@ -338,7 +338,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 				dress($prefix1 . '_rep_date', fireEvent(($isComment ? 'ViewCommentDate' : 'ViewGuestCommentDate'), Timestamp::format5($commentSubItem['written']), $commentSubItem['written']), $commentSubItemView);
 				dress($prefix1 . '_rep_link',$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentSubItem['id']}" : ($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."#comment{$commentSubItem['id']}"), $commentSubItemView);
 				dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentSubItem['id']}); return false;", $commentSubItemView);
-				
+
 				$commentSubItemsView .= $commentSubItemView;
 			}
 			$commentSubContainer = ($isComment ? $skin->commentSubContainer : $skin->guestSubContainer);
@@ -346,10 +346,10 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			if (count($subComments) > 0) {
 				dress(($isComment ? 'rp2_container' : 'guest_reply_container'), $commentSubContainer, $commentItemView);
 			}
-			
+
 			$commentItem['name'] = htmlspecialchars($commentItem['name']);
 			$commentItem['comment'] = htmlspecialchars($commentItem['comment']);
-			
+
 			$rp_class = $prefix1 . '_general';
 			if ($blogid == $commentItem['replier'])
 				$rp_class = $prefix1 . '_admin';
@@ -383,9 +383,9 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			dress($prefix1 . '_rep_onclick_reply', $doubleCommentPermissionScript . "commentComment({$commentItem['id']}); return false", $commentItemView);
 			dress($prefix1 . '_rep_onclick_delete', "deleteComment({$commentItem['id']});return false", $commentItemView);
 			dress($prefix1 . '_rep_link',
-				$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" : 
+				$context->getProperty('uri.blog')."/".($entry['id'] == 0 ? "guestbook/{$commentItem['id']}#guestbook{$commentItem['id']}" :
 				($context->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL')) : $entry['id'])."?commentId=".$commentItem['id']."#comment{$commentItem['id']}"), $commentItemView);
-			
+
 			$commentItemsView .= $commentItemView;
 		}
 		/// Merging comments with its paging links.
@@ -395,7 +395,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			if($isComment && $useAjaxBlock) {
 				$pagingView = Paging::getPagingView($paging, $skin->paging, $skin->pagingItem, false, 'onclick');
 			} else $pagingView = '';
-			dress($prefix1 . '_container', "<div id=\"entry".$entry['id']."CommentList\">".$commentContainer.$pagingView."</div>", $commentView);		
+			dress($prefix1 . '_container', "<div id=\"entry".$entry['id']."CommentList\">".$commentContainer.$pagingView."</div>", $commentView);
 		}
 	} else {
 		dress($prefix1 . '_container', '', $commentView);
@@ -427,7 +427,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 				$useForm = true;
 			}
 		}
-	
+
 		$default_guestname = '';
 		$default_homepage = '';
 		if (doesHaveOwnership() || ($isComment && $acceptcomment == 1 && Setting::getBlogSettingGlobal('acceptComments',1)) || ($isComment == false) || ($useForm == false)) {
@@ -463,7 +463,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			}
 			dress($prefix1 . '_input_is_secret', 'secret', $commentMemberView);
 			dress($prefix1 . '_member', $commentMemberView, $commentView);
-	
+
 			dress($prefix1 . '_input_comment', 'comment', $commentView);
 			dress($prefix1 . '_onclick_submit', "addComment(this, {$entry['id']}); return false;", $commentView);
 			dress($prefix1 . '_textarea_body', 'comment', $commentView);
@@ -471,7 +471,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 		} else if ($useForm == true) {
 			$commentView = '';
 		}
-	
+
 		if ($useForm == true) {
 			dress($prefix1 . '_input_form', "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"".$context->getProperty('uri.blog')."/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>', $commentRrevView);
 			$commentView = $commentRrevView;
@@ -479,7 +479,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			$commentView = "<form id=\"entry".$entry['id']."WriteComment\" method=\"post\" action=\"".$context->getProperty('uri.blog')."/comment/add/{$entry['id']}\" onsubmit=\"return false\" style=\"margin: 0\">" . $commentView . '</form>';
 		}
 	} else {
-		dress($prefix1 . '_input_form', "", $commentView);		
+		dress($prefix1 . '_input_form', "", $commentView);
 	}
 	/// Adding feed links.
 	dress('article_rep_rp_atomurl', $context->getProperty('uri.default').'/atom/comment/'.$entry['id'], $commentView);
@@ -501,13 +501,13 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 		if(doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {
 			foreach ($category1['children'] as $category2) {
 				if( doesHaveOwnership() || getCategoryVisibility($blogid, $category2['id']) > 1) {
-					array_push($children, 
-						array('id' => $category2['id'], 
-							'label' => $category2['name'], 
-							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']), 
-							'link' => $ctx->getProperty('uri.blog')."/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']), 
-							'rsslink' => $ctx->getProperty('uri.blog')."/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']), 
-							'atomlink' => $ctx->getProperty('uri.blog')."/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']), 
+					array_push($children,
+						array('id' => $category2['id'],
+							'label' => $category2['name'],
+							'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']),
+							'link' => $ctx->getProperty('uri.blog')."/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']),
+							'rsslink' => $ctx->getProperty('uri.blog')."/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']),
+							'atomlink' => $ctx->getProperty('uri.blog')."/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'],$ctx->getProperty('service.useEncodedURL')) : $category2['id']),
 							'children' => array()
 						)
 					);
@@ -517,13 +517,13 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 			}
 			$parentCategoryCount = (doesHaveOwnership() ? $category1['entriesinlogin'] - $categoryCountAll : $category1['entries'] - $categoryCountAll);
 			if($category1['id'] != 0) {
-				array_push($tree['children'], 
-					array('id' => $category1['id'], 
-						'label' => $category1['name'], 
-						'value' => $categoryCount + $parentCategoryCount, 
-						'link' => $ctx->getProperty('uri.blog')."/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']), 
-						'rsslink' => $ctx->getProperty('uri.blog')."/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']), 
-						'atomlink' => $ctx->getProperty('uri.blog')."/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']), 
+				array_push($tree['children'],
+					array('id' => $category1['id'],
+						'label' => $category1['name'],
+						'value' => $categoryCount + $parentCategoryCount,
+						'link' => $ctx->getProperty('uri.blog')."/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']),
+						'rsslink' => $ctx->getProperty('uri.blog')."/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']),
+						'atomlink' => $ctx->getProperty('uri.blog')."/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'],$ctx->getProperty('service.useEncodedURL')) : $category1['id']),
 						'children' => $children)
 				);
 			}
@@ -599,7 +599,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 	if ($xhtml) {
 		echo '<ul>'.CRLF;
 		$isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
-		
+
 		echo "<li$isSelected>".CRLF;
 		if ($ctx->getProperty('blog.useFeedViewOnCategory'))
 			echo ' <a href="'.$ctx->getProperty('uri.default').'/atom" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
@@ -607,17 +607,16 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 		if ($skin['showValue'])
 			echo " <span class=\"c_cnt\">({$tree['value']})</span>";
 		echo "</a>".CRLF;
-		if (sizeof($tree['children']) > 0)
+		if (sizeof($tree['children']) > 0) {
 			echo '<ul>'.CRLF;
 		foreach($tree['children'] as $child) {
-			
 			$classNames = array();
 			if ($child['id'] === $selected)
 				array_push($classNames, 'selected');
 			if ($child == end($tree['children']))
 				array_push($classNames, 'lastChild');
 			$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
-			
+
 			echo "<li$isSelected>".CRLF;
 			if ($ctx->getProperty('blog.useFeedViewOnCategory'))
 				echo ' <a href="'.$child['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
@@ -625,32 +624,32 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			if ($skin['showValue'])
 				echo " <span class=\"c_cnt\">({$child['value']})</span>";
 			echo "</a>".CRLF;
-			
-			if (sizeof($child['children']) > 0)
+
+			if (sizeof($child['children']) > 0) {
 				echo '<ul>'.CRLF;
-			foreach($child['children'] as $leaf) {
-				$classNames = array();
-				if ($leaf['id'] === $selected)
-					array_push($classNames, 'selected');
-				if ($leaf == end($child['children']))
-					array_push($classNames, 'lastChild');
-				$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
-				
-				echo "<li$isSelected>".CRLF;
-				if ($ctx->getProperty('blog.useFeedViewOnCategory'))
-					echo '<a href="'.$leaf['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
-				echo "<a href=\"", htmlspecialchars($leaf['link']), '" class="categoryItem">', htmlspecialchars($leaf['label']);
-				if ($skin['showValue'])
-					echo " <span class=\"c_cnt\">({$leaf['value']})</span>";
-				echo "</a>".CRLF;
-				echo "</li>".CRLF;
+				foreach($child['children'] as $leaf) {
+					$classNames = array();
+					if ($child['id'] === $selected)
+						array_push($classNames, 'selected');
+					if ($child == end($tree['children']))
+						array_push($classNames, 'lastChild');
+						$isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
+
+						echo "<li$isSelected>".CRLF;
+						if ($ctx->getProperty('blog.useFeedViewOnCategory'))
+							echo '<a href="'.$leaf['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
+						echo "<a href=\"", htmlspecialchars($leaf['link']), '" class="categoryItem">', htmlspecialchars($leaf['label']);
+						if ($skin['showValue'])
+							echo " <span class=\"c_cnt\">({$child['value']})</span>";
+						echo "</a>".CRLF;
+						echo "</li>".CRLF;
+					}
+					echo '</ul>'.CRLF;
+				}
+				echo '</li>'.CRLF;
 			}
-			if (sizeof($child['children']) > 0)
-				echo '</ul>'.CRLF;
-			echo '</li>'.CRLF;
-		}
-		if (sizeof($tree['children']) > 0)
 			echo "</ul>".CRLF;
+		}
 		echo '</li>'.CRLF.'</ul>'.CRLF;
 		return;
 	}
@@ -1016,7 +1015,7 @@ function getAuthorListView($authorInfo, $template) {
 	}
 	$view = ob_get_contents();
 	ob_end_clean();
-	
+
 	return $view;
 }
 
@@ -1054,7 +1053,7 @@ function getRecentItemsView($entries, $entryView, $entryItemView, $type = 'Notic
 		dress('rct_'.$prefix.'_rep', $itemsView, $entryView);
 		// IE webslice support
 		if($ctx->getProperty('blog.useMicroformat',3) == 3) {
-			$entryView = addWebSlice($entryView, 'recent'.$type.'Webslice', htmlspecialchars($ctx->getProperty('blog.title'))); 
+			$entryView = addWebSlice($entryView, 'recent'.$type.'Webslice', htmlspecialchars($ctx->getProperty('blog.title')));
 		}
 	}
 	return $entryView;
@@ -1085,7 +1084,7 @@ function getRecentEntriesView($entries, $entriesView = null, $template = null) {
 		dress('rctps_rep',$recentEntriesView, $entriesView);
 		// IE webslice support
 		if($ctx->getProperty('blog.useMicroformat',3) == 3) {
-			$recentEntriesView = addWebSlice($entriesView, 'recentEntriesWebslice', htmlspecialchars($ctx->getProperty('blog.title').' - '._t('최근 글'))); 
+			$recentEntriesView = addWebSlice($entriesView, 'recentEntriesWebslice', htmlspecialchars($ctx->getProperty('blog.title').' - '._t('최근 글')));
 		} else return $entriesView;
 	}
 	return $recentEntriesView;
@@ -1112,7 +1111,7 @@ function getRecentCommentsView($comments, $commentView = null, $template = null)
 		dress('rctrp_rep',$recentCommentView, $commentView);
 		// IE webslice support
 		if($ctx->getProperty('blog.useMicroformat',3) == 3) {
-			$recentCommentView = addWebSlice($commentView, 'recentCommentWebslice', htmlspecialchars($ctx->getProperty('blog.title').' - '._t('최근 댓글'))); 
+			$recentCommentView = addWebSlice($commentView, 'recentCommentWebslice', htmlspecialchars($ctx->getProperty('blog.title').' - '._t('최근 댓글')));
 		} else return $commentView;
 	}
 	return $recentCommentView;
@@ -1128,7 +1127,7 @@ function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template =
 	foreach ($trackbacks as $trackback) {
 		$view = "$template";
 		dress('rcttb_rep_link', $ctx->getProperty('uri.blog')."/".($ctx->getProperty('blog.useSloganOnPost') ? "entry/".URL::encode($trackback['slogan'],$ctx->getProperty('service.useEncodedURL')) : $trackback['entry'])."#trackback{$trackback['id']}", $view);
-		
+
 		dress('rcttb_rep_desc', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['subject'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
 		dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
 		dress('rcttb_rep_name', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['site'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
@@ -1138,7 +1137,7 @@ function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template =
 		dress('rcttb_rep',$recentTrackbackView, $trackbackView);
 		// IE webslice support
 		if($ctx->getProperty('blog.useMicroformat',3) == 3) {
-			$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($ctx->getProperty('blog.title').' - '._t('최근 트랙백'))); 
+			$recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($ctx->getProperty('blog.title').' - '._t('최근 트랙백')));
 		} else return $trackbackView;
 	}
 	return $recentTrackbackView;
@@ -1236,7 +1235,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
-	
+
 	$cacheKey = 'entry-'.$id.'-'.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').(defined('__TEXTCUBE_MOBILE__') ? 'mobile' : '');
 	$cache = pageCache::getInstance();
 	$cache->reset($cacheKey);
@@ -1253,13 +1252,13 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 
 		if (!empty($keywords) && is_array($keywords)) $view = bindKeywords($keywords, $view);
 
-		
+
 		// image resampling
 		if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
 			preg_match_all("@<img.+src=['\"](.+)['\"](.*)/?>@Usi", $view, $images, PREG_SET_ORDER);
 			$view = preg_replace("@<img.+src=['\"].+['\"].*/?>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
 			$contentWidth = Misc::getContentWidth();
-			
+
 			if (count($images) > 0) {
 				for ($i=0; $i<count($images); $i++) {
 					if (strtolower(Misc::getFileExtension($images[$i][1])) == 'gif') {
@@ -1283,7 +1282,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 							$image = Utils_Image::getInstance();
 							list($tempImageURL, $tempImageWidth, $tempImageHeight, $tempImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
 							$newImage = "<img src=\"{$tempImageURL}\" width=\"{$tempImageWidth}\" height=\"{$tempImageHeight}\"{$attributes}/>";
-						}	
+						}
 					}
 					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
 				}
@@ -1292,7 +1291,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$cache->contents = $view;
 		$cache->update();
 	}
-	$cache->reset();	
+	$cache->reset();
 	$view = fireEvent('View' . $type . 'Content', $view, $id);
 	return $view;
 }
@@ -1650,10 +1649,10 @@ function addOpenIDPannel( $comment, $prefix ) {
 	}
 	if( $openidOnlySettingNotice || $openid_identity ) {
 		$checked1 = 'checked="checked"'; $checked2 = '';
-		$disabled1 = ''; $disabled2 = 'disabled="disabled"'; 
+		$disabled1 = ''; $disabled2 = 'disabled="disabled"';
 	} else {
 		$checked1 = ''; $checked2 = 'checked="checked"';
-		$disabled1 = 'disabled="disabled"'; $disabled2 = ''; 
+		$disabled1 = 'disabled="disabled"'; $disabled2 = '';
 	}
 
 	$pannel_style = "style=\"width:100%; text-align:left\"";
