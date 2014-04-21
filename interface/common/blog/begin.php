@@ -46,9 +46,10 @@ if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile(
 if($context->getProperty('blog.useBlogIconAsIphoneShortcut') == true && file_exists(__TEXTCUBE_ATTACH_DIR__."/".$context->getProperty('blog.id')."/index.gif")) {
 	dress('SKIN_head_end', '<link rel="apple-touch-icon" href="'.$context->getProperty('uri.default')."/index.gif".'" />'."[##_SKIN_head_end_##]",$view);
 }
-
 if (defined('__TEXTCUBE_COVER__')) {
 	dress('body_id',"tt-body-cover",$view);
+} else if ($context->getProperty('suri.directive') == '/line') {
+	dress('body_id',"tt-body-line",$view);
 } else if (!empty($category)) {
 	dress('body_id',getCategoryBodyIdById($blogid,$category) ? getCategoryBodyIdById($blogid,$category) : 'tt-body-category',$view);
 } else if (!empty($search)) {
