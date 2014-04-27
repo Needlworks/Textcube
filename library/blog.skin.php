@@ -196,10 +196,10 @@ class Skin {
 
 			$sval = str_replace('./', str_replace(ROOT, $serviceURL,__TEXTCUBE_SKIN_DIR__)."/$name/", $sval);
 
-			$this->noneCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneCommentMessage);
-			$this->singleCommentMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleCommentMessage);
-			$this->noneTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->noneTrackbackMessage);
-			$this->singleTrackbackMessage = str_replace('./', "{$serviceURL}/skin/blog/$name/", $this->singleTrackbackMessage);
+			$this->noneCommentMessage = str_replace('./', str_replace(ROOT, $serviceURL,__TEXTCUBE_SKIN_DIR__)."/$name/", $this->noneCommentMessage);
+			$this->singleCommentMessage = str_replace('./', str_replace(ROOT, $serviceURL,__TEXTCUBE_SKIN_DIR__)."/$name/", $this->singleCommentMessage);
+			$this->noneTrackbackMessage = str_replace('./', str_replace(ROOT, $serviceURL,__TEXTCUBE_SKIN_DIR__)."/$name/", $this->noneTrackbackMessage);
+			$this->singleTrackbackMessage = str_replace('./', str_replace(ROOT, $serviceURL,__TEXTCUBE_SKIN_DIR__)."/$name/", $this->singleTrackbackMessage);
 
 			// Store skin tags.
 			$__gDressTags = $this->getDressTags($sval);
