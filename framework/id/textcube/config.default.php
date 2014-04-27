@@ -7,7 +7,7 @@
 define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION_ID', '1.10');
 define('TEXTCUBE_REVISION', 'root-main-branch1.10');
-define('TEXTCUBE_CODENAME', 'SPROUT');
+define('TEXTCUBE_CODENAME', 'beta 1');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2014. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
@@ -64,5 +64,5 @@ $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
 $service['forceinstall'] = false;
-//$service['adminskin'] = 'whitedream'; 
+//$service['adminskin'] = 'whitedream';
 ?>
