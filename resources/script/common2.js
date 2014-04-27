@@ -596,7 +596,6 @@ function openFullScreen(content,caption,root) {
 	<title>'+caption+' - iMazing</title>\
 	<script type="text/javascript" src="'+root+'/resources/script/common2.js"></script>\
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
 	<style>\
 		body {\
 			margin:0px;	\
@@ -768,7 +767,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 }
 
 function writeCode(str, id) {
-	str = str.replace('src="', 'src="http://' + document.domain + ((document.location.port)? ':'+document.location.port : ''));
+	str = str.replace('src="', 'src="' + ('https:' == document.location.protocol ? 'https://' : 'http://') + document.domain + ((document.location.port)? ':'+document.location.port : ''));
 	if(id == undefined) document.write(str);
 	else document.getElementById(id).innerHTML = str;
 }

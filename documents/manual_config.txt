@@ -53,4 +53,6 @@ $service['memcached'] = false;       // Using memcache to handle session and cac
 $memcached['server'] = 'localhost';  // Where memcache server is.
 // From Textcube 1.8.4
 $service['requirelogin'] = false;    // Force log-in process to every blogs. (for private blog service)
+// From Textcube 1.9.3
+$service['useSSL'] = false;			// Use SSL connection. Every http:// will be replaced with https://
 ?>

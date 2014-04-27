@@ -11,7 +11,7 @@ define('TEXTCUBE_CODENAME', 'beta 1');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2014. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
-define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.9.2');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.9.3');
 define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 define('CRLF', "\r\n");
 define('TAB', "	");
@@ -64,5 +64,9 @@ $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
 $service['forceinstall'] = false;
+<<<<<<< HEAD
+=======
+$service['useSSL'] = false;
+>>>>>>> 1.9
 //$service['adminskin'] = 'whitedream';
 ?>
