@@ -68,5 +68,9 @@ $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
 $service['forceinstall'] = false;
+<<<<<<< HEAD
 $service['jqueryURL'] = null;	// You can change this to use external CDNs. (microsoft / google, etc..)
+=======
+//$service['adminskin'] = 'whitedream';
+>>>>>>> 65a6761...  refs #1544 : periwinkle skin based on persona
 ?>

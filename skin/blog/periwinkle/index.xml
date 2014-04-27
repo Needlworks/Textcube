@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin version="2.0">
+	<information>
+		<name>Periwinkle</name>
+		<version>0.12</version>
+		<description>
+			<![CDATA[Textcube Skin with Bootstrp.
+			Persona skin designed by inuereyes, 
+			Periwinkle skin edited by LonnieNa
+			]]>
+		</description>
+		<license>
+			<![CDATA[GPL v2]]>
+		</license>
+	</information>
+	<author>
+		<name>LonnieNa</name>
+		<homepage>http://blog.2pink.net</homepage>
+		<email>rurunana@gmail.com</email>
+	</author> 
+	<default>
+		<recentEntries>5</recentEntries>
+		<recentComments>5</recentComments>
+		<recentTrackbacks>5</recentTrackbacks>
+		<itemsOnGuestbook>6</itemsOnGuestbook>
+		<tagsInCloud>20</tagsInCloud>
+		<sortInCloud>3</sortInCloud>
+		<expandComment>0</expandComment>
+		<expandTrackback>0</expandTrackback>
+		<lengthOfRecentNotice>35</lengthOfRecentNotice>
+		<lengthOfRecentEntry>35</lengthOfRecentEntry>
+		<lengthOfRecentComment>35</lengthOfRecentComment>
+		<lengthOfRecentTrackback>35</lengthOfRecentTrackback>
+		<lengthOfLink>30</lengthOfLink>
+		<showListOnCategory>1</showListOnCategory>
+		<showListOnArchive>1</showListOnArchive>
+		<commentMessage>
+			<none>No Comment</none>
+			<single>a comment</single>
+		</commentMessage>
+		<trackbackMessage>
+			<none>No Trackback</none>
+			<single>A trackback</single>
+		</trackbackMessage>
+		<contentWidth>650</contentWidth>
+	</default>
+</skin>
