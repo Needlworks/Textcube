@@ -48,25 +48,7 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') {
 require ROOT . '/library/preprocessor.php';
 
 // Redirect for ipod touch / iPhone
-$browserUtil = Utils_Browser::getInstance();
 $context = Model_Context::getInstance();
-if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true)
-		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop')
-		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['mode'],array('desktop')))) {
-	if(isset($suri['id'])) {
-		if($context->getProperty('blog.useSloganOnPost',true) == true) {
-			$slogan = getSloganById($blogid, $suri['id']);
-			if(!empty($slogan)) {
-				header("Location: ".$context->getProperty('uri.blog')."/i/entry/".URL::encode($slogan)); exit;
-			}
-		} else {
-			header("Location: ".$context->getProperty('uri.blog')."/i/entry/".$suri['id']); exit;
-		}
-	} else {
-		header("Location: ".$context->getProperty('uri.blog')."/i"); exit;
-	}
-}
-$_SESSION['mode'] = 'desktop';
 publishEntries();
 
 if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifier.
@@ -78,11 +60,9 @@ if (!empty($_POST['mode']) && $_POST['mode'] == 'fb') { // Treat comment notifie
 } else {
 	notifyComment();
 }
-
 fireEvent('OBStart');
-
 if(empty($suri['id'])) {  // Without id.
-	$skin = new Skin($skinSetting['skin']);
+	$skin = new Skin($context->getProperty('skin.skin'));
 	$frontpage = Setting::getBlogSettingGlobal('frontpage','entry');
 	if (empty($suri['value']) && $suri["directive"] == "/" && ($frontpage != 'entry')) {
 		if($frontpage == 'cover' && isset($skin->cover)	&& count($coverpageMappings) > 0) {
@@ -124,7 +104,7 @@ if(empty($suri['id'])) {  // Without id.
 
 	if (isset($_POST['partial'])) { // Partial output.
 		header('Content-Type: text/plain; charset=utf-8');
-		$skin = new Skin($skinSetting['skin']);
+		$skin = new Skin($context->getProperty('skin.skin'));
 		$view = '[##_article_rep_##]';
 		require ROOT . '/interface/common/blog/entries.php';
 		$view = removeAllTags($view);

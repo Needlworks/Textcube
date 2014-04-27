@@ -6,24 +6,13 @@ $IV = array(
 		'GET' => array(
 			'category' => array('int',0,'mandatory'=>false),
 			'page' => array('int', 1, 'default' => 1),
-			'mode' => array(array('mobile','desktop','tablet'),'mandatory'=>false),			
+			'mode' => array(array('mobile','desktop','tablet'),'mandatory'=>false),
 			'commentId' => array('int',0,'mandatory'=>false),
 			'commentInput' => array('bool','mandatory'=>false)
 			)
 		);
 
 require ROOT . '/library/preprocessor.php';
-
-$browserUtil = Utils_Browser::getInstance();
-if(Setting::getBlogSettingGlobal('useiPhoneUI',true) && ($browserUtil->isMobile() == true) 
-		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop') 
-		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['mode'],array('desktop')))) {
-	if(empty($suri['value'])) {
-		header("Location: ".$context->getProperty('uri.blog')."/i"); exit;
-	} else {
-		header("Location: ".$context->getProperty('uri.blog')."/i/entry/".$suri['value']); exit;
-	}
-}
 
 if(empty($suri['value'])) {
 	list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);

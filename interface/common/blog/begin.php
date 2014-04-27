@@ -11,6 +11,9 @@ if (!empty($entries) && (count($entries) == 1))
 	$pageTitle = $entries[0]['title'];
 else
 	$pageTitle = '';
+if (!isset($skin)) {
+	$skin = new Skin($context->getProperty('skin.skin'));
+}
 $context = Model_Context::getInstance();
 if (!isset($skin))
 	$skin = new Skin($context->getProperty('skin.skin'));
