@@ -95,7 +95,7 @@ function __tcSqlQueryRowCount($resource) {
 function __tcSqlLogPoint($description = null)
 {
 	global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount, $__tcPageStartTime, $__tcPageEndTime;
-	if (is_null($description)) $description = 'Point'; 
+	if (is_null($description)) $description = 'Point';
 	$backtrace = debug_backtrace();
 	array_shift($backtrace);
 	array_shift($backtrace);
@@ -139,11 +139,11 @@ function __tcSqlLogDump()
 	static $sLogPumped = false;
 	if (!empty($sLogPumped)) return;
 	$sLogPumped = true;
-	
+
 	__tcSqlLogPoint('shutdown');
-	
+
 	$headers = array();
-	
+
 	if (function_exists('apache_response_headers') || function_exists('headers_list')) {
 		if (function_exists('apache_response_headers')) {
 			flush();
@@ -152,11 +152,11 @@ function __tcSqlLogDump()
 			$headers = headers_list();
 		}
 	}
-	
+
 	$commentBlosk = false;
-	
+
 	foreach ($headers as $row) {
-		if (strpos($row, '/xml') !== false || strpos($row, '+xml') !== false) { 
+		if (strpos($row, '/xml') !== false || strpos($row, '+xml') !== false) {
 			/* To check text/xml, application/xml and application/xml+blah, application/blah+xml... types */
 			$commentBlosk = true;
 			break;
@@ -165,9 +165,9 @@ function __tcSqlLogDump()
 			return;
 		}
 	}
-	
+
 	if ($commentBlosk == true) echo '<!--';
-	
+
 	if (!$commentBlosk) {
 	print <<<EOS
 <style type='text/css'>
@@ -180,14 +180,14 @@ function __tcSqlLogDump()
 		border-collapse: collapse;
 		margin-bottom: 20px;
 	}
-	
+
 	.debugTable *
 	{
 		border: none;
 		margin: 0;
 		padding: 0;
 	}
-	
+
 	.debugTable td, .debugTable th
 	{
 		border-bottom: 1px solid #999;
@@ -197,64 +197,64 @@ function __tcSqlLogDump()
 		font-size: 12px;
 		padding: 3px 5px;
 	}
-	
+
 	.debugTable th
 	{
 		background-color: #dedede;
 		text-align: center;
 	}
-	
+
 	tr.debugSQLLine .rows
 	{
 		text-align: center;
 	}
-	
+
 	tr.debugSQLLine .error
 	{
 		text-align: left;
 	}
-	
+
 	tr.debugSQLLine .elapsed, tr.debugSQLLine .elapsedSum
 	{
 		text-align: right;
 	}
-	
+
 	tr.debugSQLLine .backtrace
 	{
 		font-family: Courier, 'Courier new', monospace;
 		font-size: 11px;
 		letter-spacing: -1px;
 	}
-	
+
 	tr.debugCached *, tr.debugSystem *
 	{
 		color: #888888 !important;
 	}
-	
+
 	/* warning */
 	tr.debugWarning *
 	{
 		background-color: #fefff1;
 		color: #4b4b3b !important;
 	}
-	
+
 	tr.debugWarning th
 	{
 		background-color: #e5e5ca;
 	}
-	
+
 	/* error */
 	tr.debugError *
 	{
 		background-color: #fee5e5;
 		color: #961f1d !important;
 	}
-	
+
 	tr.debugError th
 	{
 		background-color: #fccbca;
 	}
-	
+
 	tfoot td
 	{
 		padding: 15px !important;
@@ -303,7 +303,7 @@ THEAD;
 		if( $log['errno'] ) {
 			$error = "Error no. {$log['errno']} : {$log['error']}";
 		}
-		
+
 		$trclass = '';
 		$count_label = $count;
 		if (!empty($error)) {
@@ -327,7 +327,7 @@ THEAD;
 			$count_label = '';
 			$backtrace = '';
 		}
-		
+
 		$elapsed_total_db += $log['elapsed'];
 		$elapsed_total = $log['endtime'];
 		$progress_bar = $log['percent'] / 2; //Max 50px;
@@ -357,15 +357,15 @@ Elapsed:{$log['elapsed']} ms/End time:{$log['endtime']}/Percent:{$log['percent']
 {$backtrace}
 TBODY;
 		}
-	
+
 		if( $log['cached'] < 2 ) {
 			$count++;
 		}
 	}
-	
+
 	$count--;
 	$real_query_count = $count - $cached_count;
-	
+
 	if (!$commentBlosk) {
 		print '</tbody>';
 		print <<<TFOOT
@@ -384,6 +384,9 @@ TFOOT;
 	global $service, $URLInfo, $suri;
 	print '<div class="debugTable">'.CRLF;
 	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.POD::dbms().' '.POD::version().'</p>'.CRLF;
+	print '<h4>SSL support : </h4>'.CRLF;
+	if(isset($service['useSSL']) && $service['useSSL'] == true) print '<p>Enabled</p>'.CRLF;
+	else print '<p>Disabled</p>'.CRLF;
 	print '<h4>Cache system :</h4>'.CRLF;
 	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<p>Page cache Enabled</p>'.CRLF;
 	else print '<p>Page cache Disabled</p>'.CRLF;
