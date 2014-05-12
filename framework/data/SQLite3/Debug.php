@@ -35,6 +35,7 @@ function __tcSqlLogBegin( $sql )
 
 	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => trim($sql), 'backtrace' => $backtrace );
 	$__tcSqlQueryBeginTime = explode(' ', microtime());
+	//dumpAsFile($sql);
 }
 function __tcSqlLogEnd( $result, $cachedResult = 0 )
 {
@@ -43,16 +44,17 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$tcSqlQueryEndTime = explode(' ', microtime());
 	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
 	if( !$client_encoding ) {
-		$client_encoding = str_replace('_','-',mysql_client_encoding());
+		$client_encoding = 'utf8';
+//		$client_encoding = str_replace('_','-',mysqli_client_encoding(POD::$db));
 	}
 
 	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', mysql_error());
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', POD::$db->lastErrorMsg());
 	}
 	else {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = mysql_error();
+		$__tcSqlLog[$__tcSqlLogCount]['error'] = POD::$db->lastErrorMsg();
 	}
-	$__tcSqlLog[$__tcSqlLogCount]['errno'] = mysql_errno();
+	$__tcSqlLog[$__tcSqlLogCount]['errno'] = POD::$db->lastErrorCode();
 
 	if( $cachedResult == 0 ) {
 		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
@@ -64,21 +66,30 @@ function __tcSqlLogEnd( $result, $cachedResult = 0 )
 	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
 	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
-	if( ! $cachedResult && mysql_errno() == 0 ) {
+	if( ! $cachedResult && POD::$db->lastErrorCode() == 0 ) {
 		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
 		{
 			case 'select':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_num_rows($result);
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = __tcSqlQueryRowCount($result);
 				break;
 			case 'insert':
 			case 'delete':
 			case 'update':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = mysql_affected_rows();
+				$__tcSqlLog[$__tcSqlLogCount]['rows'] = POD::$db->changes();
 				break;
 		}
 	}
 	$__tcSqlLogCount++;
 	$__tcSqlQueryBeginTime = 0;
+}
+
+function __tcSqlQueryRowCount($resource) {
+	$count = 0;
+	while ($buf = $resource->fetchArray()) {
+		$count++;
+	}
+	$resource->reset();
+	return $count;
 }
 
 function __tcSqlLogPoint($description = null)
@@ -124,9 +135,8 @@ function __tcSqlLoggetCallstack($backtrace, $level = 0) {
 function __tcSqlLogDump()
 {
 	global $__tcSqlLog, $__tcPageEndTime;
-	global $service;
+	global $service, $memcache;
 	static $sLogPumped = false;
-
 	if (!empty($sLogPumped)) return;
 	$sLogPumped = true;
 
@@ -192,11 +202,6 @@ function __tcSqlLogDump()
 	{
 		background-color: #dedede;
 		text-align: center;
-	}
-
-	.debugTable ul
-	{
-		list-style-type:circle;
 	}
 
 	tr.debugSQLLine .rows
@@ -376,23 +381,22 @@ TFOOT;
 		print '</table>';
 	}
 
-	global $service, $URLInfo, $suri, $database;
+	global $service, $URLInfo, $suri;
 	print '<div class="debugTable">'.CRLF;
-	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.POD::dbms().'</p>'.CRLF;
+	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.POD::dbms().' '.POD::version().'</p>'.CRLF;
 	print '<h4>SSL support : </h4>'.CRLF;
 	if(isset($service['useSSL']) && $service['useSSL'] == true) print '<p>Enabled</p>'.CRLF;
 	else print '<p>Disabled</p>'.CRLF;
-	print '<h4>Cache system :</h4>'.CRLF.'<ul>'.CRLF;
-	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<li>Page cache Enabled</li>'.CRLF;
-	else print '<li>Page cache Disabled</li>'.CRLF;
-	if(isset($service['skincache']) && $service['skincache'] == true) print '<li>Skin cache Enabled</li>'.CRLF;
-	else print '<li>Skin cache Disabled</li>'.CRLF;
-	if(isset($service['memcached']) && $service['memcached'] == true) print '<li>Memcached module Enabled</li>'.CRLF;
-	else print '<li>Memcached module Disabled</li>'.CRLF;
-	print '</ul>'.CRLF;
+	print '<h4>Cache system :</h4>'.CRLF;
+	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<p>Page cache Enabled</p>'.CRLF;
+	else print '<p>Page cache Disabled</p>'.CRLF;
+	if(isset($service['skincache']) && $service['skincache'] == true) print '<p>Skin cache Enabled</p>'.CRLF;
+	else print '<p>Skin cache Disabled</p>'.CRLF;
+	if(isset($service['memcached']) && $service['memcached'] == true) print '<p>Memcached module Enabled</p>'.CRLF;
+	else print '<p>Memcached module Disabled</p>'.CRLF;
 	if( ! empty($service['debug_session_dump'])) {
 		print '<h4>Session Information</h4>'.CRLF;
-		print '<pre>session_id = ' . session_id() . "\r\n";
+		print '<pre>session_id = ' . session_id() . CRLF;
 		print '$_SESSION = ';
 		print_r( $_SESSION );
 		print '$_COOKIE = ';
@@ -401,7 +405,7 @@ TFOOT;
 	}
 	if( ! empty($service['debug_rewrite_module'])) {
 		print '<h4>Path parse result</h4>'.CRLF;
-		print '<pre> path parser result : '."\r\n";
+		print '<pre>'.CRLF;
 		print_r( $URLInfo );
 		print_r( $suri );
 		print '</pre>';
@@ -432,14 +436,14 @@ function dumpAsFile($data) {
 		@mkdir(__TEXTCUBE_CACHE_DIR__."");
 		@chmod(__TEXTCUBE_CACHE_DIR__."",0777);
 	}
-
 	$dumpFile = __TEXTCUBE_CACHE_DIR__.'/dump';
 	if(file_exists($dumpFile)) {
 		$dumpedLog = @file_get_contents($dumpFile);
 	} else {
 		$dumpedLog = '';
 	}
-	$dumpedLog = $dumpedLog.Timestamp::format5()." : ".print_r($data,true).CRLF;
+	//$dumpedLog = $dumpedLog.Timestamp::format5()." : ".var_export($data,true).CRLF;
+	$dumpedLog = $dumpedLog.var_export($data,true).CRLF;
 	$fileHandle = fopen($dumpFile,'w');
 	fwrite($fileHandle, $dumpedLog);
 	fclose($fileHandle);
