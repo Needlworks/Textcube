@@ -46,7 +46,7 @@ if (!$xmls->open(file_get_contents(ROOT . "/plugins/{$pluginName}/index.xml"))) 
 		array_push($pluginAttrs['scope'], '모듈');
 	
 	list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
-	$requirements = $currentTextcubeVersion >= $pluginAttrs['requirements'] ? true : false;
+	$requirements = version_compare($currentTextcubeVersion,$pluginAttrs['requirements']) >= 0 ? true : false;
 }
 
 if (!$xmls->doesExist('/plugin/binding/config') || !$active) {

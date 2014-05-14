@@ -17,7 +17,7 @@ $service['type'] = 'path';          // Service type.
 // If you installed Textcube on http://www.example.com/tc, )
 $service['domain'] = 'domain.ext';  // Default service domain. (e.g.) http://www.example.com 
 $service['path'] = '/path1/path2';  // URI path where textcube is installed (e.g.) /tc
-$service['skin'] = 'coolant';     // Default blog skin name.
+$service['skin'] = 'periwinkle';     // Default blog skin name.
 $service['timeout'] = 3600;                 // Session timeout limit (sec.)
 $service['disableEolinSuggestion'] = false; // Disable auto-suggestion using EOLIN server. 
 //Usually it searches local tag by default.
