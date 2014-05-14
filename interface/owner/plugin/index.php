@@ -389,7 +389,7 @@ for ($i=0; $i<count($pluginKeys); $i++) {
 	$link = $pluginAttrs[$pluginDir]['link'];
 	$title = $pluginAttrs[$pluginDir]['title'];
 	$version = $pluginAttrs[$pluginDir]['version'];
-	$requirements = $currentTextcubeVersion >= $pluginAttrs[$pluginDir]['requirements'] ? true : false;
+	$requirements = version_compare($currentTextcubeVersion,$pluginAttrs[$pluginDir]['requirements']) >=0 ? true : false;
 	$description = $pluginAttrs[$pluginDir]['description'];
 	$authorLink = $pluginAttrs[$pluginDir]['authorLink'];
 	$author = $pluginAttrs[$pluginDir]['author'];
