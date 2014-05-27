@@ -40,7 +40,7 @@ function tinyMCE_editorinit($editor) {
 	if($config['editormode'] == 'simple') {
 ?>
 				plugins: [
-					"TTMLsupport advlist autolink link image lists print hr anchor autoresize",
+					"TTMLsupport advlist link image lists print hr anchor autoresize",
 					"code fullscreen media visualblocks",
 					"table contextmenu directionality charmap textcolor"
 				],
@@ -50,7 +50,7 @@ function tinyMCE_editorinit($editor) {
 	} else {
 ?>
 				plugins: [
-					"TTMLsupport advlist autolink link image lists charmap print hr anchor pagebreak table",
+					"TTMLsupport advlist link image lists charmap print hr anchor pagebreak table",
 					"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
 					"table contextmenu directionality emoticons textcolor paste textcolor autoresize"
 				],
