@@ -14,7 +14,7 @@ function doesExistTable($tablename) {
 	if( empty($tables) ) {
 		$tables = POD::tableList($database['prefix']);
 	}
-	
+
 	$dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames',null,'global');
 	if($dbCaseInsensitive === null) {
 		if(in_array(POD::dbms(),array('MySQL','MySQLi'))) {
@@ -36,16 +36,16 @@ class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limitation, $table, $id, $_querysetCount;
 	protected $_reservedFields, $_isReserved, $param;
-	
+
 	function __construct($table = null) {
 		$this->context = Model_Context::getInstance();
 		$this->reset($table);
 	}
-	
+
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
-		
+
 	public function reset($table = null, $param = null) {
 		if(!is_null($table)) $this->table = $this->context->getProperty('database.prefix').$table;
 		else $this->table = null;
@@ -55,10 +55,10 @@ class DBModel extends Singleton implements IModel {
 		$this->_relations = array();
 		$this->_glues = array();
 		$this->_filters = array();
-		$this->_order = array();	
+		$this->_order = array();
 		$this->_limit = array();
 		$this->_isReserved = array();
-		$this->param = array();	
+		$this->param = array();
 		$this->_querysetCount = 0;
 		$this->_reservedFields    = POD::reservedFieldNames();
 		$this->_reservedFunctions = POD::reservedFunctionNames();
@@ -69,23 +69,23 @@ class DBModel extends Singleton implements IModel {
 		}
 		if(!empty($param)) $this->param = $param;
 	}
-	
+
 	public function resetAttributes() {
 		$this->_attributes = array();
 	}
-	
+
 	public function getAttributesCount() {
 		return count($this->_attributes);
 	}
-	
+
 	public function hasAttribute($name) {
 		return isset($this->_attributes[$name]);
 	}
-	
+
 	public function getAttribute($name) {
 		return $this->_attributes[$name];
 	}
-	
+
 	public function setAttribute($name, $value, $escape = false) {
 		if (is_null($value))
 			$this->_attributes[$name] = null;
@@ -93,35 +93,35 @@ class DBModel extends Singleton implements IModel {
 		else
 			$this->_attributes[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
-	
+
 	public function unsetAttribute($name) {
 		unset($this->_attributes[$name]);
 	}
-	
+
 	public function resetQualifiers() {
 		$this->_qualifiers = array();
 		$this->_relations = array();
 	}
-	
+
 	public function getQualifiersCount() {
 		return count($this->_qualifiers);
 	}
-	
+
 	public function hasQualifier($name) {
 		return isset($this->_qualifiers[$name]);
 	}
-	
+
 	public function getQualifier($name) {
 		return $this->_qualifiers[$name];
 	}
-	
+
 	public function setQualifier($name, $condition, $value = null, $escape = false, $autoquote = true) {
 		$result = $this->getQualifierModel($name, $condition, $value, $escape, $autoquote);
 		if($result) {
 			list($this->_qualifiers[$name],$this->_relations[$name]) = $result;
 		}
 	}
-	
+
 	public function unsetQualifier($name) {
 		unset($this->_qualifiers[$name]);
 		unset($this->_relations[$name]);
@@ -148,12 +148,12 @@ class DBModel extends Singleton implements IModel {
 				$mglue[$name] = $args[$i];
 			}
 		}
-		$this->_qualifiers['QualifierSet'.$this->_querysetCount] = $mqualifier; 
+		$this->_qualifiers['QualifierSet'.$this->_querysetCount] = $mqualifier;
 		$this->_relations['QualifierSet'.$this->_querysetCount] = $mrelation;
 		$this->_glues['QualifierSet'.$this->_querysetCount] = $mglue;
 		$this->_querysetCount += 1;
 	}
-	
+
 	public function setOrder($standard, $order = 'ASC') {
 		$this->_order['attribute'] = $standard;
 		if(!in_array(strtoupper($order), array('ASC','DESC'))) $order = 'ASC';
@@ -161,37 +161,47 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function unsetOrder() {
+<<<<<<< HEAD
 		$this->_order = array();	
+=======
+		$this->_order = array();
+		return $this;
+>>>>>>> 3aa6a8b...  refs #1681 : added - SessionVisit flush routine.
 	}
-	
+
 	public function setLimit($count, $offset = 0) {
 		$this->_limit['count'] = $count;
 		$this->_limit['offset'] = $offset;
 	}
 
 	public function unsetLimit() {
+<<<<<<< HEAD
 		$this->_limit = array();	
+=======
+		$this->_limit = array();
+		return $this;
+>>>>>>> 3aa6a8b...  refs #1681 : added - SessionVisit flush routine.
 	}
-	
+
 	public function doesExist($field = '*') {
 		return POD::queryExistence('SELECT '. $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
-	
+
 	public function getCell($field = '*') {
 		$field = $this->_treatReservedFields($field);
 		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
-	
+
 	public function getRow($field = '*') {
 		$field = $this->_treatReservedFields($field);
 		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
-	
+
 	public function getColumn($field = '*') {
 		$field = $this->_treatReservedFields($field);
 		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
 	}
-	
+
 	public function getAll($field = '*') {
 		$field = $this->_treatReservedFields($field);
 		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
@@ -202,7 +212,7 @@ class DBModel extends Singleton implements IModel {
 		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->table . $this->_makeWhereClause());
 //		return POD::queryCount('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
-		
+
 	public function insert($option = null) {
 		$this->id = null;
 		if (empty($this->table))
@@ -212,7 +222,7 @@ class DBModel extends Singleton implements IModel {
 			return false;
 		$pairs = $attributes;
 		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
-		
+
 		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
 		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query)) {
@@ -221,24 +231,24 @@ class DBModel extends Singleton implements IModel {
 		}
 		return false;
 	}
-	
+
 	public function update($option = null) {
 		if (empty($this->table) || empty($this->_attributes))
 			return false;
 		$attributes = array();
-		
+
 		foreach ($this->_attributes as $name => $value)
-			array_push($attributes, 
-				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' . 
+			array_push($attributes,
+				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' .
 				(is_null($value) ? ' NULL' : $value ));
-		
+
 		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
 		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query))
 			return true;
 		return false;
 	}
-	
+
 	public function replace($option = null) {
 		$this->id = null;
 		if (empty($this->table))
@@ -266,7 +276,7 @@ class DBModel extends Singleton implements IModel {
 			}
 		}
 	}
-	
+
 	public function delete($count = null, $option = null) {
 		if (empty($this->table))
 			return false;
@@ -282,8 +292,8 @@ class DBModel extends Singleton implements IModel {
 	public function create() {
 		if(!isset($this->structure) || empty($this->structure) || !is_array($this->structure)) return false;
 		/// TO DO : implementing create method by structure
-		$sql = "CREATE ".$this->table." (".CRLF;	
-	
+		$sql = "CREATE ".$this->table." (".CRLF;
+
 		foreach($this->structure as $field => $attributes) {
 			$sql .= $field;
 			$type = $length = $isNull = $default = "";
@@ -292,10 +302,10 @@ class DBModel extends Singleton implements IModel {
 					$type = POD::fieldType($type);
 				}
 				if($attr == "isNull") {
-					$isNull = $value;	
+					$isNull = $value;
 				}
 				if($attr == "default") {
-					$default = $value;	
+					$default = $value;
 				}
 			}
 			$sql .= ' '.$type.(!empty($length) ? "(".$length.")" : "")
@@ -306,47 +316,49 @@ class DBModel extends Singleton implements IModel {
 		$sql .= ")";
 		return POD::execute($sql);
 	}
-	
+
 	public function discard() {
 		$this->_query = 'DROP '. $this->table;
 		if(POD::query($this->_query))
 			return true;
-		return false;	
+		return false;
 	}
-	
+
 	protected function _makeWhereClause() {
 		$clause = '';
-		
-		foreach ($this->_qualifiers as $name => $value) {
-			if (strpos($name,'QualifierSet') === 0) {
-				$clause .= (strlen($clause) ? ' AND (' : '(');
-				foreach ($value as $qname => $qvalue) {
-					list($qrelations, $qvalue) = $this->_canonicalWhereClause($this->_relations[$name][$qname],$qvalue);
-					$clause .= (array_key_exists($qname, $this->_isReserved) ? '"'.$qname.'"' : $qname) .
-					' '.(is_null($qvalue) ? ' IS NULL' : $qrelations . ' ' . $qvalue)
-					.(isset($this->_glues[$name][$qname]) ? ' '.$this->_glues[$name][$qname].' ' : ''); 
+		if (count($this->_qualifiers) == 0) {
+			$clause = '1';
+		} else {
+			foreach ($this->_qualifiers as $name => $value) {
+				if (strpos($name,'QualifierSet') === 0) {
+					$clause .= (strlen($clause) ? ' AND (' : '(');
+					foreach ($value as $qname => $qvalue) {
+						list($qrelations, $qvalue) = $this->_canonicalWhereClause($this->_relations[$name][$qname],$qvalue);
+						$clause .= (array_key_exists($qname, $this->_isReserved) ? '"'.$qname.'"' : $qname) .
+						' '.(is_null($qvalue) ? ' IS NULL' : $qrelations . ' ' . $qvalue)
+						.(isset($this->_glues[$name][$qname]) ? ' '.$this->_glues[$name][$qname].' ' : '');
+					}
+
+					$clause .= ')';
+				} else {
+					list($relations, $value) = $this->_canonicalWhereClause($this->_relations[$name],$value);
+					$clause .= (strlen($clause) ? ' AND ' : '') .
+						(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
+						' '.(is_null($value) ? ' IS NULL' : $relations . ' ' . $value);
 				}
-				
-				$clause .= ')'; 
-			} else {
-				list($relations, $value) = $this->_canonicalWhereClause($this->_relations[$name],$value);
-				$clause .= (strlen($clause) ? ' AND ' : '') . 
-					(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
-					' '.(is_null($value) ? ' IS NULL' : $relations . ' ' . $value);
 			}
 		}
-		
 		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
 		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
-	
+
 	protected function _canonicalWhereClause($relations, $value) {
 		if(in_array($relations,array('hasoneof','hasanyof','hasnoneof'))) {
 			switch($relations) {
 				case 'hasoneof':
 					$relations = ' IN';
-					break; 
+					break;
 				case 'hasanyof':
 				case 'hasnoneof':
 				default:
@@ -356,9 +368,9 @@ class DBModel extends Singleton implements IModel {
 			if(is_array($value)) {
 				$value = implode(',',$value);
 			}
-			$value = '('.$value.')';	
+			$value = '('.$value.')';
 		}
-		return array($relations, $value);		
+		return array($relations, $value);
 	}
 
 	protected function _treatReservedFields($fields) {
@@ -380,7 +392,7 @@ class DBModel extends Singleton implements IModel {
 		}
 		return $escapedFields;
 	}
-	
+
 	protected function getQualifierModel($name, $condition, $value = null, $escape = false, $autoquote = true) {
 	//OR, setQualifier(string(name_condition_value), $escape = null)     - Descriptive mode (NOT implemented)
 		if (is_null($condition)) {
@@ -433,16 +445,16 @@ class DBModel extends Singleton implements IModel {
 						foreach ($value as $c) {
 							array_push($escapedCandidates,'\''.POD::escapeString($c).'\'');
 						}
-					} else array_push($escapedCandidates,$value); 
+					} else array_push($escapedCandidates,$value);
 					$value = $escapedCandidates;
 				}
 				$qualifiers = $value;
 			} else {
-				$qualifiers = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions) || $autoquote == false) ? 
-					$value : ($escape ? '\'' . 
+				$qualifiers = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions) || $autoquote == false) ?
+					$value : ($escape ? '\'' .
 						POD::escapeString(
 							(($relations == 'LIKE') ? '%'.$value.'%' : $value)
-						) . 
+						) .
 				'\'' : "'" . $value . "'"));
 			}
 		}

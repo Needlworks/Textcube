@@ -57,6 +57,53 @@ final class Session {
 	}
 
 	public static function gc($maxLifeTime = false) {
+		if(is_null(self::$context)) self::initialize();
+		self::$pool->reset('SessionVisits');
+		self::$pool->delete();
+		return true;
+		/* Code below needs testing. Currently it consumes server load. Flushing make visitor counter a little bit inaccurrate, but it's neglectable.*/
+		$keys = self::getMemcacheKeys();
+		$authorizedIds = array();
+		$authorizedAddr = array();
+		$removeIds = array();
+		$removeAddr = array();
+
+		$idPattern = '/sessions\/(?<id>\w+)/i';
+		$authorizedidPattern = '/authorizedSession\/(?<id>\w+)/i';
+		$addrPattern = '/anonymousSession\/(?<addr>\w+)/i'
+		foreach($keys as $key) {
+			if (preg_match($idPattern, $key, $matches) > 0 || preg_match($authorizedidPattern, $key, $matches) > 0 ){
+				array_push($authorizedIds, $matches['id']);
+			} else if (preg_match($addrPattern, $key, $matches) > 0) {
+				array_push($authorizedAddr, $matches['addr']);
+			}
+		}
+		self::$pool->reset('SessionVisits');
+		$results = self::$pool->getAll('id, address');
+		foreach ($results as $info) {
+			if (!in_array($info['id'],$authorizedIds)) {
+				array_push($removeIds, $info['id']);
+			}
+			if (!in_array($info['address'],$authorizedAddr)) {
+				array_push($removeAddr, $info['id']);
+			}
+		}
+		if (count($removeIds) < 25) {
+			self::$pool->resetQualifiers();
+			self::$pool->setQualifier('id','hasoneof',$removeIds);
+			self::$pool->delete();
+		} else {
+			foreach ($removeIds as $id) {
+				self::$pool->resetQualifiers();
+				self::$pool->setQualifier('id','eq',$id);
+				self::$pool->delete();
+			}
+		}
+		foreach ($removeAddr as $addr) {
+			self::$pool->resetQualifiers();
+			self::$pool->setQualifier('address','eq',$addr);
+			self::$pool->delete();
+		}
 		return true;
 	}
 
@@ -162,6 +209,40 @@ final class Session {
 			}
 		}
 		return false;
+	}
+
+	public function getMemcacheKeys($limit = 10000) {
+		$keysFound = array();
+		$slabs = self::$mc->getExtendedStats('slabs');
+		foreach ($slabs as $serverSlabs) {
+			foreach ($serverSlabs as $slabId => $slabMeta) {
+				try {
+					$cacheDump = self::$mc->getExtendedStats('cachedump', (int) $slabId, 1000);
+				} catch (Exception $e) {
+					continue;
+				}
+
+				if (!is_array($cacheDump)) {
+					continue;
+				}
+
+				foreach ($cacheDump as $dump) {
+
+					if (!is_array($dump)) {
+						continue;
+					}
+
+					foreach ($dump as $key => $value) {
+						$keysFound[] = $key;
+
+						if (count($keysFound) == $limit) {
+						    return $keysFound;
+						}
+					}
+				}
+			}
+		}
+		return $keysFound;
 	}
 }
 ?>
