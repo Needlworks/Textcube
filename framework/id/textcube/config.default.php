@@ -5,6 +5,7 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
+<<<<<<< HEAD
 define('TEXTCUBE_VERSION_ID', '2.0 : Alpha 1');
 define('TEXTCUBE_REVISION', 'root-main-trunk');
 define('TEXTCUBE_CODENAME', 'BASELINE');
@@ -12,6 +13,15 @@ define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2014. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
 define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/trunk');
+=======
+define('TEXTCUBE_VERSION_ID', '1.10');
+define('TEXTCUBE_REVISION', 'root-main-branch1.10-r33');
+define('TEXTCUBE_CODENAME', 'beta 1');
+define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
+define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2014. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
+define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
+define('TEXTCUBE_RESOURCE_URL', 'http://resources.textcube.org/1.10.0');
+>>>>>>> 9e07b3f...  refs #1681 : modified - sessionvisit table handler when using memcache.
 define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 // Define basic definitions.
 define('CRLF', "\r\n");

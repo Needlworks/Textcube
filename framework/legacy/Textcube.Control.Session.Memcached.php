@@ -7,65 +7,70 @@ define( 'SESSION_OPENID_USERID', -1 );
 
 final class Session {
 	private static $sessionName = null;
-	private static $mc = null;	
+	private static $mc = null;
 	private static $context;
 	private static function initialize() {
 		global $memcache;        /** After PHP 5.0.5, session write performs after object destruction. */
 		self::$mc = $memcache;   /** To Avoid this, just copy memcache handle into Session object.     */
 		self::$context = Model_Context::getInstance();
+		self::$pool = DBModel::getInstance();
 	}
 
 	public static function open($savePath, $sessionName) {
 		return true;
 	}
-	
+
 	public static function close() {
 		return true;
 	}
-	
+
 	public static function getName() {
 		if(is_null(self::$mc)) self::initialize();
-		if( self::$sessionName == null ) { 
+		if( self::$sessionName == null ) {
 			if( !is_null(self::$context->getProperty('service.session_cookie'))) {
 				self::$sessionName = self::$context->getProperty('service.session_cookie');
 			} else {
-				self::$sessionName = 'TSSESSION'.self::$context->getProperty('service.domain').self::$context->getProperty('service.path'); 
+				self::$sessionName = 'TSSESSION'.self::$context->getProperty('service.domain').self::$context->getProperty('service.path');
 				self::$sessionName = preg_replace( '/[^a-zA-Z0-9]/', '', self::$sessionName );
 			}
 		}
 		return self::$sessionName;
 	}
-	
+
 	public static function read($id) {
 		if(is_null(self::$mc)) self::initialize();
 		//return self::$mc->get(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
 		return self::$mc->get(self::$context->getProperty('service.domain')."/sessions/{$id}");
 	}
-	
+
 	public static function write($id, $data) {
+<<<<<<< HEAD
 		return true;  // Bypass.
 		if(is_null(self::$mc)) self::initialize();		
+=======
+		if(is_null(self::$mc)) self::initialize();
+>>>>>>> 9e07b3f...  refs #1681 : modified - sessionvisit table handler when using memcache.
 		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,0,self::$context->getProperty('service.timeout'));
 		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",$data,0,self::$context->getProperty('service.timeout'));
 	}
-	
+
 	public static function destroy($id, $setCookie = false) {
 		//self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}");
 		self::$mc->delete(self::$context->getProperty('service.domain')."/sessions/{$id}",0);
 		self::$mc->delete(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}",0);
 		return self::$mc->delete(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",0);
 	}
-	
+
 	public static function gc($maxLifeTime = false) {
 		return true;
 	}
-	
+
 	private static function getAnonymousSession() {
 		$anonymousSessionId = self::$mc->get(self::$context->getProperty('service.domain')."/anonymousSession/{$_SERVER['REMOTE_ADDR']}");
 		if(!empty($anonymousSessionId)) return $anonymousSessionId;
 		else return false;
 	}
-	
+
 	private static function newAnonymousSession() {
 		for ($i = 0; $i < 3; $i++) {
 			if (($id = self::getAnonymousSession()) !== false)
@@ -79,7 +84,7 @@ final class Session {
 		}
 		return false;
 	}
-	
+
 	public static function setSessionAnonymous($currentId) {
 		$id = self::getAnonymousSession();
 		if ($id !== false) {
@@ -94,7 +99,7 @@ final class Session {
 		}
 		return false;
 	}
-	
+
 	public static function isAuthorized($id) {
 		if(is_null(self::$mc)) self::initialize();
 		/* OpenID and Admin sessions are treated as authorized ones*/
@@ -103,7 +108,7 @@ final class Session {
 		if(!empty($userid)) return true;
 		else return false;
 	}
-	
+
 	public static function isGuestOpenIDSession($id) {
 		if(is_null(self::$mc)) self::initialize();
 		//$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
@@ -111,7 +116,7 @@ final class Session {
 		if(!empty($userid) && $userid < 0) return true;
 		else return false;
 	}
-	
+
 	public static function set() {
 		if(is_null(self::$mc)) self::initialize();
 		if( !empty($_GET['TSSESSION']) ) {
@@ -126,8 +131,13 @@ final class Session {
 			self::setSessionAnonymous($id);
 		}
 	}
+<<<<<<< HEAD
 	
 	public static function authorize($blogid, $userid, $expires = null) {
+=======
+
+	public static function authorize($blogid, $userid) {
+>>>>>>> 9e07b3f...  refs #1681 : modified - sessionvisit table handler when using memcache.
 		if(is_null(self::$mc)) self::initialize();
 		$session_cookie_path = "/";
 		if( !is_null(self::$context->getProperty('service.session_cookie_path') )) {
@@ -153,8 +163,13 @@ final class Session {
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			//$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
+<<<<<<< HEAD
 			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,$expires);
 			
+=======
+			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,self::$context->getProperty('service.timeout'));
+
+>>>>>>> 9e07b3f...  refs #1681 : modified - sessionvisit table handler when using memcache.
 			if ($result) {
 				@session_id($id);
 				setcookie( self::getName(), $id, 0, $session_cookie_path, self::$context->getProperty('service.session_cookie_domain'));
