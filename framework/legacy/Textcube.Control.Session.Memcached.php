@@ -9,6 +9,7 @@ final class Session {
 	private static $sessionName = null;
 	private static $mc = null;
 	private static $context;
+	private static $pool;
 	private static function initialize() {
 		global $memcache;        /** After PHP 5.0.5, session write performs after object destruction. */
 		self::$mc = $memcache;   /** To Avoid this, just copy memcache handle into Session object.     */
@@ -57,7 +58,9 @@ final class Session {
 	}
 
 	public static function gc($maxLifeTime = false) {
-		if(is_null(self::$context)) self::initialize();
+		if(is_null(self::$context)) {
+			self::initialize();
+		}
 		self::$pool->reset('SessionVisits');
 		self::$pool->delete();
 		return true;
@@ -70,8 +73,8 @@ final class Session {
 
 		$idPattern = '/sessions\/(?<id>\w+)/i';
 		$authorizedidPattern = '/authorizedSession\/(?<id>\w+)/i';
-		$addrPattern = '/anonymousSession\/(?<addr>\w+)/i'
-		foreach($keys as $key) {
+		$addrPattern = '/anonymousSession\/(?<addr>\w+)/i';
+		foreach ($keys as $key) {
 			if (preg_match($idPattern, $key, $matches) > 0 || preg_match($authorizedidPattern, $key, $matches) > 0 ){
 				array_push($authorizedIds, $matches['id']);
 			} else if (preg_match($addrPattern, $key, $matches) > 0) {
