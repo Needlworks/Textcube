@@ -179,12 +179,12 @@ function selectSkin($blogid, $skinName) {
 		}
 		if ($xmls->doesExist('/skin/support')) {
 			foreach ($xmls->selectNodes('/skin/support') as $support) {
-				if (!empty($support['.attributes']['mobile']) && $support['.attributes']['mobile'] == true) {
+				if (!empty($support['.attributes']['mobile']) && $support['.attributes']['mobile'] == "yes") {
 					/// Main skin supports mobile, too.
 					//Setting::setBlogSetting('useiPhoneUI',false,true);
 				}
 			}
-		}
+		}	
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none');
 		if (is_null($value))

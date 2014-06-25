@@ -18,7 +18,7 @@
 		<homepage>http://blog.2pink.net</homepage>
 		<email>rurunana@gmail.com</email>
 	</author> 
-	<support mobile=true />
+	<support mobile="yes" desktop="yes" tablet="yes" />
 	<default>
 		<recentEntries>5</recentEntries>
 		<recentComments>5</recentComments>

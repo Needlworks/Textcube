@@ -15,7 +15,7 @@
 		<homepage>http://daybreaker.info</homepage>
 		<email>me@daybreaker.info</email>
 	</author>
-	<support mobile=true />
+	<support mobile="yes" desktop="yes" />
 	<default>
 		<recentEntries>5</recentEntries>
 		<recentComments>5</recentComments>
