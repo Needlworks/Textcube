@@ -44,12 +44,7 @@ final class Session {
 	}
 
 	public static function write($id, $data) {
-<<<<<<< HEAD
-		return true;  // Bypass.
-		if(is_null(self::$mc)) self::initialize();		
-=======
 		if(is_null(self::$mc)) self::initialize();
->>>>>>> 9e07b3f...  refs #1681 : modified - sessionvisit table handler when using memcache.
 		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,0,self::$context->getProperty('service.timeout'));
 		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",$data,0,self::$context->getProperty('service.timeout'));
 	}
@@ -131,13 +126,8 @@ final class Session {
 			self::setSessionAnonymous($id);
 		}
 	}
-<<<<<<< HEAD
-	
-	public static function authorize($blogid, $userid, $expires = null) {
-=======
 
 	public static function authorize($blogid, $userid) {
->>>>>>> 9e07b3f...  refs #1681 : modified - sessionvisit table handler when using memcache.
 		if(is_null(self::$mc)) self::initialize();
 		$session_cookie_path = "/";
 		if( !is_null(self::$context->getProperty('service.session_cookie_path') )) {
@@ -163,13 +153,8 @@ final class Session {
 		for ($i = 0; $i < 3; $i++) {
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
 			//$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}",$userid,0,self::$context->getProperty('service.timeout'));
-<<<<<<< HEAD
-			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,$expires);
-			
-=======
 			$result = self::$mc->set(self::$context->getProperty('service.domain')."/authorizedSession/{$id}",$userid,0,self::$context->getProperty('service.timeout'));
 
->>>>>>> 9e07b3f...  refs #1681 : modified - sessionvisit table handler when using memcache.
 			if ($result) {
 				@session_id($id);
 				setcookie( self::getName(), $id, 0, $session_cookie_path, self::$context->getProperty('service.session_cookie_domain'));
