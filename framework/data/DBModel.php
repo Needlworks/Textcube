@@ -161,12 +161,8 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function unsetOrder() {
-<<<<<<< HEAD
-		$this->_order = array();	
-=======
 		$this->_order = array();
 		return $this;
->>>>>>> 3aa6a8b...  refs #1681 : added - SessionVisit flush routine.
 	}
 
 	public function setLimit($count, $offset = 0) {
@@ -175,12 +171,8 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function unsetLimit() {
-<<<<<<< HEAD
-		$this->_limit = array();	
-=======
 		$this->_limit = array();
 		return $this;
->>>>>>> 3aa6a8b...  refs #1681 : added - SessionVisit flush routine.
 	}
 
 	public function doesExist($field = '*') {
