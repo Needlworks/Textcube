@@ -147,52 +147,53 @@ class Skin {
 			// 사이드바 작업.
 			$sidebarCount = 0;
 			$noNameCount = 1;
-			// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
-			while (strpos($sval, '<s_sidebar>') !== false) {
-				if (!isset($this->sidebarBasicModules[$sidebarCount]))
-					$this->sidebarBasicModules[$sidebarCount] = array();
-				list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
+			if ($context->getProperty('blog.displaymode','desktop')!='mobile') {
+				// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
+				while (strpos($sval, '<s_sidebar>') !== false) {
+					if (!isset($this->sidebarBasicModules[$sidebarCount]))
+						$this->sidebarBasicModules[$sidebarCount] = array();
+					list($sval, $this->sidebarOriginalContent[$sidebarCount]) = $this->cutSkinTag($sval, "sidebar", "[##_sidebar_{$sidebarCount}_##]");
 
-				$moduleCount = 0;
-				$matchcount = preg_match_all('@<s_sidebar_element>.*</s_sidebar_element>@isU', $this->sidebarOriginalContent[$sidebarCount], $matches);
-				if ($matchcount !== false) {
-					$rgSidebarContent = $matches[0];
-				} else {
-					$rgSidebarContent = array();
-				}
+					$moduleCount = 0;
+					$matchcount = preg_match_all('@<s_sidebar_element>.*</s_sidebar_element>@isU', $this->sidebarOriginalContent[$sidebarCount], $matches);
+					if ($matchcount !== false) {
+						$rgSidebarContent = $matches[0];
+					} else {
+						$rgSidebarContent = array();
+					}
 
-				for ($i=0; $i<count($rgSidebarContent); $i++) {
-					$taglength = 19; //strlen('<s_sidebar_element>');
-					$rgSidebarContent[$i] = substr($rgSidebarContent[$i], $taglength, strlen($rgSidebarContent[$i]) - 39);//2*$taglength - 1);
-					// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
-					preg_match("/<!\\-\\-(.+)\\-\\->/", $rgSidebarContent[$i], $temp);
+					for ($i=0; $i<count($rgSidebarContent); $i++) {
+						$taglength = 19; //strlen('<s_sidebar_element>');
+						$rgSidebarContent[$i] = substr($rgSidebarContent[$i], $taglength, strlen($rgSidebarContent[$i]) - 39);//2*$taglength - 1);
+						// - 각 모듈을 나중에 가져다 쓰기 위해 기본 모듈 배열 안에 저장한다.
+						preg_match("/<!\\-\\-(.+)\\-\\->/", $rgSidebarContent[$i], $temp);
+						if (isset($temp[1])) {
+							$tempTitle = trim($temp[1]);
+						} else {
+							$tempTitle = _f('(이름 없음 %1)', $noNameCount); //$rgSidebarContent[$i];
+							$noNameCount++;
+						}
+						$this->sidebarBasicModules[$sidebarCount][$moduleCount] = array('title' => $tempTitle, 'body' => $rgSidebarContent[$i]);
+						$moduleCount++;
+					}
+					$matchcount = preg_match('@<s_sidebar_element>@', $this->sidebarOriginalContent[$sidebarCount],$matches, PREG_OFFSET_CAPTURE);
+					if (($matchcount === false) || ($matchcount == 0)) {
+						$firstPos = strlen($this->sidebarOriginalContent[$sidebarCount]);
+					} else {
+						$firstPos = $matches[0][1];
+					}
+					preg_match("/<!\\-\\-(.+)\\-\\->/", substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1), $temp);
 					if (isset($temp[1])) {
 						$tempTitle = trim($temp[1]);
 					} else {
-						$tempTitle = _f('(이름 없음 %1)', $noNameCount); //$rgSidebarContent[$i];
-						$noNameCount++;
+						$tempTitle = _t('사이드바') . ' ' . ($sidebarCount + 1);
 					}
-					$this->sidebarBasicModules[$sidebarCount][$moduleCount] = array('title' => $tempTitle, 'body' => $rgSidebarContent[$i]);
-					$moduleCount++;
+					$this->sidebarName[$sidebarCount] = $tempTitle;
+					$sidebarCount++;
 				}
-				$matchcount = preg_match('@<s_sidebar_element>@', $this->sidebarOriginalContent[$sidebarCount],$matches, PREG_OFFSET_CAPTURE);
-				if (($matchcount === false) || ($matchcount == 0)) {
-					$firstPos = strlen($this->sidebarOriginalContent[$sidebarCount]);
-				} else {
-					$firstPos = $matches[0][1];
-				}
-				preg_match("/<!\\-\\-(.+)\\-\\->/", substr($this->sidebarOriginalContent[$sidebarCount],0,$firstPos - 1), $temp);
-				if (isset($temp[1])) {
-					$tempTitle = trim($temp[1]);
-				} else {
-					$tempTitle = _t('사이드바') . ' ' . ($sidebarCount + 1);
-				}
-				$this->sidebarName[$sidebarCount] = $tempTitle;
-				$sidebarCount++;
+
+				handleSidebars($sval, $this, $previewMode);
 			}
-
-			handleSidebars($sval, $this, $previewMode);
-
 			// 표지 작업.
 			$this->coverpageBasicModules[0] = array();
 			$this->coverpageName[0] =_t('표지');
