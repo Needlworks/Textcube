@@ -147,7 +147,10 @@ function addAttachment($blogid, $parent, $file) {
 		$attachment['name'] = rand(1000000000, 9999999999) . ".$extension";
 		$attachment['path'] = "$path/{$attachment['name']}";
 	} while (file_exists($attachment['path']));
-	if ($imageAttributes = @getimagesize($file['tmp_name'])) {
+	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
+		return false;
+	@chmod($attachment['path'], 0666);
+	if ($imageAttributes = @getimagesize($attachment['path'])) {
 		$attachment['mime'] = $imageAttributes['mime'];
 		$attachment['width'] = $imageAttributes[0];
 		$attachment['height'] = $imageAttributes[1];
@@ -156,9 +159,6 @@ function addAttachment($blogid, $parent, $file) {
 		$attachment['width'] = 0;
 		$attachment['height'] = 0;
 	}
-	if (!move_uploaded_file($file['tmp_name'], $attachment['path']))
-		return false;
-	@chmod($attachment['path'], 0666);
 	$attachment['label'] = UTF8::lessenAsEncoding($attachment['label'], 64);
 	$attachment['mime']  = UTF8::lessenAsEncoding($attachment['mime'], 32);
 
