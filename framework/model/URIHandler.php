@@ -128,15 +128,15 @@ final class Model_URIHandler extends Singleton
 			$this->uri['service'] = $this->context->getProperty('service.serviceURL');
 		}
 		if (!isset($this->uri['service'])) {
-			$this->uri['service'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : 'http://') . $this->context->getProperty('service.domain') . (!is_null($this->context->getProperty('service.port')) ? ':' . $this->context->getProperty('service.port') : '') . $this->context->getProperty('service.path');
+			$this->uri['service'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : '//') . $this->context->getProperty('service.domain') . (!is_null($this->context->getProperty('service.port')) ? ':' . $this->context->getProperty('service.port') : '') . $this->context->getProperty('service.path');
 		}
 		$this->context->useNamespace('service');
 		switch ($this->context->getProperty('service.type')) {
 			case 'domain':
 				$this->uri['path'] = $this->context->getProperty('path');
-				$blog['primaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : 'http://') . $blog['name'] . '.' . $this->context->getProperty('domain') . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
+				$blog['primaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : '//') . $blog['name'] . '.' . $this->context->getProperty('domain') . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
 				if( !empty($blog['secondaryDomain']) )
-					$blog['secondaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : 'http://') . $blog['secondaryDomain'] . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
+					$blog['secondaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : '//') . $blog['secondaryDomain'] . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
 				else
 					$blog['secondaryBlogURL'] = null;
 				if ($blog['defaultDomain']) {
@@ -155,7 +155,7 @@ final class Model_URIHandler extends Singleton
 				break;
 			case 'path':
 				$this->uri['path'] = $this->context->getProperty('path') . '/' . $blog['name'];
-				$blog['primaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : 'http://') . $this->context->getProperty('domain') . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
+				$blog['primaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : '//') . $this->context->getProperty('domain') . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
 				$blog['secondaryBlogURL'] = null;
 				$this->uri['default'] = $blog['primaryBlogURL'];
 				if ($_SERVER['HTTP_HOST'] == $this->context->getProperty('domain'))
@@ -166,7 +166,7 @@ final class Model_URIHandler extends Singleton
 			case 'single':
 			default:
 				$this->uri['path'] = $this->context->getProperty('path');
-				$blog['primaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : 'http://') . $this->context->getProperty('domain') . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
+				$blog['primaryBlogURL'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : '//') . $this->context->getProperty('domain') . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '') . $this->uri['path'];
 				$blog['secondaryBlogURL'] = null;
 				$this->uri['default'] = $blog['primaryBlogURL'].($this->__getFancyURLpostfix());
 				if ($_SERVER['HTTP_HOST'] == $this->context->getProperty('domain'))
@@ -175,7 +175,7 @@ final class Model_URIHandler extends Singleton
 					$this->uri['base'] = $this->uri['default'];
 				break;
 		}
-		$this->uri['host'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '');
+		$this->uri['host'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : '//') . $_SERVER['HTTP_HOST'] . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '');
 		$this->uri['blog'] = $this->uri['path'].$this->__getFancyURLpostfix();
 		$this->uri['folder'] = rtrim($this->uri['blog'] . $suri['directive'], '/');
 		$this->uri['permalink'] = rtrim($this->uri['default'].rtrim($this->suri['directive'],'/').(empty($this->suri['id']) ? '/'.$this->suri['value'] : '/'.$this->suri['id']),'/');

@@ -11,9 +11,9 @@ require ROOT . '/library/model/blog.skin.php';
 requireModel('common.setting');
 requireModel('blog.entry');
 requireModel('blog.trash');
+requireModel('blog.version');
 
-if(!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) $currentVersion = _text('첫번째 점검');
-else $currentVersion = file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP');
+$currentVersion = getBlogVersion();
 
 function setSkinSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
@@ -841,20 +841,21 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 /***** Common parts. *****/
 if(doesHaveOwnership()) clearCache();
 
-$filename = ROOT . '/.htaccess';
-$fp = fopen($filename, "r");
-$content = fread($fp, filesize($filename));
-fclose($fp);
-if ((preg_match('@rewrite\.php@', $content) == 0 ) || 
-		(strpos($content,'[OR]') !== false) || 
-		(strpos($content,' -d') == false) ||
-		(strpos($content,'(cache|xml|txt|log)') == false)
-		) {
-	echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
-	$fp = fopen($filename.'_backup_'.Timestamp::format('%Y%m%d'), "w");
-	fwrite($fp,$content);
+if (!defined('__TEXTCUBE_GAE__')) {
+	$filename = ROOT . '/.htaccess';
+	$fp = fopen($filename, "r");
+	$content = fread($fp, filesize($filename));
 	fclose($fp);
-	$content = 
+	if ((preg_match('@rewrite\.php@', $content) == 0 ) || 
+			(strpos($content,'[OR]') !== false) || 
+			(strpos($content,' -d') == false) ||
+			(strpos($content,'(cache|xml|txt|log)') == false)
+			) {
+		echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
+		$fp = fopen($filename.'_backup_'.Timestamp::format('%Y%m%d'), "w");
+		fwrite($fp,$content);
+		fclose($fp);
+		$content = 
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
@@ -869,24 +870,20 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
 RewriteRule ^(.*)$ rewrite.php [L,QSA]
 ";
-	$fp = fopen($filename, "w");
-	if(fwrite($fp, $content)) {
-		fclose($fp);
-		showCheckupMessage(true);
-	} else {
-		fclose($fp);
-		showCheckupMessage(false);
+		$fp = fopen($filename, "w");
+		if(fwrite($fp, $content)) {
+			fclose($fp);
+			showCheckupMessage(true);
+		} else {
+			fclose($fp);
+			showCheckupMessage(false);
+		}
 	}
 }
 
-if (((!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) || (trim(file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) != TEXTCUBE_VERSION)) && ($succeed == true)) {
-	$fp = fopen(__TEXTCUBE_CACHE_DIR__.'/CHECKUP', 'w');
-	if ($fp !== FALSE) {
-		fwrite($fp, TEXTCUBE_VERSION);
-		fclose($fp);
-		@chmod(__TEXTCUBE_CACHE_DIR__.'/CHECKUP', 0666);
-		clearCache();
-	}
+if ($currentVersion != TEXTCUBE_VERSION && $succeed == true) {
+	setBlogVersion();
+	clearCache();
 }
 ?>
 					</ul>

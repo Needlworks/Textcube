@@ -15,7 +15,7 @@ publishEntries();
 if (!file_exists(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml"))
 	refreshFeed($blogid,'rss');
 header('Content-Type: application/rss+xml; charset=utf-8');
-$fileHandle = fopen(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml", 'r+');
+$fileHandle = fopen(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml", 'r');
 $result = fread($fileHandle, filesize(__TEXTCUBE_CACHE_DIR__."/rss/$blogid.xml"));
 fclose($fileHandle);
 fireEvent('FeedOBStart');

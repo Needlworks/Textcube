@@ -17,7 +17,7 @@ publishEntries();
 if (!file_exists(__TEXTCUBE_CACHE_DIR__."/atom/$blogid.xml"))
 	refreshFeed($blogid,'atom');
 header('Content-Type: application/atom+xml; charset=utf-8');
-$fileHandle = fopen(__TEXTCUBE_CACHE_DIR__."/atom/$blogid.xml", 'r+');
+$fileHandle = fopen(__TEXTCUBE_CACHE_DIR__."/atom/$blogid.xml", 'r');
 $result = fread($fileHandle, filesize(__TEXTCUBE_CACHE_DIR__."/atom/$blogid.xml"));
 fclose($fileHandle);
 fireEvent('FeedOBStart');
