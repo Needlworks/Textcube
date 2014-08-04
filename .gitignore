@@ -11,3 +11,6 @@ cache
 skin/blog/customize
 config.php
 .htaccess
+.settings
+.project
+.buildpath
