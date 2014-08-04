@@ -272,9 +272,22 @@ function printEntryFileList($attachments, $param) {
 											
 											<script type="text/javascript">
 												//<![CDATA[
-													function addAttachment() {
-														var attachHidden = document.getElementById('attachHiddenNest');
-														attachHidden.contentDocument.forms[0].action = "<?php echo $param['singleUploadPath'];?>"+entryManager.entryId;
+												  function addAttachment() {
+<?php
+  if (!defined('__TEXTCUBE_GAE__')) {
+?>
+														var uploadPath = "<?php echo $param['singleUploadPath'];?>" + entryManager.entryId;
+<?php
+  } else {
+?>
+                            var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl", false);
+														request.send("target=<?php echo $param['singleUploadPath'];?>" + entryManager.entryId);
+														var uploadPath = request.getText('/response/url');
+<?php
+  }
+?>
+												    var attachHidden = document.getElementById('attachHiddenNest');
+														attachHidden.contentDocument.forms[0].action = uploadPath;
 														attachHidden.contentDocument.forms[0].attachment.click();
 													}
 													
@@ -810,21 +823,35 @@ function printEntryFileList($attachments, $param) {
 														var requiredRevision = 0;
 														var jsVersion = 1.0;
 														var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+<?php
+	if (!defined('__TEXTCUBE_GAE__')) {
+?>
+  													var uploadPath = "<?php echo $param['uploadPath'];?>" + entryManager.entryId;
+<?php
+  } else {
+?>
+														var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl", false);
+														request.send("target=<?php echo $param['uploadPath'];?>" + entryManager.entryId);
+														var uploadPath = request.getText('/response/url');
+<?php
+  }
+?>
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
 															+ 'width="400" height="40"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand()?>" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>'
-															+ entryManager.entryId
-															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
-															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
-															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
-															+ '<embed id="uploader2" src="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
-															+ entryManager.entryId
-															+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
-															+ '&labelingPath=<?php echo $param['labelingPath'];?>'
-															+ entryManager.entryId
-															+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
+															+ '<param name="movie" value="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand()?>" />'
+															+ '<param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" />'
+															+ '<param name="wmode" value="transparent" />'
+															+ '<param name="FlashVars" value="uploadPath=' + uploadPath
+																+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
+																+ '&labelingPath=<?php echo $param['labelingPath'];?>' + entryManager.entryId
+																+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
+															+ '<embed id="uploader2" src="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>"'
+																+ 'flashvars="uploadPath=' + uploadPath
+															  + '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
+															  + '&labelingPath=<?php echo $param['labelingPath'];?>' + entryManager.entryId
+															  + '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />'
+															  +'<\/embed><\/object>';
 															
 														if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
 															if(<?php echo ($context->getProperty('service.flashuploader') ? 'true' : 'false');?>) { writeCode(uploaderStr,'uploaderNest'); }

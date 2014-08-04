@@ -41,12 +41,13 @@ $_SERVER["SCRIPT_NAME"] = str_replace('gae.php', '', $_SERVER["SCRIPT_NAME"]);
 
 // Handles $blogURL/attach/... for attachment files.
 if (substr($_SERVER["REQUEST_URI"], 0, 8) == '/attach/') {
-	if (file_exists(__TEXTCUBE_ATTACH_DIR__ . substr($_SERVER["REQUEST_URI"], 7))) {
+	$requestFilename = strtok(substr($_SERVER["REQUEST_URI"], 7), '?#');
+	if (file_exists(__TEXTCUBE_ATTACH_DIR__ . $requestFilename)) {
 		require 'library/function/file.php';
 		$option = [
 				'content_type' => getMIMEType('', $_SERVER["REQUEST_URI"])
 		];
-		CloudStorageTools::serve(__TEXTCUBE_ATTACH_DIR__ . substr($_SERVER["REQUEST_URI"], 7), $option);
+		CloudStorageTools::serve(__TEXTCUBE_ATTACH_DIR__ . $requestFilename, $option);
 		exit();
 	}
 }
