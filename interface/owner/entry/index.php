@@ -26,6 +26,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.trash");
 requireModel("blog.entry");
+requireModel("blog.version");
 trashVan();
 publishEntries();
 
