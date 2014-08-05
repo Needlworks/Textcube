@@ -62,7 +62,7 @@ class SkinSetting {
 				if (!Validator::filename($this->skin))
 					return $this->_error('skin');
 			}
-			if (!Validator::path($this->skin) || !file_exists(ROOT . '/skin/' . $this->skin))
+			if (!Validator::path($this->skin) || !file_exists(__TEXTCUBE_SKIN_DIR__ . '/' . $this->skin))
 				return $this->_error('skin');
 			Setting::setSkinSetting('skin', $this->skin);
 		}

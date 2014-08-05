@@ -94,11 +94,19 @@ if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() =
     }
 	$_SESSION['displaymode'] = 'mobile';
 	define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/default');
-	define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+	if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+	} else {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/default/customize');
+	}
 } else {
   $_SESSION['displaymode'] = 'desktop';
   define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/blog');
-  define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+	if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
+	  define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+	} else {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/blog/customize');
+	}
   $context->setProperty('blog.displaymode','desktop');
 }
 /// Reading necessary file list

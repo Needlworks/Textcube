@@ -3,6 +3,17 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
+function getSkinPath($skinname) {
+	if (isCustomSkin($skinname)) {
+		return __TEXTCUBE_SKIN_CUSTOM_DIR__ . '/' . substr($skinname, 10);
+	}
+	return __TEXTCUBE_SKIN_DIR__ . '/' . $skinname;
+}
+
+function isCustomSkin($skinname) {
+	return strncmp($skinname, 'customize/', 10) == 0;
+}
+
 function setTreeSetting($blogid, $setting) {
 	requireLibrary('blog.skin');
 
@@ -20,8 +31,8 @@ function reloadSkin($blogid)
 {
 	$context = Model_Context::getInstance();
 	$skinName = $context->getProperty('skin.skin');
-	if (file_exists(ROOT . "/skin/$skinName/index.xml")) {
-		$xml = file_get_contents(ROOT . "/skin/$skinName/index.xml");
+	if (file_exists(getSkinPath($skinName) . "/index.xml")) {
+		$xml = file_get_contents(getSkinPath($skinName) . "/index.xml");
 		$xmls = new XMLStruct();
 		if (!$xmls->open($xml, $context->getProperty('service.encoding')))
 			return;
@@ -67,8 +78,8 @@ function selectSkin($blogid, $skinName) {
 			return _t('실패 했습니다');
 	}
 
-	if (file_exists(__TEXTCUBE_SKIN_DIR__."/$skinName/index.xml")) {
-		$xml = file_get_contents(__TEXTCUBE_SKIN_DIR__."/$skinName/index.xml");
+	if (file_exists(getSkinPath($skinName)."/index.xml")) {
+		$xml = file_get_contents(getSkinPath($skinName)."/index.xml");
 		$xmls = new XMLStruct();
 		if (!$xmls->open($xml, $service['encoding']))
 			return _t('실패했습니다.');
@@ -220,7 +231,7 @@ function selectSkin($blogid, $skinName) {
 	Setting::removeBlogSetting("sidebarOrder",true);
 	CacheControl::flushAll();
 	CacheControl::flushSkin();
-	Path::removeFiles(ROOT . "/skin/blog/customize/".getBlogId()."/");
+	Path::removeFiles(getSkinPath('customize/' . getBlogId()) . "/");
 	Setting::getSkinSettings($blogid, true); // refresh skin cache
 	return true;
 }
@@ -233,13 +244,13 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
 		return _t('실패했습니다.');
 	if ($skinSetting['skin'] != "customize/$blogid") {
-		if (!@file_exists(ROOT . "/skin/blog/customize/$blogid")) {
-			if (!@mkdir(ROOT . "/skin/blog/customize/$blogid"))
-				return _t('권한이 없습니다.');
+		if (!@file_exists(getSkinPath("customize/$blogid"))) {
+			if (!@mkdir(getSkinPath("customize/$blogid")))
+				return _t('권한이 없습니다.' . getSkinPath("customize/$blogid"));
 			@chmod(ROOT . "/skin/blog/customize/$blogid", 0777);
 		}
-		deltree(ROOT . "/skin/blog/customize/$blogid");
-		copyRecusive(ROOT . "/skin/blog/{$skinSetting['skin']}", ROOT . "/skin/blog/customize/$blogid");
+		deltree(getSkinPath("customize/$blogid"));
+		copyRecusive(getSkinPath($skinSetting['skin']), getSkinPath("customize/$blogid"));
 	}
 	$skinSetting['skin'] = "customize/$blogid";
 	Setting::setSkinSetting('skin',$skinSetting['skin'],$blogid);
@@ -249,15 +260,15 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 	//	$file = $mode . '.css';
 	//else
 	//	$file = $mode . '.html';
-	if (!is_writable(ROOT . "/skin/blog/customize/$blogid/$file"))
-		return ROOT . _t('권한이 없습니다.') . " -> /skin/blog/customize/$blogid/$file";
-	$handler = fopen(ROOT . "/skin/blog/customize/$blogid/$file", 'w');
+	if (!is_writable(getSkinPath("customize/$blogid") . "/$file"))
+		return $file . _t('권한이 없습니다.') . " -> /skin/blog/customize/$blogid/$file";
+	$handler = fopen(getSkinPath("customize/$blogid") . "/$file", 'w');
 	if (fwrite($handler, $contents) === false) {
 		fclose($handler);
 		return _t('실패했습니다.');
 	} else {
 		fclose($handler);
-		@chmod(ROOT . "/skin/blog/customize/$blogid/$file", 0666);
+		@chmod(getSkinPath("customize/$blogid") . "/$file", 0666);
 		CacheControl::flushAll();
 		CacheControl::flushSkin();
 		return true;
@@ -266,7 +277,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 
 function getCSSContent($blogid, $file) {
 	global $skinSetting;
-	return @file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/$file");
+	return @file_get_contents(getSkinPath($skinSetting['skin']) . "/$file");
 }
 
 function setSkinSetting($blogid, $setting) {
@@ -284,7 +295,7 @@ function setSkinSetting($blogid, $setting) {
 			return _t('실패 했습니다');
 	}
 	
-	$skinpath = __TEXTCUBE_SKIN_DIR__.'/' . $skinSetting['skin'];
+	$skinpath = getSkinPath($skinSetting['skin']);
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');
 

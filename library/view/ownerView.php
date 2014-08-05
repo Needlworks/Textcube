@@ -836,17 +836,18 @@ function printEntryFileList($attachments, $param) {
 <?php
   }
 ?>
+	                          uploadPath = uploadPath.replace(/=/g, '%3D').replace(/\?/g, '%3F').replace(/&/g, '%26').replace(/"/g, '%22').replace(/'/g, '%27');
 														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
-															+ 'width="400" height="40"'
+															+ 'width="400" height="400"'
 															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-															+ '<param name="movie" value="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand()?>" />'
+															+ '<param name="movie" value="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader2.swf?<?php echo rand()?>" />'
 															+ '<param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" />'
 															+ '<param name="wmode" value="transparent" />'
 															+ '<param name="FlashVars" value="uploadPath=' + uploadPath
 																+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 																+ '&labelingPath=<?php echo $param['labelingPath'];?>' + entryManager.entryId
 																+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
-															+ '<embed id="uploader2" src="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>"'
+															+ '<embed id="uploader2" src="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader2.swf?<?php echo rand() ?>"'
 																+ 'flashvars="uploadPath=' + uploadPath
 															  + '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
 															  + '&labelingPath=<?php echo $param['labelingPath'];?>' + entryManager.entryId
@@ -932,6 +933,7 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo ($context->getProperty('service.flashuploader', true) ? 'false' : 'true');?>) {
 											var deleteButtonContainer = document.getElementById('fileUploadNest');
 											deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
+											deleteButtonContainer.style.marginTop = '5px';
 										}
 										//]]>
 										</script>
