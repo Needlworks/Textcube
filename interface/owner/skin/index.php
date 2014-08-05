@@ -129,11 +129,11 @@ function writeValue($value, $label, $className) {
 									<a id="currentSkinAnchor"></a>
 									<div id="currentPreview" class="preview">
 <?php
-if (file_exists(ROOT."/skin/blog/".$skinSetting['skin']."/preview.jpg")) {
+if (file_exists(getSkinPath($skinSetting['skin'])."/preview.jpg")) {
 ?>
 										<img src="<?php echo $context->getProperty('service.path');?>/skin/blog/<?php echo $skinSetting['skin'];?>/preview.jpg" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
-} else if (file_exists(ROOT."/skin/blog/".$skinSetting['skin']."/preview.gif")) {
+} else if (file_exists(getSkinPath($skinSetting['skin'])."/preview.gif")) {
 ?>
 										<img src="<?php echo $context->getProperty('service.path');?>/skin/blog/<?php echo $skinSetting['skin'];?>/preview.gif" width="150" height="150" alt="<?php echo _t('스킨 미리보기');?>" />
 <?php
