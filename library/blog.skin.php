@@ -5,6 +5,8 @@
 
 global $__gDressTags;
 
+requireModel("blog.skin");
+
 class Skin {
 	var $outter;
 	var $skin;
@@ -111,7 +113,7 @@ class Skin {
 			//$this->singleTrackbackMessage = $blog['singleTrackbackMessage'];
 			$this->microformatDebug = array();
 
-			if (strncmp($name, 'customize/', 10) == 0) {
+			if (isCustomSkin($name)) {
 				$name = "customize/".getBlogId();
 			} else {
 				$name = Path::getBaseName($name);
@@ -120,15 +122,16 @@ class Skin {
 			if (($name == '.') || ($name == '..')) {
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
 			}
-			$filename = __TEXTCUBE_SKIN_DIR__."/$name/skin.html";
+			$filename = getSkinPath($name) . "/skin.html";
 
 			if (!is_file($filename)) {
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
 			}
 
-			if (!$sval = file_get_contents($filename))
+			if (!$sval = file_get_contents($filename)) {
 				Respond::ErrorPage(_text('스킨 정보가 존재하지 않습니다.'), _text('로그인'), $context->getProperty('uri.blog')."/owner");
-
+			}
+			
 			replaceSkinTag($sval, 'html');
 			replaceSkinTag($sval, 'head');
 			replaceSkinTag($sval, 'body');

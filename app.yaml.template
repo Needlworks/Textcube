@@ -9,6 +9,8 @@ handlers:
 - url: /resources
   static_dir: resources
   application_readable: true
+- url: /skin/blog/customize/.*
+  script: gae.php
 - url: /skin
   static_dir: skin
   application_readable: true
