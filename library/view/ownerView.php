@@ -816,6 +816,17 @@ function printEntryFileList($attachments, $param) {
 
 												<script type="text/javascript">
 													//<![CDATA[
+<?php
+	if (defined('__TEXTCUBE_GAE__')) {
+?>
+													function getMultiUploadUrl() {
+														var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl", false);
+														request.send("target=<?php echo $param['uploadPath'];?>" + entryManager.entryId + "?TSSESSION=<?php echo $_COOKIE[Session::getName()];?>");
+														return request.getText('/response/url');
+													}
+<?php
+  }
+?>
 													var uploaderStr = '';
 													function reloadUploader() { 
 														var requiredMajorVersion = 8;
@@ -830,9 +841,7 @@ function printEntryFileList($attachments, $param) {
 <?php
   } else {
 ?>
-														var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl", false);
-														request.send("target=<?php echo $param['uploadPath'];?>" + entryManager.entryId);
-														var uploadPath = request.getText('/response/url');
+														var uploadPath = '';
 <?php
   }
 ?>
