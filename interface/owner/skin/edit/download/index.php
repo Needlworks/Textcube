@@ -17,6 +17,7 @@ if (! file_exists(__TEXTCUBE_SKIN_CUSTOM_DIR__ . '/' . getBlogId() . "/" . $_GET
 	exit();
 }
 header('Content-Type: text/html; charset=utf-8');
+header('Content-Disposition: attachment; filename="skin.html"');
 $fileHandle = fopen(__TEXTCUBE_SKIN_CUSTOM_DIR__ . '/' . getBlogId() . "/" . $_GET['file'], 'r');
 $result = fread($fileHandle, filesize(__TEXTCUBE_SKIN_CUSTOM_DIR__ . "/" . getBlogId() . "/" . $_GET['file']));
 fclose($fileHandle);
