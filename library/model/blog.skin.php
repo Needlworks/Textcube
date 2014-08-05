@@ -3,17 +3,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-function getSkinPath($skinname) {
-	if (isCustomSkin($skinname)) {
-		return __TEXTCUBE_SKIN_CUSTOM_DIR__ . '/' . substr($skinname, 10);
-	}
-	return __TEXTCUBE_SKIN_DIR__ . '/' . $skinname;
-}
-
-function isCustomSkin($skinname) {
-	return strncmp($skinname, 'customize/', 10) == 0;
-}
-
 function setTreeSetting($blogid, $setting) {
 	requireLibrary('blog.skin');
 

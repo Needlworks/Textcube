@@ -5,7 +5,16 @@
 
 global $__gDressTags;
 
-requireModel("blog.skin");
+function getSkinPath($skinname) {
+	if (isCustomSkin($skinname)) {
+		return __TEXTCUBE_SKIN_CUSTOM_DIR__ . '/' . substr($skinname, 10);
+	}
+	return __TEXTCUBE_SKIN_DIR__ . '/' . $skinname;
+}
+
+function isCustomSkin($skinname) {
+	return strncmp($skinname, 'customize/', 10) == 0;
+}
 
 class Skin {
 	var $outter;
