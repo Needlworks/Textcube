@@ -4,7 +4,7 @@
 /* ------------------------- */
 .container { 
 	color: #666;
-	font: 1.1em/1.7 "Helvetica Neue", Helvetica, NanumBarunGothic, "나눔바른고딕", "Apple SD Gothic Neo", AppleGothic, Dotum, "돋움", sans-serif;
+	font: 1.1em/1.7 "Helvetica Neue", Helvetica, NanumBarunGothic, "나눔바른고딕", "Noto Sans Korean", "Apple SD Gothic Neo", "Malgun Gothic", AppleGothic, Dotum, "돋움", sans-serif;
 }
 
 img					{ height: auto; max-width: 100%; }
