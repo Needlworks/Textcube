@@ -41,6 +41,11 @@ table.data-inbox tbody tr .reply
 	border-bottom                    : 1px solid #E3E3DE;
 }
 
+table.data-inbox tbody tr .site
+{
+	max-width                        : 120px;
+}
+
 table.data-inbox tbody tr td.date,
 table.data-inbox tbody tr td.ip
 {
