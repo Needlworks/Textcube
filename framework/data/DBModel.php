@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.5.0.20140514 */
+/* 1.6.0.20140916 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limitation, $table, $id, $_querysetCount;
@@ -121,7 +121,13 @@ class DBModel extends Singleton implements IModel {
 	public function setQualifier($name, $condition, $value = null, $escape = false, $autoquote = true) {
 		$result = $this->getQualifierModel($name, $condition, $value, $escape, $autoquote);
 		if($result) {
-			list($this->_qualifiers[$name],$this->_relations[$name]) = $result;
+			if (!isset($this->_qualifiers[$name])) {
+				$this->_qualifiers[$name] = array();
+				$this->_relations[$name] = array();
+			}
+			$index = count($this->_qualifiers[$name]) + 1;
+			$this->_qualifiers[$name][$index] = $result[0];
+			$this->_relations[$name][$index] = $result[1];
 		}
 		return $this;
 	}
@@ -341,10 +347,12 @@ class DBModel extends Singleton implements IModel {
 
 					$clause .= ')';
 				} else {
-					list($relations, $value) = $this->_canonicalWhereClause($this->_relations[$name],$value);
-					$clause .= (strlen($clause) ? ' AND ' : '') .
-						(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
-						' '.(is_null($value) ? ' IS NULL' : $relations . ' ' . $value);
+					foreach ($value as $index => $qualifier) {
+						list($relations, $qvalue) = $this->_canonicalWhereClause($this->_relations[$name][$index],$qualifier);
+						$clause .= (strlen($clause) ? ' AND ' : '') .
+							(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) .
+							' '.(is_null($qvalue) ? ' IS NULL' : $relations . ' ' . $qvalue);
+					}
 				}
 			}
 		}
