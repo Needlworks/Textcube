@@ -233,11 +233,11 @@ final class Model_URIHandler extends Singleton
 	}
 }
 
-/** Support functions */
-/*
+/** Support functions for legacy support */
+
 function getBlogId() {
-	global $blogid;
-	return $blogid;
-}*/
+	$uri = Model_URIHandler::getInstance();
+	return intval($uri->blogid);
+}
 
 ?>
