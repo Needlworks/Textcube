@@ -56,11 +56,12 @@ class Setting {
 	function getBlogSettingsGlobal($blogid = null) {
 		global $database, $service, $__gCacheBlogSettings, $gCacheStorage;
 		if(empty($__gCacheBlogSettings)) $__gCacheBlogSettings = array();
-		if(is_null($blogid)) $blogid = getBlogId();
+		$context = Model_Context::getInstance();
+		if(is_null($blogid)) $blogid = $context->getProperty('blog.id');//getBlogId();
 		if (array_key_exists($blogid, $__gCacheBlogSettings) && !empty($__gCacheBlogSettings[$blogid])) {
 			return $__gCacheBlogSettings[$blogid];
 		}
-		if($blogid == getBlogId()) {
+		if($blogid == $context->getProperty('blog.id')) { //getBlogId()) {
 			$result = $gCacheStorage->getContent('BlogSettings');
 			if(!empty($result)) { 
 				$__gCacheBlogSettings[$blogid] = $result;
@@ -117,7 +118,7 @@ class Setting {
 				}
 			}
 			$__gCacheBlogSettings[$blogid] = $result;
-			if($blogid == getBlogId()) $gCacheStorage->setContent('BlogSettings', $result);
+			if($blogid == $context->getProperty('blog.id')) $gCacheStorage->setContent('BlogSettings', $result);
 			return $result;
 		}
 		$__gCacheBlogSettings[$blogid] = false;
@@ -342,12 +343,13 @@ class Setting {
 	
 	function getSkinSettings($blogid, $forceReload = false) {
 		global $database, $service, $__gCacheSkinSettings, $gCacheStorage;
+		$context = Model_Context::getInstance();
 		if(empty($__gCacheSkinSettings)) $__gCacheSkinSettings = array();
 		if(is_null($blogid)) $blogid = getBlogId();
 		if (array_key_exists($blogid, $__gCacheSkinSettings) && !empty($__gCacheSkinSettings[$blogid])) {
 			return $__gCacheSkinSettings[$blogid];
 		}
-		if($blogid == getBlogId()) {
+		if($blogid == $context->getProperty('blog.id')) { //$blogid == getBlogId()) {
 			$result = $gCacheStorage->getContent('SkinSettings');
 			if(!empty($result)) { 
 				$__gCacheSkinSettings[$blogid] = $result;
@@ -408,7 +410,7 @@ class Setting {
 				}
 			}
 			$__gCacheSkinSettings[$blogid] = $result;
-			if($blogid == getBlogId()) $gCacheStorage->setContent('SkinSettings', $result);
+			if($blogid == $context->getProperty('blog.id')) $gCacheStorage->setContent('SkinSettings', $result);
 			return $result;
 		}
 		$__gCacheSkinSettings[$blogid] = false;

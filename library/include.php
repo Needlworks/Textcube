@@ -5,12 +5,6 @@
 
 /** Pre-define basic components */
 global $__requireBasics, $__requireComponent, $__requireLibrary, $__requireModel, $__requireView;
-$__requireComponent = array(
-	'Textcube.Core',
-	'Needlworks.Cache.PageCache');
-foreach($__requireComponent as $lib) {
-	require ROOT .'/framework/legacy/'.$lib.'.php';
-} 
 /***** Loading code pieces *****/
 if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(__TEXTCUBE_CACHE_DIR__.'/code/'.$codeName)) {
 	$codeCacheRead = true;
@@ -25,7 +19,7 @@ if(isset($service['codecache']) && ($service['codecache'] == true) && file_exist
 		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/model/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);
 	}
-	
+
 	foreach($__requireView as $lib) {
 		if(strpos($lib,'DEBUG') === false) require ROOT .'/library/view/'.$lib.'.php';
 		else if(defined('TCDEBUG')) __tcSqlLogPoint($lib);

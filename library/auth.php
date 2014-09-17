@@ -64,11 +64,11 @@ function getUserId() {
 	return intval(Acl::getIdentity('textcube'));
 }
 
-
+/*
 function getBlogId() {
 	global $blogid;
 	return intval($blogid);
-}
+}*/
 
 function setBlogId($id) {
 	global $blogid;
