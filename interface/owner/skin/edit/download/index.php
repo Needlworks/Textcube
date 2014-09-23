@@ -14,7 +14,7 @@ if (!file_exists(__TEXTCUBE_SKIN_CUSTOM_DIR__."/".getBlogId()."/".$_GET['file'])
 	exit;
 header('Content-Type: text/html; charset=utf-8');
 $fileHandle = fopen(__TEXTCUBE_SKIN_CUSTOM_DIR__."/".getBlogId()."/".$_GET['file'],'r+');
-$result = fread($fileHandle, filesize(__TEXTCUBE_SKIN_DIR__."/".getBlogId()."/".$_GET['file']));
+$result = fread($fileHandle, filesize(__TEXTCUBE_SKIN_CUSTOM_DIR__."/".getBlogId()."/".$_GET['file']));
 fclose($fileHandle);
 echo $result;
 ?>
