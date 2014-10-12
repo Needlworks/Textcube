@@ -1,0 +1,497 @@
+@charset "utf-8";
+/*
+ MusicPaper : HTML5-compliant skin for Textcube
+ -------------------------------------------
+
+                               Jeongkyu Shin
+                          inureyes@gmail.com
+       http://forest.nubimaru.com/musicpaper
+
+
+ * Simple structure diagram
+  
+	+---------------------------+
+	|           face            |
+	+-------------------+-------+
+	|                   |       |
+	| (sections inside) |sidebar|
+	|                   |       |
+	+-------------------+-------+
+	|          footer           |
+	+---------------------------+
+
+ * IDs  ( <attribute> description )
+  - face : <header> heading part.
+  - menu : <menu> blog menu.
+  - coverpage : <article> cover page.
+
+ * (Global) Classes in sections
+    .list
+    .search
+    .line
+    .location
+    .guestbook
+	.post
+    .comment
+    .trackback    
+    .writeform
+	.keywords
+	.keylog
+	.logs
+	.notice
+
+*/
+
+body {
+	font : 1em/1.5 sans-serif;
+}
+
+a:link, a:visited {
+	text-decoration : none;
+}
+/* Outline */
+#face {
+	width:100%;
+}
+
+#content {
+	display : table;
+	margin : 0 auto;
+}
+
+#sections,
+#sidebar {
+	display : table-cell;
+}
+
+#sections section article {
+	width : 700px;	
+}
+
+section.comments dl.comments,
+section.write fieldset {
+	min-width : 680px;	
+}
+
+#sidebar {
+	width : 200px;
+	padding-left : 30px;
+}
+
+/* Heading part design. */
+header#face {
+	height : 100px;
+}
+
+header#face h1 {
+	font: 2em/1.0 sans-serif;
+}
+
+header#face h2 {
+	font : 1.2em/1.0 sans-serif;
+}
+
+/* Blog menu design. */
+nav#menu menu {
+	display : block;
+	background-color : white;
+	filter : alpha(opacity=90);
+	opacity : .90;
+}
+nav#menu menu.action {
+	position : absolute;
+	top : 0;
+	right : 10px;	
+}
+
+nav#menu menu li {
+	display : inline;
+	font-size : 0.8em;	
+	padding : 5px;
+	margin-right : 10px;
+	border : 1px solid #bbb;
+	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));	
+}
+
+nav#menu menu li:hover {
+	background-color : #f2f2f2;
+	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+}
+
+nav#menu menu li:active {
+	background-color : #ddd;
+	background-image : -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));	
+}
+
+/* Lists */
+section.list article dl {
+	display:block;
+}
+section.list article dl:after {
+	clear:left;
+}
+section.list article dt,
+section.list article dd {
+	display:block;
+	float:left;
+	margin:0;
+}
+
+section.list article dl dt.title {
+	width:50%;	
+}
+
+section.list article dd.regdate {
+	width:15%;	
+}
+
+
+/* Post */
+
+article.post header ul {
+	display:none;	
+}
+article.post header h2 {
+	border-bottom : 2px solid #ddd;		
+}
+
+section.post article {
+	margin-bottom : 10px;
+}
+/* Post admin menu */
+section.post menu.admin li {
+	list-style-type : none;
+	display : inline;
+	margin-right:5px;
+}
+
+/* Post Summary */
+section.summary article {
+	border : 1px solid #ddd;
+	padding : 10px;
+	border-radius : 10px;
+	box-shadow : 0 0 3px #ccc;
+	-moz-border-radius : 10px;
+	-webkit-border-radius : 10px;
+	-moz-box-shadow : 0 0 3px #ccc;
+	-webkit-box-shadow : 0 0 3px #ccc;	
+}
+
+section.summary dl.information {
+	font : 0.8em/1.2 sans-serif;
+	float : right;
+	min-width : 250px;
+	margin-top : 0;
+	padding-top : 0;
+	margin-bottom : 10px;
+	list-style-type : square;
+	padding-bottom : 8px;
+	border-left : 1px solid #ddd;
+}
+
+section.summary dl.information dd {
+	margin-left : 10px;
+	margin-right : 10px;
+}
+
+section.summary dl.information dd.category {
+	float : left;
+	margin-right : 7px;	
+}
+
+section.summary dl dt.feed, 
+section.summary dl dd.feed {
+	display : inline;
+	margin-left : 3px;	
+	list-style-type : none;
+}
+
+section.summary dl.information dd.tag {
+	clear:left;
+}
+
+section.summary dl.information dd.tag dl dt,
+section.summary dl.information dd.tag dl dd {
+	display:inline;	
+}
+
+section.summary dt.response {
+	display : none;	
+}
+
+section.summary dl.response {
+	margin-left:25px;
+}
+
+section.summary .feed {
+	font-size:0.8em;	
+}
+/* Trackbacks */
+section.trackbacks dt.url,
+section.trackbacks dd.url {
+	display:inline;	
+}
+
+section.trackbacks dd.url {
+	font-size:0.8em;
+	margin-left:15px;
+}
+
+section.trackbacks .feed {
+	display: none;
+}
+
+/* Comments */
+section.comments hgroup h1 {
+	font-size:1.2em;
+}
+
+section.comments hgroup h2 {
+	display:none;	
+}
+
+section.comments dl {
+	padding:10px;
+	border:1px solid #ddd;
+	font-size:0.925em;
+	border-radius : 10px;
+	-moz-border-radius : 10px;
+	-webkit-border-radius : 10px;	
+}
+
+section.comments dl dt {
+	float:left;	
+	margin-right:20px;
+}
+
+section.comments dl dt:nth-child(2n+1) {
+}
+
+section.comments dl dd dl {
+	background-color : #fff;
+	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));
+}
+
+
+section.comments dd.regdate,
+section.comments dd.permalink,
+section.comments dd.delete,
+section.comments dd.write {
+	float:left;
+	margin-left:5px;	
+}
+section.comments dd.content {
+	clear:left;
+	padding-top:10px;
+	margin-left:5px;
+}
+
+section.comments dd.reply {
+	margin-left:30px;	
+}
+
+
+/* comments write form */
+section.write {
+	padding:10px;
+}
+section.write hgroup h1 {
+	display:none;
+}
+
+section.write hgroup h2 {
+	display:block !important;
+	font-size:1.2em;
+}
+
+
+section.write fieldset {
+	border:1px solid #ddd;
+	border-radius : 10px;
+	-moz-border-radius : 10px;
+	-webkit-border-radius : 10px;	
+}
+
+section.write input {
+	display : block;
+	min-width : 400px;
+	float : left;
+	margin-right:20px;
+}
+
+section.write label {
+	display:block;
+}
+
+section.write label:after {
+	clear:left;	
+}
+
+section.write textarea {
+	width:100%;
+	clear:both;	
+}
+
+section.write .submit {
+	width:100%;	
+}
+#test {
+	column-count: 3;
+	column-gap: 1em;
+	column-rule: 1px solid black;
+	-moz-column-count: 3;
+	-moz-column-gap: 1em;
+	-moz-column-rule: 1px solid black;
+	-webkit-column-count: 3;
+	-webkit-column-gap: 1em;
+	-webkit-column-rule: 1px solid black;
+}
+
+/* Paging */
+
+nav.paging ul {
+	margin: 15px auto 0 auto;
+	list-style-type : none;
+}
+
+nav.paging li {
+	float:left;	
+}
+
+nav.paging a {
+	margin-left : 0.5em;	
+}
+
+nav.paging a span.selected {
+	text-shadow : 0 0 8px yellow;
+}
+
+/* footer */
+
+footer {
+	border-top: 1px solid #ddd;
+	margin-top : 15px;	
+}
+
+/* widgets */
+
+.widget ol {
+	font-size:0.8em;
+	padding-left:0;
+}
+.widget ol li {
+	list-style-type:none;
+}
+
+input.search {
+	width:120px;	
+}
+
+#tagcloudWidget ul {
+	padding-left:0;
+}
+
+#tagcloudWidget li {
+	list-style:none;
+	display:inline;
+}
+
+#tagcloudWidget li a.cloud1 {
+	font-size:1.6em;
+}
+#tagcloudWidget li a.cloud2 {
+	font-size:1.4em;
+}
+#tagcloudWidget li a.cloud3 {
+	font-size:1.2em;
+}
+#tagcloudWidget li a.cloud4 {
+	font-size:1em;	
+}
+#tagcloudWidget li a.cloud5 {
+	font-size:0.8em;
+}
+
+#categoryWidget ul {
+	font-size:1em;
+	padding-left:0;
+	list-style-type : none;
+}
+
+#categoryWidget ul li ul {
+	font-size:0.925em;
+	padding-left:15px;
+}
+#categoryWidget li a.categoryFeed {
+	padding-right:20px;
+	background: url('./images/atom_12.png') 0 2px no-repeat !important;
+}
+
+#categoryWidget li a.categoryFeed span {
+	display:none;
+}
+
+#authorWidget ol {
+	list-style-type : square;
+}
+
+#bookmarkWidget ul {
+	padding-left:20px;
+	font-size:0.925em;
+	list-style-type:none;
+}
+
+#bookmarkWidget .link_ct {
+	font-size:1em;	
+}
+
+#countWidget dl {
+	font-size:0.8em;
+	padding-left:20px;
+}
+
+#countWidget dt {
+	float:left;
+	width:150px;
+}
+
+#subscriptionWidget ul {
+	list-style-type:none;
+	padding-left:0;
+	font-size:0.8em;
+}
+
+#subscriptionWidget li {
+	margin-bottom:5px;	
+}
+
+#subscriptionWidget a {
+	padding-left:20px;
+}
+
+#subscriptionWidget a.atom {
+	background: url('./images/atom_12.png') 3px 0 no-repeat !important;
+}
+
+#subscriptionWidget a.rss {
+	background: url('./images/rss_12.png') 3px 0 no-repeat !important;
+}
+
+
+/* General elements */
+.button {
+	font-size : 0.8em;
+	padding : 5px;
+	border : 1px solid #bbb;
+	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fff), to(#eee));	
+}
+
+.button:hover {
+	background-color : #f2f2f2;
+	background-image : -webkit-gradient(linear, left 14, left bottom, from(#fbfbfb), to(#ddd));
+}
+
+.button:active {
+	background-color : #ddd;
+	background-image : -webkit-gradient(linear, left 14, left bottom, to(#f8f8f8), from(#ddd));	
+}

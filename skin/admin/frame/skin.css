@@ -1,0 +1,1286 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+#sub-menu-skin
+{
+	background-image                 : none !important;
+}
+
+/* Select ****************************************************************************************/
+
+#part-skin-current,
+#part-skin-list
+{
+	float                            : left;
+}
+
+#part-skin-current,
+#part-skin-current .data-inbox
+{
+	width                            : 240px;
+	margin                           : 0;
+	padding                          : 0;
+}
+
+#part-skin-list,
+#part-skin-list .data-inbox
+{
+	width                            : 695px;
+}
+
+#part-skin-list
+{
+	padding-left                     : 15px;
+}
+
+/*********** Current Skin ***********/
+
+#part-skin-current .section .preview
+{
+	border                           : 1px solid #BBBBBB;
+	padding                          : 3px;
+	width                            : 150px;
+	margin                           : 0 auto;
+}
+
+#part-skin-current .section .information
+{
+	margin-left                      : 0;
+}
+
+#part-skin-current #currentInfo
+{
+	margin-top                       : 40px;
+}
+
+#part-skin-current .information .explain-line .name,
+#part-skin-current .information .title-line .name,
+#part-skin-list .information .explain-line .name,
+#part-skin-list .information .title-line .name
+{
+	display                          : none;
+}
+
+#part-skin-current .information .explain-line .explain,
+#part-skin-current .information .title-line .explain,
+#part-skin-list .information .explain-line .explain,
+#part-skin-list .information .title-line .explain
+{
+	padding-left                     : 0;
+	margin-left                      : 0;
+}
+
+#part-skin-current .information .title-line .explain
+{
+	font-weight                      : bold;
+	text-align                       : center;
+	background-color                 : #EFEFEF;
+	border-bottom                    : 1px solid #DDD;
+}
+#part-skin-list .information .title-line .explain
+{
+	font-weight                      : bold;
+	text-align                       : center;
+	background-color                 : #EFEFEF;
+	border-bottom                    : 1px solid #DDD;
+}
+
+#part-skin-list .information .title-line .explain
+{
+	margin-left                      : 0 !important;
+}
+
+#part-skin-current .information dt
+{
+	width                            : 60px;
+}
+
+#part-skin-current .section .information .button-box .edit-button
+{
+	left                             : 42px;
+	position                         : absolute;
+	top                              : 170px;
+	width                            : 60px;
+}
+
+#part-skin-current .section .information .button-box .setting-button
+{
+	left                             : 122px;
+	position                         : absolute;
+	top                              : 170px;
+	width                            : 60px;
+}
+
+/*********** Skin list (general) ************/
+#part-skin-list .section .preview
+{
+	border                           : 1px solid #BBBBBB;
+	padding                          : 3px;
+	float                            : left;
+	width                            : 150px;	
+}
+
+#part-skin-list .section,
+#part-skin-current .section
+{
+	margin-bottom                    : 20px;
+	position                         : relative;
+}
+
+#part-skin-list .section .preview img,
+#part-skin-current .section .preview img
+{
+	vertical-align                   : top;
+}
+
+#part-skin-list .section .information
+{
+	margin-left                      : 0;
+}
+
+#part-skin-list .section .information .button-box a,
+#part-skin-current .section .information .button-box a
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url("./image/bg_button.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777777;
+	font-size                        : 1em;
+	line-height                      : 1.5em;
+	padding                          : 3px 5px 1px 5px;
+	vertical-align                   : middle;
+}
+
+#part-skin-current .information dd
+{
+	margin-left                      : 65px;
+}
+
+/*********** List view ************/
+#part-skin-list #listview-box .section
+{
+	width                            : 650px;
+	min-height                       : 185px;
+	border                           : 1px dotted #EEE;
+	margin-right                     : 15px;
+	padding                          : 10px;
+}
+
+#part-skin-list #listview-box .information dt
+{
+	width                            : 60px;
+}
+
+#part-skin-list #listview-box .information dd
+{
+	width                            : 390px;
+}
+
+#part-skin-list #listview-box .section .information
+{
+	padding-left                     : 180px;
+	min-height                       : 180px;
+}
+
+#part-skin-list #listview-box .information dd
+{
+	margin-left                      : 70px;
+	border-bottom                    : 1px dotted #EEE;
+}
+#part-skin-list #listview-box .information .title-line .explain
+{
+	margin-left                      : 0;
+	width                            : 460px;
+}
+
+#part-skin-list #listview-box .section .information .button-box .preview-button
+{
+	left                             : 15px;
+	position                         : absolute;
+	top                              : 170px;
+	width                            : 60px;
+}
+
+#part-skin-list #listview-box .section .information .button-box .apply-button
+{
+	left                             : 92px;
+	position                         : absolute;
+	top                              : 170px;
+	width                            : 60px;
+}
+
+#part-skin-list .caption,
+#part-skin-more .caption
+{
+	margin-bottom                    : 10px;
+}
+
+#part-skin-list .main-explain-box
+{
+	margin-bottom                    : 20px;
+}
+
+#part-skin-more
+{
+	clear:left;
+	margin-bottom                    : 100px;
+}
+
+.list-divider
+{
+	height                           : 20px !important;
+}
+
+/*********** Icon view ************/
+#part-skin-list #iconview-box .section
+{
+	width                            : 160px;
+	height                           : 230px;
+	float                            : left;
+	border                           : 1px dotted #EEE;
+	margin-right                     : 10px;
+}
+
+#part-skin-list #iconview-box .section .information
+{
+	padding-left                     : 0;
+	min-height                       : 180px;
+}
+
+#part-skin-list #iconview-box .section .information .license-line,
+#part-skin-list #iconview-box .section .information .maker-line,
+#part-skin-list #iconview-box .section .information .homepage-line,
+#part-skin-list #iconview-box .section .information .email-line,
+#part-skin-list #iconview-box .section .information .explain-line
+{
+	display                          : none;
+}
+
+#part-skin-list #iconview-box .section .information .title-line
+{
+	position                         : relative;
+	top                              : 0;
+	clear                            : both;
+	margin                           : 0;
+	padding                          : 0;
+	background-color                 : #EFEFEF;
+}
+
+#part-skin-list #iconview-box .section .information .button-box .preview-button
+{
+	left                             : 5px;
+	position                         : absolute;
+	top                              : 190px;
+	width                            : 60px;
+}
+
+#part-skin-list #iconview-box .section .information .button-box .apply-button
+{
+	left                             : 82px;
+	position                         : absolute;
+	top                              : 190px;
+	width                            : 60px;
+}
+
+/*********** View mode box ************/
+
+#part-skin-list .main-explain-box
+{
+	clear                            : right;
+}
+
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section
+{
+	background-color                 : #F5F5F5;
+	color                            : #6B90C3;
+	font-family                      : Verdana, Arial, Tahoma, "Lucida Grande", sans-serif;
+	font-size                        : 1.1em;
+	font-weight                      : bold;
+	margin                           : 20px 0 3px 9px;
+	padding                          : 7px;
+}
+
+#part-skin-edit .section ul
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	float                            : left;
+	height                           : 400px;
+	overflow-x				          : hidden;
+	overflow-y                       : auto;
+	padding                          : 0;
+	width                            : 124px;
+}
+
+#part-skin-edit .section ul li
+{
+	border: 1px solid #FFFFFF;
+}
+
+#part-skin-edit .section ul li a
+{
+	display                          : block;
+	font-family                      : Tahoma, Verdana, 'Lucida Grande', sans-serif;
+	font-size                        : 0.92em;
+	font-weight                      : normal;
+	padding                          : 10px 5px;
+	text-align                       : center;
+}
+
+#part-skin-edit .section ul li.selected a
+{
+	background-color                 : #CDCDCD;
+}
+
+#part-skin-edit .section ul li img
+{
+	border: none;
+	display                          : block;
+	margin                           : auto;
+	width                            : 50px;
+}
+
+#part-skin-edit .section .explain
+{
+	margin-bottom                    : 3px;
+}
+
+#part-skin-edit textarea
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	font-family                      : Courier, 'Courier New', monospace;
+	font-size                        : 12px;
+	height                           : 400px;
+	margin-left                      : 5px !important;
+	padding                          : 0 0 0 2px;
+	width                            : 780px !important;
+}
+
+#part-skin-edit .section .button-box
+{
+	clear                            : both;
+	padding                          : 20px 5px;
+}
+
+#part-skin-edit .section .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+/* Exception */
+
+#htmlSectionForm ul li.selected a
+{
+	color: #666666;
+	text-decoration: none;
+}
+
+/* Setting ***************************************************************************************/
+
+#part-skin-setting .caption
+{
+	margin-bottom                    : 20px;
+}
+
+#part-skin-setting fieldset
+{
+	border-top                       : 1px solid #DDDDDD;
+	padding-top                      : 1px;
+	width                            : 459px;
+}
+
+#part-skin-setting dl
+{
+	border-top                       : 1px solid #DDDDDD;
+}
+
+#part-skin-setting dl dt
+{
+	font-weight                      : normal;
+	padding                          : 3px 3px 4px 3px;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+#part-skin-setting dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 185px;
+	padding                          : 5px 3px 4px 3px;
+}
+
+#part-skin-setting .section .button-box
+{
+	clear                            : both;
+	padding-bottom                   : 30px;
+}
+
+#part-skin-setting .section .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+#per-page-container
+{
+	float                            : right;
+}
+
+#click-container
+{
+	display                          : block;
+	float                            : left;
+}
+
+#click-container dd
+{
+	line-height                      : 1.4em !important;
+}
+
+#length-container
+{
+	float                            : right;
+	margin-left                      : 22px;
+}
+
+#tag-setting-container
+{
+	float                            : left;
+}
+
+#guestbook-setting-container
+{
+	float                            : left;
+}
+
+#advanced-setting-container
+{
+	float                            : right;
+	margin-left                      : 22px;
+}
+
+
+/* Tree -----------------------------------------------------------------------------------------*/
+
+#part-skin-tree div.data-inbox
+{
+	height                           : 488px;
+	position                         : relative;
+}
+
+#part-skin-tree div.data-inbox .section
+{
+	padding                          : 30px 0 0 310px;
+}
+
+#treePreview
+{
+	height: 300px;
+	overflow: visible;
+	width: 300px;
+}
+
+#tree-preview-box
+{
+	background-color                 : #EEEEEE;
+	height                           : 375px;
+	left                             : 0;
+	padding                          : 10px 0;
+	position                         : absolute;
+	top                              : 0;
+	width                            : 280px;
+}
+
+#tree-preview-box .title
+{
+	background-image                 : url("./image/img_bullet_tree_preview.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	color                            : #333333;
+	margin                           : 0 10px 3px 10px;
+	padding-left                     : 11px;
+}
+
+#tree-preview-box iframe
+{
+	border                           : 1px solid #999999;
+	display                          : block;
+	height                           : 355px;
+	margin                           : 0 auto;
+	overflow                         : auto;
+	width                            : 260px;
+}
+
+#property-box
+{
+	background-image                 : none;
+	border-top                       : none;
+	width                            : 560px;
+}
+
+#property-box dl
+{
+	border-top                       : 1px solid #DDDDDD;
+}
+
+#property-box dl dt
+{
+	font-weight                      : bold;
+	line-height                      : 2em;
+	padding                          : 3px 5px;
+	text-align                       : right;
+	width                            : 180px;
+}
+
+#property-box dl dd
+{
+	border-left                      : 1px solid #EEEEEE;
+	margin-left                      : 190px;
+	padding                          : 3px 5px;
+}
+
+/* tree iframe */
+#tree-iframe
+{
+	font-family                      : AppleGothic, '굴림', Gulim, Arial, 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-size                        : 0.75em;
+	margin                           : 10px !important;
+}
+
+#part-skin-tree .section .button-box
+{
+	padding-top                      : 30px;
+}
+
+#part-skin-tree .section .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+/* Coverpage ***************************************************************************************/
+
+li.default-mode-button
+{
+	display                          : none;	
+}
+
+#part-coverpage-order
+{
+	background-image                 : url("./image/bg_sidebar.png");
+	background-position              : 309px 225px;
+	background-repeat                : no-repeat;	
+}
+
+
+
+#part-coverpage-order .pseudo-clear
+{
+	clear                            : both;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	letter-spacing                   : -1px;
+	padding-top                      : 15px;
+	text-align                       : right;
+}
+
+#part-coverpage-order .pseudo-clear a
+{
+	font-weight                      : bold;
+}
+
+#part-coverpage-order .main-explain-box
+{
+	margin-top                       : 13px;
+}
+
+#part-coverpage-order .main-explain-box .explain
+{
+	margin-bottom                    : 15px;
+}
+
+#part-coverpage-order #direct-link-line
+{
+	margin-bottom                    : 0px;
+	margin-top                       : 0px !important;
+}
+
+#coverpage-box
+{
+	float                            : right;
+	height                           : 903px;
+	margin                           : 0 5px 0 30px;
+	overflow                         : auto;
+	position                         : relative;
+	width                            : 600px;
+	z-index                          : 100;
+}
+
+#coverpage-box .section
+{
+	vertical-align                   : top;
+	width                            : 575px;
+}
+
+#coverpage-box .section h3
+{
+	color                            : #FF6600;
+	font-size                        : 1em;
+	margin                           : 7px 0 0 10px;
+}
+
+#coverpage-box .section ul.coverpage
+{
+	min-height                       : 400px;
+}
+
+#coverpage-box .section ul li.coverpage-module *
+{
+	color                            : inherit;
+	font-size                        : 1em;
+	font-weight                      : inherit;
+}
+
+#coverpage-box-disabled
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #DDDDDD;
+	height                           : 400px;
+}
+
+#coverpage-box-disabled p
+{
+	margin-top                       : 190px;
+	text-align                       : center;
+}
+
+.coverpage-module,
+.coverpage-module .ajax-floating-panel
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #CCCCCC;
+	cursor                           : move;
+	font-size                        : 12px;
+	list-style-type                  : none;
+	margin                           : 2px 0px 2px 0;
+	max-height                       : 200px;
+	overflow                         : hidden;
+	position                         : relative;
+	text-align                       : left;
+	width                            : 575px;
+	z-index                          : 50;
+}
+
+.coverpage-module *
+{
+	font-size                        : 1em;
+}
+
+.coverpage-module a,
+.coverpage-module input-button
+{
+	cursor                           : pointer;
+}
+
+.coverpage-module h4.module-title,
+.coverpage-module .ajax-floating-panel h4.module-title
+{
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #CCCCCC;
+	font-weight                      : bold !important;
+	padding                          : 5px 5px 4px 5px;
+}
+
+.coverpage-module h4 .radio
+{
+	display                          : none;
+}
+
+.coverpage-module .module-close
+{
+	position                         : absolute;
+	top                              : 7px;
+	right                            : 0;
+}
+
+.coverpage-module .edit-button-box,
+.coverpage-module .ajax-floating-panel .edit-button-box
+{
+	text-align                       : center;
+}
+
+.coverpage-module .edit-button-box a,
+.coverpage-module .ajax-floating-panel .edit-button-box a
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	height                           : 1.5em;
+	line-height                      : 1.5em;
+	margin                           : 10px auto 0 auto !important;
+	padding-top                      : 3px;
+	width                            : 40px;
+}
+
+.coverpage-module .module-content,
+.ajax-floating-panel .module-content
+{
+	padding                          : 5px 5px 4px 5px;
+}
+
+/* main-content 내부 스타일 */
+.coverpage-module .module-content h1,
+.coverpage-module .module-content h2,
+.coverpage-module .module-content h3,
+.coverpage-module .module-content h4,
+.coverpage-module .module-content h5,
+.coverpage-module .module-content h6
+{
+	color                            : #000000 !important;
+	/* display                       : none; */
+}
+
+.coverpage-module .module-content ul li
+{
+	list-style-type                  : disc;
+	margin-left                      : 18px;
+}
+
+.coverpage-module .module-content .calendar caption,
+.coverpage-module .module-content .calendar table tr td,
+.coverpage-module .module-content .calendar table tr th
+{
+	text-align                       : center;
+}
+
+.coverpage-plugin-module h4.module-title,
+#coverpage-plugin-module-box ul li.coverpage-module h4
+{
+	background-color                 : #DDDDDD;
+}
+
+#coverpage-element-box
+{
+	background-image                 : none;
+	float                            : left;
+	width                            : 287px;
+}
+
+#coverpage-element-box h3
+{
+	display                          : none;
+}
+
+#coverpage-element-box fieldset
+{
+	background-image                 : none;
+	border                           : 1px solid #CCCCCC;
+	margin-bottom                    : 5px;
+	padding                          : 7px;
+}
+
+#coverpage-element-box fieldset legend
+{
+	color                            : #476db4;
+	display                          : inline;
+	font-weight                      : bold;
+	padding                          : 0 4px;
+}
+
+#coverpage-element-box fieldset ul.module-list
+{
+	height                           : 840px;
+	overflow-y                       : scroll;
+	position                         : relative;
+	z-index                          : 100;
+}
+
+#coverpage-element-box fieldset ul.module-list li.coverpage-module
+{
+	width                            : 247px;
+}
+
+#coverpage-element-box fieldset ul.module-list li.coverpage-module .edit-button-box,
+.coverpage-module .ajax-floating-panel .edit-button-box
+{
+	margin-top                       : 0;
+}
+
+#coverpage-element-box .coverpage-module h4,
+.coverpage-module .ajax-floating-panel h4
+{
+	background-image                 : url("./image/icon_sidebar_module.gif");
+}
+
+#coverpage-description
+{
+	padding-top                      : 5px !important;
+}
+
+#independent-cover-line
+{
+	margin: -80px 10px 0 300px;
+}
+
+#independent-cover-line dt
+{
+	display: none;
+}
+
+#independent-cover-line dd
+{
+	color: #222;
+	text-align                       : right;
+}
+
+#direct-link-line dt
+{
+	display: none;
+}
+
+#direct-link-line
+{
+	margin: 25px 10px 20px 10px;
+	text-align: right;	
+}
+
+#direct-link-line dd
+{
+	border                           : 3px solid #EC81CA;
+	display                          : inline;
+	padding                          : 10px;
+	text-align                       : right;
+}
+
+#direct-link-line dd .button
+{
+	background-image                 : url('./image/img_link_bullet.jpg');
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	padding-right                    : 15px;
+}
+
+/* Sidebar ***************************************************************************************/
+
+#part-sidebar-order
+{
+	background-image                 : url("./image/bg_sidebar.png");
+	background-position              : 309px 175px;
+	background-repeat                : no-repeat;	
+}
+
+#part-sidebar-order .pseudo-clear
+{
+	clear                            : both;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	letter-spacing                   : -1px;
+	padding-top                      : 15px;
+	text-align                       : right;
+}
+
+#part-sidebar-order .pseudo-clear a
+{
+	font-weight                      : bold;
+}
+
+#part-sidebar-order .main-explain-box
+{
+	margin-top                       : 13px;
+}
+
+#part-sidebar-order .main-explain-box .explain
+{
+	margin-bottom                    : 15px;
+}
+
+#part-sidebar-order #direct-link-line
+{
+	margin: 0px 10px;
+	text-align: right;	
+}
+
+#part-sidebar-order #direct-link-line dt
+{
+	display                          : none;
+}
+
+#part-sidebar-order #direct-link-line dd
+{
+	border                           : 3px solid #30A13D;
+	display                          : inline;
+	padding                          : 10px;
+	text-align                       : right;
+}
+
+#part-sidebar-order #direct-link-line dd .button
+{
+	background-image                 : url('./image/img_link_bullet.jpg');
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	padding-right                    : 15px;
+}
+
+
+#sidebar-box
+{
+	float                            : right;
+	height                           : 903px;
+	margin                           : 0 5px 0 30px;
+	overflow                         : auto;
+	position                         : relative;
+	width                            : 600px;
+	z-index                          : 100;
+}
+
+#sidebar-box .section
+{
+	vertical-align                   : top;
+	width                            : 250px;
+}
+
+#sidebar-box .section h3
+{
+	color                            : #FF6600;
+	font-size                        : 1em;
+	margin                           : 7px 0 0 10px;
+}
+
+#sidebar-box .section ul.sidebar
+{
+	min-height                       : 400px;
+}
+
+#sidebar-box-disabled
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #DDDDDD;
+	height                           : 400px;
+}
+
+#sidebar-box-disabled p
+{
+	margin-top                       : 190px;
+	text-align                       : center;
+}
+
+.sidebar-module,
+.ajax-floating-panel
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #CCCCCC;
+	cursor                           : move;
+	font-size                        : 12px;
+	list-style-type                  : none;
+	margin                           : 2px 5px 2px 0;
+	max-height                       : 200px;
+	overflow                         : hidden;
+	position                         : relative;
+	text-align                       : left;
+	width                            : 245px;
+	z-index                          : 50;
+}
+
+.sidebar-module *
+{
+	font-size                        : 1em;
+}
+
+.sidebar-module a,
+.sidebar-module input-button
+{
+	cursor                           : pointer;
+}
+
+.sidebar-module h4.module-title,
+.ajax-floating-panel h4.module-title
+{
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	border-bottom                    : 1px solid #CCCCCC;
+	font-weight                      : bold !important;
+	padding                          : 5px 5px 4px 5px;
+}
+
+.sidebar-module h4 .radio
+{
+	display                          : none;
+}
+
+.sidebar-module .module-close
+{
+	position                         : absolute;
+	top                              : 7px;
+	right                            : 0;
+}
+
+.sidebar-module .edit-button-box,
+.ajax-floating-panel .edit-button-box
+{
+	text-align                       : center;
+}
+
+.sidebar-module .edit-button-box a,
+.ajax-floating-panel .edit-button-box a
+{
+	border                           : 1px solid #DDDDDD;
+	display                          : block;
+	height                           : 1.5em;
+	line-height                      : 1.5em;
+	margin                           : 10px auto 0 auto !important;
+	padding-top                      : 3px;
+	width                            : 40px;
+}
+
+.sidebar-module .module-content, .ajax-floating-panel .module-content
+{
+	padding                          : 5px 5px 4px 5px;
+}
+
+/* main-content 내부 스타일 */
+.sidebar-module .module-content h1,
+.sidebar-module .module-content h2,
+.sidebar-module .module-content h3,
+.sidebar-module .module-content h4,
+.sidebar-module .module-content h5,
+.sidebar-module .module-content h6
+{
+	color                            : #000000 !important;
+	/* display                       : none; */
+}
+
+.sidebar-module .module-content *
+{
+	color                            : inherit;
+	font-size                        : 1em;
+	font-weight                      : inherit;
+}
+
+.sidebar-module .module-content ol
+{
+	list-style-type                  : disc;
+	margin                           : 5px;
+	padding-left                     : 10px;
+}
+
+.sidebar-module .module-content ol li
+{
+	list-style-type                  : decimal;
+	margin-left                      : 18px;
+}
+
+.sidebar-module .module-content ul
+{
+	list-style-type                  : disc;
+	margin                           : 5px;
+	padding-left                     : 10px;
+}
+
+.sidebar-module .module-content ul li
+{
+	list-style-type                  : disc;
+	margin-left                      : 18px;
+}
+
+.sidebar-module .module-content dl dt
+{
+	position                            : static;
+	margin-left                         : 15px;
+}
+
+.sidebar-module .module-content dl dd
+{
+	position                            : static;
+	margin-left                         : 25px;
+}
+
+.sidebar-module .module-content .calendar caption,
+.sidebar-module .module-content .calendar table tr td,
+.sidebar-module .module-content .calendar table tr th
+{
+	text-align                       : center;
+}
+
+.sidebar-plugin-module h4.module-title,
+#sidebar-plugin-module-box ul li.sidebar-module h4
+{
+	background-color                 : #DDDDDD;
+}
+
+#sidebar-element-box
+{
+	background-image                 : none;
+	float                            : left;
+	width                            : 287px;
+}
+
+#sidebar-element-box h3
+{
+	display                          : none;
+}
+
+#sidebar-element-box fieldset
+{
+	background-image                 : none;
+	border                           : 1px solid #CCCCCC;
+	margin-bottom                    : 5px;
+	padding                          : 7px;
+}
+
+#sidebar-element-box fieldset legend
+{
+	color                            : #476db4;
+	display                          : inline;
+	font-weight                      : bold;
+	padding                          : 0 4px;
+}
+
+#sidebar-element-box fieldset ul.module-list
+{
+	height                           : 418px;
+	overflow-y                       : scroll;
+	position                         : relative;
+	z-index                          : 100;
+}
+
+#sidebar-element-box fieldset ul.module-list li.sidebar-module
+{
+	width                            : 247px;
+}
+
+#sidebar-element-box fieldset ul.module-list li.sidebar-module .edit-button-box,
+.ajax-floating-panel .edit-button-box
+{
+	margin-top                       : 0;
+}
+
+#sidebar-element-box .sidebar-module h4,
+.ajax-floating-panel h4
+{
+	background-image                 : url("./image/icon_sidebar_module.gif");
+}
+
+#sidebar-description
+{
+	padding-top                      : 5px !important;
+}
+
+/* Admin Skin *************************************************************************************/
+
+#part-skin-admin .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin                           : 10px 0 20px 0;
+	padding-top                      : 15px;
+}
+
+#part-skin-admin dl
+{
+	background-color                 : #FFFFFF;
+}
+#part-skin-admin dl dt 
+{
+	padding                          : 5px 3px 0 3px;
+	text-align                       : right;
+	width                            : 170px;
+}
+#part-skin-admin dd
+{
+	margin-left                      : 185px;
+}
+#part-skin-admin .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 2.5em;
+	line-height                      : 2.5em;
+	vertical-align                   : middle;
+}
+
+/* classes for AJAX *******************************************************************************/
+
+.ajax-popup-window
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid black;
+	font-size                        : 12px;
+	padding                          : 20px;
+	width                            : 40%;
+}
+
+.ajax-popup-window form
+{
+	text-align                       : center;
+}
+
+.ajax-popup-window .line
+{
+	clear                            : both;
+	display                          : block;
+	line-height                      : 2em;
+	text-align                       : right;
+}
+
+.ajax-popup-window .input-text
+{
+	width                            : 70%;
+}
+
+.ajax-popup-window label
+{
+	float                            : left;
+}
+
+.ajax-popup-window .button-box
+{
+	margin-top                       : 15px;
+	text-align                       : center;
+}
+
+.ajax-popup-window .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : 3em;
+	line-height                      : 3em;
+	padding-top                      : 8px;
+	padding-bottom                   : 6px;
+	vertical-align                   : middle;
+}
+
+.ajax-popup-window .waiting-string,
+.ajax-popup-window .error-string
+{
+	text-align                       : center;
+}

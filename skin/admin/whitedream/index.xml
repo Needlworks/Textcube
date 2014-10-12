@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adminSkin version="1.1" language="ko">
+	<information>
+		<name>White Dream</name> 
+		<version>1.7</version>
+		<description><![CDATA[텍스트큐브 1.7의 관리자 화면용 스킨입니다.]]></description>
+		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
+	</information> 
+	<author>
+		<name>Needlworks</name>
+		<homepage>http://www.needlworks.org</homepage>
+		<email>contact@needlworks.org</email>		
+	</author> 
+</adminSkin>

@@ -1,0 +1,220 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+*
+{
+	margin                           : 0;
+	padding                          : 0;
+}
+
+body
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url('./image/bg_plugin_setting_header.png');
+	background-position              : top left;
+	background-repeat                : repeat-x;
+	font-size                        : small;
+}
+
+/* Send ******************************************************************************************/
+
+#trackback-box
+{
+	background-image                 : url("./image/bg_plugin_setting_body.png");
+	background-position              : left top;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #FFFFFF;
+	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
+	font-size                        : 0.925em;
+	margin-top                       : 49px;
+}
+
+#trackback-box img
+{
+	position                         : absolute;
+	top                              : 10px;
+	left                             : 12px;
+}
+
+#trackback-box .title
+{
+	background-image                 : url('./image/icon_popupbullet.jpg');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	font-weight                      : bold;
+	height                           : 20px;
+	margin                           : 14px 0 0 12px !important;
+	padding                          : 3px 0 0 18px;
+}
+
+#trackback-box #command-box
+{
+	margin                           : 0 10px;
+	padding                          : 10px;
+}
+
+#trackback-box #command-box dl
+{
+	clear                            : both;
+	float                            : none;
+	height                           : 2em;
+	padding-bottom                   : 2px;
+}
+
+.title-line dd
+{
+	padding-top                      : 4px;
+}
+
+#trackback-box #command-box dl dt
+{
+	float                            : left;
+	margin-right                     : 8px;
+	padding-top                      : 5px;
+	text-align                       : right;
+	width                            : 70px;
+}
+
+#trackback-box #command-box dl dd
+{
+	float                            : left;
+}
+
+#trackback-box #command-box label
+{
+	cursor                           : pointer;
+}
+
+#trackback-box #command-box .input-text
+{
+	border                           : 1px solid #999999;
+	font-size                        : 1em;
+	padding                          : 3px;
+	vertical-align                   : middle;
+	width                            : 321px;
+}
+
+#trackback-box #command-box .secret-line
+{
+	height                           : 1.2em;
+	margin                           : 4px 0 0 80px;
+}
+
+#trackback-box #command-box .checkbox
+{
+	vertical-align                   : middle;
+}
+
+#trackback-box #command-box .content-line
+{
+	margin-top                       : 6px;
+}
+
+#trackback-box #command-box .content-line textarea
+{
+	border                           : 1px solid #999999;
+	font-size                        : 1em;
+	height                           : 140px !important;
+	overflow                         : auto;
+	width                            : 328px;
+}
+
+#trackback-box .button-box
+{
+	clear                            : both;
+	padding                          : 5px 2px 0 0;
+	text-align                       : right;
+}
+
+#trackback-box #command-box .input-button
+{
+	background-color                 : #fff;
+	background-image                 : url("./image/bg_submenu_item.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777;
+	border-radius                    : 5px;
+	-moz-border-radius               : 5px;
+	-webkit-border-radius            : 5px;
+	cursor                           : pointer;
+	font-size                        : 1em;
+	height                           : 1.8em;
+	line-height                      : 1.8em;
+	padding                          : 0 5px !important;
+	vertical-align                   : middle;
+}
+
+#trackback-box #command-box table
+{
+	margin-top                       : 15px;
+}
+
+#trackback-box #command-box table thead tr th
+{
+	background-color                 : #EEEEEE;
+	padding                          : 3px 5px;
+}
+
+#trackback-box #command-box table thead tr th.date
+{
+	width                            : 70px;
+}
+
+#trackback-box #command-box table thead tr th.delete
+{
+	width                            : 25px;
+}
+
+#trackback-box #command-box table thead tr th.delete span
+{
+	display                          : none;
+}
+
+#trackback-box #command-box table tbody tr td.delete a
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#trackback-box #command-box table tbody tr td.delete a span
+{
+	display                          : none;
+}
+
+#trackback-box #command-box table tbody tr td
+{
+	border-bottom                    : 1px solid #EEEEEE;
+	padding                          : 3px 5px;	
+}
+
+#trackback-box .button-box
+{
+	clear                            : both;
+	padding                          : 5px 2px 0 0;
+	text-align                       : center;
+}
+
+#trackback-box .button-box .input-button
+{
+	background-color                 : #fff;
+	background-image                 : url("./image/bg_submenu_item.gif");
+	background-position              : left bottom;
+	background-repeat                : repeat-x;
+	border                           : 1px solid #777;
+	border-radius                    : 5px;
+	-moz-border-radius               : 5px;
+	-webkit-border-radius            : 5px;
+	cursor                           : pointer;
+	font-size                        : 1em;
+	height                           : 1.8em;
+	line-height                      : 1.8em;
+	padding                          : 0 5px !important;
+	vertical-align                   : middle;
+}

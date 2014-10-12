@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">이올린으로 싱크하기</title>
+  <title xml:lang="en">Eolin Syndication</title>
+  <link>http://needlworks.org/</link>
+  <version>1.8.0.1</version>
+  <description xml:lang="en">This plugin displays Textcube birthday and D-day. To enable this, skin's HTML should contain [##_TextcubeBirthday_##] tag.</description>
+  <description xml:lang="ko"><![CDATA[새로 작성하거나 수정한 글을 이올린으로 싱크합니다.]]></description>
+  <license>GPL</license>
+  <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규]]></author>
+  <author xml:lang="en" link="http://forest.nubimaru.com">Jeongkyu Shin</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+  <requirements>
+    <textcube>1.8</textcube>
+  </requirements>
+  <binding>
+      <listener event="CreatePostSyndicate" handler="SyndicateToEolin_Create" />
+      <listener event="ModifyPostSyndicate" handler="SyndicateToEolin_Modify" />
+      <listener event="DeletePostSyndicate" handler="SyndicateToEolin_Delete" />
+      
+	  <listener event="/plugin/abstractToEolin" handler="sendAbstractToEolin" />
+  </binding>
+</plugin>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adminSkin version="1.1" language="ko">
+	<information>
+		<name>Modern</name> 
+		<version>1.7</version>
+		<description><![CDATA[태터툴즈 1.1의 기본 관리자 화면 스킨입니다.]]></description>
+		<license><![CDATA[수정, 재배포 가능합니다.]]></license>
+	</information> 
+	<author>
+		<name>Needlworks</name>
+		<homepage>http://www.needlworks.org</homepage>
+		<email>contact@needlworks.org</email> 
+	</author> 
+</adminSkin>

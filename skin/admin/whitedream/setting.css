@@ -1,0 +1,826 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+fieldset
+{
+	background-image                 : none;
+	border-bottom                    : none !important;
+	border-top                       : none !important;
+	margin                           : 0;
+}
+
+dl
+{
+	border-top                       : 1px solid #FFFFFF;
+	border-bottom                    : 1px solid #FFFFFF;
+}
+
+dl dt
+{
+	padding                          : 5px 3px 0 3px;
+	text-align                       : right;
+	width                            : 170px;
+}
+
+dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 190px;
+	padding                          : 7px 3px 4px 3px;
+}
+
+#sub-menu-blog
+{
+	background-image                 : none !important;
+}
+
+.part .button-box
+{
+	clear                            : both;
+	text-align                       : left !important;
+	margin-top                       : 10px;
+}
+
+.part .button-box .input-button
+{
+	background-color                 : #FFFFFF;
+	display                          : block;
+	font-weight                      : bold;
+	height                           : 30px !important;
+	margin                           : 0 auto;
+	padding                          : 0 !important;
+	width                            : 74px;
+}
+
+/* Basic *****************************************************************************************/
+
+/* basic setting */
+#part-setting-basic
+{
+	float                            : left;
+	width                            : 470px;
+}
+
+#part-setting-basic .data-inbox
+{
+	width                            : 460px;
+}
+
+#part-setting-basic fieldset
+{
+	margin-bottom                    : 10px !important;
+}
+
+#part-setting-basic dl dt
+{
+	width                            : 100px;
+}
+
+#part-setting-basic dl dd
+{
+	margin-left                      : 120px;
+}
+
+#part-setting-basic dl dd .input-text
+{
+	width                            : 300px;
+}
+
+#part-setting-basic dl dd textarea
+{
+	width                            : 300px;
+}
+
+#part-setting-basic .button-box
+{
+	width                            : 460px;
+}
+
+#part-setting-basic .button-box .input-button
+{
+	margin                           : 0 auto 0 123px;
+}
+
+#multi-form
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin-top                       : 20px;
+}
+
+#multi-form dl dd .input-text
+{
+	margin                           : 0 2px;
+	width                            : 100px !important;
+}
+
+#open-type-line dd,
+#post-address-line dd
+{
+	padding-bottom                   : 3px;
+	padding-top                      : 5px;
+	line-height                      : 1.5em;
+}
+
+#pathDomain
+{
+	margin-left                      : 3px;
+}
+
+#blog-tag ul li
+{
+	background-image                 : url("./image/comma.gif");
+	background-position              : right 10px;
+	background-repeat                : no-repeat;
+	display                          : inline;
+	margin-right                     : 5px;
+	padding                          : 0 4px 0 0;
+	vertical-align                   : middle;
+}
+
+/* profile setting */
+#part-setting-profile
+{
+	float                            : right;
+	width                            : 470px;
+}
+
+#part-setting-profile .data-inbox
+{
+	width                            : 450px;
+}
+
+#part-setting-profile dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#part-setting-profile dl dt
+{
+	width                            : 100px;
+}
+
+#part-setting-profile dl dd
+{
+	line-height                      : 2em;
+	margin-left                      : 120px;
+}
+
+#part-setting-profile dl dd p
+{
+	line-height                      : 1.2em;
+	margin-top                       : 5px;
+	text-align                       : left;
+}
+
+#part-setting-profile dl dd .input-file
+{
+	display                          : block;
+	font-size                        : 1em;
+}
+
+#part-setting-profile .button-box .input-button
+{
+	margin                           : 0 auto 0 123px;
+}
+
+#blogicon-section fieldset
+{
+	margin-bottom                    : 10px;
+}
+
+/* rss setting */
+#part-setting-rss
+{
+	clear                            : both;
+	padding                          : 20px 0 60px 0 !important;
+}
+
+#part-setting-rss dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#part-setting-rss dl dd
+{
+	padding-bottom                   : 8px;
+}
+
+#etc-section fieldset
+{
+	margin-bottom                    : 10px;
+}
+
+#part-setting-rss .button-box .input-button
+{
+	margin                           : 0 auto;
+}
+
+/* Account ***************************************************************************************/
+
+/* account management */
+#part-setting-openid
+{
+	margin-top: 50px;
+}
+
+#part-setting-account fieldset,
+#part-setting-openid fieldset
+{
+	background-image                 : none !important;
+	border-top                       : none !important;
+	padding-bottom                   : 10px;
+}
+
+#part-setting-account dl,
+#part-setting-openid al
+{
+	border-bottom                    : 1px solid #DDDDDD;
+	border-top                       : 1px solid #FFFFFF;
+}
+	
+#part-setting-account dl dt,
+#part-setting-openid dl dt
+{
+	font-weight                      : bold;
+	padding                          : 5px 3px 4px 3px;
+	text-align                       : right;
+	left                             : 0;
+	width                            : 170px;
+}
+
+#part-setting-account dl dd,
+#part-setting-openid dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 190px;
+	padding                          : 5px 3px 4px 3px;
+}
+
+#part-setting-account dl dd .input-text,
+#part-setting-openid dl dd .input-text
+{
+	border                           : 1px solid #999999;
+	width                            : 170px;
+}
+
+#part-setting-account em,
+#part-setting-openid em
+{
+	color                            : #FF0000;
+}
+
+#part-setting-account .button-box,
+#part-setting-openid .button-box
+{
+	margin-bottom                    : 10px;
+}
+
+#part-setting-openid .openid-account-help
+{
+	text-align                       : right;
+	font-size                        : 0.9em;
+}
+
+#blogger-openid-activate-line dd, #blogger-name-line dd
+{
+	padding                          : 9px 3px 8px 3px !important;
+}
+
+/* invite letter */
+#part-setting-invite
+{
+	margin-top                       : 20px;
+}
+
+#letter
+{
+	width                            : 550px;
+}
+
+#letter-head label,
+#letter-body label,
+#letter-foot label
+{
+	display                          : block;
+	font-family                      : 돋움, Dotum, sans-serif;
+	font-size                        : 0.9em;
+	margin                           : 3px 0 1px 0;
+	text-align                       : left;
+}
+
+#letter-head .line
+{
+	margin-bottom                    : 8px;
+	text-align                       : right;
+}
+
+#invitation_receiver,
+#invitation_sender
+{
+	font-size                        : inherit;
+	width                            : 550px;
+}
+
+#invitation_identify
+{
+	font-family                      : "Courier New", Courier, monospace;
+	margin-left                      : 2px;
+	width                            : 150px;
+}
+
+.inter-word
+{
+	font-family                      : "Courier New", Courier, monospace;
+}
+
+#letter-body textarea
+{
+	width                            : 546px;
+}
+
+#letter-section .button-box
+{
+	margin                           : 10px 0 20px 0;
+}
+
+#letter-section .button-box .input-button
+{
+	padding                          : 0 10px !important;
+	width                            : auto;
+}
+
+/* Filter ****************************************************************************************/
+
+#part-setting-filter
+{
+	height                           : 500px;
+	padding-bottom: 30px;
+}
+
+#part-setting-filter div.data-inbox
+{
+	margin-top                       : 20px;
+}
+
+#part-setting-filter div.data-inbox .section
+{
+	float                            : left;
+	margin-left                      : 20px;
+	width                            : 200px;
+}
+
+#part-setting-filter div.data-inbox .section .title
+{
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#part-setting-filter div.data-inbox .section table
+{
+	background-color                 : #FFFFFF;
+	width                            : 100%;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.content
+{
+	border-bottom                    : 1px solid #EFEFEF;
+	margin                           : 1px 3px 1px 3px !important;
+	padding                          : 5px 5px 3px 5px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.empty
+{
+	height                           : 300px;
+	text-align                       : center;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td.delete
+{
+	border-bottom                    : 1px solid #EFEFEF;
+	width                            : 20px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td .delete-button
+{
+	background-color                 : transparent;
+	background-image                 : url("./image/icon_delete.gif");
+	background-position              : left top;
+	display                          : block;
+	height                           : 11px;
+	margin                           : 0 auto;
+	padding                          : 0;
+	width                            : 11px;
+}
+
+#part-setting-filter div.data-inbox .section table tbody tr td .delete-button span
+{
+	display                          : none;
+}
+
+#part-setting-filter div.data-inbox .section .filtering-words
+{
+	border                           : 1px solid #777777;
+	height                           : 300px;
+	overflow-y                       : scroll;
+	padding                          : 3px;
+}
+
+#part-setting-filter div.data-inbox .section .input-text
+{
+	margin-top                       : 2px;
+	width                            : 198px;
+}
+
+#part-setting-filter .button-box
+{
+	clear                            : both;
+	margin                           : 20px 0 10px 0;
+}
+
+#part-setting-filter .button-box .add-button
+{
+	margin                           : 0 auto;
+	padding                          : 0 !important;
+}
+
+/* Data ******************************************************************************************/
+
+#part-data-correct
+{
+	clear                            : left;
+	float                            : left;
+	margin-bottom                    : 20px;
+	width                            : 470px;
+}
+
+#part-data-optimize
+{
+	clear                            : right;
+	float                            : right;
+	margin-bottom                    : 20px;
+	width                            : 470px;
+}
+
+#part-data-backup
+{
+	clear                            : right;
+	float                            : right;
+	margin-bottom                    : 20px;
+	margin-right                     : 0;
+	width                            : 470px;
+}
+
+#part-data-restore
+{
+	clear                            : left;
+	float                            : left;
+	margin-bottom                    : 20px;
+	width                            : 470px;
+}
+
+#part-data-remove
+{
+	clear                            : left;
+	float                            : left;
+	margin-bottom                    : 20px;
+	width                            : 470px;
+}
+
+#blackhole
+{
+	clear                            : both;
+	display                          : block !important;
+	height                           : 0;
+	visibility                       : hidden;
+}
+
+#part-data-correct .caption,
+#part-data-optimize .caption, 
+#part-data-backup .caption,
+#part-data-restore .caption,
+#part-data-remove .caption
+{
+	clear : none;
+}
+
+#part-data-correct div.data-inbox,
+#part-data-optimize div.data-inbox,
+#part-data-backup div.data-inbox,
+#part-data-restore div.data-inbox,
+#part-data-remove div.data-inbox
+{
+	width                            : 450px;
+}
+
+#part-data-correct div.data-inbox .image,
+#part-data-optimize div.data-inbox .image,
+#part-data-backup div.data-inbox .image,
+#part-data-restore div.data-inbox .image,
+#part-data-remove div.data-inbox .image
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #536576;
+	color                            : #000000;
+	cursor                           : pointer;
+	float                            : left;
+	font-family                      : Verdana, Tahoma, sans-serif;
+	font-size                        : 90%;
+	height                           : 49px;
+	margin                           : 0 20px 10px 15px;
+	padding                          : 10px 10px 7px 10px;
+	text-align                       : center;
+	width                            : 80px;
+}
+
+#part-data-correct div.data-inbox .explain,
+#part-data-optimize div.data-inbox .explain,
+#part-data-backup div.data-inbox .explain,
+#part-data-restore div.data-inbox .explain,
+#part-data-remove div.data-inbox .explain
+{
+	background-color                 : transparent !important;
+	margin                           : 3px 0 0 140px !important;
+	padding                          : 0 !important;
+	text-align                       : left;
+	width                            : 300px;
+}
+
+#part-data-correct div.data-inbox .explain a:link,
+#part-data-correct div.data-inbox .explain a:visited,
+#part-data-optimize div.data-inbox .explain a:link,
+#part-data-optimize div.data-inbox .explain a:visited,
+#part-data-backup div.data-inbox .explain a:link,
+#part-data-backup div.data-inbox .explain a:visited,
+#part-data-restore div.data-inbox .explain a:link,
+#part-data-restore div.data-inbox .explain a:visited,
+#part-data-remove div.data-inbox .explain a:link,
+#part-data-remove div.data-inbox .explain a:visited
+{
+	color                            : #666666 !important;
+	text-decoration                  : none !important;
+}
+
+#part-data-correct div.data-inbox .explain a:hover,
+#part-data-correct div.data-inbox .explain a:active,
+#part-data-optimize div.data-inbox .explain a:hover,
+#part-data-optimize div.data-inbox .explain a:active,
+#part-data-backup div.data-inbox .explain a:hover,
+#part-data-backup div.data-inbox .explain a:active,
+#part-data-restore div.data-inbox .explain a:hover,
+#part-data-restore div.data-inbox .explain a:active,
+#part-data-remove div.data-inbox .explain a:hover,
+#part-data-remove div.data-inbox .explain a:active
+{
+	color                            : #444444 !important;
+	text-decoration                  : none !important;
+}
+
+div.notification-box .url
+{
+	font-family                      : Verdana, Tahoma, sans-serif;
+	font-size                        : 80%;
+	cursor                           : pointer;
+	padding-top                      : 10px;
+}
+
+div.notification-box
+{
+	width                            : 440px;
+	border                           : 2px solid #CCC;
+	margin                           : 5px;	
+	padding                          : 10px;
+}
+
+/* dialog ---------------------------------------------------------------------------------------*/
+.part .dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #BCD2E5;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+}
+
+.part .dialog h3
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	display                          : block !important;
+	font-size                        : 1em;
+	padding                          : 9px 10px 15px 10px;
+}
+
+.part .dialog .message-body
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	padding-bottom                   : 4px;
+}
+
+.part .dialog .message-body .explain
+{
+	border-bottom                    : 1px dotted #CCCCCC;
+	font-family                      : AppleGothic, '돋움', Dotum, '굴림', Gulim, sans-serif;
+	font-size                        : 90%;
+	padding                          : 5px 5px 3px 5px;
+}
+
+.part .dialog .message-body .explain em,
+.part .dialog .message-body .explain strong
+{
+	color                            : #FF0000;
+	font-weight                      : normal;
+}
+
+.part .dialog .message-body .explain .asterisk
+{
+	display                          : none;
+}
+
+.part .dialog .message
+{
+	padding                          : 20px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .message-body .selection
+{
+	background-color                 : #EEEEEE;
+	margin                           : 0 3px;
+	padding                          : 10px 10px 6px 10px;
+	text-align                       : center;
+}
+
+.part .dialog .message-body .selection .select-yes,
+.part .dialog .message-body .selection .select-no,
+#part-data-restore .dialog .selection #select-server,
+#part-data-restore .dialog .selection #select-upload,
+#part-data-restore .dialog .selection #select-web
+{
+	display                          : inline;
+}
+
+#part-data-restore .dialog .selection #select-correct
+{
+	margin-top                       : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #uploadBackup,
+.part .dialog #remoteBackup,
+.part .dialog #admin-password
+{
+	margin-top                       : 5px;
+	padding                          : 5px;
+	text-align                       : center;
+}
+
+.part .dialog #remoteBackup input.input-text
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+	vertical-align                   : middle;
+	width                            : 350px;
+}
+
+.part .dialog #admin-password input.input-text
+{
+	margin-bottom                    : 2px;
+	padding                          : 2px;
+}
+
+.part .dialog .button-box
+{
+	padding                          : 20px 0;
+	text-align                       : center !important;
+}
+
+.part .dialog .button-box a
+{
+	background-color                 : #FFFFFF;
+	background-image                 : none;
+	border                           : 1px solid #BBBBBB;
+	color                            : #000000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : normal;
+	padding                          : 10px 10px 8px 10px;
+	vertical-align                   : middle;
+}
+
+/* system dialog --------------------------------------------------------------------------------*/
+.part .system-dialog
+{
+	background-color                 : #FFFFFF;
+	border                           : 5px solid #000000;
+	margin-left                      : 10px;
+	padding                          : 10px;
+	width                            : 550px;
+	z-index                          : 500;
+}
+
+.part .system-dialog h4
+{
+	display                          : block !important;
+}
+
+.part .system-dialog .message-sub
+{
+	border                           : 1px solid #EEEEEE;
+	margin-top                       : 10px;
+	padding                          : 10px;
+}
+
+.part .system-dialog .progressBar
+{
+	background-color                 : #1C6D9C !important;
+}
+
+/* OpenID ****************************************************************************************/
+
+/* blog address as openId */
+
+#part-openid-blogaddress
+{
+	margin-bottom: 20px;
+}
+
+#part-openid-blogaddress fieldset dl dd
+{
+	margin-left: 0;
+	text-align: center;
+}
+
+#part-openid-blogaddress fieldset dl dd p
+{
+	margin-top: 10px;
+	text-align: center;
+}
+
+/* connected openId */
+
+#part-openid-linkedopenids
+{
+	margin-bottom: 40px;
+}
+
+#part-openid-linkedopenids dl
+{
+	margin: 25px 10px 0 10px;
+	text-align: right;
+}
+
+#part-openid-linkedopenids dl dt
+{
+	display: none;
+}
+
+#part-openid-linkedopenids dl dd
+{
+	border                           : 3px solid #EC81CA;
+	display                          : inline;
+	padding                          : 10px;
+	text-align                       : right;
+}
+
+#part-openid-linkedopenids dl dd .button
+{
+	background-image                 : url('./image/img_link_bullet.jpg');
+	background-position              : right center;
+	background-repeat                : no-repeat;
+	padding-right                    : 15px;
+}
+
+/* openid login history */
+
+#part-openid-loginhistory
+{
+	margin-bottom: 30px;
+}
+
+/* Etc *******************************************************************************************/
+
+#part-setting-resample .button-box,
+#part-setting-language .button-box,
+#part-setting-editor .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin                           : 10px 0 20px 0;
+	padding-top                      : 15px;
+}
+
+#part-setting-resample .section dl dd img
+{
+	margin-top                       : 8px;
+}
+
+#padding-line dd .input-text
+{
+	width                            : 50px;
+}
+
+#blogapi-line dd p,
+#blogapi-password-line dd p,
+#blogapi-helper-line dd p
+{
+	margin-top                       : 5px;
+}

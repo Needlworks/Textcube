@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+/* Layout Header **********************************************************************************/
+
+#description-blog
+{
+	padding-right                    : 7px;
+}
+
+/* main menu */
+#main-menu-box
+{
+	height                           : 40px;
+	line-height                      : 3.5em;
+}
+
+#main-menu li
+{
+	height                           : 40px;
+}
+
+#sub-menu-helper
+{
+	line-height                      : 3.3em;
+}
+/* Layout Body ***********************************************************************************/
+
+#main-menu li.selected
+{
+	height                           : 40px;
+}
+
+#page-section .page-count
+{
+	top                              : 8px;
+}
+
+/* Layout Footer *********************************************************************************/
+
+#version
+{
+	padding-left                     : 3px;
+}
+
+/* Etc *******************************************************************************************/
+
+.input-button
+{
+	height                           : 1.75em;
+	line-height                      : 1.75em;
+	padding                          : 0 !important;
+}
+
+input.checkbox,
+input.radio
+{
+	margin                           : 0;
+}

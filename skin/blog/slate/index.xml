@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin version="2.0">
+	<information>
+		<name>Slate</name>
+		<version>0.4</version>
+		<description>
+			<![CDATA[Persona for Textcube 2.0. Valids HTML5.]]>
+		</description>
+		<license>
+			<![CDATA[GPL]]>
+		</license>
+	</information>
+	<author>
+		<name>inureyes</name>
+		<homepage>http://forest.nubimaru.com/musicpaper</homepage>
+		<email>inureyes@gmail.com</email>
+	</author> 
+	<default>
+		<recentEntries>5</recentEntries>
+		<recentComments>5</recentComments>
+		<recentTrackbacks>5</recentTrackbacks>
+		<itemsOnGuestbook>6</itemsOnGuestbook>
+		<tagsInCloud>20</tagsInCloud>
+		<sortInCloud>1</sortInCloud>
+		<expandComment>0</expandComment>
+		<expandTrackback>0</expandTrackback>
+		<lengthOfRecentNotice>40</lengthOfRecentNotice>
+		<lengthOfRecentEntry>40</lengthOfRecentEntry>
+		<lengthOfRecentComment>40</lengthOfRecentComment>
+		<lengthOfRecentTrackback>40</lengthOfRecentTrackback>
+		<lengthOfLink>40</lengthOfLink>
+		<showListOnCategory>1</showListOnCategory>
+		<showListOnArchive>1</showListOnArchive>
+		<commentMessage>
+			<none>No Comment</none>
+			<single>a comment</single>
+		</commentMessage>
+		<trackbackMessage>
+			<none>No Trackback</none>
+			<single>A trackback</single>
+		</trackbackMessage>
+		<contentWidth>650</contentWidth>
+	</default>
+</skin>
