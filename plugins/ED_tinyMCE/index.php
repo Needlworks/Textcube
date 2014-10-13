@@ -40,9 +40,12 @@ function tinyMCE_editorinit($editor) {
 	if($config['editormode'] == 'simple') {
 ?>
 				plugins: [
+
+					"codemirror",
 					"TTMLsupport advlist link image lists print hr anchor autoresize",
 					"code fullscreen media visualblocks",
 					"table contextmenu directionality charmap textcolor"
+
 				],
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
 				toolbar2: "undo redo | tcattach image media charmap | hr link unlink anchor | table | removeformat | code fullscreen  visualblocks",
@@ -52,11 +55,14 @@ function tinyMCE_editorinit($editor) {
 				plugins: [
 					"TTMLsupport advlist link image lists charmap print hr anchor pagebreak table",
 					"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-					"table contextmenu directionality emoticons textcolor paste textcolor autoresize"
+					"table contextmenu directionality emoticons textcolor paste textcolor autoresize",
+					"codemirror",
+					
 				],
 
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
 				toolbar2: "undo redo | searchreplace | tcattach image media charmap insertdatetime | subscript superscript ltr rtl cite abbr acronym del ins | hr link unlink anchor | table | cut copy paste pastetext| removeformat code fullscreen visualblocks",
+
 
 <?php
 	}

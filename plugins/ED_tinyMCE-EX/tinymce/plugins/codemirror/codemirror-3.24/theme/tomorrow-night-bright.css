@@ -1,0 +1,64 @@
+/*
+
+    Name:       Tomorrow Night - Bright
+    Author:     Chris Kempson
+
+    CodeMirror template by Jan T. Sott (https://github.com/idleberg/base16-codemirror)
+    Edited by zvuc (http://xenosium.com)
+    Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16)
+
+*/
+
+.cm-s-tomorrow-night-bright.CodeMirror { background: #000000; color: #eaeaea; }
+.cm-s-tomorrow-night-bright .CodeMirror-gutters { background: #000000; border-right: 0px;}
+
+/* others */
+.cm-s-tomorrow-night-bright span.cm-error { color: #6A6A6A; }
+.cm-s-tomorrow-night-bright .CodeMirror-matchingbracket { text-decoration: underline; color: white !important;}
+.cm-s-tomorrow-night-bright .CodeMirror-cursor {border-left: 1px solid #6A6A6A !important;}
+
+
+
+
+/* background */
+.cm-s-tomorrow-night-bright.CodeMirror				{ background: #000000; }
+
+/* current line */
+.cm-s-tomorrow-night-bright .CodeMirror-activeline-background { background: #2a2a2a !important;}
+
+/* selection */
+.cm-s-tomorrow-night-bright div.CodeMirror-selected 	{ background: #424242 !important; }
+.cm-s-tomorrow-night-bright .CodeMirror-linenumber 	{ color: #424242; }
+
+/* foreground */
+.cm-s-tomorrow-night-bright.CodeMirror, 
+.cm-s-tomorrow-night-bright span.cm-bracket 		{ color: #eaeaea; }
+
+/* comment */
+.cm-s-tomorrow-night-bright span.cm-comment 		{color: #969896;}
+
+/* red */
+.cm-s-tomorrow-night-bright span.cm-tag,
+.cm-s-tomorrow-night-bright span.cm-keyword 		{ color: #d54e53; }
+.cm-s-tomorrow-night-bright span.cm-error 			{ background: #d54e53; }
+
+/* orange */
+.cm-s-tomorrow-night-bright span.cm-def 			{ color: #e78c45; }
+
+/* yellow */
+.cm-s-tomorrow-night-bright span.cm-string 		{ color: #e7c547; }
+
+/* green */
+.cm-s-tomorrow-night-bright span.cm-property, 
+.cm-s-tomorrow-night-bright span.cm-attribute,
+.cm-s-tomorrow-night-bright span.cm-variable 		{ color: #b9ca4a; }
+
+/* aqua */
+
+/* blue */
+.cm-s-tomorrow-night-bright span.cm-variable-2 	{ color: #7aa6da; }
+
+/* purple */
+.cm-s-tomorrow-night-bright span.cm-atom,
+.cm-s-tomorrow-night-bright span.cm-number,
+.cm-s-tomorrow-night-bright span.cm-link 			{ color: #c397d8; }

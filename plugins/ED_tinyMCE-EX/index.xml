@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.1">
+	<title xml:lang="en">tinyMCE Editor EX</title>
+	<title xml:lang="ko">tinyMCE 편집기 EX</title>
+	<link>http://needlworks.org/</link>
+	<version>1.10</version>
+	<description xml:lang="en">Provides an easy-to-use WYSIWYG editor interface.</description>
+	<description xml:lang="ko">Textcube용 tinyMCE 위지윅 에디터입니다. CodeMirror 라이브 소스코드 하이라이트 기능의 플러그인이 포함되어 있습니다. Edited by zvuc</description>
+	<description xml:lang="ja">tinyMCE WYSIWYGに編集環境を転換</description>
+	<license>GPLv2</license>
+	<author xml:lang="en" link="http://forest.nubimaru.com/">inureyes</author>
+	<author xml:lang="ko" link="http://forest.nubimaru.com/"><![CDATA[inureyes]]></author>
+	<safety changeData="yes" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="yes" />
+	<requirements>
+		<textcube>1.10</textcube>
+	</requirements>
+	<binding>
+		<listener event="ShowAdminHeader">tinyMCE_adminheader</listener>
+
+		<editor xml:lang="en" id="tinyMCE" name="tinyMCE">
+			<initialize>tinyMCE_editorinit</initialize>
+			<usedFor formatter="ttml" />
+			<!--<usedFor formatter="markdown" />
+			<usedFor formatter="textile" />-->
+		</editor>
+		<editor xml:lang="ko" id="tinyMCE" name="tinyMCE">
+			<initialize>tinyMCE_editorinit</initialize>
+			<usedFor formatter="ttml" />
+			<!--usedFor formatter="markdown" />
+			<usedFor formatter="textile" />-->
+		</editor>
+		<editor xml:lang="ja" id="tinyMCE" name="tinyMCE">
+			<initialize>tinyMCE_editorinit</initialize>
+			<usedFor formatter="ttml" />
+			<!--usedFor formatter="markdown" />
+			<usedFor formatter="textile" />-->
+		</editor>
+		<config xml:lang="ko" dataValHandler="tinyMCE_handleconfig">
+			<window width="500" height="360" />
+			<fieldset legend="기본 설정">
+				<field title="에디터 편집 모드" type="select" name="editormode">
+					<op value="simple" checked="checked"><![CDATA[간단]]></op>
+					<op value="advanced"><![CDATA[고급]]></op>
+				</field>
+			</fieldset>
+			<fieldset legend="상세 설정">
+				<field title="에디터 폭" type="select" name="width">
+					<op value="skin" checked="checked"><![CDATA[스킨 지정 폭]]></op>
+					<op value="full"><![CDATA[화면 폭]]></op>
+				</field>
+			</fieldset>
+			<fieldset legend="소스코드 에디터 테마">
+				<field title="테마" type="select" name="srctheme">
+					<op value="default" checked="checked"><![CDATA[Default]]></op>
+					<op value="ambiance"><![CDATA[Ambiance]]></op>
+					<op value="base16-dark"><![CDATA[base16 Dark]]></op>
+					<op value="base16-light"><![CDATA[base16 Light]]></op>
+					<op value="cobalt"><![CDATA[Cobalt]]></op>
+					<op value="eclipse"><![CDATA[Eclipse]]></op>
+					<op value="elegant"><![CDATA[Elegant]]></op>
+					<op value="mdn-like"><![CDATA[MDN-Like]]></op>
+					<op value="monokai"><![CDATA[Monokai]]></op>
+					<op value="neat"><![CDATA[Neat]]></op>
+					<op value="neo"><![CDATA[Neo]]></op>
+					<op value="paraiso-light"><![CDATA[paraiso-light]]></op>
+					<op value="paraiso-dark"><![CDATA[paraiso-dark]]></op>
+					<op value="rubyblue"><![CDATA[rubyblue]]></op>
+					<op value="tomorrow-night"><![CDATA[Tomorrow Night]]></op>
+					<op value="tomorrow-night-bright"><![CDATA[Tomorrow Night Bright]]></op>
+					<op value="tomorrow-night-eighties"><![CDATA[Tomorrow Night Eighties]]></op>
+					<op value="twilight"><![CDATA[Twilight]]></op>
+				</field>
+			</fieldset>
+		</config>
+	</binding>
+</plugin>
