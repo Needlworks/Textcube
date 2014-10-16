@@ -91,7 +91,7 @@ This is nginx setting.
            if (!-f $request_filename) {
                rewrite ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2;
            }
-           if ($request_filename ~* ^(cache)+/+(.+[^/])\.(cache](xml](txt](log)$) {
+           if ($request_filename ~* ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$) {
                return 403;
            }
            if (-d $request_filename) {
