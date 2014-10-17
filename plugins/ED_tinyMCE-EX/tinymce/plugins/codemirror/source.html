@@ -197,7 +197,9 @@ function submit()
 	editor.setContent(codemirror.getValue().replace(cc, '<span id="CmCaReT"></span>'));
 	editor.isNotDirty = !isDirty;
 	if (isDirty) {
-		editor.nodeChanged();
+    try {
+      editor.nodeChanged();
+    } catch (ex) {}
 	}
 
 	// Set cursor:
