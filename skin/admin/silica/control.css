@@ -1,0 +1,529 @@
+@charset "utf-8";
+
+/* Common ****************************************************************************************/
+
+.button-box
+{
+	border-top: 1px solid #ddd !important;
+	margin-top: 30px;
+	padding-top: 25px;
+}
+
+.button-box input.input-button
+{
+       background-color                 : #FFFFFF;
+       background-image                 : none;
+       border                           : 1px solid #BBBBBB;
+       color                            : #000000;
+       font-weight                      : bold;
+       height                           : 2.5em;
+       line-height                      : 2.5em;
+       vertical-align                   : middle;
+       margin-bottom                    : 10px;
+}
+
+.button-box a.button
+{
+	background-color                 : #fff;
+	background-image                 : none;
+	border                           : 1px solid #bbb;
+	color                            : #000;
+	font-weight                      : bold;
+	height                           : auto;
+	line-height                      : normal;
+	padding                          : 10px 10px 8px 10px;
+	vertical-align                   : middle;
+}
+
+.warning
+{
+	color                            : #FF3333;
+}
+
+fieldset
+{
+	background-image                 : none;
+	border-bottom                    : none !important;
+	border-top                       : none !important;
+	margin                           : 0;
+}
+
+dl
+{
+	border-top                       : 1px solid #FFFFFF;
+	border-bottom                    : 1px solid #FFFFFF;
+}
+
+dl dt
+{
+	padding                          : 5px 3px 0 3px;
+	text-align                       : right;
+	width                            : 210px;
+}
+
+dl dd
+{
+	line-height                      : 1.2em;
+	margin-left                      : 230px;
+	padding                          : 7px 3px 4px 3px;
+}
+
+/* Blog ******************************************************************************************/
+
+/* create new blog */
+#part-create-newblog fieldset
+{
+	background-image: none;
+	border: none;
+	margin-bottom: 15px;
+}
+
+#part-create-newblog fieldset dl
+{
+	padding-top: 10px;
+	text-align: center;
+}
+
+#part-create-newblog fieldset dl dt
+{
+	display: inline;
+	line-height: 15px;
+	position: static;
+}
+
+#part-create-newblog fieldset dl dd
+{
+	display: inline;
+	line-height: 15px;
+	margin: 0 10px 0 5px;
+	width: auto;
+}
+
+#part-create-newblog .button-box
+{
+	margin-bottom: 30px;
+}
+
+/* blog list */
+#part-blog-list .message
+{
+	color: #f00;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+/* blog in detail */
+#part-blog-about
+{
+	background-image                 : url("./image/logo_textcube_full.png");
+	background-position              : 140px 70px;
+	background-repeat                : no-repeat;
+	padding-bottom: 50px;
+}
+
+#team-blog-about h3
+{
+	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	padding-top                      : 55px;
+	margin                           : 30px 0 5px 360px;
+	text-align                       : center;
+	width                            : 435px;
+}
+
+#team-blog-about .main-explain-box
+{
+	margin-left                      : 360px;
+	padding                          : 0;
+	width                            : 435px;
+}
+
+#team-blog-about .main-explain-box p
+{
+	border                           : 1px solid #ddd;
+	display                          : block;
+	margin-top                       : 20px;
+	padding                          : 10px;
+	text-align                       : center;
+}
+
+#team-blog-about h3 em, #team-blog-about .main-explain-box p em
+{
+	font-style: italic;
+}
+
+#part-blog-about ul
+{
+	list-style-type: disc;
+	margin-left: 400px;
+}
+
+#part-blog-about ul li
+{
+	list-style-type: disc;
+}
+
+#part-blog-about ul li em
+{
+	color: #f00;
+}
+
+#part-blog-about .container h4
+{
+	margin: 0 0 5px 13px;
+}
+
+#team-member-list
+{
+	margin: 50px auto 0 auto;
+	width: 700px;
+}
+
+#team-member-list h4
+{
+	font-size: 1em;
+}
+
+#team-member-list table
+{
+	width: 700px;
+}
+
+#team-new-member
+{
+	margin: 20px auto 0 auto;
+	width: 700px;
+}
+
+#team-new-member h4, #team-new-member dl dt
+{
+	display: none;
+}
+
+#team-new-member dl dd
+{
+	margin-left: 0;
+	text-align: center;
+}
+
+/* User ******************************************************************************************/
+
+/* create new user */
+#part-create-newuser fieldset
+{
+	background-image: none;
+	border: none;
+	margin-bottom: 15px;
+}
+
+#part-create-newuser fieldset dl
+{
+	padding-top: 10px;
+	text-align: center;
+}
+
+#part-create-newuser fieldset dl dt
+{
+	display: inline;
+	line-height: 15px;
+	position: static;
+}
+
+#part-create-newuser fieldset dl dd
+{
+	display: inline;
+	line-height: 15px;
+	margin: 0 10px 0 5px;
+	width: auto;
+}
+
+#part-create-newuser .button-box
+{
+	margin-bottom: 30px;
+}
+
+/* user list */
+#part-user-list .message
+{
+	color: #f00;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+/* user in detail */
+#part-user-about
+{
+	background-image                 : url("./image/logo_textcube_full.png") !important;
+	background-position              : 140px 70px;
+	background-repeat                : no-repeat;
+	padding-bottom: 50px;
+}
+
+#team-user-about h3
+{
+	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	padding-top                      : 55px;
+	margin                           : 30px 0 5px 360px;
+	text-align                       : center;
+	width                            : 435px;
+}
+
+#team-user-about .main-explain-box
+{
+	margin-left                      : 360px;
+	padding                          : 0;
+	width                            : 435px;
+}
+
+#team-user-about .main-explain-box p
+{
+	border                           : 1px solid #ddd;
+	display                          : block;
+	margin-top                       : 20px;
+	padding                          : 10px;
+	text-align                       : center;
+}
+
+#part-user-about ul
+{
+	list-style-type: disc;
+	margin-left: 400px;
+	padding-bottom: 100px;
+}
+
+#part-user-about ul li
+{
+	list-style-type: disc;
+}
+
+#part-user-about ul li em
+{
+	color: #f00;
+}
+
+#part-user-about .container h4
+{
+	margin: 0 0 5px 13px;
+}
+
+#team-joined-list
+{
+	margin: 0 auto;
+	width: 700px;
+}
+
+#team-joined-list h4
+{
+	font-size: 1em;
+}
+
+#team-joined-list table
+{
+	width: 700px;
+}
+
+/* Add Blog ***************************************************************************************/
+#container-add-blog
+{
+	margin-bottom                    : 20px;
+}
+
+/* UserSuggest ************************************************************************************/
+.ctlUserSuggest
+{
+		background-color                 : #FFFFFF;
+		border                           : 1px solid #BBBBBB;
+		font-size                        : 9pt;
+}
+
+.ctlUserSuggest li
+{
+		margin                           : 3px;
+		cursor                           : pointer;
+}
+
+.ctlUserSuggest li.hover
+{
+		background-color                 : #edf !important;
+}
+
+.ctlUserSuggest li.disabled
+{
+		color                            : #777;
+}
+
+/* Server ****************************************************************************************/
+
+#part-control-config .section
+{
+	background-color                 : #FFF;
+	font-family                      : Verdana, Arial, Tahoma, "Lucida Grande", sans-serif;
+	margin                           : 20px 0 3px 9px;
+	padding                          : 7px;
+}
+
+#part-control-config .section dl dt
+{
+	background-color                 : #F5F5F5;
+	border-top                       : 1px solid #DDD;
+}
+
+#part-control-config .section dl dd
+{
+	border-top                       : 1px solid #FFF;
+}
+
+#part-control-config .container
+{
+	margin-top                       : 10px;
+}
+
+#part-control-mailhost .button-box
+{
+	border-top                       : 1px solid #DDDDDD;
+	margin                           : 10px 0 20px 0;
+	padding-top                      : 15px;
+}
+
+#part-control-mailhost
+{
+	margin-bottom                    : 30px;
+}
+
+#part-control-rewrite textarea
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	font-family                      : Courier, 'Courier New', monospace;
+	font-size                        : 12px;
+	height                           : 250px;
+	margin-left                      : 5px !important;
+	padding                          : 0 0 0 2px;
+	width                            : 920px !important;
+}
+
+
+/* System ****************************************************************************************/
+
+/* general information */
+#part-system-generalinfo
+{
+	margin-bottom                    : 30px;
+	overflow                         : hidden;
+}
+
+#part-system-generalinfo h3
+{
+	color                            : #000;
+	font-size                        : 1.2em;
+	margin                           : 30px 0 10px 10px;
+}
+
+#part-system-generalinfo h4
+{
+	color                            : #000;
+	font-size                        : 1.1em;
+	margin                           : 30px 0 10px 10px;
+}
+
+#part-system-generalinfo table
+{
+	width                            : 100%;
+}
+
+#part-system-generalinfo table tr th, #part-system-generalinfo table tr td
+{
+	border-bottom                    : 1px solid #ddd;
+	border-top                       : 1px solid #ddd;
+}
+
+#part-system-generalinfo table tr th, #part-system-generalinfo table tr td
+{
+	padding                          : 5px;
+	text-align                       : left;
+}
+
+#part-system-generalinfo table tbody tr th
+{
+	width                            : 250px;
+}
+
+/* php information */
+#part-system-phpinfo
+{
+	margin-bottom                    : 30px;
+	overflow                         : hidden;
+}
+
+#part-system-phpinfo h3
+{
+	color                            : #000;
+	font-size                        : 1.2em;
+	margin                           : 30px 0 10px 10px;
+}
+
+#part-system-phpinfo h4
+{
+	color                            : #000;
+	font-size                        : 1.1em;
+	margin                           : 30px 0 0 10px;
+}
+
+#part-system-phpinfo table
+{
+	margin-top                       : 10px;
+	width                            : 100%;
+}
+
+#part-system-phpinfo table thead
+{
+	background-color                 : #efefef;
+}
+
+#part-system-phpinfo table tr th, #part-system-phpinfo table tr td
+{
+	border-bottom                    : 1px solid #ddd;
+	border-top                       : 1px solid #ddd;
+}
+
+#part-system-phpinfo table tr th, #part-system-phpinfo table tr td
+{
+	padding                          : 5px;
+	text-align                       : left;
+}
+
+#part-system-phpinfo table tbody tr th
+{
+	width                            : 250px;
+}
+
+#part-system-phpinfo form
+{
+	margin-top                       : -37px;
+	position                         : relative;
+	right                            : 10px;
+	text-align                       : right;
+	z-index                          : 10;
+}
+
+#part-system-phpinfo form label
+{
+	display                          : none;
+}
+
+#PHPLogo
+{
+	margin-top                       : 30px;
+	text-align                       : center;
+	width                            : 150px;
+}
+
+#PHPLogo img
+{
+	border                           : none;
+}
+
+#part-system-phpinfo table tr td img
+{
+	float                            : left;
+	margin-right                     : 10px;
+}

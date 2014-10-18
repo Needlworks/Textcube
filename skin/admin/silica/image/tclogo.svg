@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="textcubelogo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100" height="100" xml:space="preserve">
+
+<g>
+	<defs>
+		<path id="mask-shape" d="M81.6,34.9L42.5,16c-2.9-1.4-6.3-0.2-7.7,2.6l-19,38.8c-1.4,2.8-0.2,6.3,2.7,7.7l39,18.9
+			c2.9,1.4,6.3,0.2,7.7-2.6l19-38.8C85.6,39.7,84.4,36.3,81.6,34.9z M61.1,76.1c-0.7,1.3-2.3,1.9-3.6,1.2L23.8,61
+			c-1.3-0.7-1.9-2.3-1.3-3.6l16.4-33.4c0.7-1.3,2.3-1.9,3.6-1.2L76.2,39c1.3,0.7,1.9,2.3,1.3,3.6L61.1,76.1z"/>
+	</defs>
+	<clipPath id="mask">
+		<use xlink:href="#mask-shape"/>
+	</clipPath>
+	<g id="colors" clip-path="url(#mask)">
+		<g id="greens">
+			<g>
+				<polygon id="green2" fill="#94C135" points="-6.2,-12.2 -6.2,13.6 43.7,57.1"/>
+			<polygon id="green1" fill="#ACE744" points="43.6,-12.2 -6.2,-12.2 -6.2,-6.7 43.7,57.1"/>
+			</g>
+		</g>
+		<g id="yellows">
+			<g>
+				<polygon id="yellow2" fill="#FFA200" points="73,-12.2 42.6,-12.2 43.7,57.1"/>
+				<polygon id="yellow1" fill="#FFDA00" points="68,-12.2 43.7,57.1 112.2,25.7 112.2,-12.2"/>
+			</g>
+		</g>
+		<g id="reds">
+			<g>
+				<polygon id="red2" fill="#E52100" points="112.2,48.4 112.2,25.7 43.7,57.1"/>
+				<polygon id="red1" fill="#FF2600" points="43.7,57.1 96.8,105.6 112.2,105.6 112.2,44.4"/>
+			</g>
+		</g>
+		<g id="magentas">
+			<g>
+				<polygon id="magenta2" fill="#DB2672" points="72.7,105.6 101.8,105.6 43.7,57.1"/>
+				<polygon id="magenta1" fill="#FF2E8A" points="43.7,57.1 -0.9,105.6 70.6,105.6 77.7,105.6"/>
+			</g>
+		</g>
+		<g id="blues">
+			<g>
+				<polygon id="blue2" fill="#0095B2" points="-6.2,75.5 -6.2,105.6 4.1,105.6 43.7,57.1"/>
+				<polygon id="blue1" fill="#00B3D6" points="-6.2,13.6 -6.2,66.2 -6.2,80.5 43.7,57.1"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>

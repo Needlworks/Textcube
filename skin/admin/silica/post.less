@@ -1,0 +1,667 @@
+@charset "utf-8";
+@import "http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic,300italic,300";
+//@import "http://fonts.googleapis.com/css?family=Quicksand:400,700";
+@import (reference) "icomoon/iconfont.less";
+@import "mixin.less";
+
+
+/* ---------------- post.less ---------------- */
+
+ul.tabs-box {
+
+	li.entry-all {
+		position: relative;
+		a {
+			display: inline-block;
+			vertical-align: top;
+			
+		}
+		label {
+			display: none;
+		}
+		select {
+			display: inline-block;
+			margin: 5px 10px 0 0;
+			vertical-align: top;
+		}
+	}
+}
+
+#part-post-list {
+	position: relative;
+
+
+	table.data-inbox{
+
+		/* th, td commons */
+		.starred {
+			padding-left: 5px;
+			padding-right: 5px;
+			width: 20px;
+		}
+		.category {
+			min-width: 100px;
+
+			.uncategorized {
+				color: #aaa;
+			}
+		}
+		.response {
+			width: 30px;
+		}
+		.date {
+			width: 80px;
+		}
+		.status {
+			padding-left: 5px;
+			padding-right: 5px;
+			width: 70px;
+			min-width: 70px;
+		}
+		.selection {
+			width: 20px;
+		}
+		.syndicate, .trackback, .delete {
+			padding-left: 5px;
+			padding-right: 5px;
+			width: 25px;
+		}
+
+		th {
+
+			&.syndicate, &.trackback, &.delete {
+				span { display: none; }
+			}
+		}
+		
+		td {
+
+			&.starred {
+				a {
+					color: @gray-l2;
+					font-size: 1rem;
+					
+
+					&:hover {
+						color: @yellow-s1-d1;
+						text-decoration: none;
+					}
+				}
+				span.text { 
+					display: none;
+				}
+				.unstar-icon a:before {
+					display: block;
+					.icon;
+					.icon-star;
+				}
+				.star-icon a:before {
+					color: @yellow-s1-d1;
+					display: block;
+					.icon;
+					.icon-star3;
+				}
+
+			}
+			&.title {
+				min-width: 150px;
+				max-width: 400px;
+				overflow: hidden;
+				text-align: left;
+				height: 22px;			
+
+
+				a {
+					font-weight: bold;
+					font-size: 0.9rem;
+					display: inline-block;
+					vertical-align: bottom;
+				}
+
+				.description {
+					padding-left: 10px;
+					vertical-align: bottom;
+					display: inline-block;
+					overflow: hidden;
+					color: #aaa;
+					white-space: nowrap;
+				}
+			}
+
+			&.status {
+				
+				span {
+					display: inline-block;
+					width: 14px;
+					height: 14px;
+					background: #ccc;
+					padding: 3px;
+					border-radius: 2px;
+					position: relative;
+					margin: 0;
+
+					span.text {
+						.sprite;
+						cursor: pointer;
+						background-color: transparent;
+					}
+
+					
+					&.private-on-icon, &.private-off-icon:hover {
+						background-color: @red;
+					}
+					&.protected-on-icon, &.protected-off-icon:hover {
+						background-color: @yellow-s1-d1;
+						
+					}
+					&.public-on-icon, &.public-off-icon:hover {
+						background-color: darken(@green, 20%);
+					}
+
+					&.private-on-icon, &.private-off-icon {
+						span.text { .sprite-lock-white; }
+					}
+					&.protected-on-icon, &.protected-off-icon {
+						span.text { .sprite-key-white; }
+					}
+					&.public-on-icon, &.public-off-icon {
+						span.text { .sprite-unlock-white; }
+					}
+
+				}
+				
+			}
+			&.syndicate {
+				a {
+					display: inline-block;
+					width: 14px;
+					height: 14px;
+					background: #ccc;
+					padding: 3px;
+					border-radius: 2px;
+					position: relative;
+					margin: 0;
+
+					&:hover {
+						text-decoration: none;
+					}
+
+					span {
+						.sprite;
+						.sprite-rss-white;
+					}
+				}
+
+
+				.syndicated-off-icon a {
+					background-color: #ccc;
+					&:hover {
+						background-color: @orange-l1;
+					}
+				}
+				.syndicated-on-icon a {
+					background-color: @orange;
+				}
+
+			}
+
+
+			&.trackback {
+				a {
+					display: inline-block;
+					width: 14px;
+					height: 14px;
+					background: @gray-l4;
+					padding: 3px;
+					border-radius: 2px;
+					position: relative;
+					margin: 0;
+
+					&:hover {
+						text-decoration: none;
+					}
+
+					span {
+						display: block;
+						width: 14px;
+						height: 14px;
+						padding: 0;
+						margin: 0;
+						overflow: hidden;
+						text-indent: -9999px;
+						background: url('image/sprites.svg') no-repeat;
+						background-position: -80px -20px;
+					}
+				}
+
+
+				a.trackback-off-button {
+					background-color: @gray-l4;
+					&:hover {
+						background-color: @gray-l1;
+						span {
+							.sprite-link;
+						}
+					}
+				}
+				a.trackback-on-button {
+					background-color: @gray-l1;
+					span {
+						.sprite-link-white;
+					}
+					&:hover {
+						background-color: @gray;
+					}
+				}
+
+			}
+			&.delete {
+				a {
+					display: inline-block;
+					width: 14px;
+					height: 14px;
+					background: @gray-l4;
+					padding: 3px;
+					border-radius: 2px;
+					position: relative;
+					margin: 0;
+
+					&:hover {
+						text-decoration: none;
+					}
+
+					span {
+						.sprite;
+						.sprite-delete;
+					}
+				}
+
+
+				a.delete-button {
+					background-color: @gray-l4;
+					&:hover {
+						background-color: @red-l1;
+						span {
+							.sprite-delete-white;
+						}
+					}
+				}
+
+			}
+		}
+
+		/* trackback line */
+		tr.hidden-layer {
+			td {
+				background: @gray-l5;
+			}
+			.layer-section {
+				float: right;
+
+				label {
+					margin-right: 10px;
+				}
+			}
+
+			.divider, .close-button {
+				display: none;
+			}
+
+			td.remove a.remove-button {
+				color: @red;
+				font-weight: bold;
+			}
+
+		}
+	}
+
+	
+	#change-section-top, #change-section-bottom {
+		border: 1px solid @gray-l4;
+		border-radius: 2px;
+		background: @gray-l4;
+
+		.input-button {
+			padding: 2px 5px;
+			vertical-align: top;
+			min-height: 22px;
+			height: 22px;
+		}
+
+		select { 
+			padding: 2px 5px;
+			margin-left: 3px;
+		}
+
+		.input-button + .input-button {
+			margin-right: 3px;
+		}
+
+		span.label {
+			padding: 0 3px;
+		}
+	}
+
+	#change-section-top {
+		padding: 5px 10px;
+		margin: 0;
+		text-align: right;
+
+		#allCheckedTop {
+			float: left;
+		}
+
+		@media screen and (min-width: 1160px) {
+			border: none;
+			background: none;
+			margin: -45px 0 0 0;
+			text-align: right;
+
+			#allCheckedTop {
+				position: absolute;
+				top: 44px;
+				left: 10px;
+			}
+
+		}
+	}
+
+	.data-subbox {
+		#change-section-bottom {
+			padding: 5px 10px;
+			text-align: right;
+
+			#allCheckedBottom {
+				margin-right: 20px;
+				float: left;
+			}
+		}
+		
+		#data-description {
+			padding: 10px 0;
+			text-align: right;
+			display: block;
+			width: 100%;
+			
+			height: 60px;
+
+			
+			dl {
+				display: inline-block;
+				margin: 0 10px;
+				padding: 5px 0;
+			
+				dt {
+					.sprite;
+					border-radius: 2px;
+					text-align: left;
+					border: 2px solid @gray;
+					background-color: @gray;
+					display: inline-block;
+					margin-right: 5px;
+				}
+
+				&.starred-description dt {
+					border: 2px solid @yellow-s1;
+					background-color: @yellow-s1;
+					.sprite-star-white;	
+				}	
+				&.eolin-description dt {
+					border: 2px solid @orange;
+					background-color: @orange;
+					.sprite-rss-white;
+				}
+				&.trackback-description dt {
+					border: 2px solid @gray;
+					background-color: @gray;
+					.sprite-link-white;
+				}
+				&.protect-description dt {
+					border: 2px solid @yellow-s1-d1;
+					background-color: @yellow-s1-d1;
+					.sprite-key-white;
+				}		
+				dd {
+					display: inline-block;
+					height: 14px;
+					margin: 0;
+					padding: 0;
+					vertical-align: 4px;
+				}
+			}
+		}
+
+	}
+
+}
+
+
+
+/* Tree ******************************************************************************************/
+
+#part-post-tree div.data-inbox
+{
+	height                           : 488px;
+	position                         : relative;
+}
+
+#part-post-tree div.data-inbox .section
+{
+	padding                          : 30px 0 0 310px;
+}
+
+#part-post-tree em.attention
+{
+	margin-top                       : 15px;
+}
+
+#tree-preview-box
+{
+	background-color                 : #EEEEEE;
+	height                           : 375px;
+	left                             : 0;
+	padding                          : 10px 0;
+	position                         : absolute;
+	top                              : 0;
+	width                            : 280px;
+}
+
+#tree-preview-box .title
+{
+	background-image                 : url("./image/img_bullet_tree_preview.gif");
+	background-position              : left 4px;
+	background-repeat                : no-repeat;
+	color                            : #333333;
+	margin                           : 0 10px 3px 10px;
+	padding-left                     : 11px;
+}
+
+#treePreview
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+	display                          : block;
+	height                           : 335px;
+	margin                           : 0 auto;
+	padding                          : 10px;
+	overflow                         : auto;
+	width                            : 240px;
+}
+
+#property-box
+{
+	background-image                 : none;
+	border                           : none;
+	width                            : 560px;
+}
+
+#property-box dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#property-box dl dt
+{
+	color                            : #6C90C3;
+	font-weight                      : bold;
+	padding                          : 6px 0;
+	text-align                       : right;
+	width                            : 110px;
+}
+
+#property-box dl dd
+{
+	margin-left                      : 125px;
+	padding                          : 6px 0;
+}
+
+#body-id-line dd p
+{
+	line-height                      : 1.5em;
+	margin                           : 5px 0;
+	width                            : 350px;
+}
+
+#treeComponent .branch3
+{
+	cursor                           : pointer;
+}
+
+/* Tag administration ****************************************************************************/
+#tag-content-box
+{
+	min-height                       : 300px;
+}
+
+#tag-content-box dl
+{
+	border-bottom                    : 1px solid #DDDDDD;
+}
+
+#tag-content-box dl dt
+{
+	color                            : #6C90C3;
+	font-weight                      : bold;
+	padding                          : 6px 0;
+	text-align                       : right;
+	width                            : 110px;
+}
+
+#tag-content-box dl dd
+{
+	margin-left                      : 125px;
+	padding                          : 6px 0;
+}
+
+#tag-cloud
+{
+	width                            : 45%;
+	min-height                       : 300px;
+	padding-right                    : 10px;
+	float                            : left;
+	border-right                     : 1px solid #DDD;
+}
+
+#tag-panel
+{
+	padding                          : 0 0 0 15px;
+	margin                           : 0;
+	width                            : 50%;
+	float                            : left;
+}
+
+#tag-panel span.notice
+{
+	margin-top                       : 100px;
+	text-align                       : center;
+	color                            : #666;
+}
+
+/* Eolin Dialogue ********************************************************************************/
+
+#eolinDialog
+{
+	background-color                 : #FFFFFF;
+	background-image                 : url('./image/img_eolin_head.jpg');
+	background-repeat                : no-repeat;
+	border                           : 1px solid #666666;
+	left                             : 220px !important;
+	padding                          : 58px 8px 15px 8px;
+	position                         : absolute;
+	text-align                       : left;
+	top                              : -300px !important;
+	width                            : 492px;
+}
+
+#eolinDialog .temp-box
+{
+	border                           : 3px solid #4783B2;
+}
+
+#eolinDialog .temp-box h4
+{
+	border-bottom                    : 1px solid #E6E6E6;
+	color                            : #284A9F;
+	font-size                        : 1em;
+	font-weight                      : bold;
+	margin                           : 20px 15px 10px 15px;
+}
+
+#eolinDialog .temp-box em
+{
+	color                            : #646464;
+	display                          : block;
+	font-weight                      : bold;
+	margin-bottom                    : 5px;
+}
+
+#eolinDialog .temp-box p
+{
+	color                            : #7C7C7C;
+	line-height                      : 1.5em;
+	margin                           : 0 17px;
+}
+
+#eolinDialog .button-box
+{
+	border-top                       : 1px solid #E6E6E6;
+	margin                           : 15px 15px 10px 15px;
+	padding                          : 15px 0 5px 0;
+	width                            : auto;
+}
+
+#eolinDialog .button-box button
+{
+	background-image                 : url('./image/bg_eolin_button.gif');
+	background-position              : left top;
+	background-repeat                : no-repeat;
+	border                           : none;
+	color                            : #284A9F;
+	height                           : 36px;
+	width                            : 313px;
+}
+
+#eolinDialog .button-box button span
+{
+	background-image                 : url('./image/img_eolin_bullet.jpg');
+	background-position              : right top;
+	background-repeat                : no-repeat;
+	padding-right                    : 16px;
+}
+
+#eolinDialog .button-box #close-button
+{
+	background-image                 : url('./image/img_eolin_close.jpg');
+	background-repeat                : no-repeat;
+	display                          : block;
+	height                           : 17px;
+	position                         : absolute;
+	top                              : 10px;
+	right                            : 10px;
+	width                            : 17px;
+}
+
+#eolinDialog .button-box #close-button span
+{
+	display                          : none;
+}

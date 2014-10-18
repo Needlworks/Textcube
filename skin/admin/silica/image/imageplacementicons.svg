@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="400" height="100"
+	 viewBox="0 0 400 100" enable-background="new 0 0 400 100" xml:space="preserve">
+
+<defs>
+<g id="attachAlignLeft">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M23,4v1H4V4H23L23,4z M4,7h19V6H4V7L4,7z M15,9h8V8h-8V9L15,9z M15,11h8v-1h-8V11L15,11z M15,13h8v-1h-8V13L15,13z M15,15
+		h8v-1h-8V15L15,15z M15,17h8v-1h-8V17L15,17z M4,19h19v-1H4V19L4,19z M4,21h19v-1H4V21L4,21z M5,17H4V8h10v9H5L5,17z M5,16h8V9H5
+		V16L5,16z"/>
+</g>
+<g id="attachAlignRight">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M23,4v1H4V4H23L23,4z M4,7h19V6H4V7L4,7z M12,8H4v1h8V8L12,8z M12,10H4v1h8V10L12,10z M12,12H4v1h8V12L12,12z M12,14H4v1h8
+		V14L12,14z M12,16H4v1h8V16L12,16z M4,19h19v-1H4V19L4,19z M4,21h19v-1H4V21L4,21z M22,8h1v9H13V8H22L22,8z M22,9h-8v7h8V9L22,9z"
+		/>
+</g>
+<g id="attachAlign2Center">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M23,4v1H4V4H23L23,4z M4,7h19V6H4V7L4,7z M4,19h19v-1H4V19L4,19z M4,21h19v-1H4V21L4,21z M12,17H5V8h8v9H12L12,17z M12,16
+		V9H6v7H12L12,16z M21,17h-7V8h8v9H21L21,17z M21,16V9h-6v7H21L21,16z"/>
+</g>
+<g id="attachAlign3Center">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M23,4v1H4V4H23L23,4z M4,7h19V6H4V7L4,7z M4,19h19v-1H4V19L4,19z M4,21h19v-1H4V21L4,21z M9,17H5V8h5v9H9L9,17z M6,16h3V9
+		H6V16L6,16z M15,17h-4V8h5v9H15L15,17z M12,16h3V9h-3V16L12,16z M21,17h-4V8h5v9H21L21,17z M18,16h3V9h-3V16L18,16z"/>
+</g>
+<g id="attachAlignCenter">
+	<polygon fill="none" points="0,0 0,25 0,25 27,25 27,25 27,0 	"/>
+	<path d="M23,4v1H4V4H23L23,4z M4,7h19V6H4V7L4,7z M4,19h19v-1H4V19L4,19z M4,21h19v-1H4V21L4,21z M18,17H8V8h11v9H18L18,17z M18,16
+		V9H9v7H18L18,16z"/>
+</g>
+<g id="attachAlignFree">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M15,6H4v9h11V6z M14,14H5V7h9V14z M18,9h2v1.4c0,1.2-1,2.6-2.1,2.6H16v1h1.9c1.7,0,3.1-1.9,3.1-3.6V9h2l-2.5-3L18,9z M4,4
+		v1h19V4H4z M19.3,19.9h2.4V19h-2.4v-1.1h2.6V17h-3.7v5H22v-0.9h-2.7V19.9z M12.3,19.6L12.3,19.6c0.6-0.2,0.8-0.7,0.8-1.3
+		c0-0.8-0.6-1.4-1.5-1.4H9v5h1v-2h1.2c0.6,0,0.8,0.2,0.8,0.8c0.1,0.4,0,0.9,0.2,1.2h1.1c-0.2-0.3-0.2-0.9-0.2-1.2
+		C13,20.3,12.9,19.8,12.3,19.6z M11.3,19.3H10v-1.4h1.3c0.5,0,0.8,0.2,0.8,0.7C12,19.1,11.8,19.3,11.3,19.3z M5,22h1.1v-2.1h2.1
+		v-0.9H6.1v-1.2h2.4V17H5V22z M14.9,19.9h2.4V19h-2.4v-1.1h2.6V17h-3.7v5h3.8v-0.9h-2.7V19.9z"/>
+</g>
+<g id="attachAlignImazing">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M9.6,20.3c0,0.7,0.5,0.9,1.1,0.9c0.4,0,1-0.1,1-0.6c0-0.5-0.7-0.6-1.5-0.8c-0.7-0.2-1.5-0.5-1.5-1.4c0-1,1-1.5,1.9-1.5
+		c1,0,2,0.5,2,1.6h-1.1c0-0.6-0.5-0.8-1-0.8c-0.4,0-0.8,0.1-0.8,0.6c0,0.4,0.2,0.4,1.5,0.8c0.4,0.1,1.5,0.3,1.5,1.5
+		c0,0.9-0.7,1.6-2.1,1.6c-1.1,0-2.1-0.5-2.1-1.8H9.6z M18.1,22H17l-0.8-3.4h0L15.4,22h-1.1l-1.3-5H14l0.8,3.4h0l0.9-3.4h1l0.9,3.4h0
+		l0.8-3.4h1.1L18.1,22z M20,17h3.5v0.9h-2.4v1.2h2.1v0.9h-2.1V22H20V17z M16.7,5H11V4.6C11,4.3,10.7,4,10.4,4H7.6C7.3,4,7,4.3,7,4.6
+		V5H5.3C4.6,5,4,5.6,4,6.3v7.4C4,14.4,4.6,15,5.3,15h11.4c0.7,0,1.3-0.6,1.3-1.3V6.3C18,5.6,17.4,5,16.7,5z M17,13.7
+		c0,0.2-0.1,0.3-0.3,0.3H5.3C5.1,14,5,13.9,5,13.7V6.3C5,6.1,5.1,6,5.3,6h2.3h2.8h6.3C16.9,6,17,6.1,17,6.3V13.7z M9,6.5
+		c-1.9,0-3.5,1.6-3.5,3.5s1.6,3.5,3.5,3.5s3.5-1.6,3.5-3.5S10.9,6.5,9,6.5z M9,12.5c-1.4,0-2.5-1.1-2.5-2.5S7.6,7.5,9,7.5
+		s2.5,1.1,2.5,2.5S10.4,12.5,9,12.5z M9,8.5c-0.8,0-1.5,0.7-1.5,1.5s0.7,1.5,1.5,1.5s1.5-0.7,1.5-1.5S9.8,8.5,9,8.5z M9,10.5
+		c-0.3,0-0.5-0.2-0.5-0.5S8.7,9.5,9,9.5S9.5,9.7,9.5,10S9.3,10.5,9,10.5z M13,8h3V7h-3V8z"/>
+</g>
+<g id="attachAlignSequence">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M1,9h3v12H1v-1h2V10H1V9z M6,9h15v12H6V9z M7,20h13V10H7V20z M26,10V9h-3v12h3v-1h-2V10H26z M9,5.5C9,4.7,9.7,4,10.5,4h6
+		C17.3,4,18,4.7,18,5.5S17.3,7,16.5,7h-6C9.7,7,9,6.3,9,5.5z M10,5.5C10,5.8,10.2,6,10.5,6h6C16.8,6,17,5.8,17,5.5S16.8,5,16.5,5h-6
+		C10.2,5,10,5.2,10,5.5z M7,4L5,5.6L7,7V4z M20,7l2-1.6L20,4V7z"/>
+</g>
+<g id="attachAlignPodcast">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M16,11.5c0,1.4-1.1,2.5-2.5,2.5S11,12.9,11,11.5c0-1.4,1.1-2.5,2.5-2.5S16,10.1,16,11.5z M13.5,15c-1.4,0-2.5,1.1-2.5,2.5
+		V23h5v-5.5C16,16.1,14.9,15,13.5,15z M19,11.5c0-3-2.5-5.5-5.5-5.5C10.5,6,8,8.5,8,11.5c0,1.9,0.9,3.5,2.3,4.5
+		c0.1-0.3,0.3-0.6,0.6-0.8C9.8,14.4,9,13,9,11.5C9,9,11,7,13.5,7S18,9,18,11.5c0,1.5-0.8,2.9-1.9,3.7c0.2,0.2,0.4,0.5,0.6,0.8
+		C18.1,15,19,13.4,19,11.5z M17,18.1c2.4-1.3,4-3.8,4-6.6C21,7.4,17.6,4,13.5,4S6,7.4,6,11.5c0,2.9,1.6,5.4,4,6.6v-0.6
+		c0-0.2,0-0.3,0.1-0.5C8.2,15.8,7,13.8,7,11.5C7,7.9,9.9,5,13.5,5S20,7.9,20,11.5c0,2.3-1.2,4.3-3.1,5.5c0,0.2,0.1,0.3,0.1,0.5V18.1
+		z M13.5,2C8.3,2,4,6.3,4,11.5c0,4,2.5,7.4,6,8.8v-1.1c-2.9-1.3-5-4.3-5-7.7C5,6.8,8.8,3,13.5,3c4.7,0,8.5,3.8,8.5,8.5
+		c0,3.4-2.1,6.4-5,7.7v1.1c3.5-1.4,6-4.8,6-8.8C23,6.3,18.7,2,13.5,2z"/>
+</g>
+<g id="attachAlignMP3">
+	<path fill="none" d="M0,0v25v0h27v0V0H0z"/>
+	<path d="M5.3,17h1.1l1.8,5H7l-0.4-1.1H4.9L4.5,22H3.5L5.3,17z M5.2,20.1h1.2l-0.6-1.8h0L5.2,20.1z M12.4,20.1c0,1.4-0.8,2-2,2
+		c-1.3,0-2-0.7-2-2V17h1v3.1c0,0.5,0.1,1.1,1,1.1c0.7,0,1-0.3,1-1.1V17h1V20.1z M13.2,17h2.1c1.2,0,2.2,0.8,2.2,2.5
+		c0,1.4-0.7,2.5-2.2,2.5h-2.1V17z M14.2,21.1h0.9c0.6,0,1.2-0.4,1.2-1.5c0-1-0.3-1.7-1.4-1.7h-0.7V21.1z M17.9,17h1v5h-1V17z
+		 M21.9,16.9c1.5,0,2.3,1.2,2.3,2.6c0,1.4-0.9,2.6-2.3,2.6c-1.5,0-2.3-1.2-2.3-2.6C19.5,18,20.4,16.9,21.9,16.9z M21.9,21.2
+		c0.9,0,1.3-0.8,1.3-1.7c0-0.9-0.4-1.7-1.3-1.7s-1.3,0.8-1.3,1.7C20.6,20.4,20.9,21.2,21.9,21.2z M13.4,3.3c-0.1,0-0.3,0-0.4,0.1
+		L9,6H5.1C4.5,6,4,6.5,4,7.1v3.7C4,11.5,4.5,12,5.1,12H9l4,2.5c0.1,0.1,0.3,0.1,0.4,0.1c0.3,0,0.7-0.3,0.7-0.7l0-10.1
+		C14,3.6,13.7,3.3,13.4,3.3z M13,13.4l-3.5-2.2C9.4,11.1,9.2,11,9,11H5.1C5.1,11,5,10.9,5,10.9V7.1C5,7.1,5.1,7,5.1,7H9
+		c0.2,0,0.4-0.1,0.5-0.2L13,4.6L13,13.4z M18.9,4.8L18,5.3c1.4,2.3,1.4,5.1,0,7.4l0.9,0.5C20.4,10.6,20.4,7.4,18.9,4.8z M15.8,11.5
+		l1,0.5c1-1.9,1-4.2,0-6l-1,0.5C16.8,8.1,16.8,9.9,15.8,11.5z M20.9,3.6L20,4.1c2,3.1,2,6.6,0,9.7l0.9,0.5C23,11,23,7,20.9,3.6z"/>
+</g>
+</defs>
+
+
+<g fill="#454b54">
+	<use xlink:href="#attachAlignLeft" transform="translate(0 0)"></use>
+	<use xlink:href="#attachAlignCenter" transform="translate(30 0)"></use>
+	<use xlink:href="#attachAlignRight" transform="translate(60 0)"></use>	
+
+	<use xlink:href="#attachAlign2Center" transform="translate(90 0)"></use>
+	<use xlink:href="#attachAlign3Center" transform="translate(120 0)"></use>
+	<use xlink:href="#attachAlignFree" transform="translate(150 0)"></use>
+
+	<use xlink:href="#attachAlignSequence" transform="translate(180 0)"></use>
+	<use xlink:href="#attachAlignImazing" transform="translate(210 0)"></use>
+
+	<use xlink:href="#attachAlignMP3" transform="translate(240 0)"></use>
+	<use xlink:href="#attachAlignPodcast" transform="translate(270 0)"></use>
+</g>
+
+<g fill="#ffffff">
+	<use xlink:href="#attachAlignLeft" transform="translate(0 30)"></use>
+	<use xlink:href="#attachAlignCenter" transform="translate(30 30)"></use>
+	<use xlink:href="#attachAlignRight" transform="translate(60 30)"></use>	
+
+	<use xlink:href="#attachAlign2Center" transform="translate(90 30)"></use>
+	<use xlink:href="#attachAlign3Center" transform="translate(120 30)"></use>
+	<use xlink:href="#attachAlignFree" transform="translate(150 30)"></use>
+
+	<use xlink:href="#attachAlignSequence" transform="translate(180 30)"></use>
+	<use xlink:href="#attachAlignImazing" transform="translate(210 30)"></use>
+
+	<use xlink:href="#attachAlignMP3" transform="translate(240 30)"></use>
+	<use xlink:href="#attachAlignPodcast" transform="translate(270 30)"></use>
+</g>
+
+</svg>
