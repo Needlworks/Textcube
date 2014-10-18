@@ -1,6 +1,7 @@
 .mce-visualblocks * {
 	position: relative;
 	z-index: 0;
+	pointer-events: initial;
 }
 .mce-visualblocks, .mce-visualblocks :before {
 	content: '';
@@ -10,6 +11,7 @@
 	left: 0;
 	right: 0;
 	z-index: -1;
+	pointer-events: none;
 }
 
 .mce-visualblocks p:before {
