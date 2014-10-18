@@ -41,7 +41,7 @@
 .cm-s-tomorrow-night-bright span.cm-tag,
 .cm-s-tomorrow-night-bright span.cm-keyword,
 .cm-s-tomorrow-night-bright span.cm-attribute 		{ color: #d54e53; }
-.cm-s-tomorrow-night-bright span.cm-error 			{ background: #d54e53; }
+.cm-s-tomorrow-night-bright span.cm-error 			{ background: #d54e53; color: #eaeaea; }
 
 /* orange */
 .cm-s-tomorrow-night-bright span.cm-def 			{ color: #e78c45; }
