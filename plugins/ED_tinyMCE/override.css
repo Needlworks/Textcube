@@ -1,5 +1,7 @@
 @charset utf-8;
 /* This stylesheet overrides administration panel skin, to make uploader section float. */
+
+/*
 .mce-toolbar-grp {
 	position:fixed!important;
 	height:30px!important;
@@ -97,3 +99,4 @@
 #status-container,#save-section .button-box .save-button,#save-section .button-box .list-button {
 	display:none;
 }
+*/
