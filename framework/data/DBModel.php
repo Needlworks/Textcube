@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.6.0.20140916 */
+/* 1.7.2.20141105 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limitation, $table, $id, $_querysetCount;
@@ -125,7 +125,7 @@ class DBModel extends Singleton implements IModel {
 				$this->_qualifiers[$name] = array();
 				$this->_relations[$name] = array();
 			}
-			$index = count($this->_qualifiers[$name]) + 1;
+			$index = count($this->_qualifiers[$name]);
 			$this->_qualifiers[$name][$index] = $result[0];
 			$this->_relations[$name][$index] = $result[1];
 		}
@@ -159,6 +159,9 @@ class DBModel extends Singleton implements IModel {
 				$mglue[$name] = $args[$i];
 			}
 		}
+		//$this->_qualifiers['QualifierSet'.$this->_querysetCount] = array();
+		//$this->_relations['QualifierSet'.$this->_querysetCount] = array();
+		//$this->_glues['QualifierSet'.$this->_querysetCount] = array();
 		$this->_qualifiers['QualifierSet'.$this->_querysetCount] = $mqualifier;
 		$this->_relations['QualifierSet'.$this->_querysetCount] = $mrelation;
 		$this->_glues['QualifierSet'.$this->_querysetCount] = $mglue;
@@ -223,7 +226,14 @@ class DBModel extends Singleton implements IModel {
 		$this->id = null;
 		if (empty($this->table))
 			return false;
-		$attributes = array_merge($this->_qualifiers, $this->_attributes);
+		// Use first qualifiers when multiple conditions exist.
+		$qualifiers = array();
+		if(!empty($this->_qualifiers)) {
+			foreach($this->_qualifiers as $key => $index) {
+				$qualifiers[$key] = reset($index);
+			}
+		}
+		$attributes = array_merge($qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
 		$pairs = $attributes;
@@ -259,7 +269,14 @@ class DBModel extends Singleton implements IModel {
 		$this->id = null;
 		if (empty($this->table))
 			return false;
-		$attributes = array_merge($this->_qualifiers, $this->_attributes);
+		// Use first qualifiers when multiple conditions exist.
+		$qualifiers = array();
+		if(!empty($this->_qualifiers)) {
+			foreach($this->_qualifiers as $key=>$index) {
+				$qualifiers[$key] = reset($index);
+			}
+		}
+		$attributes = array_merge($qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
 		$pairs = $attributes;
