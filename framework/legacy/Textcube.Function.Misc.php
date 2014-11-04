@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Misc {
-	function getFileExtension($path) {
+	static function getFileExtension($path) {
 		for ($i = strlen($path) - 1; $i >= 0; $i--) {
 			if ($path{$i} == '.')
 				return strtolower(substr($path, $i + 1));
@@ -13,7 +13,7 @@ class Misc {
 		return '';
 	}
 
-	function getSizeHumanReadable($size) {
+	static function getSizeHumanReadable($size) {
 		if ($size < 1024)
 			return "$size Bytes";
 		else if ($size < 1048576)
@@ -24,11 +24,11 @@ class Misc {
 			return sprintf("%0.2f", $size / 1073741824) . " GB";
 	}
 
-	function getArrayValue($array, $key) {
+	static function getArrayValue($array, $key) {
 		return $array[$key];
 	}
 
-	function getAttributesFromString($str, $caseSensitive=false) {
+	static function getAttributesFromString($str, $caseSensitive=false) {
 		$attributes = array();
 		preg_match_all('/([^=\s]+)\s*=\s*"([^"]*)/', $str, $matches); 
 		for($i=0; $i<count($matches[0]); $i++) {
@@ -51,7 +51,7 @@ class Misc {
 		return $attributes;
 	}
 
-	function getMIMEType($ext, $filename = null) {
+	static function getMIMEType($ext, $filename = null) {
 		if ($filename) {
 			return Misc::getMIMEType(Misc::getFileExtension($filename));
 		} else {
@@ -147,7 +147,7 @@ class Misc {
 		return '';
 	}
 
-	function getNumericValue($value) {
+	static function getNumericValue($value) {
 		$value = trim($value);
 		switch (strtoupper($value{strlen($value) - 1})) {
 			case 'G':
@@ -160,7 +160,7 @@ class Misc {
 		return $value;
 	}
 
-	function getContentWidth() {
+	static function getContentWidth() {
 		
 		$context = Model_Context::getInstance();
 		
@@ -180,7 +180,7 @@ class Misc {
 		} else return $context->getProperty('skin.contentWidth');
 	}
 	
-	function getFileListByRegExp($path, $pattern, $deepScan=false) {
+	static function getFileListByRegExp($path, $pattern, $deepScan=false) {
 		$path = preg_replace('@/$@', '', $path);
 		
 		$fileList = array();
@@ -204,7 +204,7 @@ class Misc {
 		return $fileList;
 	}
 	
-	function dress($tag, $value, & $contents, $useSkinCache = false) {	
+	static function dress($tag, $value, & $contents, $useSkinCache = false) {	
 		// NOTE : default cache option is false (components are usually used by plugin, which is not related to default SkinCache system
 		global $__gDressTags;
 		if($useSkinCache == true) { // Use Textcube skin cache system. 
@@ -227,20 +227,20 @@ class Misc {
 		}
 	}
 	
-	function isSpace($string) {
+	static function isSpace($string) {
 		$result = str_replace(array(' ',"\t","\r","\n"),array(''),$string);
 		return empty($result);
 	}
 	
-	function escapeJSInAttribute($str) {
+	static function escapeJSInAttribute($str) {
 		return htmlspecialchars(str_replace(array('\\', '\r', '\n', '\''), array('\\\\', '\\r', '\\n', '\\\''), $str));
 	}
 
-	function escapeCData($str) {
+	static function escapeCData($str) {
 		return str_replace(']]>', ']]&gt;', $str);
 	}
 	
-	function getTimeFromPeriod($period) {
+	static function getTimeFromPeriod($period) {
 		if (is_numeric($period)) {
 			$year = 0;
 			$month = 1;
@@ -258,88 +258,88 @@ class Misc {
 		}
 		return false;
 	}
-	function isMetaBlog() {
+	static function isMetaBlog() {
 		return (getBlogId() == Setting::getServiceSettingGlobal("defaultBlogId",1) ? true : false);
 	}
 
 /***** Functions below are legacy support : THEY WILL BE REMOVED AFTER 1.6 MILESTONE. *****/
 
-	function fetchConfigVal( $DATA ){
+	static function fetchConfigVal( $DATA ){
 		return Setting::fetchConfigVal($DATA);
 	}
 
 	// For Blog-scope setting
-	function getBlogSettingGlobal($name, $default = null, $blogid = null) {
+	static function getBlogSettingGlobal($name, $default = null, $blogid = null) {
 		return Setting::getBlogSettingGlobal($name, $default, $blogid);
 	}
 
-	function getBlogSettingsGlobal($blogid = null) {
+	static function getBlogSettingsGlobal($blogid = null) {
 		return Setting::getBlogSettingsGlobal($blogid);
 	}
 	
-	function setBlogSettingGlobal($name, $value, $blogid = null) {
+	static function setBlogSettingGlobal($name, $value, $blogid = null) {
 		return Setting::setBlogSettingGlobal($name, $value, $blogid);
 	}
 
-	function removeBlogSettingGlobal($name, $blogid = null) {
+	static function removeBlogSettingGlobal($name, $blogid = null) {
 		return Setting::removeBlogSettingsGlobal($name, $blogid);
 	}
 
 	// For plugin-specific use.
-	function getBlogSetting($name, $default = null) {
+	static function getBlogSetting($name, $default = null) {
 		return Setting::getBlogSetting($name, $default);
 	}
 	
-	function setBlogSetting($name, $value) {
+	static function setBlogSetting($name, $value) {
 		return Setting::setBlogSetting($name, $value);
 	}
 	
-	function removeBlogSetting($name) {
+	static function removeBlogSetting($name) {
 		return Setting::removeBlogSetting($name);
 	}
 	
 	// For User
-	function getUserSetting($name, $default = null) {
+	static function getUserSetting($name, $default = null) {
 		return Setting::getUserSetting($name, $default);
 	}
 
-	function getUserSettingGlobal($name, $default = null, $userid = null) {
+	static function getUserSettingGlobal($name, $default = null, $userid = null) {
 		return Setting::getUserSettingGlobal($name, $default, $userid);
 	}
 	
-	function setUserSetting($name, $value) {
+	static function setUserSetting($name, $value) {
 		return Setting::setUserSetting($name, $value);
 	}
 	
-	function setUserSettingGlobal($name, $value, $userid = null) {
+	static function setUserSettingGlobal($name, $value, $userid = null) {
 		return Setting::setUserSettingGlobal($name, $value, $userid);
 	}
 	
-	function removeUserSetting($name) {
+	static function removeUserSetting($name) {
 		return Setting::removeUserSetting($name);
 	}
 
-	function removeUserSettingGlobal($name, $userid = null) {
+	static function removeUserSettingGlobal($name, $userid = null) {
 		return Setting::removeUserSettingGlobal($name, $userid);
 	}
 
-	function getServiceSetting($name, $default = null) {
+	static function getServiceSetting($name, $default = null) {
 		return Setting::getServiceSetting($name, $default, true);
 	}
 
-	function setServiceSetting($name, $value) {
+	static function setServiceSetting($name, $value) {
 		return Setting::setServiceSetting($name, true);
 	}
 
-	function removeServiceSetting($name) {
+	static function removeServiceSetting($name) {
 		return Setting::removeServiceSetting($name, true);
 	}
 	
-	function getBlogSettingRowsPerPage($default = null) {
+	static function getBlogSettingRowsPerPage($default = null) {
 		return Setting::getBlogSettingGlobal('rowsPerPage',$default);
 	}
 
-	function setBlogSettingRowsPerPage($value) {
+	static function setBlogSettingRowsPerPage($value) {
 		return Setting::setBlogSettingGlobal('rowsPerPage', $value, getBlogId());
 	}
 }
