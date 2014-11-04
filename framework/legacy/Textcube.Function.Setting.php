@@ -6,14 +6,14 @@
 global $__gCacheBlogSettings, $__serviceSetting; // share blog.service.php
 $__serviceSetting = array();
 class Setting {
-	function fetchConfigVal( $DATA ){
+	static function fetchConfigVal( $DATA ){
 		return is_null($DATA) ? null:unserialize($DATA);
 //		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.		
 //		if (is_array($DATA)) return $DATA;
 //		return Setting::fetchConfigVal_Legacy($DATA);
 	}
 
-	function fetchConfigXML( $DATA ){
+	static function fetchConfigXML( $DATA ){
 		$xmls = new XMLStruct();		// else, parse them...
 		$outVal = array();
 		if( ! $xmls->open($DATA) ) {
@@ -36,7 +36,7 @@ class Setting {
 	}
 	
 	// For Blog-scope setting
-	function getBlogSettingGlobal($name, $default = null, $blogid = null, $directAccess = false) {
+	static function getBlogSettingGlobal($name, $default = null, $blogid = null, $directAccess = false) {
 		if(is_null($blogid)) $blogid = getBlogId();
 		if($directAccess == true) {
 			$query = DBModel::getInstance();
@@ -53,7 +53,7 @@ class Setting {
 		return $default;
 	}
 
-	function getBlogSettingsGlobal($blogid = null) {
+	static function getBlogSettingsGlobal($blogid = null) {
 		global $database, $service, $__gCacheBlogSettings, $gCacheStorage;
 		if(empty($__gCacheBlogSettings)) $__gCacheBlogSettings = array();
 		$context = Model_Context::getInstance();
@@ -125,7 +125,7 @@ class Setting {
 		return false;
 	}
 	
-	function setBlogSettingGlobal($name, $value, $blogid = null) {
+	static function setBlogSettingGlobal($name, $value, $blogid = null) {
 		global $__gCacheBlogSettings;
 		global $gCacheStorage;
 	
@@ -164,7 +164,7 @@ class Setting {
 		return $query->insert();
 	}
 
-	function setBlogSettingDefault($name, $value, $blogid = null) {
+	static function setBlogSettingDefault($name, $value, $blogid = null) {
 		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
 		$query = DBModel::getInstance();
@@ -177,7 +177,7 @@ class Setting {
 		return $query->replace();
 	}
 
-	function removeBlogSettingGlobal($name, $blogid = null) {
+	static function removeBlogSettingGlobal($name, $blogid = null) {
 		global $database;
 		global $__gCacheBlogSettings; // share blog.service.php
 		global $gCacheStorage;
@@ -211,31 +211,31 @@ class Setting {
 	}
 
 	// For plugin-specific use.
-	function getBlogSetting($name, $default = null, $global = null) {
+	static function getBlogSetting($name, $default = null, $global = null) {
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::getBlogSettingGlobal($name, $default, getBlogId(), false);
 	}
 	
-	function setBlogSetting($name, $value, $global = null) {
+	static function setBlogSetting($name, $value, $global = null) {
 		global $database, $blogid;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::setBlogSettingGlobal($name, $value);
 	}
 	
-	function removeBlogSetting($name, $global = null) {
+	static function removeBlogSetting($name, $global = null) {
 		global $database, $blogid;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::removeBlogSettingGlobal($name);
 	}
 
 	// For User
-	function getUserSetting($name, $default = null, $global = null) {
+	static function getUserSetting($name, $default = null, $global = null) {
 		global $database, $userSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::getUserSettingGlobal($name, $default);
 	}
 
-	function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
+	static function getUserSettingGlobal($name, $default = null, $userid = null, $directAccess = false) {
 		global $userSetting;
 		if($directAccess !== false) {
 			$query = DBModel::getInstance();
@@ -260,13 +260,13 @@ class Setting {
 		return $default;
 	}
 	
-	function setUserSetting($name, $value, $global = null) {
+	static function setUserSetting($name, $value, $global = null) {
 		global $database;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::setUserSettingGlobal($name, $value);
 	}
 	
-	function setUserSettingGlobal($name, $value, $userid = null) {
+	static function setUserSettingGlobal($name, $value, $userid = null) {
 		global $database;
 		if(is_null($userid)) $userid = getUserId();
 		clearUserSettingCache();
@@ -280,12 +280,12 @@ class Setting {
 		return $query->replace();
 	}
 	
-	function removeUserSetting($name, $global = null) {
+	static function removeUserSetting($name, $global = null) {
 		if(is_null($global)) $name = 'plugin_' . $name;
 		return Setting::removeUserSettingGlobal($name, null, null);
 	}
 
-	function removeUserSettingGlobal($name, $userid = null, $global = null) {
+	static function removeUserSettingGlobal($name, $userid = null, $global = null) {
 		clearUserSettingCache();
 		$query = DBModel::getInstance();
 		$query->reset('UserSettings');
@@ -294,7 +294,7 @@ class Setting {
 		return $query->delete();
 	}
 
-	function getServiceSetting($name, $default = null, $global = null) {
+	static function getServiceSetting($name, $default = null, $global = null) {
 		global $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		if( empty($__serviceSetting) ) {
@@ -311,7 +311,7 @@ class Setting {
 		return $default;
 	}
 		
-	function setServiceSetting($name, $value, $global = null) {
+	static function setServiceSetting($name, $value, $global = null) {
 		global $__serviceSetting;
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$name = UTF8::lessenAsEncoding($name, 32);
@@ -324,7 +324,7 @@ class Setting {
 		return $query->replace();
 	}
 
-	function removeServiceSetting($name, $global = null) {
+	static function removeServiceSetting($name, $global = null) {
 		if(is_null($global)) $name = 'plugin_' . $name;
 		$query = DBModel::getInstance();
 		$query->reset('ServiceSettings');
@@ -332,19 +332,19 @@ class Setting {
 		return $query->delete();
 	}
 
-	function getServiceSettingGlobal($name, $default = null) {
+	static function getServiceSettingGlobal($name, $default = null) {
 		return Setting::getServiceSetting($name, $default, true);
 	}
 
-	function setServiceSettingGlobal($name, $value) {
+	static function setServiceSettingGlobal($name, $value) {
 		return Setting::setServiceSetting($name, $value, true);
 	}
 
-	function removeServiceSettingGlobal($name) {
+	static function removeServiceSettingGlobal($name) {
 		return Setting::removeServiceSetting($name, true);
 	}
 	
-	function getSkinSettings($blogid, $forceReload = false) {
+	static function getSkinSettings($blogid, $forceReload = false) {
 		global $database, $service, $__gCacheSkinSettings, $gCacheStorage;
 		$context = Model_Context::getInstance();
 		if(empty($__gCacheSkinSettings)) $__gCacheSkinSettings = array();
@@ -418,7 +418,7 @@ class Setting {
 		$__gCacheSkinSettings[$blogid] = false;
 		return false;
 	}
-	function setSkinSettingDefault($name, $value, $blogid = null) {
+	static function setSkinSettingDefault($name, $value, $blogid = null) {
 		global $database;
 		if(is_null($blogid)) $blogid = getBlogId();
 		$query = DBModel::getInstance();
@@ -431,7 +431,7 @@ class Setting {
 		return $query->replace();
 	}	
 	
-	function setSkinSetting($name, $value, $blogid = null) {
+	static function setSkinSetting($name, $value, $blogid = null) {
 		global $database;
 		global $__gCacheSkinSettings, $__gCacheBlogSettings;
 		global $gCacheStorage;
