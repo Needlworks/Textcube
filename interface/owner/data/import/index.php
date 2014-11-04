@@ -286,9 +286,9 @@ function importer($path, $node, $line) {
 			$post->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : 'modern';
 			$post->location = $node['location'][0]['.value'];
 			$post->password = isset($node['password'][0]['.value']) ? $node['password'][0]['.value'] : null;
-			$post->acceptcomment = $node['acceptComment'][0]['.value'];
-			$post->accepttrackback = $node['acceptTrackback'][0]['.value'];
-			$post->published = $node['published'][0]['.value'];
+			$post->acceptcomment = intval($node['acceptComment'][0]['.value']);
+			$post->accepttrackback = intval($node['acceptTrackback'][0]['.value']);
+			$post->published = intval($node['published'][0]['.value']);
 			if (isset($node['longitude'][0]['.value']))
 				$post->longitude = $node['longitude'][0]['.value'];
 			if (isset($node['latitude'][0]['.value']))
@@ -353,7 +353,7 @@ function importer($path, $node, $line) {
 					$cursor = & $node['comment'][$i];
 					$comment->name = $cursor['commenter'][0]['name'][0]['.value'];
 					if (!empty($cursor['id'][0]['.value']))
-						$comment->id = $cursor['id'][0]['.value'];
+						$comment->id = intval($cursor['id'][0]['.value']);
 					if (!empty($cursor['commenter'][0]['.attributes']['id']))
 						$comment->commenter = $cursor['commenter'][0]['.attributes']['id'];
 					if (!empty($cursor['commenter'][0]['homepage'][0]['.value']))
@@ -364,14 +364,14 @@ function importer($path, $node, $line) {
 						$comment->openid = $cursor['commenter'][0]['openid'][0]['.value'];
 					$comment->password = $cursor['password'][0]['.value'];
 					$comment->secret = $cursor['secret'][0]['.value'];
-					$comment->written = $cursor['written'][0]['.value'];
+					$comment->written = intval($cursor['written'][0]['.value']);
 					if (isset($cursor['longitude'][0]['.value']))
 						$comment->longitude = $cursor['longitude'][0]['.value'];
 					if (isset($cursor['latitude'][0]['.value']))
 						$comment->latitude = $cursor['latitude'][0]['.value'];
 					$comment->content = $cursor['content'][0]['.value'];
 					if (!empty($cursor['isFiltered'][0]['.value']))
-				    	$comment->isfiltered = $cursor['isFiltered'][0]['.value'];
+				    	$comment->isfiltered = intval($cursor['isFiltered'][0]['.value']);
 					if (!$comment->add())
 						user_error(__LINE__ . $comment->error);
 					if (isset($node['comment'][$i]['comment'])) {
@@ -381,7 +381,7 @@ function importer($path, $node, $line) {
 							$childComment->parent = $comment->id;
 							$cursor = & $node['comment'][$i]['comment'][$j];
 							if (!empty($cursor['id'][0]['.value']))
-								$childComment->id = $cursor['id'][0]['.value'];
+								$childComment->id = intval($cursor['id'][0]['.value']);
 							if (!empty($cursor['commenter'][0]['.attributes']['id']))
 								$childComment->commenter = $cursor['commenter'][0]['.attributes']['id'];
 							$childComment->name = $cursor['commenter'][0]['name'][0]['.value'];
@@ -393,14 +393,14 @@ function importer($path, $node, $line) {
 								$childComment->openid = $cursor['commenter'][0]['openid'][0]['.value'];
 							$childComment->password = $cursor['password'][0]['.value'];
 							$childComment->secret = $cursor['secret'][0]['.value'];
-							$childComment->written = $cursor['written'][0]['.value'];
+							$childComment->written = intval($cursor['written'][0]['.value']);
 							if (isset($cursor['longitude'][0]['.value']))
 								$comment->longitude = $cursor['longitude'][0]['.value'];
 							if (isset($cursor['latitude'][0]['.value']))
 								$comment->latitude = $cursor['latitude'][0]['.value'];
 							$childComment->content = $cursor['content'][0]['.value'];
 							if (!empty($cursor['isFiltered'][0]['.value']))
-					    		$childComment->isfiltered = $cursor['isFiltered'][0]['.value'];
+					    		$childComment->isfiltered = intval($cursor['isFiltered'][0]['.value']);
 							if (!$childComment->add())
 								user_error(__LINE__ . $childComment->error);
 						}
@@ -452,7 +452,7 @@ function importer($path, $node, $line) {
 			$notice->content = $node['content'][0]['.value'];
 			$notice->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
 			$notice->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
-			$notice->published = $node['published'][0]['.value'];
+			$notice->published = intval($node['published'][0]['.value']);
 			$notice->created = @$node['created'][0]['.value'];
 			$notice->modified = @$node['modified'][0]['.value'];
 			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
@@ -508,7 +508,7 @@ function importer($path, $node, $line) {
 			$keyword->description = $node['description'][0]['.value'];
 			$keyword->descriptionEditor = isset($node['description']['.attributes']['editor']) ? $node['description']['.attributes']['editor'] : getDefaultEditor();
 			$keyword->descriptionFormatter = isset($node['description']['.attributes']['formatter']) ? $node['description']['.attributes']['formatter'] : getDefaultFormatter();
-			$keyword->published = $node['published'][0]['.value'];
+			$keyword->published = intval($node['published'][0]['.value']);
 			$keyword->created = @$node['created'][0]['.value'];
 			$keyword->modified = @$node['modified'][0]['.value'];
 			if (floatval(getServiceSetting('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
@@ -559,6 +559,8 @@ function importer($path, $node, $line) {
 			$linkCategory->priority = $node['priority'][0]['.value'];
 			$linkCategory->visibility = !isset($node['visibility'][0]['.value']) || empty($node['visibility'][0]['.value']) 
 				? 2 : $node['visibility'][0]['.value'];
+			dumpAsFile($linkCategory->name);
+
 			$linkCategory->id = LinkCategories::getId($linkCategory->name); 
 			if ($linkCategory->id) {
 				if (!$linkCategory->update())

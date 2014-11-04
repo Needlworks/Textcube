@@ -107,7 +107,7 @@ class Link {
 	}
 	
 	/*@static@*/
-	function getId($url) {
+	static function getId($url) {
 		global $database;
 		if (empty($url))
 			return null;
@@ -115,13 +115,13 @@ class Link {
 	}
 	
 	/*@static@*/
-	function getURL($id) {
+	static function getURL($id) {
 		global $database;
 		if (!Validator::number($id, 1))
 			return null;
 		return POD::queryCell("SELECT label FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()." AND id = $id");
 	}
-	function getNextLinkId($id = 0) {
+	static function getNextLinkId($id = 0) {
 		global $database;
 		$maxId = POD::queryCell("SELECT MAX(id) FROM {$database['prefix']}Links WHERE blogid = ".getBlogId()); 
 		if($id==0)
@@ -129,7 +129,7 @@ class Link {
 		else
 			return ($maxId > $id ? $maxId + 1: $id);
 	}
-	function getNextLinkPid($id = 0) {
+	static function getNextLinkPid($id = 0) {
 		global $database;
 		$maxId = POD::queryCell("SELECT MAX(pid) FROM {$database['prefix']}Links"); 
 		if($id==0)
@@ -163,6 +163,7 @@ class Link {
 			if (empty($this->url))
 				return $this->_error('url');
 			$query->setQualifier('url', 'equals', $this->url, true);
+			//$query->setAttribute('url', $this->url, true);
 		}
 		if (isset($this->title)) {
 			$this->title = UTF8::lessenAsEncoding(trim($this->title), 255);
@@ -190,6 +191,11 @@ class Link {
 		$this->_count = 0;
 		$this->reset();
 		return $query;
+	}
+	
+	function _error($error) {
+		$this->error = $error;
+		return false;
 	}
 }
 ?>

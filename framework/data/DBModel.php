@@ -125,7 +125,7 @@ class DBModel extends Singleton implements IModel {
 				$this->_qualifiers[$name] = array();
 				$this->_relations[$name] = array();
 			}
-			$index = count($this->_qualifiers[$name]) + 1;
+			$index = count($this->_qualifiers[$name]);
 			$this->_qualifiers[$name][$index] = $result[0];
 			$this->_relations[$name][$index] = $result[1];
 		}
@@ -223,7 +223,14 @@ class DBModel extends Singleton implements IModel {
 		$this->id = null;
 		if (empty($this->table))
 			return false;
-		$attributes = array_merge($this->_qualifiers, $this->_attributes);
+		// Use first qualifiers when multiple conditions exist. 
+		$qualifiers = array();
+		if(!empty($this->_qualifiers)) {
+			foreach($this->qualifiers as $key->$index) {
+				$qualifiers[$key] = $key[0]; 
+			}
+		}
+		$attributes = array_merge($qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
 		$pairs = $attributes;
@@ -259,7 +266,14 @@ class DBModel extends Singleton implements IModel {
 		$this->id = null;
 		if (empty($this->table))
 			return false;
-		$attributes = array_merge($this->_qualifiers, $this->_attributes);
+		// Use first qualifiers when multiple conditions exist. 
+		$qualifiers = array();
+		if(!empty($this->_qualifiers)) {
+			foreach($this->qualifiers as $key->$index) {
+				$qualifiers[$key] = $key[0]; 
+			}
+		}
+		$attributes = array_merge($qualifiers, $this->_attributes);
 		if (empty($attributes))
 			return false;
 		$pairs = $attributes;
