@@ -165,7 +165,7 @@ function resetPassword($blogid, $loginid) {
 	if (!isLoginId($blogid, $loginid))
 		return false;
 	$userid = User::getUserIdByEmail($loginid);
-	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid");
+	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid",'password',false);
 	$authtoken = md5(generatePassword());
 	
 	$query = DBModel::getInstance();
