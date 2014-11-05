@@ -34,7 +34,7 @@ function inArray(key, arr)
 	editor = tinymce.activeEditor;
 	var i, userSettings = editor.settings.codemirror ? editor.settings.codemirror : null;
 	CMsettings = {
-		path: 'CodeMirror',
+		path: userSettings.path || 'CodeMirror',
 		indentOnInit: userSettings.indentOnInit || false,
 		config: {// Default config
 			mode: 'htmlmixed',
@@ -197,7 +197,9 @@ function submit()
 	editor.setContent(codemirror.getValue().replace(cc, '<span id="CmCaReT"></span>'));
 	editor.isNotDirty = !isDirty;
 	if (isDirty) {
-		editor.nodeChanged();
+    try {
+      editor.nodeChanged();
+    } catch (ex) {}
 	}
 
 	// Set cursor:
@@ -211,10 +213,12 @@ function submit()
 
 </script>
 <style type="text/css">
-
+html {
+	height: 100%;
+}
 body {
+	height: 100%;
 	margin: 0;
-	background: #666;
 }
 
 .CodeMirror {

@@ -2811,7 +2811,6 @@ window.CodeMirror = (function() {
     else no = lineNo(handle);
     if (no == null) return null;
     if (op(line, no)) regChange(cm, no, no + 1);
-    else return null;
     return line;
   }
 
@@ -3619,6 +3618,11 @@ window.CodeMirror = (function() {
     insertTab: function(cm) {
       cm.replaceSelection("\t", "end", "+input");
     },
+    insertSoftTab: function(cm) {
+      var pos = cm.getCursor("from"), tabSize = cm.options.tabSize;
+      var col = countColumn(cm.getLine(pos.line), pos.ch, tabSize);
+      cm.replaceSelection(new Array(tabSize - col % tabSize + 1).join(" "), "end", "+input");
+    },
     defaultTab: function(cm) {
       if (cm.somethingSelected()) cm.indentSelection("add");
       else cm.replaceSelection("\t", "end", "+input");
@@ -3906,6 +3910,7 @@ window.CodeMirror = (function() {
     }
     if (cm) signalLater(cm, "markerCleared", cm, this);
     if (withOp) endOperation(cm);
+    if (this.parent) this.parent.clear();
   };
 
   TextMarker.prototype.find = function(bothSides) {
@@ -3963,7 +3968,7 @@ window.CodeMirror = (function() {
     if (doc.cm && !doc.cm.curOp) return operation(doc.cm, markText)(doc, from, to, options, type);
 
     var marker = new TextMarker(doc, type);
-    if (options) copyObj(options, marker);
+    if (options) copyObj(options, marker, false);
     if (posLess(to, from) || posEq(from, to) && marker.clearWhenEmpty !== false)
       return marker;
     if (marker.replacedWith) {
@@ -4023,10 +4028,8 @@ window.CodeMirror = (function() {
   function SharedTextMarker(markers, primary) {
     this.markers = markers;
     this.primary = primary;
-    for (var i = 0, me = this; i < markers.length; ++i) {
+    for (var i = 0; i < markers.length; ++i)
       markers[i].parent = this;
-      on(markers[i], "clear", function(){me.clear();});
-    }
   }
   CodeMirror.SharedTextMarker = SharedTextMarker;
   eventMixin(SharedTextMarker);
@@ -4055,6 +4058,37 @@ window.CodeMirror = (function() {
       primary = lst(markers);
     });
     return new SharedTextMarker(markers, primary);
+  }
+
+  function findSharedMarkers(doc) {
+    return doc.findMarks(Pos(doc.first, 0), doc.clipPos(Pos(doc.lastLine())),
+                         function(m) { return m.parent; });
+  }
+
+  function copySharedMarkers(doc, markers) {
+    for (var i = 0; i < markers.length; i++) {
+      var marker = markers[i], pos = marker.find();
+      var mFrom = doc.clipPos(pos.from), mTo = doc.clipPos(pos.to);
+      if (cmp(mFrom, mTo)) {
+        var subMark = markText(doc, mFrom, mTo, marker.primary, marker.primary.type);
+        marker.markers.push(subMark);
+        subMark.parent = marker;
+      }
+    }
+  }
+
+  function detachSharedMarkers(markers) {
+    for (var i = 0; i < markers.length; i++) {
+      var marker = markers[i], linked = [marker.primary.doc];;
+      linkedDocs(marker.primary.doc, function(d) { linked.push(d); });
+      for (var j = 0; j < marker.markers.length; j++) {
+        var subMarker = marker.markers[j];
+        if (indexOf(linked, subMarker.doc) == -1) {
+          subMarker.parent = null;
+          marker.markers.splice(j--, 1);
+        }
+      }
+    }
   }
 
   // TEXTMARKER SPANS
@@ -4339,6 +4373,7 @@ window.CodeMirror = (function() {
     if (!ws.length) this.line.widgets = null;
     var aboveVisible = heightAtLine(this.cm, this.line) < this.cm.doc.scrollTop;
     updateLineHeight(this.line, Math.max(0, this.line.height - widgetHeight(this)));
+    this.cm.curOp.forceUpdate = true;
     if (aboveVisible) addToScrollPos(this.cm, 0, -this.height);
     regChange(this.cm, no, no + 1);
   });
@@ -4348,6 +4383,7 @@ window.CodeMirror = (function() {
     var diff = widgetHeight(this) - oldH;
     if (!diff) return;
     updateLineHeight(this.line, this.line.height + diff);
+    this.cm.curOp.forceUpdate = true;
     var no = lineNo(this.line);
     regChange(this.cm, no, no + 1);
   });
@@ -5076,7 +5112,7 @@ window.CodeMirror = (function() {
       }
       return markers;
     },
-    findMarks: function(from, to) {
+    findMarks: function(from, to, filter) {
       from = clipPos(this, from); to = clipPos(this, to);
       var found = [], lineNo = from.line;
       this.iter(from.line, to.line + 1, function(line) {
@@ -5085,7 +5121,8 @@ window.CodeMirror = (function() {
           var span = spans[i];
           if (!(lineNo == from.line && from.ch > span.to ||
                 span.from == null && lineNo != from.line||
-                lineNo == to.line && span.from > to.ch))
+                lineNo == to.line && span.from > to.ch) &&
+              (!filter || filter(span.marker)))
             found.push(span.marker.parent || span.marker);
         }
         ++lineNo;
@@ -5143,6 +5180,7 @@ window.CodeMirror = (function() {
       if (options.sharedHist) copy.history = this.history;
       (this.linked || (this.linked = [])).push({doc: copy, sharedHist: options.sharedHist});
       copy.linked = [{doc: this, isParent: true, sharedHist: options.sharedHist}];
+      copySharedMarkers(copy, findSharedMarkers(this));
       return copy;
     },
     unlinkDoc: function(other) {
@@ -5152,6 +5190,7 @@ window.CodeMirror = (function() {
         if (link.doc != other) continue;
         this.linked.splice(i, 1);
         other.unlinkDoc(this);
+        detachSharedMarkers(findSharedMarkers(this));
         break;
       }
       // If the histories were shared, split them again
@@ -5632,9 +5671,11 @@ window.CodeMirror = (function() {
     return inst;
   }
 
-  function copyObj(obj, target) {
+  function copyObj(obj, target, overwrite) {
     if (!target) target = {};
-    for (var prop in obj) if (obj.hasOwnProperty(prop)) target[prop] = obj[prop];
+    for (var prop in obj)
+      if (obj.hasOwnProperty(prop) && (overwrite !== false || !target.hasOwnProperty(prop)))
+        target[prop] = obj[prop];
     return target;
   }
 
@@ -6089,7 +6130,7 @@ window.CodeMirror = (function() {
 
   // THE END
 
-  CodeMirror.version = "3.23.0";
+  CodeMirror.version = "3.24.0";
 
   return CodeMirror;
 })();
