@@ -40,7 +40,6 @@ if (count($host) > 1) {
 	$_SERVER['SERVER_PORT'] = $host[1];
 }
 unset($host);
-//$test = DBModel::getInstance();
 if(empty($accessInfo)) {
 	$root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
 	$path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
