@@ -26,7 +26,6 @@ foreach ($bootFiles as $bf) {
 	require_once($bf);
 }			    
 unset($bootFiles);
-
 if (get_magic_quotes_gpc()) {
     foreach ($_GET as $key => $value)
         $_GET[$key] = stripslashes($value);
@@ -41,7 +40,7 @@ if (count($host) > 1) {
 	$_SERVER['SERVER_PORT'] = $host[1];
 }
 unset($host);
-
+//$test = DBModel::getInstance();
 if(empty($accessInfo)) {
 	$root = substr($_SERVER['SCRIPT_FILENAME'], 0, strlen($_SERVER['SCRIPT_FILENAME']) - 10);
 	$path = stripPath(substr($_SERVER['PHP_SELF'], 0, strlen($_SERVER['PHP_SELF']) - 10));
@@ -1011,7 +1010,6 @@ RewriteRule ^testrewrite$ setup.php [L]"
 				$_POST['blog'] = $result;
 			}
 		}
-		
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
@@ -1240,6 +1238,8 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 			}
         }
 		else {
+			$ctx = Model_Context::getInstance();
+			$ctx->setProperty('database.prefix',$_POST['dbPrefix']);
 			$pool = DBModel::getInstance();
 			$pool->reset('Users');
 			$pool->setAttribute('loginid',$loginid,true);
@@ -1270,7 +1270,6 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 			$pool->setQualifier('blogid','equals',1);
 			$pool->setQualifier('name','equals','timezone',true);
 			$pool->update();
-		
 		}
 		if (!$error) {
 			POD::unbind();
