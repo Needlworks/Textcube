@@ -6,7 +6,9 @@
 /** Pre-define basic components */
 global $__requireBasics, $__requireComponent, $__requireLibrary, $__requireModel, $__requireView;
 /***** Loading code pieces *****/
-$codeName = $uri->uri['interfaceType'];
+if(isset($uri)) {
+	$codeName = $uri->uri['interfaceType'];
+}
 if(isset($service['codecache']) && ($service['codecache'] == true) && file_exists(__TEXTCUBE_CACHE_DIR__.'/code/'.$codeName)) {
 	$codeCacheRead = true;
 	require(__TEXTCUBE_CACHE_DIR__.'/code/'.$codeName);
