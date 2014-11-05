@@ -560,7 +560,6 @@ function importer($path, $node, $line) {
 			$linkCategory->priority = $node['priority'][0]['.value'];
 			$linkCategory->visibility = !isset($node['visibility'][0]['.value']) || empty($node['visibility'][0]['.value'])
 				? 2 : $node['visibility'][0]['.value'];
-			dumpAsFile($linkCategory->name);
 
 			$linkCategory->id = LinkCategories::getId($linkCategory->name);
 			if ($linkCategory->id) {
