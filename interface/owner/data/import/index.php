@@ -54,7 +54,7 @@ function finish($error = null) {
 			window.parent.document.getElementById("progressTextSub").innerHTML = "";
 		//]]>
 	</script>
-<?php 
+<?php
 	$activeEditors = POD::queryColumn("SELECT DISTINCT contenteditor FROM {$database}Entries WHERE blogid = $blogid");
 	$activeFormatters = POD::queryColumn("SELECT DISTINCT contentformatter FROM {$database}Entries WHERE blogid = $blogid");
 	if(!empty($activeEditors)) {foreach($activeEditors as $editor) activatePlugin($editor);}
@@ -198,6 +198,7 @@ function scanner($path, $node, $line) {
 		case '/blog/guestbook/comment':
 		case '/blog/filter':
 		case '/blog/feed':
+		case '/blog/line':
 			$items++;
 			if (!strpos($path, 'referer'))
 				setProgress(null, _t('백업파일을 확인하고 있습니다.'), $line);
@@ -277,7 +278,7 @@ function importer($path, $node, $line) {
 			$post->id = $node['id'][0]['.value'];
 			$post->slogan = @$node['.attributes']['slogan'];
 			$post->visibility = $node['visibility'][0]['.value'];
-			if(isset($node['starred'][0]['.value'])) 
+			if(isset($node['starred'][0]['.value']))
 				$post->starred = $node['starred'][0]['.value'];
 			else $post->starred = 0;
 			$post->title = $node['title'][0]['.value'];
@@ -502,7 +503,7 @@ function importer($path, $node, $line) {
 			$notice->id = $node['id'][0]['.value'];
 			$notice->slogan = @$node['.attributes']['slogan'];
 			$notice->visibility = $node['visibility'][0]['.value'];
-			if(isset($node['starred'][0]['.value'])) 
+			if(isset($node['starred'][0]['.value']))
 				$notice->starred = $node['starred'][0]['.value'];
 			else $notice->starred = 0;
 			$notice->title = $node['title'][0]['.value'];
@@ -558,7 +559,7 @@ function importer($path, $node, $line) {
 			$keyword = new Keyword();
 			$keyword->id = $node['id'][0]['.value'];
 			$keyword->visibility = $node['visibility'][0]['.value'];
-			if(isset($node['starred'][0]['.value'])) 
+			if(isset($node['starred'][0]['.value']))
 				$keyword->starred = $node['starred'][0]['.value'];
 			else $keyword->starred = 0;
 			$keyword->name = $node['name'][0]['.value'];
@@ -614,9 +615,9 @@ function importer($path, $node, $line) {
 			$linkCategory = new LinkCategories();
 			$linkCategory->name = $node['name'][0]['.value'];
 			$linkCategory->priority = $node['priority'][0]['.value'];
-			$linkCategory->visibility = !isset($node['visibility'][0]['.value']) || empty($node['visibility'][0]['.value']) 
+			$linkCategory->visibility = !isset($node['visibility'][0]['.value']) || empty($node['visibility'][0]['.value'])
 				? 2 : $node['visibility'][0]['.value'];
-			$linkCategory->id = LinkCategories::getId($linkCategory->name); 
+			$linkCategory->id = LinkCategories::getId($linkCategory->name);
 			if ($linkCategory->id) {
 				if (!$linkCategory->update())
 					user_error(__LINE__ . $linkCategory->error);
@@ -868,6 +869,27 @@ function importer($path, $node, $line) {
 			if (!$feed->add())
 				user_error(__LINE__ . $feed->error);
 			return true;
+		case '/blog/line':
+			setProgress($item++ / $items * 100, _t('라인을 복원하고 있습니다.'));
+			$line = Model_Line::getInstance();
+			$line->reset();
+			if (!empty($node['author'][0]['.value']))
+				$line->author = $node['author'][0]['.value'];
+			if (!empty($node['category'][0]['.value']))
+				$line->category = $node['category'][0]['.value'];
+			if (!empty($node['root'][0]['.value']))
+				$line->root = $node['root'][0]['.value'];
+			if (!empty($node['permalink'][0]['.value']))
+				$line->permalink = $node['permalink'][0]['.value'];
+			if (!empty($node['content'][0]['.value']))
+				$line->content = $node['content'][0]['.value'];
+			if (!empty($node['created'][0]['.value']))
+				$line->created = intval($node['created'][0]['.value']);
+			if ($line->add()) {
+				return true;
+			} else {
+				user_error(__LINE__ . $line->_error);
+			}
 	}
 }
 
