@@ -1308,11 +1308,7 @@ ini_set('display_errors', 'off');
 \$service['type'] = '{$_POST['type']}';
 \$service['domain'] = '{$_POST['domain']}';
 \$service['path'] = '$path';
-<<<<<<< HEAD
-\$service['skin'] = 'musicpaper';
-=======
 \$service['skin'] = 'periwinkle';
->>>>>>> c92e95f...  refs #1544 : modified - periwinkle to default skin
 \$service['favicon_daily_traffic'] = 10; // 10MB
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //\$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
