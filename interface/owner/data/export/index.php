@@ -421,6 +421,7 @@ $line->setFilter(array('blogid','eq',getBlogId()));
 if($lines = $line->get()) {
 	foreach ($lines as $lineitem) {
 		$writer->write('<line>' .
+			'<author>' . htmlspecialchars(UTF8::correct($lineitem['author'])) . '</author>' .
 			'<category>' . htmlspecialchars(UTF8::correct($lineitem['category'])) . '</category>' .
 			'<root>' . htmlspecialchars(UTF8::correct($lineitem['root'])) . '</root>' .
 			'<permalink>' . htmlspecialchars(UTF8::correct($lineitem['permalink'])) . '</permalink>' .
