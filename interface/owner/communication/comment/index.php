@@ -120,7 +120,6 @@ require ROOT . '/interface/common/owner/header.php';
 									if (alsoDeleteWithSameIP == true) {
 										param = param + "&targetIPs=" +  targetIPs.join(",");
 									}
-									alert(param);
 									request.send(param);
 								};
 
