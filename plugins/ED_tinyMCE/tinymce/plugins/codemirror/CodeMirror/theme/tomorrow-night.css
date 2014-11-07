@@ -1,0 +1,64 @@
+/*
+
+    Name:       Tomorrow Night
+    Author:     Chris Kempson
+
+    CodeMirror template by Jan T. Sott (https://github.com/idleberg/base16-codemirror)
+    Edited by zvuc (http://xenosium.com)
+    Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16)
+
+*/
+
+.cm-s-tomorrow-night.CodeMirror {background: #1d1f21; color: #c5c8c6;}
+.cm-s-tomorrow-night .CodeMirror-gutters {background: #000000; border-right: 0px;}
+
+/* others */
+.cm-s-tomorrow-night span.cm-error { color: #6A6A6A; }
+.cm-s-tomorrow-night .CodeMirror-matchingbracket { text-decoration: underline; color: white !important;}
+.cm-s-tomorrow-night .CodeMirror-cursor {border-left: 1px solid #6A6A6A !important;}
+
+
+
+
+/* background */
+.cm-s-tomorrow-night.CodeMirror				{ background: #1d1f21; }
+
+/* current line */
+.cm-s-tomorrow-night .CodeMirror-activeline-background { background: #282a2e !important;}
+
+/* selection */
+.cm-s-tomorrow-night div.CodeMirror-selected 	{ background: #373b41 !important; }
+.cm-s-tomorrow-night .CodeMirror-linenumber 	{ color: #373b41; }
+
+/* foreground */
+.cm-s-tomorrow-night.CodeMirror, 
+.cm-s-tomorrow-night span.cm-bracket 		{ color: #c5c8c6; }
+
+/* comment */
+.cm-s-tomorrow-night span.cm-comment 		{color: #969896;}
+
+/* red */
+.cm-s-tomorrow-night span.cm-tag,
+.cm-s-tomorrow-night span.cm-keyword 		{ color: #cc6666; }
+.cm-s-tomorrow-night span.cm-error 			{ background: #cc6666; }
+
+/* orange */
+.cm-s-tomorrow-night span.cm-def 			{ color: #de935f; }
+
+/* yellow */
+.cm-s-tomorrow-night span.cm-string 		{ color: #f0c674; }
+
+/* green */
+.cm-s-tomorrow-night span.cm-property, 
+.cm-s-tomorrow-night span.cm-attribute,
+.cm-s-tomorrow-night span.cm-variable 		{ color: #b5bd68; }
+
+/* aqua */
+
+/* blue */
+.cm-s-tomorrow-night span.cm-variable-2 	{ color: #81a2be; }
+
+/* purple */
+.cm-s-tomorrow-night span.cm-atom,
+.cm-s-tomorrow-night span.cm-number,
+.cm-s-tomorrow-night span.cm-link 			{ color: #b294bb; }
