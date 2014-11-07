@@ -28,7 +28,7 @@ $IV = array(
 		'withSearch' => array(array('on'), 'mandatory' => false),
 		'status' => array('string', 'mandatory' => false)
 	)
-);	
+);
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.comment");
 requireModel("blog.entry");
@@ -51,7 +51,7 @@ $tabsClass['postfix'] .= isset($_POST['category']) ? '&amp;category='.$_POST['ca
 $tabsClass['postfix'] .= isset($_POST['name']) ? '&amp;name='.$_POST['name'] : '';
 $tabsClass['postfix'] .= isset($_POST['ip']) ? '&amp;ip='.$_POST['ip'] : '';
 $tabsClass['postfix'] .= isset($_POST['search']) ? '&amp;search='.$_POST['search'] : '';
-if(!empty($tabsClass['postfix'])) $tabsClass['postfix'] = ltrim($tabsClass['postfix'],'/'); 
+if(!empty($tabsClass['postfix'])) $tabsClass['postfix'] = ltrim($tabsClass['postfix'],'/');
 
 if (isset($_POST['status'])) {
 	if($_POST['status']=='comment') {
@@ -92,26 +92,38 @@ require ROOT . '/interface/common/owner/header.php';
 									PM.addRequest(request, "<?php echo (isset($tabsClass['guestbook']) ? _t('방명록을 삭제하고 있습니다.') : _t('댓글을 삭제하고 있습니다.'));?>");
 									request.send();
 								};
-								
+
 								deleteComments = function() {
 									if (!confirm("<?php echo (isset($tabsClass['guestbook']) ? _t('선택된 방명록을 삭제합니다. 계속 하시겠습니까?') : _t('선택된 댓글을 삭제합니다. 계속 하시겠습니까?'));?>"))
 										return false;
-									
+
 									var oElement;
+									var alsoDeleteWithSameIP = document.getElementById('deleteCommentsFromSameIP').checked;
 									var targets = new Array();
+									var targetIPs = new Array();
+
 									for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
 										oElement = document.getElementById('list-form').elements[i];
-										if ((oElement.name == "entry") && oElement.checked)
+										if ((oElement.name == "entry") && oElement.checked) {
 											targets[targets.length] = oElement.value;
+											if (alsoDeleteWithSameIP == true) {
+												targetIPs[targetIPs.length] = oElement.getAttribute('ip');
+											}
+										}
 									}
 									
 									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/comment/delete/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
 									}
-									request.send("targets=" + targets.join(","));
+									param = "targets=" + targets.join(",");
+									if (alsoDeleteWithSameIP == true) {
+										param = param + "&targetIPs=" +  targetIPs.join(",");
+									}
+									alert(param);
+									request.send(param);
 								};
-								
+
 								changeState = function(caller, value, no, mode) {
 									try {
 										if (caller.className == 'block-icon bullet') {
@@ -124,13 +136,13 @@ require ROOT . '/interface/common/owner/header.php';
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
 										param 	+= '&id=' 	+ no;
-										
+
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
 
 										request.onSuccess = function() {
 											if (mode == 'ip' && command == 'block' && confirm(value+" <?php echo (isset($tabsClass['guestbook']) ? _t('IP에서 작성한 모든 방명록을 삭제하시겠습니까?') : _t('IP에서 작성한 모든 댓글을 삭제하시겠습니까?'));?>")) {
 												var wipe = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/comment/delete/");
-											
+
 												wipe.onSuccess = function() {
 													PM.removeRequest(this);
 													document.getElementById('list-form').submit();
@@ -151,9 +163,9 @@ require ROOT . '/interface/common/owner/header.php';
 										alert(e.message);
 									}
 								};
-								
+
 								changeStateItems = function(value, mode, command, name) {
-									var iconList = document.getElementsByTagName("a");	
+									var iconList = document.getElementsByTagName("a");
 									for (var i = 0; i < iconList.length; i++) {
 										icon = iconList[i];
 										if(icon.id == null || icon.id.replace(/\-[0-9]+$/, '') != name) {
@@ -190,7 +202,7 @@ require ROOT . '/interface/common/owner/header.php';
 
 								$(document).ready(function() {
 									$('#allChecked').removeAttr('disabled');
-<?php 
+<?php
 	if(!isset($tabsClass['guestbook'])){
 ?>
 									removeItselfById('category-move-button');
@@ -215,7 +227,7 @@ require ROOT . '/interface/common/owner/header.php';
 							})(jQuery);
 							//]]>
 						</script>
-						
+
 						<div id="part-post-comment" class="part">
 							<h2 class="caption">
 								<span class="main-text"><?php echo (isset($tabsClass['guestbook']) ? _t('등록된 방명록 목록입니다') : _t('등록된 댓글 목록입니다'));?></span>
@@ -226,7 +238,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 								<span class="filter-codition"><?php echo htmlspecialchars($name);?></span>
 <?php
 	}
-	
+
 	if (strlen($ip) > 0) {
 ?>
 								<span class="filter-codition"><?php echo htmlspecialchars($ip);?></span>
@@ -280,6 +292,8 @@ foreach (getCategories($blogid) as $category) {
 								<div id="delete-section-top" class="section">
 									<span class="label"><?php echo _t('선택한 댓글을');?></span>
 									<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
+									<span class="label"><?php echo _t('선택한 댓글을 삭제할 때 해당 댓글과 동일한 IP에서 발송된 댓글들도 함께 삭제합니다');?></span>
+									<input type="checkbox" id="deleteCommentsFromSameIP" class="checkbox" />
 								</div>
 
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
@@ -300,38 +314,38 @@ $nameNumber = array();
 $ipNumber = array();
 for ($i=0; $i<sizeof($comments); $i++) {
 	$comment = $comments[$i];
-	
+
 	$filter = new Filter();
 	if (Filter::isFiltered('name', $comment['name']))
 		$isNameFiltered = true;
 	else
 		$isNameFiltered = false;
-	
+
 	if (Filter::isFiltered('ip', $comment['ip']))
 		$isIpFiltered = true;
 	else
 		$isIpFiltered = false;
-	
+
 	if (!isset($nameNumber[$comment['name']])) {
 		$nameNumber[$comment['name']] = $i;
 		$currentNumber = $i;
 	} else {
 		$currentNumber = $nameNumber[$comment['name']];
 	}
-	
+
 	if (!isset($ipNumber[$comment['ip']])) {
 		$ipNumber[$comment['ip']] = $i;
 		$currentIP = $i;
 	} else {
 		$currentIP = $ipNumber[$comment['ip']];
 	}
-	
+
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= $comment['parent'] ? ' reply-line' : null;
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over');return false;" onmouseout="rolloverClass(this, 'out');return false">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>"/></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" ip="<?php echo $comment['ip'];?>"/></td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="name">
 <?php
@@ -359,10 +373,10 @@ for ($i=0; $i<sizeof($comments); $i++) {
 			echo '<span class="divider"> | </span>';
 		}
 	}
-	
-	if(empty($comment['parent'])) 
+
+	if(empty($comment['parent']))
 		echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록',$comment['name']) : _f('%1 님의 댓글',$comment['name'])) . '</span>';
-	else 
+	else
 		echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
 	echo "</a>";
 
@@ -402,19 +416,19 @@ for ($i=0; $i<sizeof($comments); $i++) {
 if (sizeof($comments) > 0) echo "									</tbody>";
 ?>
 								</table>
-	   							
+
 	   							<hr class="hidden" />
-	   							
+
 								<div class="data-subbox">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="name" value="" />
 									<input type="hidden" name="ip" value="" />
-									
+
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 댓글을');?></span>
 										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
 									</div>
-									
+
 									<div id="page-section" class="section">
 										<div id="page-navigation">
 											<span id="page-list">
@@ -431,8 +445,8 @@ print getPagingView($paging, $pagingTemplate, $pagingItemTemplate, false);
 										</div>
 										<div class="page-count">
 											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0);?>
-											
-											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">					
+
+											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
@@ -450,7 +464,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1);?>
 										</div>
 									</div>
-									
+
 									<div id="data-description" class="section">
 										<h2><?php echo _t('기능 설명');?></h2>
 										<dl class="ban-description">
@@ -464,12 +478,12 @@ for ($i = 10; $i <= 30; $i += 5) {
 									</div>
 								</div>
 							</form>
-							
+
 							<hr class="hidden" />
 							
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/comment">
 								<h2><?php echo _t('검색');?></h2>
-								
+
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
 									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
