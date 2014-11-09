@@ -291,7 +291,7 @@ foreach (getCategories($blogid) as $category) {
 								<div id="delete-section-top" class="section">
 									<span class="label"><?php echo _t('선택한 댓글을');?></span>
 									<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
-									<span class="label"><?php echo _t('선택한 댓글을 삭제할 때 해당 댓글과 동일한 IP에서 발송된 댓글들도 함께 삭제합니다');?></span>
+									<span class="label"><?php echo (isset($tabsClass['guestbook']) ? _t('선택한 방명록을 삭제할 때 해당 방명록과 동일한 IP에서 발송된 댓글들도 함께 삭제합니다') : _t('선택한 댓글을 삭제할 때 해당 댓글과 동일한 IP에서 발송된 댓글들도 함께 삭제합니다'));?></span>
 									<input type="checkbox" id="deleteCommentsFromSameIP" class="checkbox" />
 								</div>
 
