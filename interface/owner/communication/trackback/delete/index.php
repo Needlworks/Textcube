@@ -4,7 +4,8 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
 	'POST' => array(
-		'targets' => array('list', 'default' => '')
+		'targets' => array('list', 'default' => '', 'mandatory' => false),
+		'targetIPs' => array('string', 'default' => '', 'mandatory' => false)
 	)
 );
 require ROOT . '/library/preprocessor.php';
@@ -13,9 +14,9 @@ requireModel("blog.response.remote");
 requireStrictRoute();
 
 if(isset($suri['id'])) {
-	
+
 	$isAjaxRequest = checkAjaxRequest();
-	
+
 	if (trashTrackback($blogid, $suri['id']) !== false)
 		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
