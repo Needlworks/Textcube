@@ -201,7 +201,8 @@ function trashRemoteResponsesByIP($blogid, $ip) {
 	$pool->reset("RemoteResponses");
 	$pool->setQualifier("blogid","eq",$blogid);
 	$pool->setQualifier("ip","eq",$ip,true);
-	if ($pool->delete()) {
+	$pool->setAttribute("isfiltered",Timestamp::getUNIXtime());
+	if ($pool->update()) {
 		CacheControl::flushDBCache('trackback');
 		CacheControl::flushDBCache('remoteResponse');
 		foreach ($affectedEntries as $entry) {
