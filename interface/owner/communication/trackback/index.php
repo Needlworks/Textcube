@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
-	
+
 if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
 if (isset($_GET['site'])) $_POST['site'] = $_GET['site'];
 if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
@@ -30,7 +30,7 @@ $IV = array(
 		'perPage' => array('int', 1, 'mandatory' => false),
 		'status' => array('string', 'mandatory' => false)
 	)
-);	
+);
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.response.remote");
 
@@ -51,7 +51,7 @@ $tabsClass['postfix'] .= isset($_POST['category']) ? '&amp;category='.$_POST['ca
 $tabsClass['postfix'] .= isset($_POST['name']) ? '&amp;name='.$_POST['name'] : '';
 $tabsClass['postfix'] .= isset($_POST['ip']) ? '&amp;ip='.$_POST['ip'] : '';
 $tabsClass['postfix'] .= isset($_POST['search']) ? '&amp;search='.$_POST['search'] : '';
-if(!empty($tabsClass['postfix'])) $tabsClass['postfix'] = ltrim($tabsClass['postfix'],'/'); 
+if(!empty($tabsClass['postfix'])) $tabsClass['postfix'] = ltrim($tabsClass['postfix'],'/');
 
 if (isset($_POST['status'])) {
 	if($_POST['status']=='received') {
@@ -87,7 +87,7 @@ foreach($trackbacks as $trackback) {
 if($tabsClass['received'] == true) {
 ?>
 							changeState = function(caller, value, mode) {
-									try {			
+									try {
 										if (caller.className == 'block-icon bullet') {
 											var command 	= 'unblock';
 										} else {
@@ -97,9 +97,9 @@ if($tabsClass['received'] == true) {
 										param  	=  '?value='	+ encodeURIComponent(value);
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
-										
+
 										var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/filter/change/" + param);
-										var iconList = document.getElementsByTagName("a");	
+										var iconList = document.getElementsByTagName("a");
 										for (var i = 0; i < iconList.length; i++) {
 											icon = iconList[i];
 											if(icon.id == null || icon.id.replace(/\-[0-9]+$/, '') != name) {
@@ -121,7 +121,7 @@ if($tabsClass['received'] == true) {
 										alert(e.message);
 									}
 								}
-								
+
 								trashTrackback = function(id) {
 									if (!confirm("<?php echo _t('선택된 걸린글을 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
 										return;
@@ -153,25 +153,35 @@ if($tabsClass['received'] == true) {
 										PM.showErrorMessage("<?php echo _t('글을 걸지 못했습니다.');?>","center", "bottom");
 									}
 									PM.addRequest(request, "<?php echo _t('글을 걸고 있습니다.');?>");
-									request.send("url="+URLinfo[id]);	
+									request.send("url="+URLinfo[id]);
 								}
-															
+
 								trashTrackbacks = function() {
 									try {
 										if (!confirm("<?php echo _t('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>"))
 											return false;
 										var oElement;
-											var targets = new Array();
+										var alsoDeleteWithSameIP = document.getElementById('deleteTrackbacksFromSameIP').checked;
+										var targets = new Array();
+										var targetIPs = new Array();
 										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
 											oElement = document.getElementById('list-form').elements[i];
-											if ((oElement.name == "entry") && oElement.checked)
+											if ((oElement.name == "entry") && oElement.checked) {
 												targets[targets.length] = oElement.value;
+												if (alsoDeleteWithSameIP == true) {
+													targetIPs[targetIPs.length] = oElement.getAttribute('ip');
+												}
+											}
 										}
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/delete/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
-										request.send("targets=" + targets.join(","));
+										param = "targets=" + targets.join(",");
+										if (alsoDeleteWithSameIP == true) {
+											param = param + "&targetIPs=" +  targetIPs.join(",");
+										}
+										request.send(param);
 									} catch(e) {
 										alert(e.message);
 									}
@@ -191,24 +201,25 @@ if($tabsClass['received'] == true) {
 										request.send();
 									}
 								}
-								
+
 								trashTrackbacks = function() {
 									try {
 										if (!confirm("<?php echo _t('선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?');?>"))
 											return false;
 										var oElement;
-											var targets = new Array();
+										var targets = new Array();
 										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
 											oElement = document.getElementById('list-form').elements[i];
-											if ((oElement.name == "entry") && oElement.checked)
+											if ((oElement.name == "entry") && oElement.checked) {
 												targets[targets.length] = oElement.value;
+											}
 										}
 										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/log/remove/");
 										request.onSuccess = function() {
 											document.getElementById('list-form').submit();
 										}
-										alert(targets.join(","));
-										request.send("targets=" + targets.join(","));
+										param = "targets=" + targets.join(",");
+										request.send(param);
 									} catch(e) {
 										alert(e.message);
 									}
@@ -241,12 +252,12 @@ if($tabsClass['received'] == true) {
 											toggleThisTr($(item).parent().parent(), checked);
 										});
 									});
-								});																
+								});
 
 							})(jQuery);
 							//]]>
 						</script>
-						
+
 						<div id="part-post-trackback" class="part">
 							<h2 class="caption">
 								<span class="main-text"><?php echo (isset($tabsClass['received']) ? _t('걸린글 목록입니다') : _t('건 글 목록입니다'));?></span>
@@ -257,7 +268,7 @@ if (strlen($site) > 0 || strlen($ip) > 0) {
 								<span class="filter-condition"><?php echo htmlspecialchars($site);?></span>
 <?php
 	}
-	
+
 	if (strlen($ip) > 0) {
 ?>
 								<span class="filter-condition"><?php echo htmlspecialchars($ip);?></span>
@@ -308,6 +319,14 @@ foreach (getCategories($blogid) as $category) {
 								<div id="delete-section-top" class="section">
 									<span class="label"><?php echo _t('선택한 걸린글을');?></span>
 									<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="trashTrackbacks();return false;" />
+<?php
+	if(isset($tabsClass['received'])) {
+?>
+									<span class="label"><?php echo _t('선택한 걸린글을 삭제할 때 해당 걸린글과 동일한 IP에서 발송된 걸린글들도 함께 삭제합니다');?></span>
+									<input type="checkbox" id="deleteTrackbacksFromSameIP" class="checkbox" />
+<?php
+	}
+?>
 								</div>
 
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
@@ -355,7 +374,7 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over'); return false;" onmouseout="rolloverClass(this, 'out'); return false;">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" /></td>
+											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" ip="<?php echo urlencode($trackback['ip']);?>" /></td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
 <?php
@@ -446,19 +465,19 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 if (sizeof($trackbacks) > 0) echo "									</tbody>";
 ?>
 								</table>
-								
+
 								<hr class="hidden" />
-								
+
 								<div class="data-subbox">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="site" value="" />
 									<input type="hidden" name="ip" value="" />
-									
+
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 걸린글을');?></span>
 										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="trashTrackbacks();" />
 									</div>
-									
+
 									<div id="page-section" class="section">
 										<div id="page-navigation">
 											<span id="page-list">
@@ -495,12 +514,12 @@ for ($i = 10; $i <= 30; $i += 5) {
 									</div>
 								</div>
 							</form>
-							
+
 							<hr class="hidden" />
-							
+
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $blogURL;?>/owner/communication/trackback">
 								<h2><?php echo _t('검색');?></h2>
-								
+
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('사이트명');?>, <?php echo _t('내용');?></label>
 									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
