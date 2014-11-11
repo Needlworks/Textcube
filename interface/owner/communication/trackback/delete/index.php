@@ -21,9 +21,14 @@ if(isset($suri['id'])) {
 		$isAjaxRequest ? Respond::ResultPage(0) : header("Location: ".$_SERVER['HTTP_REFERER']);
 	else
 		$isAjaxRequest ? Respond::ResultPage(-1) : header("Location: ".$_SERVER['HTTP_REFERER']);
-} else {
-	foreach(explode(',', $_POST['targets']) as $target)
-		trashTrackback($blogid, $target);
-	Respond::ResultPage(0);
+} else if (!empty($_POST['targets'])) {
+		foreach(explode(',', $_POST['targets']) as $target)
+			trashTrackback($blogid, $target);
+		if (!empty($_POST['targetIPs'])) {
+			foreach (explode(',', $_POST['targetIPs']) as $ip)
+				trashRemoteResponsesByIP($blogid, $ip);
+		}
+		Respond::ResultPage(0);
+	}
 }
 ?>
