@@ -185,7 +185,7 @@ for ($i=0; $i<sizeof($refereres); $i++) {
 	}
 	elseif ($keyword) { $keywordlist[$keyword] = 1; $refererURL[$keyword][0] = $record['url'];}
 
-	$word = split(" ", $keyword);
+	$word = explode(" ", $keyword);
 	foreach ($word as $maira){
 		if (array_key_exists($maira, $wordlist)) {
 			$wordlist[$maira]++;
@@ -266,8 +266,11 @@ $i = 0;
 $cloudstyle = array();
 foreach ($wordkeys as $wordwork) {
 	if (($wordlist[$wordwork]) < 2) {
-	unset ($wordlist[$wordwork]);
-	unset ($wordkeys[$i]);
+		unset ($wordlist[$wordwork]);
+		unset ($wordkeys[$i]);
+		$cloudstyle[$i] = "cloud5";
+		$i++;
+		continue;
 	}
 	if (($wordlist[$wordwork]) > 50) $cloudstyle[$i] = "cloud1";
 	elseif (($wordlist[$wordwork]) > 25) $cloudstyle[$i] = "cloud2";
