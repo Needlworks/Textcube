@@ -257,6 +257,8 @@ require ROOT . '/interface/common/owner/header.php';
 									<span class="vcard"><a class="fn nickname url" href="http://www.yangkun.pe.kr">희망이아빠</a></span>,
 									<span class="vcard"><a class="fn nickname url" href="http://reznoa.nayana.com/tt">레즈</a></span>,
 									<span class="vcard"><a class="fn nickname url" href="http://hina.ushiisland.net">Hina</a></span>
+									<span class="vcard"><a class="fn nickname url" href="http://xenosium.com">zvuc</a></span>
+									<span class="vcard"><a class="fn nickname url" href="http://ssut.me">ssut</a></span>
 									</p>
 									
 									<h4><?php echo _t('Internationalization Contributor');?></h4>
