@@ -8,6 +8,6 @@ require_once(ROOT.'/framework/Dispatcher.php');
 /** Dispatching Interface request via URI */
 $dispatcher = Dispatcher::getInstance();
 /** Interface Loading */
-if (empty($service['debugmode'])) {	@include_once $dispatcher->interfacePath;}
+if (empty($service['debugmode'])) {@include_once $dispatcher->interfacePath;}
 else {include_once $dispatcher->interfacePath;}
 ?>
