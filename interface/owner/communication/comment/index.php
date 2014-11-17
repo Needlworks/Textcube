@@ -26,7 +26,8 @@ $IV = array(
 		'perPage' => array('int', 1, 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
 		'withSearch' => array(array('on'), 'mandatory' => false),
-		'status' => array('string', 'mandatory' => false)
+		'status' => array('string', 'mandatory' => false),
+		'deleteItemsFromSameIP' => array('int','mandatory' => false)
 	)
 );
 require ROOT . '/library/preprocessor.php';
@@ -42,7 +43,7 @@ $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_P
 $perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-	setBlogSetting('rowsPerPage', $_POST['perPage']);
+	Setting::setBlogSettingGlobal('rowsPerPage', $_POST['perPage']);
 }
 
 $tabsClass = array();
@@ -57,14 +58,30 @@ if (isset($_POST['status'])) {
 	if($_POST['status']=='comment') {
 		$tabsClass['comment'] = true;
 		$visibilityText = _t('댓글');
+		$midfix = 'Comment';
 	} else if($_POST['status']=='guestbook') {
 		$tabsClass['guestbook'] = true;
 		$visibilityText = _t('방명록');
+		$midfix = 'Guestbook';
 	}
 } else {
 	$tabsClass['comment'] = true;
 	$visibilityText = _t('댓글');
+	$midfix = 'Comment';
 }
+
+$deleteCommentsFromSameIP = intval(Setting::getBlogSettingGlobal('delete'.$midfix.'sFromSameIP', 0));
+
+if (isset($_POST['deleteItemsFromSameIP'])) {
+	if ($_POST['deleteItemsFromSameIP'] == '1') {
+		Setting::setBlogSettingGlobal('delete'.$midfix.'sFromSameIP',1);
+		$deleteCommentsFromSameIP = 1;
+	} else {
+		Setting::setBlogSettingGlobal('delete'.$midfix.'sFromSameIP',0);
+		$deleteCommentsFromSameIP = 0;
+	}
+}
+
 if(isset($tabsClass['comment']) && $tabsClass['comment'] == true) {
 	list($comments, $paging) = getCommentsWithPagingForOwner($blogid, $categoryId, $name, $ip, $search, $suri['page'], $perPage);
 } else {
@@ -292,7 +309,8 @@ foreach (getCategories($blogid) as $category) {
 									<span class="label"><?php echo _t('선택한 댓글을');?></span>
 									<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
 									<span class="label"><?php echo (isset($tabsClass['guestbook']) ? _t('선택한 방명록을 삭제할 때 해당 방명록과 동일한 IP에서 발송된 댓글들도 함께 삭제합니다') : _t('선택한 댓글을 삭제할 때 해당 댓글과 동일한 IP에서 발송된 댓글들도 함께 삭제합니다'));?></span>
-									<input type="checkbox" id="deleteCommentsFromSameIP" class="checkbox" />
+									<input type="checkbox" id="deleteCommentsFromSameIP" class="checkbox" onchange="document.getElementById('list-form').deleteItemsFromSameIP.value=<?php echo ($deleteCommentsFromSameIP ? "0" : "1");?>;document.getElementById('list-form').submit();" <?php echo ($deleteCommentsFromSameIP ? "checked " : "");?>/>
+
 								</div>
 
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
@@ -422,7 +440,7 @@ if (sizeof($comments) > 0) echo "									</tbody>";
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="name" value="" />
 									<input type="hidden" name="ip" value="" />
-
+									<input type="hidden" name="deleteItemsFromSameIP" value="<?php echo ($deleteCommentsFromSameIP ? "1" : "0");?>" />
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 댓글을');?></span>
 										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments();" />
