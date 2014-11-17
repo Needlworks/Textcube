@@ -28,7 +28,8 @@ $IV = array(
 		'withSearch' => array(array('on'), 'mandatory' => false),
 		'search' => array('string', 'default' => ''),
 		'perPage' => array('int', 1, 'mandatory' => false),
-		'status' => array('string', 'mandatory' => false)
+		'status' => array('string', 'mandatory' => false),
+		'deleteItemsFromSameIP' => array('int','mandatory' => false)
 	)
 );
 require ROOT . '/library/preprocessor.php';
@@ -42,7 +43,17 @@ $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_P
 $perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-	setBlogSetting('rowsPerPage', $_POST['perPage']);
+	Setting::setBlogSettingGlobal('rowsPerPage', $_POST['perPage']);
+}
+$deleteTrackbacksFromSameIP = intval(Setting::getBlogSettingGlobal('deleteTrackbacksFromSameIP', 0));
+if (isset($_POST['deleteItemsFromSameIP'])) {
+	if ($_POST['deleteItemsFromSameIP'] == '1') {
+		Setting::setBlogSettingGlobal('deleteTrackbacksFromSameIP',1);
+		$deleteTrackbacksFromSameIP = 1;
+	} else {
+		Setting::setBlogSettingGlobal('deleteTrackbacksFromSameIP',0);
+		$deleteTrackbacksFromSameIP = 0;
+	}
 }
 
 $tabsClass = array();
@@ -323,7 +334,8 @@ foreach (getCategories($blogid) as $category) {
 	if(isset($tabsClass['received'])) {
 ?>
 									<span class="label"><?php echo _t('선택한 걸린글을 삭제할 때 해당 걸린글과 동일한 IP에서 발송된 걸린글들도 함께 삭제합니다');?></span>
-									<input type="checkbox" id="deleteTrackbacksFromSameIP" class="checkbox" />
+
+									<input type="checkbox" id="deleteTrackbacksFromSameIP" class="checkbox" onchange="document.getElementById('list-form').deleteItemsFromSameIP.value=<?php echo ($deleteTrackbacksFromSameIP ? "0" : "1");?>;document.getElementById('list-form').submit();" <?php echo ($deleteTrackbacksFromSameIP ? "checked " : "");?>/>
 <?php
 	}
 ?>
@@ -472,7 +484,7 @@ if (sizeof($trackbacks) > 0) echo "									</tbody>";
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="site" value="" />
 									<input type="hidden" name="ip" value="" />
-
+									<input type="hidden" name="deleteItemsFromSameIP" value="<?php echo ($deleteTrackbacksFromSameIP ? "1" : "0");?>" />
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 걸린글을');?></span>
 										<input type="button" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="trashTrackbacks();" />
