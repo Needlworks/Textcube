@@ -189,41 +189,41 @@ if($tabsClass['received'] == true) {
 <?php
 } else {
 ?>
-								removeTrackbackLog = function(id) {
-									if (confirm("<?php echo _t('선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?');?>")) {
-										var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
-										request.onSuccess = function () {
-											document.getElementById('list-form').submit();
-										}
-										request.onError = function () {
-											alert("<?php echo _t('글걸기 기록을 지우지 못했습니다.');?>");
-										}
-										request.send();
+							removeTrackbackLog = function(id) {
+								if (confirm("<?php echo _t('선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?');?>")) {
+									var request = new HTTPRequest("<?php echo $blogURL;?>/owner/communication/trackback/log/remove/" + id);
+									request.onSuccess = function () {
+										document.getElementById('list-form').submit();
 									}
+									request.onError = function () {
+										alert("<?php echo _t('글걸기 기록을 지우지 못했습니다.');?>");
+									}
+									request.send();
 								}
+							}
 
-								trashTrackbacks = function() {
-									try {
-										if (!confirm("<?php echo _t('선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?');?>"))
-											return false;
-										var oElement;
-										var targets = new Array();
-										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
-											oElement = document.getElementById('list-form').elements[i];
-											if ((oElement.name == "entry") && oElement.checked) {
-												targets[targets.length] = oElement.value;
-											}
+							trashTrackbacks = function() {
+								try {
+									if (!confirm("<?php echo _t('선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?');?>"))
+										return false;
+									var oElement;
+									var targets = new Array();
+									for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
+										oElement = document.getElementById('list-form').elements[i];
+										if ((oElement.name == "entry") && oElement.checked) {
+											targets[targets.length] = oElement.value;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/log/remove/");
-										request.onSuccess = function() {
-											document.getElementById('list-form').submit();
-										}
-										param = "targets=" + targets.join(",");
-										request.send(param);
-									} catch(e) {
-										alert(e.message);
 									}
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/log/remove/");
+									request.onSuccess = function() {
+										document.getElementById('list-form').submit();
+									}
+									param = "targets=" + targets.join(",");
+									request.send(param);
+								} catch(e) {
+									alert(e.message);
 								}
+							}
 <?php
 }
 ?>
