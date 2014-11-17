@@ -125,7 +125,7 @@ if($tabsClass['received'] == true) {
 							trashTrackback = function(id) {
 								if (!confirm("<?php echo _t('선택된 걸린글을 휴지통으로 옮깁니다. 계속 하시겠습니까?');?>"))
 									return;
-								var request = new HTTPRequest("GET", "<?php echo $blogURL;?>/owner/communication/trackback/delete/" + id);
+								var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/delete/" + id);
 								request.onSuccess = function() {
 									PM.removeRequest(this);
 									PM.showMessage("<?php echo _t('걸린글을 삭제하였습니다.');?>","center", "bottom");
@@ -142,7 +142,7 @@ if($tabsClass['received'] == true) {
 							sendTrackbackResponse = function(id,entryId) {
 								if (!confirm("<?php echo _t('선택된 걸린글에 답글로 글을 겁니다. 계속 하시겠습니까?');?>"))
 									return;
-								var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/communication/trackback/reply/" + entryId);
+								var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/reply/" + entryId);
 								request.onSuccess = function() {
 									PM.removeRequest(this);
 									PM.showMessage("<?php echo _t('글을 걸었습니다.');?>","center", "bottom");
@@ -189,41 +189,41 @@ if($tabsClass['received'] == true) {
 <?php
 } else {
 ?>
-								removeTrackbackLog = function(id) {
-									if (confirm("<?php echo _t('선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?');?>")) {
-										var request = new HTTPRequest("<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/" + id);
-										request.onSuccess = function () {
-											document.getElementById('list-form').submit();
-										}
-										request.onError = function () {
-											alert("<?php echo _t('글걸기 기록을 지우지 못했습니다.');?>");
-										}
-										request.send();
+							removeTrackbackLog = function(id) {
+								if (confirm("<?php echo _t('선택된 글걸기 기록을 지웁니다. 계속 하시겠습니까?');?>")) {
+									var request = new HTTPRequest("<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/" + id);
+									request.onSuccess = function () {
+										document.getElementById('list-form').submit();
 									}
+									request.onError = function () {
+										alert("<?php echo _t('글걸기 기록을 지우지 못했습니다.');?>");
+									}
+									request.send();
 								}
+							}
 
-								trashTrackbacks = function() {
-									try {
-										if (!confirm("<?php echo _t('선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?');?>"))
-											return false;
-										var oElement;
-										var targets = new Array();
-										for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
-											oElement = document.getElementById('list-form').elements[i];
-											if ((oElement.name == "entry") && oElement.checked) {
-												targets[targets.length] = oElement.value;
-											}
+							trashTrackbacks = function() {
+								try {
+									if (!confirm("<?php echo _t('선택된 걸린글 기록을 지웁니다. 계속 하시겠습니까?');?>"))
+										return false;
+									var oElement;
+									var targets = new Array();
+									for (i = 0; document.getElementById('list-form').elements[i]; i ++) {
+										oElement = document.getElementById('list-form').elements[i];
+										if ((oElement.name == "entry") && oElement.checked) {
+											targets[targets.length] = oElement.value;
 										}
-										var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/");
-										request.onSuccess = function() {
-											document.getElementById('list-form').submit();
-										}
-										param = "targets=" + targets.join(",");
-										request.send(param);
-									} catch(e) {
-										alert(e.message);
 									}
+									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/");
+									request.onSuccess = function() {
+										document.getElementById('list-form').submit();
+									}
+									param = "targets=" + targets.join(",");
+									request.send(param);
+								} catch(e) {
+									alert(e.message);
 								}
+							}
 <?php
 }
 ?>
@@ -516,7 +516,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 
 							<hr class="hidden" />
-							
+
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback">
 								<h2><?php echo _t('검색');?></h2>
 
