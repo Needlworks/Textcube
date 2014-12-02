@@ -98,5 +98,25 @@ ul.pagination .disabled a:hover {
 ul.pagination li:not(:first-child):not(:last-child) {
 	display:none;
 }
+.comments h1 {
+	font-size:1.4em;
+}
+
+.comments h2 {
+	font-size:1.2em;
+}
+
+
+.summary {
+	margin-top:20px;
+	padding-top:20px;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+dl.information dt,
+dl.response dt {
+	padding-top:5px;
+}
+
 #namecardWidget .thumbnail { display: inline-block; border: 0 none;}
 #extramenuWidget .btn { text-align: left; }
