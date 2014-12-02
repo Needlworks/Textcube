@@ -375,10 +375,10 @@
 				<dt class="response">Leave Responses</dt>
 				<dd class="response">
 					<div class="btn-group">
-					<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="btn btn-default btn-xs">
+					<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="btn btn-default">
 					<s_tb_count><em>[##_article_rep_tb_cnt_##]</em> Trackbacks</s_tb_count>
 					</a>
-					<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="btn btn-default btn-xs">
+					<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="btn btn-default">
 					<s_rp_count><em>[##_article_rep_rp_cnt_##]</em> Comments</s_rp_count>
 					</a>
 					</div>
@@ -479,18 +479,39 @@
 		<fieldset>
 		<s_rp_member>
 			<s_rp_guest>
-			<input type="text" id="[##_rp_input_name_##]_[##_article_rep_id_##]" name="[##_rp_input_name_##]" value="[##_guest_name_##]" maxlength="20" required="required" />
-			<label for="[##_rp_input_name_##]_[##_article_rep_id_##]">Your Name <em>(required)</em></label>
-			<input type="password" id="[##_rp_input_password_##]_[##_article_rep_id_##]" name="[##_rp_input_password_##]" value="[##_rp_admin_check_##]" required="required" />
-			<label for="[##_rp_input_password_##]_[##_article_rep_id_##]">Password <em>(required)</em></label>
-			<input type="url" id="[##_rp_input_homepage_##]_[##_article_rep_id_##]" name="[##_rp_input_homepage_##]" value="[##_guest_homepage_##]" />
-			<label for="[##_rp_input_homepage_##]_[##_article_rep_id_##]">Your Website Address</label>
+			<div class="form-group form-group-lg">
+				<label class="control-label col-sm-3" for="[##_rp_input_name_##]_[##_article_rep_id_##]">Your Name <em>(required)</em></label>
+				<div class="col-sm-9">
+					<input class="form-control" type="text" id="[##_rp_input_name_##]_[##_article_rep_id_##]" name="[##_rp_input_name_##]" value="[##_guest_name_##]" maxlength="20" required="required" placeholder="Name (required)"/>
+				</div>
+			</div>
+			<div class="clearfix visible-xs-block"></div>
+			<div class="form-group form-group-lg">
+				<label class="control-label col-sm-3" for="[##_rp_input_password_##]_[##_article_rep_id_##]">Password <em>(required)</em></label>
+				<div class="col-sm-9">
+					<input class="form-control" type="password" id="[##_rp_input_password_##]_[##_article_rep_id_##]" name="[##_rp_input_password_##]" value="[##_rp_admin_check_##]" required="required" placeholder="Password (required)" />
+				</div>
+			</div>
+			<div class="clearfix visible-xs-block"></div>
+			<div class="form-group form-group-lg">
+				<label class="control-label col-sm-3" for="[##_rp_input_homepage_##]_[##_article_rep_id_##]">Your Website Address</label>
+				<div class="col-sm-9">
+					<input class="form-control" type="url" id="[##_rp_input_homepage_##]_[##_article_rep_id_##]" name="[##_rp_input_homepage_##]" value="[##_guest_homepage_##]" placeholder="Your Website Address" />
+				</div>
+			</div>
+			<div class="clearfix visible-xs-block"></div>
 			</s_rp_guest>
-			<input type="checkbox" class="checkbox" id="[##_rp_input_is_secret_##]_[##_article_rep_id_##]" name="[##_rp_input_is_secret_##]" value="1" />
-			<label for="[##_rp_input_is_secret_##]_[##_article_rep_id_##]">Leave as secret</label>
+			<div class="form-group form-group-lg checkbox">
+				<label>
+					<input type="checkbox" class="checkbox" id="[##_rp_input_is_secret_##]_[##_article_rep_id_##]" name="[##_rp_input_is_secret_##]" value="1" />Leave as secret
+				</label>
+			</div>
+			<div class="clearfix visible-xs-block"></div>
 		</s_rp_member>
-			<textarea name="[##_rp_input_comment_##]" rows="10" cols="65"></textarea>
-			<button type="submit" class="submit button" value="Submit" onclick="[##_rp_onclick_submit_##]">Submit</button>
+			<div class="form-group form-group-lg">
+				<textarea class="form-control" name="[##_rp_input_comment_##]" rows="10" cols="65"></textarea>
+				<button type="submit" class="btn btn-success btn-block submit button" value="Submit" onclick="[##_rp_onclick_submit_##]">Submit</button>
+			</div>
 		</fieldset>
 		</article>
 	</section>
