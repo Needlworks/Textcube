@@ -281,12 +281,21 @@
 			<h2><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></h2>
 		</header>
 		<article>
-			<ul>
-				<li class="date"><dfn>Posted</dfn> at <time>[##_notice_rep_date_##]</time></li>
-				<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
-				<li class="category"><dfn>Filed</dfn> under <a href="[##_blog_link_##]notice">Notice</a></li>
-			</ul>
 			[##_notice_rep_desc_##]
+		</article>
+	</section>
+	<section class="summary">
+		<article>
+			<dl class="dl-horizontal information">
+				<dt>Posted at</dt>
+				<dd class="posted date"><time>[##_notice_rep_date_##]</time></dd>
+				<dt>Last updated</dt>
+				<dd class="modified date"><time>[##_notice_rep_date_modified_##]</time></dd>
+				<dt>Author</dt>
+				<dd class="author"><cite><a href="[##_notice_rep_author_link_##]">[##_notice_rep_author_##]</a></cite></dd>
+				<dt>Filed under</dt>
+				<dd class="category"><a href="[##_blog_link_##]notice">Notice</a></dd>
+			</dl>
 		</article>
 	</section>
 	</s_notice_rep>
@@ -296,11 +305,21 @@
 			<h2><a href="[##_page_rep_link_##]">[##_page_rep_title_##]</a></h2>
 		</header>
 		<article>
-			<ul>
-				<li class="date"><dfn>Posted</dfn> at <time>[##_page_rep_date_##]</time></li>
-				<li class="author"><dfn>Posted</dfn> by <cite><a href="[##_article_rep_author_link_##]">[##_article_rep_author_##]</a></cite></li>
-			</ul>
 			[##_page_rep_desc_##]
+		</article>
+	</section>
+	<section class="summary">
+		<article>
+			<dl class="dl-horizontal information">
+				<dt>Posted at</dt>
+				<dd class="posted date"><time>[##_page_rep_date_##]</time></dd>
+				<dt>Last updated</dt>
+				<dd class="modified date"><time>[##_page_rep_date_modified_##]</time></dd>
+				<dt>Author</dt>
+				<dd class="author"><cite><a href="[##_page_rep_author_link_##]">[##_page_rep_author_##]</a></cite></dd>
+				<dt>Filed under</dt>
+				<dd class="category"><a href="[##_blog_link_##]page">Page</a></dd>
+			</dl>
 		</article>
 	</section>
 	</s_page_rep>
@@ -375,10 +394,10 @@
 				<dt class="response">Leave Responses</dt>
 				<dd class="response">
 					<div class="btn-group">
-					<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="btn btn-default">
+					<a id="[##_article_rep_tb_cnt_id_##]" href="#tb" onclick="[##_article_rep_tb_link_##]" label="Show/hide responses" class="btn btn-default btn-xs">
 					<s_tb_count><em>[##_article_rep_tb_cnt_##]</em> Trackbacks</s_tb_count>
 					</a>
-					<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="btn btn-default">
+					<a id="[##_article_rep_rp_cnt_id_##]" href="#rp" onclick="[##_article_rep_rp_link_##]" title="Show/hide commments" class="btn btn-default btn-xs">
 					<s_rp_count><em>[##_article_rep_rp_cnt_##]</em> Comments</s_rp_count>
 					</a>
 					</div>

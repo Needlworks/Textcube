@@ -120,6 +120,11 @@ dl.comments dd {
 	display:inline;
 }
 
+dl.comments dd.reply {
+	display:block;
+	padding-left:30px;
+}
+
 .summary {
 	margin-top:20px;
 	padding-top:20px;
