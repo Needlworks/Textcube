@@ -106,6 +106,19 @@ ul.pagination li:not(:first-child):not(:last-child) {
 	font-size:1.2em;
 }
 
+dl.comments {
+	border-radius:3px;
+	border:1px solid #ddd;
+	padding:10px;
+}
+
+dl.comments dt:not(:first-child) {
+	border-top:1px solid #ddd;
+}
+
+dl.comments dd {
+	display:inline;
+}
 
 .summary {
 	margin-top:20px;
