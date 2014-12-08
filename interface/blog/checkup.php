@@ -106,7 +106,7 @@ function clearCache() {
 	<div id="container">
 		<form id="checkup">
 			<div id="title">
-				<h1><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/title.gif" width="253" height="44" alt="Textcube를 점검합니다." /></h1>
+				<h1><img src="<?php echo $context->getProperty('service.path')?>/resources/style/setup/image/title.gif" width="253" height="44" alt="텍스트큐브를 점검합니다." /></h1>
 			</div>
 
 			<div id="inner">
