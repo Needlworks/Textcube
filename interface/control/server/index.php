@@ -46,6 +46,8 @@ closedir($handler);
 								if(!confirm('<?php echo _f('적용하시면 기존의 %1 파일이 변경됩니다. 이 변경사항은 되돌릴 수 없습니다. 그래도 적용하시겠습니까?','config.php');?>')) return;
 								if(document.getElementById('usePageCache').checked) usePageCache = 1;
 								else usePageCache = 0;
+								if(document.getElementById('useCodeCache').checked) useCodeCache = 1;
+								else useCodeCache = 0;
 								if(document.getElementById('useSkinCache').checked) useSkinCache = 1;
 								else useSkinCache = 0;
 								if(document.getElementById('useMemcached').checked) useMemcached = 1;
@@ -76,6 +78,7 @@ closedir($handler);
 								else useRewriteDebugMode = 0;
 								param = '';
 								param += 'usePageCache='+usePageCache+'&';
+								param += 'useCodeCache='+useCodeCache+'&';
 								param += 'useSkinCache='+useSkinCache +'&';
 								param += 'useMemcached='+useMemcached +'&';
 								param += 'useExternalResource='+useExternalResource +'&';
@@ -260,7 +263,11 @@ foreach($encodingList as $enc) {
 										<dl id="serviceurl-line" class="line">
 											<dt><span class="label"><?php echo _t('서비스 리소스 경로');?></span></dt>
 											<dd>
+<<<<<<< HEAD
 												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $context->getProperty('uri.service');?>" />
+=======
+												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $serviceURL;?>" />
+>>>>>>> bf288c2...  refs #1636 : added - administration UI for codecache control.
 												<label for="serviceurl"><?php echo _t('이 서비스가 참조할 경로를 강제로 지정합니다.').'<br />'._t('정적인 파일들 (script, attach, image, style 하위 디렉토리)을 별도의 경로로 관리할 수 있습니다. 다른 웹 프로그램을 같은 도메인에서 운영할 때 동작이 방해받는 경우, 또는 서버에 걸리는 부하를 분산하고 싶은 경우 지정하면 됩니다.');?></label>
 											</dd>
 										</dl>
@@ -285,6 +292,12 @@ foreach($encodingList as $enc) {
 											<dt><span class="label"><?php echo _t('페이지 캐시 사용');?></span></dt>
 											<dd>
 												<input type="checkbox" id="usePageCache" class="checkbox" name="usePageCache"<?php echo $service['pagecache'] ? ' checked="checked"' : '';?> /><label for="usePageCache"><?php echo _t('텍스트큐브의 전반적인 캐시 기능을 사용합니다. 페이지 캐시, 스킨캐시, 실시간 쿼리 캐시 및 정책을 모두 포함됩니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="codecache-line" class="line">
+											<dt><span class="label"><?php echo _t('코드 캐시 사용');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useCodeCache" class="checkbox" name="useCodeCache"<?php echo $service['codecache'] ? ' checked="checked"' : '';?> /><label for="useCodeCache"><?php echo _t('텍스트큐브 코드를 캐시하는 기능을 사용합니다.').' '._t('작업에 따라 각각 하나의 파일로 최적화된 프로그램 코드 캐시를 만들어 메인 코드 대신 사용합니다.').' '._t('페이지 호출 응답 속도가 빨라집니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="skin-line" class="line">

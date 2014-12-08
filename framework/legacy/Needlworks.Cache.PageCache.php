@@ -712,6 +712,7 @@ class CodeCache {
 		foreach (new DirectoryIterator(__TEXTCUBE_CACHE_DIR__."/code") as $code) {
 			if($code->isFile()) @unlink($code->getPathname());
 		}
+		return true;
 	}
 	private function _error($err = 0) {
 		var_dump($err);
