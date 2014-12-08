@@ -22,7 +22,7 @@ function setSkinSettingForMigration($blogid, $name, $value, $mig = null) {
 	global $database;
 	$name = POD::escapeString($name);
 	$value = POD::escapeString($value);
-	if($mig === null) 
+	if($mig === null)
 		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettingsMig VALUES('$blogid', '$name', '$value')");
 	else
 		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettings VALUES('$blogid', '$name', '$value')");
@@ -30,8 +30,8 @@ function setSkinSettingForMigration($blogid, $name, $value, $mig = null) {
 
 function getSkinSettingForMigration($blogid, $name, $default = null) {
 	global $database;
-	$value = POD::queryCell("SELECT value 
-		FROM {$database['prefix']}SkinSettingsMig 
+	$value = POD::queryCell("SELECT value
+		FROM {$database['prefix']}SkinSettingsMig
 		WHERE blogid = '$blogid'
 		AND name = '".POD::escapeString($name)."'");
 	return ($value === null) ? $default : $value;
@@ -50,14 +50,24 @@ function showCheckupMessage($stat = true) {
 function clearCache() {
 	global $database, $changed, $errorlog, $memcache;
 	static $isCleared = false;
+	$context = Model_Context::getInstance();
 	if($isCleared == true) return;
 	if(!is_null($blogids = POD::queryColumn("SELECT blogid FROM {$database['prefix']}PageCacheLog"))) {
 		$changed = true;
 		$errorlog = false;
 		echo '<li>', _textf('페이지 캐시를 초기화합니다.'), ': ';
 		foreach($blogids as $ids) {
-			if(CacheControl::flushAll($ids) == false) $errorlog = true; 
+			if(CacheControl::flushAll($ids) == false) $errorlog = true;
 		}
+		if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
+		else echo '<span class="result fail">', _text('실패'), '</span></li>';
+	}
+	if($context->getProperty('service.codecache',false)) {
+		$changed = true;
+		$errorlog = false;
+		echo '<li>', _textf('코드 캐시를 초기화합니다.'), ': ';
+		$code = new CodeCache();
+		$code->flush();
 		if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
 		else echo '<span class="result fail">', _text('실패'), '</span></li>';
 	}
@@ -80,7 +90,7 @@ function clearCache() {
 		}
 		if($errorlog == false) echo '<span class="result success">', _text('성공'), '</span></li>';
 		else echo '<span class="result fail">', _text('실패'), '</span></li>';
-	}	
+	}
 	$isCleared = true;
 }
 
@@ -101,10 +111,10 @@ function clearCache() {
 
 			<div id="inner">
 				<h2><?php echo _text('텍스트큐브 점검을 시작합니다.');?></h2>
-				
+
 				<div id="content">
 					<h3><?php echo _text('버전 검사');?></h3>
-					
+
 					<ul class="version">
 						<li><?php echo _textf('기존 버전 - %1',$currentVersion);?></li>
 						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION);?></li>
@@ -123,7 +133,7 @@ function clearCache() {
 	}
 ?>
 					<h3><?php echo _text('변경 중');?></h3>
-					
+
 					<ul id="processList">
 <?php
 $changed = false;
@@ -190,7 +200,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			KEY visibility (visibility),
 			KEY blogid (blogid, id),
 			KEY userid (userid, blogid)
-			) 
+			)
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);
@@ -212,7 +222,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  loginCount int(11) default NULL,
 		  data text,
 		  PRIMARY KEY  (blogid,openid)
-		) 
+		)
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);
@@ -252,7 +262,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 	if (POD::queryExistence("DESC {$database['prefix']}Links visible")) {
 		$changed = true;
 		echo '<li>', _text('Links 테이블의 공개 여부 설정 필드의 속성을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2")) 
+		if (POD::execute("ALTER TABLE {$database['prefix']}Links CHANGE visible visibility tinyint(4) NOT NULL DEFAULT 2"))
 			showCheckupMessage(true);
 		else {
 			showCheckupMessage(false);
@@ -285,7 +295,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX written");
 		POD::execute("ALTER TABLE {$database['prefix']}Trackbacks DROP INDEX blogid");
 		POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs DROP INDEX id");
-		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks 
+		if (POD::execute("ALTER TABLE {$database['prefix']}Trackbacks
 				DROP PRIMARY KEY, ADD PRIMARY KEY (blogid, id),
 				ADD INDEX blogid (blogid, isFiltered, written)")
 			&&POD::execute("ALTER TABLE {$database['prefix']}TrackbackLogs
@@ -298,7 +308,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 	if (POD::queryExistence("DESC {$database['prefix']}SessionVisits blog")) {
 		$changed = true;
 		echo '<li>', _text('SessionVisits 테이블의 블로그 정보 필드 이름을 변경합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}SessionVisits CHANGE blog blogid int(11) NOT NULL DEFAULT 0") && 
+		if (POD::execute("ALTER TABLE {$database['prefix']}SessionVisits CHANGE blog blogid int(11) NOT NULL DEFAULT 0") &&
 		(POD::execute("ALTER TABLE {$database['prefix']}SessionVisits DROP PRIMARY KEY, ADD PRIMARY KEY (id,address,blogid)")))
 			showCheckupMessage(true);
 		else
@@ -341,7 +351,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else
 			showCheckupMessage(false);
 	}
-	
+
 	if (POD::queryCell("DESC {$database['prefix']}Users name", 'Key') != 'UNI') {
 		$changed = true;
 		echo '<li>', _text('id의 도용을 막기 위하여 같은 사용자 id를 사용할 수 없도록 합니다.'), ': ';
@@ -380,16 +390,16 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  visibility tinyint(4) NOT NULL default '2',
 		  PRIMARY KEY (pid),
 		  UNIQUE KEY blogid (blogid, id)
-		) 
+		)
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
-			if (POD::execute("ALTER TABLE {$database['prefix']}Links 
+			if (POD::execute("ALTER TABLE {$database['prefix']}Links
 					ADD category int(11) NOT NULL DEFAULT 0 AFTER id,
 					ADD pid int(11) NOT NULL DEFAULT 0 FIRST,
 					CHANGE id id int(11) NOT NULL default '0'") &&
-				POD::execute("UPDATE {$database['prefix']}Links 
+				POD::execute("UPDATE {$database['prefix']}Links
 					SET pid = id") &&
-				POD::execute("ALTER TABLE {$database['prefix']}Links 
+				POD::execute("ALTER TABLE {$database['prefix']}Links
 					DROP PRIMARY KEY,
 					ADD PRIMARY KEY (pid)")) {
 				showCheckupMessage(true);
@@ -403,7 +413,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 	}
 	/* FROM Textcube 1.7.3 */
 	if (!is_null($notices = POD::queryAll("SELECT blogid, id, title, slogan
-		FROM {$database['prefix']}Entries 
+		FROM {$database['prefix']}Entries
 		WHERE category = -2
 			AND slogan = ''")) && !empty($notices)) {
 		$changed = true;
@@ -435,25 +445,25 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		$changed = true;
 		echo '<li>', _text('원격 댓글 지원 기능을 위해 트랙백 테이블의 이름을 변경합니다.'), ': ';
 		if (
-			POD::execute("RENAME TABLE {$database['prefix']}Trackbacks TO {$database['prefix']}RemoteResponses") && 
+			POD::execute("RENAME TABLE {$database['prefix']}Trackbacks TO {$database['prefix']}RemoteResponses") &&
 			POD::execute("RENAME TABLE {$database['prefix']}TrackbackLogs TO {$database['prefix']}RemoteResponseLogs")
 		) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
-	}	
+	}
 
 	if(!POD::queryExistence("DESC {$database['prefix']}RemoteResponses responsetype")) {
 		$changed = true;
 		echo '<li>', _text('트랙백 테이블에 컨텐츠 종류를 판단하기 위한 필드를 추가합니다.'), ': ';
-		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") && 
+		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry") &&
 			POD::execute("ALTER TABLE {$database['prefix']}RemoteResponseLogs ADD responsetype enum('trackback','pingback') NOT NULL default 'trackback' AFTER entry")
 		) {
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
 	}
-	
+
 	if (!POD::queryExistence("DESC {$database['prefix']}Entries pingbacks")) {
 		$changed = true;
 		echo '<li>', _text('핑백 기능을 위해 글 테이블에 핑백 필드를 추가합니다.'), ': ';
@@ -469,13 +479,13 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(true);
 		} else
 			showCheckupMessage(false);
-	}	
+	}
 
 	// Since 1.8
 	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Entries longitude")) {
 		$changed = true;
 		echo '<li>', _text('글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
-		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER location") && 
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD longitude FLOAT(10) NULL AFTER location") &&
 			DBAdapter::execute("ALTER TABLE {$database['prefix']}Entries ADD latitude FLOAT(10) NULL AFTER longitude") &&
 			DBAdapter::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD longitude FLOAT(10) NULL AFTER location") &&
 			DBAdapter::execute("ALTER TABLE {$database['prefix']}EntriesArchive ADD latitude FLOAT(10) NULL AFTER longitude"))
@@ -487,14 +497,14 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Comments longitude")) {
 		$changed = true;
 		echo '<li>', _text('댓글과 위경도 좌표 연동을 위한 필드를 추가합니다.'), ': ';
-		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") && 
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD longitude FLOAT(10) NULL AFTER secret") &&
 			DBAdapter::execute("ALTER TABLE {$database['prefix']}Comments ADD latitude FLOAT(10) NULL AFTER longitude"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses responsetype")) { 
+	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponses responsetype")) {
 		$changed = true;
 		echo '<li>', _text('트랙백 테이블의 호환성을 위하여 필드 이름을 변경합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses CHANGE type responsetype ENUM('trackback','pingback') NOT NULL DEFAULT 'trackback'") &&
@@ -513,7 +523,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else {
 			showCheckupMessage(false);
 		}
-	}	
+	}
 	/* From Textcube 1.7.9 (backport branch) */
 	if (POD::queryCell("DESC {$database['prefix']}FeedItems id", 'Extra') == 'auto_increment') {
 		$changed = true;
@@ -535,7 +545,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		$changed = true;
 		echo '<li>', _text('스킨 설정 테이블의 구조를 변경합니다.'), ': ';
 		if(POD::queryExistence("DESC {$database['prefix']}SkinSettings recentCommentLength")) {
-			$lowerChar = true;	
+			$lowerChar = true;
 		} else $lowerChar = false;
 		$query = "
 			CREATE TABLE {$database['prefix']}SkinSettingsMig (
@@ -543,7 +553,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				name varchar(32) NOT NULL default '',
 				value text NOT NULL,
 				PRIMARY KEY (blogid,name)
-			) 
+			)
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query)) {
 			$query = DBModel::getInstance();
@@ -592,7 +602,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 					}
 					$checked = true;
 					foreach($skinSettings as $skinSetting) {
-						foreach($fieldnames as $fieldname) { 
+						foreach($fieldnames as $fieldname) {
 							if($lowerChar) {
 								$origFieldName = strtolower($fieldname);
 							} else $origFieldName = $fieldname;
@@ -613,20 +623,20 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			} else showCheckupMessage(false);
 		} else showCheckupMessage(false);
 	}
-	
-	
+
+
 	if (!POD::queryExistence("DESC {$database['prefix']}DailyStatistics datemark")) {
 		$changed = true;
 		echo '<li>', _text('다양한 데이터베이스 엔진 호환성을 위하여 모든 필드의 이름을 소문자로 변환합니다.'), ': ';
 		if (
-			POD::execute("ALTER TABLE {$database['prefix']}Categories 
+			POD::execute("ALTER TABLE {$database['prefix']}Categories
 				CHANGE entriesInLogin entriesinlogin int(11) NOT NULL default 0,
 				CHANGE bodyId bodyid varchar(20) DEFAULT NULL")
-			&& POD::execute("ALTER TABLE {$database['prefix']}Comments 
+			&& POD::execute("ALTER TABLE {$database['prefix']}Comments
 				DROP KEY isFiltered,
 				CHANGE isFiltered isfiltered int(11) NOT NULL DEFAULT 0,
 				ADD KEY isfiltered (isfiltered)")
-			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified 
+			&& POD::execute("ALTER TABLE {$database['prefix']}CommentsNotified
 				CHANGE siteId siteid int(11) NOT NULL default 0,
 				CHANGE isNew isnew int(1) NOT NULL default 1,
 				CHANGE remoteId remoteid int(11) NOT NULL DEFAULT 0,
@@ -639,7 +649,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			&& POD::execute("ALTER TABLE {$database['prefix']}DailyStatistics
 				DROP PRIMARY KEY,
 				CHANGE date datemark int(11) NOT NULL default 0,
-				ADD PRIMARY KEY (blogid, datemark)")				
+				ADD PRIMARY KEY (blogid, datemark)")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Entries
 				CHANGE contentFormatter contentformatter varchar(32) DEFAULT '' NOT NULL,
 				CHANGE contentEditor contenteditor varchar(32) DEFAULT '' NOT NULL,
@@ -647,7 +657,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				CHANGE acceptTrackback accepttrackback int(1) NOT NULL DEFAULT 1")
 			&& POD::execute("ALTER TABLE {$database['prefix']}EntriesArchive
 				CHANGE contentFormatter contentformatter varchar(32) DEFAULT '' NOT NULL,
-				CHANGE contentEditor contenteditor varchar(32) DEFAULT '' NOT NULL")				
+				CHANGE contentEditor contenteditor varchar(32) DEFAULT '' NOT NULL")
 			&& POD::execute("ALTER TABLE {$database['prefix']}FeedGroupRelations
 				DROP PRIMARY KEY,
 				CHANGE groupId groupid int(11) NOT NULL default 0,
@@ -660,19 +670,19 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				CHANGE newWindow newwindow int(11) NOT NULL DEFAULT 1")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Feeds
 				CHANGE xmlURL xmlurl varchar(255) NOT NULL DEFAULT '',
-				CHANGE blogURL blogurl varchar(255) NOT NULL DEFAULT ''")			
-			&& POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers 
+				CHANGE blogURL blogurl varchar(255) NOT NULL DEFAULT ''")
+			&& POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers
 				CHANGE firstLogin firstlogin int(11) default NULL,
 				CHANGE lastLogin lastlogin int(11) default NULL")
 			&& POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers
-				CHANGE data openidinfo text, 
+				CHANGE data openidinfo text,
 				CHANGE firstLogin firstlogin int(11) default NULL,
 				CHANGE loginCount logincount int(11) default NULL,
 				CHANGE lastLogin lastlogin int(11) default NULL")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Sessions
-				CHANGE data privilege text")										
+				CHANGE data privilege text")
 			&& POD::execute("ALTER TABLE {$database['prefix']}RemoteResponses
-				DROP KEY isFiltered, 
+				DROP KEY isFiltered,
 				CHANGE isFiltered isfiltered int(11) NOT NULL default 0,
 				ADD KEY isfiltered (isfiltered)")
 			&& POD::execute("ALTER TABLE {$database['prefix']}Users
@@ -680,7 +690,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			&& POD::execute("ALTER TABLE {$database['prefix']}Privileges
 				CHANGE lastLogin lastlogin int(11) NOT NULL default 0")
 			&& POD::execute("ALTER TABLE {$database['prefix']}XMLRPCPingSettings
-				CHANGE type pingtype varchar(32) NOT NULL default 'xmlrpc'")				
+				CHANGE type pingtype varchar(32) NOT NULL default 'xmlrpc'")
 			)
 			showCheckupMessage(true);
 		else {
@@ -688,7 +698,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}FeedSettings loadimage")) { 
+	if (!POD::queryExistence("DESC {$database['prefix']}FeedSettings loadimage")) {
 		$changed = true;
 		echo '<li>', _text('피드 설정 테이블의 테이블 구조 오류를 보정합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}FeedSettings CHANGE loadimge loadimage int(11) NOT NULL DEFAULT 1")) {
@@ -698,7 +708,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 
-	if (!POD::queryExistence("DESC {$database['prefix']}OpenIDUsers loginCount")) { 
+	if (!POD::queryExistence("DESC {$database['prefix']}OpenIDUsers loginCount")) {
 		$changed = true;
 		echo '<li>', _text('OpenID 사용자 테이블의 테이블 구조 오류를 보정합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}OpenIDUsers CHANGE loginCount logincount int(11) default NULL")) {
@@ -707,7 +717,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
-		
+
 	if (!POD::queryExistence("DESC {$database['prefix']}Filters filtertype")) {
 		$changed = true;
 		echo '<li>', _text('필터 호환성을 위하여 필드의 이름을 변경합니다.'), ': ';
@@ -726,16 +736,16 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		CREATE TABLE {$database['prefix']}Lines (
 		  id int(11) NOT NULL default 0,
 		  blogid int(11) NOT NULL default 0,
-		  root varchar(11) NOT NULL default 'default', 
-		  category varchar(11) NOT NULL default 'public', 
-		  author varchar(32) NOT NULL default '', 
+		  root varchar(11) NOT NULL default 'default',
+		  category varchar(11) NOT NULL default 'public',
+		  author varchar(32) NOT NULL default '',
 		  content mediumtext NOT NULL default '',
 		  permalink varchar(128) NOT NULL default '',
 		  created int(11) NOT NULL default 0,
 		  PRIMARY KEY (id),
 		  UNIQUE KEY (blogid, created),
 		  KEY (blogid, category, created)
-		) 
+		)
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);
@@ -743,18 +753,18 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 		}
 	}
-	
+
 	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Lines permalink")) {
 		$changed = true;
 		echo '<li>', _text('라인 기능에 여러 라인의 통합을 위한 필드를 추가합니다.'), ': ';
-		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD root varchar(11) NOT NULL default 'default' AFTER blogid") && 
-			DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD author varchar(32) NOT NULL default '' AFTER category") && 
+		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD root varchar(11) NOT NULL default 'default' AFTER blogid") &&
+			DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD author varchar(32) NOT NULL default '' AFTER category") &&
 			DBAdapter::execute("ALTER TABLE {$database['prefix']}Lines ADD permalink varchar(128) NOT NULL default '' AFTER content"))
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
-		
+
 	if (!doesExistTable($database['prefix'] . 'Widgets')) {
 		$changed = true;
 		echo '<li>', _text('위젯 기능 및 오픈소셜 지원을 위한 테이블을 만듭니다'), ': ';
@@ -777,7 +787,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		  content text NOT NULL default '',
 		  PRIMARY KEY(id),
 		  KEY(blogid)
-		) 
+		)
 		";
 		if (POD::execute($query . ' DEFAULT CHARSET=utf8') || POD::execute($query))
 			showCheckupMessage(true);
@@ -786,7 +796,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	/* From Textcube 1.8.4 */
-	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponseLogs responsetype")) { 
+	if (!POD::queryExistence("DESC {$database['prefix']}RemoteResponseLogs responsetype")) {
 		$changed = true;
 		echo '<li>', _text('트랙백과 핑백의 출력을 위하여 필드 속성을 변경합니다.'), ': ';
 		if (POD::execute("ALTER TABLE {$database['prefix']}RemoteResponseLogs CHANGE type responsetype ENUM('trackback','pingback') NOT NULL DEFAULT 'trackback'"))
@@ -794,7 +804,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		else
 			showCheckupMessage(false);
 	}
-	
+
 	if(Setting::getServiceSetting('useNewPluginSetting',false,true) != true) {
 		$changed = true;
 		echo '<li>', _text('플러그인 환경 설정 저장 방식을 변경합니다.'), ': ';
@@ -808,8 +818,8 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 					$query->setQualifier('name','equals',$c['name'],true);
 					$query->setAttribute('settings',serialize(Setting::fetchConfigXML($c['settings'])),true);
 					$query->update();
-				} 
-			}	
+				}
+			}
 			Setting::setServiceSetting('useNewPluginSetting',true,true);
 			showCheckupMessage(true);
 		} else {
@@ -817,7 +827,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	/* From Textcube 1.9 */
-	if (version_compare($currentVersion, '1.9.1','<')) { 
+	if (version_compare($currentVersion, '1.9.1','<')) {
 		$changed = true;
 		echo '<li>', _text('기본 에디터를 변경합니다.'), ': ';
 		$query = DBModel::getInstance();
@@ -850,8 +860,8 @@ $filename = ROOT . '/.htaccess';
 $fp = fopen($filename, "r");
 $content = fread($fp, filesize($filename));
 fclose($fp);
-if ((preg_match('@rewrite\.php@', $content) == 0 ) || 
-		(strpos($content,'[OR]') !== false) || 
+if ((preg_match('@rewrite\.php@', $content) == 0 ) ||
+		(strpos($content,'[OR]') !== false) ||
 		(strpos($content,' -d') == false) ||
 		(strpos($content,'(cache|xml|txt|log)') == false)
 		) {
@@ -859,7 +869,7 @@ if ((preg_match('@rewrite\.php@', $content) == 0 ) ||
 	$fp = fopen($filename.'_backup_'.Timestamp::format('%Y%m%d'), "w");
 	fwrite($fp,$content);
 	fclose($fp);
-	$content = 
+	$content =
 "#<IfModule mod_url.c>
 #CheckURL Off
 #</IfModule>
