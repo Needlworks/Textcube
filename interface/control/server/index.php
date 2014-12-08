@@ -60,8 +60,6 @@ closedir($handler);
 								else useNumericRSS = 0;
 								if(document.getElementById('useEncodedURL').checked) useEncodedURL = 1;
 								else useEncodedURL = 0;
-								if(document.getElementById('disableEolinSuggestion').checked) disableEolinSuggestion = 0;
-								else disableEolinSuggestion = 1; // Note that it is reversed!
 								if(document.getElementById('allowBlogVisibilitySetting').checked) allowBlogVisibilitySetting = 1;
 								else allowBlogVisibilitySetting = 0;
 								if(document.getElementById('requireLogin').checked) requireLogin = 1;
@@ -263,11 +261,7 @@ foreach($encodingList as $enc) {
 										<dl id="serviceurl-line" class="line">
 											<dt><span class="label"><?php echo _t('서비스 리소스 경로');?></span></dt>
 											<dd>
-<<<<<<< HEAD
 												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $context->getProperty('uri.service');?>" />
-=======
-												<input id="serviceurl" type="text" class="input-text" name="serviceurl" size="45" value="<?php echo $serviceURL;?>" />
->>>>>>> bf288c2...  refs #1636 : added - administration UI for codecache control.
 												<label for="serviceurl"><?php echo _t('이 서비스가 참조할 경로를 강제로 지정합니다.').'<br />'._t('정적인 파일들 (script, attach, image, style 하위 디렉토리)을 별도의 경로로 관리할 수 있습니다. 다른 웹 프로그램을 같은 도메인에서 운영할 때 동작이 방해받는 경우, 또는 서버에 걸리는 부하를 분산하고 싶은 경우 지정하면 됩니다.');?></label>
 											</dd>
 										</dl>
@@ -331,12 +325,6 @@ foreach($encodingList as $enc) {
 											<dt><span class="label"><?php echo _t('인코딩된 문자 주소 사용');?></span></dt>
 											<dd>
 												<input type="checkbox" id="useEncodedURL" class="checkbox" name="useEncodedURL"<?php echo $service['useEncodedURL'] ? ' checked="checked"' : '';?> /><label for="useEncodedURL"><?php echo _t('영어 이외의 주소 출력시 RFC1738 규격에 맞추어 주소를 인코딩한 채로 출력합니다.');?></label>
-											</dd>
-										</dl>
-										<dl id="eolin-suggestion-line" class="line">
-											<dt><span class="label"><?php echo _t('원격 태그 추천 사용');?></span></dt>
-											<dd>
-												<input type="checkbox" id="disableEolinSuggestion" class="checkbox" name="disableEolinSuggestion"<?php echo !$service['disableEolinSuggestion'] ? ' checked="checked"' : '';?> /><label for="disableEolinSuggestion"><?php echo _t('글 작성시 태그나 지역로그를 입력할 때 텍스트큐브 서버로부터 자동 추천 단어를 받아 옵니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="blog-visibility-line" class="line">
