@@ -30,7 +30,7 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">[##_title_##]</a>
+				<a class="navbar-brand" href="[##_blog_link_##]">[##_title_##]</a>
 			</div>
 			<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-left">
@@ -68,17 +68,15 @@
 	<s_list>  <!-- List section ................................................................. -->
 	<section class="list search">
 		<header>
-			<h2>Search Results for '[##_list_conform_##]'</h2>
+			<h2>Results for '[##_list_conform_##]'</h2>
 			<a href="[##_list_atom_url_##]"><img src="./images/atom_12.png" alt="ATOM Icon" /></a>
 			<h3>[##_list_count_##] items</h3>
 		</header>
 		<article>
 			<s_list_rep>
-			<dl>
-				<dt class="title"><a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a></dt>
-				<dd class="regdate"><time>[##_list_rep_regdate_##]</time></dd>
-				<dd class="author"><cite>by [##_list_rep_author_##]</cite></dd>
-				<dd class="count">[##_list_rep_rp_cnt_##]</dd>
+			<dl class="list-group">
+				<dt class="title list-group-item"><a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a></dt>
+				<dd class="regdate list-group-item"><time>[##_list_rep_regdate_##]</time>  <cite>by  [##_list_rep_author_##]</cite>   <cite class="count">[##_list_rep_rp_cnt_##]</cite></dd>
 			</dl>
 			</s_list_rep>
 		</article>

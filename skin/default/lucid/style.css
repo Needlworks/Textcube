@@ -118,5 +118,8 @@ dl.response dt {
 	padding-top:5px;
 }
 
+.categoryFeed span {
+	display:none;
+}
 #namecardWidget .thumbnail { display: inline-block; border: 0 none;}
 #extramenuWidget .btn { text-align: left; }
