@@ -1289,6 +1289,12 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 			$pool->setQualifier('blogid','equals',1);
 			$pool->setQualifier('name','equals','timezone',true);
 			$pool->update();
+
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',Timestamp::getUNIXtime());
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','created',true);
+			$pool->update();
 		}
 		if (!$error) {
 			POD::unbind();
@@ -1345,7 +1351,7 @@ ini_set('display_errors', 'off');
 //\$service['memcached'] = true;       // Using memcache to handle session and cache
 //\$memcached['server'] = 'localhost';  // Where memcache server is.
 //\$service['requirelogin'] = false;    // Force log-in process to every blogs. (for private blog service)
-//\$service['jqueryURL'] = '';		// Add URL if you want to use external jquery via CDN. e.g.) Microsoft's CDN: http://ajax.aspnetcdn.com/ajax/jQuery/ 
+//\$service['jqueryURL'] = '';		// Add URL if you want to use external jquery via CDN. e.g.) Microsoft's CDN: http://ajax.aspnetcdn.com/ajax/jQuery/
 ?>"
             );
             fclose($fp);
