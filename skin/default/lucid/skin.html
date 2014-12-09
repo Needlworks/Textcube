@@ -70,13 +70,13 @@
 		<header>
 			<h2>Results for '[##_list_conform_##]'</h2>
 			<a href="[##_list_atom_url_##]"><img src="./images/atom_12.png" alt="ATOM Icon" /></a>
-			<h3>[##_list_count_##] items</h3>
+			<h3>[##_list_count_##] entries</h3>
 		</header>
 		<article>
 			<s_list_rep>
-			<dl class="list-group">
-				<dt class="title list-group-item"><a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a></dt>
-				<dd class="regdate list-group-item"><time>[##_list_rep_regdate_##]</time>  <cite>by  [##_list_rep_author_##]</cite>   <cite class="count">[##_list_rep_rp_cnt_##]</cite></dd>
+			<dl class="list-group panel panel-default">
+				<dt class="title panel-heading"><a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a></dt>
+				<dd class="regdate panel-body"><time>[##_list_rep_regdate_##]</time>  <cite>by  [##_list_rep_author_##]</cite>   <cite class="count badge">[##_list_rep_rp_cnt_##]</cite></dd>
 			</dl>
 			</s_list_rep>
 		</article>
@@ -391,31 +391,20 @@
 	</section>
 
 	<s_tb> <!-- Trackback lists ....................................................... -->
-	<section class="trackbacks">
-		<article>
-			<dl class="dl-horizontal">
-				<dt class="url"><dfn>Trackback <abbr title="Uniform Resource Locator">URL</abbr></dfn></dt>
-				<dd class="url">[##_tb_address_##]</dd>
-				<dt class="atom feed"><dfn>Trackback ATOM Feed</dfn></dt>
-				<dd class="atom feed">[##_article_rep_tb_atomurl_##]</dd>
-			</dl>
-		</article>
-	</section>
 	<s_tb_container> <!-- Trackback list container …................................. -->
 	<section class="trackbacks list">
 		<header>
 			<h3>Trackbacks List</h3>
 		</header>
 		<article>
-			<dl>
+			<dl class="panel panel-default">
 		<s_tb_rep>
-			<dt id="[##_tb_rep_id_##]">
+			<dt id="[##_tb_rep_id_##]" class="panel-heading">
 				<h4><a href="[##_tb_rep_url_##]" onclick="window.open(this.href); return false" rel="external nofollow">[##_tb_rep_title_##]</a></h4>
 			</dt>
-			<dd class="trackbacked url"><dfn>Tracked</dfn> from <cite>[##_tb_rep_site_##]</cite></dd>
-			<dd class="regdate"><time>[##_tb_rep_date_##]</time></dd>
-			<dd class="delete"><command onclick="[##_tb_rep_onclick_delete_##]; return false" title="Delete">Delete</command></dd>
-			<dd class="content"><p>[##_tb_rep_desc_##]</p></dd>
+			<dd class="trackbacked url panel-body"><dfn>Tracked</dfn> from <cite>[##_tb_rep_site_##]</cite></dd>
+			<dd class="regdate panel-body"><time>[##_tb_rep_date_##]</time></dd>
+			<dd class="content panel-body"><p>[##_tb_rep_desc_##]</p></dd>
 		</s_tb_rep>
 			</dl>
 		</article>
@@ -574,9 +563,9 @@
 	<s_rct_notice>
 	<section id="recentNoticeWidget" class="widget">
 		<h3>Notices</h3>
-		<ol>
+		<ol class="list-group">
 		<s_rct_notice_rep>
-			<li>
+			<li class="list-group-item">
 				<a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a>
 				<cite>By <a href="[##_notice_rep_author_link_##]">[##_notice_rep_author_##]</a></cite>
 			</li>
@@ -590,26 +579,12 @@
 		<section id="searchWidget" class="widget">
 		<s_search>
 			<div class="input-group input-group-sm">
-				<input type="text" class="form-control" name="[##_search_name_##]" value="[##_search_text_##]" onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }" />
+				<input type="text" placeholder="Search" class="form-control" name="[##_search_name_##]" value="[##_search_text_##]" onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }" />
 				<span class="input-group-btn">
 					<button type="submit" onclick="[##_search_onclick_submit_##]" alt="Search" class="btn btn-default" value="Submit">Find!</button>
 				</span>
 			</div>
 		</s_search>
-		</section>
-	</s_sidebar_element>
-	<s_sidebar_element>
-	<!-- Post archive widget -->
-		<section id="archiveWidget" class="widget">
-			<h3>Archives</h3>
-			<ul>
-			<s_archive_rep>
-				<li>
-					<a href="[##_archive_rep_link_##]">[##_archive_rep_date_##] </a>
-					<span class="count">([##_archive_rep_count_##])</span>
-				</li>
-			</s_archive_rep>
-			</ul>
 		</section>
 	</s_sidebar_element>
 	<s_sidebar_element>
@@ -620,29 +595,14 @@
 		</section>
 	</s_sidebar_element>
 	<s_sidebar_element>
-	<!-- Author list widget -->
-		<section id="authorWidget" class="widget">
-			<h3>Authors</h3>
-			<ol>
-				<s_author_rep>
-				<li>
-					<a href="[##_author_rep_link_##]">
-						[##_author_rep_name_##]
-					</a>
-				</li>
-				</s_author_rep>
-			</ol>
-		</section>
-	</s_sidebar_element>
-	<s_sidebar_element>
 	<!-- Recent posts widget -->
 		<section id="recentPostWidget" class="widget">
 			<s_rctps>
 			<h3>Recent Posts</h3>
-			<ol id="recentEntries">
+			<ol id="recentEntries" class="list-group">
 				<s_rctps_rep>
-				<li><a href="[##_rctps_rep_link_##]">
-						[##_rctps_rep_title_##] <span class="count">[##_rctps_rep_rp_cnt_##]</span></a>
+				<li class="list-group-item"><a href="[##_rctps_rep_link_##]">
+						[##_rctps_rep_title_##] <span class="count  badge">[##_rctps_rep_rp_cnt_##]</span></a>
 						by <cite><a href="[##_rctps_rep_author_link_##]">[##_rctps_rep_author_##]</a></cite>
 				</li>
 				</s_rctps_rep>
@@ -650,90 +610,8 @@
 			</s_rctps>
 		</section>
 	</s_sidebar_element>
-	<s_sidebar_element>
-	<!-- Recent comments widget -->
-		<section id="recentCommentsWidget" class="widget">
-			<s_rctrp>
-			<h3>Recent Comments</h3>
-			<ol id="recentComments">
-				<s_rctrp_rep>
-				<li>
-					<a href="[##_rctrp_rep_link_##]">[##_rctrp_rep_desc_##]</a>
-					<cite>[##_rctrp_rep_name_##]</cite>
-					<time>[##_rctrp_rep_time_##]</time>
-				</li>
-				</s_rctrp_rep>
-			</ol>
-			</s_rctrp>
-		</section>
-	</s_sidebar_element>
-	<s_sidebar_element>
-	<!-- Recent trackbacks widget -->
-		<section id="recentTrackbacksWidget" class="widget">
-			<s_rcttb>
-			<h3>Recent Trackbacks</h3>
-			<ol id="recentTrackbacks">
-				<s_rcttb_rep>
-				<li>
-					<a href="[##_rcttb_rep_link_##]">[##_rcttb_rep_desc_##]</a>
-					<cite>[##_rcttb_rep_name_##]</cite>
-					<time>[##_rcttb_rep_time_##]</time>
-				</li>
-				</s_rcttb_rep>
-			</ol>
-			</s_rcttb>
-		</section>
-	</s_sidebar_element>
-	<s_sidebar_element>
-	<!-- Calendar widget -->
-		<section id="calendarWidget" class="widget">
-			<h3>Calendar</h3>
-			[##_calendar_##]
-		</section>
-	</s_sidebar_element>
-	<s_sidebar_element>
-	<!-- Bookmarks widget -->
-		<section id="bookmarkWidget" class="widget">
-			<h3>Bookmarks</h3>
-			[##_link_list_##]
-		</section>
-	</s_sidebar_element>
-	<s_sidebar_element>
-	<!-- Site count widget -->
-		<section id="countWidget" class="widget">
-			<h3>Site Stats</h3>
-			<dl>
-				<dt>Total hits</dt>
-				<dd>[##_count_total_##]</dd>
-				<dt>Today</dt>
-				<dd>[##_count_today_##]</dd>
-				<dt>Yesterday</dt>
-				<dd>[##_count_yesterday_##]</dd>
-			</dl>
-		</section>
-	</s_sidebar_element>
 	</s_sidebar>
 
-	<s_sidebar>
-	<!-- Sidebar (second) -->
-	<s_sidebar_element>
-	<!-- Textcube Banner widget -->
-		<section id="textcubeBannerWidget" class="widget">
-			<a href="http://www.textcube.org" onclick="window.open(this.href); return false"><img src="./images/banner_textcube_120-60.jpg" alt="Textcube" /></a>
-		</section>
-	</s_sidebar_element>
-	<s_sidebar_element>
-	<!-- Feed widget -->
-		<section id="subscriptionWidget" class="widget">
-			<ul>
-				<li><a href="[##_rss_url_##]" class="rss" rel="alternate" type="application/rss+xml">Subscribe to <abbr title="Really Simple Syndication">RSS</abbr> articles</a></li>
-				<li><a href="[##_response_rss_url_##]" class="rss response feed" rel="alternate" type="application/rss+xml"><span>Subscribe to RSS responses</span></a></li>
-				<li><a href="[##_atom_url_##]" class="atom feed" rel="alternate" type="application/atom+xml"><span>Subscribe to ATOM articles</span></a></li>
-				<li><a href="[##_response_atom_url_##]" class="atom response feed" rel="alternate" type="application/atom+xml"><span>Subscribe to ATOM responses</span></a></li>
-			</ul>
-		</section>
-	</s_sidebar_element>
-	</s_sidebar>
 	<!-- This code is for sidebar. Tablet UI support will be added in the next version.
 </aside>-->
 
