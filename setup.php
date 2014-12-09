@@ -1289,6 +1289,12 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
 			$pool->setQualifier('blogid','equals',1);
 			$pool->setQualifier('name','equals','timezone',true);
 			$pool->update();
+
+			$pool->reset('BlogSettings');
+			$pool->setAttribute('value',Timestamp::getUNIXtime());
+			$pool->setQualifier('blogid','equals',1);
+			$pool->setQualifier('name','equals','created',true);
+			$pool->update();
 		}
 		if (!$error) {
 			POD::unbind();
