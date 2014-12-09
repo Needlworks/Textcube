@@ -1338,6 +1338,7 @@ ini_set('display_errors', 'off');
 //\$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
 //\$service['debugmode'] = true; // uncomment for debugging, e.g. displaying DB Query or Session info
 //\$service['pagecache'] = false; // uncomment if you want to disable page cache feature.
+//\$service['codecache'] = true; // uncomment if you want to enable code cache feature.
 //\$service['debug_session_dump'] = true; // session info debuging.
 //\$service['debug_rewrite_module'] = true; // rewrite handling module debuging.
 //\$service['session_cookie_path'] = \$service['path']; // for avoiding spoiling other textcube's session id sharing root.
