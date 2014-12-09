@@ -95,9 +95,10 @@ ul.pagination .disabled a:hover {
 	background-color: #fff;
 	cursor: default;
 }
+/*
 ul.pagination li:not(:first-child):not(:last-child) {
 	display:none;
-}
+}*/
 .comments h1 {
 	font-size:1.4em;
 }
