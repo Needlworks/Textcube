@@ -3,7 +3,7 @@ Textcube: Brand Yourself - Personalized web publishing platform
 
 ## DESCRIPTION
 
-Textcube is an opensource tool to archive and share the experiences, ideas, opinions and thoughts. 
+Textcube is an opensource tool to archive and share the experiences, ideas, opinions and thoughts.
 
 Supports import/export individual data via XML compatible with other solutions in 'Tattertools Project'
 
@@ -30,7 +30,7 @@ Textcube supports various environments. However, you need at least one webserver
  * PHP 5.2 or above
   * with iconv / gd module
 * Database Management System (Need at least one environment)
- * MySQL > 5.0 / MariaDB 5.1 with UTF-8 character set and collation setting 
+ * MySQL > 5.0 / MariaDB 5.1 with UTF-8 character set and collation setting
  * Cubrid R2008 or above
  * PostgreSQL 8.3 or above
  * Sqlite 3 or above
@@ -40,7 +40,7 @@ For massive service / Heavy load environments
 
  * APC (Alternative PHP Cache) pecl package with PHP PEAR
  * XCache
- * memcached module
+ * memcached module with PHP memcached
 
 are strongly recommended.
 

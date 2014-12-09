@@ -31,7 +31,7 @@
   provide them
   -->
 
-  <!-- This parameter prompts the user for the database server name.  
+  <!-- This parameter prompts the user for the database server name.
   Note that this parameter has only one parameterEntry element.
   This parameter is used with the configuration file and the
   connection string.  It is not used within the SQL script itself
@@ -70,7 +70,7 @@
     >
   </parameter>
 
-  <!-- This parameter prompts the user for the database name.  
+  <!-- This parameter prompts the user for the database name.
   -->
   <parameter
     name="dbName"
@@ -132,5 +132,4 @@
       match="install.sql"
       />
   </parameter>
-
 </parameters>
