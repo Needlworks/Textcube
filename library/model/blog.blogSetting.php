@@ -1,4 +1,4 @@
-<?php 
+<?php
 /// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
@@ -49,7 +49,7 @@ function removeBlogLogo($blogid) {
 	$context = Model_Context::getInstance();
 	$skin = new Skin($context->getProperty('skin.skin'));
 	requireModel('blog.attachment');
-	
+
 	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
 		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
@@ -112,8 +112,8 @@ function setSecondaryDomain($blogid, $domain) {
 	if (empty($domain))
 		setBlogSetting('secondaryDomain','');
 	else if (Validator::domain($domain)) {
-		if (POD::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings 
-			WHERE blogid <> $blogid 
+		if (POD::queryExistence("SELECT * FROM {$database['prefix']}BlogSettings
+			WHERE blogid <> $blogid
 				AND name = 'secondaryDomain'
 				AND (value = '$domain' OR value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
 			return 1;
@@ -148,7 +148,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 	$useSloganOnPost     = $useSloganOnPost     ? 1 : 0;
 	$useSloganOnCategory = $useSloganOnCategory ? 1 : 0;
 	$useSloganOnTag      = $useSloganOnTag      ? 1 : 0;
-	if ($useSloganOnPost == $blog['useSloganOnPost'] 
+	if ($useSloganOnPost == $blog['useSloganOnPost']
 		&& $useSloganOnCategory == $blog['useSloganOnCategory']
 		&& $useSloganOnTag == $blog['useSloganOnTag'])
 		return true;
@@ -170,7 +170,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 	CacheControl::flushTag();
 	fireEvent('ToggleBlogSlogan',null,$blog['useSloganOnPost']);
 	clearFeed();
-	return true; 
+	return true;
 }
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
@@ -239,7 +239,7 @@ function addBlog($blogid, $userid, $identify) {
 		}
 		// Thus, blog and user exists. Now combine both.
 		$result = POD::query("INSERT INTO {$database['prefix']}Privileges
-			(blogid,userid,acl,created,lastlogin) 
+			(blogid,userid,acl,created,lastlogin)
 			VALUES($blogid, $userid, 0, UNIX_TIMESTAMP(), 0)");
 		return $result;
 	} else { // If no blogid, create a new blog.
@@ -249,14 +249,14 @@ function addBlog($blogid, $userid, $identify) {
 
 		$blogName = $identify;
 
-		$result = POD::queryCount("SELECT * 
+		$result = POD::queryCount("SELECT *
 			FROM {$database['prefix']}ReservedWords
 			WHERE word = '$blogName'");
 		if ($result && $result > 0) {
 			return 60;	// Reserved blog name.
 		}
-		$result = POD::queryCount("SELECT value 
-			FROM {$database['prefix']}BlogSettings 
+		$result = POD::queryCount("SELECT value
+			FROM {$database['prefix']}BlogSettings
 			WHERE name = 'name' AND value = '$blogName'");
 		if ($result && $result > 0) {
 			return 61; // Same blogname is already exists.
@@ -288,6 +288,7 @@ function addBlog($blogid, $userid, $identify) {
 			'acceptComments'           => 1,
 			'acceptTrackbacks'         => 1,
 			'visibility'               => 2,
+			'created'                  => Timestamp::getUNIXtime(),
 			'language'     => $service['language'],
 			'blogLanguage' => $service['language'],
 			'timezone'     => $baseTimezone);
@@ -306,25 +307,25 @@ function addBlog($blogid, $userid, $identify) {
 			deleteBlog($blogid);
 			return 13;
 		}
-		if(!POD::query("INSERT INTO {$database['prefix']}FeedSettings 
+		if(!POD::query("INSERT INTO {$database['prefix']}FeedSettings
 			(blogid) VALUES ($blogid)")) {
 			deleteBlog($blogid);
 			return 62;
 		}
-		
-		if(!POD::query("INSERT INTO {$database['prefix']}FeedGroups 
-			(blogid, id) 
+
+		if(!POD::query("INSERT INTO {$database['prefix']}FeedGroups
+			(blogid, id)
 			VALUES ($blogid, 0)")) {
 			deleteBlog($blogid);
 			return 62;
 		}
-		
+
 		setBlogSetting('defaultEditor', 'modern', $blogid);
 		setBlogSetting('defaultFormatter', 'ttml', $blogid);
 
 		//Combine user and blog.
-		if(POD::query("INSERT INTO {$database['prefix']}Privileges 
-			(blogid,userid,acl,created,lastlogin) 
+		if(POD::query("INSERT INTO {$database['prefix']}Privileges
+			(blogid,userid,acl,created,lastlogin)
 			VALUES($blogid, $userid, 16, UNIX_TIMESTAMP(), 0)")) {
 			setDefaultPost($blogid, $userid);
 			return true;
@@ -403,7 +404,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 
 	if (strcmp($email, UTF8::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	//$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));	
+	//$loginid = POD::escapeString(UTF8::lessenAsEncoding($email, 64));
 	$name = POD::escapeString(UTF8::lessenAsEncoding($name, 32));
 
 	//$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
@@ -442,7 +443,7 @@ function cancelInvite($userid,$clean = true) {
 		return false;
 	if (POD::queryCell("SELECT count(*) FROM {$database['prefix']}Users WHERE userid = $userid AND host = ".getUserId()) === 0)
 		return false;
-	
+
 	$blogidWithOwner = User::getOwnedBlogs($userid);
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
@@ -490,7 +491,7 @@ function deleteBlog($blogid) {
 	)
 	{
 		return true;
-	} 
+	}
 	return false;
 }
 
@@ -513,7 +514,7 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Entries WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}EntriesArchive WHERE blogid = $blogid");
-//	POD::execute("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid"); 
+//	POD::execute("DELETE FROM {$database['prefix']}FeedGroupRelations WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}FeedGroups WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}FeedReads WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}FeedStarred WHERE blogid = $blogid");
@@ -531,9 +532,9 @@ function removeBlog($blogid) {
 	POD::execute("DELETE FROM {$database['prefix']}TagRelations WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid = $blogid");
 	POD::execute("DELETE FROM {$database['prefix']}XMLRPCPingSettings WHERE blogid = $blogid");
-	
+
 	//Delete Tags
-	if (count($tags) > 0) 
+	if (count($tags) > 0)
 	{
 		$tagliststr = implode(', ', $tags);	// Tag id used at deleted blog.
 		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM {$database['prefix']}TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
@@ -545,7 +546,7 @@ function removeBlog($blogid) {
 		}
 	}
 	//Delete Feeds
-	if (count($feeds) > 0) 
+	if (count($feeds) > 0)
 	{
 		foreach($feeds as $feedId)
 		{
@@ -554,7 +555,7 @@ function removeBlog($blogid) {
 	}
 
 	//Clear Plugin Database
-	// TODO : encapsulate with 'value' 
+	// TODO : encapsulate with 'value'
 	$query = "SELECT name, value FROM {$database['prefix']}ServiceSettings WHERE name like 'Database\\_%'";
 	$plugintablesraw = POD::queryAll($query);
 	foreach($plugintablesraw as $table) {
