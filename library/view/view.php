@@ -464,6 +464,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 			dress($prefix1 . '_onclick_submit', "addComment(this, {$entry['id']}); return false;", $commentView);
 			dress($prefix1 . '_textarea_body', 'comment', $commentView);
 			dress($prefix1 . '_textarea_body_value', '', $commentView);
+			dress('article_rep_id', $entry['id'], $commentView);
 		} else if ($useForm == true) {
 			$commentView = '';
 		}
