@@ -20,7 +20,8 @@ $IV = array(
 	)
 );
 
-if(!Validator::validate($IV))
+Validator::addRule($IV);
+if(!Validator::isValid())
 	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
