@@ -35,7 +35,7 @@ function logout() {
 function requireLogin() {
 	global $service, $hostURL, $blogURL;
 	if(isset($_POST['refererURI'])) $_GET['refererURI'] = $_POST['refererURI'];
-	else if(isset($_SESSION['refererURI'])) { 
+	else if(isset($_SESSION['refererURI'])) {
 		$_GET['refererURI'] = $_SESSION['refererURI'];
 		unset($_SESSION['refererURI']);
 	}
@@ -93,11 +93,11 @@ function requireStrictRoute() {
 	header('Content-Type: text/html');
 	header("Connection: close");
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
+	<meta charset="UTF-8">
 	<title><?php echo _t('Precondition Failed');?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
 	<h1><?php echo _t('Precondition Failed');?></h1>
@@ -142,13 +142,13 @@ function validateAPIKey($blogid, $loginid, $key) {
 function isLoginId($blogid, $loginid) {
 	global $database;
 	$loginid = POD::escapeString($loginid);
-	
+
 	// 팀블로그 :: 팀원 확인
-	$result = POD::queryCount("SELECT u.userid 
-			FROM {$database['prefix']}Users u, 
-				{$database['prefix']}Privileges t 
-			WHERE t.blogid = $blogid 
-				AND u.loginid = '$loginid' 
+	$result = POD::queryCount("SELECT u.userid
+			FROM {$database['prefix']}Users u,
+				{$database['prefix']}Privileges t
+			WHERE t.blogid = $blogid
+				AND u.loginid = '$loginid'
 				AND t.userid = u.userid");
 	// End TeamBlog
 	if ($result && $result === 1)
@@ -167,7 +167,7 @@ function resetPassword($blogid, $loginid) {
 	$userid = User::getUserIdByEmail($loginid);
 	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid",'password',false);
 	$authtoken = md5(generatePassword());
-	
+
 	$query = DBModel::getInstance();
 	$query->reset('UserSettings');
 	$query->setAttribute('userid',$userid);
@@ -176,7 +176,7 @@ function resetPassword($blogid, $loginid) {
 	$query->setQualifier('userid',$userid);
 	$query->setQualifier('name','Authtoken',true);
 	$query->replace();
-	
+
 	if(empty($result)) {
 		return false;
 	}
