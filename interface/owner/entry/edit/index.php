@@ -712,7 +712,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											</select></dd>
 										</dl>
 										<div id="formatbox-container" class="container"></div>
-										<div class="editor-inner"><textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content']);?></textarea></div>
+										<div class="editorbox-container"><textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content']);?></textarea></div>
 										<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path');?></span><span class="divider"> : </span><span id="pathContent"></span></div>
 <?php
 	$view = fireEvent('AddPostEditorToolbox', '');
