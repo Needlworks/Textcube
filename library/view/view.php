@@ -1077,7 +1077,7 @@ function getRecentEntriesView($entries, $entriesView = null, $template = null) {
 		dress('rctps_rep_author',  $name, $view);
 		dress('rctps_rep_author_link', $ctx->getProperty('uri.blog')."/author/" . rawurlencode($name), $view);
 		dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
-		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "({$entry['comments']})" : '').'</span>', $view);
+		dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">".($entry['comments'] > 0 ? "{$entry['comments']}" : '').'</span>', $view);
 		$recentEntriesView .= $view;
 	}
 	if(!is_null($entriesView)) {
