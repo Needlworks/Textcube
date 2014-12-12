@@ -425,8 +425,7 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 foreach($blogTopMenuItem as $menuItem) {
 ?>
 						<li id="menu-<?php echo $menuItem['menu'];?>"<?php echo $menuItem['menu']==$blogMenu['topMenu'] ? ' class="selected"' : '';?>>
-							<a href="<?php echo $blogURL.$menuItem['link'];?>" class="menu-name"><span><?php echo $menuItem['title'];?></span><!--[if gte IE 7]><!--></a><!--<![endif]-->
-							<!--[if lte IE 6]><table><tr><td><![endif]-->
+							<a href="<?php echo $blogURL.$menuItem['link'];?>" class="menu-name"><span><?php echo $menuItem['title'];?></span></a>
 							<ul id="submenu-<?php echo $menuItem['menu'];?>" class="sub-menu">
 <?php
 	$firstChildClass = ' firstChild';
@@ -500,7 +499,6 @@ foreach($blogTopMenuItem as $menuItem) {
 	}
 ?>
 							</ul>
-							<!--[if lte IE 6]></td></tr></table></a><![endif]-->
 						</li>
 <?php
 }

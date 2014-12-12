@@ -479,8 +479,7 @@ textarea
 	border                           : none;
 }
 
-#main-menu li:hover ul,
-#main-menu li a:hover table
+#main-menu li:hover ul
 {
 	display                          : block;
 	border                           : none;
@@ -498,8 +497,7 @@ textarea
 	box-shadow                  : 0 3px 3px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0,0,0,0.2);
 }
 
-#main-menu li:hover .sub-menu,
-#main-menu li a:hover table
+#main-menu li:hover .sub-menu
 {
 	display                          : block !important;
 	top                              : 35px;
