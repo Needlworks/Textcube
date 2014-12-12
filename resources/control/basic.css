@@ -93,9 +93,9 @@ h3
 input
 {
 	font-family                      : 'Lucida Grande', Arial, AppleGothic, '굴림', Gulim, Tahoma, Verdana, sans-serif;
-	background                       : -webkit-gradient(linear, left top, 0 10, from(#eee), to(#fff)); 
- 	-webkit-background-origin        : padding-box; 
- 	-webkit-background-clip          : content-box; 
+	background                       : -webkit-gradient(linear, left top, 0 10, from(#eee), to(#fff));
+ 	-webkit-background-origin        : padding-box;
+ 	-webkit-background-clip          : content-box;
 }
 
 label
@@ -215,7 +215,7 @@ textarea
 	top                              : 15px;
 }
 
-#main-action li 
+#main-action li
 {
 	float                            : left;
 	display                          : block;
@@ -341,21 +341,20 @@ textarea
 	color                            : #FAFAA0;
 }
 
-#main-menu ul.sub-menu 
+#main-menu ul.sub-menu
 {
 	display                          : none;
 	border                           : none;
 }
 
-#main-menu li:hover ul,
-#main-menu li a:hover table
+#main-menu li:hover ul
 {
 	display                          : block !important;
 	width                            : 150px;
 	color                            : #222;
     position                         : absolute;
 	z-index                          : 100 !important;
-	top                              : 40px; 
+	top                              : 40px;
 	left                             : 0;
 	border                           : solid 1px #CCC;
 	background-color                 : #EEE;
@@ -1132,7 +1131,7 @@ table.data-inbox tbody tr td.inactive-class
 
 #layout-footer div
 {
-	display                          : block; 
+	display                          : block;
 }
 
 /* Etc *******************************************************************************************/
