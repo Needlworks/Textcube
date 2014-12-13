@@ -108,7 +108,7 @@ function MT_Cover_getRecentEntries($parameters){
 		$paging['page'] = $page;
 		$paging['total'] = POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Entries e WHERE $multiple e.draft = 0 $visibility AND e.category >= 0");
 
-		$html .= getPagingView($paging, $skin->paging, $skin->pagingItem).CRLF;
+		$html .= Paging::getPagingView($paging, $skin->paging, $skin->pagingItem).CRLF;
 
 		$html .= '<script type="text/javascript">'.CRLF;
 		$html .= '//<![CDATA['.CRLF;
