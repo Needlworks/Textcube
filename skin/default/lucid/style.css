@@ -54,12 +54,17 @@ ul.tags {
 	font-size:1.5em;
 }
 
+.imageblock img {
+	border:1px solid #ddd;
+	padding:5px;
+	margin:5px auto;
+}
+
 ul.pagination  {
 	margin-left: 0;
 	margin-bottom: 18px;
 	list-style: none;
 	text-align: center;
-	*zoom: 1;
 }
 
 ul.pagination:before,
