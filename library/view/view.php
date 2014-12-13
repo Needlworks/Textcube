@@ -1235,8 +1235,8 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 	requireModel('blog.attachment');
 	requireModel('blog.keyword');
 	requireLibrary('blog.skin');
-
-	$cacheKey = 'entry-'.$id.'-'.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').(defined('__TEXTCUBE_MOBILE__') ? 'mobile' : '');
+	$context  = Model_Context::getInstance();
+	$cacheKey = 'entry-'.$id.'-'.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').($context->getProperty('blog.displaymode','desktop'));
 	$cache = pageCache::getInstance();
 	$cache->reset($cacheKey);
 	if(!defined('__TEXTCUBE_NO_ENTRY_CACHE__') && $cache->load()) {	// If cached content exists.
@@ -1245,7 +1245,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$content = fireEvent('Format' . $type . 'Content', $content, $id);
 		$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 		$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
-		if (defined('__TEXTCUBE_MOBILE__'))
+		if ($context->getProperty('blog.displaymode','desktop') == 'mobile')
 			$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
 		if(!$useAbsolutePath)
 			$view = avoidFlashBorder($view);
