@@ -46,7 +46,7 @@ if ($fp = @fopen($imagePath, 'r')) {
 				default:
 					Respond::NotFoundPage();
 			}
-			$canvasWidth = 260;
+			$canvasWidth = 640;
 			$canvasHeight = round($imageInfo[1] * ($canvasWidth / $imageInfo[0]));
 			if ($imageInfo[0] > $canvasWidth) {
 				$canvas = imagecreatetruecolor($canvasWidth, $canvasHeight);
