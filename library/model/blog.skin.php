@@ -186,6 +186,8 @@ function selectSkin($blogid, $skinName) {
 					Setting::setBlogSetting('useiPhoneUI',1,true);
 				}
 			}
+		} else {
+			Setting::setBlogSetting('useiPhoneUI',1,true);
 		}	
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none');
