@@ -159,7 +159,7 @@ if (sizeof($links) > 0) echo "									</tbody>";
 <?php
 $pagingTemplate = '[##_paging_rep_##]';
 $pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
-print getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
+print Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 ?>
 									</span>
 									<span id="total-count"><?php echo sprintf(_t('총 %d건'), empty($paging['total']) ? "0" : $paging['total']);?></span>
