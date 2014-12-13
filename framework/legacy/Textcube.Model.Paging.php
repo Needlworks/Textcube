@@ -8,7 +8,7 @@ class Paging {
 	}
 	
 	function getPagingView( & $paging, & $template, & $itemTemplate, $useCache = false, $mode = 'href') {
-		
+		$ctx = Model_Context::getInstance();	
 		if (($paging === false) || empty($paging['page'])) {
 			$paging['url'] = NULL;
 			$paging['onclick'] = NULL;
@@ -19,8 +19,7 @@ class Paging {
 			$paging['page'] = 1;
 			$paging['next'] = NULL;
 		}
-		
-		$url = URL::encode($paging['url']);
+		$url = str_replace('/%3F/', '/?/', URL::encode($paging['url'], $ctx->getProperty('service.useEncodedURL')));	
 		$prefix = $paging['prefix'];
 		$postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
 		ob_start();
