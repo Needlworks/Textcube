@@ -1,8 +1,9 @@
 <?php
 
 function Recaptcha_AddInputValidatorRule($target, $mother) {
+	$signed_in = (doesHaveOwnership() || doesHaveMembership());
 	if ($mother == 'interface/blog/comment/add/') {
-		$target['POST']['g-recaptcha-response'] = array('string', 'default' => '', 'mandatory' => true);
+		$target['POST']['g-recaptcha-response'] = array('string', 'default' => '', 'mandatory' => !$signed_in);
 	}
 	return $target;
 }
@@ -75,8 +76,8 @@ function Recaptcha_AddingCommentHandler($target, $mother)
 {
 	global $configVal, $pluginURL;
 	$config = Setting::fetchConfigVal($configVal);
+	if (doesHaveOwnership() || doesHaveMembership()) return true;  /* Skip validation if signed-in. */
 	if (!is_null($config) && isset($config['secretKey'])) {
-		if (doesHaveOwnership() || doesHaveMembership()) return true;  /* Skip validation if signed-in. */
 		$recaptcha_response = $_POST["g-recaptcha-response"];
 		$reqURL = "https://www.google.com/recaptcha/api/siteverify?secret={$config['secretKey']}&response={$recaptcha_response}";
 		$ch = curl_init();
