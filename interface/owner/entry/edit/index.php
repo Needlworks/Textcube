@@ -498,7 +498,7 @@ if (isset($_GET['popupEditor'])) {
 									}
 									/// Do postprocessing after editor area is changed first.
 									/// e.g. starting writing, clicking, etc.
-									this.saveEntryAuto = function () {
+									this.saveAuto = function () {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
 										}
@@ -509,7 +509,7 @@ if (isset($_GET['popupEditor'])) {
 										else
 											this.delay = true;
 									}
-									this.saveEntryDraft = function () {
+									this.saveDraft = function () {
 										this.autoSave = true;
 										if (this.nowsaving == true) {
 											this.timer = null;
