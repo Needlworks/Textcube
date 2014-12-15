@@ -135,7 +135,7 @@ function tinyMCE_editorinit($editor) {
 				this.destroy();
 			};
 			editor.syncTextarea = function(){
-				this.save();
+				this.saveEntry();
 			};
 			editor.syncEditorWindow = function() {
 				this.load();
