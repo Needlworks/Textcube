@@ -39,7 +39,8 @@ if( Acl::getIdentity('openid') ) {
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $service['path'].'/resources' : $service['resourcepath']);?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath'));?> /script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath'));?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript">
 		//<![CDATA[
 			function submitComment() {
@@ -72,6 +73,7 @@ if (!doesHaveMembership()) {
 			}
 		//]]>
 	</script>
+<?php echo fireEvent('REPLY_head_end',null,$comment);?>
 </head>
 <?php
  if (doesHaveOwnership())
@@ -189,5 +191,6 @@ if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($co
 		<input name="openidedit" type="hidden" value="1" />
 <?php } ?>
 	</form>
+<?php echo fireEvent('REPLY_body_end',null,$comment);?>
 </body>
 </html>
