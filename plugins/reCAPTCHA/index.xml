@@ -25,7 +25,7 @@
       <fieldset legend="인증 정보">
         <field title="Site Key" name="siteKey" type="text" value="" />
         <field title="Secret Key" name="secretKey" type="text" value="">
-          <caption><![CDATA[Google reCAPTCHA API를 사용하기 위한 인증 키를 입력합니다.]]></caption>
+          <caption><![CDATA[Google reCAPTCHA API를 사용하기 위한 인증 키를 입력합니다. 인증키는 <a href="https://www.google.com/recaptcha/admin" target="_blank">Google reCAPTCHA 사이트</a> 에서 발급밭을 수 있습니다. ]]></caption>
         </field>
       </fieldset>
     </config>
@@ -33,7 +33,7 @@
       <fieldset legend="Authentication Information">
         <field title="Site Key" name="siteKey" type="text" value="" />
         <field title="Secret Key" name="secretKey" type="text" value="">
-          <caption><![CDATA[Specify your Google reCAPTCHA API keys.]]></caption>
+          <caption><![CDATA[Specify your Google reCAPTCHA API keys. You can get your API Keys at <a href="https://www.google.com/recaptcha/admin" target="_blank">Google reCAPTCHA</a> page.]]></caption>
         </field>
       </fieldset>
     </config>

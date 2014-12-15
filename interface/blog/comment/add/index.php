@@ -7,6 +7,12 @@ require ROOT . '/library/preprocessor.php';
 $context = Model_Context::getInstance();
 $entryId = $suri['id'];
 $IV = array(
+<<<<<<< Updated upstream
+=======
+	'GET' => array(
+		'__T__' => array('any', 13, 13, 'mandatory' => false)
+	),
+>>>>>>> Stashed changes
 	'POST' => array(
 		'key' => array('string', 32, 32),
 		"comment_type" => array(array('idpwd', ''), 'default' => '', 'mandatory' => false),
@@ -61,7 +67,6 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
 
 	$result = addComment($blogid, $comment);
-
 	if (in_array($result, array("ip", "name", "homepage", "comment", "openidonly", "etc"))) {
 		switch ($result) {
 			case "name":
