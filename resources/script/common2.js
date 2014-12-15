@@ -1030,7 +1030,6 @@ function addComment(caller, entryId) {
 	}
 	var formData = $(oForm).serializeArray();
 	formData.push({name: 'key', value: commentKey});
-	console.log(formData);
 	commentSavingNow = true;
 	//PM.addRequest(request, "Saving Comments...");
 	$.ajax({
@@ -1071,7 +1070,7 @@ function addCommentWithOpenIDAuth(oForm, entryId) {
 	action.pop();
 	action.pop();
 	form.action = action.join("/");
-	form.action += "/addopenid/"+entryId+"?__T__="+(new Date()).getTime();
+	form.action += "/addopenid/"+entryId;
 	form.method = "post";
 
 	var input;

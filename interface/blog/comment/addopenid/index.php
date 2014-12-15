@@ -8,13 +8,12 @@ $entryId = $suri['id'];
 $IV = array(
 	'GET' => array(
 		"tid" => array('string', 'default' => ''),
-		'__T__' => array('any', 13, 13)
 	),
 	'POST' => array(
 		'key' => array('string', 32, 32),
-		"comment_type" => array('string', 'default' => ''),
+		"comment_type" => array(array('openid'), 'mandatory' => true),
 		"secret" => array(array('1', 'on'), 'mandatory' => false),
-		"homepage" => array('string', 'default' => 'http://'),
+		"homepage" => array('url', 'default' => 'http://'),
 		"openid_identifier" => array('string', 'default' => ''),
 		"openid_errormsg" => array('string', 'default' => ''),
 		"comment" => array('string', 'default' => ''),
@@ -44,7 +43,7 @@ if( $_POST["comment_type"] != 'openid' ) {
 	OpenIDConsumer::printErrorReturn( 'Invalid comment type', $_POST["requestURI"] );
 }
 
-if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {
+if (!isset($_POST['key']) || $_POST['key'] != md5(filemtime(ROOT . '/config.php'))) {
 	OpenIDConsumer::printErrorReturn( 'Illegal parameters', $_POST["requestURI"] );
 }
 

@@ -96,9 +96,13 @@ function Recaptcha_AddingCommentHandler($target, $mother)
 				$err = implode(' ', $resp['error-codes']);
 				// TODO: 사용자에게 적절한 오류 메시지 리턴
 				if (strpos($err, 'missing-input-secret') !== false) {
+					Respond::PrintResult(array('error' => 2, 'description' => 'Missing reCAPTCHA secret key!'));
 				} elseif (strpos($err, 'missing-input-response') !== false) {
+					Respond::PrintResult(array('error' => 2, 'description' => 'Missing reCAPTCHA response!'));
 				} elseif (strpos($err, 'invalid-input-secret') !== false) {
+					Respond::PrintResult(array('error' => 2, 'description' => 'Invalid reCAPTCHA secret key.'));
 				} elseif (strpos($err, 'invalid-input-response') !== false) {
+					Respond::PrintResult(array('error' => 2, 'description' => 'Invalid reCAPTCHA response.'));
 				}
 			}
 		}

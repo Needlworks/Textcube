@@ -7,15 +7,13 @@ require ROOT . '/library/preprocessor.php';
 $context = Model_Context::getInstance();
 $entryId = $suri['id'];
 $IV = array(
-	'GET' => array(
-		'__T__' => array('any', 13, 13)
-	),
 	'POST' => array(
 		'key' => array('string', 32, 32),
+		"comment_type" => array(array('idpwd', ''), 'default' => '', 'mandatory' => false),
 		"name" => array('string', 'default' => ''),
 		"password" => array('string', 'default' => ''),
 		"secret" => array(array('1', 'on'), 'mandatory' => false),
-		"homepage" => array('string', 'default' => 'http://'),
+		"homepage" => array('url', 'default' => 'http://'),
 		"comment" => array('string', 'default' => '')
 	)
 );
@@ -25,7 +23,7 @@ if(!Validator::isValid())
 	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
-if (!isset($_GET['__T__']) || !isset($_POST['key']) || ($_POST['key'] != md5(filemtime(ROOT . '/config.php'))) || !Setting::getBlogSettingGlobal('acceptComments',0)) {
+if (!isset($_POST['key']) || ($_POST['key'] != md5(filemtime(ROOT . '/config.php'))) || !Setting::getBlogSettingGlobal('acceptComments',0)) {
 	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
 	exit;
 }
