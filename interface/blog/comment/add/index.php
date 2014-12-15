@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 require ROOT . '/library/preprocessor.php';
-
+$context = Model_Context::getInstance();
 $entryId = $suri['id'];
 $IV = array(
 	'GET' => array(
@@ -16,13 +16,11 @@ $IV = array(
 		"password" => array('string', 'default' => ''),
 		"secret" => array(array('1', 'on'), 'mandatory' => false),
 		"homepage" => array('string', 'default' => 'http://'),
-		'g-recaptcha-response' => array('string', 'default' => '', 'mandatory' => false),
 		"comment" => array('string', 'default' => '')
 	)
 );
-
-Validator::addRule($IV);
-//var_dump(Validator::$queue);
+$customIV = fireEvent('ManipulateIVRules',$IV,$context->getProperty('uri.interfaceRoute'));
+Validator::addRule($customIV);
 if(!Validator::isValid())
 	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
 requireStrictRoute();
@@ -63,9 +61,9 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['secret'] = $userSecret;
 	$comment['comment'] = $userComment;
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
-	
+
 	$result = addComment($blogid, $comment);
-	
+
 	if (in_array($result, array("ip", "name", "homepage", "comment", "openidonly", "etc"))) {
 		switch ($result) {
 			case "name":
@@ -89,7 +87,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		}
 		Respond::PrintResult(array('error' => 1, 'description' => $errorString));
 		exit;
-		
+
 	} else if ($result === false) {
 		Respond::PrintResult(array('error' => 2, 'description' => _text('댓글을 달 수 없습니다.')));
 		exit;
@@ -127,12 +125,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$commentCount = 0;
 			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComment, $skin->recentCommentItem)));
 		}
-		Respond::PrintResult(array('error' => 0, 
+		Respond::PrintResult(array('error' => 0,
 			'commentView'        => $commentView,
 			'commentCount'       => $commentCount,
 			'commentBlock'       => $commentBlock,
 			'recentCommentBlock' => $recentCommentBlock));
-		exit;	
+		exit;
 	}
 }
 ?>

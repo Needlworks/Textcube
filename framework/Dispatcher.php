@@ -176,6 +176,7 @@ final class Dispatcher {
 				header("HTTP/1.0 404 Not Found");exit;
 			}
 			$uri['interfacePath'] = $this->interfacePath = $interfacePath;
+			$uri['interfaceRoute'] = rtrim($this->interfacePath,'index.php');
 		}
 		$this->uri = $uri;
 	}

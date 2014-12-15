@@ -1,11 +1,11 @@
 <?php
 
-$IV = array(
-	'POST' => array(
-		'g-recaptcha-response' => array('string', 'default' => '')
-	)
-);
-Validator::addRule($IV);
+function Recaptcha_AddInputValidatorRule($target, $mother) {
+	if ($mother == 'interface/blog/comment/add/') {
+		$target['POST']['g-recaptcha-response'] = array('string', 'default' => '', 'mandatory' => false);
+	}
+	return $target;
+}
 
 function Recaptcha_Header($target) {
 	global $configVal, $pluginURL;
@@ -100,7 +100,7 @@ function Recaptcha_AddingCommentHandler($target, $mother)
 				} elseif (strpos($err, 'invalid-input-secret') !== false) {
 				} elseif (strpos($err, 'invalid-input-response') !== false) {
 				}
-			} 
+			}
 		}
 		return false;
 	}

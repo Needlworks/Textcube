@@ -19,6 +19,7 @@
     <tag name="SKIN_head_end" handler="Recaptcha_Header" />
     <tag name="SKIN_body_end" handler="Recaptcha_Footer" />
     <listener event="AddingComment" handler="Recaptcha_AddingCommentHandler" />
+    <listener event="ManipulateIVRules" handler="Recaptcha_AddInputValidatorRule" />
     <config xml:lang="ko" dataValHandler="Recaptcha_ConfigHandler">
       <window width="500" height="550" />
       <fieldset legend="인증 정보">
