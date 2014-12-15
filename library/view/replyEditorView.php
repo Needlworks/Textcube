@@ -39,7 +39,7 @@ if( Acl::getIdentity('openid') ) {
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $service['path'].'/resources' : $service['resourcepath']);?>/script/common2.js"></script>
-	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath');?> /script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath'));?> /script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			function submitComment() {
