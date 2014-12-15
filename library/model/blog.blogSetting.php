@@ -1,4 +1,4 @@
-<?php 
+<?php
 /// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
@@ -48,7 +48,7 @@ function removeBlogLogo($blogid) {
 	$context = Model_Context::getInstance();
 	$skin = new Skin($context->getProperty('skin.skin'));
 	requireModel('blog.attachment');
-	
+
 	if(Setting::setBlogSettingGlobal('logo','') === false) return false;
 	else {
 		deleteAttachment($blogid, - 1, $context->getProperty('blog.logo'));
@@ -91,7 +91,7 @@ function setPrimaryDomain($blogid, $name) {
 	$pool = DBModel::getInstance();
 	$pool->reset('ReservedWords');
 	$pool->setQualifier('word','like',$name,true);
-	if($pool->getCell('count(*)') > 0) 
+	if($pool->getCell('count(*)') > 0)
 		return 2;
 	$pool->reset('BlogSettings');
 	$pool->setQualifier('name','equals','name',true);
@@ -108,16 +108,16 @@ function setPrimaryDomain($blogid, $name) {
 
 function setSecondaryDomain($blogid, $domain) {
 	$ctx = Model_Context::getInstance();
-	
+
 	requireModel('blog.feed');
 	$domain = Utils_Unicode::lessenAsEncoding(strtolower(trim($domain)), 64);
 	if ($domain == $ctx->getProperty('blog.secondaryDomain'))
 		return 0;
 	if (empty($domain))
 		Setting::setBlogSettingGlobal('secondaryDomain','');
-	else if (Validator::domain($domain)) {		
-		if (POD::queryExistence("SELECT * FROM ".$ctx->getProperty('database.prefix')."BlogSettings 
-			WHERE blogid <> $blogid 
+	else if (Validator::domain($domain)) {
+		if (POD::queryExistence("SELECT * FROM ".$ctx->getProperty('database.prefix')."BlogSettings
+			WHERE blogid <> $blogid
 				AND name = 'secondaryDomain'
 				AND (value = '$domain' OR value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
 			return 1;
@@ -147,11 +147,11 @@ function setDefaultDomain($blogid, $default) {
 }
 
 function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSloganOnTag) {
-	$ctx = Model_Context::getInstance();	
+	$ctx = Model_Context::getInstance();
 	$useSloganOnPost     = $useSloganOnPost     ? 1 : 0;
 	$useSloganOnCategory = $useSloganOnCategory ? 1 : 0;
 	$useSloganOnTag      = $useSloganOnTag      ? 1 : 0;
-	if ($useSloganOnPost == $ctx->getProperty('blog.useSloganOnPost') 
+	if ($useSloganOnPost == $ctx->getProperty('blog.useSloganOnPost')
 		&& $useSloganOnCategory == $ctx->getProperty('blog.useSloganOnCategory')
 		&& $useSloganOnTag == $ctx->getProperty('blog.useSloganOnTag'))
 		return true;
@@ -175,7 +175,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 	CacheControl::flushTag();
 	fireEvent('ToggleBlogSlogan',null,$useSloganOnPost);
 	clearFeed();
-	return true; 
+	return true;
 }
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
@@ -227,7 +227,7 @@ function setGuestbook($blogid, $write, $comment) {
 function addBlog($blogid, $userid, $identify) {
 	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
-	
+
 	if(empty($userid)) {
 		$userid = 1; // If no userid, choose the service administrator.
 	} else {
@@ -240,7 +240,7 @@ function addBlog($blogid, $userid, $identify) {
 		$pool->reset('BlogSettings');
 		$pool->setQualirifer('blogid','eq',$blogid);
 		if(!$pool->doesExist('blogid')) return 2; // 2: No blog exists with specific blogid
-	
+
 		// Thus, blog and user exists. Now combine both.
 		$pool->reset('Privileges');
 		$pool->setAttribute('blogid',$blogid);
@@ -256,11 +256,11 @@ function addBlog($blogid, $userid, $identify) {
 		$identify = POD::escapeString(Utils_Unicode::lessenAsEncoding($identify, 32));
 
 		$blogName = $identify;
-		
+
 		$pool->reset('ReservedWords');
 		$pool->setQualifier('word','eq',$blogName,true);
 		$result = $pool->getCount();
-		
+
 		if ($result && $result > 0) {
 			return 60;	// Reserved blog name.
 		}
@@ -268,7 +268,7 @@ function addBlog($blogid, $userid, $identify) {
 		$pool->reset('BlogSettings');
 		$pool->setQualifier('name','eq','name',true);
 		$pool->setQualifier('value','eq',$blogName,true);
-		
+
 		$result = $pool->getCount('value');
 
 		if ($result && $result > 0) {
@@ -276,7 +276,7 @@ function addBlog($blogid, $userid, $identify) {
 		}
 		$pool->reset('BlogSettings');
 		$blogid = $pool->getCell('max(blogid)') + 1;
-				
+
 		$basicInformation = array(
 			'name'         => $identify,
 			'defaultDomain'            => 0,
@@ -301,6 +301,7 @@ function addBlog($blogid, $userid, $identify) {
 			'acceptComments'           => 1,
 			'acceptTrackbacks'         => 1,
 			'visibility'               => 2,
+			'created'                  => Timestamp::getUNIXtime(),
 			'language'     => $ctx->getProperty('service.language'),
 			'blogLanguage' => $ctx->getProperty('service.language'),
 			'timezone'     => $ctx->getProperty('service.timezone'));
@@ -331,16 +332,16 @@ function addBlog($blogid, $userid, $identify) {
 			deleteBlog($blogid);
 			return 62;
 		}
-		
+
 		$pool->reset('FeedGroups');
 		$pool->setAttribute('blogid',$blogid);
 		$pool->setAttribute('id', 0);
-								
+
 		if(!$pool->insert()) {
 			deleteBlog($blogid);
 			return 62;
 		}
-		
+
 		Setting::setBlogSettingGlobal('defaultEditor', 'modern', $blogid);
 		Setting::setBlogSettingGlobal('defaultFormatter', 'ttml', $blogid);
 
@@ -350,7 +351,7 @@ function addBlog($blogid, $userid, $identify) {
 		$pool->setAttribute('userid',$userid);
 		$pool->setAttribute('acl',16);
 		$pool->setAttribute('created',Timestamp::getUNIXtime());
-		$pool->setAttribute('lastlogin',0);						
+		$pool->setAttribute('lastlogin',0);
 		if($pool->insert()) {
 			setDefaultPost($blogid, $userid);
 			return true;
@@ -412,16 +413,16 @@ function getAuthToken($userid){
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
 	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
-	
+
 	if(empty($blogid)) {
 		$pool->reset('BlogSettings');
 		$blogid = $pool->getCell('max(blogid)'); // If no blogid, get the latest created blogid.
 	}
 	$email = User::getEmail($userid);
-	$pool->reset('Users');	
+	$pool->reset('Users');
 	$pool->setQualifier('userid','eq',$userid);
 	$password = getCell('password');
-	
+
 	$authtoken = getAuthToken($userid);
 	$blogName = getBlogName($blogid);
 
@@ -434,7 +435,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 
 	if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return 11;
 
-	//$loginid = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));	
+	//$loginid = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
 	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 32));
 
 	//$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
@@ -475,13 +476,13 @@ function cancelInvite($userid,$clean = true) {
 	$pool->unsetQualifier('lastlogin');
 	$pool->setQualifier('host','eq',getUserId());
 	if($pool->getCount() === 0) return false;
-	
+
 	$blogidWithOwner = User::getOwnedBlogs($userid);
 	foreach($blogidWithOwner as $blogids) {
 		if(deleteBlog($blogids) === false) return false;
 	}
 	$pool->reset('Privileges');
-	$pool->setQualifier('userid','eq',$userid);		
+	$pool->setQualifier('userid','eq',$userid);
 	if($clean && !$pool->getAll()) {
 		User::removePermanent($userid);
 	}
@@ -492,7 +493,7 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 	$pool = DBModel::getInstance();
 	$pool->reset('UserSettings');
 	$ctx = Model_Context::getInstance();
-	
+
 	if (!strlen($pwd) || (!strlen($prevPwd) && !$forceChange))
 		return false;
 	if($forceChange === true) {
@@ -548,21 +549,21 @@ function removeBlog($blogid) {
 	if (Setting::getServiceSetting("defaultBlogId",1,true) == $blogid) {
 		return false;
 	}
-	
+
 	$targets = array('Attachments','BlogSettings','BlogStatistics','Categories','Comments','CommentsNotified',
 		'CommentsNotifiedQueue','DailyStatistics','Entries','EntriesArchive','FeedGroups','FeedReads','FeedStarred',
 		'FeedSettings','Filters','Links','LinkCategories','PageCacheLog','Plugins','RefererLogs', 'RefererStatistics',
 		'RemoteResponses','RemoteResponseLogs','SkinSettings','TagRelations','Privileges','XMLRPCPingSettings');
-	//Clear Tables	
+	//Clear Tables
 	foreach($targets as $t) {
 		$pool->reset($t);
 		$pool->setQualifier('blogid','eq',$blogid);
 		$pool->delete();
-	}	
-	
+	}
+
 	//Delete Tags
 	$tags = POD::queryColumn("SELECT DISTINCT tag FROM ".$ctx->getProperty('database.prefix')."TagRelations WHERE blogid = $blogid");
-	if (count($tags) > 0) 
+	if (count($tags) > 0)
 	{
 		$tagliststr = implode(', ', $tags);	// Tag id used at deleted blog.
 		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM ".$ctx->getProperty('database.prefix')."TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
@@ -573,10 +574,10 @@ function removeBlog($blogid) {
 			POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."Tags WHERE id IN ( $tagliststr ) ");
 		}
 	}
-	
-	//Delete Feeds	
+
+	//Delete Feeds
 	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM ".$ctx->getProperty('database.prefix')."FeedGroupRelations WHERE blogid = $blogid");
-	if (count($feeds) > 0) 
+	if (count($feeds) > 0)
 	{
 		foreach($feeds as $feedId)
 		{
@@ -585,7 +586,7 @@ function removeBlog($blogid) {
 	}
 
 	//Clear Plugin Database
-	// TODO : encapsulate with 'value' 
+	// TODO : encapsulate with 'value'
 	$query = "SELECT name, value FROM ".$ctx->getProperty('database.prefix')."ServiceSettings WHERE name like 'Database\\_%'";
 	$plugintablesraw = POD::queryAll($query);
 	foreach($plugintablesraw as $table) {

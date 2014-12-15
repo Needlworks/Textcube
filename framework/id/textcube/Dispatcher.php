@@ -152,7 +152,8 @@ final class Dispatcher {
 						case 'entry': case 'feeder': case 'foaf': case 'guestbook': case 'iMazing': 
 						case 'keylog': case 'line': case 'location': case 'locationSuggest': 
 						case 'logout': case 'notice': case 'page': case 'plugin': case 'pluginForOwner': 
-						case 'search': case 'stream': case 'suggest': case 'tag': case 'ttxml': 
+						case 'search': case 'stream': case 'suggest': case 'tag': case 'ttxml':
+						case 'imageResizer':	
 							$pathPart = $uri['fragment'][0];
 							$interfacePath = 'interface/blog/'.$pathPart.'.php';
 							break;

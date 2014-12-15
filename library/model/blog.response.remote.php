@@ -9,10 +9,10 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 	if (!is_null($type)) $typeFilter = " AND t.responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '';
-	$sql = "SELECT t.*, c.name AS categoryName 
-		FROM {$database['prefix']}RemoteResponses t 
-		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+	$sql = "SELECT t.*, c.name AS categoryName
+		FROM {$database['prefix']}RemoteResponses t
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id
 		WHERE t.blogid = $blogid AND t.isfiltered = 0 $typeFilter";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
@@ -50,14 +50,14 @@ function getRemoteResponsesWithPaging($blogid, $entryId, $page, $count, $url = n
 	$postfix = '';
 	$authorized = doesHaveOwnership() ? '' : getPrivateCategoryExclusionQuery($blogid);
 
-	$sql = "SELECT t.*, c.name AS categoryName 
-		FROM {$database['prefix']}RemoteResponses t 
-		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+	$sql = "SELECT t.*, c.name AS categoryName
+		FROM {$database['prefix']}RemoteResponses t
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id
 		WHERE t.blogid = $blogid AND t.isfiltered = 0 $authorized $typeFilter";
 	$sql .= ' ORDER BY t.written DESC';
 	list($responses, $paging) = Paging::fetch($sql, $page, $count, $url, $prefix, $countItem);
-	$paging['postfix'] .= $postfix; 
+	$paging['postfix'] .= $postfix;
 	return array($responses, $paging);
 }
 
@@ -66,10 +66,10 @@ function getRemoteResponseLogsWithPagingForOwner($blogid, $category, $site, $ip,
 	if (!is_null($type)) $typeFilter = " AND t.responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$postfix = '&amp;status=sent';
-	$sql = "SELECT t.*, e.title AS subject, c.name AS categoryName 
-		FROM {$database['prefix']}RemoteResponseLogs t 
-		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
+	$sql = "SELECT t.*, e.title AS subject, c.name AS categoryName
+		FROM {$database['prefix']}RemoteResponseLogs t
+		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
+		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id
 		WHERE t.blogid = $blogid $typeFilter";
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
@@ -96,11 +96,11 @@ function getRemoteResponses($entry, $type = null) {
 	if (!is_null($type)) $typeFilter = " AND responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
 	$responses = array();
-	$result = POD::queryAll("SELECT * 
-			FROM {$database['prefix']}RemoteResponses 
-			WHERE blogid = ".getBlogId()." 
-				AND entry = $entry 
-				AND isfiltered = 0 $typeFilter 
+	$result = POD::queryAll("SELECT *
+			FROM {$database['prefix']}RemoteResponses
+			WHERE blogid = ".getBlogId()."
+				AND entry = $entry
+				AND isfiltered = 0 $typeFilter
 			ORDER BY written");
 	if(!empty($result)) $responses = $result;
 //	while ($response = POD::fetch($result))
@@ -120,11 +120,11 @@ function getRemoteResponseList($blogid, $search, $type = null) {
 		LEFT JOIN {$database['prefix']}Entries e ON t.entry = e.id AND t.blogid = e.blogid AND e.draft = 0
 		WHERE  t.blogid = $blogid
 			AND t.isfiltered = 0
-			AND t.entry > 0 $authorized $typeFilter 
+			AND t.entry > 0 $authorized $typeFilter
 			AND (t.excerpt like '%$search%' OR t.subject like '%$search%')")) {
-		foreach($result as $response)	
+		foreach($result as $response)
 			array_push($list['items'], $response);
-	}   
+	}
 	return $list;
 }
 
@@ -132,27 +132,27 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 	global $database, $skinSetting;
 	if (!is_null($type)) $typeFilter = " AND t.responsetype = '".POD::escapeString($type)."'";
 	else $typeFilter = '';
-	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan 
-		FROM 
+	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT t.*, e.slogan
+		FROM
 			{$database['prefix']}RemoteResponses t
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0
-		WHERE 
-			t.blogid = $blogid AND t.isfiltered = 0 $typeFilter 
-		ORDER BY 
-			t.written 
-		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) : 
-		"SELECT t.*, e.slogan 
-		FROM 
-			{$database['prefix']}RemoteResponses t 
+		WHERE
+			t.blogid = $blogid AND t.isfiltered = 0 $typeFilter
+		ORDER BY
+			t.written
+		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']) :
+		"SELECT t.*, e.slogan
+		FROM
+			{$database['prefix']}RemoteResponses t
 			LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id
-		WHERE 
-			t.blogid = $blogid 
-			AND t.isfiltered = 0 
-			AND e.draft = 0 
+		WHERE
+			t.blogid = $blogid
+			AND t.isfiltered = 0
+			AND e.draft = 0
 			AND e.visibility >= 2 ".getPrivateCategoryExclusionQuery($blogid)."
 			$typeFilter
-		ORDER BY 
-			t.written 
+		ORDER BY
+			t.written
 		DESC LIMIT ".($count != false ? $count : $skinSetting['trackbacksOnRecent']);
 	if ($result = POD::queryAllWithDBCache($sql,'remoteResponse')) {
 		return $result;
@@ -189,6 +189,27 @@ function trashRemoteResponse($blogid, $id) {
 	CacheControl::flushDBCache('remoteResponse');
 	if (updateRemoteResponsesOfEntry($blogid, $entry))
 		return $entry;
+	return false;
+}
+
+function trashRemoteResponsesByIP($blogid, $ip) {
+	$pool = DBModel::getInstance();
+	$pool->reset("RemoteResponses");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("ip","eq",$ip,true);
+	$affectedEntries = $pool->getColumn("entry");
+	$pool->reset("RemoteResponses");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("ip","eq",$ip,true);
+	$pool->setAttribute("isfiltered",Timestamp::getUNIXtime());
+	if ($pool->update()) {
+		CacheControl::flushDBCache('trackback');
+		CacheControl::flushDBCache('remoteResponse');
+		foreach ($affectedEntries as $entry) {
+			updateRemoteResponsesOfEntry($blogid, $entry);
+		}
+		return true;
+	}
 	return false;
 }
 
@@ -249,15 +270,15 @@ function getRemoteResponseCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId)) {
 		$result = POD::queryRow("SELECT SUM(trackbacks) AS t, SUM(pingbacks) AS p
-				FROM {$database['prefix']}Entries 
-				WHERE blogid = $blogid 
+				FROM {$database['prefix']}Entries
+				WHERE blogid = $blogid
 					AND draft= 0");
 		return $result['t'] + $result ['p'];
 	} else {
-		$result = POD::queryRow("SELECT trackbacks, pingbacks 
-			FROM {$database['prefix']}Entries 
-			WHERE blogid = $blogid 
-				AND id = $entryId 
+		$result = POD::queryRow("SELECT trackbacks, pingbacks
+			FROM {$database['prefix']}Entries
+			WHERE blogid = $blogid
+				AND id = $entryId
 				AND draft= 0");
 		return $result['trackbacks'] + $result['pingbacks'];
 	}
@@ -304,9 +325,9 @@ function receiveTrackback($blogid, $entry, $title, $url, $excerpt, $site) {
 	$post = new Post;
 	if (!$post->doesAcceptTrackback($entry))
 		return 3;
-		
+
 	$filtered = 0;
-	
+
 	if (!Filter::isAllowed($url)) {
 		if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']) || Filter::isFiltered('url', $url))
 			$filtered = 1;
@@ -392,7 +413,7 @@ function sendTrackback($blogid, $entryId, $url) {
 		$request->contentType = 'application/x-www-form-urlencoded; charset=utf-8';
 		$isSuccess = $request->send($content);
 	}
-	
+
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
 //		$url = POD::escapeString(Utils_Unicode::lessenAsEncoding($url, 255));
 		$trackbacklog = new TrackbackLog;
@@ -420,14 +441,14 @@ function deleteTrackbackLog($blogid, $id) {
 function getTrackbackCount($blogid, $entryId = null) {
 	global $database;
 	if (is_null($entryId))
-		return POD::queryCell("SELECT SUM(trackbacks) 
-				FROM {$database['prefix']}Entries 
-				WHERE blogid = $blogid 
+		return POD::queryCell("SELECT SUM(trackbacks)
+				FROM {$database['prefix']}Entries
+				WHERE blogid = $blogid
 					AND draft= 0");
-	return POD::queryCell("SELECT trackbacks 
-			FROM {$database['prefix']}Entries 
-			WHERE blogid = $blogid 
-				AND id = $entryId 
+	return POD::queryCell("SELECT trackbacks
+			FROM {$database['prefix']}Entries
+			WHERE blogid = $blogid
+				AND id = $entryId
 				AND draft= 0");
 }
 
@@ -435,7 +456,7 @@ function getTrackbackCount($blogid, $entryId = null) {
 function getTrackbackCountPart($trackbackCount, &$skin) {
 	$noneTrackbackMessage = $skin->noneTrackbackMessage;
 	$singleTrackbackMessage = $skin->singleTrackbackMessage;
-	
+
 	if ($trackbackCount == 0 && !empty($noneTrackbackMessage)) {
 		dress('article_rep_tb_cnt', 0, $noneTrackbackMessage);
 		$trackbackView = $noneTrackbackMessage;
@@ -447,7 +468,7 @@ function getTrackbackCountPart($trackbackCount, &$skin) {
 		dress('article_rep_tb_cnt', $trackbackCount, $trackbackPart);
 		$trackbackView = $trackbackPart;
 	}
-	
+
 	return array("tb_count", $trackbackView);
 }
 

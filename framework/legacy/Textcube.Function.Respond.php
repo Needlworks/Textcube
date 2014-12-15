@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Respond {
-	function ResultPage($errorResult) {
+	static function ResultPage($errorResult) {
 		if (is_array($errorResult) && count($errorResult) < 2) {
 			$errorResult = array_shift($errorResult);
 		}
@@ -23,7 +23,7 @@ class Respond {
 		exit;
 	}
 	
-	function PrintResult($result, $useCDATA=true) {
+	static function PrintResult($result, $useCDATA=true) {
 		header('Content-Type: text/xml; charset=utf-8');
 		$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
 		$xml .= "<response>\n";
@@ -32,20 +32,20 @@ class Respond {
 		die($xml);
 	}
 	
-	function NotFoundPage($isAjaxCall = false) {
+	static function NotFoundPage($isAjaxCall = false) {
 		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
 		header('HTTP/1.1 404 Not Found');
 		header("Connection: close");
 		exit;
 	}
 	
-	function ForbiddenPage() {
+	static function ForbiddenPage() {
 		header('HTTP/1.1 403 Forbidden');
 		header("Connection: close");
 		exit;
 	}
 	
-	function MessagePage($message) {
+	static function MessagePage($message) {
 		global $service;
 ?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -70,7 +70,7 @@ class Respond {
 		exit;
 	}
 	
-	function AlertPage($message) {
+	static function AlertPage($message) {
 ?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
@@ -88,7 +88,7 @@ class Respond {
 		exit;
 	}
 	
-	function ErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL, $isAjaxCall = false) {
+	static function ErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL, $isAjaxCall = false) {
 		global $service;
 		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
 ?>
@@ -114,7 +114,7 @@ class Respond {
 		exit;
 	}
 	
-	function NoticePage($message, $redirection) {
+	static function NoticePage($message, $redirection) {
 ?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
@@ -133,7 +133,7 @@ class Respond {
 		exit;
 	}
 
-	function PrintValue($array, $useCDATA=true) {
+	static function PrintValue($array, $useCDATA=true) {
 		$xml = '';
 		if(is_array($array)) {
 			foreach($array as $key => $value) {
@@ -156,11 +156,11 @@ class Respond {
 		return $xml;
 	}
 	
-	function escapeJSInAttribute($str) {
+	static function escapeJSInAttribute($str) {
 		return htmlspecialchars(str_replace(array('\\', '\r', '\n', '\''), array('\\\\', '\\r', '\\n', '\\\''), $str));
 	}
 
-	function escapeCData($str) {
+	static function escapeCData($str) {
 		return str_replace(']]>', ']]&gt;', $str);
 	}
 }

@@ -49,5 +49,83 @@ ul.tags {
 .widget {
     border-bottom: 1px solid #ddd;
 }
+
+.page-header h1 {
+	font-size:1.5em;
+}
+
+.imageblock img {
+	border:1px solid #ddd;
+	padding:5px;
+	margin:5px auto;
+}
+
+ul.pagination  {
+	margin-left: 0;
+	margin-bottom: 18px;
+	list-style: none;
+	text-align: center;
+}
+
+ul.pagination:before,
+ul.pagination:after {
+	display: table;
+	content: "";
+}
+ul.pagination:after {
+	clear: both;
+}
+ul.pagination li {
+	display: inline;
+}
+ul.pagination a {
+	display: inline-block;
+	padding: 5px 14px;
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+ul.pagination a:hover {
+	text-decoration: none;
+	background-color: #f5f5f5;
+}
+ul.pagination .next a {
+	float: right;
+}
+ul.pagination .previous a {
+	float: left;
+}
+ul.pagination .disabled a,
+ul.pagination .disabled a:hover {
+	color: #999999;
+	background-color: #fff;
+	cursor: default;
+}
+/*
+ul.pagination li:not(:first-child):not(:last-child) {
+	display:none;
+}*/
+.comments h1 {
+	font-size:1.4em;
+}
+
+.comments h2 {
+	font-size:1.2em;
+}
+
+
+.summary {
+	margin-top:20px;
+	padding-top:20px;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+dl.information dt,
+dl.response dt {
+	padding-top:5px;
+}
+
+.categoryFeed span {
+	display:none;
+}
 #namecardWidget .thumbnail { display: inline-block; border: 0 none;}
 #extramenuWidget .btn { text-align: left; }

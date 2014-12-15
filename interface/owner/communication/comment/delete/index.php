@@ -5,7 +5,8 @@
 $IV = array(
 	'POST' => array(
 		'targets' => array('list', 'default' => '', 'mandatory' => false),
-		'ip' => array('ip', 'default' => '', 'mandatory' => false)
+		'ip' => array('ip', 'default' => '', 'mandatory' => false),
+		'targetIPs' => array('string', 'default' => '', 'mandatory' => false)
 	)
 );
 require ROOT . '/library/preprocessor.php';
@@ -22,6 +23,13 @@ if(isset($suri['id'])) {
 	if(!empty($_POST['targets'])) {
 		foreach(explode(',', $_POST['targets']) as $target)
 			trashCommentInOwner($blogid, $target);
+	}
+	if(!empty($_POST['targetIPs'])) {
+		$targetIPs = array_unique(explode(',', $_POST['targetIPs']));
+		foreach($targetIPs as $target) {
+			if (Validator::ip($target))
+				trashCommentInOwnerByIP($blogid, $target);
+		}
 	}
 	if(!empty($_POST['ip'])) {
 			trashCommentInOwnerByIP($blogid, $_POST['ip']);

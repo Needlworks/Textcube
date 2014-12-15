@@ -27,7 +27,7 @@ if (!empty($listView)) {
 				((!empty($skinSetting['showListWithTotalEntries'])) ? "#entry_".$item['id'] :
 				$context->getProperty('uri.blog')."/" . ($context->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($item['slogan'],$service['useEncodedURL']) : $item['id'])).(isset($list['category']) ? '?category='.$list['category'] : ''),
 				fireEvent('ViewListTitle', htmlspecialchars($item['title'])),
-				($item['comments'] > 0) ? "({$item['comments']})" : ''
+				($item['comments'] > 0) ? "{$item['comments']}" : ''
 			),
 			$skin->listItem
 		);

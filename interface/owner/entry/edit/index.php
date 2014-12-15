@@ -112,24 +112,24 @@ if (defined('__TEXTCUBE_POST__')) {
 								}
 								function setEnclosure(value) {
 									var filename = value.substring(0, value.indexOf("|"));
-									
+
 									if(document.getElementById("TCfilelist").selectedIndex == -1) {
 										alert("<?php echo _t('파일을 선택하십시오.');?>");
 										return false;
 									}
-									
+
 									if(!(new RegExp("\.mp3$", "i").test(filename))) {
 										alert("<?php echo _t('MP3만 사용할 수 있습니다.');?>");
 										return false;
 									}
-									
+
 									try {
-										if(STD.isIE) 
+										if(STD.isIE)
 											var uploader = document.getElementById("uploader");
-										else 
+										else
 											var uploader = document.getElementById("uploader2");
 									} catch(e) { }
-									
+
 									if(filename == enclosured) {
 										var order = 0;
 										try { uploader.SetVariable("/:enclosure", ""); } catch(e) { }
@@ -148,7 +148,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											fileList[i].style.backgroundColor = (order == 1 && fileList[i].value.indexOf(filename) == 0) ? "#c6a6e7" : "#fff";
 										enclosured = (order == 1) ? filename : "";
 									}
-									
+
 									request.onError= function () {
 										PM.removeRequest(this);
 										alert("<?php echo _t('변경하지 못했습니다.');?>");
@@ -156,7 +156,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									PM.addRequest(request, "<?php echo _t('변경하고 있습니다.');?>");
 									request.send("fileName=" + encodeURIComponent(filename) + "&order=" + order);
 								}
-								
+
 								var star = <?php echo ($entry['starred'] == 2 ? 'true' : 'false');?>;
 
 								function setStar() {
@@ -207,12 +207,12 @@ if (isset($_GET['returnURL'])) {
 									this.returnURL = null;
 <?php
 }
-?>							
+?>
 									this.getData = function (check) {
 										if (check == undefined)
 											check = false;
 										var oForm = document.getElementById('editor-form');
-										
+
 										var title = trim(oForm.title.value);
 										var permalink = trim(oForm.permalink.value);
 										if (check && (title.length == 0)) {
@@ -263,7 +263,7 @@ if (isset($_GET['returnURL'])) {
 											alert("<?php echo _t('본문을 입력해 주십시오.');?>");
 											return null;
 										}
-											
+
 										var locationValue = "/";
 										try {
 											locationValue = oLocationTag.getValues();
@@ -308,7 +308,7 @@ if (isset($_GET['returnURL'])) {
 											}
 											published = Math.floor(published / 1000);
 										}
-										
+
 										return (
 											"visibility=" + visibility +
 											"&starred=" + starred +
@@ -327,9 +327,9 @@ if (isset($_GET['returnURL'])) {
 											"&accepttrackback=" + (oForm.accepttrackback.checked ? 1 : 0)
 										);
 									}
-									
+
 									this.setEnclosure = function(fileName) {
-										
+
 									}
 									this.loadTemplate = function (templateId,title) {
 										editor.syncTextarea();
@@ -369,8 +369,7 @@ if (isset($_GET['returnURL'])) {
 											+"&isSaved="+entryManager.isSaved
 											+"&entryId="+entryManager.entryId);
 									}
-
-									this.save = function () {
+									this.saveEntry = function () {
 										if(this.nowsaving == true)
 											return false;
 										this.nowsaving = true;
@@ -381,7 +380,7 @@ if (isset($_GET['returnURL'])) {
 										}
 										if (data == entryManager.savedData) {
 											this.nowsaving = false;
-											return false;											
+											return false;
 										}
 										if(entryManager.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/draft/"+entryManager.entryId);
@@ -532,14 +531,14 @@ if (isset($_GET['popupEditor'])) {
 											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
 											return;
 										}
-										this.save();
+										entryManager.saveEntry();
 										return;
 									}
 
 									this.preview = function () {
 										this.isPreview = true;
-										if (!this.save()) {
-											this.openPreviewPopup();
+										if (!this.saveEntry()) {
+											entryManager.openPreviewPopup();
 											this.isPreview = false;
 										}
 										return;
@@ -557,7 +556,7 @@ if (isset($_GET['popupEditor'])) {
 									request.send();
 								}
 								window.setInterval("keepSessionAlive()", 600000);
-								
+
 								function checkCategory(type) {
 									switch(type) {
 										case "type_keyword":
@@ -637,11 +636,11 @@ if (defined('__TEXTCUBE_POST__')) {
 	echo _f('선택한 %1 수정',$titleText);
 }
 ?></span></h2>
-									
+
 								<div id="editor" class="data-inbox">
 									<div id="title-section" class="section">
 										<h3><?php echo _t('머리말');?></h3>
-										
+
 										<dl id="title-line" class="line">
 											<dt><label for="title" id="title-line-label"><?php echo $isKeyword ? _t('키워드') : _t('제목');?></label></dt>
 											<dd>
@@ -686,10 +685,10 @@ if (defined('__TEXTCUBE_POST__')) {
 											</dd>
 										</dl>
 									</div>
-									
+
 									<div id="textarea-section" class="section">
 										<h3><?php echo _t('본문');?></h3>
-										
+
 										<dl class="editoroption">
 											<dt><label for="contentformatter"><?php echo _t('포매터');?></label></dt>
 											<dd><select id="contentformatter" name="contentformatter" onchange="return setFormatter(this.value, document.getElementById('contenteditor'), changeEditor);">
@@ -713,7 +712,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											</select></dd>
 										</dl>
 										<div id="formatbox-container" class="container"></div>
-										<textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content']);?></textarea>
+										<div class="editorbox-container"><textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content']);?></textarea></div>
 										<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path');?></span><span class="divider"> : </span><span id="pathContent"></span></div>
 <?php
 	$view = fireEvent('AddPostEditorToolbox', '');
@@ -723,7 +722,7 @@ if (defined('__TEXTCUBE_POST__')) {
 <?php
 	}
 ?>
-										
+
 										<div id="templateDialog" class="entry-editor-property<?php echo defined('__TEXTCUBE_POST__') ? NULL : ' hidden';?>">
 											<div class="temp-box">
 												<h4><?php echo _t('서식 선택');?></h4>
@@ -745,14 +744,14 @@ if (count($templateLists) == 0) {
 }
 ?>
 												</dl>
-												
+
 												<div class="button-box">
 													<button class="close-button input-button" onclick="toggleTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 									 			</div>
 									 		</div>
 								 		</div>
 									</div>
-									
+
 									<hr class="hidden" />
 
 									<div id="setting-section">
@@ -776,7 +775,7 @@ $param = array(
 printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 ?>
 											</div>
-										
+
 											<div id="insert-container" class="container">
 												<a class="image-left" href="#void" onclick="editorAddObject(editor, 'Image1L');return false;" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
 												<a class="image-center" href="#void" onclick="editorAddObject(editor, 'Image1C');return false;" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
@@ -796,32 +795,32 @@ printEntryFileUploadButton($entry['id']);
 									</div>
 
 									<hr class="hidden" />
-									
+
 									<div id="taglocal-section" class="section">
 										<h3><a href="#void" onclick="focusLayer('tag-location-container',settingMenus);return false;"><?php echo _t('태그 &amp; 위치');?></a></h3>
-												
+
 										<div id="tag-location-container" class="container">
 											<dl id="tag-line">
 												<dt><span class="label"><?php echo _t('태그');?></span></dt>
 												<dd id="tag"></dd>
 											</dl>
-											
+
 											<dl id="location-line">
 												<dt><span class="label"><?php echo _t('지역');?></span></dt>
 												<dd id="location"></dd>
 											</dl>
-											
+
 											<script type="text/javascript">
 												//<![CDATA[
 													try {
 														var oLocationTag = new LocationTag(document.getElementById("location"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
 														oLocationTag.setInputClassName("input-text");
-														oLocationTag.setValue("<?php echo addslashes($entry['location']);?>");	
+														oLocationTag.setValue("<?php echo addslashes($entry['location']);?>");
 													} catch (e) {
 														document.getElementById("location").innerHTML = '<input type="text" class="input-text" name="location" value="<?php echo addslashes($entry['location']);?>" /><br /><?php echo _t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해 주십시오.(예: /대한민국/서울/강남역)');?>';
 														// TODO : 이부분(스크립트를 실행할 수 없는 환경일 때)은 직접 입력보다는 0.96 스타일의 팝업이 좋을 듯
 													}
-													
+
 													try {
 														var oTag = new Tag(document.getElementById("tag"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
 														oTag.setInputClassName("input-text");
@@ -838,7 +837,7 @@ printEntryFileUploadButton($entry['id']);
 														document.getElementById("tag").innerHTML = '<input type="text" class="input-text" name="tag" value="<?php echo addslashes(str_replace('"', '&quot;', implode(', ', $tags)));?>" /><br /><?php echo _t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 텍스트큐브, BLOG, 테스트)');?>';
 													}
 												//]]>
-											</script> 
+											</script>
 										</div>
 									</div>
 
@@ -846,7 +845,7 @@ printEntryFileUploadButton($entry['id']);
 
 									<div id="power-section" class="section">
 										<h3><a href="#void" onclick="focusLayer('power-container',settingMenus);return false;"><?php echo _t('기타 설정');?></a></h3>
-										
+
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
@@ -890,7 +889,7 @@ if (defined('__TEXTCUBE_POST__')) {
 													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();">'._t('설명').'</a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
-											
+
 											<dl id="power-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
@@ -902,7 +901,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									</div>
 									</div><!-- setting-section -->
 									<hr class="hidden clear" />
-									
+
 									<div id="save-section">
 <?php
 if (isset($_GET['popupEditor'])) {
@@ -912,7 +911,7 @@ if (isset($_GET['popupEditor'])) {
 											<span class="hidden">|</span>
 											<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" id="saveAndReturnButton" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+											<input type="submit" id="saveAndReturnButton" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 										</div>
 <?php
 } else {
@@ -930,11 +929,11 @@ if (isset($_GET['popupEditor'])) {
 }
 ?>
 									</div>
-									
+
 									<hr class="hidden" />
-									
+
 								</div>
-								
+
 								<input type="hidden" name="categoryAtHome" value="<?php echo (isset($_POST['category']) ? $_POST['category'] : '0');?>" />
 								<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 								<input type="hidden" name="withSearch" value="<?php echo (empty($_POST['search']) ? '' : 'on');?>" />
@@ -973,9 +972,9 @@ switch($entry['category']) {
 	default:
 		echo 'type_post';break;
 		}?>');
-		
+
 							//]]>
-						</script> 
+						</script>
 <?php
 if (isset($_GET['popupEditor']))
 	require ROOT . '/interface/common/owner/footerForPopupEditor.php';

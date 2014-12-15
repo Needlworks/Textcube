@@ -6,7 +6,7 @@
 // Dependency : Textcube.Model.Paging (getRefererLogsWithPage)
 
 class Statistics {
-	function getStatistics($blogid) {
+	static function getStatistics($blogid) {
 		global $database;
 		$stats = array('total' => 0, 'today' => 0, 'yesterday' => 0);
 		$result = POD::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");
@@ -22,7 +22,7 @@ class Statistics {
 		return $stats;
 	}
 
-	function getDailyStatistics($period) {
+	static function getDailyStatistics($period) {
 		global $database, $blogid;
 		return POD::queryAll("SELECT datemark, visits 
 			FROM {$database['prefix']}DailyStatistics 
@@ -31,14 +31,14 @@ class Statistics {
 			ORDER BY datemark DESC");
 	}
 	
-	function getWeeklyStatistics() {
+	static function getWeeklyStatistics() {
 		global $database, $blogid;
 		$now_day = date('Ymd', strtotime("now"));
 		$old_day = date('Ymd', strtotime("-1 week"));
 		return POD::queryAll("SELECT datemark, visits FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid AND datemark BETWEEN $old_day AND $now_day ORDER BY datemark DESC");
 	}
 
-	function getMonthlyStatistics($blogid) {
+	static function getMonthlyStatistics($blogid) {
 		global $database;
 		$statistics = array();
 		if ($result = POD::queryAll("SELECT left(datemark, 6) datemark, sum(visits) visits 
@@ -52,7 +52,7 @@ class Statistics {
 		return $statistics;
 	}
 
-	function getRefererStatistics($blogid) {
+	static function getRefererStatistics($blogid) {
 		global $database;
 		$statistics = array();
 		if ($result = POD::queryAll("SELECT host, count FROM {$database['prefix']}RefererStatistics WHERE blogid = $blogid ORDER BY COUNT DESC LIMIT 20")) {
@@ -62,17 +62,17 @@ class Statistics {
 		return $statistics;
 	}
 
-	function getRefererLogsWithPage($page, $count) {  
+	static function getRefererLogsWithPage($page, $count) {  
 		global $database, $blogid;
 		return Paging::fetch("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
 	}
 
-	function getRefererLogs() {
+	static function getRefererLogs() {
 		global $database;
 		return POD::queryAll("SELECT host, url, referred FROM {$database['prefix']}RefererLogs WHERE blogid = ".getBlogId()." ORDER BY referred DESC LIMIT 1500");
 	}
 
-	function updateVisitorStatistics($blogid) {
+	static function updateVisitorStatistics($blogid) {
 		global $database, $blogURL;
 		if (!fireEvent('UpdatingVisitorStatistics', true))
 			return;
@@ -108,7 +108,7 @@ class Statistics {
 		}
 	}
 
-	function setTotalStatistics($blogid) {
+	static function setTotalStatistics($blogid) {
 		global $database;
 		POD::execute("DELETE FROM {$database['prefix']}DailyStatistics WHERE blogid = $blogid");
 		$prevCount = POD::queryCell("SELECT visits FROM {$database['prefix']}BlogStatistics WHERE blogid = $blogid");

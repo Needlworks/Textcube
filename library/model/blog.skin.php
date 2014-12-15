@@ -184,9 +184,13 @@ function selectSkin($blogid, $skinName) {
 			foreach ($xmls->selectNodes('/skin/support') as $support) {
 				if (!empty($support['.attributes']['mobile']) && $support['.attributes']['mobile'] == "yes") {
 					/// Main skin supports mobile, too.
-					//Setting::setBlogSetting('useiPhoneUI',false,true);
+					Setting::setBlogSetting('useiPhoneUI',0,true);
+				} else {
+					Setting::setBlogSetting('useiPhoneUI',1,true);
 				}
 			}
+		} else {
+			Setting::setBlogSetting('useiPhoneUI',1,true);
 		}	
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none');

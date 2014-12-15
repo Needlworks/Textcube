@@ -77,7 +77,7 @@ if ($category->open()) {
 $post = new Post();
 if ($post->open('', '*', 'published, id')) {
 	do {
-		$writer->write('<post slogan="' . htmlspecialchars($post->slogan) . '"' . $newlineStyle . '>' . 
+		$writer->write('<post slogan="' . htmlspecialchars($post->slogan) . '"' . $newlineStyle . '>' .
 			'<id>' . $post->id . '</id>');
 		if ($post->visibility == 'appointed') { // for backward compatibility
 			$writer->write('<appointed>true</appointed>');
@@ -86,15 +86,15 @@ if ($post->open('', '*', 'published, id')) {
 			$writer->write('<appointed>false</appointed>');
 			$writer->write('<visibility>' . $post->visibility . '</visibility>');
 		}
-		$writer->write('<starred>' . $post->starred . '</starred>' . 
-			'<title>' . htmlspecialchars($post->title) . '</title>' . 
-			'<content formatter="' . htmlspecialchars($post->contentformatter) . '" editor="' . htmlspecialchars($post->contenteditor) .'">' . htmlspecialchars(Utils_Unicode::correct($post->content)) . '</content>' . 
-			'<location>' . htmlspecialchars($post->location) . '</location>' . 
-			(!is_null($post->password) ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') . 
-			'<acceptComment>' . $post->acceptcomment . '</acceptComment>' . 
-			'<acceptTrackback>' . $post->accepttrackback . '</acceptTrackback>' . 
-			'<published>' . $post->published . '</published>' . 
-			'<created>' . $post->created . '</created>' . 
+		$writer->write('<starred>' . $post->starred . '</starred>' .
+			'<title>' . htmlspecialchars($post->title) . '</title>' .
+			'<content formatter="' . htmlspecialchars($post->contentformatter) . '" editor="' . htmlspecialchars($post->contenteditor) .'">' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' .
+			'<location>' . htmlspecialchars($post->location) . '</location>' .
+			(!is_null($post->password) ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') .
+			'<acceptComment>' . $post->acceptcomment . '</acceptComment>' .
+			'<acceptTrackback>' . $post->accepttrackback . '</acceptTrackback>' .
+			'<published>' . $post->published . '</published>' .
+			'<created>' . $post->created . '</created>' .
 			'<modified>' . $post->modified . '</modified>' .
 			'<longitude>'. $post->longitude . '</longitude>'.
 			'<latitude>'. $post->latitude. '</latitude>');
@@ -198,14 +198,14 @@ if ($page->open()) {
 $notice = new Notice();
 if ($notice->open()) {
 	do {
-		$writer->write('<notice' . ' slogan="' . htmlspecialchars($notice->slogan) . '"' . $newlineStyle . '>' . 
-			'<id>' . $notice->id . '</id>' . 
-			'<visibility>' . $notice->visibility . '</visibility>' . 
-			'<starred>' . $notice->starred . '</starred>' . 
-			'<title>' . htmlspecialchars(Utils_Unicode::correct($notice->title)) . '</title>' . 
-			'<content formatter="' . htmlspecialchars($notice->contentformatter) . '" editor="' . htmlspecialchars($notice->contenteditor) .'">' . htmlspecialchars(Utils_Unicode::correct($notice->content)) . '</content>' . 
-			'<published>' . $notice->published . '</published>' . 
-			'<created>' . $notice->created . '</created>' . 
+		$writer->write('<notice' . ' slogan="' . htmlspecialchars($notice->slogan) . '"' . $newlineStyle . '>' .
+			'<id>' . $notice->id . '</id>' .
+			'<visibility>' . $notice->visibility . '</visibility>' .
+			'<starred>' . $notice->starred . '</starred>' .
+			'<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' .
+			'<content formatter="' . htmlspecialchars($notice->contentformatter) . '" editor="' . htmlspecialchars($notice->contenteditor) .'">' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' .
+			'<published>' . $notice->published . '</published>' .
+			'<created>' . $notice->created . '</created>' .
 			'<modified>' . $notice->modified . '</modified>');
 
 		$writer->write(CRLF);
@@ -230,14 +230,14 @@ if ($notice->open()) {
 $keyword = new Keyword();
 if ($keyword->open()) {
 	do {
-		$writer->write('<keyword' . $newlineStyle . '>' . 
-			'<id>' . $keyword->id . '</id>' . 
-			'<visibility>' . $keyword->visibility . '</visibility>' . 
-			'<starred>' . $keyword->starred . '</starred>' . 			
-			'<name>' . htmlspecialchars(Utils_Unicode::correct($keyword->name)) . '</name>' . 
-			'<description editor="' . htmlspecialchars($keyword->descriptionEditor) . '" formatter="' . htmlspecialchars($keyword->descriptionFormatter) .'">' . htmlspecialchars(Utils_Unicode::correct($keyword->description)) . '</description>' .
-			'<published>' . $keyword->published . '</published>' . 
-			'<created>' . $keyword->created . '</created>' . 
+		$writer->write('<keyword' . $newlineStyle . '>' .
+			'<id>' . $keyword->id . '</id>' .
+			'<visibility>' . $keyword->visibility . '</visibility>' .
+			'<starred>' . $keyword->starred . '</starred>' .
+			'<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' .
+			'<description editor="' . htmlspecialchars($keyword->descriptionEditor) . '" formatter="' . htmlspecialchars($keyword->descriptionFormatter) .'">' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' .
+			'<published>' . $keyword->published . '</published>' .
+			'<created>' . $keyword->created . '</created>' .
 			'<modified>' . $keyword->modified . '</modified>');
 
 		$writer->write(CRLF);
@@ -307,10 +307,10 @@ if ($cmtNotified->open()) {
 		$site->close();
 		$writer->write('<remoteId>' . $cmtNotified->remoteid . '</remoteId>');
 		$writer->write('<isNew>' . $cmtNotified->isnew . '</isNew>');
-		$writer->write('<url>' . htmlspecialchars(Utils_Unicode::correct($cmtNotified->url)). '</url>');
-		$writer->write('<entryTitle>' . htmlspecialchars(Utils_Unicode::correct($cmtNotified->entrytitle)). '</entryTitle>');
-		$writer->write('<entryUrl>' . htmlspecialchars(Utils_Unicode::correct($cmtNotified->entryurl)). '</entryUrl>');
-		$writer->write('</comment>');		
+		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotified->url)). '</url>');
+		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entrytitle)). '</entryTitle>');
+		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryurl)). '</entryUrl>');
+		$writer->write('</comment>');
 		$writer->write(CRLF);
 	} while ($cmtNotified->shift());
 	$writer->write('</commentsNotified>');
@@ -363,31 +363,31 @@ if ($statistics->open()) {
 }
 $setting = new SkinSetting();
 if ($setting->load()) {
-	$writer->write('<skin>' . 
-		'<name>' . $setting->skin . '</name>' . 
-		'<entriesOnRecent>' . $setting->entriesOnRecent . '</entriesOnRecent>' . 
-		'<commentsOnRecent>' . $setting->commentsOnRecent . '</commentsOnRecent>' . 
-		'<trackbacksOnRecent>' . $setting->trackbacksOnRecent . '</trackbacksOnRecent>' . 
-		'<commentsOnGuestbook>' . $setting->commentsOnGuestbook . '</commentsOnGuestbook>' . 
-		'<tagsOnTagbox>' . $setting->tagsOnTagbox . '</tagsOnTagbox>' . 
-		'<alignOnTagbox>' . $setting->alignOnTagbox . '</alignOnTagbox>' . 
-		'<expandComment>' . $setting->expandComment . '</expandComment>' . 
-		'<expandTrackback>' . $setting->expandTrackback . '</expandTrackback>' . 
-		'<recentNoticeLength>' . $setting->recentNoticeLength . '</recentNoticeLength>' . 
-		'<recentEntryLength>' . $setting->recentEntryLength . '</recentEntryLength>' . 
-		'<recentTrackbackLength>' . $setting->recentTrackbackLength . '</recentTrackbackLength>' . 
-		'<linkLength>' . $setting->linkLength . '</linkLength>' . 
-		'<showListOnCategory>' . $setting->showListOnCategory . '</showListOnCategory>' . 
-		'<showListOnArchive>' . $setting->showListOnArchive . '</showListOnArchive>' . 
-		'<tree>' . 
-			'<name>' . $setting->tree . '</name>' . 
-			'<color>' . $setting->colorOnTree . '</color>' . 
-			'<bgColor>' . $setting->bgcolorOnTree . '</bgColor>' . 
-			'<activeColor>' . $setting->activecolorOnTree . '</activeColor>' . 
-			'<activeBgColor>' . $setting->activebgcolorOnTree . '</activeBgColor>' . 
-			'<labelLength>' . $setting->labelLengthOnTree . '</labelLength>' . 
-			'<showValue>' . $setting->showValueOnTree . '</showValue>' . 
-		'</tree>' . 
+	$writer->write('<skin>' .
+		'<name>' . $setting->skin . '</name>' .
+		'<entriesOnRecent>' . $setting->entriesOnRecent . '</entriesOnRecent>' .
+		'<commentsOnRecent>' . $setting->commentsOnRecent . '</commentsOnRecent>' .
+		'<trackbacksOnRecent>' . $setting->trackbacksOnRecent . '</trackbacksOnRecent>' .
+		'<commentsOnGuestbook>' . $setting->commentsOnGuestbook . '</commentsOnGuestbook>' .
+		'<tagsOnTagbox>' . $setting->tagsOnTagbox . '</tagsOnTagbox>' .
+		'<alignOnTagbox>' . $setting->alignOnTagbox . '</alignOnTagbox>' .
+		'<expandComment>' . $setting->expandComment . '</expandComment>' .
+		'<expandTrackback>' . $setting->expandTrackback . '</expandTrackback>' .
+		'<recentNoticeLength>' . $setting->recentNoticeLength . '</recentNoticeLength>' .
+		'<recentEntryLength>' . $setting->recentEntryLength . '</recentEntryLength>' .
+		'<recentTrackbackLength>' . $setting->recentTrackbackLength . '</recentTrackbackLength>' .
+		'<linkLength>' . $setting->linkLength . '</linkLength>' .
+		'<showListOnCategory>' . $setting->showListOnCategory . '</showListOnCategory>' .
+		'<showListOnArchive>' . $setting->showListOnArchive . '</showListOnArchive>' .
+		'<tree>' .
+			'<name>' . $setting->tree . '</name>' .
+			'<color>' . $setting->colorOnTree . '</color>' .
+			'<bgColor>' . $setting->bgcolorOnTree . '</bgColor>' .
+			'<activeColor>' . $setting->activecolorOnTree . '</activeColor>' .
+			'<activeBgColor>' . $setting->activebgcolorOnTree . '</activeBgColor>' .
+			'<labelLength>' . $setting->labelLengthOnTree . '</labelLength>' .
+			'<showValue>' . $setting->showValueOnTree . '</showValue>' .
+		'</tree>' .
 	'</skin>');
 	$writer->write(CRLF);
 }
@@ -447,6 +447,23 @@ if ($feed->open()) {
 	} while ($feed->shift());
 	$feed->close();
 }
+
+$line = Model_Line::getInstance();
+$line->setFilter(array('blogid','eq',getBlogId()));
+if($lines = $line->get()) {
+	foreach ($lines as $lineitem) {
+		$writer->write('<line>' .
+			'<author>' . htmlspecialchars(UTF8::correct($lineitem['author'])) . '</author>' .
+			'<category>' . htmlspecialchars(UTF8::correct($lineitem['category'])) . '</category>' .
+			'<root>' . htmlspecialchars(UTF8::correct($lineitem['root'])) . '</root>' .
+			'<permalink>' . htmlspecialchars(UTF8::correct($lineitem['permalink'])) . '</permalink>' .
+			'<content>' . htmlspecialchars(UTF8::correct($lineitem['content'])) . '</content>' .
+			'<created>' . $lineitem['created'] . '</created>' .
+			'</line>');
+		$writer->write(CRLF);
+	}
+}
+
 $writer->write('</blog>');
 $writer->close();
 if (defined('__TEXTCUBE_BACKUP__')) {

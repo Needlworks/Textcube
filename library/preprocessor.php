@@ -78,42 +78,6 @@ if($context->getProperty('service.debugmode') == true) {
 	if(!function_exists('dumpAsFile')) {function dumpAsFile($dummy){return true;}}
 }
 
-/** LOAD : Required components / models / views
-    -------------------------------------------
-    include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
-    Loading files from the file list.
-*/
-/// Override mobile mode call
-$browserUtil = Utils_Browser::getInstance();
-if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() == true)
-		&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop')
-		&& (!isset($_SESSION['mode']) || !in_array($_SESSION['displayMode'],array('desktop')))) {
-    $context->setProperty('blog.displaymode','mobile');
-    if ($uri->uri['interfaceType'] == 'blog') {
-      $uri->uri['interfaceType'] = 'mobile';
-    }
-	$_SESSION['displaymode'] = 'mobile';
-	define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/default');
-	if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
-		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
-	} else {
-		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/default/customize');
-	}
-} else {
-  $_SESSION['displaymode'] = 'desktop';
-  define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/blog');
-	if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
-	  define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
-	} else {
-		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/blog/customize');
-	}
-  $context->setProperty('blog.displaymode','desktop');
-}
-/// Reading necessary file list
-require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');
-/// Loading files.
-require_once (ROOT.'/library/include.php');
-
 /** INITIALIZE : Sending header
     ---------------------------
 */
@@ -160,13 +124,56 @@ endif;
     Textcube judges blogid from its URI.
     After parsing URI-specific variables, fetch global variables (legacy support till Textcube 2)
 */
-$uri = Model_URIHandler::getInstance();
+$__requireComponent = array(
+	'Textcube.Core',
+	'Needlworks.Cache.PageCache');
+foreach($__requireComponent as $lib) {
+	require ROOT .'/framework/legacy/'.$lib.'.php';
+}
 
+$uri = Model_URIHandler::getInstance();
 $uri->URIParser();
-$uri->VariableParser();
+$uri->VariableParser(); // Now DB-stored variables are loaded.
+
+/** LOAD : Required components / models / views
+-------------------------------------------
+include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
+Loading files from the file list.
+*/
+/// Override mobile mode call
+$browserUtil = Utils_Browser::getInstance();
+if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() == true)
+&& (!isset($_GET['mode']) || $_GET['mode'] != 'desktop')
+&& (!isset($_SESSION['mode']) || !in_array($_SESSION['displayMode'],array('desktop')))) {
+	$context->setProperty('blog.displaymode','mobile');
+	if ($uri->uri['interfaceType'] == 'blog') {
+		$uri->uri['interfaceType'] = 'mobile';
+	}
+	define('__TEXTCUBE_IPHONE__',true);
+	$_SESSION['displaymode'] = 'mobile';
+	define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/default');
+	if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+	} else {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/default/customize');
+	}
+} else {
+	$_SESSION['displaymode'] = 'desktop';
+	define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/blog');
+	if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+	} else {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/blog/customize');
+	}
+	$context->setProperty('blog.displaymode','desktop');
+}
+/// Reading necessary file list
+require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');
+/// Loading files.
+require_once (ROOT.'/library/include.php');
 
 if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
-  $context->setProperty('skin.skin','lucid');
+	$context->setProperty('skin.skin','lucid');
 }
 /// Setting global variables
 if($context->getProperty('service.legacymode') == true) {

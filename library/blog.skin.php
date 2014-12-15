@@ -159,7 +159,8 @@ class Skin {
 			// 사이드바 작업.
 			$sidebarCount = 0;
 			$noNameCount = 1;
-			if ($context->getProperty('blog.displaymode','desktop')!='mobile') {
+			if (true) {
+			//if ($context->getProperty('blog.displaymode','desktop')!='mobile') {
 				// - 사이드바가 여러개일 수 있으므로 루프로 돌린다.
 				while (strpos($sval, '<s_sidebar>') !== false) {
 					if (!isset($this->sidebarBasicModules[$sidebarCount]))
