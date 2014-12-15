@@ -179,7 +179,7 @@ $editClass = NULL;
 if (isset($_REQUEST['edit'])) {
 	$editClass = "-edit";
 ?>
-<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/jquery/jquery.ui.essentials.1.6.js" type="text/javascript"></script>
+<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/jquery/jquery.ui.essentials.1.11.2.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 //<![CDATA[
 <?php echo "\tvar editMode = ".isset($_REQUEST['edit']).";\n";?>
