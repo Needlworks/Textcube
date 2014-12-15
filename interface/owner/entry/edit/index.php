@@ -171,7 +171,7 @@ if (defined('__TEXTCUBE_POST__')) {
 								}
 
 								function EntryManager() {
-									this.saveEntrydData = null;
+									this.savedData = null;
 <?php
 if (defined('__TEXTCUBE_POST__')) {
 ?>
@@ -531,7 +531,7 @@ if (isset($_GET['popupEditor'])) {
 											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
 											return;
 										}
-										this.saveEntry();
+										entryManager.saveEntry();
 										return;
 									}
 
@@ -543,7 +543,7 @@ if (isset($_GET['popupEditor'])) {
 										}
 										return;
 									}
-									this.saveEntrydData = this.getData();
+									this.savedData = this.getData();
 								}
 								var entryManager;
 
