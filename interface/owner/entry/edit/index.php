@@ -171,44 +171,45 @@ if (defined('__TEXTCUBE_POST__')) {
 								}
 
 								function EntryManager() {
-									this.savedData = null;
+									var self = this;
+									self.savedData = null;
 <?php
 if (defined('__TEXTCUBE_POST__')) {
 ?>
-									this.isSaved   = false;
+									self.isSaved   = false;
 <?php
 } else {
 ?>
-									this.isSaved   = true;
+									self.isSaved   = true;
 <?php
 }
 ?>
-									this.autoSave  = false;
-									this.delay     = false;
-									this.nowsaving = false;
-									this.isPreview   = false;
-									this.changeEditor = false;
-									this.draftSaved = false;
-									this.currentEditor = "<?php echo $entry['contenteditor'];?>";
-									this.entryId   = <?php echo $entry['id'];?>;
+									self.autoSave  = false;
+									self.delay     = false;
+									self.nowsaving = false;
+									self.isPreview   = false;
+									self.changeEditor = false;
+									self.draftSaved = false;
+									self.currentEditor = "<?php echo $entry['contenteditor'];?>";
+									self.entryId   = <?php echo $entry['id'];?>;
 
-									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
+									self.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
 
-									this.pageHolder.isHolding = function () {
-										return (entryManager.savedData != entryManager.getData());
+									self.pageHolder.isHolding = function () {
+										return (self.savedData != self.getData());
 									}
 <?php
 if (isset($_GET['returnURL'])) {
 ?>
-									this.returnURL = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+									self.returnURL = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
 <?php
 } else {
 ?>
-									this.returnURL = null;
+									self.returnURL = null;
 <?php
 }
 ?>
-									this.getData = function (check) {
+									self.getData = function (check) {
 										if (check == undefined)
 											check = false;
 										var oForm = document.getElementById('editor-form');
@@ -216,7 +217,7 @@ if (isset($_GET['returnURL'])) {
 										var title = trim(oForm.title.value);
 										var permalink = trim(oForm.permalink.value);
 										if (check && (title.length == 0)) {
-											if(entryManager.autoSave == true) {
+											if(self.autoSave == true) {
 												title = trim("<?php echo _t('[자동 저장 문서]');?>");
 												oForm.title.value = title;
 												permalink = "TCDraftPost";
@@ -257,7 +258,7 @@ if (isset($_GET['returnURL'])) {
 										}
 										var content = trim(oForm.content.value);
 										if (check && (content.length == 0)) {
-											if(entryManager.autoSave == true) {
+											if(self.autoSave == true) {
 												return null;
 											}
 											alert("<?php echo _t('본문을 입력해 주십시오.');?>");
@@ -328,10 +329,10 @@ if (isset($_GET['returnURL'])) {
 										);
 									}
 
-									this.setEnclosure = function(fileName) {
+									self.setEnclosure = function(fileName) {
 
 									}
-									this.loadTemplate = function (templateId,title) {
+									self.loadTemplate = function (templateId,title) {
 										editor.syncTextarea();
 										var oForm = document.forms[0];
 										var content = trim(oForm.content.value);
@@ -345,10 +346,10 @@ if (isset($_GET['returnURL'])) {
 										request.onSuccess = function () {
 											PM.removeRequest(this);
 											PM.showMessage("<?php echo _t('서식을 반영하였습니다.');?>", "center", "bottom");
-											templateTitle = this.getText("/response/title");
-											templateContents = this.getText("/response/content");
-											entryManager.entryId = this.getText("/response/entryId");
-											entryManager.isSaved = true;
+											templateTitle = self.getText("/response/title");
+											templateContents = self.getText("/response/content");
+											self.entryId = self.getText("/response/entryId");
+											self.isSaved = true;
 											var title = trim(oForm.title.value);
 											if(title.length == 0) {
 												oForm.title.value = templateTitle;
@@ -366,60 +367,60 @@ if (isset($_GET['returnURL'])) {
 										}
 										PM.addRequest(request, "<?php echo _t('불러오고 있습니다');?>");
 										request.send("templateId="+templateId
-											+"&isSaved="+entryManager.isSaved
-											+"&entryId="+entryManager.entryId);
+											+"&isSaved="+self.isSaved
+											+"&entryId="+self.entryId);
 									}
-									this.saveEntry = function () {
-										if(this.nowsaving == true)
+									self.saveEntry = function () {
+										if(self.nowsaving == true)
 											return false;
-										this.nowsaving = true;
-										var data = this.getData(true);
+										self.nowsaving = true;
+										var data = self.getData(true);
 										if (data == null) {
-											this.nowsaving = false;
+											self.nowsaving = false;
 											return false;
 										}
-										if (data == entryManager.savedData) {
-											this.nowsaving = false;
+										if (data == self.savedData) {
+											self.nowsaving = false;
 											return false;
 										}
-										if(entryManager.isSaved == true) {
+										if(self.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/draft/"+entryManager.entryId);
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/add/");
 										}
-										if(entryManager.autoSave != true) {
+										if(self.autoSave != true) {
 											request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										}
 										request.onSuccess = function () {
 											document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 											PM.removeRequest(this);
-											if(entryManager.autoSave == true) {
+											if(self.autoSave == true) {
 												document.getElementById("saveButton").value = "<?php echo _t('자동으로 저장됨');?>";
 												document.getElementById("saveButton").style.color = "#BBB";
-												entryManager.autoSave = false;
+												self.autoSave = false;
 											} else {
 												document.getElementById("saveButton").value = "<?php echo _t('저장됨');?>";
 												document.getElementById("saveButton").style.color = "#BBB";
 												PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											}
-											if(entryManager.isSaved == false) {	// First save.
-												entryManager.entryId = this.getText("/response/entryId");
-												entryManager.isSaved = true;
-												entryManager.draftSaved = false;
+											if(self.isSaved == false) {	// First save.
+												self.entryId = self.getText("/response/entryId");
+												self.isSaved = true;
+												self.draftSaved = false;
 												reloadUploader();
 											} else {
-												entryManager.draftSaved = true;
+												self.draftSaved = true;
 											}
 
-											entryManager.savedData = data;
-											if (entryManager.savedData == entryManager.getData())
-												entryManager.pageHolder.release();
-											entryManager.nowsaving = false;
-											if (entryManager.isPreview == true) {
-												entryManager.openPreviewPopup();
-												entryManager.isPreview = false;
+											self.savedData = data;
+											if (self.savedData == self.getData())
+												self.pageHolder.release();
+											self.nowsaving = false;
+											if (self.isPreview == true) {
+												self.openPreviewPopup();
+												self.isPreview = false;
 											}
-											if (entryManager.changeEditor == true) {
+											if (self.changeEditor == true) {
 												reloadEditor();
 											}
 										}
@@ -427,9 +428,9 @@ if (isset($_GET['returnURL'])) {
 											document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 											PM.removeRequest(this);
 											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
-											this.nowsaving = false;
+											self.nowsaving = false;
 										}
-										if(entryManager.autoSave != true) {
+										if(self.autoSave != true) {
 											PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										} else {
 											PM.addRequest(request);
@@ -440,14 +441,14 @@ if (isset($_GET['returnURL'])) {
 										return true;
 									}
 									this.openPreviewPopup = function () {
-										window.open("<?php echo $context->getProperty('uri.blog');?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+										window.open("<?php echo $context->getProperty('uri.blog');?>/owner/entry/preview/"+self.entryId, "previewEntry"+self.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 									}
-									this.saveAndReturn = function () {
-										this.nowsaving = true;
-										var data = this.getData(true);
+									self.saveAndReturn = function () {
+										self.nowsaving = true;
+										var data = self.getData(true);
 										if (data == null)
 											return false;
-										if(entryManager.isSaved == true) {
+										if(self.isSaved == true) {
 											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/finish/"+entryManager.entryId);
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/finish/");
@@ -455,7 +456,7 @@ if (isset($_GET['returnURL'])) {
 
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										request.onSuccess = function () {
-											entryManager.pageHolder.isHolding = function () {
+											self.pageHolder.isHolding = function () {
 												return false;
 											}
 											PM.removeRequest(this);
@@ -496,7 +497,7 @@ if (isset($_GET['popupEditor'])) {
 										request.onError = function () {
 											PM.removeRequest(this);
 											alert("<?php echo _t('저장하지 못했습니다');?>");
-											this.nowsaving = false;
+											self.nowsaving = false;
 											document.getElementById("saveAndReturnButton").value = "<?php echo _t('저장 후 돌아가기');?>";
 
 										}
@@ -506,44 +507,47 @@ if (isset($_GET['popupEditor'])) {
 									}
 									/// Do postprocessing after editor area is changed first.
 									/// e.g. starting writing, clicking, etc.
-									this.saveAuto = function () {
+									self.stateChanged = function () {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
 										}
 										document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 										document.getElementById("saveButton").style.color = "#000";
-										if (this.timer == null)
-											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
+										/// If draft timer is empty, set draft timer.
+										/// If timer runs, set the delay to the timer.
+										if (self.timer == null)
+											self.timer = window.setTimeout(self.saveDraft, 5000);
 										else
-											this.delay = true;
+											self.delay = true;
 									}
-									this.saveDraft = function () {
-										this.autoSave = true;
-										if (this.nowsaving == true) {
-											this.timer = null;
-											this.autoSave = false;
+									self.saveDraft = function () {
+										self.autoSave = true;
+										if (self.nowsaving == true) {
+											self.timer = null;
+											self.autoSave = false;
 											return;
 										}
-										this.timer = null;
-										if (this.changeEditor != true && this.delay) {
-											this.delay = false;
-											this.autoSave = false;
-											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
+										//self.timer = null;
+										if (self.changeEditor != true && self.delay) {
+											self.delay = false;
+											self.autoSave = false;
+											self.timer = null;
 											return;
 										}
-										entryManager.saveEntry();
+										self.saveEntry();
+										self.timer = null;
 										return;
 									}
 
-									this.preview = function () {
-										this.isPreview = true;
-										if (!this.saveEntry()) {
-											entryManager.openPreviewPopup();
-											this.isPreview = false;
+									self.preview = function () {
+										self.isPreview = true;
+										if (!self.saveEntry()) {
+											self.openPreviewPopup();
+											self.isPreview = false;
 										}
 										return;
 									}
-									this.savedData = this.getData();
+									self.savedData = self.getData();
 								}
 								var entryManager;
 
