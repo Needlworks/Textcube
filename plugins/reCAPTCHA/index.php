@@ -2,7 +2,7 @@
 
 function Recaptcha_AddInputValidatorRule($target, $mother) {
 	if ($mother == 'interface/blog/comment/add/') {
-		$target['POST']['g-recaptcha-response'] = array('string', 'default' => '', 'mandatory' => false);
+		$target['POST']['g-recaptcha-response'] = array('string', 'default' => '', 'mandatory' => true);
 	}
 	return $target;
 }
