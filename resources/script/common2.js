@@ -1020,6 +1020,7 @@ function addComment(caller, entryId) {
 		alert(messages['onSaving']);
 		return false;
 	}
+	var $ = jQuery;
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
@@ -1027,100 +1028,38 @@ function addComment(caller, entryId) {
 		oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
 		return addCommentWithOpenIDAuth(oForm, entryId);
 	}
-	var request = new HTTPRequest("POST", oForm.action);
-	request.onSuccess = function () {
-		PM.removeRequest(this);
-		commentSavingNow = false;
-		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
-		if(getObject("recentComments") != null)
-			document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
-		if(getObject("commentCount" + entryId) != null)
-			document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentView");
-		if(getObject("commentCountOnRecentEntries" + entryId) != null)
-			document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
-	}
-	request.onError = function() {
-		PM.removeRequest(this);
-		commentSavingNow = false;
-		alert(this.getText("/response/description"));
-	}
-
-	var queryString = "key=" + commentKey;
-
-	tempComment = 'comment_' + entryId;
-	tempHomepage = 'homepage_' + entryId;
-	tempName = 'name_' + entryId;
-	tempPassword = 'password_' + entryId;
-	tempSecret = 'secret_' + entryId;
-
-	for (i=0; i<oForm.elements.length; i++) {
-		if (queryString != "")
-			linker = "&";
-		else
-			linker = "";
-
-		// disabled 상태이면 패스.
-		if (oForm.elements[i].disabled == true)
-			continue;
-
-		if (oForm.elements[i].tagName.toLowerCase() == "input") {
-			switch (oForm.elements[i].type) {
-				case "checkbox":
-				case "radio":
-					if (oForm.elements[i].checked == true) {
-						if (oForm.elements[i].name == tempSecret)
-							queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].id == tempSecret)
-							queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].name != '')
-							queryString += linker + oForm.elements[i].name + '_' + entryId + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].id != '')
-							queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-					}
-					break;
-				case "text":
-				case "password":
-				case "hidden":
-				case "button":
-				case "submit":
-					if (oForm.elements[i].name == tempName)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempName)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name == tempPassword)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempPassword)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name == tempHomepage)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempHomepage)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name != '')
-						queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id != '')
-						queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-					break;
-				//case "file":
-				//	break;
-			}
-		} else if (oForm.elements[i].tagName.toLowerCase() == "select") {
-			num = oForm.elements[i].selectedIndex;
-			if (oForm.elements[i].name != '')
-				queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-			else if (oForm.elements[i].id != '')
-				queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-		} else if (oForm.elements[i].tagName.toLowerCase() == "textarea") {
-			if (oForm.elements[i].name == tempComment)
-				queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-			else if (oForm.elements[i].name != '')
-				queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-			else if (oForm.elements[i].id != '')
-				queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-		}
-	}
+	var formData = $(oForm).serializeArray();
+	formData.push({name: 'key', value: commentKey});
+	console.log(formData);
 	commentSavingNow = true;
-	PM.addRequest(request,"Saving Comments...");
-	request.send(queryString);
+	//PM.addRequest(request, "Saving Comments...");
+	$.ajax({
+	    url: $(oForm).attr('action'),
+	    type: 'POST',
+	    dataType: 'xml',
+	    data: formData,
+	    success: function(data, status, xhr) {
+			//PM.removeRequest(this);
+			commentSavingNow = false;
+			var result = parseInt($(data).find('response error').text());
+			if (result == 0) {
+				$("#entry" + entryId + "Comment").html($(data).find("response commentBlock").text());
+				if (getObject("recentComments") != null)
+					$("#recentComments").html($(data).find("response recentCommentBlock").text());
+				if (getObject("commentCount" + entryId) != null)
+					$("#commentCount" + entryId).html($(data).find("response commentView").text());
+				if (getObject("commentCountOnRecentEntries" + entryId) != null)
+					$("#commentCountOnRecentEntries" + entryId).html("(" + $(data).find("response commentCount").text() + ")");
+			} else {
+				alert($(data).find("response description").text());
+			}
+	    },
+	    error: function(xhr, status, err) {
+			//PM.removeRequest(this);
+			commentSavingNow = false;
+			alert('Connection failed.');
+	    }
+	});
 }
 
 function addCommentWithOpenIDAuth(oForm, entryId) {
@@ -1437,3 +1376,4 @@ function copyUrl(url, nest) {
 function onClipBoard(result) {
 	alert(result ? messages["trackbackUrlCopied"] : messages["operationFailed"]);
 }
+

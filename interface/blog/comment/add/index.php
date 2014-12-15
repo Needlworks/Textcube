@@ -12,15 +12,17 @@ $IV = array(
 	),
 	'POST' => array(
 		'key' => array('string', 32, 32),
-		"name_$entryId" => array('string', 'default' => ''),
-		"password_$entryId" => array('string', 'default' => ''),
-		"secret_$entryId" => array(array('1', 'on'), 'mandatory' => false),
-		"homepage_$entryId" => array('string', 'default' => 'http://'),
-		"comment_$entryId" => array('string', 'default' => '')
+		"name" => array('string', 'default' => ''),
+		"password" => array('string', 'default' => ''),
+		"secret" => array(array('1', 'on'), 'mandatory' => false),
+		"homepage" => array('string', 'default' => 'http://'),
+		'g-recaptcha-response' => array('string', 'default' => '', 'mandatory' => false),
+		"comment" => array('string', 'default' => '')
 	)
 );
 
 Validator::addRule($IV);
+//var_dump(Validator::$queue);
 if(!Validator::isValid())
 	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
 requireStrictRoute();
@@ -29,11 +31,11 @@ if (!isset($_GET['__T__']) || !isset($_POST['key']) || ($_POST['key'] != md5(fil
 	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
 	exit;
 }
-$userName = isset($_POST["name_$entryId"]) ? trim($_POST["name_$entryId"]) : '';
-$userPassword = isset($_POST["password_$entryId"]) ? $_POST["password_$entryId"] : '';
-$userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
-$userHomepage = isset($_POST["homepage_$entryId"]) ? trim($_POST["homepage_$entryId"]) : '';
-$userComment = isset($_POST["comment_$entryId"]) ? trim($_POST["comment_$entryId"]) : '';
+$userName = isset($_POST["name"]) ? trim($_POST["name"]) : '';
+$userPassword = isset($_POST["password"]) ? $_POST["password"] : '';
+$userSecret = isset($_POST["secret"]) ? 1 : 0;
+$userHomepage = isset($_POST["homepage"]) ? trim($_POST["homepage"]) : '';
+$userComment = isset($_POST["comment"]) ? trim($_POST["comment"]) : '';
 if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	Respond::PrintResult(array('error' => 2, 'description' => _text('이름을 입력해 주십시오.')));
 	exit;

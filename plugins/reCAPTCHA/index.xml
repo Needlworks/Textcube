@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+  <title xml:lang="ko">Google reCAPTCHA</title>
+  <title xml:lang="en">Google reCAPTCHA</title>
+  <link>https://www.google.com/recaptcha</link>
+  <version>1.0</version>
+  <description xml:lang="ko">익명 사용자가 댓글을 작성할 때 Google reCAPTCHA 서비스를 이용해 스팸 봇인지 아닌지 판별하여 사람만 댓글을 달 수 있게 합니다.</description>
+  <description xml:lang="en">Filters out automated comment spamming by using Google's reCAPTCHA service.</description>
+  <license>GPL</license>
+  <author xml:lang="en" link="http://forum.tattersite.com/ko">Tatter Network Foundation</author>
+  <author xml:lang="ko" link="http://forum.tattersite.com/ko">태터네트워크재단</author>
+  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
+  <requirements>
+    <textcube>
+      <minVersion>1.8</minVersion>
+    </textcube>
+  </requirements>
+  <binding>
+    <tag name="SKIN_head_end" handler="Recaptcha_Header" />
+    <tag name="SKIN_body_end" handler="Recaptcha_Footer" />
+    <listener event="AddingComment" handler="Recaptcha_AddingCommentHandler" />
+    <config xml:lang="ko" dataValHandler="Recaptcha_ConfigHandler">
+      <window width="500" height="550" />
+      <fieldset legend="인증 정보">
+        <field title="Site Key" name="siteKey" type="text" value="" />
+        <field title="Secret Key" name="secretKey" type="text" value="">
+          <caption><![CDATA[Google reCAPTCHA API를 사용하기 위한 인증 키를 입력합니다.]]></caption>
+        </field>
+      </fieldset>
+    </config>
+    <config xml:lang="en" dataValHandler="Recaptcha_ConfigHandler">
+      <fieldset legend="Authentication Information">
+        <field title="Site Key" name="siteKey" type="text" value="" />
+        <field title="Secret Key" name="secretKey" type="text" value="">
+          <caption><![CDATA[Specify your Google reCAPTCHA API keys.]]></caption>
+        </field>
+      </fieldset>
+    </config>
+  </binding>
+</plugin>
+<!-- vim: set sts=2 sw=2 et: -->

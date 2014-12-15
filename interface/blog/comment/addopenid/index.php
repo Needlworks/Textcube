@@ -12,12 +12,12 @@ $IV = array(
 	),
 	'POST' => array(
 		'key' => array('string', 32, 32),
-		"comment_type_$entryId" => array('string', 'default' => ''),
-		"secret_$entryId" => array(array('1', 'on'), 'mandatory' => false),
-		"homepage_$entryId" => array('string', 'default' => 'http://'),
-		"openid_identifier_$entryId" => array('string', 'default' => ''),
+		"comment_type" => array('string', 'default' => ''),
+		"secret" => array(array('1', 'on'), 'mandatory' => false),
+		"homepage" => array('string', 'default' => 'http://'),
+		"openid_identifier" => array('string', 'default' => ''),
 		"openid_errormsg" => array('string', 'default' => ''),
-		"comment_$entryId" => array('string', 'default' => ''),
+		"comment" => array('string', 'default' => ''),
 		"requestURI" => array('string', 'default' => '' )
 	)
 );
@@ -29,8 +29,8 @@ if( !empty( $_GET["tid"] ) ) {
 	$_SERVER['HTTP_REFERER'] = $tr['HTTP_REFERER'];
 } else {
 	$_SESSION['last_comment'] = array();
-	$_SESSION['last_comment']['homepage'] = $_POST["homepage_$entryId"];
-	$_SESSION['last_comment']['comment'] = $_POST["comment_$entryId"];
+	$_SESSION['last_comment']['homepage'] = $_POST["homepage"];
+	$_SESSION['last_comment']['comment'] = $_POST["comment"];
 }
 
 requireStrictRoute();
@@ -40,7 +40,7 @@ if(!Validator::validate($IV)) {
 	OpenIDConsumer::printErrorReturn( 'Illegal parameters', $_POST["requestURI"] );
 }
 
-if( $_POST["comment_type_$entryId"] != 'openid' ) {
+if( $_POST["comment_type"] != 'openid' ) {
 	OpenIDConsumer::printErrorReturn( 'Invalid comment type', $_POST["requestURI"] );
 }
 
@@ -48,19 +48,19 @@ if (!isset($_GET['__T__']) || !isset($_POST['key']) || $_POST['key'] != md5(file
 	OpenIDConsumer::printErrorReturn( 'Illegal parameters', $_POST["requestURI"] );
 }
 
-if ($_POST["comment_$entryId"] == '') {
+if ($_POST["comment"] == '') {
 	OpenIDConsumer::printErrorReturn( _text('본문을 입력해 주십시오.'), $_POST["requestURI"] );
 }
 
 $openid_identity = Acl::getIdentity('openid');
 if( $openid_identity ) {
 	/* OpenID success return path.. */
-	$_POST["name_$entryId"] = $_SESSION['openid']['nickname'];
-	if( empty($_POST["name_$entryId"]) ) {
-		$_POST["name_$entryId"] = $openid_identity;
+	$_POST["name"] = $_SESSION['openid']['nickname'];
+	if( empty($_POST["name"]) ) {
+		$_POST["name"] = $openid_identity;
 	}
-	if( empty($_POST["homepage_$entryId"]) || $_POST["homepage_$entryId"] == "http://" ) {
-		$_POST["homepage_$entryId"] =
+	if( empty($_POST["homepage"]) || $_POST["homepage"] == "http://" ) {
+		$_POST["homepage"] =
 			empty($_SESSION['openid']['homepage']) ? $openid_identity : $_SESSION['openid']['homepage'];
 	}
 } else {
@@ -72,7 +72,7 @@ if( $openid_identity ) {
 
 		/* eas_mode will redirect your browser to the IdP authentication page in EAS4.js addComment-onError handler */
 		header( "Location: $blogURL/login/openid?action=try_auth&openid_remember=y&requestURI=$requestURI&fallbackURI=".urlencode($_POST["requestURI"]).
-			"&openid_identifier=".urlencode($_POST["openid_identifier_$entryId"]) );
+			"&openid_identifier=".urlencode($_POST["openid_identifier"]) );
 		exit;
 	} else {
 		/* OpenID failure return path.. */
@@ -80,10 +80,10 @@ if( $openid_identity ) {
 	}
 }
 
-$userName = isset($_POST["name_$entryId"]) ? $_POST["name_$entryId"] : '';
-$userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
-$userHomepage = isset($_POST["homepage_$entryId"]) ? $_POST["homepage_$entryId"] : '';
-$userComment = isset($_POST["comment_$entryId"]) ? $_POST["comment_$entryId"] : '';
+$userName = isset($_POST["name"]) ? $_POST["name"] : '';
+$userSecret = isset($_POST["secret"]) ? 1 : 0;
+$userHomepage = isset($_POST["homepage"]) ? $_POST["homepage"] : '';
+$userComment = isset($_POST["comment"]) ? $_POST["comment"] : '';
 
 $comment = array();
 $comment['entry'] = $entryId;
