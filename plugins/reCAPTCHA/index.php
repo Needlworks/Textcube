@@ -85,7 +85,7 @@ function Recaptcha_AddingCommentHandler($target, $mother)
 		$output = curl_exec($ch);
 		curl_close($ch);
 		if ($output === false) {
-			// TODO: Google 서버와의 통신 실패 시 bypass or reject?
+			Respond::PrintResult(array('error' => 2, 'description' => 'Cannot connect to the Google reCAPTCHA server.'));
 			return false;
 		} else {
 			$resp = json_decode($output, true);
@@ -94,7 +94,6 @@ function Recaptcha_AddingCommentHandler($target, $mother)
 				return true;
 			} else {
 				$err = implode(' ', $resp['error-codes']);
-				// TODO: 사용자에게 적절한 오류 메시지 리턴
 				if (strpos($err, 'missing-input-secret') !== false) {
 					Respond::PrintResult(array('error' => 2, 'description' => 'Missing reCAPTCHA secret key!'));
 				} elseif (strpos($err, 'missing-input-response') !== false) {
@@ -106,6 +105,7 @@ function Recaptcha_AddingCommentHandler($target, $mother)
 				}
 			}
 		}
+		/* It seems to be a robot! Silently fail. */
 		return false;
 	}
 	/* If the plugin is not configured yet, bypass validation. */
