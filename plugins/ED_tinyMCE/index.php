@@ -26,6 +26,7 @@ function tinyMCE_editorinit($editor) {
 				selector : "textarea#editWindow",
 				mode : 'exact',
 				theme : 'modern',
+				skin : 'light',
 <?php
 	if (file_exists($pluginPath.'/tinymce/langs/'.$context->getProperty('blog.language').'.js')) {
 ?>
