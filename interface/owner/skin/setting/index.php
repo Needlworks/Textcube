@@ -13,69 +13,69 @@ $selected = 0;
 								function getValueById(id) {
 									return document.getElementById(id).value;
 								}
-								
+
 								function setSkin() {
-									if(document.getElementById('showListOnCategoryTitles').checked) 
+									if(document.getElementById('showListOnCategoryTitles').checked)
 										showListOnCategory = 2;
-									else if(document.getElementById('showListOnCategoryContents').checked) 
+									else if(document.getElementById('showListOnCategoryContents').checked)
 										showListOnCategory = 0;
-									else if(document.getElementById('showListOnCategorySome').checked) 
+									else if(document.getElementById('showListOnCategorySome').checked)
 										showListOnCategory = 3;
-									else 
+									else
 										showListOnCategory = 1;
-									
-									if(document.getElementById('showListOnArchiveTitles').checked) 
+
+									if(document.getElementById('showListOnArchiveTitles').checked)
 										showListOnArchive = 2;
-									else if(document.getElementById('showListOnArchiveContents').checked) 
+									else if(document.getElementById('showListOnArchiveContents').checked)
 										showListOnArchive = 0;
-									else if(document.getElementById('showListOnArchiveSome').checked) 
+									else if(document.getElementById('showListOnArchiveSome').checked)
 										showListOnArchive = 3;
-									else 
+									else
 										showListOnArchive = 1;
 
-									if(document.getElementById('showListOnTagTitles').checked) 
+									if(document.getElementById('showListOnTagTitles').checked)
 										showListOnTag = 2;
-									else if(document.getElementById('showListOnTagContents').checked) 
+									else if(document.getElementById('showListOnTagContents').checked)
 										showListOnTag = 0;
-									else if(document.getElementById('showListOnTagSome').checked) 
+									else if(document.getElementById('showListOnTagSome').checked)
 										showListOnTag = 3;
-									else 
+									else
 										showListOnTag = 1;
-										
-									if(document.getElementById('showListOnAuthorTitles').checked) 
+
+									if(document.getElementById('showListOnAuthorTitles').checked)
 										showListOnAuthor = 2;
-									else if(document.getElementById('showListOnAuthorContents').checked) 
+									else if(document.getElementById('showListOnAuthorContents').checked)
 										showListOnAuthor = 0;
-									else if(document.getElementById('showListOnAuthorSome').checked) 
+									else if(document.getElementById('showListOnAuthorSome').checked)
 										showListOnAuthor = 3;
-									else 
+									else
 										showListOnAuthor = 1;
-										
-									if(document.getElementById('showListOnSearchTitles').checked) 
+
+									if(document.getElementById('showListOnSearchTitles').checked)
 										showListOnSearch = 2;
-									else 
+									else
 										showListOnSearch = 1;
-									
-									if(document.getElementById('expandComment').checked) 
+
+									if(document.getElementById('expandComment').checked)
 										expandComment = 1;
-									else 
+									else
 										expandComment = 0;
 
-									if(document.getElementById('sortCommentsByDESC').checked) 
+									if(document.getElementById('sortCommentsByDESC').checked)
 										sortCommentsBy = 'DESC';
-									else 
+									else
 										sortCommentsBy = 'ASC';
 
-									if(document.getElementById('expandTrackback').checked) 
+									if(document.getElementById('expandTrackback').checked)
 										expandTrackback = 1;
-									else 
+									else
 										expandTrackback = 0;
-																		
+
 									if(document.getElementById('useFOAF').checked)
 										useFOAF = 1;
-									else 
+									else
 										useFOAF = 0;
-									
+
 									var tagboxAlign = 1;
 									if (document.getElementById('tagboxAlignUsed')	.checked) {
 										tagboxAlign = 1;
@@ -87,8 +87,8 @@ $selected = 0;
 									if (document.getElementById('pagingComment').checked) {
 										useAjaxComment = 1;
 									} else {
-										useAjaxComment = 0;									
-									}									
+										useAjaxComment = 0;
+									}
 									if (document.getElementById('microformatNone').checked) {
 										useMicroformat = 1;
 									} else if(document.getElementById('microformatSome').checked) {
@@ -113,7 +113,7 @@ $selected = 0;
 									param += 'showListOnTag='+showListOnTag +'&';
 									param += 'showListOnAuthor='+showListOnAuthor +'&';
 									param += 'showListOnSearch='+showListOnSearch +'&';
-									param += 'expandComment='+expandComment +'&';				
+									param += 'expandComment='+expandComment +'&';
 									param += 'expandTrackback='+expandTrackback +'&';
 									param += 'sortCommentsBy='+encodeURIComponent(sortCommentsBy)+'&';
 									param += 'recentNoticeLength='+getValueById('recentNoticeLength') +'&';
@@ -134,8 +134,8 @@ $selected = 0;
 									}
 									request.send(param);
 								}
-										
-								function changeTreeStyle() {	
+
+								function changeTreeStyle() {
 									var param = '';
 									param += 'name='+document.getElementById('tree').value+'&';
 									param += 'url=<?php echo $service['path'];?>/skin/tree/'+document.getElementById('tree').value+'&';
@@ -145,15 +145,15 @@ $selected = 0;
 									param += 'activeItemColor='+document.getElementById('activeColorOnTree').value+'&';
 									param += 'activeItemBgColor='+document.getElementById('activeBgColorOnTree').value+'&';
 									param += 'labelLength='+document.getElementById('labelLengthOnTree').value+'&';
-									
+
 									document.getElementById('treePreview').src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview/?"+param;
 								}
 							//]]>
 						</script>
-						
+
 						<div id="part-skin-setting" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo setDetailPanel('panel_skin_setting','link',_t('스킨에 따라 표시되는 여러 값들을 세세하게 변경합니다'));?></span></h2>
-							
+
 							<div id="panel_skin_setting" class="data-inbox folding">
 								<form id="skinSetting" class="section" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/skin" enctype="application/x-www-form-urlencoded">
 									<fieldset id="per-page-container" class="container">
@@ -352,7 +352,7 @@ ob_end_clean();
 
 										</dl>
 									</fieldset>
-									
+
 									<fieldset id="click-container" class="container">
 										<legend><?php echo _t('클릭 설정');?></legend>
 										<dl id="category-click-line" class="line">
@@ -401,7 +401,7 @@ ob_end_clean();
 										<dl id="post-click-line" class="line">
 											<dt><span class="label"><?php echo _t('글을 표시할 때');?></span></dt>
 											<dd>
-												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /><label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
+												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /><label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?><br /><?php echo _t('댓글 페이징 기능을 사용하는 경우 이 옵션에 상관없이 댓글이 접힙니다.');?></label><br />
 												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /><label for="expandTrackback"><?php echo _t('걸린글을 기본으로 펼칩니다.');?></label>
 											</dd>
 										</dl>
@@ -417,11 +417,11 @@ ob_end_clean();
 												<input type="radio" id="sortCommentsByASC" class="radio" name="sortComments" value="ASC"<?php echo ($skinSetting['sortCommentsBy'] == 'ASC') ? ' checked="checked"' : '';?> /> <label for="sortCommentsByASC"><?php echo _t('오래된 댓글부터 보여줍니다.');?></label><br />
 												<input type="radio" id="sortCommentsByDESC" class="radio" name="sortComments" value="DESC"<?php echo ($skinSetting['sortCommentsBy'] == 'DESC') ? ' checked="checked"' : '';?> /> <label for="sortCommentsByDESC"><?php echo _t('최근 댓글부터 보여줍니다.');?></label>
 											</dd>
-										</dl>										
-										
-										
+										</dl>
+
+
 									</fieldset>
-									
+
 									<fieldset id="length-container" class="container">
 										<legend><?php echo _t('문자열 길이 조절');?></legend>
 <?php
@@ -636,10 +636,10 @@ ob_end_clean();
 											</dd>
 										</dl>
 									</fieldset>
-									
+
 									<fieldset id="tag-setting-container" class="container">
 										<legend><?php echo _t('태그 조절');?></legend>
-										
+
 										<dl id="tag-align-line" class="line">
 											<dt><span class="label"><?php echo _t('태그의 정렬방법을');?></span></dt>
 											<dd>
@@ -682,7 +682,7 @@ ob_end_clean();
 											<dd><?php echo _f('태그상자의 태그를 %1개 표시합니다.', $arg);?></dd>
 										</dl>
 									</fieldset>
-									
+
 									<fieldset id="guestbook-setting-container" class="container">
 										<legend><?php echo _t('방명록 관련 조절');?></legend>
 <?php
@@ -696,7 +696,7 @@ for ($i = 1; $i <= 30; $i++) {
 		$checked = ' selected="selected"';
 	else
 		$checked = '';
-?>						
+?>
 													<option value="<?php echo $i;?>" <?php echo $checked;?>><?php echo $i;?></option>
 <?php
 }
@@ -717,23 +717,23 @@ ob_end_clean();
 								</form>
 							</div>
 						</div>
-						
+
 						<hr class="hidden" />
-						
+
 						<div id="part-skin-tree" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('분류 디자인을 변경합니다');?></span></h2>
-							
+
 							<form id="setSkinForm" method="post" action="<?php echo $blogURL;?>/owner/skin/setting/tree" enctype="application/x-www-form-urlencoded">
 								<div class="data-inbox">
 									<div id="tree-preview-box">
 										<div class="title"><?php echo _t('미리보기');?></div>
 										<iframe id="treePreview" src="<?php echo $blogURL;?>/owner/skin/setting/tree/preview" width="300" height="300" frameborder="0" style="overflow: visible;"></iframe>
 									</div>
-									
+
 									<div class="section">
 										<fieldset id="property-box" class="container">
 											<legend><?php echo _t('트리 속성');?></legend>
-											
+
 											<dl id="tree-skin-line" class="line">
 												<dt><span class="label"><?php echo _t('분류 스킨 선택');?></span></dt>
 												<dd>
@@ -782,7 +782,7 @@ if ($dh = opendir($skinPath)) {
 												<dd><input type="checkbox" class="checkbox" id="showValue" name="showValueOnTree" onclick="changeTreeStyle()" <?php echo $skinSetting['showValueOnTree'] ? 'checked="checked"' : '';?> /><label for="showValue"><?php echo _t('각 분류의 글 수를 표시합니다.');?></label></dd>
 											</dl>
 										</fieldset>
-									
+
 										<div class="button-box">
 											<input type="submit" class="save-button input-button" value="<?php echo _t('저장하기');?>" onclick="document.getElementById('setSkinForm').submit()" />
 										</div>
