@@ -53,9 +53,9 @@ if(defined('__TEXTCUBE_ADD__') && (isset($_GET['slogan']))) {
 
 // Check whether or not user has permission to edit.
 if(Acl::check('group.editors')===false && !empty($suri['id'])) {
-	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
+	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {
 		@header("location:".$blogURL ."/owner/entry");
-		exit; 
+		exit;
 	}
 }
 // Read editor configuration
@@ -108,24 +108,24 @@ if (defined('__TEXTCUBE_POST__')) {
 								}
 								function setEnclosure(value) {
 									var filename = value.substring(0, value.indexOf("|"));
-									
+
 									if(document.getElementById("TCfilelist").selectedIndex == -1) {
 										alert("<?php echo _t('파일을 선택하십시오.');?>");
 										return false;
 									}
-									
+
 									if(!(new RegExp("\.mp3$", "i").test(filename))) {
 										alert("<?php echo _t('MP3만 사용할 수 있습니다.');?>");
 										return false;
 									}
-									
+
 									try {
-										if(STD.isIE) 
+										if(STD.isIE)
 											var uploader = document.getElementById("uploader");
-										else 
+										else
 											var uploader = document.getElementById("uploader2");
 									} catch(e) { }
-									
+
 									if(filename == enclosured) {
 										var order = 0;
 										try { uploader.SetVariable("/:enclosure", ""); } catch(e) { }
@@ -134,7 +134,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										var order = 1;
 										try { uploader.SetVariable("/:enclosure", filename); } catch(e) { }
 									}
-									
+
 									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/attach/enclosure/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
@@ -144,7 +144,7 @@ if (defined('__TEXTCUBE_POST__')) {
 											fileList[i].style.backgroundColor = (order == 1 && fileList[i].value.indexOf(filename) == 0) ? "#c6a6e7" : "#fff";
 										enclosured = (order == 1) ? filename : "";
 									}
-									
+
 									request.onError= function () {
 										PM.removeRequest(this);
 										alert("<?php echo _t('변경하지 못했습니다.');?>");
@@ -152,7 +152,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									PM.addRequest(request, "<?php echo _t('변경하고 있습니다.');?>");
 									request.send("fileName=" + encodeURIComponent(filename) + "&order=" + order);
 								}
-								
+
 								var star = <?php echo ($entry['starred'] == 2 ? 'true' : 'false');?>;
 
 								function setStar() {
@@ -167,52 +167,53 @@ if (defined('__TEXTCUBE_POST__')) {
 								}
 
 								function EntryManager() {
-									this.savedData = null;
+									var self = this;
+									self.savedData = null;
 <?php
 if (defined('__TEXTCUBE_POST__')) {
 ?>
-									this.isSaved   = false;
+									self.isSaved   = false;
 <?php
 } else {
 ?>
-									this.isSaved   = true;
+									self.isSaved   = true;
 <?php
 }
 ?>
-									this.autoSave  = false;
-									this.delay     = false;
-									this.nowsaving = false;
-									this.isPreview   = false;
-									this.changeEditor = false;
-									this.draftSaved = false;
-									this.currentEditor = "<?php echo $entry['contenteditor'];?>";
-									this.entryId   = <?php echo $entry['id'];?>;
+									self.autoSave  = false;
+									self.delay     = false;
+									self.nowsaving = false;
+									self.isPreview   = false;
+									self.changeEditor = false;
+									self.draftSaved = false;
+									self.currentEditor = "<?php echo $entry['contenteditor'];?>";
+									self.entryId   = <?php echo $entry['id'];?>;
 
-									this.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
+									self.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
 
-									this.pageHolder.isHolding = function () {
-										return (entryManager.savedData != entryManager.getData());
+									self.pageHolder.isHolding = function () {
+										return (self.savedData != self.getData());
 									}
 <?php
 if (isset($_GET['returnURL'])) {
 ?>
-									this.returnURL = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
+									self.returnURL = "<?php echo escapeJSInCData($_GET['returnURL']);?>";
 <?php
 } else {
 ?>
-									this.returnURL = null;
+									self.returnURL = null;
 <?php
 }
-?>							
-									this.getData = function (check) {
+?>
+									self.getData = function (check) {
 										if (check == undefined)
 											check = false;
 										var oForm = document.getElementById('editor-form');
-										
+
 										var title = trim(oForm.title.value);
 										var permalink = trim(oForm.permalink.value);
 										if (check && (title.length == 0)) {
-											if(entryManager.autoSave == true) {
+											if(self.autoSave == true) {
 												title = trim("<?php echo _t('[자동 저장 문서]');?>");
 												oForm.title.value = title;
 												permalink = "TCDraftPost";
@@ -253,13 +254,13 @@ if (isset($_GET['returnURL'])) {
 										}
 										var content = trim(oForm.content.value);
 										if (check && (content.length == 0)) {
-											if(entryManager.autoSave == true) {
+											if(self.autoSave == true) {
 												return null;
 											}
 											alert("<?php echo _t('본문을 입력해 주십시오.');?>");
 											return null;
 										}
-											
+
 										var locationValue = "/";
 										try {
 											locationValue = oLocationTag.getValues();
@@ -304,7 +305,7 @@ if (isset($_GET['returnURL'])) {
 											}
 											published = Math.floor(published / 1000);
 										}
-										
+
 										return (
 											"visibility=" + visibility +
 											"&starred=" + starred +
@@ -323,11 +324,11 @@ if (isset($_GET['returnURL'])) {
 											"&accepttrackback=" + (oForm.accepttrackback.checked ? 1 : 0)
 										);
 									}
-									
-									this.setEnclosure = function(fileName) {
-										
+
+									self.setEnclosure = function(fileName) {
+
 									}
-									this.loadTemplate = function (templateId,title) {
+									self.loadTemplate = function (templateId,title) {
 										editor.syncTextarea();
 										var oForm = document.forms[0];
 										var content = trim(oForm.content.value);
@@ -341,10 +342,10 @@ if (isset($_GET['returnURL'])) {
 										request.onSuccess = function () {
 											PM.removeRequest(this);
 											PM.showMessage("<?php echo _t('서식을 반영하였습니다.');?>", "center", "bottom");
-											templateTitle = this.getText("/response/title");
-											templateContents = this.getText("/response/content");
-											entryManager.entryId = this.getText("/response/entryId");
-											entryManager.isSaved = true;
+											templateTitle = self.getText("/response/title");
+											templateContents = self.getText("/response/content");
+											self.entryId = self.getText("/response/entryId");
+											self.isSaved = true;
 											var title = trim(oForm.title.value);
 											if(title.length == 0) {
 												oForm.title.value = templateTitle;
@@ -362,94 +363,93 @@ if (isset($_GET['returnURL'])) {
 										}
 										PM.addRequest(request, "<?php echo _t('불러오고 있습니다');?>");
 										request.send("templateId="+templateId
-											+"&isSaved="+entryManager.isSaved
-											+"&entryId="+entryManager.entryId);
+											+"&isSaved="+self.isSaved
+											+"&entryId="+self.entryId);
 									}
-
-									this.save = function () {
-										if(this.nowsaving == true)
+									self.saveEntry = function () {
+										if(self.nowsaving == true)
 											return false;
-										this.nowsaving = true;
-										var data = this.getData(true);
+										self.nowsaving = true;
+										var data = self.getData(true);
 										if (data == null) {
-											this.nowsaving = false;
+											self.nowsaving = false;
 											return false;
 										}
-										if (data == entryManager.savedData) {
-											this.nowsaving = false;
-											return false;											
+										if (data == self.savedData) {
+											self.nowsaving = false;
+											return false;
 										}
-										if(entryManager.isSaved == true) {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+entryManager.entryId);
+										if(self.isSaved == true) {
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/draft/"+self.entryId);
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/add/");
 										}
-										if(entryManager.autoSave != true) {
+										if(self.autoSave != true) {
 											request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										}
 										request.onSuccess = function () {
 											PM.removeRequest(this);
-											if(entryManager.autoSave == true) {
+											if(self.autoSave == true) {
 												document.getElementById("saveButton").value = "<?php echo _t('자동으로 저장됨');?>";
 												document.getElementById("saveButton").style.color = "#BBB";
-												entryManager.autoSave = false;
+												self.autoSave = false;
 											} else {
 												document.getElementById("saveButton").value = "<?php echo _t('저장됨');?>";
 												document.getElementById("saveButton").style.color = "#BBB";
 												PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											}
-											if(entryManager.isSaved == false) {	// First save.
-												entryManager.entryId = this.getText("/response/entryId");
-												entryManager.isSaved = true;
-												entryManager.draftSaved = false;
+											if(self.isSaved == false) {	// First save.
+												self.entryId = self.getText("/response/entryId");
+												self.isSaved = true;
+												self.draftSaved = false;
 												reloadUploader();
 											} else {
-												entryManager.draftSaved = true;
+												self.draftSaved = true;
 											}
 
-											entryManager.savedData = data;
-											if (entryManager.savedData == entryManager.getData())
-												entryManager.pageHolder.release();
-											entryManager.nowsaving = false;
-											if (entryManager.isPreview == true) {
-												entryManager.openPreviewPopup();
-												entryManager.isPreview = false;
+											self.savedData = data;
+											if (self.savedData == self.getData())
+												self.pageHolder.release();
+											self.nowsaving = false;
+											if (self.isPreview == true) {
+												self.openPreviewPopup();
+												self.isPreview = false;
 											}
-											if (entryManager.changeEditor == true) {
+											if (self.changeEditor == true) {
 												reloadEditor();
 											}
 										}
 										request.onError = function () {
 											PM.removeRequest(this);
 											PM.showErrorMessage("<?php echo _t('저장하지 못했습니다');?>", "center", "bottom");
-											this.nowsaving = false;
+											self.nowsaving = false;
 										}
-										if(entryManager.autoSave != true) {
+										if(self.autoSave != true) {
 											PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										} else {
 											PM.addRequest(request);
-										}											
+										}
 										request.send(data);
 
 										return true;
 									}
-									this.openPreviewPopup = function () {
-										window.open("<?php echo $blogURL;?>/owner/entry/preview/"+entryManager.entryId, "previewEntry"+entryManager.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
+									self.openPreviewPopup = function () {
+										window.open("<?php echo $blogURL;?>/owner/entry/preview/"+self.entryId, "previewEntry"+self.entryId, "location=0,menubar=0,resizable=1,scrollbars=1,status=0,toolbar=0");
 									}
-									this.saveAndReturn = function () {
-										this.nowsaving = true;
-										var data = this.getData(true);
+									self.saveAndReturn = function () {
+										self.nowsaving = true;
+										var data = self.getData(true);
 										if (data == null)
 											return false;
-										if(entryManager.isSaved == true) {
-											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/finish/"+entryManager.entryId);
+										if(self.isSaved == true) {
+											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/finish/"+self.entryId);
 										} else {
 											var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/entry/finish/");
 										}
 
 										request.message = "<?php echo _t('저장하고 있습니다.');?>";
 										request.onSuccess = function () {
-											entryManager.pageHolder.isHolding = function () {
+											self.pageHolder.isHolding = function () {
 												return false;
 											}
 											PM.removeRequest(this);
@@ -489,7 +489,7 @@ if (isset($_GET['popupEditor'])) {
 										request.onError = function () {
 											PM.removeRequest(this);
 											alert("<?php echo _t('저장하지 못했습니다');?>");
-											this.nowsaving = false;
+											self.nowsaving = false;
 											document.getElementById("saveAndReturnButton").value = "<?php echo _t('저장 후 돌아가기');?>";
 
 										}
@@ -499,44 +499,47 @@ if (isset($_GET['popupEditor'])) {
 									}
 									/// Do postprocessing after editor area is changed first.
 									/// e.g. starting writing, clicking, etc.
-									this.saveAuto = function () {
+									self.stateChanged = function () {
 										if(document.getElementById('templateDialog').style.display != 'none') {
 											toggleTemplateDialog();
 										}
 										document.getElementById("saveButton").value = "<?php echo _t('중간 저장');?>";
 										document.getElementById("saveButton").style.color = "#000";
-										if (this.timer == null)
-											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
+										/// If draft timer is empty, set draft timer.
+										/// If timer runs, set the delay to the timer.
+										if (self.timer == null)
+											self.timer = window.setTimeout(self.saveDraft, 5000);
 										else
-											this.delay = true;
+											self.delay = true;
 									}
-									this.saveDraft = function () {
-										this.autoSave = true;
-										if (this.nowsaving == true) {
-											this.timer = null;
-											this.autoSave = false;
+									self.saveDraft = function () {
+										self.autoSave = true;
+										if (self.nowsaving == true) {
+											self.timer = null;
+											self.autoSave = false;
 											return;
 										}
-										this.timer = null;
-										if (this.changeEditor != true && this.delay) {
-											this.delay = false;
-											this.autoSave = false;
-											this.timer = window.setTimeout(entryManager.saveDraft, 5000);
+										//self.timer = null;
+										if (self.changeEditor != true && self.delay) {
+											self.delay = false;
+											self.autoSave = false;
+											self.timer = null;
 											return;
 										}
-										this.save();
+										self.saveEntry();
+										self.timer = null;
 										return;
 									}
 
-									this.preview = function () {
-										this.isPreview = true;
-										if (!this.save()) {
-											entryManager.openPreviewPopup();
-											this.isPreview = false;
+									self.preview = function () {
+										self.isPreview = true;
+										if (!self.saveEntry()) {
+											self.openPreviewPopup();
+											self.isPreview = false;
 										}
 										return;
 									}
-									this.savedData = this.getData();
+									self.savedData = self.getData();
 								}
 								var entryManager;
 
@@ -549,7 +552,7 @@ if (isset($_GET['popupEditor'])) {
 									request.send();
 								}
 								window.setInterval("keepSessionAlive()", 600000);
-								
+
 								function checkCategory(type) {
 									switch(type) {
 										case "type_keyword":
@@ -598,18 +601,18 @@ if (isset($_GET['popupEditor'])) {
 									}
 									return true;
 								}
-								
+
 								function viewWhatIsEolin() {
 									document.getElementById('TCfilelist').style.visibility = 'hidden';
 									dialog = document.getElementById('eolinDialog');
 									PM.showPanel(dialog);
 								}
-								
+
 								function closeWhatIsEolin() {
 									document.getElementById('TCfilelist').style.visibility = 'visible';
 									document.getElementById('eolinDialog').style.display = 'none';
 								}
-								
+
 								function toggleTemplateDialog() {
 									if(document.getElementById('templateDialog').style.display != 'none') {
 										document.getElementById('templateDialog').style.display = 'none';
@@ -626,7 +629,7 @@ if (isset($_GET['popupEditor'])) {
 
 							//]]>
 						</script>
-						
+
 						<form id="editor-form" method="post" action="<?php echo $blogURL;?>/owner/entry">
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?php
@@ -637,11 +640,11 @@ if (defined('__TEXTCUBE_POST__')) {
 	echo _f('선택한 %1 수정',$titleText);
 }
 ?></span></h2>
-									
+
 								<div id="editor" class="data-inbox">
 									<div id="title-section" class="section">
 										<h3><?php echo _t('머리말');?></h3>
-										
+
 										<dl id="title-line" class="line">
 											<dt><label for="title" id="title-line-label"><?php echo $isKeyword ? _t('키워드') : _t('제목');?></label></dt>
 											<dd>
@@ -685,10 +688,10 @@ if (defined('__TEXTCUBE_POST__')) {
 											</dd>
 										</dl>
 									</div>
-									
+
 									<div id="textarea-section" class="section">
 										<h3><?php echo _t('본문');?></h3>
-										
+
 										<dl class="editoroption">
 											<dt><label for="contentformatter"><?php echo _t('포매터');?></label></dt>
 											<dd><select id="contentformatter" name="contentformatter" onchange="return setFormatter(this.value, document.getElementById('contenteditor'), changeEditor);">
@@ -722,7 +725,7 @@ if (defined('__TEXTCUBE_POST__')) {
 <?php
 	}
 ?>
-										
+
 										<div id="templateDialog" class="entry-editor-property<?php echo defined('__TEXTCUBE_POST__') ? NULL : ' hidden';?>">
 											<div class="temp-box">
 												<h4><?php echo _t('서식 선택');?></h4>
@@ -744,14 +747,14 @@ if (count($templateLists) == 0) {
 }
 ?>
 												</dl>
-												
+
 												<div class="button-box">
 													<button class="close-button input-button" onclick="toggleTemplateDialog();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 									 			</div>
 									 		</div>
 								 		</div>
 									</div>
-									
+
 									<hr class="hidden" />
 
 									<div id="setting-section">
@@ -766,16 +769,16 @@ if (count($templateLists) == 0) {
 											<div id="attachment-container" class="container">
 <?php
 $param = array(
-		'uploadPath'=> "$blogURL/owner/entry/attachmulti/", 
-		'singleUploadPath'=> "$blogURL/owner/entry/attach/", 
+		'uploadPath'=> "$blogURL/owner/entry/attachmulti/",
+		'singleUploadPath'=> "$blogURL/owner/entry/attach/",
 		'deletePath'=>"$blogURL/owner/entry/detach/multi/",
-		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/", 
-		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/", 
-		'fileSizePath'=> "$blogURL/owner/entry/size?parent=");		
+		'labelingPath'=> "$blogURL/owner/entry/attachmulti/list/",
+		'refreshPath'=> "$blogURL/owner/entry/attachmulti/refresh/",
+		'fileSizePath'=> "$blogURL/owner/entry/size?parent=");
 printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 ?>
 											</div>
-										
+
 											<div id="insert-container" class="container">
 												<a class="image-left" href="#void" onclick="editorAddObject(editor, 'Image1L');return false;" title="<?php echo _t('선택한 파일을 글의 왼쪽에 정렬합니다.');?>"><span class="text"><?php echo _t('왼쪽 정렬');?></span></a>
 												<a class="image-center" href="#void" onclick="editorAddObject(editor, 'Image1C');return false;" title="<?php echo _t('선택한 파일을 글의 중앙에 정렬합니다.');?>"><span class="text"><?php echo _t('중앙 정렬');?></span></a>
@@ -795,32 +798,32 @@ printEntryFileUploadButton($entry['id']);
 									</div>
 
 									<hr class="hidden" />
-									
+
 									<div id="taglocal-section" class="section">
 										<h3><a href="#void" onclick="focusLayer('tag-location-container',settingMenus);return false;"><?php echo _t('태그 &amp; 위치');?></a></h3>
-												
+
 										<div id="tag-location-container" class="container">
 											<dl id="tag-line">
 												<dt><span class="label"><?php echo _t('태그');?></span></dt>
 												<dd id="tag"></dd>
 											</dl>
-											
+
 											<dl id="location-line">
 												<dt><span class="label"><?php echo _t('지역');?></span></dt>
 												<dd id="location"></dd>
 											</dl>
-											
+
 											<script type="text/javascript">
 												//<![CDATA[
 													try {
 														var oLocationTag = new LocationTag(document.getElementById("location"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
 														oLocationTag.setInputClassName("input-text");
-														oLocationTag.setValue("<?php echo addslashes($entry['location']);?>");	
+														oLocationTag.setValue("<?php echo addslashes($entry['location']);?>");
 													} catch (e) {
 														document.getElementById("location").innerHTML = '<input type="text" class="input-text" name="location" value="<?php echo addslashes($entry['location']);?>" /><br /><?php echo _t('지역태그 스크립트를 사용할 수 없습니다. 슬래시(/)로 구분된 지역을 직접 입력해 주십시오.(예: /대한민국/서울/강남역)');?>';
 														// TODO : 이부분(스크립트를 실행할 수 없는 환경일 때)은 직접 입력보다는 0.96 스타일의 팝업이 좋을 듯
 													}
-													
+
 													try {
 														var oTag = new Tag(document.getElementById("tag"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
 														oTag.setInputClassName("input-text");
@@ -837,7 +840,7 @@ printEntryFileUploadButton($entry['id']);
 														document.getElementById("tag").innerHTML = '<input type="text" class="input-text" name="tag" value="<?php echo addslashes(str_replace('"', '&quot;', implode(', ', $tags)));?>" /><br /><?php echo _t('태그 입력 스크립트를 사용할 수 없습니다. 콤마(,)로 구분된 태그를 직접 입력해 주십시오.(예: 텍스트큐브, BLOG, 테스트)');?>';
 													}
 												//]]>
-											</script> 
+											</script>
 										</div>
 									</div>
 
@@ -845,7 +848,7 @@ printEntryFileUploadButton($entry['id']);
 
 									<div id="power-section" class="section">
 										<h3><a href="#void" onclick="focusLayer('power-container',settingMenus);return false;"><?php echo _t('기타 설정');?></a></h3>
-										
+
 										<div id="power-container" class="container">
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
@@ -887,7 +890,7 @@ if (defined('__TEXTCUBE_POST__')) {
 													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();">'._t('설명').'</a>)' : NULL;?></label></div>
 												</dd>
 											</dl>
-											
+
 											<dl id="power-line" class="line"<?php if($isKeyword) echo _t('style="display: none"');?>>
 												<dt><span class="label"><?php echo _t('권한');?></span></dt>
 												<dd>
@@ -899,7 +902,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									</div>
 									</div><!-- setting-section -->
 									<hr class="hidden clear" />
-									
+
 									<div id="save-section">
 <?php
 if (isset($_GET['popupEditor'])) {
@@ -909,7 +912,7 @@ if (isset($_GET['popupEditor'])) {
 											<span class="hidden">|</span>
 											<input type="submit" id="saveButton" value="<?php echo _t('중간 저장');?>" class="save-button input-button" onclick="entryManager.save();return false;" />
 											<span class="hidden">|</span>
-											<input type="submit" id="saveAndReturnButton" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />									
+											<input type="submit" id="saveAndReturnButton" value="<?php echo _t('저장 후 돌아가기');?>" class="save-and-return-button input-button" onclick="entryManager.saveAndReturn();return false;" />
 										</div>
 <?php
 } else {
@@ -927,11 +930,11 @@ if (isset($_GET['popupEditor'])) {
 }
 ?>
 									</div>
-									
+
 									<hr class="hidden" />
-									
+
 								</div>
-								
+
 								<input type="hidden" name="categoryAtHome" value="<?php echo (isset($_POST['category']) ? $_POST['category'] : '0');?>" />
 								<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 								<input type="hidden" name="withSearch" value="<?php echo (empty($_POST['search']) ? '' : 'on');?>" />
@@ -950,25 +953,25 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 						<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
 							<div class="temp-box">
 								<h4><?php echo _t('이올린이란?');?></h4>
-								
+
 								<p class="message">
 									<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
 								</p>
-								
+
 								<h4><?php echo _t('발행 방법');?></h4>
-								
+
 								<p class="message">
 									<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 "발행"으로 체크하면 됩니다.');?></em>
 									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
 								</p>
-							
+
 								<div class="button-box">
 									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
 									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
 					 			</div>
 					 		</div>
 				 		</div>
-				 		
+
 						<script type="text/javascript">
 							//<![CDATA[
 								var contentformatterObj = document.getElementById('contentformatter');
@@ -990,9 +993,9 @@ switch($entry['category']) {
 	default:
 		echo 'type_post';break;
 		}?>');
-		
+
 							//]]>
-						</script> 
+						</script>
 <?php
 if (isset($_GET['popupEditor']))
 	require ROOT . '/interface/common/owner/footerForPopupEditor.php';

@@ -128,8 +128,8 @@ function printOwnerEditorScript($entryId = false) {
 	}
 
 	function editorChanged() {
-		if ((entryManager != undefined) && (entryManager.saveAuto != undefined))
-			entryManager.saveAuto();
+		if ((entryManager != undefined) && (entryManager.stateChanged != undefined))
+			entryManager.stateChanged();
 	}
 
 	function getEditor() {

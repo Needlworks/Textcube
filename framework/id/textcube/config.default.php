@@ -5,9 +5,9 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION_ID', '1.10.0');
-define('TEXTCUBE_REVISION', 'root-main-branch1.10-r33');
-define('TEXTCUBE_CODENAME', 'soave');
+define('TEXTCUBE_VERSION_ID', '1.10.1');
+define('TEXTCUBE_REVISION', 'root-main-branch1.10-r34');
+define('TEXTCUBE_CODENAME', ': beta 1');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2014. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
@@ -16,8 +16,7 @@ define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
-define('JQUERY_VERSION','1.6.4.min');
-define('JQUERYMOBILE_VERSION','1.0.1.min');
+define('JQUERY_VERSION','1.11.1.min');
 if( strstr( PHP_OS, "WIN") !== false ) {
 	define('DS', "\\");
 } else {
