@@ -226,16 +226,16 @@ require ROOT . '/interface/common/owner/header.php';
 	}
 ?>
 									$('#list-form tbody td.selection').click(function(ev) {
-										$('#allChecked').attr('checked', false);
-										var checked = $(':checked', this).attr('checked');
-										$(':checked', this).attr('checked', checked ? true : false);
+										$('#allChecked').prop('checked', false);
+										var checked = $(':checked', this).prop('checked');
+										$(':checked', this).prop('checked', checked ? true : false);
 										toggleThisTr($(this).parent(), checked);
 										ev.stopPropagation();
 									});
 									$('#allChecked').click(function(ev) {
-										var checked = $(this).attr('checked');
+										var checked = $(this).prop('checked');
 										$('#list-form tbody td.selection input:checkbox').each(function(index, item) {
-											$(item).attr('checked', checked ? true : false);
+											$(item).prop('checked', checked ? true : false);
 											toggleThisTr($(item).parent().parent(), checked);
 										});
 									});
