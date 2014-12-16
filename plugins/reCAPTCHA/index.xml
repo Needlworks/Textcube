@@ -18,6 +18,7 @@
   <binding>
     <tag name="SKIN_head_end" handler="Recaptcha_Header" />
     <tag name="SKIN_body_end" handler="Recaptcha_Footer" />
+    <listener event="REPLY_head_end" handler="Recaptcha_CCHeader" />
     <listener event="AddingComment" handler="Recaptcha_AddingCommentHandler" />
     <listener event="ManipulateIVRules" handler="Recaptcha_AddInputValidatorRule" />
     <config xml:lang="ko" dataValHandler="Recaptcha_ConfigHandler">
