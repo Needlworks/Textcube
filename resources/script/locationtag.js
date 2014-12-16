@@ -5,7 +5,7 @@
 // 입력창을 10ms마다 체크하면서 값이 변했으면 request를 보낸다.
 // 파이어폭스에서는 한글을 입력할때 keydown 이벤트가 발생하지 않기 때문에
 // 값이 변하는지 계속 보고있어야 한다.
-function eolinLocationTagFunction_WatchInputBox(id)
+function tcLocationTagFunction_WatchInputBox(id)
 {
 	try
 	{
@@ -25,7 +25,7 @@ function eolinLocationTagFunction_WatchInputBox(id)
 }
 
 // 서버에서 보내오는 필터로 로컬 location suggestion
-function eolinLocationFunction_showLocalSuggestion(id, cursor, filter)
+function tcLocationFunction_showLocalSuggestion(id, cursor, filter)
 {
 	// Container의 ID를 통해 instance를 가져온다
 	try { var instance = document.getElementById(id).instance; }
@@ -138,7 +138,7 @@ function eolinLocationFunction_showLocalSuggestion(id, cursor, filter)
 }
 
 // 서버에서 보내오는 내용을 실행하는 함수
-function eolinLocationTagFunction_showSuggestion()
+function tcLocationTagFunction_showSuggestion()
 {
 	// Container의 ID를 통해 instance를 가져온다
 	try { var instance = document.getElementById(arguments[0]).instance; }
@@ -229,7 +229,7 @@ function LocationTag(container, language, disable)
 	this.isTyping = false;			// input box에 포커스가 있는지 여부
 	this.isSuggestionShown = false;	// suggest window가 보여지고 있는지의 여부
 
-	this.typingText = "";			// eolinTagFunction_WatchInputBox에서 input box의 값을 감시하기 위한 변수
+	this.typingText = "";			// tcTagFunction_WatchInputBox에서 input box의 값을 감시하기 위한 변수
 
 	this.container = container;		// tag list가 들어갈 container
 	this.container.instance = this;
@@ -238,7 +238,7 @@ function LocationTag(container, language, disable)
 	this.suggestion = document.createElement("ul");
 	this.suggestion.instance = this;
 	this.suggestion.selectedIndex = 0;
-	this.suggestion.className = "eolinSuggest";
+	this.suggestion.className = "tcSuggest";
 	this.suggestion.style.margin = "0px";
 	this.suggestion.style.padding = "0px";
 	this.suggestion.style.listStyleType = "none";
@@ -342,7 +342,7 @@ function LocationTag(container, language, disable)
 	}
 	
 	// 10ms마다 input box의 값이 변했는지 체크
-	setInterval("eolinLocationTagFunction_WatchInputBox('" + this.container.id + "')", 10);
+	setInterval("tcLocationTagFunction_WatchInputBox('" + this.container.id + "')", 10);
 
 	// location list
 	this.locationList = document.createElement("ul");
@@ -546,7 +546,7 @@ LocationTag.prototype.requestSuggestion = function()
 	var instance = this.instance;
 
 	if(!instance.allowEolinSuggestion || (instance.input.value.trim() == "")) {
-		eolinLocationFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, this.getPath());
+		tcLocationFunction_showLocalSuggestion(instance.container.getAttribute("id"), instance.cursor, this.getPath());
 		return;
 	}
 
@@ -556,10 +556,10 @@ LocationTag.prototype.requestSuggestion = function()
 	debug("Request " + instance.cursor);
 
 	var script = document.createElement("script");
-//	script.setAttribute("id", "eolinLocationScript");
-	script.setAttribute("src", "http://suggest.eolin.com/location/script/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&path=" + encodeURIComponent(instance.getPath()) + (STD.isSafari ? "&encode=1" : ""));
-//	if(document.getElementById("eolinLocationScript"))
-//		document.body.removeChild(document.getElementById("eolinLocationScript"));
+//	script.setAttribute("id", "tcLocationScript");
+	script.setAttribute("src", "http://suggest.tc.com/location/script/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&path=" + encodeURIComponent(instance.getPath()) + (STD.isSafari ? "&encode=1" : ""));
+//	if(document.getElementById("tcLocationScript"))
+//		document.body.removeChild(document.getElementById("tcLocationScript"));
 	document.body.appendChild(script);
 }
 

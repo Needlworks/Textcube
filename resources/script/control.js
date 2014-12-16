@@ -82,7 +82,7 @@ function ctlUserSuggest(container, disable)
 	this.isTyping = false;			// input box에 포커스가 있는지 여부
 	this.isSuggestionShown = false;	// suggest window가 보여지고 있는지의 여부
 
-	this.typingText = "";			// eolinTagFunction_WatchInputBox에서 input box의 값을 감시하기 위한 변수
+	this.typingText = "";			// tcTagFunction_WatchInputBox에서 input box의 값을 감시하기 위한 변수
 
 	this.container = container;		// tag list가 들어갈 container
 	this.container.instance = this;
