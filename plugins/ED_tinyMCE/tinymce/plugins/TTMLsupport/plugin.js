@@ -65,7 +65,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
       }
     });
     ed.addCommand('textcubeSavePost', function() {
-			entryManager.save();
+			entryManager.saveEntry();
 			return false;
 		});
 		ed.addCommand('textcubeMoreLessBlock', function() {
