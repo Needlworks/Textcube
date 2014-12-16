@@ -1468,34 +1468,6 @@ table.data-inbox tbody tr td.inactive-class
 	position                         : static;
 }
 
-/* eolin suggest */
-.eolinSuggest
-{
-	background-color                 : #FFFFFF;
-	border                           : 1px solid #BBBBBB;
-}
-
-.eolinSuggest li
-{
-	margin                           : 3px;
-	cursor                           : pointer;
-}
-
-.eolinSuggest li.hover
-{
-	background-color                 : #edf !important;
-}
-
-.eolinSuggest li.disabled
-{
-	color                            : #777;
-}
-
-.eolinSuggest
-{
-	font-size                        : 9pt;
-}
-
 /* etc */
 
 .attention

@@ -602,17 +602,6 @@ if (isset($_GET['popupEditor'])) {
 									return true;
 								}
 
-								function viewWhatIsEolin() {
-									document.getElementById('TCfilelist').style.visibility = 'hidden';
-									dialog = document.getElementById('eolinDialog');
-									PM.showPanel(dialog);
-								}
-
-								function closeWhatIsEolin() {
-									document.getElementById('TCfilelist').style.visibility = 'visible';
-									document.getElementById('eolinDialog').style.display = 'none';
-								}
-
 								function toggleTemplateDialog() {
 									if(document.getElementById('templateDialog').style.display != 'none') {
 										document.getElementById('templateDialog').style.display = 'none';
@@ -816,7 +805,7 @@ printEntryFileUploadButton($entry['id']);
 											<script type="text/javascript">
 												//<![CDATA[
 													try {
-														var oLocationTag = new LocationTag(document.getElementById("location"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
+														var oLocationTag = new LocationTag(document.getElementById("location"), "<?php echo $blog['language'];?>", true);
 														oLocationTag.setInputClassName("input-text");
 														oLocationTag.setValue("<?php echo addslashes($entry['location']);?>");
 													} catch (e) {
@@ -825,7 +814,7 @@ printEntryFileUploadButton($entry['id']);
 													}
 
 													try {
-														var oTag = new Tag(document.getElementById("tag"), "<?php echo $blog['language'];?>", <?php echo isset($service['disableEolinSuggestion']) && $service['disableEolinSuggestion'] ? 'true' : 'false';?>);
+														var oTag = new Tag(document.getElementById("tag"), "<?php echo $blog['language'];?>", true);
 														oTag.setInputClassName("input-text");
 <?php
 		$tags = array();
@@ -878,16 +867,13 @@ if (defined('__TEXTCUBE_POST__')) {
 													</div>
 												</dd>
 											</dl>
-<?php
-	$countResult = POD::queryExistence("SELECT id FROM {$database['prefix']}Entries WHERE blogid = ".getBlogId()." AND visibility = 3");
-?>
 											<dl id="status-line" class="line">
 												<dt><span class="label"><?php echo _t('공개여부');?></span></dt>
 												<dd>
 													<div id="status-private" class="status-private"><input type="radio" id="visibility_private" class="radio" name="visibility" value="0"<?php echo (abs($entry['visibility']) == 0 ? ' checked="checked"' : '');?> /><label for="visibility_private"><?php echo _t('비공개');?></label></div>
 													<div id="status-protected" class="status-protected"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_protected" class="radio" name="visibility" value="1"<?php echo (abs($entry['visibility']) == 1 ? ' checked="checked"' : '');?> /><label for="visibility_protected"><?php echo _t('보호');?></label></div>
 													<div id="status-public" class="status-public"><input type="radio" id="visibility_public" class="radio" name="visibility" value="2"<?php echo (abs($entry['visibility']) == 2 ? ' checked="checked"' : '');?> /><label for="visibility_public"><?php echo _t('공개');?></label></div>
-													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo $countResult == false ? ' onclick="viewWhatIsEolin();"' : NULL; echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?><?php echo $countResult == true ? ' (<a href="#void" onclick="viewWhatIsEolin();">'._t('설명').'</a>)' : NULL;?></label></div>
+													<div id="status-syndicated" class="status-syndicated"<?php if($isKeyword) echo _t('style="display: none"');?>><input type="radio" id="visibility_syndicated" class="radio" name="visibility" value="3"<?php echo (abs($entry['visibility']) == 3 ? ' checked="checked"' : '');?> /><label for="visibility_syndicated"><?php echo _t('발행');?></label></div>
 												</dd>
 											</dl>
 
@@ -950,28 +936,6 @@ if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 							</div>
 						</form>
 						<div id="feather" class="clear"></div>
-						<div id="eolinDialog" class="dialog" style="position: absolute; display: none; z-index: 100;">
-							<div class="temp-box">
-								<h4><?php echo _t('이올린이란?');?></h4>
-
-								<p class="message">
-									<?php echo _t('이올린은 텍스트큐브와 텍스트큐브 기반의 블로그에서 "발행"을 통해 보내진 글들을 다양한 방법으로 만날 수 있는 텍스트큐브 블로거들의 열린 공간입니다.');?>
-								</p>
-
-								<h4><?php echo _t('발행 방법');?></h4>
-
-								<p class="message">
-									<em><?php echo _t('텍스트큐브 글목록에서 발행버튼을 누르거나 글쓰기시 공개범위를 "발행"으로 체크하면 됩니다.');?></em>
-									<?php echo _t('발행을 통해 이올린으로 보내진 게시물들의 저작권을 포함한 일체에 관한 권리는 별도의 의사표시가 없는 한 각 회원에게 있습니다. 이올린에서는 발행된 게시물을 블로거의 동의 없이 상업적으로 이용하지 않습니다. 다만 비영리적 목적인 경우는 이용이 가능하며, 또한 이올린 서비스 내의 게재권, 사용권을 갖습니다.');?>
-								</p>
-
-								<div class="button-box">
-									<button id="eolin-button" class="eolin-button input-button" onclick="window.open('http://www.eolin.com');" title="<?php echo _t('이올린으로 연결합니다.');?>"><span class="text"><?php echo _t('이올린, 지금 만나보세요');?></span></button>
-									<button id="close-button" class="close-button input-button" onclick="closeWhatIsEolin();return false;" title="<?php echo _t('이 대화상자를 닫습니다.');?>"><span class="text"><?php echo _t('닫기');?></span></button>
-					 			</div>
-					 		</div>
-				 		</div>
-
 						<script type="text/javascript">
 							//<![CDATA[
 								var contentformatterObj = document.getElementById('contentformatter');

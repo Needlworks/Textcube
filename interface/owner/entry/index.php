@@ -1113,7 +1113,7 @@ if($entry['category'] < 0) {
 											<dt><?php echo _t('별표');?></dt>
 											<dd><?php echo _t('중요한 글에 별표를 매깁니다.');?></dd>
 										</dl>
-										<dl class="eolin-description">
+										<dl class="syndication-description">
 											<dt><?php echo _t('발행');?></dt>
 											<dd><?php echo _t('발행 플러그인들을 통해 다양한 사이트에 공개합니다.');?></dd>
 										</dl>

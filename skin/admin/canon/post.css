@@ -66,7 +66,7 @@ table.data-inbox tbody tr td.ip
 	background-repeat                : no-repeat;
 }
 
-#data-description dl.eolin-description
+#data-description dl.syndication-description
 {
 	background-image                 : url("./image/icon_syndicated_single.gif");
 	background-position              : 8px 2px;
@@ -505,93 +505,4 @@ table.data-inbox tbody tr td.ip
 	margin-top                       : 100px;
 	text-align                       : center;
 	color                            : #666;
-}
-
-/* Eolin Dialogue ********************************************************************************/
-
-#eolinDialog
-{
-	background-color                 : #FFFFFF;
-	background-image                 : url('./image/img_eolin_head.jpg');
-	background-repeat                : no-repeat;
-	border                           : 1px solid #666666;
-	left                             : 220px !important;
-	padding                          : 58px 8px 15px 8px;
-	position                         : absolute;
-	text-align                       : left;
-	top                              : -300px !important;
-	width                            : 492px;
-}
-
-#eolinDialog .temp-box
-{
-	border                           : 3px solid #4783B2;
-}
-
-#eolinDialog .temp-box h4
-{
-	border-bottom                    : 1px solid #E6E6E6;
-	color                            : #284A9F;
-	font-size                        : 1em;
-	font-weight                      : bold;
-	margin                           : 20px 15px 10px 15px;
-}
-
-#eolinDialog .temp-box em
-{
-	color                            : #646464;
-	display                          : block;
-	font-weight                      : bold;
-	margin-bottom                    : 5px;
-}
-
-#eolinDialog .temp-box p
-{
-	color                            : #7C7C7C;
-	line-height                      : 1.5em;
-	margin                           : 0 17px;
-}
-
-#eolinDialog .button-box
-{
-	border-top                       : 1px solid #E6E6E6;
-	margin                           : 15px 15px 10px 15px;
-	padding                          : 15px 0 5px 0;
-	width                            : auto;
-}
-
-#eolinDialog .button-box button
-{
-	background-image                 : url('./image/bg_eolin_button.gif');
-	background-position              : left top;
-	background-repeat                : no-repeat;
-	border                           : none;
-	color                            : #284A9F;
-	height                           : 36px;
-	width                            : 313px;
-}
-
-#eolinDialog .button-box button span
-{
-	background-image                 : url('./image/img_eolin_bullet.jpg');
-	background-position              : right top;
-	background-repeat                : no-repeat;
-	padding-right                    : 16px;
-}
-
-#eolinDialog .button-box #close-button
-{
-	background-image                 : url('./image/img_eolin_close.jpg');
-	background-repeat                : no-repeat;
-	display                          : block;
-	height                           : 17px;
-	position                         : absolute;
-	top                              : 10px;
-	right                            : 10px;
-	width                            : 17px;
-}
-
-#eolinDialog .button-box #close-button span
-{
-	display                          : none;
 }
