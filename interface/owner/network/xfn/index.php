@@ -158,7 +158,7 @@ if (sizeof($links) > 0) echo "									</tbody>";
 									<span id="page-list">
 <?php
 $pagingTemplate = '[##_paging_rep_##]';
-$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
+$pagingItemTemplate = '<a [##_paging_rep_link_##]>[##_paging_rep_link_num_##]</a>';
 print Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate);
 ?>
 									</span>
