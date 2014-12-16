@@ -316,7 +316,10 @@ foreach (getCategories($blogid) as $category) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" /></th>
+											<th class="selection">
+												<input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" />
+												<label for="allChecked"></label>
+											</th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="content"><span class="text"><?php echo _t('내용');?></span></th>

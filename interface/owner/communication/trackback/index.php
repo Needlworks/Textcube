@@ -344,7 +344,10 @@ foreach (getCategories($blogid) as $category) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" /></th>
+											<th class="selection">
+												<input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" />
+												<label for="allChecked"></label>
+											</th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="site"><span class="text"><?php echo (isset($tabsClass['received']) ? _t('사이트 이름') : _t('보낸 주소'));?></span></th>
 											<th class="category"><span class="text"><?php echo _t('분류');?></span></th>
