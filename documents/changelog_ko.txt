@@ -3,15 +3,40 @@
 
 == v1.10.1 개발 관련 노트 ==
 === 추가된 점 ===
- * 플러그인   : reCAPTCHA 안티스팸 플러그인 추가
- * 플러그인   : 다양한 파라미터 통신을 위한 커스텀 input validator 사용 가능 (#1710)
+ * 플러그인   : reCAPTCHA 안티스팸 플러그인 추가 (#1705)
+ * 플러그인   : 다양한 파라미터 통신을 위한 커스텀 input validator 이벤트 추가 (#1710)
+ * 플러그인   : 댓글에 댓글달기 창에 REPLY_head_end, REPLY_body_end 이벤트 추가 (#1710)
 
 === 변경된 점 ===
  * 일반       : jQuery 라이브러리 업데이트 (1.11.2)
  * 에디터     : entryManager 의 구현 변경 및 이로 인한 자동 저장 로직 변경 (#1711)
+ * 에디터     : tinyMCE 에디터의 UI 디자인 변경 (#1722)
+ * 일반       : 이올린 관련 가비지코드 제거 (#1712)
+ * 일반       : 텍스트큐브 코어가 플러그인 및 자체 동작을 위하여 출력하는 자바스크립트 변수를 body 대신 head 영역에서 출력하도록 변경 (#1720)
 
 === 버그 수정 ===
  * 관리패널    : 대시보드 위젯들의 위치 이동이 안되는 문제 수정 (#1713)
+ * 에디터     : 자동 저장이 제대로 동작하지 않는 버그 수정 (#1711)
+
+==== reCAPTCHA 플러그인 추가 ====
+ 안티스팸 플러그인으로 구글의 reCAPTCHA를 사용하는 플러그인이 추가되었습니다. 사용을 위해서는 플러그인 설정 화면에서 플러그인을 켜신 후, 환경 설정을 통해 API 키를 입력하시기 바랍니다. API 키는 환경 설정 팝업의 링크를 통해 발급받을 수 있으며, 구글 계정이 필요합니다.
+
+==== 이벤트 추가 안내 ====
+ 아래의 이벤트들이 추가되었습니다.
+ * ManipulateIVRules : Input Validator 에 들어가는 Validation Rule을 플러그인에서 조작할 수 있게 하는 이벤트입니다.
+  * $target : $IV (인터페이스에 따라 다른 값이 넘어옵니다)
+  * $mother : uri.interfaceRoute (인터페이스에 접근하는 경로값) 를 넘겨 받습니다. 예를 들어, 댓글을 추가하는 uri.interfaceRoute는 interface/blog/comment/add 입니다.
+===== 참고 =====
+ * 이 이벤트를 사용할 경우, $mother 값을 체크하여 반드시 필요한 interfaceRoute에서만 동작하도록 플러그인을 작성하시기 바랍니다. input validator는 보안에 관련된 부분이므로 주의해서 필요한 부분의 validation rule만 변경해야 합니다.
+ * 현재 interface/blog/comment/add, interface/blog/comment/comment 두 interfaceRoute 에서만 이 이벤트가 동작합니다.
+
+ * REPLY_head_end : 댓글에 댓글달기 창의 head 블럭 끝 직전에 발생하는 이벤트입니다. $target이 그대로 출력됩니다.
+  * $target : null
+  * $mother : $comment
+ * REPLY_body_end : 댓글에 댓글달기 창의 body 블럭 끝 직전에 발생하는 이벤트입니다. $target이 그대로 출력됩니다.
+  * $target : null
+  * $mother : $comment
+
 
 == v1.10.0 개발 관련 노트 ==
 === 추가된 점 ===
