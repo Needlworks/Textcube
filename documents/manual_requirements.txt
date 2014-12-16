@@ -1,4 +1,4 @@
-Textcube 1.8 Requirements
+Textcube 1.10 Requirements
 -------------------------
 
 1. For Linux Systems :

@@ -1,4 +1,4 @@
-Copyright (C) 2004-2010, Needlworks / Tatter Network Foundation.
+Copyright (C) 2004-2015, Needlworks / Tatter Network Foundation.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
