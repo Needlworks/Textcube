@@ -918,7 +918,10 @@ for ($i=0; $i<sizeof($entries); $i++) {
 		$className .= ' page-line';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);" /></td>
+											<td class="selection">
+												<input id="entryCheckId<?php echo $entry['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);" />
+												<label for="entryCheckId<?php echo $entry['id'];?>"></label>
+											</td>
 											<td class="starred"><?php
 	if($entry['starred'] == 2) {
 ?>

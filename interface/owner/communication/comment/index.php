@@ -362,7 +362,10 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over');return false;" onmouseout="rolloverClass(this, 'out');return false">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" ip="<?php echo $comment['ip'];?>"/></td>
+											<td class="selection">
+												<input id="commentCheckId<?php echo $comment['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" ip="<?php echo $comment['ip'];?>"/>
+												<label for="commentCheckId<?php echo $comment['id'];?>"></label>
+											</td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="name">
 <?php
