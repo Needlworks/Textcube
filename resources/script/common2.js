@@ -1243,8 +1243,8 @@ function modifyComment(id) {
 	openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
 }
 
-function commentComment(parent) {
-	openCenteredWindow(blogURL + "/comment/comment/" + parent, "tatter", 460, 550);
+function commentComment(parentId) {
+	openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
 }
 
 function getMoreLineStream(page,lines,mode) {
