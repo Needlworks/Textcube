@@ -193,7 +193,7 @@ if(isset($blogMenu['topMenu'])) {
 	} else {
 		$blogContentMenuItem['network'] = array();
 		if($context->getProperty('service.reader') == true) array_push($blogContentMenuItem['network'],array('menu'=>'reader','title'=>_t('바깥 글 읽기'),'link'=>'/owner/network/reader'));
-	}	
+	}
 	if(Acl::check('group.administrators')) {
 		$blogContentMenuItem['skin'] = array(
 			array('menu'=>'skin','title'=>_t('스킨 선택'),'link'=>'/owner/skin'),
@@ -257,10 +257,10 @@ $blogContentMenuItem['center'] = array_merge($blogContentMenuItem['center'] , ar
 
 /***** Start header output *****/
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo (isset($blog['language']) ? $blog['language'] : "ko");?>">
+<!DOCTYPE html>
+<html lang="<?php echo $context->getProperty('blog.language','ko');?>">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo htmlspecialchars($context->getProperty('blog.title'));?> &gt; <?php echo $blogMenu['title'];?></title>
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
 <?php
@@ -432,7 +432,7 @@ $writer = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE user
 				<div id="main-menu-box">
 					<ul id="main-menu">
 						<li id="menu-textcube"><a href="<?php echo $context->getProperty('uri.blog').'/owner/center/dashboard';?>" title="<?php echo _t('센터로 이동합니다.');?>"><span class="text"><?php echo _t('텍스트큐브');?></span></a></li>
-<?php //echo User::changeBlog();?>						
+<?php //echo User::changeBlog();?>
 <?php
 foreach($blogTopMenuItem as $menuItem) {
 ?>
@@ -500,7 +500,7 @@ foreach($blogTopMenuItem as $menuItem) {
 		" class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><?php
 		}
 		if($contentMenuItem['menu'] != 'divider') {
-?><a href="<?php 
+?><a href="<?php
 						echo $context->getProperty('uri.blog').
 							$contentMenuItem['link'].
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
@@ -570,7 +570,7 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 							($contentMenuItem['menu'] == 'user' && strpos($blogMenu['contentMenu'],'user') !== false) ||
 							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><?php
 			if($contentMenuItem['menu'] == 'divider') {?><span class="divider"><?php echo $contentMenuItem['title'];?></span><?php
-				} else {?><a href="<?php 
+				} else {?><a href="<?php
 						echo $context->getProperty('uri.blog').
 							$contentMenuItem['link'].
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
