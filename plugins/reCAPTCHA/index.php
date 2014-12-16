@@ -49,12 +49,11 @@ function Recaptcha_Footer($target) {
 (function($) {
 if (!doesHaveOwnership) {
 	$('a[id^=commentCount]').click(function() {
-		recaptchaWaitForElement('.write.comments button[type=submit]', function(o) {
-			// TODO: entryId 넣어서 여러 form을 여는 경우 처리?
-			var divId = 'comment_recaptcha';
-			$(o).css({'display': 'inline-block'});
-			$(o).before('<div style="display:inline-block; margin-right:1em; vertical-align:middle" id="' + divId + '"></div>');
-			grecaptcha.render(divId, {
+		recaptchaWaitForElement('form[id$=WriteComment]', function(f) {
+			var entryId = $(f).attr('id').search(/(\d+)/)[1];
+			var blockId = 'comment_recaptcha_' + entryId;
+			$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
+			grecaptcha.render(blockId, {
 				'sitekey': '{$config['siteKey']}'
 			});
 		});
