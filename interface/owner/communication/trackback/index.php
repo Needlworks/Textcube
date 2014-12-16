@@ -238,35 +238,34 @@ if($tabsClass['received'] == true) {
 <?php
 }
 ?>
-								function toggleThisTr(tr, isActive) {
-									if (isActive) {
-										$(tr).removeClass('inactive-class').addClass('active-class');
-									} else {
-										$(tr).removeClass('active-class').addClass('inactive-class');
-									}
+							toggleThisTr = function(tr, isActive) {
+								if (isActive) {
+									$(tr).removeClass('inactive-class').addClass('active-class');
+								} else {
+									$(tr).removeClass('active-class').addClass('inactive-class');
 								}
+							}
 
-								$(document).ready(function() {
-									document.getElementById('allChecked').disabled = false;
-									removeItselfById('category-move-button');
-									$('#list-form tbody td.selection').click(function(ev) {
-										$('#allChecked').attr('checked', false);
-										var checked = $(':checked', this).attr('checked');
-										$(':checked', this).attr('checked', checked ? true : false);
-										toggleThisTr($(this).parent(), checked);
-										ev.stopPropagation();
-									});
-									$('#allChecked').click(function(ev) {
-										var checked = $(this).attr('checked');
-										$('#list-form tbody td.selection input:checkbox').each(function(index, item) {
-											$(item).attr('checked', checked ? true : false);
-											toggleThisTr($(item).parent().parent(), checked);
-										});
+							$(document).ready(function() {
+								$('#allChecked').removeAttr('disabled');
+								removeItselfById('category-move-button');
+								$('#list-form tbody td.selection').click(function(ev) {
+									$('#allChecked').prop('checked', false);
+									var checked = $(':checked', this).prop('checked');
+									$(':checked', this).prop('checked', checked ? true : false);
+									toggleThisTr($(this).parent(), checked);
+									ev.stopPropagation();
+								});
+								$('#allChecked').click(function(ev) {
+									var checked = $(this).prop('checked');
+									$('#list-form tbody td.selection input:checkbox').each(function(index, item) {
+										$(item).prop('checked', checked ? true : false);
+										toggleThisTr($(item).parent().parent(), checked);
 									});
 								});
-
-							})(jQuery);
-							//]]>
+							});
+						})(jQuery);
+						//]]>
 						</script>
 
 						<div id="part-post-trackback" class="part">
