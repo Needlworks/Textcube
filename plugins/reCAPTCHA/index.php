@@ -48,10 +48,11 @@ function Recaptcha_Footer($target) {
 <script type="text/javascript">
 (function($) {
 if (!doesHaveOwnership) {
-	$('a[id^=commentCount]').click(function() {
-		recaptchaWaitForElement('form[id$=WriteComment]', function(f) {
-			var entryId = $(f).attr('id').search(/(\d+)/)[1];
+	$('a[id^=commentCount]').click(function(e) {
+		var entryId = $(e.target).attr('id').match(/(\d+)/)[1];
+		recaptchaWaitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
 			var blockId = 'comment_recaptcha_' + entryId;
+			if ($(blockId).length > 0) return;
 			$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
 			grecaptcha.render(blockId, {
 				'sitekey': '{$config['siteKey']}'
