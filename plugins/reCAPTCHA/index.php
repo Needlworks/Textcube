@@ -53,6 +53,9 @@ function recaptcha_init() {
 		grecaptcha.render('comment_recaptcha', {
 			'sitekey': '{$config['siteKey']}'
 		});
+		window.setTimeout(function() {
+			window.resizeBy(0, $('#comment_recaptcha').outerHeight(true));
+		}, 200);
 	}
 }
 </script>
