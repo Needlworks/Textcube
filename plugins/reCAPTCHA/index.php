@@ -13,10 +13,30 @@ function Recaptcha_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
-<script src="https://www.google.com/recaptcha/api.js?render=explicit"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_checkForms"></script>
 <script type="text/javascript">
 var recaptcha_wait_trials = 0;
-function recaptchaWaitForElement(selector, cb) {
+
+function recaptcha_addControl(f, entryId) {
+	var $ = jQuery;
+	var blockId = 'comment_recaptcha_' + entryId;
+	if ($(blockId).length > 0) return;
+	$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
+	grecaptcha.render(blockId, {
+		'sitekey': '{$config['siteKey']}'
+	});
+}
+
+function recaptcha_checkForms() {
+	var $ = jQuery;
+	$.each(entryIds, function(idx, entryId) {
+		var f = $('form[id=entry' + entryId + 'WriteComment]');
+		if (f.length > 0)
+			recaptcha_addControl(f, entryId);
+	});
+}
+
+function recaptcha_waitForElement(selector, cb) {
 	var $ = jQuery;
 	var finder = function() {
 		var o = $(selector);
@@ -59,7 +79,7 @@ function recaptcha_init() {
 	}
 }
 </script>
-<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=recaptcha_init"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_init"></script>
 EOS;
 	}
 	return $target;
@@ -76,13 +96,8 @@ $(document).ready(function() {
 	if (!doesHaveOwnership) {
 		$('a[id^=commentCount]').click(function(e) {
 			var entryId = $(e.target).attr('id').match(/(\d+)/)[1];
-			recaptchaWaitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
-				var blockId = 'comment_recaptcha_' + entryId;
-				if ($(blockId).length > 0) return;
-				$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
-				grecaptcha.render(blockId, {
-					'sitekey': '{$config['siteKey']}'
-				});
+			recaptcha_waitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
+				recaptcha_addControl(f, entryId);
 			});
 		});
 	}
