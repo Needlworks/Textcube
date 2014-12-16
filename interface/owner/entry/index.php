@@ -801,6 +801,7 @@ if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
 							
 							<div id="change-section-top" class="section">
 								<input type="checkbox" id="allCheckedTop" class="checkbox" onclick="checkAll(this.checked);" />
+								<label for="allCheckedTop"></label>
 								<span class="label"><?php echo _t('선택한 글을');?></span>
 								<input type="button" class="input-button" onclick="processBatchByCommand('publish');return false;" value="<?php echo _t('공개');?>"/>
 								<input type="button" class="input-button" onclick="processBatchByCommand('classify');return false;" value="<?php echo _t('비공개');?>"/>
@@ -912,7 +913,10 @@ for ($i=0; $i<sizeof($entries); $i++) {
 		$className .= ' notice-line';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);" /></td>
+											<td class="selection">
+												<input id="entryCheckId<?php echo $entry['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);" />
+												<label for="entryCheckId<?php echo $entry['id'];?>"></label>
+											</td>
 											<td class="starred"><?php
 	if($entry['starred'] == 2) {
 ?>
@@ -1051,7 +1055,8 @@ if($entry['category'] < 0) {
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 																		
 									<div id="change-section-bottom" class="section">
-										<input type="checkbox" id="allCheckedBottom" class="checkbox" onclick="checkAll(this.checked);" />									
+										<input type="checkbox" id="allCheckedBottom" class="checkbox" onclick="checkAll(this.checked);" />
+										<label for="allCheckedBottom"></label>							
 										<span class="label"><?php echo _t('선택한 글을');?></span>
 										<input type="button" class="input-button" onclick="processBatchByCommand('publish');return false;" value="<?php echo _t('공개');?>"/>
 										<input type="button" class="input-button" onclick="processBatchByCommand('classify');return false;" value="<?php echo _t('비공개');?>"/>

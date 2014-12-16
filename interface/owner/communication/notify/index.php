@@ -188,7 +188,10 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" /></th>
+											<th class="selection">
+												<input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" />
+												<label for="allChecked"></label>
+											</th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="site"><span class="text"><?php echo _t('사이트명');?></span></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
@@ -231,7 +234,10 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$className .= ($i == sizeof($mergedComments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" /></td>
+											<td class="selection">
+												<input id="commentCheckId<?php echo $comment['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" />
+												<label for="commentCheckId<?php echo $comment['id'];?>"></label>
+											</td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="site"><a href="<?php echo $comment['siteUrl'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('사이트를 연결합니다.');?>"><?php echo htmlspecialchars($comment['siteTitle']);?></a></td>
 											<td class="name">
