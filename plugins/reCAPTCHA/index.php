@@ -13,7 +13,6 @@ function Recaptcha_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
-<<<<<<< HEAD
 <script type="text/javascript">
 
 var recaptcha_widgets = {};
@@ -34,32 +33,6 @@ function recaptcha_addControl(f, entryId) {
 }
 
 function recaptcha_checkForms() {
-=======
-<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_checkForms"></script>
-<script type="text/javascript">
-var recaptcha_wait_trials = 0;
-
-function recaptcha_addControl(f, entryId) {
-	var $ = jQuery;
-	var blockId = 'comment_recaptcha_' + entryId;
-	if ($(blockId).length > 0) return;
-	$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
-	grecaptcha.render(blockId, {
-		'sitekey': '{$config['siteKey']}'
-	});
-}
-
-function recaptcha_checkForms() {
-	var $ = jQuery;
-	$.each(entryIds, function(idx, entryId) {
-		var f = $('form[id=entry' + entryId + 'WriteComment]');
-		if (f.length > 0)
-			recaptcha_addControl(f, entryId);
-	});
-}
-
-function recaptcha_waitForElement(selector, cb) {
->>>>>>> d9ae825... refs #1705, #1721 : Let reCAPTCHA work when comment auto-expansion is on.
 	var $ = jQuery;
 	var _entryIds = entryIds;
 	if ($('#tt-body-guestbook').length > 0) {
@@ -116,21 +89,28 @@ function recaptcha_init() {
 		grecaptcha.render('comment_recaptcha', {
 			'sitekey': '{$config['siteKey']}'
 		});
-		recaptcha_waitTimer = window.setInterval(function() {
-			var v = $('#comment_recaptcha');
-			if (v.length > 0) {
-				window.resizeBy(0, v.outerHeight(true));
-				window.clearInterval(recaptcha_waitTimer);
-			}
-		}, 200);
+		var scope = (window.location !== window.parent.location ? window.parent : window);
+		if(scope == window.parent) {
+			recaptcha_waitTimer = scope.setInterval(function() {
+				var v = $('#comment_recaptcha');
+				if (v.length > 0) {
+					resizeDialog(0,parseInt(v.outerHeight(true)),true);
+					scope.clearInterval(recaptcha_waitTimer);
+				}
+			}, 200);
+		} else {
+			recaptcha_waitTimer = window.setInterval(function() {
+				var v = $('#comment_recaptcha');
+				if (v.length > 0) {
+					window.resizeBy(0, v.outerHeight(true));
+					window.clearInterval(recaptcha_waitTimer);
+				}
+			}, 200);
+		}
 	}
 }
 </script>
-<<<<<<< HEAD
 <script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_init" async defer></script>
-=======
-<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_init"></script>
->>>>>>> d9ae825... refs #1705, #1721 : Let reCAPTCHA work when comment auto-expansion is on.
 EOS;
 	}
 	return $target;
@@ -147,7 +127,6 @@ $(document).ready(function() {
 	if (!doesHaveOwnership) {
 		$('a[id^=commentCount]').click(function(e) {
 			var entryId = $(e.target).attr('id').match(/(\d+)/)[1];
-<<<<<<< HEAD
 			$('#entry' + entryId + 'Comment').empty(); // prevent interference with previously shown controls.
 			if ($('#entry' + entryId + 'Comment:visible').length > 0) {
 				/* The comment view is opened. */
@@ -167,11 +146,6 @@ $(document).ready(function() {
 				if (recaptcha_widgets[entryId] != undefined)
 					delete recaptcha_widgets[entryId];
 			}
-=======
-			recaptcha_waitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
-				recaptcha_addControl(f, entryId);
-			});
->>>>>>> d9ae825... refs #1705, #1721 : Let reCAPTCHA work when comment auto-expansion is on.
 		});
 	}
 });
