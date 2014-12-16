@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_ADMINPANEL__',true);
+require ROOT . '/library/preprocessor.php';
+requireModel('blog.comment');
 $IV = array(
 	'POST' => array(
 		'name' => array('string', 'default' => ''),
@@ -13,8 +15,11 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
-require ROOT . '/library/preprocessor.php';
-requireModel('blog.comment');
+$customIV = fireEvent('ManipulateIVRules',$IV,$context->getProperty('uri.interfaceRoute'));
+Validator::addRule($customIV);
+if(!Validator::isValid())
+	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
+requireStrictRoute();
 
 if (!Setting::getBlogSettingGlobal('acceptComments',0) && !doesHaveOwnership()) {
 	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));

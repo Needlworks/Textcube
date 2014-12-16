@@ -21,14 +21,15 @@ if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') ) {
 	}
 }
 
+$context = Model_Context::getInstance();
 $pageHeadTitle = $pageTitle;
 if( Acl::getIdentity('openid') ) {
 	$pageHeadTitle = $pageTitle;
 	$pageTitle = "$pageTitle ( <img src=\"".$ctx->getProperty('service.path')."/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> ".OpenID::getDisplayName(Acl::getIdentity('openid')).")";
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
 	<title><?php echo $pageHeadTitle ;?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -36,8 +37,10 @@ if( Acl::getIdentity('openid') ) {
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $context->getProperty('service.path');?>";
+			var serviceURL  = "<?php echo $context->getProperty('uri.service');?>";
 			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
+			var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false';?>;
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $ctx->getProperty('service.path').'/resources' : $ctx->getProperty('service.resourcepath'));?>/script/common2.js"></script>
@@ -73,6 +76,7 @@ if (!doesHaveMembership()) {
 			}
 		//]]>
 	</script>
+<?php echo fireEvent('REPLY_head_end', '', $comment);?>
 </head>
 <?php
  if (doesHaveOwnership())
@@ -190,5 +194,6 @@ if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($co
 		<input name="openidedit" type="hidden" value="1" />
 <?php } ?>
 	</form>
+<?php echo fireEvent('REPLY_body_end', '', $comment);?>
 </body>
 </html>

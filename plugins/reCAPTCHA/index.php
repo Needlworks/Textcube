@@ -2,7 +2,7 @@
 
 function Recaptcha_AddInputValidatorRule($target, $mother) {
 	$signed_in = (doesHaveOwnership() || doesHaveMembership());
-	if ($mother == 'interface/blog/comment/add/') {
+	if ($mother == 'interface/blog/comment/add/' || $mother == 'interface/blog/comment/comment/') {
 		$target['POST']['g-recaptcha-response'] = array('string', 'default' => '', 'mandatory' => !$signed_in);
 	}
 	return $target;
@@ -40,6 +40,28 @@ EOS;
 	return $target;
 }
 
+function Recaptcha_CCHeader($target) {
+	global $configVal, $pluginURL;
+	$config = Setting::fetchConfigVal($configVal);
+	if (!is_null($config) && isset($config['siteKey'])) {
+		$target .= <<<EOS
+<script type="text/javascript">
+function recaptcha_init() {
+	var $ = jQuery;
+	if (!doesHaveOwnership) {
+		$('form').find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="comment_recaptcha"></div>');
+		grecaptcha.render('comment_recaptcha', {
+			'sitekey': '{$config['siteKey']}'
+		});
+	}
+}
+</script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=recaptcha_init"></script>
+EOS;
+	}
+	return $target;
+}
+
 function Recaptcha_Footer($target) {
 	global $configVal, $pluginURL;
 	$config = Setting::fetchConfigVal($configVal);
@@ -47,19 +69,21 @@ function Recaptcha_Footer($target) {
 		$target .= <<<EOS
 <script type="text/javascript">
 (function($) {
-if (!doesHaveOwnership) {
-	$('a[id^=commentCount]').click(function(e) {
-		var entryId = $(e.target).attr('id').match(/(\d+)/)[1];
-		recaptchaWaitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
-			var blockId = 'comment_recaptcha_' + entryId;
-			if ($(blockId).length > 0) return;
-			$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
-			grecaptcha.render(blockId, {
-				'sitekey': '{$config['siteKey']}'
+$(document).ready(function() {
+	if (!doesHaveOwnership) {
+		$('a[id^=commentCount]').click(function(e) {
+			var entryId = $(e.target).attr('id').match(/(\d+)/)[1];
+			recaptchaWaitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
+				var blockId = 'comment_recaptcha_' + entryId;
+				if ($(blockId).length > 0) return;
+				$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
+				grecaptcha.render(blockId, {
+					'sitekey': '{$config['siteKey']}'
+				});
 			});
 		});
-	});
-}
+	}
+});
 })(jQuery);
 </script>
 EOS;
