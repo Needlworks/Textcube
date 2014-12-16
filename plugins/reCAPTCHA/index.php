@@ -43,16 +43,9 @@ function recaptcha_waitForElement(selector, cb) {
 		if (o.length > 0) {
 			recaptcha_wait_trials = 0;
 			cb(o);
-		} else {
-			recaptcha_wait_trials ++;
-			if (recaptcha_wait_trials > 50) {
-				alert("Recaptcha Plugin: Cannot open the comment form! (5 sec timeout)");
-			} else {
-				window.setTimeout(finder, 100);
-			}
 		}
 	};
-	window.setTimeout(finder, 100);
+	window.setTimeout(finder, 200);
 }
 </script>
 EOS;
@@ -96,9 +89,12 @@ $(document).ready(function() {
 	if (!doesHaveOwnership) {
 		$('a[id^=commentCount]').click(function(e) {
 			var entryId = $(e.target).attr('id').match(/(\d+)/)[1];
-			recaptcha_waitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
-				recaptcha_addControl(f, entryId);
-			});
+			if ($('#entry' + entryId + 'Comment:visible').length > 0) {
+				/* The comment view is opened. */
+				recaptcha_waitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
+					recaptcha_addControl(f, entryId);
+				});
+			}
 		});
 	}
 });
