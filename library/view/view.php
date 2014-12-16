@@ -64,7 +64,7 @@ function dressInsertBefore($tag, $value, & $contents, $useCache = false, $forceP
 	}
 }
 
-function getScriptsOnHead() {
+function getScriptsOnHead($paging, $entryIds = null) {
 	$context = Model_Context::getInstance();
 	$context->getProperty('service.resourcepath');
 	ob_start();
@@ -75,22 +75,6 @@ function getScriptsOnHead() {
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/flash.js" ></script>
-<?php
-	$view = ob_get_contents();
-	ob_end_clean();
-	return $view;
-}
-
-function getUpperView($paging) {
-	$context = Model_Context::getInstance();
-	ob_start();
-?>
-	<!--
-		<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
-
-		Homepage: <?php echo TEXTCUBE_HOMEPAGE.CRLF;?>
-		<?php echo TEXTCUBE_COPYRIGHT.CRLF;?>
-	-->
 	<script type="text/javascript">
 	//<![CDATA[
 		var servicePath = "<?php echo $context->getProperty('service.path');?>";
@@ -110,6 +94,22 @@ function getUpperView($paging) {
 		}
 	//]]>
 	</script>
+<?php
+	$view = ob_get_contents();
+	ob_end_clean();
+	return $view;
+}
+
+function getUpperView() {
+	$context = Model_Context::getInstance();
+	ob_start();
+?>
+	<!--
+		<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
+
+		Homepage: <?php echo TEXTCUBE_HOMEPAGE.CRLF;?>
+		<?php echo TEXTCUBE_COPYRIGHT.CRLF;?>
+	-->
 <?php
 	if (doesHaveOwnership()) {
 ?>

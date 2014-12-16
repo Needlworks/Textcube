@@ -25,8 +25,8 @@ if (!is_null($context->getProperty('uri.permalink',null))) {
 	$canonicalLink = '';
 }
 dress('SKIN_head_end', $automaticLink.$canonicalLink."[##_SKIN_head_end_##]", $view);
-$view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead().'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.
-$view = str_replace('[##_SKIN_body_start_##]',getUpperView(isset($paging) ? $paging : null).'[##_SKIN_body_start_##]', $view);
+$view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead((isset($paging) ? $paging : null),$entryIds).'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.
+$view = str_replace('[##_SKIN_body_start_##]',getUpperView().'[##_SKIN_body_start_##]', $view);
 $view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[##_SKIN_body_end_##]', $view); // care the order for js function overloading issue.
 
 $browserUtil = Utils_Browser::getInstance();
