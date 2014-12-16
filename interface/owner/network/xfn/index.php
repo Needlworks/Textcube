@@ -93,54 +93,76 @@ for ($i=0; $i<sizeof($links); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($links) - 1) ? ' last-line' : '';
 ?>
-									<tr id="link_id_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-										<td class="xfn-homepage"><a href="<?php echo $blogURL;?>/owner/network/link/edit/<?php echo $link['id'];?>" title="<?php echo htmlspecialchars($link['url']);?>"><?php echo htmlspecialchars(UTF8::lessen($link['name'],12));?></a>
-										<input type="hidden" name="xfn<?php echo $link['id'];?>" id="xfn_id_<?php echo $link['id'];?>" value="<?php echo $xfn; ?>"/>
-										</td>
-										<td class="xfn-edit">
-										<input type="checkbox" name="me<?php echo $link['id'];?>" id="me_id_<?php echo $link['id'];?>" <?php echo $check_me?> />
-										</td>
-										<td class="xfn-edit">
-										<label for="friendship-contact_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="contact" id="friendship-contact_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_contact; ?> /> <?php echo _t('연락처를 아는')?></label>
-										<label for="friendship-aquaintance_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="acquaintance" id="friendship-aquaintance_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_acquaintance; ?> /> <?php echo _t('일로서 아는');?></label> 
-										<label for="friendship-friend_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="friend" id="friendship-friend_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_friend; ?> /> <?php echo _t('잘 아는'); ?> </label> 
-										<label for="friendship-none_id_<?php echo $link['id'];?>"><input name="friendship<?php echo $link['id'];?>" value="" id="friendship-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_friendship; ?> /> <?php echo _t('모르는'); ?></label>
-										</td>
-										<td class="xfn-edit">
-										<label for="met_id_<?php echo $link['id'];?>"><input type="checkbox" name="met<?php echo $link['id'];?>" id="met_id_<?php echo $link['id'];?>" value="met" <?php echo $check_met;?> /> <?php echo _t('만나본 적있는'); ?></label>
-										</td>
-										<td class="xfn-edit">
-										<label for="coworker_id_<?php echo $link['id'];?>">
-										<input type="checkbox" name="coworker<?php echo $link['id'];?>" id="coworker_id_<?php echo $link['id'];?>" value="co-worker" <?php echo $check_coworker ?> />
-										<?php echo _t('같이 일하는'); ?>
-										</label>
-										<label for="colleague_id_<?php echo $link['id'];?>">
-										<input type="checkbox" name="colleague<?php echo $link['id'];?>" id="colleague_id_<?php echo $link['id'];?>" value="colleague" <?php echo $check_colleague ?>/>
-										<?php echo _t('분야가 같은'); ?>
-										</label>
-										</td>
-										<td class="xfn-edit">
-										<label for="co-resident_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="co-resident" id="co-resident_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_coresident; ?> /> <?php echo _t('같이 사는'); ?></label> 
-										<label for="neighbor_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="neighbor" id="neighbor_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_neighbor; ?> /> <?php echo _t('이웃에 사는'); ?></label> 
-										<label for="geographical-none_id_<?php echo $link['id'];?>"><input name="geographical<?php echo $link['id'];?>" value="" id="geographical-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_geographical; ?> /> <?php echo _t('비공개');?></label>
-										</td>
-										<td class="xfn-edit">
-										<label for="family-child_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="child" id="family-child_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_child; ?> /> <?php echo _t('자녀'); ?></label> 
-										<label for="family-parent_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="parent" id="family-parent_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_parent; ?> /> <?php echo _t('부모'); ?></label> 
-										<label for="family-sibling_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="sibling" id="family-sibling_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_sibling; ?> /> <?php echo _t('형제,자매'); ?></label> 
-										<label for="family-spouse_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="spouse" id="family-spouse_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_spouse;?> /> <?php echo _t('배우자'); ?></label> 
-										<label for="family-kin_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="kin" id="family-kin_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_kin; ?> /> <?php echo _t('친척'); ?></label>
+	<tr id="link_id_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
+		<td class="xfn-homepage">
+			<a href="<?php echo $blogURL;?>/owner/network/link/edit/<?php echo $link['id'];?>" title="<?php echo htmlspecialchars($link['url']);?>"><?php echo htmlspecialchars(UTF8::lessen($link['name'],12));?></a>
+			<input type="hidden" name="xfn<?php echo $link['id'];?>" id="xfn_id_<?php echo $link['id'];?>" value="<?php echo $xfn; ?>"/>
+		</td>
 
-										<label for="family-none_id_<?php echo $link['id'];?>"><input name="family<?php echo $link['id'];?>" value="" id="family-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_family; ?> /> <?php echo _t('관계 없음'); ?></label>
-										</td>
-										<td class="xfn-edit">
-										<label for="muse_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="muse" id="muse_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_muse; ?> /> <?php echo _t('기분좋은') ?></label> 
-										<label for="crush_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="crush" id="crush_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_crush; ?> /> <?php echo _t('매력적인');?></label> 
-										<label for="date_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="date" id="date_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_date; ?> /> <?php echo _t('만나는'); ?></label> 
-										<label for="sweetheart_id_<?php echo $link['id'];?>"><input name="romantic<?php echo $link['id'];?>" value="sweetheart" id="sweetheart_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_sweetheart; ?> /> <?php echo _t('오직하나뿐인') ?></label>
-										</td>
-										          
-									</tr>
+		<td class="xfn-edit">
+			<input type="checkbox" name="me<?php echo $link['id'];?>" id="me_id_<?php echo $link['id'];?>" <?php echo $check_me?> />
+		</td>
+
+		<td class="xfn-edit">
+			<input name="friendship<?php echo $link['id'];?>" value="contact" id="friendship-contact_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_contact; ?> /> <?php echo _t('연락처를 아는')?>
+				<label for="friendship-contact_id_<?php echo $link['id'];?>"></label>
+			<input name="friendship<?php echo $link['id'];?>" value="acquaintance" id="friendship-aquaintance_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_acquaintance; ?> /> <?php echo _t('일로서 아는');?>
+				<label for="friendship-aquaintance_id_<?php echo $link['id'];?>"></label> 
+			<input name="friendship<?php echo $link['id'];?>" value="friend" id="friendship-friend_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_friend; ?> /> <?php echo _t('잘 아는'); ?> 
+				<label for="friendship-friend_id_<?php echo $link['id'];?>"></label> 
+			<input name="friendship<?php echo $link['id'];?>" value="" id="friendship-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_friendship; ?> /> <?php echo _t('모르는'); ?>
+				<label for="friendship-none_id_<?php echo $link['id'];?>"></label>
+		</td>
+
+		<td class="xfn-edit">
+			<input type="checkbox" name="met<?php echo $link['id'];?>" id="met_id_<?php echo $link['id'];?>" value="met" <?php echo $check_met;?> /> <?php echo _t('만나본 적있는'); ?>
+				<label for="met_id_<?php echo $link['id'];?>"></label>
+		</td>
+
+		<td class="xfn-edit">
+			<input type="checkbox" name="coworker<?php echo $link['id'];?>" id="coworker_id_<?php echo $link['id'];?>" value="co-worker" <?php echo $check_coworker ?> /><?php echo _t('같이 일하는'); ?>
+				<label for="coworker_id_<?php echo $link['id'];?>"></label>
+			<input type="checkbox" name="colleague<?php echo $link['id'];?>" id="colleague_id_<?php echo $link['id'];?>" value="colleague" <?php echo $check_colleague ?>/><?php echo _t('분야가 같은'); ?>
+				<label for="colleague_id_<?php echo $link['id'];?>"></label>
+		</td>
+
+		<td class="xfn-edit">
+			<input name="geographical<?php echo $link['id'];?>" value="co-resident" id="co-resident_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_coresident; ?> /> <?php echo _t('같이 사는'); ?>
+				<label for="co-resident_id_<?php echo $link['id'];?>"></label> 
+			<input name="geographical<?php echo $link['id'];?>" value="neighbor" id="neighbor_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_neighbor; ?> /> <?php echo _t('이웃에 사는'); ?>
+				<label for="neighbor_id_<?php echo $link['id'];?>"></label> 
+			<input name="geographical<?php echo $link['id'];?>" value="" id="geographical-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_geographical; ?> /> <?php echo _t('비공개');?>
+				<label for="geographical-none_id_<?php echo $link['id'];?>"></label>
+		</td>
+
+		<td class="xfn-edit">
+			<input name="family<?php echo $link['id'];?>" value="child" id="family-child_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_child; ?> /> <?php echo _t('자녀'); ?>
+				<label for="family-child_id_<?php echo $link['id'];?>"></label> 
+			<input name="family<?php echo $link['id'];?>" value="parent" id="family-parent_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_parent; ?> /> <?php echo _t('부모'); ?>
+				<label for="family-parent_id_<?php echo $link['id'];?>"></label> 
+			<input name="family<?php echo $link['id'];?>" value="sibling" id="family-sibling_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_sibling; ?> /> <?php echo _t('형제,자매'); ?>
+				<label for="family-sibling_id_<?php echo $link['id'];?>"></label> 
+			<input name="family<?php echo $link['id'];?>" value="spouse" id="family-spouse_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_spouse;?> /> <?php echo _t('배우자'); ?>
+				<label for="family-spouse_id_<?php echo $link['id'];?>"></label> 
+			<input name="family<?php echo $link['id'];?>" value="kin" id="family-kin_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_kin; ?> /> <?php echo _t('친척'); ?>
+				<label for="family-kin_id_<?php echo $link['id'];?>"></label>
+
+			<input name="family<?php echo $link['id'];?>" value="" id="family-none_id_<?php echo $link['id'];?>" type="radio" <?php echo $check_none_family; ?> /> <?php echo _t('관계 없음'); ?>
+				<label for="family-none_id_<?php echo $link['id'];?>"></label>
+		</td>
+
+		<td class="xfn-edit">
+			<input name="romantic<?php echo $link['id'];?>" value="muse" id="muse_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_muse; ?> /> <?php echo _t('기분좋은') ?>
+				<label for="muse_id_<?php echo $link['id'];?>"></label> 
+			<input name="romantic<?php echo $link['id'];?>" value="crush" id="crush_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_crush; ?> /> <?php echo _t('매력적인');?>
+				<label for="crush_id_<?php echo $link['id'];?>"></label> 
+			<input name="romantic<?php echo $link['id'];?>" value="date" id="date_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_date; ?> /> <?php echo _t('만나는'); ?>
+				<label for="date_id_<?php echo $link['id'];?>"></label> 
+			<input name="romantic<?php echo $link['id'];?>" value="sweetheart" id="sweetheart_id_<?php echo $link['id'];?>" type="checkbox" <?php echo $check_sweetheart; ?> /> <?php echo _t('오직하나뿐인') ?>
+				<label for="sweetheart_id_<?php echo $link['id'];?>"></label>
+		</td>
+		          
+	</tr>
 <?php
 }
 if (sizeof($links) > 0) echo "									</tbody>";
