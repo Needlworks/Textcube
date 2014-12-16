@@ -386,7 +386,10 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over'); return false;" onmouseout="rolloverClass(this, 'out'); return false;">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" ip="<?php echo urlencode($trackback['ip']);?>" /></td>
+											<td class="selection">
+												<input id="trackbackCheckId<?php echo $trackback['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $trackback['id'];?>" ip="<?php echo urlencode($trackback['ip']);?>" />
+												<label for="trackbackCheckId<?php echo $trackback['id'];?>"></label>
+											</td>
 											<td class="date"><?php echo Timestamp::formatDate($trackback['written']);?></td>
 											<td class="site">
 <?php

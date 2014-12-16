@@ -231,7 +231,10 @@ for ($i=0; $i<sizeof($mergedComments); $i++) {
 	$className .= ($i == sizeof($mergedComments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" /></td>
+											<td class="selection">
+												<input id="commentCheckId<?php echo $comment['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" />
+												<label for="commentCheckId<?php echo $comment['id'];?>"></label>
+											</td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="site"><a href="<?php echo $comment['siteUrl'];?>" onclick="window.open(this.href); return false;" title="<?php echo _t('사이트를 연결합니다.');?>"><?php echo htmlspecialchars($comment['siteTitle']);?></a></td>
 											<td class="name">
