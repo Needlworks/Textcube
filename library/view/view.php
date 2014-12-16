@@ -75,6 +75,22 @@ function getScriptsOnHead($paging, $entryIds = null) {
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/flash.js" ></script>
+<?php
+	$view = ob_get_contents();
+	ob_end_clean();
+	return $view;
+}
+
+function getUpperView($paging, $entryIds = null) {
+	$context = Model_Context::getInstance();
+	ob_start();
+?>
+	<!--
+		<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
+
+		Homepage: <?php echo TEXTCUBE_HOMEPAGE.CRLF;?>
+		<?php echo TEXTCUBE_COPYRIGHT.CRLF;?>
+	-->
 	<script type="text/javascript">
 	//<![CDATA[
 		var servicePath = "<?php echo $context->getProperty('service.path');?>";
@@ -85,6 +101,13 @@ function getScriptsOnHead($paging, $entryIds = null) {
 		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
 		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
 		var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
+<?php
+	if (!is_null($entryIds)) {
+?>
+		var entryIds = [<?php echo implode(',',$entryIds);?>];
+<?php
+	}
+?>
 		var messages = {
 			"trackbackUrlCopied": "<?php echo _text('엮인글 주소가 복사되었습니다.');?>",
 			"operationFailed": "<?php echo _text('실패했습니다.');?>",

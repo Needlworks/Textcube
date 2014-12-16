@@ -7,10 +7,19 @@ $blogid = getBlogId();
 Statistics::updateVisitorStatistics($blogid);
 $stats = Statistics::getStatistics($blogid);
 $_SESSION['mode'] = 'desktop';
-if (!empty($entries) && (count($entries) == 1))
-	$pageTitle = $entries[0]['title'];
-else
+$entryIds = array();
+if (!empty($entries)) {
+	if (count($entries) == 1) {
+		$pageTitle = $entries[0]['title'];
+		$entryIds = array($entries[0]['id']);
+	} else {
+		foreach ($entries as $entry) {
+			array_push($entryIds, $entry['id']);
+		}
+	}
+} else {
 	$pageTitle = '';
+}
 if (!isset($skin)) {
 	$skin = new Skin($context->getProperty('skin.skin'));
 }
