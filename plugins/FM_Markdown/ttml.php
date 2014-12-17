@@ -11,6 +11,7 @@
 // TTML External library for Textcube 1.10 by inureyes, 2014.12
 
 function FM_TTML_bindTags($id, $content) {
+	$context = Model_Context::getInstance();
 	for ($no = 0; (($start = strpos($content, '[#M_')) !== false) && (($end = strpos($content, '_M#]', $start + 4)) !== false); $no++) {
 		$prefix = substr($content, 0, $start);
 		list($more, $less, $full) = explode('|', substr($content, $start + 4, $end - $start - 4), 3);
