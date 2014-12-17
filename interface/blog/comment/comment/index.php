@@ -23,7 +23,7 @@ requireStrictRoute();
 
 if (!Setting::getBlogSettingGlobal('acceptComments',0) && !doesHaveOwnership()) {
 	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
-	exit;	
+	exit;
 }
 if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit')) {
 	if (!empty($_POST['name']))
@@ -60,10 +60,10 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 		alert("<?php echo _text('본문을 입력해 주십시오.');?>");
 	//]]>
 </script>
-<?php	
+<?php
 	} else if (addComment($blogid, $comment) !== false) {
 		if(!$comment['secret']) {
-			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries 
+			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries
 				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptcomment = 1"))
 				sendCommentPing($comment['entry'], "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
@@ -73,7 +73,6 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 <script type="text/javascript">
 	//<![CDATA[
 		alert("<?php echo _text('댓글이 등록되었습니다.');?>");
-		
 <?php
 			notifyComment();
 			$entry = array();
@@ -82,13 +81,18 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 			$tempComments = revertTempTags(removeAllTags(getCommentView($entry, $skin)));
 			$tempRecentComments = revertTempTags(getRecentCommentsView(getRecentComments($blogid), null, $skin->recentCommentItem));
 ?>
+		if (opener == null) {
+			loader = parent;
+		} else {
+			loader = opener;
+		}
 		try {
-		var obj = opener.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
-		obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
+			var obj = loader.document.getElementById("entry<?php echo $comment['entry'];?>Comment");
+			obj.innerHTML = "<?php echo str_innerHTML($tempComments);?>";
 		} catch(e) { }
 		try {
-		obj = opener.document.getElementById("recentComments");
-		obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
+			obj = loader.document.getElementById("recentComments");
+			obj.innerHTML = "<?php echo str_innerHTML($tempRecentComments);?>";
 		} catch(e) { }
 		try {
 <?php
@@ -96,18 +100,22 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 			list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			$commentCount = ($commentCount > 0) ? "($commentCount)" : '';
 ?>
-		obj = opener.document.getElementById("commentCount<?php echo $comment['entry'];?>");
-		if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentView);?>";
+			obj = loader.document.getElementById("commentCount<?php echo $comment['entry'];?>");
+			if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentView);?>";
 		} catch(e) { }
 		try {
-		obj = opener.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry'];?>");
-		if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentCount);?>";
+			obj = loader.document.getElementById("commentCountOnRecentEntries<?php echo $comment['entry'];?>");
+			if (obj != null) obj.innerHTML = "<?php echo str_innerHTML($commentCount);?>";
 		} catch(e) { }
 		try {
-		obj = opener.document.getElementById('list-form');
-		if(obj != null) opener.document.getElementById('list-form').submit();
+			obj = loader.document.getElementById('list-form');
+			if(obj != null) loader.document.getElementById('list-form').submit();
 		} catch(e) { }
-		window.close();
+		if (opener == null) {
+			parent.tcDialog.close();
+		} else {
+			window.close();
+		}
 	//]]>
 </script>
 <?php

@@ -69,7 +69,9 @@ function getScriptsOnHead($paging, $entryIds = null) {
 	ob_start();
 ?>
 	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath'));?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath'));?>/script/jquery/jquery.bpopup-<?php echo JQUERY_BPOPUP_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
+
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
@@ -151,6 +153,7 @@ function getUpperView() {
 //]]>
 </script>
 </div>
+<div id="tcDialog" style="display:none;"></div>
 <?php
 	}
 	$view = ob_get_contents();

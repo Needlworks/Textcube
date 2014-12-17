@@ -12,7 +12,7 @@
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="yes" accessRaw="no" />
   <requirements>
     <textcube>
-      <minVersion>1.8</minVersion>
+      <minVersion>1.10.1</minVersion>
     </textcube>
   </requirements>
   <binding>

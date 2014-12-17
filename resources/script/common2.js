@@ -744,9 +744,9 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _allowScriptAccess_object = '<param name="allowScriptAccess" value="'+allowScriptAccess+'" />';
 			var _allowScriptAccess_embed = ' allowScriptAccess="'+allowScriptAccess+'" ';
 		}
-		
+
 		if (id == undefined) {
-			var _id = "";	
+			var _id = "";
 		} else {
 			var _id = 'id="'+id+'"';
 		}
@@ -1024,7 +1024,7 @@ function addComment(caller, entryId) {
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
-	if( oForm.comment_type != undefined && 
+	if( oForm.comment_type != undefined &&
 		oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
 		return addCommentWithOpenIDAuth(oForm, entryId);
 	}
@@ -1219,6 +1219,8 @@ function loadComment(entryId, page, force, listOnly) {
 
 
 var openWindow='';
+var tcDialog;
+var tcDialogFrame;
 
 function openCenteredWindow(url, name, width, height, scrollbars) {
 	scrollbars = (scrollbars || false) ? 1 : 0;
@@ -1235,16 +1237,52 @@ function openCenteredWindow(url, name, width, height, scrollbars) {
 	return openWindow;
 }
 
+function openCenteredDialog(url, dialogId, width, height) {
+    var $ = jQuery;
+    tcDialog = $('#tcDialog').bPopup({
+        content:'iframe',
+        positionStyle: 'fixed',
+        loadUrl:url,
+        transition:'fadeIn',
+        loadCallback: function() {
+            $('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
+            });
+        }
+    });
+    tcDialogFrame = $('#tcDialog iframe');
+    tcDialogFrame.attr("name", dialogId);
+    tcDialogFrame.attr('width', width);
+    tcDialogFrame.attr('height', height);
+    tcDialog.reposition();
+}
+
+function resizeDialog(width, height, cumulative) {
+    var $ = jQuery;
+    var scope = (window.location !== window.parent.location ? window.parent : window);
+    try {
+        if (cumulative == true) {
+            width = parseInt(scope.tcDialogFrame.attr('width')) + parseInt(width);
+            height = parseInt(scope.tcDialogFrame.attr('height')) + parseInt(height);
+        }
+        scope.tcDialogFrame.attr('width', width);
+        scope.tcDialogFrame.attr('height', height);
+        scope.tcDialog.reposition();
+    } catch (e) {}
+}
+
 function deleteComment(id) {
-	openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    openCenteredDialog(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+//	openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
 }
 
 function modifyComment(id) {
-	openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+    openCenteredDialog(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+//	openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
 }
 
 function commentComment(parentId) {
-	openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    openCenteredDialog(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+//  openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
 }
 
 function getMoreLineStream(page,lines,mode) {
@@ -1270,9 +1308,9 @@ function updateStream(contentView, buttonView, position) {
 		Ocontent.innerHTML = Ocontent.innerHTML+contentView;
 	}
 	Pcontent.innerHTML = buttonView;
-	return true;							
+	return true;
 }
-																					
+
 function editEntry(parent,child) {
 	openCenteredWindow(blogURL + "/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child, "tatter", 1020, 550, true);
 }
@@ -1375,4 +1413,3 @@ function copyUrl(url, nest) {
 function onClipBoard(result) {
 	alert(result ? messages["trackbackUrlCopied"] : messages["operationFailed"]);
 }
-

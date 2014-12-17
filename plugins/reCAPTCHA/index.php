@@ -89,13 +89,24 @@ function recaptcha_init() {
 		grecaptcha.render('comment_recaptcha', {
 			'sitekey': '{$config['siteKey']}'
 		});
-		recaptcha_waitTimer = window.setInterval(function() {
-			var v = $('#comment_recaptcha');
-			if (v.length > 0) {
-				window.resizeBy(0, v.outerHeight(true));
-				window.clearInterval(recaptcha_waitTimer);
-			}
-		}, 200);
+		var scope = (window.location !== window.parent.location ? window.parent : window);
+		if(scope == window.parent) {
+			recaptcha_waitTimer = scope.setInterval(function() {
+				var v = $('#comment_recaptcha');
+				if (v.length > 0) {
+					resizeDialog(0,parseInt(v.outerHeight(true)),true);
+					scope.clearInterval(recaptcha_waitTimer);
+				}
+			}, 200);
+		} else {
+			recaptcha_waitTimer = window.setInterval(function() {
+				var v = $('#comment_recaptcha');
+				if (v.length > 0) {
+					window.resizeBy(0, v.outerHeight(true));
+					window.clearInterval(recaptcha_waitTimer);
+				}
+			}, 200);
+		}
 	}
 }
 </script>
