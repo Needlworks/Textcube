@@ -153,9 +153,11 @@ function getUpperView() {
 //]]>
 </script>
 </div>
-<div id="tcDialog" style="display:none;"></div>
 <?php
 	}
+?>
+<div id="tcDialog" style="display:none;"></div>
+<?php
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
