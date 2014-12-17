@@ -1,8 +1,12 @@
 <?php
-// Markdown formatter for Textcube 1.6
+// Markdown formatter for Textcube 2.0
 // By Jeongkyu Shin. (inureyes@gmail.com)
 
-if(!function_exists('Markdown')) require_once 'markdown.php';
+if(!class_exists('Markdown')) {
+	require_once dirname(__FILE__) . '/markdown-lib/MarkdownInterface.php';
+	require_once dirname(__FILE__) . '/markdown-lib/Markdown.php';
+	require_once dirname(__FILE__) . '/markdown-lib/MarkdownExtra.php';
+}
 
 function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
 	global $service;
@@ -12,7 +16,7 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 		require_once 'ttml.php';
 	}
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
-	$view = Markdown($view, $id);
+	$view = MarkdownExtra::defaultTransform($view);
 	$view = FM_TTML_bindTags($id, $view);
 	return $view;
 }
