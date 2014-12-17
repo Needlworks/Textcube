@@ -21,7 +21,7 @@ $ctx = Model_Context::getInstance();
 // Move spams to trash.
 if (!isset($_REQUEST['ajaxcall'])) {
 	require ROOT . '/interface/common/owner/header.php';
-	
+
 	trashVan();
 }
 
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if (isset($_POST['rel'])) $_GET['rel'] = $_POST['rel'];
 }
 // Dashboard setting
-if (($_SERVER['REQUEST_METHOD'] == 'POST') && 
+if (($_SERVER['REQUEST_METHOD'] == 'POST') &&
 	(!isset($_REQUEST['edit'])) &&
 	(empty($_GET['useTTdashboard']))) {	// Turn off case.
 	$textcubeDashboard = Setting::getBlogSettingGlobal("textcubeDashboard",1);
@@ -75,7 +75,7 @@ function findPlugin($item, $arrays)
 
 $modified = false;
 
-if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) {	
+if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) {
 	$seperatorCount = 0;
 	foreach($oldcenterlayout as $item) {
 		if ($item['plugin'] == 'defaultDashboardWidget') {
@@ -99,7 +99,7 @@ if ((!empty($layout)) && (($oldcenterlayout = unserialize($layout)) != false) ) 
 		array_push($centerMappings, array('plugin' => 'TextcubeSeparator'));
 		$seperatorCount++;
 	}
-	
+
 	$newlayout = array_merge($newlayout, $centerMappings);
 } else if (count($centerMappings) > 0) { // TODO 1/3
 	unset($_GET['pos']);
@@ -197,7 +197,7 @@ if (isset($_REQUEST['edit'])) {
 <?php
 if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
 ?>
-								
+
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
@@ -208,7 +208,7 @@ if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
 	$current_version = trim(file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP'));
 	if ($current_version != TEXTCUBE_VERSION) {
 ?>
-								
+
 								window.addEventListener("load", checkTextcubeVersion, false);
 								function checkTextcubeVersion() {
 									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
@@ -235,27 +235,27 @@ if(Acl::check("group.administrators")) {
 	if(Acl::check("group.creators")) {
 ?>
 								var dialog = null;
-								
+
 								function showDialog($name) {
 									if (dialog)
 										dialog.style.display = "none";
 									dialog = document.getElementById($name + "Dialog");
 									PM.showPanel(dialog);
 								}
-								
+
 								function hideDialog() {
 									if (dialog) {
 										dialog.style.display = "none";
 										dialog = null;
 									}
 								}
-								
+
 								function optimizeData() {
 									document.getElementById("optimizingIndicator").style.width = "0%";
 									document.getElementById("optimizingDataDialogTitle").innerHTML = '<?php echo _t('데이터베이스를 최적화하고 있습니다. 잠시만 기다려 주십시오.');?>';
 									PM.showPanel("optimizingDataDialog");
 									document.getElementById("dataOptimizer").submit();
-								}								
+								}
 <?php
 	}
 }
@@ -265,7 +265,7 @@ if(Acl::check("group.administrators")) {
 						<form id="form-quilt" method="post" action="<?php echo parseURL($ctx->getProperty('uri.blog').'/owner/center/dashboard');?>">
 							<div id="part-center-quilt<?php echo $editClass;?>" class="part">
 								<h2 class="caption"><span class="main-text"><?php echo _t('조각보를 봅니다');?></span></h2>
-								
+
 <?php
 if (!isset($_REQUEST['edit']) && Acl::check('group.owners')) {
 ?>
@@ -324,7 +324,7 @@ foreach ($newlayout as $mapping) {
 <?php
 		if (isset($_REQUEST['edit'])) {
 ?>
-				
+
 											<a class="widget-reorder-up" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
 											<a class="widget-reorder-down" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
 <?php
@@ -479,11 +479,11 @@ function getDefaultCenterPanel($mapping) {
 			array_multisort($sort_array['date'],SORT_DESC,$recents);
 		}
 		$recents = array_slice($recents, 0, 14);
-		
+
 ?>
 										<div id="shortcut-collection">
 											<h4 class="caption"><span><?php echo _t('바로가기');?></span></h4>
-											
+
 											<ul>
 												<li class="newPost"><a class="newPost" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/entry/post"><span><?php echo _t('새 글 쓰기');?></span></a></li>
 <?php
@@ -514,10 +514,10 @@ function getDefaultCenterPanel($mapping) {
 												<li class="clear"></li>
 											</ul>
 										</div>
-											
+
 										<div id="total-information">
 											<h4 class="caption"><span><?php echo _t('요약');?></span></h4>
-												
+
 											<table class="posts-line">
 												<caption><?php echo _t('글');?></caption>
 												<thead>
@@ -560,7 +560,7 @@ function getDefaultCenterPanel($mapping) {
 													</tr>
 													<tr>
 														<td class="type"><?php echo _t('7일 평균');?></td>
-														<td class="sum"><?php 
+														<td class="sum"><?php
 	$weekly = Statistics::getWeeklyStatistics();
 	$weeklycount = 0;
 	foreach($weekly as $day) $weeklycount += $day['visits'];
@@ -597,13 +597,13 @@ function getDefaultCenterPanel($mapping) {
 														<td class="category">
 															<?php
 			switch($item['category']) {
-				case 'trackback' : 
+				case 'trackback' :
 					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/trackback?status=received">'._t('걸린글').'</a>';break;
-				case 'comment' : 
+				case 'comment' :
 					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/comment?status=comment">'._t('댓글').'</a>';break;
-				case 'commentNotify' : 
+				case 'commentNotify' :
 					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/notify">'._t('알리미').'</a>';break;
-				case 'guestbook' : 
+				case 'guestbook' :
 					echo '<a href="'.$ctx->getProperty('uri.blog').'/owner/communication/comment?status=guestbook">'._t('방명록').'</a>';break;
 			}
 ?>
@@ -616,7 +616,7 @@ function getDefaultCenterPanel($mapping) {
 												</tbody>
 											</table>
 										</div>
-								
+
 <?php
 		$noticeURL = TEXTCUBE_NOTICE_URL;
 		$noticeURLRSS = $noticeURL.($ctx->getProperty('blog.language') ? $ctx->getProperty('blog.language') : "ko")."/rss";
@@ -669,7 +669,7 @@ function getDefaultCenterPanel($mapping) {
 ?>
 												</tbody>
 											</table>
-									
+
 <?php
 		} else {
 ?>

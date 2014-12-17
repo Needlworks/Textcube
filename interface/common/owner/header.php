@@ -319,6 +319,8 @@ unset($tempPluginDir);
 			var servicePath = "<?php echo $context->getProperty('service.path');?>";
 			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
+			var displayMode = "<?php echo $context->getProperty('blog.displaymode','desktop');?>";
+			var workMode = "<?php echo $context->getProperty('blog.workmode','enhanced');?>";
 <?php
 if (in_array($blogMenu['contentMenu'],array('post','edit'))) {
 	if(file_exists(ROOT.$context->getProperty('panel.editorTemplate'))) {
@@ -335,8 +337,9 @@ include ROOT . '/resources/locale/messages.php';
 ?>
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/byTextcube.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/byTextcube.js"></script>
+	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo  $context->getProperty('service.path');?>/resources/script/jquery/jquery.bpopup-<?php echo JQUERY_BPOPUP_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
@@ -384,6 +387,7 @@ $helpURL = $blogMenu['topMenu'].(isset($blogMenu['contentMenu']) ? '/'.$submenuU
 ?>
 </head>
 <body id="body-<?php echo $blogMenu['topMenu'];?>">
+	<div id="tcDialog" style="display:none;"></div>
 	<div id="temp-wrap">
 		<div id="all-wrap">
 			<div id="layout-header">

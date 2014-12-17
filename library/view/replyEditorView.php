@@ -33,7 +33,7 @@ if( Acl::getIdentity('openid') ) {
 <html>
 <head>
 	<title><?php echo $pageHeadTitle ;?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8" name="viewport" content="initial-scale=1.0, user-scalable=no">
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/popup-comment.css" />
 	<script type="text/javascript">
 		//<![CDATA[
@@ -187,7 +187,7 @@ if (doesHaveOwnership() && array_key_exists('replier', $comment) && (is_null($co
 				</dl>
 
 				<div class="button-box">
-					<input type="button" class="input-button" id="commentSubmit" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment()" />
+					<input type="button" class="input-button" id="commentSubmit" value="<?php echo _text('완료');?>" onclick="<?php echo $confirmString;?> submitComment();return false;" />
 				</div>
 			</div>
 		</div>

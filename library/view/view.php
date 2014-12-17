@@ -78,15 +78,17 @@ function getScriptsOnHead($paging, $entryIds = null) {
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/flash.js" ></script>
 	<script type="text/javascript">
 	//<![CDATA[
-	var servicePath = "<?php echo $context->getProperty('service.path');?>";
-	var serviceURL  = "<?php echo $context->getProperty('uri.service');?>";
-	var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
-	var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
-	var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
-	var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
-	var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
-	var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
-	<?php
+		var servicePath = "<?php echo $context->getProperty('service.path');?>";
+		var serviceURL  = "<?php echo $context->getProperty('uri.service');?>";
+		var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
+		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
+		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
+		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
+		var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
+		var displayMode = "<?php echo $context->getProperty('blog.displaymode','desktop');?>";
+		var workMode = "<?php echo $context->getProperty('blog.workmode','enhanced');?>";
+<?php
 	if (!is_null($entryIds)) {
 		?>
 		var entryIds = [<?php echo implode(',',$entryIds);?>];
@@ -154,13 +156,13 @@ if($context->getProperty('service.flashclipboardpoter') == true) {
 	</script>
 </div>
 <?php
-}
+	}
 ?>
 <div id="tcDialog" style="display:none;"></div>
 <?php
-$view = ob_get_contents();
-ob_end_clean();
-return $view;
+	$view = ob_get_contents();
+	ob_end_clean();
+	return $view;
 }
 
 function getLowerView() {

@@ -150,7 +150,7 @@ if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() =
 	if ($uri->uri['interfaceType'] == 'blog') {
 		$uri->uri['interfaceType'] = 'mobile';
 	}
-	define('__TEXTCUBE_IPHONE__',true);
+	define('__TEXTCUBE_IPHONE__',true);	// Legacy flag for plugins
 	$_SESSION['displaymode'] = 'mobile';
 	define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/default');
 	define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
@@ -160,15 +160,20 @@ if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() =
 	define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
 	$context->setProperty('blog.displaymode','desktop');
 }
-
 /// Reading necessary file list
 require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');
 /// Loading files.
 require_once (ROOT.'/library/include.php');
 
-
+/// Delayed default skin change. (after including necessary modules.)
 if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
 	$context->setProperty('skin.skin','lucid');
+}
+if ($browserUtil->isMobile() == true) {
+	$context->setProperty('blog.workmode','standard');
+	$context->setProperty('blog.displaymode','mobile');
+} else {
+	$context->setProperty('blog.workmode','enhanced');
 }
 /// Setting global variables
 if($context->getProperty('service.legacymode') == true) {

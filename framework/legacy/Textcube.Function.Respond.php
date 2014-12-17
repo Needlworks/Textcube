@@ -22,7 +22,7 @@ class Respond {
 		print ("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<response>\n<error>$error</error>\n<message><![CDATA[$errorMsg]]></message></response>");
 		exit;
 	}
-	
+
 	static function PrintResult($result, $useCDATA=true) {
 		header('Content-Type: text/xml; charset=utf-8');
 		$xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
@@ -31,105 +31,113 @@ class Respond {
 		$xml .= "</response>\n";
 		die($xml);
 	}
-	
+
 	static function NotFoundPage($isAjaxCall = false) {
 		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
 		header('HTTP/1.1 404 Not Found');
 		header("Connection: close");
 		exit;
 	}
-	
+
 	static function ForbiddenPage() {
 		header('HTTP/1.1 403 Forbidden');
 		header("Connection: close");
 		exit;
 	}
-	
+
 	static function MessagePage($message) {
 		global $service;
 ?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
-	<head>
-		<title><?php echo TEXTCUBE_NAME;?></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/owner.css" />
-	</head>
-	<body id="body-message-page">
-		<div class="message-box">
-			<h1><?php echo TEXTCUBE_NAME;?></h1>
-			
-			<div class="message"><?php echo $message;?></div>
-			<div class="button-box">
-				<input type="button" class="input-button" value="<?php echo _text('이전');?>" onclick="window.history.go(-1)" />
-			</div>
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?php echo TEXTCUBE_NAME;?></title>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/owner.css" />
+</head>
+<body id="body-message-page">
+	<div class="message-box">
+		<h1><?php echo TEXTCUBE_NAME;?></h1>
+
+		<div class="message"><?php echo $message;?></div>
+		<div class="button-box">
+			<input type="button" class="input-button" value="<?php echo _text('이전');?>" onclick="window.history.go(-1)" />
 		</div>
-	</body>
-	</html>
-<?php 
-		exit;
-	}
-	
-	static function AlertPage($message) {
-?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
-	<head>
-		<title><?php echo TEXTCUBE_NAME;?></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script type="text/javascript">
-			//<![CDATA[
-				alert("<?php echo $message;?>");
-			//]]>	
-		</script>
-	</head>
-	</html>
-<?php 
-		exit;
-	}
-	
-	static function ErrorPage($message=NULL, $buttonValue=NULL, $buttonLink=NULL, $isAjaxCall = false) {
-		global $service;
-		if($isAjaxCall) {Respond::ResultPage(-1);exit;}
-?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
-	<head>
-		<title><?php echo TEXTCUBE_NAME;?></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/owner.css" />
-	</head>
-	<body id="body-message-page">
-		<div class="message-box">
-			<h1><?php echo TEXTCUBE_NAME;?></h1>
-			
-			<div class="message"><?php echo $message;?></div>
-			<div class="button-box">
-				<input type="button" class="input-button" value="<?php echo !empty($buttonValue) ? $buttonValue : _text('이전');?>" onclick="<?php echo !empty($buttonLink) ? 'window.location.href=\''.$buttonLink.'\'' : 'window.history.go(-1)';?>" />
-			</div>
-		</div>
-	</body>
-	</html>
+	</div>
+</body>
+</html>
 <?php
 		exit;
 	}
-	
+
+	static function AlertPage($message) {
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?php echo TEXTCUBE_NAME;?></title>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript">
+		//<![CDATA[
+			alert("<?php echo $message;?>");
+		//]]>
+	</script>
+</head>
+</html>
+<?php
+		exit;
+	}
+
+	static function ErrorPage($message=null, $buttonValue=null, $buttonLink=null, $isAjaxCall = false) {
+		global $service;
+		if($isAjaxCall) {
+			Respond::ResultPage(-1);
+			exit;
+		}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?php echo TEXTCUBE_NAME;?></title>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'];?>/resources/style/owner.css" />
+	<script type="text/javascript">
+	//<![CDATA[
+		var scope = (window.location !== window.parent.location ? window.parent : window);
+	//]]>
+	</script>
+</head>
+<body id="body-message-page">
+	<div class="message-box">
+		<h1><?php echo TEXTCUBE_NAME;?></h1>
+
+		<div class="message"><?php echo $message;?></div>
+		<div class="button-box">
+			<input type="button" class="input-button" value="<?php echo !empty($buttonValue) ? $buttonValue : _text('이전');?>" onclick="<?php echo !empty($buttonLink) ? 'scope.location.href=\''.$buttonLink.'\'' : 'scope.history.go(-1)';?>" />
+		</div>
+	</div>
+</body>
+</html>
+<?php
+		exit;
+	}
+
 	static function NoticePage($message, $redirection) {
 ?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
-	<head>
-		<title><?php echo TEXTCUBE_NAME;?></title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script type="text/javascript">
-			//<![CDATA[
-				alert("<?php echo $message;?>");
-				window.location.href = "<?php echo $redirection;?>";
-			//]]>
-		</script>
-	</head>
-	</html>
-<?php 
+<!DOCTYPE html>
+<html>
+<head>
+	<title><?php echo TEXTCUBE_NAME;?></title>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript">
+		//<![CDATA[
+			alert("<?php echo $message;?>");
+			window.location.href = "<?php echo $redirection;?>";
+		//]]>
+	</script>
+</head>
+</html>
+<?php
 		exit;
 	}
 
@@ -155,7 +163,7 @@ class Respond {
 		}
 		return $xml;
 	}
-	
+
 	static function escapeJSInAttribute($str) {
 		return htmlspecialchars(str_replace(array('\\', '\r', '\n', '\''), array('\\\\', '\\r', '\\n', '\\\''), $str));
 	}
