@@ -358,7 +358,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection">
-												<input id="commentCheckId<?php echo $comment['id'];?>" type="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" />
+												<input id="commentCheckId<?php echo $comment['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" />
 												<label for="commentCheckId<?php echo $comment['id'];?>"></label>
 											</td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
