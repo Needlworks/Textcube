@@ -346,9 +346,9 @@ if (isset($_GET['returnURL'])) {
 										request.onSuccess = function () {
 											PM.removeRequest(this);
 											PM.showMessage("<?php echo _t('서식을 반영하였습니다.');?>", "center", "bottom");
-											templateTitle = self.getText("/response/title");
-											templateContents = self.getText("/response/content");
-											self.entryId = self.getText("/response/entryId");
+											templateTitle = this.getText("/response/title");
+											templateContents = this.getText("/response/content");
+											self.entryId = this.getText("/response/entryId");
 											self.isSaved = true;
 											var title = trim(oForm.title.value);
 											if(title.length == 0) {
@@ -404,7 +404,7 @@ if (isset($_GET['returnURL'])) {
 												PM.showMessage("<?php echo _t('저장되었습니다');?>", "center", "bottom");
 											}
 											if(self.isSaved == false) {	// First save.
-												self.entryId = self.getText("/response/entryId");
+												self.entryId = this.getText("/response/entryId");
 												self.isSaved = true;
 												self.draftSaved = false;
 												reloadUploader();
