@@ -13,7 +13,6 @@ function Recaptcha_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
-<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_checkForms"></script>
 <script type="text/javascript">
 
 var recaptcha_widgets = {};
@@ -35,7 +34,11 @@ function recaptcha_addControl(f, entryId) {
 
 function recaptcha_checkForms() {
 	var $ = jQuery;
-	$.each(entryIds, function(idx, entryId) {
+	var _entryIds = entryIds;
+	if ($('#tt-body-guestbook').length > 0) {
+		_entryIds = [0];
+	}
+	$.each(_entryIds, function(idx, entryId) {
 		var v = $('#entry' + entryId + 'Comment:visible');
 		var f = $('form[id=entry' + entryId + 'WriteComment]');
 		if (f.length > 0 && v.length > 0)
@@ -66,6 +69,7 @@ function recaptcha_waitForElement(selector, cb) {
 	recaptcha_waitTimer = window.setInterval(finder, 200);
 }
 </script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_checkForms" async defer></script>
 EOS;
 	}
 	return $target;
@@ -95,7 +99,7 @@ function recaptcha_init() {
 	}
 }
 </script>
-<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_init"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_init" async defer></script>
 EOS;
 	}
 	return $target;
