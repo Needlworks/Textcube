@@ -250,7 +250,7 @@ body
 	border                           : 1px solid #ccc;
 	cursor                           : pointer;
 	font-size                        : 1em;
-	height                           : 1.8em;
+	height                           : 35px;
 	line-height                      : 1;
 	padding                          : 0px 5px 2px 5px !important;
 	vertical-align                   : bottom;
@@ -262,6 +262,7 @@ body
 	border-radius: 3px;
 	color: #333;
 	text-shadow: 0 1px 0 #fff;
+	margin-top:10px;
 	margin-right: 2px;
 }
 
