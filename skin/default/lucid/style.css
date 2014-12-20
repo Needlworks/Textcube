@@ -1,5 +1,22 @@
 @charset "utf-8";
 
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border: 1px solid #bbb
+}
+td,th {
+	border-top: 1px solid #ddd;
+	padding: 4px 8px;
+}
+
+@media screen and (max-width: 640px) {
+	table {
+		overflow-x: auto;
+		display: block;
+	}
+}
+
 .article-body {
 	margin-top: 15px;
 	margin-bottom: 30px;
