@@ -531,49 +531,50 @@ function isNull(field,message) {
 function open_img(img_src) {
 	img_view = window.open("", "TatterImagePopup", "width=0, height=0, left=0, top=0, scrollbars=yes, resizable=yes");
 	img_view.document.write(
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n' +
-		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">\n' +
-		'	<head>\n' +
-		'		<title> :: View :: <\/title>\n' +
-		'		<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' +
-		'		<script type="text/javascript">\n' +
-		'		//<![CDATA\n' +
-		'			function getWindowCleintHeight() {\n' +
-		'				return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' +
+        '<!DOCTYPE html>' +
+        '<html lang="en">' +
+        '<head>' +
+        '<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">' +
+		'	<title> :: View :: <\/title>\n' +
+		'	<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' +
+		'	<script type="text/javascript">\n' +
+		'	//<![CDATA\n' +
+		'		function getWindowCleintHeight() {\n' +
+		'			return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' +
+		'		}\n' +
+		'		function getWindowCleintWidth() {\n' +
+		'			return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' +
+		'		}\n' +
+		'		function resize(img) {\n' +
+		'			var imageWidth = img.width+5;\n' +
+		'			var imageHeight = img.height+5;\n' +
+		'			var screenWidth = screen.availWidth;\n' +
+		'			var screenHeight = screen.availHeight;\n' +
+		'			var windowWidth = imageWidth;\n' +
+		'			var windowHeight = imageHeight;\n' +
+		'			var positionX = (screenWidth - imageWidth) / 2;\n' +
+		'			var positionY = (screenHeight - imageHeight) / 2;\n' +
+		'			if(imageWidth > screenWidth * 0.8) {\n' +
+		'				windowWidth = screenWidth * 0.8;\n' +
+		'				document.body.scroll ="yes";\n' +
+		'				positionX = 0;\n' +
 		'			}\n' +
-		'			function getWindowCleintWidth() {\n' +
-		'				return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' +
+		'			if(imageHeight > screenHeight * 0.8 ) {\n' +
+		'				windowHeight = screenHeight * 0.8;\n' +
+		'				document.body.scroll ="yes";\n' +
+		'				positionY = 0;\n' +
 		'			}\n' +
-		'			function resize(img) {\n' +
-		'				var imageWidth = img.width+5;\n' +
-		'				var imageHeight = img.height+5;\n' +
-		'				var screenWidth = screen.availWidth;\n' +
-		'				var screenHeight = screen.availHeight;\n' +
-		'				var windowWidth = imageWidth;\n' +
-		'				var windowHeight = imageHeight;\n' +
-		'				var positionX = (screenWidth - imageWidth) / 2;\n' +
-		'				var positionY = (screenHeight - imageHeight) / 2;\n' +
-		'				if(imageWidth > screenWidth * 0.8) {\n' +
-		'					windowWidth = screenWidth * 0.8;\n' +
-		'					document.body.scroll ="yes";\n' +
-		'					positionX = 0;\n' +
-		'				}\n' +
-		'				if(imageHeight > screenHeight * 0.8 ) {\n' +
-		'					windowHeight = screenHeight * 0.8;\n' +
-		'					document.body.scroll ="yes";\n' +
-		'					positionY = 0;\n' +
-		'				}\n' +
-        '               iWidth = windowWidth - getWindowCleintWidth();\n' +
-        '               iHeight = windowHeight - getWindowCleintHeight();\n' +
-        '               window.resizeBy(iWidth, iHeight);\n' +
-		'				window.moveTo(positionX, positionY);\n' +
-		'			}\n' +
+        '              iWidth = windowWidth - getWindowCleintWidth();\n' +
+        '              iHeight = windowHeight - getWindowCleintHeight();\n' +
+        '              window.resizeBy(iWidth, iHeight);\n' +
+		'			window.moveTo(positionX, positionY);\n' +
+		'		}\n' +
 		'		\/\/]]>\n' +
-		'		<\/script>\n' +
-		'	<\/head>\n' +
-		'	<body style="margin: 0px; padding: 0;">\n' +
-		'		<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' +
-		'	<\/body>\n' +
+		'	<\/script>\n' +
+		'<\/head>\n' +
+		'<body style="margin: 0px; padding: 0;">\n' +
+		'	<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' +
+		'<\/body>\n' +
 		'<\/html>');
 
 	try {
@@ -590,13 +591,12 @@ function openFullScreen(content,caption,root) {
 	try {
 	/*
 	var code ='\
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">\
-	<head>\
+    <!DOCTYPE html>\
+    <html lang="en">\
+    <head>\
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">\
 	<title>'+caption+' - iMazing</title>\
 	<script type="text/javascript" src="'+root+'/resources/script/common2.js"></script>\
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
 	<style>\
 		body {\
 			margin:0px;	\
@@ -745,9 +745,9 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _allowScriptAccess_object = '<param name="allowScriptAccess" value="'+allowScriptAccess+'" />';
 			var _allowScriptAccess_embed = ' allowScriptAccess="'+allowScriptAccess+'" ';
 		}
-		
+
 		if (id == undefined) {
-			var _id = "";	
+			var _id = "";
 		} else {
 			var _id = 'id="'+id+'"';
 		}
@@ -1024,7 +1024,7 @@ function addComment(caller, entryId) {
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
-	if( oForm.comment_type != undefined && 
+	if( oForm.comment_type != undefined &&
 		oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
 		return addCommentWithOpenIDAuth(oForm, entryId);
 	}
@@ -1333,9 +1333,9 @@ function updateStream(contentView, buttonView, position) {
 		Ocontent.innerHTML = Ocontent.innerHTML+contentView;
 	}
 	Pcontent.innerHTML = buttonView;
-	return true;							
+	return true;
 }
-																					
+
 function editEntry(parent,child) {
 	openCenteredWindow(blogURL + "/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child, "tatter", 1020, 550, true);
 }
