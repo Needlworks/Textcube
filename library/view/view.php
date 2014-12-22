@@ -86,6 +86,7 @@ function getScriptsOnHead($paging, $entryIds = null) {
 		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
 		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
 		var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
+		var displayMode = "<?php echo $context->getProperty('blog.displaymode','desktop');?>";
 <?php
 	if (!is_null($entryIds)) {
 ?>
