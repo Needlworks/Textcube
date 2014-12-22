@@ -1284,18 +1284,28 @@ function resizeDialog(width, height, cumulative) {
 }
 
 function deleteComment(id) {
-    openCenteredDialog(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
-//	openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    if (isIE && !isMinIE8) {
+        openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    } else {
+        openCenteredDialog(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    }
 }
 
 function modifyComment(id) {
-    openCenteredDialog(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
-//	openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+    if (isIE && !isMinIE8) {
+        openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+
+    } else {
+        openCenteredDialog(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+    }
 }
 
 function commentComment(parentId) {
-    openCenteredDialog(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
-//  openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    if (isIE && !isMinIE8) {
+        openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    } else {
+        openCenteredDialog(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    }
 }
 
 function getMoreLineStream(page,lines,mode) {
