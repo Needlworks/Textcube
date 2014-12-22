@@ -86,6 +86,7 @@ var isIE = sUserAgent.indexOf("compatible") > -1
            && !isOpera;
 
 var isMinIE4 = isMinIE5 = isMinIE5_5 = isMinIE6 = false;
+var isMinIE7 = isMinIE8 = isMinIE9 = isMinIE10 = isMinIE11 = false;
 
 if (isIE) {
     var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
@@ -96,6 +97,11 @@ if (isIE) {
     isMinIE5 = fIEVersion >= 5;
     isMinIE5_5 = fIEVersion >= 5.5;
     isMinIE6 = fIEVersion >= 6.0;
+    isMinIE7 = fIEVersion >= 7.0;
+    isMinIE8 = fIEVersion >= 8.0;
+    isMinIE9 = fIEVersion >= 9.0;
+    isMinIE10 = fIEVersion >= 10.0;
+    isMinIE11 = fIEVersion >= 11.0;
 }
 
 var isMoz = sUserAgent.indexOf("Gecko") > -1
@@ -132,6 +138,7 @@ var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC")
 var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
 
 var isWin95 = isWin98 = isWinNT4 = isWin2K = isWinME = isWinXP = false;
+var isWinVista = isWin7 = isWin8 = isWin81 = isWin10 = isWinNT4 = false;
 var isMac68K = isMacPPC = false;
 var isSunOS = isMinSunOS4 = isMinSunOS5 = isMinSunOS5_5 = false;
 
@@ -146,6 +153,11 @@ if (isWin) {
               || sUserAgent.indexOf("Windows 2000") > -1;
     isWinXP = sUserAgent.indexOf("Windows NT 5.1") > -1
               || sUserAgent.indexOf("Windows XP") > -1;
+    isWinVista = sUserAgent.indexOf("Windows NT 6.0") > -1;
+    isWin7 = sUserAgent.indexOf("Windows NT 6.1") > -1;
+    isWin8 = sUserAgent.indexOf("Windows NT 6.2") > -1;
+    isWin8_1 = sUserAgent.indexOf("Windows NT 6.3") > -1;
+    isWin10 = sUserAgent.indexOf("Windows NT 10.0") > -1;
     isWinNT4 = sUserAgent.indexOf("WinNT") > -1
               || sUserAgent.indexOf("Windows NT") > -1
               || sUserAgent.indexOf("WinNT4.0") > -1
