@@ -4,7 +4,7 @@
 /* ------------------------- */
 .container { 
 	color: #666;
-	font: 1.1em/1.7 "Helvetica Neue", Helvetica, NanumBarunGothic, "나눔바른고딕", "Noto Sans Korean", "Apple SD Gothic Neo", "Malgun Gothic", AppleGothic, Dotum, "돋움", sans-serif;
+	font: 0.938em/1.7 "Helvetica Neue", Helvetica, NanumBarunGothic, "나눔바른고딕", "Noto Sans Korean", "Apple SD Gothic Neo", "Malgun Gothic", AppleGothic, Dotum, "돋움", sans-serif;
 }
 
 img					{ height: auto; max-width: 100%; }
@@ -207,12 +207,12 @@ h6 small,
 
 @media (max-width: 450px) {
 	.coverpage .coverpost .img_preview {
-		width: 51px;
-		height: 51px;
+		width: 55px;
+		height: 55px;
 	}
 	.coverpost .img_preview img {
-		width: 51px !important;
-		height: 51px !important;
+		width: 55px !important;
+		height: 55px !important;
 	}
 	.coverpage .coverpost .author {
 		display: none;
@@ -274,6 +274,10 @@ section.entry.post dl.well dd,
 section.notice ul.breadcrumb li {
 	display: inline;
 	margin-right: 7px;
+}
+
+section.notice ul.breadcrumb li.category {
+	display: none;
 }
 
 @media (max-width: 450px) {
@@ -500,6 +504,10 @@ section.trackbacks.list dl div dd.content .delete {
 	border-radius: .25em;
 }
 
+section.guestbook label {
+	font-size: 11px;
+	display: table;
+}
 
 section.guestbook dl.guestbook {
 	position: relative;
@@ -589,6 +597,11 @@ section.guestbook .submit {
 /* ------------------------- */
 /* s_rp comments ----------- */
 /* ------------------------- */
+section.comments label {
+	font-size: 11px;
+	display: table;
+}
+
 section.comments dl.comments {
 	position: relative;
 }

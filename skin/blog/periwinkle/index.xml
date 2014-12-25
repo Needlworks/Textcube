@@ -28,16 +28,16 @@
 		<sortInCloud>3</sortInCloud>
 		<expandComment>0</expandComment>
 		<expandTrackback>0</expandTrackback>
-		<lengthOfRecentNotice>35</lengthOfRecentNotice>
-		<lengthOfRecentEntry>35</lengthOfRecentEntry>
-		<lengthOfRecentComment>35</lengthOfRecentComment>
-		<lengthOfRecentTrackback>35</lengthOfRecentTrackback>
+		<lengthOfRecentNotice>33</lengthOfRecentNotice>
+		<lengthOfRecentEntry>33</lengthOfRecentEntry>
+		<lengthOfRecentComment>33</lengthOfRecentComment>
+		<lengthOfRecentTrackback>33</lengthOfRecentTrackback>
 		<lengthOfLink>30</lengthOfLink>
 		<showListOnCategory>1</showListOnCategory>
 		<showListOnArchive>1</showListOnArchive>
 		<commentMessage>
 			<none>No Comment</none>
-			<single>a comment</single>
+			<single>A comment</single>
 		</commentMessage>
 		<trackbackMessage>
 			<none>No Trackback</none>
