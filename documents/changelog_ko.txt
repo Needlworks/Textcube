@@ -3,12 +3,18 @@
 
 == v1.10.1 개발 관련 노트 ==
 === 추가된 점 ===
- * 플러그인   : reCAPTCHA 안티스팸 플러그인 추가
- * 플러그인   : 다양한 파라미터 통신을 위한 커스텀 input validator 사용 가능 (#1710)
+ * 플러그인   : reCAPTCHA 안티스팸 플러그인 추가 (#1705)
+ * 플러그인   : 다양한 파라미터 통신을 위한 커스텀 input validator 이벤트 추가 (#1710)
+ * 플러그인   : 댓글에 댓글달기 창에 REPLY_head_end, REPLY_body_end 이벤트 추가 (#1710)
+ * 블로그    : modal style 팝업으로 댓글 달기 추가 (#1725)
 
 === 변경된 점 ===
  * 일반       : jQuery 라이브러리 업데이트 (1.11.2)
+ * 일반       : 이올린 관련 가비지코드 제거 (#1712)
+ * 일반       : 텍스트큐브 코어가 플러그인 및 자체 동작을 위하여 출력하는 자바스크립트 변수를 body 대신 head 영역에서 출력하도록 변경 (#1720)
  * 에디터     : entryManager 의 구현 변경 및 이로 인한 자동 저장 로직 변경 (#1711)
+ * 에디터     : tinyMCE 에디터의 UI 디자인 변경 (#1722)
+ * 스킨       : periwinkle 스킨을 사용할 경우 다음 검색 엔진에서 컨텐트를 제대로 읽어가지 못하는 문제 수정 (#1654)
 
 === 버그 수정 ===
  * 관리패널    : 대시보드 위젯들의 위치 이동이 안되는 문제 수정 (#1713)
@@ -23,6 +29,7 @@
  * ManipulateIVRules : Input Validator 에 들어가는 Validation Rule을 플러그인에서 조작할 수 있게 하는 이벤트입니다.
   * $target : $IV (인터페이스에 따라 다른 값이 넘어옵니다)
   * $mother : uri.interfaceRoute (인터페이스에 접근하는 경로값) 를 넘겨 받습니다. 예를 들어, 댓글을 추가하는 uri.interfaceRoute는 interface/blog/comment/add 입니다.
+
 ===== 참고 =====
  * 이 이벤트를 사용할 경우, $mother 값을 체크하여 반드시 필요한 interfaceRoute에서만 동작하도록 플러그인을 작성하시기 바랍니다. input validator는 보안에 관련된 부분이므로 주의해서 필요한 부분의 validation rule만 변경해야 합니다.
  * 현재 interface/blog/comment/add, interface/blog/comment/comment 두 interfaceRoute 에서만 이 이벤트가 동작합니다.
@@ -34,6 +41,8 @@
   * $target : null
   * $mother : $comment
 
+==== in-window modal 스타일의 댓글달기 창 ====
+ 텍스트큐브 1.10.1에서는 댓글에 댓글 달기 창이 별도의 팝업창이 아닌 윈도우 내 modal 스타일로 변경되었습니다. 베타 단계에서는 테스트중이며 최종적으로는 오래된 브라우저들에서 우회 루틴 및 모바일에서의 지원을 포함하게 될 예정입니다.
 
 == v1.10.0 개발 관련 노트 ==
 === 추가된 점 ===
