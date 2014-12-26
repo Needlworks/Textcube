@@ -179,7 +179,7 @@ $editClass = NULL;
 if (isset($_REQUEST['edit'])) {
 	$editClass = "-edit";
 ?>
-<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/jquery/jquery.ui.essentials.1.11.2.min.js" type="text/javascript"></script>
+	<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/jquery/jquery.ui.essentials-<?php echo JQUERY_UI_VERSION;?>.js" type="text/javascript"></script>
 <script type="text/javascript">
 //<![CDATA[
 <?php echo "\tvar editMode = ".isset($_REQUEST['edit']).";\n";?>
@@ -346,7 +346,7 @@ foreach ($newlayout as $mapping) {
 if ($boardbarNumber < 1) {
 ?>
 
-								<div id="dojo_boardbar1" class="panel widget-container"></div>
+								<div id="dashboard_boardbar1" class="panel widget-container"></div>
 <?php
 	$secondposition[$boardbarNumber] = $positionCounter;
 	$boardbarNumber++;
@@ -354,7 +354,7 @@ if ($boardbarNumber < 1) {
 }
 if ($boardbarNumber < 2) {
 ?>
-								<div id="dojo_boardbar2" class="panel widget-container"></div>
+								<div id="dashboard_boardbar2" class="panel widget-container"></div>
 <?php
 	$secondposition[$boardbarNumber] = $positionCounter;
 	$boardbarNumber++;
@@ -415,8 +415,8 @@ function getDefaultCenterPanel($mapping) {
 <?php
 	if (isset($_REQUEST['edit'])) {
 ?>
-											<a id="<?php echo $mapping['plugin'];?>dojoup" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
-											<a id="<?php echo $mapping['plugin'];?>dojodown" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
+											<a id="<?php echo $mapping['plugin'];?>widgetup" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter; ?>&amp;rel=-1&edit"><?php echo _t("위로");?></a>
+											<a id="<?php echo $mapping['plugin'];?>widgetdown" href="<?php echo $ctx->getProperty('uri.blog');?>/owner/center/dashboard?edit&pos=<?php echo $positionCounter;?>&amp;rel=1&edit"><?php echo _t("아래로");?></a>
 <?php
 	}
 ?>
