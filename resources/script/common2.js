@@ -1252,13 +1252,13 @@ function openCenteredWindow(url, name, width, height, scrollbars) {
 
 function openCenteredDialog(url, dialogId, width, height) {
     var $ = jQuery;
-    tcDialog = $('#tcDialog').bPopup({
+    tcDialog = jQuery('#tcDialog').bPopup({
         content:'iframe',
         positionStyle: 'fixed',
         loadUrl:url,
         transition:'fadeIn',
         loadCallback: function() {
-            $('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
+            jQuery('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
             });
         }
     });
@@ -1270,7 +1270,6 @@ function openCenteredDialog(url, dialogId, width, height) {
 }
 
 function resizeDialog(width, height, cumulative) {
-    var $ = jQuery;
     var scope = (window.location !== window.parent.location ? window.parent : window);
     try {
         if (cumulative == true) {
