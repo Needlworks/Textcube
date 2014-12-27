@@ -86,6 +86,7 @@ var isIE = sUserAgent.indexOf("compatible") > -1
            && !isOpera;
 
 var isMinIE4 = isMinIE5 = isMinIE5_5 = isMinIE6 = false;
+var isMinIE7 = isMinIE8 = isMinIE9 = isMinIE10 = isMinIE11 = false;
 
 if (isIE) {
     var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
@@ -96,6 +97,11 @@ if (isIE) {
     isMinIE5 = fIEVersion >= 5;
     isMinIE5_5 = fIEVersion >= 5.5;
     isMinIE6 = fIEVersion >= 6.0;
+    isMinIE7 = fIEVersion >= 7.0;
+    isMinIE8 = fIEVersion >= 8.0;
+    isMinIE9 = fIEVersion >= 9.0;
+    isMinIE10 = fIEVersion >= 10.0;
+    isMinIE11 = fIEVersion >= 11.0;
 }
 
 var isMoz = sUserAgent.indexOf("Gecko") > -1
@@ -132,6 +138,7 @@ var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC")
 var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
 
 var isWin95 = isWin98 = isWinNT4 = isWin2K = isWinME = isWinXP = false;
+var isWinVista = isWin7 = isWin8 = isWin81 = isWin10 = isWinNT4 = false;
 var isMac68K = isMacPPC = false;
 var isSunOS = isMinSunOS4 = isMinSunOS5 = isMinSunOS5_5 = false;
 
@@ -146,6 +153,11 @@ if (isWin) {
               || sUserAgent.indexOf("Windows 2000") > -1;
     isWinXP = sUserAgent.indexOf("Windows NT 5.1") > -1
               || sUserAgent.indexOf("Windows XP") > -1;
+    isWinVista = sUserAgent.indexOf("Windows NT 6.0") > -1;
+    isWin7 = sUserAgent.indexOf("Windows NT 6.1") > -1;
+    isWin8 = sUserAgent.indexOf("Windows NT 6.2") > -1;
+    isWin8_1 = sUserAgent.indexOf("Windows NT 6.3") > -1;
+    isWin10 = sUserAgent.indexOf("Windows NT 10.0") > -1;
     isWinNT4 = sUserAgent.indexOf("WinNT") > -1
               || sUserAgent.indexOf("Windows NT") > -1
               || sUserAgent.indexOf("WinNT4.0") > -1
@@ -768,7 +780,7 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 }
 
 function writeCode(str, id) {
-	str = str.replace('src="', 'src="http://' + document.domain + ((document.location.port)? ':'+document.location.port : ''));
+	str = str.replace('src="', 'src="' + ('https:' == document.location.protocol ? 'https://' : 'http://') + document.domain + ((document.location.port)? ':'+document.location.port : ''));
 	if(id == undefined) document.write(str);
 	else document.getElementById(id).innerHTML = str;
 }
@@ -1021,6 +1033,7 @@ function addComment(caller, entryId) {
 		alert(messages['onSaving']);
 		return false;
 	}
+	var $ = jQuery;
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
@@ -1028,100 +1041,37 @@ function addComment(caller, entryId) {
 		oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
 		return addCommentWithOpenIDAuth(oForm, entryId);
 	}
-	var request = new HTTPRequest("POST", oForm.action);
-	request.onSuccess = function () {
-		PM.removeRequest(this);
-		commentSavingNow = false;
-		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
-		if(getObject("recentComments") != null)
-			document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
-		if(getObject("commentCount" + entryId) != null)
-			document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentView");
-		if(getObject("commentCountOnRecentEntries" + entryId) != null)
-			document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
-	}
-	request.onError = function() {
-		PM.removeRequest(this);
-		commentSavingNow = false;
-		alert(this.getText("/response/description"));
-	}
-
-	var queryString = "key=" + commentKey;
-
-	tempComment = 'comment_' + entryId;
-	tempHomepage = 'homepage_' + entryId;
-	tempName = 'name_' + entryId;
-	tempPassword = 'password_' + entryId;
-	tempSecret = 'secret_' + entryId;
-
-	for (i=0; i<oForm.elements.length; i++) {
-		if (queryString != "")
-			linker = "&";
-		else
-			linker = "";
-
-		// disabled 상태이면 패스.
-		if (oForm.elements[i].disabled == true)
-			continue;
-
-		if (oForm.elements[i].tagName.toLowerCase() == "input") {
-			switch (oForm.elements[i].type) {
-				case "checkbox":
-				case "radio":
-					if (oForm.elements[i].checked == true) {
-						if (oForm.elements[i].name == tempSecret)
-							queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].id == tempSecret)
-							queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].name != '')
-							queryString += linker + oForm.elements[i].name + '_' + entryId + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].id != '')
-							queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-					}
-					break;
-				case "text":
-				case "password":
-				case "hidden":
-				case "button":
-				case "submit":
-					if (oForm.elements[i].name == tempName)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempName)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name == tempPassword)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempPassword)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name == tempHomepage)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempHomepage)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name != '')
-						queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id != '')
-						queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-					break;
-				//case "file":
-				//	break;
-			}
-		} else if (oForm.elements[i].tagName.toLowerCase() == "select") {
-			num = oForm.elements[i].selectedIndex;
-			if (oForm.elements[i].name != '')
-				queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-			else if (oForm.elements[i].id != '')
-				queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-		} else if (oForm.elements[i].tagName.toLowerCase() == "textarea") {
-			if (oForm.elements[i].name == tempComment)
-				queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-			else if (oForm.elements[i].name != '')
-				queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-			else if (oForm.elements[i].id != '')
-				queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-		}
-	}
+	var formData = $(oForm).serializeArray();
+	formData.push({name: 'key', value: commentKey});
 	commentSavingNow = true;
-	PM.addRequest(request,"Saving Comments...");
-	request.send(queryString);
+	//PM.addRequest(request, "Saving Comments...");
+	$.ajax({
+	    url: $(oForm).attr('action'),
+	    type: 'POST',
+	    dataType: 'xml',
+	    data: formData,
+	    success: function(data, status, xhr) {
+			//PM.removeRequest(this);
+			commentSavingNow = false;
+			var result = parseInt($(data).find('response error').text());
+			if (result == 0) {
+				$("#entry" + entryId + "Comment").html($(data).find("response commentBlock").text());
+				if (getObject("recentComments") != null)
+					$("#recentComments").html($(data).find("response recentCommentBlock").text());
+				if (getObject("commentCount" + entryId) != null)
+					$("#commentCount" + entryId).html($(data).find("response commentView").text());
+				if (getObject("commentCountOnRecentEntries" + entryId) != null)
+					$("#commentCountOnRecentEntries" + entryId).html("(" + $(data).find("response commentCount").text() + ")");
+			} else {
+				alert($(data).find("response description").text());
+			}
+	    },
+	    error: function(xhr, status, err) {
+			//PM.removeRequest(this);
+			commentSavingNow = false;
+			alert('Connection failed.');
+	    }
+	});
 }
 
 function addCommentWithOpenIDAuth(oForm, entryId) {
@@ -1133,7 +1083,7 @@ function addCommentWithOpenIDAuth(oForm, entryId) {
 	action.pop();
 	action.pop();
 	form.action = action.join("/");
-	form.action += "/addopenid/"+entryId+"?__T__="+(new Date()).getTime();
+	form.action += "/addopenid/"+entryId;
 	form.method = "post";
 
 	var input;
@@ -1282,6 +1232,8 @@ function loadComment(entryId, page, force, listOnly) {
 
 
 var openWindow='';
+var tcDialog;
+var tcDialogFrame;
 
 function openCenteredWindow(url, name, width, height, scrollbars) {
 	scrollbars = (scrollbars || false) ? 1 : 0;
@@ -1298,16 +1250,61 @@ function openCenteredWindow(url, name, width, height, scrollbars) {
 	return openWindow;
 }
 
+function openCenteredDialog(url, dialogId, width, height) {
+    var $ = jQuery;
+    tcDialog = jQuery('#tcDialog').bPopup({
+        content:'iframe',
+        positionStyle: 'fixed',
+        loadUrl:url,
+        transition:'fadeIn',
+        loadCallback: function() {
+            jQuery('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
+            });
+        }
+    });
+    tcDialogFrame = $('#tcDialog iframe');
+    tcDialogFrame.attr("name", dialogId);
+    tcDialogFrame.attr('width', width);
+    tcDialogFrame.attr('height', height);
+    tcDialog.reposition();
+}
+
+function resizeDialog(width, height, cumulative) {
+    var scope = (window.location !== window.parent.location ? window.parent : window);
+    try {
+        if (cumulative == true) {
+            width = parseInt(scope.tcDialogFrame.attr('width')) + parseInt(width);
+            height = parseInt(scope.tcDialogFrame.attr('height')) + parseInt(height);
+        }
+        scope.tcDialogFrame.attr('width', width);
+        scope.tcDialogFrame.attr('height', height);
+        scope.tcDialog.reposition();
+    } catch (e) {}
+}
+
 function deleteComment(id) {
-	openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+        openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    } else {
+        openCenteredDialog(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    }
 }
 
 function modifyComment(id) {
-	openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+        openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+
+    } else {
+        openCenteredDialog(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+    }
 }
 
 function commentComment(parentId) {
-	openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+        openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    } else {
+        openCenteredDialog(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    }
 }
 
 function getMoreLineStream(page,lines,mode) {
