@@ -37,7 +37,7 @@ final class Model_URIHandler extends Singleton
 		$this->uri['isStrictBlogURL'] = true;
 		$depth           = substr_count($this->context->getProperty('path'), '/');
 		if ($depth > 0) {
-			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
+			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches) !== FALSE)
 				$url = $matches[3];
 			else
 				Respond::NotFoundPage();
