@@ -315,6 +315,7 @@ unset($tempPluginDir);
 			var servicePath = "<?php echo $service['path'];?>";
 			var blogURL = "<?php echo $blogURL;?>";
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+			var displayMode = "<?php echo $context->getProperty('blog.displaymode','desktop');?>";
 <?php
 if (in_array($blogMenu['contentMenu'],array('post','edit'))) {
 	if(file_exists(ROOT.$adminSkinSetting['editorTemplate'])) {
