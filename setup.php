@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -78,13 +78,13 @@ if( $locale->setDirectory(ROOT.'/resources/locale/setup') ) $locale->set( $baseL
 if (file_exists($root . '/config.php') && (filesize($root . '/config.php') > 0)) {
     header('HTTP/1.1 503 Service Unavailable');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
 <link rel="stylesheet" media="screen" type="text/css" href="resources/style/setup/style.css" />
-<script  type="text/javascript">
+<script type="text/javascript">
 //<![CDATA[
 	function current(){
 		document.getElementById("setup").submit();
@@ -132,10 +132,10 @@ if (array_key_exists('phpinfo',$_GET)) {
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?> - Setup</title>
 <link rel="stylesheet" media="screen" type="text/css" href="./resources/style/setup/style.css" />
 <script type="text/javascript">

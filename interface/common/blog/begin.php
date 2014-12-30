@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -7,10 +7,19 @@ $blogid = getBlogId();
 Statistics::updateVisitorStatistics($blogid);
 $stats = Statistics::getStatistics($blogid);
 $_SESSION['mode'] = 'desktop';
-if (!empty($entries) && (count($entries) == 1))
-	$pageTitle = $entries[0]['title'];
-else
+$entryIds = array();
+if (!empty($entries)) {
+	if (count($entries) == 1) {
+		$pageTitle = $entries[0]['title'];
+		$entryIds = array($entries[0]['id']);
+	} else {
+		foreach ($entries as $entry) {
+			array_push($entryIds, $entry['id']);
+		}
+	}
+} else {
 	$pageTitle = '';
+}
 if (!isset($skin)) {
 	$skin = new Skin($context->getProperty('skin.skin'));
 }
@@ -25,8 +34,8 @@ if (!is_null($context->getProperty('uri.permalink',null))) {
 	$canonicalLink = '';
 }
 dress('SKIN_head_end', $automaticLink.$canonicalLink."[##_SKIN_head_end_##]", $view);
-$view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead().'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.
-$view = str_replace('[##_SKIN_body_start_##]',getUpperView(isset($paging) ? $paging : null).'[##_SKIN_body_start_##]', $view);
+$view = str_replace('[##_SKIN_head_end_##]',getScriptsOnHead((isset($paging) ? $paging : null),$entryIds).'[##_SKIN_head_end_##]', $view); // TO DO : caching this part.
+$view = str_replace('[##_SKIN_body_start_##]',getUpperView().'[##_SKIN_body_start_##]', $view);
 $view = str_replace('[##_SKIN_body_end_##]',getLowerView().getScriptsOnFoot().'[##_SKIN_body_end_##]', $view); // care the order for js function overloading issue.
 
 $browserUtil = Utils_Browser::getInstance();

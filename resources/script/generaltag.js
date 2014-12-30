@@ -1,11 +1,11 @@
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // 입력창을 10ms마다 체크하면서 값이 변했으면 request를 보낸다.
 // 파이어폭스에서는 한글을 입력할때 keydown 이벤트가 발생하지 않기 때문에
 // 값이 변하는지 계속 보고있어야 한다.
-function eolinTagFunction_WatchInputBox(id)
+function tcTagFunction_WatchInputBox(id)
 {
 	try
 	{
@@ -28,7 +28,7 @@ function eolinTagFunction_WatchInputBox(id)
 }
 
 // 서버에서 보내오는 필터로 로컬 tag suggestion
-function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
+function tcTagFunction_showLocalSuggestion(id, cursor, filter)
 {
 	// Container의 ID를 통해 instance를 가져온다
 	try { var instance = document.getElementById(id).instance; }
@@ -132,12 +132,12 @@ function eolinTagFunction_showLocalSuggestion(id, cursor, filter)
 	}
 }
 
-function eolinTagFunction_showLocalSuggestionWithoutQuery(id, cursor, filter) {
-	return eolinTagFunction_showLocalSuggestion(id, cursor, 'name like "' + filter.replace('"', '\\"') + '%"');
+function tcTagFunction_showLocalSuggestionWithoutQuery(id, cursor, filter) {
+	return tcTagFunction_showLocalSuggestion(id, cursor, 'name like "' + filter.replace('"', '\\"') + '%"');
 }
 
 // 서버에서 보내오는 내용을 실행하는 함수
-function eolinTagFunction_showSuggestion()
+function tcTagFunction_showSuggestion()
 {
 	// Container의 ID를 통해 instance를 가져온다
 	try { var instance = document.getElementById(arguments[0]).instance; }
@@ -221,7 +221,7 @@ function Tag(container, language, disable)
 	this.isTyping = false;			// input box에 포커스가 있는지 여부
 	this.isSuggestionShown = false;	// suggest window가 보여지고 있는지의 여부
 
-	this.typingText = "";			// eolinTagFunction_WatchInputBox에서 input box의 값을 감시하기 위한 변수
+	this.typingText = "";			// tcTagFunction_WatchInputBox에서 input box의 값을 감시하기 위한 변수
 
 	this.inputClassName = "";
 
@@ -236,7 +236,7 @@ function Tag(container, language, disable)
 	this.suggestion = document.createElement("ul");
 	this.suggestion.instance = this;
 	this.suggestion.selectedIndex = 0;
-	this.suggestion.className = "eolinSuggest";
+	this.suggestion.className = "tcSuggest";
 	this.suggestion.style.margin = "0px";
 	this.suggestion.style.padding = "0px";
 	this.suggestion.style.listStyleType = "none";
@@ -245,7 +245,7 @@ function Tag(container, language, disable)
 	this.suggestion.style.zIndex = "999";
 
 	// 10ms마다 input box의 값이 변했는지 체크
-	setInterval("eolinTagFunction_WatchInputBox('" + this.container.id + "')", 10);
+	setInterval("tcTagFunction_WatchInputBox('" + this.container.id + "')", 10);
 
 	// 마지막 노드에 들어가는 input box
 	this.inputOnLast = this.createSuggestInput();
@@ -383,12 +383,12 @@ Tag.prototype.requestSuggestion = function()
 	instance.cursor++;
 
 	if(!instance.allowEolinSuggestion || (instance.getInput().value.trim() == "")) {
-		eolinTagFunction_showLocalSuggestionWithoutQuery(instance.container.getAttribute("id"), instance.cursor, instance.getInput().value)
+		tcTagFunction_showLocalSuggestionWithoutQuery(instance.container.getAttribute("id"), instance.cursor, instance.getInput().value)
 		return;
 	}
 
 	var script = document.createElement("script");
-	script.setAttribute("src", "http://suggest.eolin.com/tag/tatter/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&word=" + encodeURIComponent(instance.getInput().value) + (STD.isSafari ? "&encode=1" : ""));
+	script.setAttribute("src", "http://suggest.tc.com/tag/tatter/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&word=" + encodeURIComponent(instance.getInput().value) + (STD.isSafari ? "&encode=1" : ""));
 	document.body.appendChild(script);
 }
 

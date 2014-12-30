@@ -64,8 +64,8 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         uploadDlgCounter=true;
       }
     });
-    ed.addCommand('textcubeSavePost', function() {
-			entryManager.save();
+	ed.addCommand('textcubeSavePost', function() {
+			entryManager.saveEntry();
 			return false;
 		});
 		ed.addCommand('textcubeMoreLessBlock', function() {
@@ -75,17 +75,17 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 		ed.addButton('tcattach', {
 			title : 'Upload and insert files',
 			cmd : 'textcubeToggleUploadDlg',
-			image : url + '/toolbar/attach.gif'
+			icon : 'browse'
 		});
 		ed.addButton('tcsave', {
 			title : 'Save current post',
 			cmd : 'textcubeSavePost',
-			image : url + '/toolbar/save.gif'
+			icon : 'save'
 		});
 		ed.addButton('tcmoreless', {
 			title : 'Add more/less block',
 			cmd : 'textcubeMoreLessBlock',
-			image : url + '/toolbar/moreless.gif'
+			icon : 'pagebreak'
 		});
 		var div = document.createElement('div');
 		div.id = 'tinyMCEeditor-textbox';

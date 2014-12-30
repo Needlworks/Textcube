@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -64,70 +64,78 @@ function dressInsertBefore($tag, $value, & $contents, $useCache = false, $forceP
 	}
 }
 
-function getScriptsOnHead() {
+function getScriptsOnHead($paging, $entryIds = null) {
 	$context = Model_Context::getInstance();
-	$context->getProperty('service.resourcepath');
 	ob_start();
-?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	?>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath'));?>/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $context->getProperty('service.path').'/resources' : $context->getProperty('service.resourcepath'));?>/script/jquery/jquery.bpopup-<?php echo JQUERY_BPOPUP_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
+
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/flash.js" ></script>
-<?php
+	<script type="text/javascript">
+	//<![CDATA[
+	var servicePath = "<?php echo $context->getProperty('service.path');?>";
+	var serviceURL  = "<?php echo $context->getProperty('uri.service');?>";
+	var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
+	var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
+	var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
+	var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
+	var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
+	var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
+	<?php
+	if (!is_null($entryIds)) {
+		?>
+		var entryIds = [<?php echo implode(',',$entryIds);?>];
+		<?php
+	}
+	?>
+	var messages = {
+		"trackbackUrlCopied": "<?php echo _text('엮인글 주소가 복사되었습니다.');?>",
+		"operationFailed": "<?php echo _text('실패했습니다.');?>",
+		"confirmTrackbackDelete": "<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>",
+		"confirmEntryDelete": "<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>",
+		"onSaving": "<?php echo _text('저장하고 있습니다');?>"
+	}
+	//]]>
+	</script>
+	<?php
 	$view = ob_get_contents();
 	ob_end_clean();
 	return $view;
 }
 
-function getUpperView($paging) {
+function getUpperView() {
 	$context = Model_Context::getInstance();
 	ob_start();
-?>
+	?>
 	<!--
-		<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
+	<?php echo TEXTCUBE_NAME." ".TEXTCUBE_VERSION.CRLF;?>
 
-		Homepage: <?php echo TEXTCUBE_HOMEPAGE.CRLF;?>
-		<?php echo TEXTCUBE_COPYRIGHT.CRLF;?>
-	-->
-	<script type="text/javascript">
-	//<![CDATA[
-		var servicePath = "<?php echo $context->getProperty('service.path');?>";
-		var serviceURL  = "<?php echo $context->getProperty('uri.service');?>";
-		var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
-		var prevURL = "<?php echo isset($paging['prev']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}") : '';?>";
-		var nextURL = "<?php echo isset($paging['next']) ? escapeJSInCData("{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}") : '';?>";
-		var commentKey = "<?php echo md5(filemtime(ROOT . '/config.php'));?>";
-		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
-		var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
-		var messages = {
-			"trackbackUrlCopied": "<?php echo _text('엮인글 주소가 복사되었습니다.');?>",
-			"operationFailed": "<?php echo _text('실패했습니다.');?>",
-			"confirmTrackbackDelete": "<?php echo _text('선택된 글걸기를 삭제합니다. 계속 하시겠습니까?');?>",
-			"confirmEntryDelete": "<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>",
-			"onSaving": "<?php echo _text('저장하고 있습니다');?>"
-		}
-	//]]>
-	</script>
+	Homepage: <?php echo TEXTCUBE_HOMEPAGE.CRLF;?>
+	<?php echo TEXTCUBE_COPYRIGHT.CRLF;?>
+-->
 <?php
-	if (doesHaveOwnership()) {
-?>
+if (doesHaveOwnership()) {
+	?>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/owner.js" ></script>
-<?php
-	}
+	<?php
+}
 ?>
-	<script type="text/javascript">
-		//<![CDATA[
-			document.onkeydown = processShortcut;
-		//]]>
-	</script>
-<?php
-	if($context->getProperty('service.flashclipboardpoter') == true) {
-?>
-<div style="position:absolute;top:0;left:0; background-color:transparent;background-image:none">
 <script type="text/javascript">
 //<![CDATA[
+document.onkeydown = processShortcut;
+//]]>
+</script>
+<?php
+if($context->getProperty('service.flashclipboardpoter') == true) {
+	?>
+	<div style="position:absolute;top:0;left:0; background-color:transparent;background-image:none">
+	<script type="text/javascript">
+	//<![CDATA[
 	AC_FL_RunContent(
 		'codebase','http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0',
 		'width','1',
@@ -142,14 +150,17 @@ function getUpperView($paging) {
 		'flashvars', 'callback=onClipBoard'
 	);
 	window.clipboardPoter = document.getElementById("clipboardPoter");
-//]]>
-</script>
+	//]]>
+	</script>
 </div>
 <?php
-	}
-	$view = ob_get_contents();
-	ob_end_clean();
-	return $view;
+}
+?>
+<div id="tcDialog" style="display:none;"></div>
+<?php
+$view = ob_get_contents();
+ob_end_clean();
+return $view;
 }
 
 function getLowerView() {
@@ -1246,7 +1257,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 		$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
 		if ($context->getProperty('blog.displaymode','desktop') == 'mobile')
-			$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'u', 'ul', 'var'));
+			$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address','b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'table','td','tr','u', 'ul', 'var'));
 		if(!$useAbsolutePath)
 			$view = avoidFlashBorder($view);
 

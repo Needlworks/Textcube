@@ -3,7 +3,7 @@
 	<title xml:lang="en">Markdown Formatter</title>
 	<title xml:lang="ko">Markdown 포매터</title>
 	<link>http://www.needlworks.org/</link>
-	<version>0.1</version>
+	<version>2.0</version>
 	<description xml:lang="en"><![CDATA[Implements Markdown formatter, to support semantic XHTML with plain text markup syntax.]]></description>
 	<description xml:lang="ko"><![CDATA[일반적인 텍스트 문서를 통하여 의미론적인 XHTML을 생성해내는 Markdown 포맷을 지원합니다.]]></description>
 	<description xml:lang="ja"><![CDATA[XHTML標準勧告に合わせた文書作成環境を提供する Markdownフォーマット用プラグイン。]]></description>
@@ -14,7 +14,9 @@
 	<author xml:lang="ko" link="http://michelf.com/weblog/">Michel Fortin</author>
 	<safety changeData="no" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="no" />
 	<requirements>
-		<textcube>1.6</textcube>
+		<textcube>
+			<minVersion>2.0</minVersion>
+		</textcube>
 	</requirements>
 	<binding>
 		<formatter id="markdown" name="Markdown">

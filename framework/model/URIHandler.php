@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -37,7 +37,7 @@ final class Model_URIHandler extends Singleton
 		$this->uri['isStrictBlogURL'] = true;
 		$depth           = substr_count($this->context->getProperty('path'), '/');
 		if ($depth > 0) {
-			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches))
+			if (preg_match('@^((/+[^/]+){' . $depth . '})(.*)$@', $url, $matches) !== FALSE)
 				$url = $matches[3];
 			else
 				Respond::NotFoundPage();

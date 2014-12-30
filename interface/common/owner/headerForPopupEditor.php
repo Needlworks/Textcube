@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -13,11 +13,11 @@ if (isset($eventMappings['AddPostEditorToolbox'])) {
 }
 unset($tempPlugin);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $context->getProperty('blog.language','ko');?>">
+<!DOCTYPE html>
+<html lang="<?php echo $context->getProperty('blog.language','ko');?>">
 <head>
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo htmlspecialchars($context->getProperty('blog.title'));?> &gt; <?php echo _t('글관리');?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/post.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/popup-editor.css" />
@@ -89,7 +89,7 @@ include ROOT . '/resources/locale/messages.php';
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common2.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/gallery.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/editor3.js"></script> 
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/editor3.js"></script>
 <?php echo fireEvent('ShowAdminHeader', ''); ?>
 </head>
 <body id="body-entry" class="popup-editor">
@@ -98,6 +98,5 @@ include ROOT . '/resources/locale/messages.php';
 			<div id="layout-header">
 				<h1><?php echo _t('텍스트큐브 관리 페이지');?></h1>
 			</div>
-			
-			<hr class="hidden" />
 
+			<hr class="hidden" />

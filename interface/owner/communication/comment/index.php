@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -226,16 +226,16 @@ require ROOT . '/interface/common/owner/header.php';
 	}
 ?>
 									$('#list-form tbody td.selection').click(function(ev) {
-										$('#allChecked').attr('checked', false);
-										var checked = $(':checked', this).attr('checked');
-										$(':checked', this).attr('checked', checked ? true : false);
+										$('#allChecked').prop('checked', false);
+										var checked = $(':checked', this).prop('checked');
+										$(':checked', this).prop('checked', checked ? true : false);
 										toggleThisTr($(this).parent(), checked);
 										ev.stopPropagation();
 									});
 									$('#allChecked').click(function(ev) {
-										var checked = $(this).attr('checked');
+										var checked = $(this).prop('checked');
 										$('#list-form tbody td.selection input:checkbox').each(function(index, item) {
-											$(item).attr('checked', checked ? true : false);
+											$(item).prop('checked', checked ? true : false);
 											toggleThisTr($(item).parent().parent(), checked);
 										});
 									});
@@ -316,7 +316,10 @@ foreach (getCategories($blogid) as $category) {
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th class="selection"><input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" /></th>
+											<th class="selection">
+												<input type="checkbox" id="allChecked" class="checkbox" disabled="disabled" />
+												<label for="allChecked"></label>
+											</th>
 											<th class="date"><span class="text"><?php echo _t('등록일자');?></span></th>
 											<th class="name"><span class="text"><?php echo _t('이름');?></span></th>
 											<th class="content"><span class="text"><?php echo _t('내용');?></span></th>
@@ -362,7 +365,10 @@ for ($i=0; $i<sizeof($comments); $i++) {
 	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over');return false;" onmouseout="rolloverClass(this, 'out');return false">
-											<td class="selection"><input type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" ip="<?php echo $comment['ip'];?>"/></td>
+											<td class="selection">
+												<input id="commentCheckId<?php echo $comment['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" ip="<?php echo $comment['ip'];?>"/>
+												<label for="commentCheckId<?php echo $comment['id'];?>"></label>
+											</td>
 											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
 											<td class="name">
 <?php

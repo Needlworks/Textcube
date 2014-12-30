@@ -1,7 +1,7 @@
 <?php
 // PHP TTML parser
 // Version 1.10/2.0 (2014.12.14)
-// 2004-2014 Needlworks / TNF / Tatter and Company
+// 2004-2015 Needlworks / TNF / Tatter and Company
 // Original TTML is created by JH, 2004.4
 // TTML port for Tattertools 1.0 by papacha, 2005.10
 // TTML Module port for Tattertools 1.1 by lifthrasiir, 2007.1
@@ -11,6 +11,7 @@
 // TTML External library for Textcube 1.10 by inureyes, 2014.12
 
 function FM_TTML_bindTags($id, $content) {
+	$context = Model_Context::getInstance();
 	for ($no = 0; (($start = strpos($content, '[#M_')) !== false) && (($end = strpos($content, '_M#]', $start + 4)) !== false); $no++) {
 		$prefix = substr($content, 0, $start);
 		list($more, $less, $full) = explode('|', substr($content, $start + 4, $end - $start - 4), 3);

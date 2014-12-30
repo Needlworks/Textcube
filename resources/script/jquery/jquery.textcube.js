@@ -44,7 +44,7 @@
 				$.path.separator = '.';
 				var file = $.path.join('jquery', name, $.plugin.locals[i].version, 'js');
 				$.path.separator = $.path.default_separator;
-				var src = $.path.join(serviceURL, resoucreURL || $.plugin.defaultResourceURL, file);
+				var src = $.path.join(serviceURL, resourceURL || $.plugin.defaultResourceURL, file);
 				$('<script>').attr('type', 'text/javascript').attr('src', src).appendTo($('head'));
 				// TODO: check if loaded correctly?
 				$.plugins.loaded_ones.append({name: name, version: $.plugin.locals[i].version});
@@ -55,10 +55,10 @@
 		return false; // load failed, should be included manually.
 	}
 	$.plugin.locals = [
-		{name: 'json', version: ''},
-		{name: 'easing', version: '1.3'},
-		{name: 'ui.essentials', version: '1.6'}, // includes UI.Core, Draggable, Droppable, Resizable, Selectable, Sortable only
-		{name: 'ui.effects', version: '1.6'} // includes Effeects Core and others
+//		{name: 'json', version: ''},
+//		{name: 'easing', version: '1.3'},
+		{name: 'ui.essentials', version: '1.11.2.min'}, // includes UI.Core, Draggable, Droppable, Resizable, Selectable, Sortable only
+		{name: 'ui.effects', version: '1.11.2.min'} // includes Effeects Core and others
 	];
 	$.plugin.defaultResourceURL = '/resources/script';
 	$.plugin.loaded_ones = [];

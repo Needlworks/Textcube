@@ -1,4 +1,4 @@
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 //<![CDATA[
@@ -86,6 +86,7 @@ var isIE = sUserAgent.indexOf("compatible") > -1
            && !isOpera;
 
 var isMinIE4 = isMinIE5 = isMinIE5_5 = isMinIE6 = false;
+var isMinIE7 = isMinIE8 = isMinIE9 = isMinIE10 = isMinIE11 = false;
 
 if (isIE) {
     var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
@@ -96,6 +97,11 @@ if (isIE) {
     isMinIE5 = fIEVersion >= 5;
     isMinIE5_5 = fIEVersion >= 5.5;
     isMinIE6 = fIEVersion >= 6.0;
+    isMinIE7 = fIEVersion >= 7.0;
+    isMinIE8 = fIEVersion >= 8.0;
+    isMinIE9 = fIEVersion >= 9.0;
+    isMinIE10 = fIEVersion >= 10.0;
+    isMinIE11 = fIEVersion >= 11.0;
 }
 
 var isMoz = sUserAgent.indexOf("Gecko") > -1
@@ -132,6 +138,7 @@ var isMac = (navigator.platform == "Mac68K") || (navigator.platform == "MacPPC")
 var isUnix = (navigator.platform == "X11") && !isWin && !isMac;
 
 var isWin95 = isWin98 = isWinNT4 = isWin2K = isWinME = isWinXP = false;
+var isWinVista = isWin7 = isWin8 = isWin81 = isWin10 = isWinNT4 = false;
 var isMac68K = isMacPPC = false;
 var isSunOS = isMinSunOS4 = isMinSunOS5 = isMinSunOS5_5 = false;
 
@@ -146,6 +153,11 @@ if (isWin) {
               || sUserAgent.indexOf("Windows 2000") > -1;
     isWinXP = sUserAgent.indexOf("Windows NT 5.1") > -1
               || sUserAgent.indexOf("Windows XP") > -1;
+    isWinVista = sUserAgent.indexOf("Windows NT 6.0") > -1;
+    isWin7 = sUserAgent.indexOf("Windows NT 6.1") > -1;
+    isWin8 = sUserAgent.indexOf("Windows NT 6.2") > -1;
+    isWin8_1 = sUserAgent.indexOf("Windows NT 6.3") > -1;
+    isWin10 = sUserAgent.indexOf("Windows NT 10.0") > -1;
     isWinNT4 = sUserAgent.indexOf("WinNT") > -1
               || sUserAgent.indexOf("Windows NT") > -1
               || sUserAgent.indexOf("WinNT4.0") > -1
@@ -531,49 +543,50 @@ function isNull(field,message) {
 function open_img(img_src) {
 	img_view = window.open("", "TatterImagePopup", "width=0, height=0, left=0, top=0, scrollbars=yes, resizable=yes");
 	img_view.document.write(
-		'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n' +
-		'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">\n' +
-		'	<head>\n' +
-		'		<title> :: View :: <\/title>\n' +
-		'		<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' +
-		'		<script type="text/javascript">\n' +
-		'		//<![CDATA\n' +
-		'			function getWindowCleintHeight() {\n' +
-		'				return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' +
+        '<!DOCTYPE html>' +
+        '<html lang="en">' +
+        '<head>' +
+        '<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">' +
+		'	<title> :: View :: <\/title>\n' +
+		'	<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' +
+		'	<script type="text/javascript">\n' +
+		'	//<![CDATA\n' +
+		'		function getWindowCleintHeight() {\n' +
+		'			return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' +
+		'		}\n' +
+		'		function getWindowCleintWidth() {\n' +
+		'			return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' +
+		'		}\n' +
+		'		function resize(img) {\n' +
+		'			var imageWidth = img.width+5;\n' +
+		'			var imageHeight = img.height+5;\n' +
+		'			var screenWidth = screen.availWidth;\n' +
+		'			var screenHeight = screen.availHeight;\n' +
+		'			var windowWidth = imageWidth;\n' +
+		'			var windowHeight = imageHeight;\n' +
+		'			var positionX = (screenWidth - imageWidth) / 2;\n' +
+		'			var positionY = (screenHeight - imageHeight) / 2;\n' +
+		'			if(imageWidth > screenWidth * 0.8) {\n' +
+		'				windowWidth = screenWidth * 0.8;\n' +
+		'				document.body.scroll ="yes";\n' +
+		'				positionX = 0;\n' +
 		'			}\n' +
-		'			function getWindowCleintWidth() {\n' +
-		'				return (window.innerWidth != null) ? window.innerWidth : document.documentElement.clientWidth;\n' +
+		'			if(imageHeight > screenHeight * 0.8 ) {\n' +
+		'				windowHeight = screenHeight * 0.8;\n' +
+		'				document.body.scroll ="yes";\n' +
+		'				positionY = 0;\n' +
 		'			}\n' +
-		'			function resize(img) {\n' +
-		'				var imageWidth = img.width+5;\n' +
-		'				var imageHeight = img.height+5;\n' +
-		'				var screenWidth = screen.availWidth;\n' +
-		'				var screenHeight = screen.availHeight;\n' +
-		'				var windowWidth = imageWidth;\n' +
-		'				var windowHeight = imageHeight;\n' +
-		'				var positionX = (screenWidth - imageWidth) / 2;\n' +
-		'				var positionY = (screenHeight - imageHeight) / 2;\n' +
-		'				if(imageWidth > screenWidth * 0.8) {\n' +
-		'					windowWidth = screenWidth * 0.8;\n' +
-		'					document.body.scroll ="yes";\n' +
-		'					positionX = 0;\n' +
-		'				}\n' +
-		'				if(imageHeight > screenHeight * 0.8 ) {\n' +
-		'					windowHeight = screenHeight * 0.8;\n' +
-		'					document.body.scroll ="yes";\n' +
-		'					positionY = 0;\n' +
-		'				}\n' +
-        '               iWidth = windowWidth - getWindowCleintWidth();\n' +
-        '               iHeight = windowHeight - getWindowCleintHeight();\n' +
-        '               window.resizeBy(iWidth, iHeight);\n' +
-		'				window.moveTo(positionX, positionY);\n' +
-		'			}\n' +
+        '              iWidth = windowWidth - getWindowCleintWidth();\n' +
+        '              iHeight = windowHeight - getWindowCleintHeight();\n' +
+        '              window.resizeBy(iWidth, iHeight);\n' +
+		'			window.moveTo(positionX, positionY);\n' +
+		'		}\n' +
 		'		\/\/]]>\n' +
-		'		<\/script>\n' +
-		'	<\/head>\n' +
-		'	<body style="margin: 0px; padding: 0;">\n' +
-		'		<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' +
-		'	<\/body>\n' +
+		'	<\/script>\n' +
+		'<\/head>\n' +
+		'<body style="margin: 0px; padding: 0;">\n' +
+		'	<a href="javascript:window.close()"><img src="' + img_src + '" style="border: 0px; padding: 0; margin:0;" onload="resize(this)" /><\/a>\n' +
+		'<\/body>\n' +
 		'<\/html>');
 
 	try {
@@ -590,13 +603,12 @@ function openFullScreen(content,caption,root) {
 	try {
 	/*
 	var code ='\
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">\
-	<head>\
+    <!DOCTYPE html>\
+    <html lang="en">\
+    <head>\
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">\
 	<title>'+caption+' - iMazing</title>\
 	<script type="text/javascript" src="'+root+'/resources/script/common2.js"></script>\
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />\
 	<style>\
 		body {\
 			margin:0px;	\
@@ -745,9 +757,9 @@ function getEmbedCode(movie,width,height,id,bg,FlashVars,menu, transparent, qual
 			var _allowScriptAccess_object = '<param name="allowScriptAccess" value="'+allowScriptAccess+'" />';
 			var _allowScriptAccess_embed = ' allowScriptAccess="'+allowScriptAccess+'" ';
 		}
-		
+
 		if (id == undefined) {
-			var _id = "";	
+			var _id = "";
 		} else {
 			var _id = 'id="'+id+'"';
 		}
@@ -1021,107 +1033,45 @@ function addComment(caller, entryId) {
 		alert(messages['onSaving']);
 		return false;
 	}
+	var $ = jQuery;
 	var oForm = findFormObject(caller);
 	if (!oForm)
 		return false;
-	if( oForm.comment_type != undefined && 
+	if( oForm.comment_type != undefined &&
 		oForm.comment_type[0].checked && oForm.comment_type[0].value == 'openid' ) {
 		return addCommentWithOpenIDAuth(oForm, entryId);
 	}
-	var request = new HTTPRequest("POST", oForm.action);
-	request.onSuccess = function () {
-		PM.removeRequest(this);
-		commentSavingNow = false;
-		document.getElementById("entry" + entryId + "Comment").innerHTML = this.getText("/response/commentBlock");
-		if(getObject("recentComments") != null)
-			document.getElementById("recentComments").innerHTML = this.getText("/response/recentCommentBlock");
-		if(getObject("commentCount" + entryId) != null)
-			document.getElementById("commentCount" + entryId).innerHTML = this.getText("/response/commentView");
-		if(getObject("commentCountOnRecentEntries" + entryId) != null)
-			document.getElementById("commentCountOnRecentEntries" + entryId).innerHTML = "(" + this.getText("/response/commentCount") + ")";
-	}
-	request.onError = function() {
-		PM.removeRequest(this);
-		commentSavingNow = false;
-		alert(this.getText("/response/description"));
-	}
-
-	var queryString = "key=" + commentKey;
-
-	tempComment = 'comment_' + entryId;
-	tempHomepage = 'homepage_' + entryId;
-	tempName = 'name_' + entryId;
-	tempPassword = 'password_' + entryId;
-	tempSecret = 'secret_' + entryId;
-
-	for (i=0; i<oForm.elements.length; i++) {
-		if (queryString != "")
-			linker = "&";
-		else
-			linker = "";
-
-		// disabled 상태이면 패스.
-		if (oForm.elements[i].disabled == true)
-			continue;
-
-		if (oForm.elements[i].tagName.toLowerCase() == "input") {
-			switch (oForm.elements[i].type) {
-				case "checkbox":
-				case "radio":
-					if (oForm.elements[i].checked == true) {
-						if (oForm.elements[i].name == tempSecret)
-							queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].id == tempSecret)
-							queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].name != '')
-							queryString += linker + oForm.elements[i].name + '_' + entryId + '=' + encodeURIComponent(oForm.elements[i].value);
-						else if (oForm.elements[i].id != '')
-							queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-					}
-					break;
-				case "text":
-				case "password":
-				case "hidden":
-				case "button":
-				case "submit":
-					if (oForm.elements[i].name == tempName)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempName)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name == tempPassword)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempPassword)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name == tempHomepage)
-						queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id == tempHomepage)
-						queryString += linker + oForm.elements[i].id + '=' + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].name != '')
-						queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-					else if (oForm.elements[i].id != '')
-						queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-					break;
-				//case "file":
-				//	break;
-			}
-		} else if (oForm.elements[i].tagName.toLowerCase() == "select") {
-			num = oForm.elements[i].selectedIndex;
-			if (oForm.elements[i].name != '')
-				queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-			else if (oForm.elements[i].id != '')
-				queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].options[num].value);
-		} else if (oForm.elements[i].tagName.toLowerCase() == "textarea") {
-			if (oForm.elements[i].name == tempComment)
-				queryString += linker + oForm.elements[i].name + '=' + encodeURIComponent(oForm.elements[i].value);
-			else if (oForm.elements[i].name != '')
-				queryString += linker + oForm.elements[i].name + '_' + entryId + "=" + encodeURIComponent(oForm.elements[i].value);
-			else if (oForm.elements[i].id != '')
-				queryString += linker + oForm.elements[i].id + "=" + encodeURIComponent(oForm.elements[i].value);
-		}
-	}
+	var formData = $(oForm).serializeArray();
+	formData.push({name: 'key', value: commentKey});
 	commentSavingNow = true;
-	PM.addRequest(request,"Saving Comments...");
-	request.send(queryString);
+	//PM.addRequest(request, "Saving Comments...");
+	$.ajax({
+	    url: $(oForm).attr('action'),
+	    type: 'POST',
+	    dataType: 'xml',
+	    data: formData,
+	    success: function(data, status, xhr) {
+			//PM.removeRequest(this);
+			commentSavingNow = false;
+			var result = parseInt($(data).find('response error').text());
+			if (result == 0) {
+				$("#entry" + entryId + "Comment").html($(data).find("response commentBlock").text());
+				if (getObject("recentComments") != null)
+					$("#recentComments").html($(data).find("response recentCommentBlock").text());
+				if (getObject("commentCount" + entryId) != null)
+					$("#commentCount" + entryId).html($(data).find("response commentView").text());
+				if (getObject("commentCountOnRecentEntries" + entryId) != null)
+					$("#commentCountOnRecentEntries" + entryId).html("(" + $(data).find("response commentCount").text() + ")");
+			} else {
+				alert($(data).find("response description").text());
+			}
+	    },
+	    error: function(xhr, status, err) {
+			//PM.removeRequest(this);
+			commentSavingNow = false;
+			alert('Connection failed.');
+	    }
+	});
 }
 
 function addCommentWithOpenIDAuth(oForm, entryId) {
@@ -1133,7 +1083,7 @@ function addCommentWithOpenIDAuth(oForm, entryId) {
 	action.pop();
 	action.pop();
 	form.action = action.join("/");
-	form.action += "/addopenid/"+entryId+"?__T__="+(new Date()).getTime();
+	form.action += "/addopenid/"+entryId;
 	form.method = "post";
 
 	var input;
@@ -1282,6 +1232,8 @@ function loadComment(entryId, page, force, listOnly) {
 
 
 var openWindow='';
+var tcDialog;
+var tcDialogFrame;
 
 function openCenteredWindow(url, name, width, height, scrollbars) {
 	scrollbars = (scrollbars || false) ? 1 : 0;
@@ -1298,16 +1250,61 @@ function openCenteredWindow(url, name, width, height, scrollbars) {
 	return openWindow;
 }
 
+function openCenteredDialog(url, dialogId, width, height) {
+    var $ = jQuery;
+    tcDialog = jQuery('#tcDialog').bPopup({
+        content:'iframe',
+        positionStyle: 'fixed',
+        loadUrl:url,
+        transition:'fadeIn',
+        loadCallback: function() {
+            jQuery('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
+            });
+        }
+    });
+    tcDialogFrame = $('#tcDialog iframe');
+    tcDialogFrame.attr("name", dialogId);
+    tcDialogFrame.attr('width', width);
+    tcDialogFrame.attr('height', height);
+    tcDialog.reposition();
+}
+
+function resizeDialog(width, height, cumulative) {
+    var scope = (window.location !== window.parent.location ? window.parent : window);
+    try {
+        if (cumulative == true) {
+            width = parseInt(scope.tcDialogFrame.attr('width')) + parseInt(width);
+            height = parseInt(scope.tcDialogFrame.attr('height')) + parseInt(height);
+        }
+        scope.tcDialogFrame.attr('width', width);
+        scope.tcDialogFrame.attr('height', height);
+        scope.tcDialog.reposition();
+    } catch (e) {}
+}
+
 function deleteComment(id) {
-	openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+        openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    } else {
+        openCenteredDialog(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
+    }
 }
 
 function modifyComment(id) {
-	openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+        openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+
+    } else {
+        openCenteredDialog(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
+    }
 }
 
-function commentComment(parent) {
-	openCenteredWindow(blogURL + "/comment/comment/" + parent, "tatter", 460, 550);
+function commentComment(parentId) {
+    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+        openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    } else {
+        openCenteredDialog(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
+    }
 }
 
 function getMoreLineStream(page,lines,mode) {
@@ -1333,9 +1330,9 @@ function updateStream(contentView, buttonView, position) {
 		Ocontent.innerHTML = Ocontent.innerHTML+contentView;
 	}
 	Pcontent.innerHTML = buttonView;
-	return true;							
+	return true;
 }
-																					
+
 function editEntry(parent,child) {
 	openCenteredWindow(blogURL + "/owner/entry/edit/" + parent + "?popupEditor&returnURL=" + child, "tatter", 1020, 550, true);
 }

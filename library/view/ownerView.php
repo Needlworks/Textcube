@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2014, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -129,8 +129,8 @@ function printOwnerEditorScript($entryId = false) {
 	}
 
 	function editorChanged() {
-		if ((entryManager != undefined) && (entryManager.saveAuto != undefined))
-			entryManager.saveAuto();
+		if ((entryManager != undefined) && (entryManager.stateChanged != undefined))
+			entryManager.stateChanged();
 	}
 
 	function getEditor() {
