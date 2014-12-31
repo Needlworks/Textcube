@@ -5,6 +5,7 @@
 
 $entriesView = '';
 requireModel('blog.comment');
+$context = Model_Context::getInstance();
 if (isset($cache->contents)) {
 	$entriesView = $cache->contents;
 	if(strpos($cache->name,'keyword')!==false) $isKeylog = true;
@@ -70,7 +71,7 @@ if (isset($cache->contents)) {
 			dress('notice_rep_author_link', $blogURL."/author/".rawurlencode(User::getName($entry['userid'])), $entryView);
 			$entriesView .= $entryView;
 
-		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
+		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE[$context->getProperty('service.cookie_prefix').'GUEST_PASSWORD']) && (trim($_COOKIE[$context->getProperty('service.cookie_prefix').'GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
 			$entryView = $skin->entry;
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 

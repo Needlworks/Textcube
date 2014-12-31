@@ -3,19 +3,20 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
+$context = Model_Context::getInstance();
 $confirmString = '';
 if (empty($comment['name']) ) {
 	if( isset($_SESSION['openid']['nickname'])) {
 		$comment['name'] = $_SESSION['openid']['nickname'];
-	} else if( isset($_COOKIE['guestName'])) {
-		$comment['name'] = $_COOKIE['guestName'];
+	} else if( isset($_COOKIE[$context->getProperty('service.cookie_prefix').'guestName'])) {
+		$comment['name'] = $_COOKIE[$context->getProperty('service.cookie_prefix').'guestName'];
 	}
 }
 if ((empty($comment['homepage']) || $comment['homepage'] == 'http://') ) {
 	if( isset($_SESSION['openid']['homepage'])) {
 		$comment['homepage'] = $_SESSION['openid']['homepage'];
-	} else if( isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') {
-		$comment['homepage'] = $_COOKIE['guestHomepage'];
+	} else if( isset($_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage']) && $_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage'] != 'http://') {
+		$comment['homepage'] = $_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage'];
 	}
 }
 
