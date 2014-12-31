@@ -315,6 +315,15 @@ if(in_array($context->getProperty('uri.interfaceType'), array('owner','reader'))
 
 	}
 }
+
+/** INITIALIZE : Cookie prefix
+    -----------------------------------
+    Determines cookie prefix.
+ */
+if ($context->getProperty('service.cookie_prefix','') == '') {
+	$context->setProperty('service.cookie_prefix','Textcube'.str_replace('.','',TEXTCUBE_VERSION_ID));
+}
+
 // DBMS unbind should work after session close.
 if(	$context->getProperty('database.connected') == true) {
 	register_shutdown_function( array('POD','unbind') );

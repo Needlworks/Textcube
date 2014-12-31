@@ -72,5 +72,7 @@ $service['useNumericURLonRSS'] = false;
 $service['forceinstall'] = false;
 $service['jqueryURL'] = null;	// You can change this to use external CDNs. (microsoft / google, etc..)
 $service['lodashURL'] = null;	// You can change this to use external CDNs. (microsoft / google, etc..)
+$service['useSSL'] = false;
+$service['cookie_prefix'] = '';
 //$service['adminskin'] = 'whitedream';
 ?>
