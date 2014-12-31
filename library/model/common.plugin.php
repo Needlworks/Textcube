@@ -596,7 +596,7 @@ function handleDataSet( $plugin , $DATA ) {
 				}
 			}
 				
-			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , Setting::fetchConfigXML($DATA));
+			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , serialize(Setting::fetchConfigXML($DATA)));
 			$pluginURL = $pluginPath = $pluginName = "";
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;	
 		}
