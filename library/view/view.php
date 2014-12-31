@@ -452,8 +452,8 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 					$guestName = htmlspecialchars($_POST["name_{$entry['id']}"]);
 				else if (!empty($_SESSION['openid']['nickname']))
 					$guestName = htmlspecialchars($_SESSION['openid']['nickname']);
-				else if (!empty($_COOKIE['guestName']))
-					$guestName = htmlspecialchars($_COOKIE['guestName']);
+				else if (!empty($_COOKIE[$context->getProperty('service.cookie_prefix').'guestName']))
+					$guestName = htmlspecialchars($_COOKIE[$context->getProperty('service.cookie_prefix').'guestName']);
 				else
 					$guestName = '';
 				dress('guest_name', $guestName, $commentGuestView);
@@ -464,8 +464,8 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 						$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_{$entry['id']}"]);
 				} else if (!empty($_SESSION['openid']['homepage'])) {
 					$guestHomepage = htmlspecialchars($_SESSION['openid']['homepage']);
-				} else if (!empty($_COOKIE['guestHomepage'])) {
-					$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
+				} else if (!empty($_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage'])) {
+					$guestHomepage = htmlspecialchars($_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage']);
 				}
 				else
 					$guestHomepage = 'http://';
