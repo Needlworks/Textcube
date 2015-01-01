@@ -159,6 +159,7 @@ function printMobileCommentView($entryId) {
 }
 
 function printMobileCommentFormView($entryId) {
+	$context = Model_Context::getInstance();
 ?>
 	<fieldset>
 	<form method="post" action="add/<?php echo $entryId;?>">	
