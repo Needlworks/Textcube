@@ -67,12 +67,7 @@ $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
 $service['forceinstall'] = false;
-<<<<<<< HEAD
 $service['useSSL'] = false;
 $service['cookie_prefix'] = '';
-=======
-$service['jqueryURL'] = null;	// You can change this to use external CDNs. (microsoft / google, etc..)
-$service['lodashURL'] = null;	// You can change this to use external CDNs. (microsoft / google, etc..)
->>>>>>> 40ad881...  refs #1718 : added - lo-dash library 2.4.1
 //$service['adminskin'] = 'whitedream';
 ?>
