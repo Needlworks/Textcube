@@ -7,7 +7,7 @@
  * 플러그인   : 다양한 파라미터 통신을 위한 커스텀 input validator 이벤트 추가 (#1710)
  * 플러그인   : 댓글에 댓글달기 창에 REPLY_head_end, REPLY_body_end 이벤트 추가 (#1710)
  * 블로그    : modal style 팝업으로 댓글 달기 추가 (#1725)
-
+ * 일반       : lo-dash javascript library 추가 (#1718)
 === 변경된 점 ===
  * 일반       : jQuery 라이브러리 업데이트 (1.11.2)
  * 일반       : 이올린 관련 가비지코드 제거 (#1712)
