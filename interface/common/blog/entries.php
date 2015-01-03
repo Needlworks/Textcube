@@ -93,16 +93,16 @@ if (isset($cache->contents)) {
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 
 			dress('tb', getTrackbacksView($entry, $skin, $entry['accepttrackback']), $entryView);
-			if (!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true)) {
-				$style = 'none';
-			} else if ($context->getProperty('skin.expandComment',true) || (($context->getProperty('suri.directive','/') == '/' || $context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
-				$style = 'block';
+			if (!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true) && !$context->getProperty('skin.expandComment', false)) {
+				$commentBlockStyle = 'none';
+			} else if ($context->getProperty('skin.expandComment', false) || (($context->getProperty('suri.directive','/') == '/' || $context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
+				$commentBlockStyle = 'block';
 			} else {
-				$style = 'none';
+				$commentBlockStyle = 'none';
 			}
 			
-			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . 
-					(!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true) ? '' : getCommentView($entry, $skin)) . 
+			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$commentBlockStyle\">" .
+					($commentBlockStyle == 'none' ? '' : getCommentView($entry, $skin)) .
 					 "</div>", $entryView);
 			
 			$tagLabelView = $skin->tagLabel;
