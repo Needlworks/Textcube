@@ -16,7 +16,7 @@ define('TEXTCUBE_NOTICE_URL','http://feeds.feedburner.com/textcube/');
 define('CRLF', "\r\n");
 define('TAB', "	");
 define('INT_MAX',2147483647);
-define('JQUERY_VERSION','1.11.1.min');
+define('JQUERY_VERSION','1.11.2.min');
 define('JQUERY_UI_VERSION','1.11.2.min');
 define('JQUERY_BPOPUP_VERSION','0.10.0.min');
 define('LODASH_VERSION','2.4.1.min');
