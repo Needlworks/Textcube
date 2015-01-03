@@ -28,7 +28,7 @@ define( "XPATH_LIBRARY_ROOT", ROOT . "/library/contrib/phpxpath/" );
 define( "Auth_OpenID_NO_MATH_SUPPORT", 1 );
 define( "OPENID_PASSWORD", "-OPENID-" );
 
-define('JQUERY_VERSION','1.11.1.min');
+define('JQUERY_VERSION','1.11.2.min');
 define('JQUERY_UI_VERSION','1.11.2.min');
 define('LODASH_VERSION','2.4.1.min');
 
