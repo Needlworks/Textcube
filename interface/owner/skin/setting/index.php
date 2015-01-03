@@ -401,7 +401,7 @@ ob_end_clean();
 										<dl id="post-click-line" class="line">
 											<dt><span class="label"><?php echo _t('글을 표시할 때');?></span></dt>
 											<dd>
-												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /><label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?><br /><?php echo _t('댓글 페이징 기능을 사용하는 경우 이 옵션에 상관없이 댓글이 접힙니다.');?></label><br />
+												<input type="checkbox" id="expandComment" class="checkbox" name="expandComment"<?php echo $skinSetting['expandComment'] ? ' checked="checked"' : '';?> /><label for="expandComment"><?php echo _t('댓글을 기본으로 펼칩니다.');?></label><br />
 												<input type="checkbox" id="expandTrackback" class="checkbox" name="expandTrackback"<?php echo $skinSetting['expandTrackback'] ? ' checked="checked"' : '';?> /><label for="expandTrackback"><?php echo _t('걸린글을 기본으로 펼칩니다.');?></label>
 											</dd>
 										</dl>
