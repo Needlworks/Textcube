@@ -108,7 +108,7 @@ table.data-inbox tbody tr td
 {
 	text-align                       : left;
 	display                          : block;
-	max-height                       : 50px !important;
+	max-height                       : 50px;
 	overflow                         : hidden;
 }
 
@@ -134,7 +134,6 @@ table.data-inbox tbody tr td
 {
 	color                            : #999999;
 	font-size                        : 0.9em;
-	font-family                      : Dotum, sans-serif;
 }
 
 #part-post-comment table.data-inbox tbody tr td.reply span 
