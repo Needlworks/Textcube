@@ -13,28 +13,63 @@ function Recaptcha_Header($target) {
 	$config = Setting::fetchConfigVal($configVal);
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
-<script src="https://www.google.com/recaptcha/api.js?render=explicit"></script>
 <script type="text/javascript">
-var recaptcha_wait_trials = 0;
-function recaptchaWaitForElement(selector, cb) {
+
+var recaptcha_widgets = {};
+function recaptcha_addControl(f, entryId) {
 	var $ = jQuery;
+	var blockId = 'comment_recaptcha_' + entryId;
+	var widgetId;
+	if ($('#' + blockId).length > 0) {
+		if (recaptcha_widgets[entryId] != undefined)
+			grecaptcha.reset(recaptcha_widgets[entryId]);
+		return;
+	}
+	$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
+	widgetId = grecaptcha.render(blockId, {
+		'sitekey': '{$config['siteKey']}'
+	});
+	recaptcha_widgets[entryId] = widgetId;
+}
+
+function recaptcha_checkForms() {
+	var $ = jQuery;
+	var _entryIds = entryIds;
+	if ($('#tt-body-guestbook').length > 0) {
+		_entryIds = [0];
+	}
+	$.each(_entryIds, function(idx, entryId) {
+		var v = $('#entry' + entryId + 'Comment:visible');
+		var f = $('form[id=entry' + entryId + 'WriteComment]');
+		if (f.length > 0 && v.length > 0)
+			recaptcha_addControl(f, entryId);
+	});
+}
+
+var recaptcha_waitTrials;
+var recaptcha_waitTimer = null;
+function recaptcha_waitForElement(selector, cb) {
+	var $ = jQuery;
+	recaptcha_waitTrials = 0;
 	var finder = function() {
 		var o = $(selector);
 		if (o.length > 0) {
-			recaptcha_wait_trials = 0;
+			window.clearInterval(recaptcha_waitTimer);
+			recaptcha_waitTimer = null;
 			cb(o);
 		} else {
-			recaptcha_wait_trials ++;
-			if (recaptcha_wait_trials > 50) {
-				alert("Recaptcha Plugin: Cannot open the comment form! (5 sec timeout)");
-			} else {
-				window.setTimeout(finder, 100);
+			recaptcha_waitTrials ++;
+			if (recaptcha_waitTrials > 25) {
+				alert('Cannot find required elements to insert the reCAPTCHA control.');
+				window.clearInterval(recaptcha_waitTimer);
+				recaptcha_waitTimer = null;
 			}
 		}
 	};
-	window.setTimeout(finder, 100);
+	recaptcha_waitTimer = window.setInterval(finder, 200);
 }
 </script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_checkForms" async defer></script>
 EOS;
 	}
 	return $target;
@@ -46,6 +81,7 @@ function Recaptcha_CCHeader($target) {
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
 <script type="text/javascript">
+var recaptcha_waitTimer = null;
 function recaptcha_init() {
 	var $ = jQuery;
 	if (!doesHaveOwnership) {
@@ -53,13 +89,28 @@ function recaptcha_init() {
 		grecaptcha.render('comment_recaptcha', {
 			'sitekey': '{$config['siteKey']}'
 		});
-		window.setTimeout(function() {
-			window.resizeBy(0, $('#comment_recaptcha').outerHeight(true));
-		}, 200);
+		var scope = (window.location !== window.parent.location ? window.parent : window);
+		if(scope == window.parent) {
+			recaptcha_waitTimer = scope.setInterval(function() {
+				var v = $('#comment_recaptcha');
+				if (v.length > 0) {
+					resizeDialog(0,parseInt(v.outerHeight(true)),true);
+					scope.clearInterval(recaptcha_waitTimer);
+				}
+			}, 200);
+		} else {
+			recaptcha_waitTimer = window.setInterval(function() {
+				var v = $('#comment_recaptcha');
+				if (v.length > 0) {
+					window.resizeBy(0, v.outerHeight(true));
+					window.clearInterval(recaptcha_waitTimer);
+				}
+			}, 200);
+		}
 	}
 }
 </script>
-<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=recaptcha_init"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=recaptcha_init" async defer></script>
 EOS;
 	}
 	return $target;
@@ -76,14 +127,25 @@ $(document).ready(function() {
 	if (!doesHaveOwnership) {
 		$('a[id^=commentCount]').click(function(e) {
 			var entryId = $(e.target).attr('id').match(/(\d+)/)[1];
-			recaptchaWaitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
-				var blockId = 'comment_recaptcha_' + entryId;
-				if ($(blockId).length > 0) return;
-				$(f).find('textarea').after('<div style="margin: 5pt 0 5pt 0" id="' + blockId + '"></div>');
-				grecaptcha.render(blockId, {
-					'sitekey': '{$config['siteKey']}'
+			$('#entry' + entryId + 'Comment').empty(); // prevent interference with previously shown controls.
+			if ($('#entry' + entryId + 'Comment:visible').length > 0) {
+				/* The comment view is opened. */
+				if (recaptcha_waitTimer != null) {
+					window.clearInterval(recaptcha_waitTimer);
+					recaptcha_waitTimer = null;
+				}
+				recaptcha_waitForElement('form[id=entry' + entryId + 'WriteComment]', function(f) {
+					recaptcha_addControl(f, entryId);
 				});
-			});
+			} else {
+				/* The comment view is closed. */
+				if (recaptcha_waitTimer != null) {
+					window.clearInterval(recaptcha_waitTimer);
+					recaptcha_waitTimer = null;
+				}
+				if (recaptcha_widgets[entryId] != undefined)
+					delete recaptcha_widgets[entryId];
+			}
 		});
 	}
 });

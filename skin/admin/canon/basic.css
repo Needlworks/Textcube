@@ -299,15 +299,15 @@ textarea
 /* main menu */
 #main-menu-box
 {
-	
-	background: rgb(125,126,125); /* Old browsers */
-	background: -moz-linear-gradient(top, rgba(125,126,125,1) 0%, rgba(51,51,51,1) 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(125,126,125,1)), color-stop(100%,rgba(51,51,51,1))); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%); /* Opera11.10+ */
-	background: -ms-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%); /* IE10+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
-	background: linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%); /* W3C */
+	background: rgba(32,32,32,0.8);
+	/*background: rgb(125,126,125);*/ /* Old browsers */
+	/*background: -moz-linear-gradient(top, rgba(125,126,125,1) 0%, rgba(51,51,51,1) 100%);*/ /* FF3.6+ */
+	/*background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(125,126,125,1)), color-stop(100%,rgba(51,51,51,1)));*/ /* Chrome,Safari4+ */
+	/*background: -webkit-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%);*/ /* Chrome10+,Safari5.1+ */
+	/*background: -o-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%);*/ /* Opera11.10+ */
+	/*background: -ms-linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%);*/ /* IE10+ */
+	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d7e7d', endColorstr='#333333',GradientType=0 );*/ /* IE6-9 */
+	/*background: linear-gradient(top, rgba(125,126,125,1) 0%,rgba(51,51,51,1) 100%);*/ /* W3C */
 	background-repeat                : repeat-x;
 	height                           : 35px;
 	line-height                      : 35px;
@@ -1321,7 +1321,8 @@ table.data-inbox tbody tr td.inactive-class
 
 #layout-footer
 {
-	background-color                 : #FFFFFF;
+	background: rgba(255,255,255,0.8);
+/*	background-color                 : #FFFFFF;*/
 	font-size                        : 0.9em;
 	margin                           : 0 auto;
 	padding                          : 8px 0 5px 0;

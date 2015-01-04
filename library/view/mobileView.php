@@ -4,7 +4,8 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function printMobileEntryContentView($blogid, $entry, $keywords = array()) {
-	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password']))))
+	$context = Model_Context::getInstance();
+	if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE[$context->getProperty('service.cookie_prefix').'GUEST_PASSWORD']) && (trim($_COOKIE[$context->getProperty('service.cookie_prefix').'GUEST_PASSWORD']) == trim($entry['password']))))
 		print (getEntryContentView($blogid, $entry['id'], $entry['content'], $entry['contentformatter'], $keywords));
 	else
 	{
@@ -158,6 +159,7 @@ function printMobileCommentView($entryId) {
 }
 
 function printMobileCommentFormView($entryId) {
+	$context = Model_Context::getInstance();
 ?>
 	<fieldset>
 	<form method="post" action="add/<?php echo $entryId;?>">	
@@ -169,13 +171,13 @@ function printMobileCommentFormView($entryId) {
 		<input type="checkbox" id="secret_<?php echo $entryId;?>" name="secret_<?php echo $entryId;?>" />
 		<br />
 		<label for="name_<?php echo $entryId;?>"><?php echo _text('이름');?></label>
-		<input type="text" id="name_<?php echo $entryId;?>" name="name_<?php echo $entryId;?>" value="<?php echo isset($_COOKIE['guestName']) ? htmlspecialchars($_COOKIE['guestName']) : '';?>" />
+		<input type="text" id="name_<?php echo $entryId;?>" name="name_<?php echo $entryId;?>" value="<?php echo isset($_COOKIE[$context->getProperty('service.cookie_prefix').'guestName']) ? htmlspecialchars($_COOKIE[$context->getProperty('service.cookie_prefix').'guestName']) : '';?>" />
 		<br />
 		<label for="password_<?php echo $entryId;?>"><?php echo _text('비밀번호');?></label>
 		<input type="password" id="password_<?php echo $entryId;?>" name="password_<?php echo $entryId;?>" />
 		<br />
 		<label for="homepage_<?php echo $entryId;?>"><?php echo _text('홈페이지');?></label>
-		<input type="text" id="homepage_<?php echo $entryId;?>" name="homepage_<?php echo $entryId;?>"  value="<?php echo (isset($_COOKIE['guestHomepage']) && $_COOKIE['guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE['guestHomepage']) : 'http://';?>" />
+		<input type="text" id="homepage_<?php echo $entryId;?>" name="homepage_<?php echo $entryId;?>"  value="<?php echo (isset($_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage']) && $_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage'] != 'http://') ? htmlspecialchars($_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage']) : 'http://';?>" />
 		<br />
 		<?php
 	}

@@ -5,6 +5,7 @@
 
 $entriesView = '';
 requireModel('blog.comment');
+$context = Model_Context::getInstance();
 if (isset($cache->contents)) {
 	$entriesView = $cache->contents;
 	if(strpos($cache->name,'keyword')!==false) $isKeylog = true;
@@ -87,21 +88,21 @@ if (isset($cache->contents)) {
 			dress('page_rep_author', User::getName($entry['userid']), $entryView);
 			dress('page_rep_author_link', $blogURL."/author/".rawurlencode(User::getName($entry['userid'])), $entryView);
 			$entriesView .= $entryView;
-		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE['GUEST_PASSWORD']) && (trim($_COOKIE['GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
+		} else if (doesHaveOwnership() || ($entry['visibility'] >= 2) || (isset($_COOKIE[$context->getProperty('service.cookie_prefix').'GUEST_PASSWORD']) && (trim($_COOKIE[$context->getProperty('service.cookie_prefix').'GUEST_PASSWORD']) == trim($entry['password'])))) {	// This is post
 			$entryView = $skin->entry;
 			$entryView = '<a id="entry_'.$entry['id'].'"></a>'.CRLF.$entryView;
 
 			dress('tb', getTrackbacksView($entry, $skin, $entry['accepttrackback']), $entryView);
-			if (!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true)) {
-				$style = 'none';
-			} else if ($context->getProperty('skin.expandComment',true) || (($context->getProperty('suri.directive','/') == '/' || $context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
-				$style = 'block';
+			if (!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true) && !$context->getProperty('skin.expandComment', false)) {
+				$commentBlockStyle = 'none';
+			} else if ($context->getProperty('skin.expandComment', false) || (($context->getProperty('suri.directive','/') == '/' || $context->getProperty('suri.directive','/') == '/entry') && $context->getProperty('suri.value','') != '')) {
+				$commentBlockStyle = 'block';
 			} else {
-				$style = 'none';
+				$commentBlockStyle = 'none';
 			}
 			
-			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$style\">" . 
-					(!$context->getProperty('blog.showCommentBox',false) && $context->getProperty('blog.useAjaxComment',true) ? '' : getCommentView($entry, $skin)) . 
+			dress('rp', "<div id=\"entry{$entry['id']}Comment\" style=\"display:$commentBlockStyle\">" .
+					($commentBlockStyle == 'none' ? '' : getCommentView($entry, $skin)) .
 					 "</div>", $entryView);
 			
 			$tagLabelView = $skin->tagLabel;

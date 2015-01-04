@@ -452,8 +452,8 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 					$guestName = htmlspecialchars($_POST["name_{$entry['id']}"]);
 				else if (!empty($_SESSION['openid']['nickname']))
 					$guestName = htmlspecialchars($_SESSION['openid']['nickname']);
-				else if (!empty($_COOKIE['guestName']))
-					$guestName = htmlspecialchars($_COOKIE['guestName']);
+				else if (!empty($_COOKIE[$context->getProperty('service.cookie_prefix').'guestName']))
+					$guestName = htmlspecialchars($_COOKIE[$context->getProperty('service.cookie_prefix').'guestName']);
 				else
 					$guestName = '';
 				dress('guest_name', $guestName, $commentGuestView);
@@ -464,8 +464,8 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 						$guestHomepage = 'http://' . htmlspecialchars($_POST["homepage_{$entry['id']}"]);
 				} else if (!empty($_SESSION['openid']['homepage'])) {
 					$guestHomepage = htmlspecialchars($_SESSION['openid']['homepage']);
-				} else if (!empty($_COOKIE['guestHomepage'])) {
-					$guestHomepage = htmlspecialchars($_COOKIE['guestHomepage']);
+				} else if (!empty($_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage'])) {
+					$guestHomepage = htmlspecialchars($_COOKIE[$context->getProperty('service.cookie_prefix').'guestHomepage']);
 				}
 				else
 					$guestHomepage = 'http://';
@@ -1257,7 +1257,7 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 		$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
 		$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
 		if ($context->getProperty('blog.displaymode','desktop') == 'mobile')
-			$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address','b', 'blockquote', 'br', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'table','td','tr','u', 'ul', 'var'));
+			$view = stripHTML($view, array('a', 'abbr', 'acronym', 'address','b', 'blockquote', 'br', 'caption', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul', 'var'));
 		if(!$useAbsolutePath)
 			$view = avoidFlashBorder($view);
 

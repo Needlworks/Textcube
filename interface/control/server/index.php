@@ -5,7 +5,7 @@
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/control/header.php';
 
-
+$context = Model_Context::getInstance();
 // htacccess modification
 $htaccessContent = '';
 if (file_exists(ROOT . "/.htaccess")) {
@@ -83,7 +83,6 @@ closedir($handler);
 								param += 'useReader='+useReader +'&';
 								param += 'useNumericRSS='+useNumericRSS +'&';
 								param += 'useEncodedURL='+useEncodedURL +'&';
-								param += 'disableEolinSuggestion='+disableEolinSuggestion +'&';
 								param += 'allowBlogVisibility='+allowBlogVisibilitySetting +'&';
 								param += 'requireLogin='+requireLogin +'&';
 								param += 'flashClipboardPoter='+flashClipboardPoter +'&';
@@ -99,6 +98,7 @@ closedir($handler);
 								param += 'timezone='+getEncodedValueById('timezone') +'&';
 								param += 'encoding='+getEncodedValueById('encoding') +'&';
 								param += 'serviceurl='+getEncodedValueById('serviceurl') + '&';
+								param += 'cookieprefix='+getEncodedValueById('cookieprefix') + '&';
 								param += 'externalResourceURL='+getEncodedValueById('externalResourceURL');
 								var request = new HTTPRequest("POST", '<?php echo $context->getProperty('uri.blog');?>/control/server/config/');
 								request.onSuccess = function() {
@@ -276,6 +276,13 @@ foreach($encodingList as $enc) {
 											<dd>
 												<input id="externalResourceURL" type="text" class="input-text" name="externalResourceURL" size="45" value="<?php echo (isset($service['resourceURL']) ? $service['resourceURL'] : '');?>" />
 												<label for="externalResourceURL"><?php echo _t('외부 리소스를 사용할 경우 리소스 저장소를 임의로 지정할 수 있습니다.').'<br />'._f('이 값을 지정하지 않고 외부 리소스 사용을 선택할 경우 텍스트큐브 리소스 저장소(%1)를 기본값으로 사용합니다.',TEXTCUBE_RESOURCE_URL);?></label>
+											</dd>
+										</dl>
+										<dl id="cookieprefix-line" class="line">
+											<dt><span class="label"><?php echo _t('COOKIE 접두어');?></span></dt>
+											<dd>
+												<input id="cookieprefix" type="text" class="input-text" name="cookieprefix" size="45" value="<?php echo ($context->getProperty('service.cookie_prefix','') == 'Textcube'.str_replace('.','',TEXTCUBE_VERSION_ID)) ? '' : $context->getProperty('service.cookie_prefix','');?>" />
+												<label for="cookieprefix"><?php echo _t('이 서비스에서 사용할 웹 브라우저 쿠키 이름 앞에 붙을 접두어를 지정합니다.').'<br />'._t('지정하지 않을 경우 웹 브라우저 쿠키 접두어는 Textcube[버전번호] 로 자동으로 지정합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>
