@@ -225,6 +225,14 @@ require ROOT . '/interface/common/owner/header.php';
 <?php
 	}
 ?>
+									$('#list-form tbody td.content').click(function(ev) {
+										var maxHeight = $(this).css('max-height');
+										var currentHeight = $(this).css('height');
+										if (maxHeight == currentHeight) {
+											$(this).animate({height:"auto"},1000).css("max-height","1000px");
+										}
+										ev.stopPropagation();
+									});
 									$('#list-form tbody td.selection').click(function(ev) {
 										$('#allChecked').prop('checked', false);
 										var checked = $(':checked', this).prop('checked');
