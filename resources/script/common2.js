@@ -861,35 +861,34 @@ function getTagChunks(string, tagName, callback) {
 
 function toggleMoreLess(obj, num, txtMore, txtLess)
 {
-	oMore = document.getElementById('more' + num);
-	oContent = document.getElementById('content' + num);
+    var $ = jQuery;
+    oMore = document.getElementById('more' + num);
+    oContent = document.getElementById('content' + num);
+    if (txtMore.Length == 0) txtMore = 'more...';
+    if (txtLess.Length == 0) txtLess = 'less...';
 
-	if (txtMore.Length == 0) txtMore = 'more...';
-	if (txtLess.Length == 0) txtLess = 'less...';
+    if (oContent.style.display == 'none') {
+        oMore.className = "moreless_top";
+        obj.innerHTML = txtLess;
 
-	if (oContent.style.display == 'none') {
-		oContent.style.display = 'block';
-		oMore.className = "moreless_top";
-		obj.innerHTML = txtLess;
+        oLess = document.createElement("P");
+        oLess.id = "less" + num;
+        oLess.className = "moreless_bottom";
+        var txtMore2 = txtMore.replace(/&/g,'&amp;');
+        var txtLess2 = txtLess.replace(/&/g,'&amp;');
 
-		oLess = document.createElement("P");
-		oLess.id = "less" + num;
-		oLess.className = "moreless_bottom";
-		var txtMore2 = txtMore.replace(/&/g,'&amp;');
-		var txtLess2 = txtLess.replace(/&/g,'&amp;');
+        oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore2 + '\', \'' + txtLess2 + '\'); return false;">' + txtLess + '<\/span>';
 
-		oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore2 + '\', \'' + txtLess2 + '\'); return false;">' + txtLess + '<\/span>';
+        after = oContent.nextSibling;
+        oContent.parentNode.insertBefore(oLess, after);
+    } else {
+        oMore.className = "moreless_fold";
+        oMore.childNodes[0].innerHTML = txtMore;
 
-		after = oContent.nextSibling;
-		oContent.parentNode.insertBefore(oLess, after);
-	} else {
-		oContent.style.display = 'none';
-		oMore.className = "moreless_fold";
-		oMore.childNodes[0].innerHTML = txtMore;
-
-		oLess = document.getElementById('less' + num);
-		oContent.parentNode.removeChild(oLess);
-	}
+        oLess = document.getElementById('less' + num);
+        oContent.parentNode.removeChild(oLess);
+    }
+    $(oContent).toggle({duration:350,easing:"swing"});
 }
 
 function getParentByTagName(tag, obj)
