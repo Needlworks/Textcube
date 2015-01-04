@@ -107,6 +107,9 @@ table.data-inbox tbody tr td
 #part-post-comment table.data-inbox tbody tr td.content
 {
 	text-align                       : left;
+	display                          : block;
+	max-height                       : 50px !important;
+	overflow                         : hidden;
 }
 
 #part-post-comment table.data-inbox tbody tr td.content div.info 
