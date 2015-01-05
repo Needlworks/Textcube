@@ -157,8 +157,11 @@ dl.comments dd.reply {
 dl.information dt,
 dl.response dt {
 	padding-top:5px;
+	display:none;
 }
-
+dl.information .rss {
+	display:none;
+}
 .categoryFeed span {
 	display:none;
 }
