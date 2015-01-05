@@ -139,8 +139,11 @@ ul.pagination li:not(:first-child):not(:last-child) {
 dl.information dt,
 dl.response dt {
 	padding-top:5px;
+	display:none;
 }
-
+dl.information .rss {
+	display:none;
+}
 .categoryFeed span {
 	display:none;
 }
