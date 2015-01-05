@@ -1282,7 +1282,7 @@ function resizeDialog(width, height, cumulative) {
 }
 
 function deleteComment(id) {
-    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+    if (workMode == "standard" || (isIE && !isMinIE8)) {
         openCenteredWindow(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
     } else {
         openCenteredDialog(blogURL + "/comment/delete/" + id, "tatter", 460, 400);
@@ -1290,7 +1290,7 @@ function deleteComment(id) {
 }
 
 function modifyComment(id) {
-    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+    if (workMode == "standard" || (isIE && !isMinIE8)) {
         openCenteredWindow(blogURL + "/comment/modify/" + id, "tatter", 460, 400);
 
     } else {
@@ -1299,7 +1299,7 @@ function modifyComment(id) {
 }
 
 function commentComment(parentId) {
-    if (displayMode == "mobile" || (isIE && !isMinIE8)) {
+    if (workMode == "standard" || (isIE && !isMinIE8)) {
         openCenteredWindow(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);
     } else {
         openCenteredDialog(blogURL + "/comment/comment/" + parentId, "tatter", 460, 550);

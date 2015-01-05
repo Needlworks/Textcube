@@ -87,6 +87,7 @@ function getScriptsOnHead($paging, $entryIds = null) {
 		var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false'; ?>;
 		var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
 		var displayMode = "<?php echo $context->getProperty('blog.displaymode','desktop');?>";
+		var workMode = "<?php echo $context->getProperty('blog.workmode','enhanced');?>";
 <?php
 	if (!is_null($entryIds)) {
 ?>
