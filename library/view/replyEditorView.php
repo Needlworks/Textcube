@@ -31,7 +31,7 @@ if( Acl::getIdentity('openid') ) {
 <html>
 <head>
 	<title><?php echo $pageHeadTitle ;?></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8" name="viewport" content="initial-scale=1.0, user-scalable=no">
 	<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-comment.css" />
 	<script type="text/javascript">
 		//<![CDATA[

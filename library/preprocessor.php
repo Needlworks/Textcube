@@ -160,11 +160,6 @@ if($context->getProperty('blog.useiPhoneUI',true) && ($browserUtil->isMobile() =
 	define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
 	$context->setProperty('blog.displaymode','desktop');
 }
-if ($browserUtil->isMobile() == true) {
-	$context->setProperty('blog.workmode','standard');
-} else {
-	$context->setProperty('blog.workmode','enhanced');
-}
 /// Reading necessary file list
 require_once (ROOT.'/library/include.'.$uri->uri['interfaceType'].'.php');
 /// Loading files.
@@ -173,6 +168,12 @@ require_once (ROOT.'/library/include.php');
 /// Delayed default skin change. (after including necessary modules.)
 if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
 	$context->setProperty('skin.skin','lucid');
+}
+if ($browserUtil->isMobile() == true) {
+	$context->setProperty('blog.workmode','standard');
+	$context->setProperty('blog.displaymode','mobile');
+} else {
+	$context->setProperty('blog.workmode','enhanced');
 }
 /// Setting global variables
 //if($context->getProperty('service.legacyMode') == true) {
