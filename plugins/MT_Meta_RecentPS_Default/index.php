@@ -1,9 +1,19 @@
 <?php
+/*
+		Cover page plugin for Recent Entries
+		====================================
+		Created by : J.Parker
+
+		Last modified at : 2014.01.07 (for 2.0)
+*/
 function MT_Cover_getRecentEntries($parameters){
-	global $database, $blog, $service, $serviceURL, $suri, $configVal, $defaultURL, $skin;
+	global $database, $suri, $configVal, $skin;
+
+	$context = Model_Context::getInstance();
+	$data = Setting::fetchConfigVal($configVal);
+
 	requireModel("blog.entry");
 	requireModel("blog.tag");
-	$data = Setting::fetchConfigVal($configVal);
 	$data['coverMode']	= !isset($data['coverMode']) ? 1 : $data['coverMode'];
 	if(Misc::isMetaBlog() != true) $data['coverMode'] = 1;
 	$data['screenshot']	= !isset($data['screenshot']) ? 1 : $data['screenshot'];
@@ -22,13 +32,13 @@ function MT_Cover_getRecentEntries($parameters){
 		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail");
 		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail", 0777);
 	}
-	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId())) {
-		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId());
-		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId(), 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $context->getProperty('blog.id'))) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $context->getProperty('blog.id'));
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $context->getProperty('blog.id'), 0777);
 	}
-	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId() . "/coverPostThumbnail/")) {
-		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId() . "/coverPostThumbnail/");
-		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . getBlogId() . "/coverPostThumbnail/", 0777);
+	if (!is_dir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $context->getProperty('blog.id') . "/coverPostThumbnail/")) {
+		@mkdir(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $context->getProperty('blog.id') . "/coverPostThumbnail/");
+		@chmod(__TEXTCUBE_CACHE_DIR__."/thumbnail/" . $context->getProperty('blog.id') . "/coverPostThumbnail/", 0777);
 	}
 
 	$page = ($data['paging'] == '1' && !empty($_GET['page'])) ? intval($_GET['page']) : 1;
@@ -43,13 +53,13 @@ function MT_Cover_getRecentEntries($parameters){
 		}
 	}
 
-	if((Misc::isMetaBlog() == true) && doesHaveOwnership() && $service['type'] != 'single') {
+	if((Misc::isMetaBlog() == true) && doesHaveOwnership() && $context->getProperty('service.type','single') != 'single') {
 		$visibility = 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	}
-	$multiple = ($data['coverMode']==2) ? '' : 'e.blogid = ' . getBlogId() . ' AND';
-	$privateBlogId = POD::queryColumn("SELECT blogid 
+	$multiple = ($data['coverMode']==2) ? '' : 'e.blogid = ' . $context->getProperty('blog.id') . ' AND';
+	$privateBlogId = POD::queryColumn("SELECT blogid
 		FROM {$database['prefix']}BlogSettings
 		WHERE name = 'visibility'
 		AND value < 2");
@@ -64,7 +74,7 @@ function MT_Cover_getRecentEntries($parameters){
 	$html = '';
 	foreach ((array)$entries as $entry){
 		$tagLabelView = "";
-		$blogid = ($data['coverMode']==2) ? $entry['blogid'] : getBlogId();
+		$blogid = ($data['coverMode']==2) ? $entry['blogid'] : $context->getProperty('blog.id');
 		$entryTags = getTags($blogid, $entry['id']);
 		$defaultURL = getDefaultURL($blogid);
 		if (sizeof($entryTags) > 0) {
@@ -74,14 +84,14 @@ function MT_Cover_getRecentEntries($parameters){
 			}
 			$tagLabelView = "<div class=\"post_tags\"><span>TAG : </span>".implode(",\r\n", array_values($tags))."</div>";
 		}
-		
+
 		if (empty($entry['category'])) {
 			$entry['label'] = _text('분류없음');
 			$entry['link'] = "{$defaultURL}/category";
 		} else {
 			$entry['link'] = "{$defaultURL}/category/" . (Setting::getBlogSettingGlobal('useSloganOnCategory',true) ? URL::encode($entry['label'],$service['useEncodedURL']) : $entry['category']);
 		}
-		$permalink = "{$defaultURL}/" . (Setting::getBlogSettingGlobal('useSloganOnPost',true) ? "entry/" . URL::encode($entry['slogan'],$service['useEncodedURL']) : $entry['id']);
+		$permalink = "{$defaultURL}/" . (Setting::getBlogSettingGlobal('useSloganOnPost',true) ? "entry/" . URL::encode($entry['slogan'],$context->getProperty('service.useEncodedURL',false)) : $entry['id']);
 
 		$html .= '<div class="coverpost">'.CRLF;
 		if($imageName = MT_Cover_getAttachmentExtract($entry['content'])){
@@ -140,11 +150,11 @@ function MT_Cover_getRecentEntries_purgeCache($target, $mother) {
 }
 
 function MT_Cover_getImageResizer($blogid, $filename, $cropSize){
-	global $serviceURL;
+	$context = Model_Context::getInstance();
 	$tempFile = null;
 	$thumbFilename = $filename;
-	$imageURL = "{$serviceURL}/attach/{$blogid}/{$filename}";
-	if (extension_loaded('gd')) {	
+	$imageURL = $context->getProperty('uri.service')."/attach/{$blogid}/{$filename}";
+	if (extension_loaded('gd')) {
 		if (stristr($filename, 'http://') ) {
 			$thumbFilename = MT_Cover_getRemoteImageFilename($filename);
 		}
@@ -153,7 +163,7 @@ function MT_Cover_getImageResizer($blogid, $filename, $cropSize){
 		if (!file_exists($thumbnailSrc)) {
 			$imageURL = MT_Cover_getCropProcess($blogid, $filename, $cropSize);
 		} else {
-			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/coverPostThumbnail/th_{$thumbFilename}";
+			$imageURL = $context->getProperty('uri.service')."/thumbnail/{$blogid}/coverPostThumbnail/th_{$thumbFilename}";
 			$imageInfo = getimagesize($thumbnailSrc);
 			if ($imageInfo[0] != $cropSize) {
 				$imageURL = MT_Cover_getCropProcess($blogid, $filename, $cropSize);
@@ -168,7 +178,7 @@ function MT_Cover_getImageResizer($blogid, $filename, $cropSize){
 }
 
 function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
-	global $serviceURL;
+	$context = Model_Context::getInstance();
 	$tempFile = null;
 	$imageURL = null;
 	if(stristr($filename, 'http://') ){
@@ -190,7 +200,7 @@ function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
 
 		$objThumbnail->imageFile = $originSrc;
 		if ($objThumbnail->resample($tempWidth, $tempHeight) && $objThumbnail->cropRectBySize($cropSize, $cropSize)) {
-			$imageURL = "{$serviceURL}/thumbnail/{$blogid}/coverPostThumbnail/th_{$filename}";
+			$imageURL = $context->getProperty('uri.service')."/thumbnail/{$blogid}/coverPostThumbnail/th_{$filename}";
 			$objThumbnail->saveAsFile($thumbnailSrc);
 		}
 
@@ -204,6 +214,7 @@ function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
 }
 
 function MT_Cover_getCreateRemoteImage($blogid, $filename) {
+	$context = Model_Context::getInstance();
 	$fileObject = false;
 	$tmpDirectory = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/coverPostThumbnail/";
 	$tempFilename = tempnam($tmpDirectory, "remote_");
@@ -222,6 +233,8 @@ function MT_Cover_getCreateRemoteImage($blogid, $filename) {
 }
 
 function MT_Cover_getHTTPRemoteImage($remoteImage) {
+	$context = Model_Context::getInstance();
+
     $response = '';
 	$remoteStuff = parse_url($remoteImage);
 	$port = isset($remoteStuff['port']) ? $remoteStuff['port'] : 80;

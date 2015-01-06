@@ -33,7 +33,6 @@ $__requireModel = array(
 	'blog.sidebar',
 	'blog.response.remote',
 	'blog.tag',
-	'blog.user',
 	'common.setting',
 	'common.plugin',
 	'common.module',
