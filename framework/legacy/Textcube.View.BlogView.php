@@ -14,7 +14,7 @@ class BlogView {
 	
 	function __construct() {
 		global $skinSetting;
-		$this->buf  = new OutputWriter;
+		$this->buf  = new Utils_OutputWriter;
 		$this->skin = new Skin($skinSetting['skin']);
 		$this->view = $this->skin->outter;
 	}

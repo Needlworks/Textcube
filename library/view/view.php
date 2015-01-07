@@ -1729,7 +1729,7 @@ function addOpenIDPannel( $comment, $prefix ) {
 }
 
 function getTrackbackRDFView($blogid, $info) {
-	$buf = new OutputWriter();
+	$buf = new Utils_OutputWriter();
     $buf->buffer('<!--'.CRLF);
 	$buf->buffer('<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"'.CRLF);
     $buf->buffer('      xmlns:dc="http://purl.org/dc/elements/1.1/"'.CRLF);

@@ -2,19 +2,19 @@
 /// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
-class OutputWriter {
+class Utils_OutputWriter {
 	var $type = 'stdout';
-	
-	function OutputWriter() {
+
+	function __construct() {
 		$this->_buffer = null;
 	}
-	
+
 	function openStdout() {
 		$this->type = 'stdout';
 		ob_start();
 		return true;
 	}
-	
+
 	function openGZipStdout() {
 		if (!function_exists('ob_gzhandler'))
 			return false;
@@ -22,14 +22,14 @@ class OutputWriter {
 		ob_start('ob_gzhandler');
 		return true;
 	}
-	
+
 	function openFile($filename) {
 		if (!$this->_writer = fopen($filename, 'wb'))
 			return false;
 		$this->type = 'file';
 		return true;
 	}
-	
+
 	function openGZip($filename) {
 		if (!function_exists('gzopen'))
 			return false;
@@ -38,7 +38,7 @@ class OutputWriter {
 		$this->type = 'gz.file';
 		return true;
 	}
-	
+
 	function close() {
 		switch ($this->type) {
 			default:
@@ -58,7 +58,7 @@ class OutputWriter {
 		$this->type = 'stdout';
 		return $return;
 	}
-	
+
 	function flush() {
 		$this->_buffer = null;
 		switch ($this->type) {
@@ -74,7 +74,7 @@ class OutputWriter {
 				break;
 		}
 	}
-	
+
 	function write($data = null) {
 		if($data == null) $data = $this->_buffer;
 		switch ($this->type) {
@@ -91,11 +91,11 @@ class OutputWriter {
 				return gzwrite($this->_writer, $data);
 		}
 	}
-	
+
 	function buffer($data,$autoLineBreak = false) {
 		$this->_buffer = $this->_buffer.($autoLineBreak ? CRLF : '').$data;
 	}
-	
+
 //	function start($filename = null, $mode = 'wb', $compress = null) {
 //		if (!empty($filename)) {
 //			if (empty($compress)) {
@@ -115,7 +115,7 @@ class OutputWriter {
 //		}
 //		return true;
 //	}
-//	
+//
 //	function end() {
 //		if ($this->fp) {
 //			ob_end_clean();
@@ -128,7 +128,7 @@ class OutputWriter {
 //			ob_end_flush();
 //		}
 //	}
-//	
+//
 //	function write($string) {
 //		if ($this->fp) {
 //			if ($this->compress)
