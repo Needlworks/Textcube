@@ -172,7 +172,14 @@ h6 small,
 }
 
 .coverpage .coverpost h2 {
+    font-size: 120%;
+    padding-right: 5px;
     margin: 0;
+}
+
+.coverpage .coverpost h2 a {
+    letter-spacing: -1px;
+    line-height: 125%;
 }
 
 .coverpage .coverpost h2:before {
@@ -201,23 +208,37 @@ h6 small,
 }
 
 .coverpage .coverpost .category,
+.coverpost .post_info .category a,
 .coverpage .coverpost .author {
+    font-family: Dotum, Arial, sans-serif;
     font-size: 11px;
+    color: #888;
+    margin-right: 6px;
 }
 
-.coverpage .coverpost .date {
+.coverpost .post_info .date
+{
+    font-family: Verdana, Helvetica, Arial, Gulim, sans-serif;
     font-size: 10px !important;
+    color: #888;
 }
 
 .coverpage .coverpost .img_preview {
-    border-radius: 10% !important;
+    float: left;
+    margin: 0 7px 7px 0;
+    border: 1px solid #ccc;
+    border-radius: 10%;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
     width: 90px;
     height: 90px;
 }
 
-.coverpost .img_preview img {
+.coverpage .coverpost .img_preview img {
     width: 90px !important;
     height: 90px !important;
+    cursor: pointer;
 }
 
 @media (max-width: 450px) {
@@ -238,7 +259,8 @@ h6 small,
 
 .coverpost .post_tags {
     background: none !important;
-    padding-left: 5px !important;
+    padding: 5px !important;
+    clear: both;
 }
 
 .coverpost .post_tags:before {
@@ -253,6 +275,17 @@ h6 small,
     margin-right: 3px;
     color: #e2703e;
 }
+
+.coverpost .post_content {
+    margin: 5px 0;
+    line-height: 125%;
+    overflow: hidden;
+}
+
+.coverpost .post_tags span {
+    display: none;
+}
+
 
 /* ------------------------- */
 /* All section common ------ */
