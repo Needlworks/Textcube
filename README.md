@@ -3,7 +3,7 @@ Textcube: Brand Yourself - Personalized web publishing platform
 
 ## DESCRIPTION
 
-Textcube is an opensource tool to archive and share the experiences, ideas, opinions and thoughts. 
+Textcube is an opensource tool to archive and share the experiences, ideas, opinions and thoughts.
 
 Supports import/export individual data via XML compatible with other solutions in 'Tattertools Project'
 
@@ -30,7 +30,7 @@ Textcube supports various environments. However, you need at least one webserver
  * PHP 5.2 or above
   * with iconv / gd module
 * Database Management System (Need at least one environment)
- * MySQL > 5.0 / MariaDB 5.1 with UTF-8 character set and collation setting 
+ * MySQL > 5.0 / MariaDB 5.1 with UTF-8 character set and collation setting
  * Cubrid R2008 or above
  * PostgreSQL 8.3 or above
  * Sqlite 3 or above
@@ -64,7 +64,7 @@ Before you start, you need to
 
 Uncompress the downloaded file, locate them to the web-accessible location. Assume that the textcube location is /var/www/textcube.
 
-This is apache setting.
+This is apache setting ( < 2.4).
 
     <VirtualHost *:80>
         ServerName www.example.org
@@ -73,6 +73,7 @@ This is apache setting.
         DocumentRoot /var/www/textcube/
         <Directory /var/www/textcube/>
             AllowOverride FileInfo
+            Require all granted (+for apache > 2.4)
             Order allow,deny
             allow from all
         </Directory>
