@@ -71,7 +71,7 @@ This is apache setting.
         ServerAlias www.example.org
         ServerAdmin admin@example.org
         DocumentRoot /var/www/textcube/
-        <Directory /var/www/textcube/>
+        <Directory /var/www/textcube>
             AllowOverride FileInfo
             Order allow,deny
             allow from all
