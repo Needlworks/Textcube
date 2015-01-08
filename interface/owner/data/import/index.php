@@ -245,7 +245,7 @@ function importer($path, $node, $line) {
 				user_error(__LINE__ . $setting->error);
 			if (!empty($setting->banner) && !empty($node['banner'][0]['content'][0]['.stream'])) {
 				Attachment::confirmFolder();
-				Base64Stream::decode($node['banner'][0]['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $setting->banner));
+				Utils_Base64Stream::decode($node['banner'][0]['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $setting->banner));
 				Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $setting->banner));
 				fclose($node['banner'][0]['content'][0]['.stream']);
 				unset($node['banner'][0]['content'][0]['.stream']);
@@ -340,7 +340,7 @@ function importer($path, $node, $line) {
 						unset($post2);
 					}
 					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
+						Utils_Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						fclose($cursor['content'][0]['.stream']);
 						unset($cursor['content'][0]['.stream']);
@@ -489,7 +489,7 @@ function importer($path, $node, $line) {
 							user_error(__LINE__ . $attachment->error);
 					}
 					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
+						Utils_Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						fclose($cursor['content'][0]['.stream']);
 						unset($cursor['content'][0]['.stream']);
@@ -546,7 +546,7 @@ function importer($path, $node, $line) {
 							user_error(__LINE__ . $attachment->error);
 					}
 					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
+						Utils_Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						fclose($cursor['content'][0]['.stream']);
 						unset($cursor['content'][0]['.stream']);
@@ -602,7 +602,7 @@ function importer($path, $node, $line) {
 							user_error(__LINE__ . $attachment->error);
 					}
 					if (!empty($cursor['content'][0]['.stream'])) {
-						Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
+						Utils_Base64Stream::decode($cursor['content'][0]['.stream'], Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						Attachment::adjustPermission(Path::combine(ROOT, 'attach', $blogid, $attachment->name));
 						fclose($cursor['content'][0]['.stream']);
 						unset($cursor['content'][0]['.stream']);
