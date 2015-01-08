@@ -120,7 +120,7 @@ function writeHtaccess($contents) {
 
 function writeConfigFile($settings) {
 	$context = Model_Context::getInstance();
-	$writer = new OutputWriter;
+	$writer = new Utils_OutputWriter;
 	$database = $context->getAllFromNamespace('database');
 	$service = $context->getAllFromNamespace('service');
 	

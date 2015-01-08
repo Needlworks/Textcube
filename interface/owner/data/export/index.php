@@ -43,7 +43,7 @@ if ($setting->load()) {
 	if ($includeFileContents && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$setting->banner}")) {
 		$writer->write('<content>');
 		if (!empty($setting->banner) && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/" . $setting->banner))
-			Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$setting->banner}", $writer);
+			Utils_Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$setting->banner}", $writer);
 		$writer->write('</content>');
 	}
 	$writer->write('</banner>' . '<useSloganOnPost>' . Validator::getBit($setting->useSloganOnPost) . '</useSloganOnPost>' . '<postsOnPage>' . $setting->postsOnPage . '</postsOnPage>' . '<postsOnList>' . $setting->postsOnList . '</postsOnList>' . '<postsOnFeed>' . $setting->postsOnFeed . '</postsOnFeed>' . '<publishWholeOnFeed>' . Validator::getBit($setting->publishWholeOnFeed) . '</publishWholeOnFeed>' . '<acceptGuestComment>' . Validator::getBit($setting->acceptGuestComment) . '</acceptGuestComment>' . '<acceptcommentOnGuestComment>' . Validator::getBit($setting->acceptcommentOnGuestComment) . '</acceptcommentOnGuestComment>' . '<language>' . $setting->language . '</language>' . '<timezone>' . $setting->timezone . '</timezone>' . '</setting>');
@@ -111,7 +111,7 @@ if ($post->open('', '*', 'published, id')) {
 				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
 				if ($includeFileContents && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}")) {
 					$writer->write('<content>');
-					Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
+					Utils_Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
 					$writer->write('</content>');
 				}
 				$writer->write('</attachment>');
@@ -182,7 +182,7 @@ if ($page->open()) {
 				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
 				if ($includeFileContents && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}")) {
 					$writer->write('<content>');
-					Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
+					Utils_Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
 					$writer->write('</content>');
 				}
 				$writer->write('</attachment>');
@@ -214,7 +214,7 @@ if ($notice->open()) {
 				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
 				if ($includeFileContents && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}")) {
 					$writer->write('<content>');
-					Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
+					Utils_Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
 					$writer->write('</content>');
 				}
 				$writer->write('</attachment>');
@@ -246,7 +246,7 @@ if ($keyword->open()) {
 				$writer->write('<attachment' . ' mime="' . htmlspecialchars($attachment->mime) . '"' . ' size="' . $attachment->size . '"' . ' width="' . $attachment->width . '"' . ' height="' . $attachment->height . '"' . '>' . '<name>' . htmlspecialchars($attachment->name) . '</name>' . '<label>' . htmlspecialchars($attachment->label) . '</label>' . '<enclosure>' . ($attachment->enclosure ? 1 : 0) . '</enclosure>' . '<attached>' . $attachment->attached . '</attached>' . '<downloads>' . $attachment->downloads . '</downloads>');
 				if ($includeFileContents && file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}")) {
 					$writer->write('<content>');
-					Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
+					Utils_Base64Stream::encode(__TEXTCUBE_ATTACH_DIR__."/$blogid/{$attachment->name}", $writer);
 					$writer->write('</content>');
 				}
 				$writer->write('</attachment>');

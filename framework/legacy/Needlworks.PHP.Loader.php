@@ -53,7 +53,7 @@ class Autoload_Legacy {
 			'Message','Paging','PluginCustomConfig','Statistics','User'
 			);
 		$this->base = array(
-			'Base64Stream','HTTPRequest','XMLRPC','XMLRPCFault',
+			'HTTPRequest','XMLRPC','XMLRPCFault',
 			'XMLCustomType','XMLTree','Pop3','CommunicationFeed');
 		$this->function = array(
 			'Image','Setting','Respond','Misc');
