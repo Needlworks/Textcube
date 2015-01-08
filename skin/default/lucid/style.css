@@ -64,9 +64,18 @@ ul.tags {
 }
 
 .widget {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #444;
+}
+.widget h3{
+	display: block;
+	text-decoration: none;
+	color: #999999;
+	font-size:1.1em;
 }
 
+.page-header {
+	margin-top:80px;
+}
 .page-header h1 {
 	font-size:1.5em;
 }
@@ -167,3 +176,71 @@ dl.information .rss {
 }
 #namecardWidget .thumbnail { display: inline-block; border: 0 none;}
 #extramenuWidget .btn { text-align: left; }
+#categoryWidget ul,
+#categoryWidget li {
+	padding-left:5px;
+}
+
+#categoryWidget .categoryFeed {
+	display:none;
+}
+
+
+.interword {
+	display:none;
+}
+
+
+/* Responsive sidebar */
+#content {
+	padding-left: 0;
+	margin-left:15px;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+#content.toggled {
+	padding-left: 250px;
+}
+
+#content.toggled #footer,
+#TCmobileScreenButton.toggled {
+	display:none;
+}
+
+#sidebar {
+	z-index: 1000;
+	position: fixed;
+	padding:0;
+	left: 250px;
+	top:50px;
+	width: 0;
+	height: 100%;
+	margin-left: -250px;
+	overflow-y: auto;
+	background: #000;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+}
+
+#content.toggled #sidebar {
+	width: 250px;
+	padding:10px;
+}
+
+#sections,
+#TCmobileScreenButton
+{
+	width: 100%;
+	padding: 15px;
+}
+
+#content.toggled #sections
+{
+	position: absolute;
+	margin-right: -250px;
+}
