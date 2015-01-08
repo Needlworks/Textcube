@@ -6,7 +6,7 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
 
 	<meta http-equiv="Keywords" content="[##_meta_http_equiv_keywords_##]" />
 	<link rel="shortcut icon" href="[##_blog_link_##]favicon.ico" />
@@ -36,6 +36,7 @@
 			<ul class="nav navbar-nav navbar-left">
 				<li class="tab_notice"><a href="[##_blog_link_##]notice"><i class="fa fa-fw fa-bullhorn"></i> Notice</a></li>
 				<li class="tab_page"><a href="[##_blog_link_##]page"><i class="fa fa-fw fa-file-o"></i> Page</a></li>
+				<li class="sidebar"><a href="#menu-toggle" id="menu-toggle"><i class="fa fa-fw fa-archive"></i> Sidebar</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="[##_owner_url_##]"><i class="fa fa-fw fa-gears"></i> Control Panel</a></li>
@@ -46,11 +47,11 @@
 	</nav>
 
 	<div id="content" class="container">
-	<header class="page-header" style="margin-top: 80px">
+	<header class="page-header">
 		<h1><a href="[##_blog_link_##]">[##_title_##]</a> <small>[##_desc_##]</small></h1>
 	</header>
 
-	<div class="row">
+	<div id="contentbody" class="row">
 
 	<!-- This code is for sidebar-enabled UI. Tablet UI support will be added in the next version.
 	<div id="sections" class="col-md-9 col-md-push-3">-->
@@ -508,8 +509,8 @@
 
 	</div><!-- end of sections -->
 
-	<!-- This code is for sidebar. Tablet UI support will be added in the next version.
-	<aside id="sidebar" class="col-md-3 col-md-pull-9">-->
+	<!-- This code is for sidebar. Tablet UI support will be added in the next version.-->
+	<aside id="sidebar" class="col-md-3 col-md-pull-9">
 	<!-- Sidebar (first) -->
 	<s_sidebar>
 	<s_sidebar_element>
@@ -521,19 +522,6 @@
 					<strong>[##_desc_##]</strong><br>[##_blogger_##]
 				</div>
 			</div>
-		</section>
-	</s_sidebar_element>
-	<!-- Extra Menu widget -->
-	<s_sidebar_element>
-		<section id="extramenuWidget" class="widget text-center">
-			<ul class="nav nav-pills nav-stacked">
-				<li><a href="[##_blog_link_##]"><i class="fa fa-fw fa-home"></i> Home</a>
-				<li><a href="[##_blog_link_##]line"><i class="fa fa-fw fa-comment-o"></i> Line</a>
-				<li><a href="[##_taglog_link_##]"><i class="fa fa-fw fa-tags"></i> Tag List</a>
-				<li><a href="[##_localog_link_##]"><i class="fa fa-fw fa-map-marker"></i> Location</a>
-				<li><a href="[##_blog_link_##]keylog"><i class="fa fa-fw fa-flag"></i> Keywords</a>
-				<li><a href="[##_guestbook_link_##]"><i class="fa fa-fw fa-pencil"></i> Guest Book</a>
-			</ul>
 		</section>
 	</s_sidebar_element>
 	<s_sidebar_element>
@@ -600,13 +588,11 @@
 		</section>
 	</s_sidebar_element>
 	</s_sidebar>
+	</aside>
 
-	<!-- This code is for sidebar. Tablet UI support will be added in the next version.
-</aside>-->
+	</div><!-- end of contentbody row -->
 
-	</div><!-- end of row -->
-
-	<footer class="text-center">
+	<footer id="footer" class="text-center">
 		<address class="blogger">[##_blogger_##]'s Website</address>
 		<address class="powered">
 			Powered by <a href="http://www.textcube.org" onclick="window.open(this.href); return false">[##_textcube_name_##] [##_textcube_version_##]</a></address>
@@ -618,5 +604,15 @@
 	</div><!-- end of content -->
 	<script src="//code.jquery.com/jquery.js"></script>
 	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<!-- Sidebar caller -->
+	<script>
+	//<![CDATA[
+	jQuery("#menu-toggle").click(function(e) {
+		e.preventDefault();
+		jQuery("#content").toggleClass("toggled");
+		jQuery("#TCmobileScreenButton").toggleClass("toggled");
+	});
+	//]]>
+	</script>
 </body>
 </html>
