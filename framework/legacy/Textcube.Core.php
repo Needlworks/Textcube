@@ -358,17 +358,33 @@ class User {
 class Blog {
 	/*@static@*/
 	function changeOwner($blogid,$userid) {
-		global $database;
-		POD::execute("UPDATE {$database['prefix']}Privileges SET acl = 3 WHERE blogid = ".$blogid." and acl = " . BITWISE_OWNER);
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		$pool->reset("Privileges");
+		$pool->setAttribute("acl",3);
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("acl","eq", BITWISE_OWNER);
+		$pool->update();
 
-		$acl = POD::queryCell("SELECT acl FROM {$database['prefix']}Privileges WHERE blogid = $blogid and userid = $userid");
+		$pool->reset("Privileges");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("userid","eq",$userid);
+		$acl = $pool->getCell("acl");
 
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
-			POD::query("INSERT INTO {$database['prefix']}Privileges
-				VALUES($blogid, $userid, '".BITWISE_OWNER."', UNIX_TIMESTAMP(), 0)");
+			$pool->reset("Privileges");
+			$pool->setAttribute("blogid",$blogid);
+			$pool->setAttribute("userid",$userid);
+			$pool->setAttribute("acl",BITWISE_OWNER);
+			$pool->setAttribute("created",Timestamp::getUNIXtime());
+			$pool->setAttribute("lastlogin",0);
+			$pool->insert();
 		} else {
-			POD::execute("UPDATE {$database['prefix']}Privileges SET acl = ".BITWISE_OWNER."
-				WHERE blogid = ".$blogid." and userid = " . $userid);
+			$pool->reset("Privileges");
+			$pool->setAttribute("acl",BITWISE_OWNER);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("userid","eq",$userid);
+			$pool->update();
 		}
 		return true;
 	}
@@ -378,7 +394,6 @@ class Blog {
 	function addUser($email, $name, $comment, $senderName, $senderEmail) {
 		requireModel('blog.user');
 		requireModel('blog.blogSetting');
-		global $database,$service,$blogURL,$hostURL,$user,$blog;
 
 		$blogid = getBlogId();
 		if(empty($email))
@@ -400,19 +415,29 @@ class Blog {
 
 	/*@static@*/
 	function deleteUser($blogid = null, $userid, $clean = true) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+
 		if ($blogid == null) {
 			$blogid = getBlogId();
 		}
-		POD::execute("UPDATE {$database['prefix']}Entries
-			SET userid = ".User::getBlogOwner($blogid)."
-			WHERE blogid = ".$blogid." AND userid = ".$userid);
+		$pool->reset("Entries");
+		$pool->setAttribute("userid",User::getBlogOwner($blogid));
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("userid","eq",$userid);
+		$pool->update();
 
 		// Delete ACL relation.
-		if(!POD::execute("DELETE FROM {$database['prefix']}Privileges WHERE blogid='$blogid' and userid='$userid'"))
+		$pool->reset("Privileges");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("userid","eq",$userid);
+		if(!$pool->delete())
 			return false;
 		// And if there is no blog related to the specific user, delete user.
-		if($clean && !POD::queryAll("SELECT * FROM {$database['prefix']}Privileges WHERE userid = '$userid'")) {
+		$pool->reset("Privileges");
+		$pool->setQualifier("userid","eq",$userid);
+
+		if($clean && !$pool->getAll()) {
 			User::removePermanent($userid);
 		}
 		return true;
@@ -420,16 +445,24 @@ class Blog {
 
 	/*@static@*/
 	function changeACLofUser($blogid, $userid, $ACLtype, $switch) {  // Change user priviledge on the blog.
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+
 		if(empty($ACLtype) || empty($userid))
 			return false;
-		$acl = POD::queryCell("SELECT acl
-				FROM {$database['prefix']}Privileges
-				WHERE blogid=$blogid and userid=$userid");
+		$pool->reset("Privileges");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("userid","eq",$userid);
+		$acl = $pool->getCell("acl");
 		if( $acl === null ) { // If there is no ACL, add user into the blog.
 			$name = User::getName($userid);
-			POD::query("INSERT INTO {$database['prefix']}Privileges
-					VALUES($blogid, $userid, 0, UNIX_TIMESTAMP(), 0)");
+			$pool->reset("Privileges");
+			$pool->setAttribute("blogid",$blogid);
+			$pool->setAttribute("userid",$userid);
+			$pool->setAttribute("acl",0);
+			$pool->setAttribute("created",Timestamp::getUNIXtime());
+			$pool->setAttribute("lastlogin",0);
+			$pool->insert();
 			$acl = 0;
 		}
 		$bitwise = null;
@@ -448,9 +481,11 @@ class Blog {
 		} else {
 			$acl &= ~$bitwise;
 		}
-		return POD::execute("UPDATE {$database['prefix']}Privileges
-			SET acl = ".$acl."
-			WHERE blogid = ".$blogid." and userid = ".$userid);
+		$pool->reset("Privileges");
+		$pool->setAttribute("acl",$acl);
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("userid","eq",$userid);
+		return $pool->update();
 	}
 }
 
