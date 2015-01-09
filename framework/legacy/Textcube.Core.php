@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /* This component contains 'User', 'Blog' and 'Transaction' class.
-   NOTE : Classes described below are actually not object. Usually they are static.*/
+   NOTE : Classes described below are actually not objects. Usually they are static.*/
 
 // for Global Cache
 global $__gCacheUserNames;
@@ -13,24 +13,35 @@ $__gCacheUserNames = array();
 class User {
 	private static $__gCacheUserNames;
 	static function getName($userid = null) {
-		global $database, $__gCacheUserNames;
+		global $__gCacheUserNames;
+
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+
 		if (empty($userid))
 			$userid = getUserId();
 		if (array_key_exists($userid, $__gCacheUserNames)) {
 			return $__gCacheUserNames[$userid];
 		}
-		return $__gCacheUserNames[$userid] = POD::queryCell("SELECT name FROM {$database['prefix']}Users WHERE userid = $userid");
+		$pool->reset("Users");
+		$pool->setQualifier("userid","eq",$userid);
+		return $__gCacheUserNames[$userid] = $pool->getCell("name");
 	}
 
 	static function getUserIdByName($name) {
-		global $database, $__gCacheUserNames;
+		global $__gCacheUserNames;
+
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
 		if (!isset($name))
 			return getUserId();
 		$name = POD::escapeString($name);
 		$userid = array_search($name, $__gCacheUserNames);
 		if(!empty($userid))
 			return $userid;
-		$userid = POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE name = '".$name."'");
+		$pool->reset("Users");
+		$pool->setQualifier("name","eq",$name,true);
+		$userid = $pool->getCell("userid");
 		$__gCacheUserNames[$userid] = $name;
 		return $userid;
 	}
@@ -47,54 +58,63 @@ class User {
 	}
 
 	static function getBlogOwnerName($blogid) {
-		global $database;
-		$ownerUserId = POD::queryCell("SELECT userid
-			FROM {$database['prefix']}Privileges
-			WHERE blogid = $blogid
-				AND acl > 15");
-		return User::getName($ownerUserId);
+		return User::getName(User::getBlogOwner($blogid));
 	}
 
 	static function getBlogOwner($blogid) {
-		global $database;
-		$ownerUserId = POD::queryCell("SELECT userid
-			FROM {$database['prefix']}Privileges
-			WHERE blogid = $blogid
-				AND acl > 15");
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		$pool->reset("Privileges");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("acl",">",15);
+		$ownerUserId = $pool->getCell("userid");
 		return $ownerUserId;
 	}
 
 	static function getEmail($userid = null) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryCell("SELECT loginid FROM {$database['prefix']}Users WHERE userid = $userid");
+		$pool->reset("Users");
+		$pool->setQualifier("userid","eq",$userid);
+		return $pool->getCell("loginid");
 	}
 
 	static function getUserIdByEmail($loginid = null) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
 		$loginid = trim($loginid);
 		if(!isset($loginid)) return null;
 		$loginid = POD::escapeString($loginid);
-		return POD::queryCell("SELECT userid FROM {$database['prefix']}Users WHERE loginid = '".$loginid."'");
+
+		$pool->reset("Users");
+		$pool->setQualifier("loginid","eq",$loginid,true);
+		return $pool->getCell("userid");
 	}
 
 	static function getBlogs($userid = null) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid");
+		$pool->reset("Privileges");
+		$pool->setQualifier("userid","eq",$userid);
+		return $pool->getColumn("blogid");
 	}
 
 	static function getOwnedBlogs($userid = null) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
 		if (!isset($userid))
 			$userid = getUserId();
-		return POD::queryColumn("SELECT blogid FROM {$database['prefix']}Privileges WHERE userid = $userid AND acl > 15");
+		$pool->reset("Privileges");
+		$pool->setQualifier("userid","eq",$userid);
+		$pool->setQualifier("acl",">",15);
+		return $pool->getColumn("blogid");
 	}
 
 	static function getHomepageType($userid = null) {
-		global $database;
 		if (!isset($userid))
 			$userid = getUserId();
 		$info = unserialize(Setting::getUserSettingGlobal('userLinkInfo','',$userid));
@@ -128,7 +148,6 @@ class User {
 	}
 
 	static function setHomepage($type, $homepage, $blogid = null, $userid = null) {
-		global $database;
 		$types = array("internal","author","external","default");
 		if (!isset($userid)) //TODO : 현재 로그인 사용자의 homepage만 변경가능.setUserSetting함수 특성.
 			$userid = getUserId();
@@ -159,10 +178,15 @@ class User {
 	}
 
 	static function confirmPassword($userid = null, $password) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+
 		if(empty($userid)) $userid = getUserId();
 		$password = md5($password);
-		return POD::queryExistence("SELECT userid FROM {$database['prefix']}Users WHERE userid = $userid AND password = '$password'");
+		$pool->reset("Users");
+		$pool->setQualifier("userid","eq",$userid);
+		$pool->setQualifier("password","eq",$password,true);
+		return $pool->doesExist("userid");
 	}
 
 	static function authorName($blogid = null,$entryId){
@@ -179,20 +203,19 @@ class User {
 		}
 	}
 	static function changeBlog(){
-		global $database, $blogURL, $blog, $service;
-		$blogid = getBlogId();
+		$context = Model_Context::getInstance();
 
 		$blogList = User::getBlogs();
 		if (count($blogList) == 0) {
 			return;
 		}
 
-		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='{$blogURL}/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
+		$changeBlogView = str_repeat(TAB,6)."<select id=\"blog-list\" onchange=\"location.href='".$context->getProperty("uri.blog")."/owner/network/teamblog/changeBlog/?blogid='+this.value\">".CRLF;
 		foreach($blogList as $info){
 			$title = Utils_Unicode::lessen(Setting::getBlogSettingGlobal("title",null,$info,true), 30);
 			$title = ($title ? $title : _f('%1 님의 블로그',User::getBlogOwnerName($info)));
 			$changeBlogView .= str_repeat(TAB,7).'<option value="' . $info . '"';
-			if($info == $blogid) $changeBlogView .= ' selected="selected"';
+			if($info == $context->getProperty('blog.id')) $changeBlogView .= ' selected="selected"';
 			$changeBlogView .= '>' . $title . '</option>'.CRLF;
 		}
 		$changeBlogView .= str_repeat(TAB,6).'</select>'.CRLF;
@@ -200,17 +223,26 @@ class User {
 	}
 
 	static function changeSetting($userid, $email, $nickname) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+
 		if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return false;
 		$email = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
 		$nickname = POD::escapeString(Utils_Unicode::lessenAsEncoding($nickname, 32));
 		if ($email == '' || $nickname == '') {
 			return false;
 		}
-		if (POD::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE name = '$nickname' AND userid <> $userid")) {
+		$pool->reset("Users");
+		$pool->setQualifier("name","eq",$nickname,true);
+		$pool->setQualifier("userid","neq",$userid);
+		if ($pool->doesExist()) {
 			return false;
 		} else {
-			$result = POD::query("UPDATE {$database['prefix']}Users SET loginid = '$email', name = '$nickname' WHERE userid = $userid");
+			$pool->reset("Users");
+			$pool->setQualifier("userid","eq",$userid);
+			$pool->setAttribute("loginid",$email,true);
+			$pool->setAttribute("name",$nickname,true);
+			$result = $pool->update();
 			if (!$result) {
 				return false;
 			} else {
@@ -220,7 +252,8 @@ class User {
 	}
 
 	static function add($email, $name) {
-		global $database, $service, $user, $blog;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
 		if (empty($email))
 			return 1;
 		if (!preg_match('/^[^@]+@([-a-zA-Z0-9]+\.)+[-a-zA-Z0-9]+$/', $email))
@@ -232,20 +265,34 @@ class User {
 		$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 32));
 		$password = User::__generatePassword();
 		$authtoken = md5(User::__generatePassword());
-
-		if (POD::queryExistence("SELECT * FROM {$database['prefix']}Users WHERE loginid = '$loginid'")) {
+		$pool->reset("Users");
+		$pool->setQualifier("loginid","eq",$loginid,true);
+		if ($pool->doesExist()) {
 			return 9;	// User already exists.
 		}
-
-		if (POD::queryCell("SELECT COUNT(*) FROM {$database['prefix']}Users WHERE name = '$name'")) {
+		$pool->reset("Users");
+		$pool->setQualifier("name","eq",$name,true);
+		if ($pool->getCount()) {
 			$name = $name . '.' . time();
 		}
 
-		$result = POD::query("INSERT INTO {$database['prefix']}Users (userid, loginid, password, name, created, lastlogin, host) VALUES (".(User::__getMaxUserId()+1).", '$loginid', '" . md5($password) . "', '$name', UNIX_TIMESTAMP(), 0, ".getUserId().")");
+		$pool->reset("Users");
+		$pool->setAttribute("userid",User::__getMaxUserId()+1);
+		$pool->setAttribute("loginid",$loginid,true);
+		$pool->setAttribute("password",md5($password),true);
+		$pool->setAttribute("name",$name,true);
+		$pool->setAttribute("created",Timestamp::getUNIXtime());
+		$pool->setAttribute("lastlogin",0);
+		$pool->setAttribute("host",getUserId());
+		$result = $pool->insert();
 		if (empty($result)) {
 			return 11;
 		}
-		$result = POD::query("INSERT INTO {$database['prefix']}UserSettings (userid, name, value) VALUES ('".User::getUserIdByEmail($loginid)."', 'AuthToken', '$authtoken')");
+		$pool->reset("UserSettings");
+		$pool->setAttribute("userid",User::getUserIdByEmail($loginid));
+		$pool->setAttribute("name",'AuthToken',true);
+		$pool->setAttribute("value",$authtoken,true);
+		$result = $pool->insert();
 		if (empty($result)) {
 			return 11;
 		}
@@ -254,14 +301,19 @@ class User {
 
 	/*@static@*/
 	function remove($userid) {
-		global $database;
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+
 		if ($userid == 1)
 			return false;
 		if (!isset($userid))
 			return false;
 		$blogs = User::getOwnedBlogs($userid);
-		$sql = "UPDATE {$database['prefix']}Comments SET replier = NULL WHERE replier = ".$userid;
-		POD::execute($sql);
+		$pool->reset("Comments");
+		$pool->setAttribute("replier",NULL);
+		$pool->setQualifier("replier","eq",$userid);
+		$pool->update();
+
 		foreach ($blogs as $ownedBlog) {
 			Blog::changeOwner($ownedBlog,1); // 관리자 uid로 변경
 		}
@@ -274,9 +326,15 @@ class User {
 	}
 
 	static function removePermanent($userid) {
-		global $database;
-		if( POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = $userid AND name = 'AuthToken' LIMIT 1") ) {
-			return POD::execute("DELETE FROM {$database['prefix']}Users WHERE userid = $userid");
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		$pool->reset("UserSettings");
+		$pool->setQualifier("userid","eq",$userid);
+		$pool->setQualifier("name","eq",'AuthToken',true);
+		if ($pool->delete() ) {
+			$pool->reset("Users");
+			$pool->setQualifier("userid","eq",$userid);
+			return $pool->delete();
 		} else {
 			return false;
 		}
@@ -288,8 +346,10 @@ class User {
 
 	/*@private static@*/
 	function __getMaxUserId() {
-		global $database;
-		$maxId = POD::queryCell("SELECT max(userid) FROM {$database['prefix']}Users");
+		$context = Model_Context::getInstance();
+		$pool = DBModel::getInstance();
+		$pool->reset("Users");
+		$maxId = $pool->getCell("max(userid)");
 		if($maxId) return $maxId;
 		else return 0;
 	}
