@@ -57,4 +57,5 @@ $service['requirelogin'] = false;    // Force log-in process to every blogs. (fo
 $service['useSSL'] = false;         // Use SSL connection. Every http:// will be replaced with https://
 // From Textcube 2.0
 $service['jqueryURL'] = '';		// Add URL if you want to use external jquery via CDN. e.g.) Microsoft's CDN: http://ajax.aspnetcdn.com/ajax/jQuery/ 
+$service['lodashURL'] = '';		// Add URL if you want to use external lo-dash via CDN.  
 ?>

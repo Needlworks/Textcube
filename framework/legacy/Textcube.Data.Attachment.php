@@ -19,7 +19,8 @@ class Attachment {
 		$this->downloads =
 		$this->enclosure =
 		$this->attached =
-			null;
+null;
+		$this->pool = DBModel::getInstance();
 	}
 	
 	function open($filter = '', $fields = '*', $sort = 'attached') {
