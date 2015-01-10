@@ -8,7 +8,7 @@
    Maintainer       : inureyes, gendoh, graphittie
 
    Created at       : 2006.8.22
-   Last modified at : 2008.2.25
+   Last modified at : 2015.1.10
 
  This plugin adds start panel on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -24,8 +24,6 @@
 */
 function CT_Start_Default($target) {
 	requireModel("blog.attachment");
-	requireComponent("Eolin.PHP.Core");
-	requireComponent( "Textcube.Function.misc");
 	global $blogid, $blogURL, $database, $service;
 	$target .= '<ul>';
 	$target .= '<li><a href="'.$blogURL.'/owner/entry/post">'. _t('새 글을 씁니다').'</a></li>'.CRLF;
