@@ -38,7 +38,7 @@ function getSpecialEntriesTotalCount($blogid, $categoryId) {
 	$pool->reset('Entries');
 	if (doesHaveOwnership()) $pool->setQualifier('visibility','b',0);
 	if(doesHaveOwnership() && !Acl::check('group.editors')) {
-		$pool->setQualifierSet(array('userid','eq',getUserId()),'OR',array('visibility','b',0));		
+		$pool->setQualifierSet(array('userid','eq',getUserId()),'OR',array('visibility','b',0));
 	}
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('draft','eq',0);
@@ -61,10 +61,10 @@ function getTemplates($blogid, $attributes = '*', $condition = false, $order = '
 	$context = Model_Context::getInstance();
 	if (!empty($condition))
 		$condition = 'AND ' . $condition;
-	return POD::queryAll("SELECT $attributes 
-			FROM ".$context->getProperty('database.prefix')."Entries 
-			WHERE blogid = $blogid 
-				AND draft = 0 AND category = -4 $condition 
+	return POD::queryAll("SELECT $attributes
+			FROM ".$context->getProperty('database.prefix')."Entries
+			WHERE blogid = $blogid
+				AND draft = 0 AND category = -4 $condition
 				ORDER BY $order");
 }
 
@@ -95,9 +95,9 @@ function getEntry($blogid, $id, $draft = false) {
 				'slogan'     => '');
 	}
 	if ($draft) {
-		$entry = POD::queryRow("SELECT * FROM ".$context->getProperty('database.prefix')."Entries 
-				WHERE blogid = $blogid 
-					AND id = $id 
+		$entry = POD::queryRow("SELECT * FROM ".$context->getProperty('database.prefix')."Entries
+				WHERE blogid = $blogid
+					AND id = $id
 					AND draft = 1");
 		if (!$entry)
 			return null;
@@ -106,14 +106,14 @@ function getEntry($blogid, $id, $draft = false) {
 		else if ($entry['published'] != 0)
 			$entry['appointed'] = $entry['published'];
 		if ($id != 0)
-			$entry['published'] = POD::queryCell("SELECT published 
-					FROM ".$context->getProperty('database.prefix')."Entries 
+			$entry['published'] = POD::queryCell("SELECT published
+					FROM ".$context->getProperty('database.prefix')."Entries
 					WHERE blogid = $blogid AND id = $id AND draft = 0");
 		return $entry;
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = POD::queryRow("SELECT * 
-				FROM ".$context->getProperty('database.prefix')."Entries 
+		$entry = POD::queryRow("SELECT *
+				FROM ".$context->getProperty('database.prefix')."Entries
 				WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
 		if (!$entry)
 			return null;
@@ -127,7 +127,7 @@ function getUserIdOfEntry($blogid, $id, $draft = false) {
 	$pool = DBModel::getInstance();
 	$pool->reset('Entries');
 	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);	
+	$pool->setQualifier('id','eq',$id);
 	$result = $pool->getCell('userid');
 	if(!empty($result)) return $result;
 	else return null;
@@ -139,8 +139,8 @@ function getEntryAttributes($blogid, $id, $attributeNames) {
 	$pool = DBModel::getInstance();
 	$pool->reset('Entries');
 	$pool->setQualifier('blogid','eq',$blogid);
-	$pool->setQualifier('id','eq',$id);	
-	$pool->setQualifier('draft','eq',0);	
+	$pool->setQualifier('id','eq',$id);
+	$pool->setQualifier('draft','eq',0);
 	if(!doesHaveOwnership()) $pool->setQualifier('visibility','b',0);
 	return $pool->getRow($attributeNames);
 }
@@ -154,7 +154,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 	if ($category > 0) {
 		$categories = POD::queryColumn("SELECT id FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent = $category");
 		array_push($categories, $category);
-		if(!doesHaveOwnership()) 
+		if(!doesHaveOwnership())
 			$categories = array_diff($categories, getCategoryVisibilityList($blogid, 'private'));
 		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
@@ -165,8 +165,8 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
-			FROM ".$ctx->getProperty('database.prefix')."Entries e 
-			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
+			FROM ".$ctx->getProperty('database.prefix')."Entries e
+			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond
 			ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!$ctx->getProperty('blog.useSloganOnCategory',true) && $ctx->getProperty('suri.id',null) != null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
 }
@@ -181,8 +181,8 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 
 	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
-			FROM ".$ctx->getProperty('database.prefix')."Entries e 
-			WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility 
+			FROM ".$ctx->getProperty('database.prefix')."Entries e
+			WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility
 			ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 }
@@ -191,14 +191,14 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 	$ctx = Model_Context::getInstance();
 
 	if ($tag === null)
-		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));	
+		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));
 	$tag = POD::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t ON e.id = t.entry AND e.blogid = t.blogid
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag'
 		ORDER BY published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!Setting::getBlogSettingGlobal('useSloganOnTag',true) && ($ctx->getProperty('suri.id') != null)) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
 }
@@ -206,13 +206,13 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
 ;
 	$ctx = Model_Context::getInstance();
-	
+
 	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
 		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 }
@@ -234,10 +234,10 @@ function getEntriesWithPaging($blogid, $page, $count) {
 	$ctx = Model_Context::getInstance();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label AS categoryLabel 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
+	$sql = "SELECT e.*, c.label AS categoryLabel
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count);
 }
@@ -257,27 +257,27 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
 		$cond = 'AND e.category >= 0';
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	}
-	$sql = "SELECT e.*, c.label AS categoryLabel 
-		FROM ".$ctx->getProperty('database.prefix')."Entries AS e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.category = c.id AND e.blogid = c.blogid 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond 
+	$sql = "SELECT e.*, c.label AS categoryLabel
+		FROM ".$ctx->getProperty('database.prefix')."Entries AS e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.category = c.id AND e.blogid = c.blogid
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!$ctx->getProperty('blog.useSloganOnCategory',true) && $ctx->getProperty('suri.id',null)!= null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')),"?page=",$countItem);
 }
 
 function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = null) {
 	$ctx = Model_Context::getInstance();
-	
+
 	if ($tag === null)
 		return Paging::fetch(null, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 	$tag = POD::escapeString($tag);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label AS categoryLabel 
+	$sql = "SELECT e.*, c.label AS categoryLabel
 		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t ON e.id = t.entry AND e.blogid = t.blogid 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag' 
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t ON e.id = t.entry AND e.blogid = t.blogid
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag'
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!Setting::getBlogSettingGlobal('useSloganOnTag',true) && ($ctx->getProperty('suri.id')!= null)) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')),"?page=", $countItem);
 }
@@ -287,35 +287,35 @@ function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null)
 
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT * 
-		FROM ".$ctx->getProperty('database.prefix')."Entries 
-		WHERE blogid = $blogid $visibility AND category = -2 
+	$sql = "SELECT *
+		FROM ".$ctx->getProperty('database.prefix')."Entries
+		WHERE blogid = $blogid $visibility AND category = -2
 		ORDER BY published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'),"?page=", $countItem);
 }
 
 function getEntriesWithPagingByPage($blogid, $page, $count, $countItem = null) {
 	$ctx = Model_Context::getInstance();
-	
+
 	$visibility = doesHaveOwnership() ? '' : 'AND visibility = 2';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT * 
-		FROM ".$ctx->getProperty('database.prefix')."Entries 
-		WHERE blogid = $blogid $visibility AND category = -3 
+	$sql = "SELECT *
+		FROM ".$ctx->getProperty('database.prefix')."Entries
+		WHERE blogid = $blogid $visibility AND category = -3
 		ORDER BY published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'),"?page=", $countItem);
 }
 
 function getEntriesWithPagingByPeriod($blogid, $period, $page, $count, $countItem = null) {
 	$ctx = Model_Context::getInstance();
-	
+
 	$cond = "AND published >= " . getTimeFromPeriod($period) . " AND published < " . getTimeFromPeriod(addPeriod($period));
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label AS categoryLabel 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+	$sql = "SELECT e.*, c.label AS categoryLabel
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'), $countItem);
 }
@@ -327,10 +327,10 @@ function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countIte
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')";
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label AS categoryLabel 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond 
+	$sql = "SELECT e.*, c.label AS categoryLabel
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'),"?page=", $countItem);
 }
@@ -341,25 +341,25 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 	$userid = User::getUserIdByName($author);
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label categoryLabel 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility AND e.category >= 0 
+	$sql = "SELECT e.*, c.label categoryLabel
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility AND e.category >= 0
 		ORDER BY e.published DESC";
 	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'),"?page=", $countItem);
 }
 
 function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null, $starred = null, $draft = null, $tag = null) {
 	$ctx = Model_Context::getInstance();
-	
+
 	$teamMemberFilter = "";
 	if( ! Acl::check("group.editors", "entry.list") ) {
 		$teamMemberFilter = " AND e.userid = ".getUserId();
 	}
-	
-	$sqlTable = "SELECT e.*, c.label AS categoryLabel, d.id AS draft 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.category = c.id AND e.blogid = c.blogid 
+
+	$sqlTable = "SELECT e.*, c.label AS categoryLabel, d.id AS draft
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.category = c.id AND e.blogid = c.blogid
 		LEFT JOIN ".$ctx->getProperty('database.prefix')."Entries d ON e.blogid = d.blogid AND e.id = d.id AND d.draft = 1 ";
 	$sql = " WHERE e.blogid = $blogid AND e.draft = 0" . $teamMemberFilter;
 	if ($category > 0) {
@@ -409,7 +409,7 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 	$entries = array();
 	$paging = Paging::init($ctx->getProperty('uri.folder'), '/');
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= ($isSpecialEntry || doesHaveOwnership())  ? '' : ' AND (c.visibility > 1 OR e.category = 0)';
+	$visibility .= ($isSpecialEntry || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 	$category = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? 'e.category = -3' : 'e.category = -2' ) : 'e.category >= 0';
 	if($categoryId !== false) {
@@ -422,17 +422,17 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid 
-			AND e.id = $id 
+	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid
+			AND e.id = $id
 			AND e.draft = 0 $visibility AND $category");
-	$result = POD::queryColumn("SELECT e.id 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid 
-			AND e.draft = 0 $visibility AND $category 
+	$result = POD::queryColumn("SELECT e.id
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid
+			AND e.draft = 0 $visibility AND $category
 		ORDER BY e.published DESC");
 	if (!$result || !$currentEntry)
 		return array($entries, $paging);
@@ -446,9 +446,9 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 	for ($i = 1; $entryId = array_shift($result); $i++) {
 		if ($entryId != $id) {
 			if (array_push($paging['before'], $entryId) > 4) {
-				if ($i == 5) 
+				if ($i == 5)
 					$paging['first'] = array_shift($paging['before']);
-				else 
+				else
 					array_shift($paging['before']);
 			}
 			continue;
@@ -459,7 +459,7 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 		for ($i++; (count($paging['after']) < 4) && ($entryId = array_shift($result)); $i++)
 			array_push($paging['after'], $entryId);
 		if ($i < $paging['pages']) {
-			while ($entry = array_shift($result))
+			while ($entryId = array_shift($result))
 				$paging['last'] = $entryId;
 		}
 		if (count($paging['before']) > 0)
@@ -491,35 +491,37 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $
 			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid 
-			AND e.slogan = '".POD::escapeString($slogan)."' 
+	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid
+			AND e.slogan = '".POD::escapeString($slogan)."'
 			AND e.draft = 0 $visibility AND $category");
 
-	$result = POD::queryAll("SELECT e.id, e.slogan 
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id 
-		WHERE e.blogid = $blogid 
-			AND e.draft = 0 $visibility AND $category 
+	$result = POD::queryAll("SELECT e.id, e.slogan
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
+		WHERE e.blogid = $blogid
+			AND e.draft = 0 $visibility AND $category
 		ORDER BY e.published DESC");
 	if (!$result || !$currentEntry)
 		return array($entries, $paging);
-	
+
 	if($categoryId !== false) {
 		$paging['pages'] = $categoryId == 0 ? getEntriesTotalCount($blogid):getEntriesCountByCategory($blogid, $categoryId);
 		$paging['postfix'] = '?category='.$categoryId;
 	} else {
 		$paging['pages'] = $isSpecialEntry ? ($isSpecialEntry == 'page' ? getPagesTotalCount($blogid) : getNoticesTotalCount($blogid)) : getEntriesTotalCount($blogid);
 	}
-	
+
 	for ($i = 1; $entry = array_shift($result); $i++) {
 		if ($entry['slogan'] != $slogan) {
-			if (array_push($paging['before'], $entry['slogan']) > 4) if ($i == 5)
-				$paging['first'] = array_shift($paging['before']);
-			else
-				array_shift($paging['before']);
+			if (array_push($paging['before'], $entry['slogan']) > 4) {
+				if ($i == 5)
+					$paging['first'] = array_shift($paging['before']);
+				else
+					array_shift($paging['before']);
+			}
 			continue;
 		}
 		$paging['page'] = $i;
@@ -553,9 +555,9 @@ function getRecentEntries($blogid) {
 	$ctx = Model_Context::getInstance();
 	$entries = array();
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
- 	$result = POD::queryAll("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published 
+ 	$result = POD::queryAll("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published
 		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
+		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0
 		ORDER BY published DESC LIMIT ".$ctx->getProperty('skin.entriesOnRecent'));
  	if($result) {
  		return $result;
@@ -579,7 +581,7 @@ function addEntry($blogid, $entry, $userid = null) {
 	$entry['title'] = Utils_Unicode::lessenAsEncoding(trim($entry['title']), 255);
 	$entry['location'] = Utils_Unicode::lessenAsEncoding(trim($entry['location']), 255);
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
-	
+
 	if((empty($entry['slogan']))||($entry['category'] == -1)) {
 		$slogan = $slogan0 = getSlogan($entry['title']);
 	} else {
@@ -595,7 +597,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		if(POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND title = '$title' AND category = -1") > 0)
 			return false;
 	}
-	
+
 	if ($entry['category'] < 0) {
 		if ($entry['visibility'] == 1) $entry['visibility'] = 0;
 		if ($entry['visibility'] == 3) $entry['visibility'] = 2;
@@ -631,17 +633,17 @@ function addEntry($blogid, $entry, $userid = null) {
 	} else {
 		$published = 'UNIX_TIMESTAMP()';
 	}
-	
+
 	$currentMaxId = POD::queryCell("SELECT MAX(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0");
 	if(!empty($currentMaxId) && $currentMaxId > 0) {
 		$id = $currentMaxId + 1;
 	} else {
 		$id = 1;
 	}
-	$result = POD::query("INSERT INTO ".$ctx->getProperty('database.prefix')."Entries 
+	$result = POD::query("INSERT INTO ".$ctx->getProperty('database.prefix')."Entries
 			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentformatter,
 			 contenteditor, location, latitude, longitude, password, acceptcomment, accepttrackback, published, created, modified,
-			 comments, trackbacks, pingbacks) 
+			 comments, trackbacks, pingbacks)
 			VALUES (
 			$blogid,
 			$userid,
@@ -702,7 +704,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	requireComponent('Textcube.Data.Tag');
 
 	if($entry['id'] == 0) return false;
-	
+
 	$oldEntry = POD::queryRow("SELECT *
 		FROM ".$ctx->getProperty('database.prefix')."Entries
 		WHERE blogid = $blogid
@@ -710,7 +712,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		AND draft = 0");
 	if(empty($oldEntry)) return false;
 
-	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
+	if(empty($entry['userid'])) $entry['userid'] = getUserId();
 	$entry['title'] = Utils_Unicode::lessenAsEncoding(trim($entry['title']));
 	$entry['location'] = Utils_Unicode::lessenAsEncoding(trim($entry['location']));
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
@@ -725,12 +727,12 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*) 
-			FROM ".$ctx->getProperty('database.prefix')."Entries 
-			WHERE blogid = $blogid 
-				AND id <> {$entry['id']} 
-				AND draft = 0 
-				AND title = '$title' 
+		if(POD::queryCell("SELECT count(*)
+			FROM ".$ctx->getProperty('database.prefix')."Entries
+			WHERE blogid = $blogid
+				AND id <> {$entry['id']}
+				AND draft = 0
+				AND title = '$title'
 				AND category = -1") > 0)
 			return false;
 	}
@@ -742,12 +744,12 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	if ($entry['category'] == -4) {
 		$entry['visibility'] = 0;
 	}
-	
-	$result = POD::queryCount("SELECT slogan 
-		FROM ".$ctx->getProperty('database.prefix')."Entries 
-		WHERE blogid = $blogid 
-		AND slogan = '$slogan' 
-		AND id = {$entry['id']} 
+
+	$result = POD::queryCount("SELECT slogan
+		FROM ".$ctx->getProperty('database.prefix')."Entries
+		WHERE blogid = $blogid
+		AND slogan = '$slogan'
+		AND id = {$entry['id']}
 		AND draft = 0
 		LIMIT 1");
 	if ($result == 0) { // if changed
@@ -761,7 +763,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
-	
+
 	$location = POD::escapeString($entry['location']);
 	$latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
 	$longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
@@ -810,10 +812,10 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	if ($result)
 		@POD::query("DELETE FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 
-	updateCategoryByEntryId($blogid, $entry['id'], 'update', 
+	updateCategoryByEntryId($blogid, $entry['id'], 'update',
 		array('category'=>array($oldEntry['category'],$entry['category']),
 			'visibility'=>array($oldEntry['visibility'],$entry['visibility'])
-		));	
+		));
 
 	CacheControl::flushEntry($entry['id']);
 	$gCacheStorage->purge();
@@ -827,7 +829,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 
 function saveDraftEntry($blogid, $entry) {
 	$ctx = Model_Context::getInstance();
-	
+
 	requireModel('blog.tag');
 	requireModel('blog.locative');
 	requireModel('blog.attachment');
@@ -854,14 +856,14 @@ function saveDraftEntry($blogid, $entry) {
 			AND id = ".$entry['id']."
 			AND draft = 0");
 	if(empty($origEntry)) return -12;
-	
+
 	$created = $origEntry['created'];
 	$comments = $origEntry['comments'];
 	$trackbacks = $origEntry['trackbacks'];
 	$pingbacks = $origEntry['pingbacks'];
 	$password = $origEntry['password'];
-	
-	if(empty($entry['userid'])) $entry['userid'] = getUserId(); 
+
+	if(empty($entry['userid'])) $entry['userid'] = getUserId();
 	$entry['title'] = Utils_Unicode::lessenAsEncoding(trim($entry['title']));
 	$entry['location'] = Utils_Unicode::lessenAsEncoding(trim($entry['location']));
 	$entry['slogan'] = array_key_exists('slogan', $entry) ? trim($entry['slogan']) : '';
@@ -876,12 +878,12 @@ function saveDraftEntry($blogid, $entry) {
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*) 
-			FROM ".$ctx->getProperty('database.prefix')."Entries 
-			WHERE blogid = $blogid 
-				AND id <> {$entry['id']} 
-				AND draft = 0 
-				AND title = '$title' 
+		if(POD::queryCell("SELECT count(*)
+			FROM ".$ctx->getProperty('database.prefix')."Entries
+			WHERE blogid = $blogid
+				AND id <> {$entry['id']}
+				AND draft = 0
+				AND title = '$title'
 				AND category = -1") > 0)
 			return -13;
 	}
@@ -893,12 +895,12 @@ function saveDraftEntry($blogid, $entry) {
 	if ($entry['category'] == -4) {
 		$entry['visibility'] = 0;
 	}
-	
-	$result = POD::queryCount("SELECT slogan 
-		FROM ".$ctx->getProperty('database.prefix')."Entries 
-		WHERE blogid = $blogid 
-		AND slogan = '$slogan' 
-		AND id = {$entry['id']} 
+
+	$result = POD::queryCount("SELECT slogan
+		FROM ".$ctx->getProperty('database.prefix')."Entries
+		WHERE blogid = $blogid
+		AND slogan = '$slogan'
+		AND id = {$entry['id']}
 		AND draft = 0 LIMIT 1");
 	if ($result == 0) { // if changed
 		$result = POD::queryExistence("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
@@ -911,7 +913,7 @@ function saveDraftEntry($blogid, $entry) {
 	}
 	$tags = getTagsWithEntryString($entry['tag']);
 	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
-	
+
 	$location = POD::escapeString($entry['location']);
 	$latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
 	$longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
@@ -953,10 +955,10 @@ function saveDraftEntry($blogid, $entry) {
 				modified           = UNIX_TIMESTAMP()
 			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
 	} else {
-		$result = POD::query("INSERT INTO ".$ctx->getProperty('database.prefix')."Entries 
+		$result = POD::query("INSERT INTO ".$ctx->getProperty('database.prefix')."Entries
 			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentformatter,
 			 contenteditor, location, password, acceptcomment, accepttrackback, published, created, modified,
-			 comments, trackbacks, pingbacks) 
+			 comments, trackbacks, pingbacks)
 			VALUES (
 			$blogid,
 			{$entry['userid']},
@@ -1020,7 +1022,7 @@ function deleteEntry($blogid, $id) {
 		$result = POD::query("DELETE FROM ".$ctx->getProperty('database.prefix')."RemoteResponseLogs WHERE blogid = $blogid AND entry = $id");
 		updateCategoryByEntryId($blogid, $id, 'delete', array('entry' => $target));
 		deleteAttachments($blogid, $id);
-		
+
 		Tag::deleteTagsWithEntryId($blogid, $id);
 		clearFeed();
 		fireEvent('DeletePost', $id, null);
@@ -1037,9 +1039,9 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 
 	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
 	$effectedCategories = array();
-	if ( count($targets)<1 || !is_numeric($category) ) 
+	if ( count($targets)<1 || !is_numeric($category) )
 		return false;
-		
+
 	if ($category == -1) { // Check Keyword duplication
 		foreach($targets as $entryId) {
 			$title = POD::queryCell("SELECT title FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
@@ -1050,7 +1052,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		$parent = getParentCategoryId($blogid, $categoryId);
 		array_push($effectedCategories, $parent);
 	}
-	
+
 	foreach($targets as $entryId) {
 		list($effectedCategoryId, $oldVisibility) = POD::queryRow("SELECT category, visibility FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
 		$visibility = 	$oldVisibility;
@@ -1058,10 +1060,10 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 			if ($visibility == 1) $visibility = 0;
 			if ($visibility == 3) $visibility = 2;
 		}
-		
+
 		if (($oldVisibility == 3) && ($visibility != 3))
 			syndicateEntry($entryId, 'delete');
-			
+
 		POD::execute("UPDATE ".$ctx->getProperty('database.prefix')."Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
 
 		if (!in_array($effectedCategoryId, $effectedCategories)) {
@@ -1074,7 +1076,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 	foreach($effectedCategories as $effectedCategory) {
 		updateEntriesOfCategory($blogid, $effectedCategory);
 		$effected = true;
-	}	
+	}
 
 	if(updateEntriesOfCategory($blogid, $category)) {
 		if ($effected) {
@@ -1082,7 +1084,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 			CacheControl::flushDBCache('comment');
 			CacheControl::flushDBCache('trackback');
 		}
-		return true;	
+		return true;
 	}
 	return false;
 }
@@ -1115,7 +1117,7 @@ function setEntryVisibility($id, $visibility) {
 		if ($visibility == 1) $visibility = 0;
 		if ($visibility == 3) $visibility = 2;
 	}
-	
+
 	if ($oldVisibility === null)
 		return false;
 	if ($visibility == $oldVisibility)
@@ -1125,17 +1127,17 @@ function setEntryVisibility($id, $visibility) {
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
 		if (!syndicateEntry($id, 'create')) {
-			POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries 
-				SET visibility = $oldVisibility, 
-					modified = UNIX_TIMESTAMP() 
+			POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries
+				SET visibility = $oldVisibility,
+					modified = UNIX_TIMESTAMP()
 				WHERE blogid = $blogid AND id = $id");
 			return false;
 		}
 	}
 
-	$result = POD::queryCount("UPDATE ".$ctx->getProperty('database.prefix')."Entries 
-		SET visibility = $visibility, 
-			modified = UNIX_TIMESTAMP() 
+	$result = POD::queryCount("UPDATE ".$ctx->getProperty('database.prefix')."Entries
+		SET visibility = $visibility,
+			modified = UNIX_TIMESTAMP()
 		WHERE blogid = $blogid AND id = $id");
 	if (!$result)		// Error.
 		return false;
@@ -1176,14 +1178,14 @@ function protectEntry($id, $password) {
 function syndicateEntry($id, $mode) {
 	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
-	
+
 	$pool->reset('XMLRPCPingSettings');
 	$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
 	$sites = $pool->getAll('url,pingtype');
-	
+
 	$entry = getEntry($context->getProperty('blog.id'), $id);
 	if (is_null($entry)) return false;
-	
+
 	if(!empty($sites)) {
 		foreach ($sites as $site) {
 			$rpc = new XMLRPC();
@@ -1208,13 +1210,13 @@ function publishEntries() {
 	$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 	if($closestReservedTime < Timestamp::getUNIXtime()) {
 		$entries = POD::queryAll("SELECT id, visibility, category
-			FROM ".$ctx->getProperty('database.prefix')."Entries 
+			FROM ".$ctx->getProperty('database.prefix')."Entries
 			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
 		if (count($entries) == 0)
 			return;
 		foreach ($entries as $entry) {
-			$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries 
-				SET visibility = 0 
+			$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries
+				SET visibility = 0
 				WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
 			if ($entry['visibility'] == -3) {
 				if ($result && setEntryVisibility($entry['id'], 2)) {
@@ -1246,9 +1248,9 @@ function getTagsWithEntryString($entryTag) {
 	$ctx = Model_Context::getInstance();
 
 	$tags = explode(',', $entryTag);
-	
+
 	$ret = array();
-	
+
 	foreach ($tags as $tag) {
 		$tag = Utils_Unicode::lessenAsEncoding($tag, 255, '');
 		$tag = str_replace('&quot;', '"', $tag);
@@ -1258,10 +1260,10 @@ function getTagsWithEntryString($entryTag) {
 		$tag = preg_replace('/^(-|\s)+/', '', $tag);
 		$tag = preg_replace('/(-|\s)+$/', '', $tag);
 		$tag = trim($tag);
-		
+
 		array_push($ret, $tag);
 	}
-	
+
 	return $ret;
 }
 
@@ -1290,8 +1292,8 @@ function getSloganById($blogid, $id) {
 function getEntryIdBySlogan($blogid, $slogan) {
 	$ctx = Model_Context::getInstance();
 	$result = POD::queryCell("SELECT id
-		FROM ".$ctx->getProperty('database.prefix')."Entries 
-		WHERE blogid = $blogid 
+		FROM ".$ctx->getProperty('database.prefix')."Entries
+		WHERE blogid = $blogid
 			AND slogan = '".POD::escapeString($slogan)."'");
 	if(!$result) return false;
 	else return $result;
