@@ -1,11 +1,11 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.1.0.20140313
+ * Version 2.3.0.20150112
  *
  * Created       : May 30, 2011
- * Last modified : Mar 13, 2014
+ * Last modified : Jan 12, 2015
  *
- * Copyright 2011, 2014 Jeongkyu Shin <inureyes@gmail.com>
+ * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
  *
  */
@@ -134,11 +134,10 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				 var search = result[0];
 
 				 var longDesc = ' longdesc="' + t.addQuot(t._htmlspecialchars(result[1])) + '" ';
-
 				 // Avoid the bug
-				 longDesc = longDesc.replaceAll("&lt;", "&amp;lt;");
-				 longDesc = longDesc.replaceAll("&gt;", "&amp;gt;");
-
+				longDesc = longDesc.replaceAll("&lt;span id=&quot;CmCaReT&quot;&gt;&lt;/span&gt;", "");
+				longDesc = longDesc.replaceAll("&lt;", "&amp;lt;");
+				longDesc = longDesc.replaceAll("&gt;", "&amp;gt;");
 				 var attributes = result[1].split("|");
 				 var imageType = attributes[0];
 				 if(t._isImageFile(attributes[1])) {
@@ -175,8 +174,9 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				 var search = result[0];
 
 				 var longDesc = ' longdesc="iMazing|' + t.addQuot(t._htmlspecialchars(result[1])) + '" ';
-
 				 // Avoid the bug
+				longDesc = longDesc.replaceAll("&lt;span id=&quot;CmCaReT&quot;&gt;&lt;/span&gt;", "");
+
 				 longDesc = longDesc.replaceAll("&lt;", "&amp;lt;");
 				 longDesc = longDesc.replaceAll("&gt;", "&amp;gt;");
 
@@ -196,6 +196,8 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				 var longDesc = ' longdesc="Gallery|' + t.addQuot(t._htmlspecialchars(result[1])) + '" ';
 
 				 // Avoid the bug
+				longDesc = longDesc.replaceAll("&lt;span id=&quot;CmCaReT&quot;&gt;&lt;/span&gt;", "");
+
 				 longDesc = longDesc.replaceAll("&lt;", "&amp;lt;");
 				 longDesc = longDesc.replaceAll("&gt;", "&amp;gt;");
 
@@ -214,6 +216,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				 var longDesc = ' longdesc="Jukebox|' + t.addQuot(t._htmlspecialchars(result[1])) + '" ';
 
 				 // Avoid the bug
+				longDesc = longDesc.replaceAll("&lt;span id=&quot;CmCaReT&quot;&gt;&lt;/span&gt;", "");
 				 longDesc = longDesc.replaceAll("&lt;", "&amp;lt;");
 				 longDesc = longDesc.replaceAll("&gt;", "&amp;gt;");
 
@@ -1768,8 +1771,8 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				 longname : 'TTML Support',
 				 author : 'Jeongkyu Shin',
 				 authorurl : 'http://www.textcube.org',
-				 infourl : 'http://dev.textcube.org',
-				 version : "2.1"
+				 infourl : 'http://github.com/needlworks/textcube',
+				 version : "2.3"
 			 };
 		 }
 });
