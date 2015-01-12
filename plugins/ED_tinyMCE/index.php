@@ -12,7 +12,7 @@ function tinyMCE_handleconfig($configVal) {
 }
 
 function tinyMCE_editorinit($editor) {
-	global $configVal, $entry, $pluginURL, $pluginPath;
+	global $configVal, $pluginURL, $pluginPath;
 	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$config = Setting::fetchConfigVal($configVal);
@@ -156,7 +156,7 @@ function tinyMCE_adminheader($target, $mother) {
 	global $suri, $pluginURL;
     $context = Model_Context::getInstance();
 	if ($context->getProperty('editor.key') == 'tinyMCE') {
-		if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
+		if ($context->getProperty('suri.directive') == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
 			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tinymce/tinymce.min.js\"></script>\n";
 			$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"$pluginURL/override.css\" />\n";
 		}
