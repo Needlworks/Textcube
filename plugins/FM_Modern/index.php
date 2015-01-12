@@ -40,10 +40,12 @@ function FM_Modern_editorinit($editor) {
 
 function FM_Modern_adminheader($target, $mother) {
 	global $suri, $pluginURL;
-
-	if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
-		$target .= "\t<link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"$pluginURL/editor.css\" />\n";
-		$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/editor.js\"></script>\n";
+    $context = Model_Context::getInstance();
+	if ($context->getProperty('editor.key') == 'modern') {
+		if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
+			$target .= "\t<link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"$pluginURL/editor.css\" />\n";
+			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/editor.js\"></script>\n";
+		}
 	}
 	return $target;
 }
