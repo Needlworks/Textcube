@@ -196,7 +196,7 @@ if (defined('__TEXTCUBE_POST__')) {
 									self.pageHolder = new PageHolder(false, "<?php echo _t('아직 저장되지 않았습니다.');?>");
 
 									self.pageHolder.isHolding = function () {
-										return (self.savedData != self.getData());
+										return (self.savedData != self.getData(true));
 									}
 <?php
 if (isset($_GET['returnURL'])) {
@@ -260,6 +260,7 @@ if (isset($_GET['returnURL'])) {
 										if (check && (content.length == 0)) {
 											if (self.changeEditor == true) {
 												content = "&nbsp;";
+												oForm.elements["content"].value = "&nbsp;";
 											} else if(self.autoSave == true) {
 												return null;
 											} else {
@@ -416,8 +417,9 @@ if (isset($_GET['returnURL'])) {
 											}
 
 											self.savedData = data;
-											if (self.savedData == self.getData())
+											if (self.savedData == self.getData(true)) {
 												self.pageHolder.release();
+											}
 											self.nowsaving = false;
 											if (self.isPreview == true) {
 												self.openPreviewPopup();
