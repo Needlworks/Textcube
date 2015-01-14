@@ -54,9 +54,9 @@ if(defined('__TEXTCUBE_POST__') && (isset($_GET['slogan']))) {
 
 // Check whether or not user has permission to edit.
 if(Acl::check('group.editors')===false && !empty($suri['id'])) {
-	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) { 
+	if(getUserIdOfEntry(getBlogId(), $suri['id']) != getUserId()) {
 		@header("location:".$context->getProperty('uri.blog') ."/owner/entry");
-		exit; 
+		exit;
 	}
 }
 
@@ -138,7 +138,7 @@ if (defined('__TEXTCUBE_POST__')) {
 										var order = 1;
 										try { uploader.SetVariable("/:enclosure", filename); } catch(e) { }
 									}
-									
+
 									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/entry/attach/enclosure/");
 									request.onSuccess = function () {
 										PM.removeRequest(this);
@@ -258,11 +258,14 @@ if (isset($_GET['returnURL'])) {
 										}
 										var content = trim(oForm.content.value);
 										if (check && (content.length == 0)) {
-											if(self.autoSave == true) {
+											if (self.changeEditor == true) {
+												content = "&nbsp;";
+											} else if(self.autoSave == true) {
+												return null;
+											} else {
+												alert("<?php echo _t('본문을 입력해 주십시오.');?>");
 												return null;
 											}
-											alert("<?php echo _t('본문을 입력해 주십시오.');?>");
-											return null;
 										}
 
 										var locationValue = "/";
@@ -434,7 +437,7 @@ if (isset($_GET['returnURL'])) {
 											PM.addRequest(request, "<?php echo _t('저장하고 있습니다.');?>");
 										} else {
 											PM.addRequest(request);
-										}											
+										}
 										document.getElementById("saveButton").value = "<?php echo _t('저장중...');?>";
 										request.send(data);
 
@@ -612,7 +615,7 @@ if (isset($_GET['popupEditor'])) {
 									}
 									return true;
 								}
-								
+
 								function toggleTemplateDialog() {
 									if(document.getElementById('templateDialog').style.display != 'none') {
 										document.getElementById('templateDialog').style.display = 'none';
@@ -629,7 +632,7 @@ if (isset($_GET['popupEditor'])) {
 
 							//]]>
 						</script>
-						
+
 						<form id="editor-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/entry">
 							<div id="part-editor" class="part">
 								<h2 class="caption"><span class="main-text"><?php
@@ -770,12 +773,12 @@ if (count($templateLists) == 0) {
 											<div id="attachment-container" class="container">
 <?php
 $param = array(
-		'uploadPath'=>       $context->getProperty('uri.blog')."/owner/entry/attachmulti/", 
-		'singleUploadPath'=> $context->getProperty('uri.blog')."/owner/entry/attach/", 
+		'uploadPath'=>       $context->getProperty('uri.blog')."/owner/entry/attachmulti/",
+		'singleUploadPath'=> $context->getProperty('uri.blog')."/owner/entry/attach/",
 		'deletePath'=>       $context->getProperty('uri.blog')."/owner/entry/detach/multi/",
-		'labelingPath'=>     $context->getProperty('uri.blog')."/owner/entry/attachmulti/list/", 
-		'refreshPath'=>      $context->getProperty('uri.blog')."/owner/entry/attachmulti/refresh/", 
-		'fileSizePath'=>     $context->getProperty('uri.blog')."/owner/entry/size?parent=");		
+		'labelingPath'=>     $context->getProperty('uri.blog')."/owner/entry/attachmulti/list/",
+		'refreshPath'=>      $context->getProperty('uri.blog')."/owner/entry/attachmulti/refresh/",
+		'fileSizePath'=>     $context->getProperty('uri.blog')."/owner/entry/size?parent=");
 printEntryFileList(getAttachments($blogid, $entry['id'], 'label'), $param);
 ?>
 											</div>
