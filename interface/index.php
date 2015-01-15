@@ -83,6 +83,11 @@ if(empty($suri['id'])) {  // Without id.
 			require ROOT . '/interface/common/blog/begin.php';
 			require ROOT . '/interface/common/blog/line.php';
 			require ROOT . '/interface/common/blog/end.php';
+		} else if ($frontpage == 'cover' && $context->getProperty('blog.displaymode','desktop') == 'mobile') {
+			list($entries, $paging) = getEntriesWithPaging($blogid, $suri['page'], $blog['entriesOnPage']);
+			require ROOT . '/interface/common/blog/begin.php';
+			require ROOT . '/interface/common/blog/entries.php';
+			require ROOT . '/interface/common/blog/end.php';
 		} else {
 			require ROOT . '/interface/common/blog/begin.php';
 			require ROOT . '/interface/common/blog/end.php';
