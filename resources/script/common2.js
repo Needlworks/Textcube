@@ -1256,8 +1256,18 @@ function openCenteredDialog(url, dialogId, width, height) {
         positionStyle: 'fixed',
         loadUrl:url,
         transition:'fadeIn',
+        speed:350,
+        modal:true,
+        modalColor:'#000',
+        opacity:0.7,
+        escClose:false,
+        closeClass:'close',
         loadCallback: function() {
             jQuery('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
+            });
+            jQuery('#tcDialog iframe').contents().find('#closes').on('click', function(e) {
+                alert("clicked");
+                tcDialog.close();
             });
         }
     });
@@ -1266,6 +1276,12 @@ function openCenteredDialog(url, dialogId, width, height) {
     tcDialogFrame.attr('width', width);
     tcDialogFrame.attr('height', height);
     tcDialog.reposition();
+}
+
+function closeDialog() {
+    var scope = (window.location !== window.parent.location ? window.parent : window);
+    scope.tcDialog.close();
+    return false;
 }
 
 function resizeDialog(width, height, cumulative) {
