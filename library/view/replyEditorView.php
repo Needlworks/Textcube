@@ -98,10 +98,9 @@ if (!doesHaveMembership()) {
 	<form name="commentToComment" method="post" action="<?php echo ($_POST['mode'] == 'edit' ? $blogURL . '/comment/delete/' . $suri['id'] : $suri['url']);?>">
 		<input type="hidden" name="mode" value="commit" />
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" />
-
+		<a onclick="closeDialog();" href="#" class="close-button"><span>X</span></a>
 		<div id="comment-reply-box">
 			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
-
 			<div class="title"><span class="text" id="title"><?php echo $pageTitle ;?></span></div>
 <?php
 if($viewMode == 'comment') {
