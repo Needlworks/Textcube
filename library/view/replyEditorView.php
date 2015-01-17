@@ -98,7 +98,7 @@ if (!doesHaveMembership()) {
 	<form name="commentToComment" method="post" action="<?php echo ($_POST['mode'] == 'edit' ? $context->getProperty('uri.blog') . '/comment/delete/' . $context->getProperty('suri.id'): $context->getProperty('suri.url');?>">
 		<input type="hidden" name="mode" value="commit" />
 		<input type="hidden" name="oldPassword" value="<?php echo isset($_POST['password']) ? $_POST['password'] : '';?>" />
-
+		<a onclick="closeDialog();" href="#" class="close-button"><span>X</span></a>
 		<div id="comment-reply-box">
 			<img src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
 

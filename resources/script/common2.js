@@ -1265,10 +1265,6 @@ function openCenteredDialog(url, dialogId, width, height) {
         loadCallback: function() {
             $('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
             });
-            jQuery('#tcDialog iframe').contents().find('#closes').on('click', function(e) {
-                alert("clicked");
-                tcDialog.close();
-            });
         }
     });
     tcDialogFrame = $('#tcDialog iframe');
