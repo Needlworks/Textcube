@@ -1276,7 +1276,11 @@ function openCenteredDialog(url, dialogId, width, height) {
 
 function closeDialog() {
     var scope = (window.location !== window.parent.location ? window.parent : window);
-    scope.tcDialog.close();
+    if (scope == window) {
+        scope.close();
+    } else {
+        scope.tcDialog.close();
+    }
     return false;
 }
 

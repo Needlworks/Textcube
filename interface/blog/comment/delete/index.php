@@ -221,6 +221,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 	<form name="deleteComment" method="post" action="<?php echo $blogURL;?>/comment/delete/<?php echo $suri['id'];?>">
 		<div id="comment-box">
 			<img src="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
+			<a onclick="closeDialog();" href="#" class="close-button"><span>X</span></a>
 
 			<div id="command-box">
 <?php
