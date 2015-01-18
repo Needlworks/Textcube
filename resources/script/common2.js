@@ -1261,7 +1261,7 @@ function openCenteredDialog(url, dialogId, width, height) {
         modalColor:'#000',
         opacity:0.7,
         escClose:false,
-        closeClass:'close',
+        modalClose:false,
         loadCallback: function() {
             jQuery('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
             });
