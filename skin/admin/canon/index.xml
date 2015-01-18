@@ -2,7 +2,7 @@
 <adminSkin version="1.1" language="ko">
 	<information>
 		<name>Canon</name> 
-		<version>1.9</version>
+		<version>1.10.2</version>
 		<description><![CDATA[텍스트큐브 1.8의 관리자 화면 스킨입니다. Safari/Google Chrome/Firefox에서 동작합니다.]]></description>
 		<license><![CDATA[GPL]]></license>
 	</information> 

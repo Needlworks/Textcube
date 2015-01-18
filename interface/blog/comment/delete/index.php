@@ -223,7 +223,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 	<form name="deleteComment" method="post" action="<?php echo $context->getProperty('uri.blog');?>/comment/delete/<?php echo $context->getProperty('suri.id');?>">
 		<div id="comment-box">
 			<img src="<?php echo $context->getProperty('service.path') . $context->getProperty('admin.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />	
-			
+			<a onclick="closeDialog();" href="#" class="close-button"><span>X</span></a>
 			<div id="command-box">
 <?php
 	$render = true;
