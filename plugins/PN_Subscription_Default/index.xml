@@ -4,7 +4,7 @@
   <title xml:lang="ko">피드 구독 통계</title>
   <title xml:lang="ja">RSSフィード統計</title>
   <link>http://needlworks.org/</link>
-  <version>2.1</version>
+  <version>2.5</version>
   <description xml:lang="en">Shows Feed Subscription Log using Textcube Components.</description>
   <description xml:lang="ko">텍스트큐브 컴포넌트를 이용하여 피드 구독 통계를 보여줍니다.</description>
   <description xml:lang="ja">Textcubeの構成要素を利用して、RSSフィード購読情報を表示します。</description>
@@ -13,11 +13,13 @@
   <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.7</textcube>
+	  <textcube>
+		  <minVersion>1.10</minVersion>
+	  </textcube>
   </requirements>
   <binding>
-	<listener event="refreshRSS">PN_Subscription_setTime</listener>
-	<listener event="ViewRSS">updateSubscriptionStatistics</listener>
+	  <listener event="refreshRSS" handler="PN_Subscription_setTime" />
+	  <listener event="ViewRSS" handler="updateSubscriptionStatistics" />
 	<sidebar title="SubscriptionStatistics" handler="PN_Subscription_Sidebar" />
 	<adminMenu>
       <viewMethods>
