@@ -1,15 +1,15 @@
 <?php
-/* Subscription statistics plugin for Textcube 1.8
+/* Subscription statistics plugin for Textcube 1.10
    ----------------------------------
-   Version 2.2 
+   Version 2.5
    Needlworks development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2010.3.21
- 
+   Last modified at : 2015.1.19
+
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
 
@@ -31,12 +31,12 @@ function PN_Subscription_Default()
 	$temp = getSubscriptionStatistics($blogid);
 	$aggregatorInfo = organizeAggregatorInfo($temp);
 	Setting::setBlogSetting('SubscriberCount',$totalSubscribers);
-	
+
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
 								window.addEventListener("load", execLoadFunction, false);
-								
+
 								function execLoadFunction() {
 									//removeItselfById('log-pages-submit');
 								}
@@ -85,7 +85,7 @@ function PN_Subscription_Default()
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="rank"><?php echo $i + 1;?></td>
-										<td class="aggregator"><?php 
+										<td class="aggregator"><?php
 		if($info['isRobot'])
 			echo '<span class="robot">'.$agent.'</span>';
 		else echo $agent;
@@ -101,31 +101,28 @@ function PN_Subscription_Default()
 								</tbody>
 							</table>
 						</div>
-						
+
 						<div class="clear"></div>
-<?php 
+<?php
 }
 
 function getAggregatorName($useragent)
 {
 	if($useragent=='') return _t('알 수 없는 구독기');
 	$agentPattern = array(
-		'Bloglines' => _t('Bloglines'),
-		'Allblog.net' => _t('올블로그 피드 로봇'),
 		'HanRSS' => _t('한RSS'),
-		'Netvibes' => _t('Netvibes'),
-		'SharpReader' => _t('Sharp Reader'),
-		'BlogBridge' => _t('Blog Bridge'),
-		'Firefox' => _t('Firefox 라이브북마크'),
-		'Fastladder' => _t('Fastladder'),
 		'Sage' => _t('Sage (Firefox 확장)'),
+		'Feedly' => _t('Feedly'),
+		'Chrome' => _t('구글 크롬'),
+		'Safari' => _t('사파리'),
+		'tt-rss' => _t('Tiny Tiny RSS'),
+		'FlipboardRSS' => _t('Flipboard'),
 		'NewsGatorOnline' => _t('NewsGator'),
 		'NewsLife' => _t('NewsLife'),
 		'Google Desktop' => _t('구글 데스크탑'),
 		'RSSOwl' => _t('RSS Owl'),
 		'Eolin' => _t('태터툴즈 리더'),
 		'Textcube' => _t('텍스트큐브 리더'),
-		'Safari' => _t('사파리'),
 		'NetNewsWire' => _t('NetNewsWire'),
 		'Feedfetcher-Google' => _t('구글 feedfetcher'),
 		'RssBandit' => _t('RSS Bandit'),
@@ -136,18 +133,25 @@ function getAggregatorName($useragent)
 		'nhn/1noon' => _t('첫눈'),
 		'MSIE 6.0' => _t('MS 익스플로러 6'),
 		'YeonMo' => _t('연모'),
-		'RMOM' => _t('요줌'),
+		'RMOM' => _t('요즘'),
 		'msnbot' => _t('MSN 검색엔진'),
 		'FeedOnFeeds' => _t('Feed On Feeds Personal aggregator'),
 		'Technoratibot' => _t('테크노라티'),
 		'sproose' => _t('sproose 봇'),
 		'Thunderbird' => _t('Mozilla Thunderbird'),
+		'Bloglines' => _t('Bloglines'),
 		'NaverBot' => _t('네이버 검색로봇'),
 		'DAUM RSS Robot' => _t('다음 RSS 검색로봇'),
 		'Googlebot' => _t('구글 검색로봇'),
 		'TechnoratiSnoop' => _t('테크노라티 피드 로봇'),
 		'CazoodleBot' => _t('CazoodleBot'),
 		'Snapbot' => _t('Snapbot (snap.com 서비스용)'),
+		'Netvibes' => _t('Netvibes'),
+		'SharpReader' => _t('Sharp Reader'),
+		'BlogBridge' => _t('Blog Bridge'),
+		'Firefox' => _t('Firefox 라이브북마크'),
+		'Fastladder' => _t('Fastladder'),
+		'Allblog.net' => _t('올블로그 피드 로봇'),
 		'UCLA CS Dept' => _t('연구용 로봇 (UCLA 컴퓨터공학과)'),
 		'Windows-RSS-Platform/1.0 (MSIE 7.0' => _t('윈도우 비스타 RSS 개짓'),
 		'HTTPClientBox' => _t('HTTPClientBox'),
@@ -220,7 +224,6 @@ function robotChecker($useragent)
 
 function organizeAggregatorInfo($info)
 {
-	requireComponent( "Textcube.Function.misc");
 	global $totalSubscribers, $updatedSubscribers;
 	$aggregatorInfo = array();
 	$totalSubscribers = 0;
@@ -273,25 +276,31 @@ function organizeRobotInfo($info)
 }
 
 function getSubscriptionStatistics($blogid) {
-	global $database;
-	$statistics = array();
-	if ($result = POD::queryAll("SELECT ip, host, useragent, subscribed, referred FROM {$database['prefix']}SubscriptionStatistics WHERE blogid = $blogid ORDER BY referred DESC")) {
+	$pool = DBModel::getInstance();
+	$pool->reset("SubscriptionStatistics");
+	$pool->setProperty("blogid","eq",$blogid);
+	$pool->setOrder("referred","desc");
+	if ($result = $pool->getAll("ip, host, useragent, subscribed, referred")) {
 		return $result;
 	}
-	return $statistics;
+	return array();
 }
 
-function getSubscriptionLogsWithPage($page, $count) {  
+function getSubscriptionLogsWithPage($page, $count) {
 	global $database;
 	$blogid = getBlogId();
 	requireComponent( "Textcube.Model.Paging");
-	return Paging::fetch("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);  
-}  
+	return Paging::fetch("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);
+}
 
 function getSubscriptionLogs() {
-	global $database;
 	$blogid = getBlogId();
-	return POD::queryAll("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC LIMIT 1000");
+	$pool = DBModel::getInstance();
+	$pool->reset("SubscriptionLogs");
+	$pool->setProperty("blogid","eq",$blogid);
+	$pool->setOrder("referred","desc");
+	$pool->setLimit(1000);
+	return $pool->getAll("ip, host, useragent, referred");
 }
 
 function updateSubscriptionStatistics($target, $mother) {
@@ -312,13 +321,11 @@ function updateSubscriptionStatistics($target, $mother) {
 }
 
 function PN_Subscription_setTime($target) {
-	requireComponent("Textcube.Function.Setting");
 	Setting::setBlogSetting('LatestRSSrefresh',time());
 	return true;
 }
 
 function PN_Subscription_Sidebar($target) {
-	requireComponent("Textcube.Function.Setting");
 	$count = Setting::getBlogSetting('SubscriberCount',null);
 	$text = '<div class="SubscriptionPanel" style="text-align:center">';
 	if($count===null) $text .= _t('구독 정보 갱신이 필요합니다');
