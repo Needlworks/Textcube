@@ -118,12 +118,13 @@ function writeHtaccess($contents) {
 	}
 }
 
-function writeConfigFile($settings) {
+function writeConfigFile($settings, $description = null) {
 	$context = Model_Context::getInstance();
 	$writer = new Utils_OutputWriter;
 	$database = $context->getAllFromNamespace('database');
 	$service = $context->getAllFromNamespace('service');
-	
+	$memcached = $context->getAllFromNamespace('memcached');
+
 	$config = array();
 	$contents = "<?php".CRLF."ini_set('display_errors', 'off');".CRLF;
 	// Database information. It is not allow to modify.
@@ -132,28 +133,30 @@ function writeConfigFile($settings) {
 	$config['username'] = $database['username'];
 	$config['password'] = $database['password'];
 	$config['prefix'] = $database['prefix'];
-	
+
 	foreach($config as $item => $value) {
-		$contents .= "\$database['".$item."'] = '".$value."';".CRLF;
+		$contents .= "\$database['".$item."'] = '".$value."';".(array_key_exists($item,$description) ? "   // ".$description[$item] : "").CRLF;
 	}
 	$config = array();
 	$config['type'] = $service['type'];
 	$config['domain'] = $service['domain'];
 	$config['path'] = $service['path'];
 	foreach($config as $item => $value) {
-		$contents .= "\$service['".$item."'] = '".$value."';".CRLF;
+		$contents .= "\$service['".$item."'] = '".$value."';".(array_key_exists($item,$description) ? "   // ".$description[$item] : "").CRLF;
 	}
-	
+	if (!empty($memcached) && array_key_exists('server',$memcached)) {
+		$contents .= "\$memcached['server'] = '".$memcached['server']."';".CRLF;
+	}
 	// Service-specific information.
 	foreach($settings as $item => $value) {
 		if($item == 'serviceURL') {
-			$contents .= "\$serviceURL = '".$value."';".CRLF;
+			$contents .= "\$serviceURL = '".$value."';".(array_key_exists($item,$description) ? "   // ".$description[$item] : "").CRLF;
 		} else if($value === true || $value === false || is_numeric($value)){
 			if($value === true) $value = 'true';
 			else if($value === false) $value = 'false';
-			$contents .= "\$service['".$item."'] = ".$value.";".CRLF;
+			$contents .= "\$service['".$item."'] = ".$value.";".(array_key_exists($item,$description) ? "   // ".$description[$item] : "").CRLF;
 		} else {
-			$contents .= "\$service['".$item."'] = '".$value."';".CRLF;
+			$contents .= "\$service['".$item."'] = '".$value."';".(array_key_exists($item,$description) ? "   // ".$description[$item] : "").CRLF;
 		}
 	}
 	$contents .= "?>".CRLF;
