@@ -841,6 +841,16 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 			showCheckupMessage(false);
 	}
 	/* From Textcube 2.0 */
+	$result = DBAdapter::queryAll("SELECT blogid, userid, id FROM {$database['prefix']}Entries WHERE contentformatter='ttml' and contenteditor='modern'");
+	if ($result) {
+		$changed = true;
+		echo '<li>', _text('기존 에디터로 작성된 글을 새 에디터로 편집 가능하도록 이전합니다.'), ': ';
+		if (DBAdapter::execute("UPDATE {$database['prefix']}Entries SET contentformatter='ttml', contenteditor='tinyMCE' WHERE contentformatter='ttml' and contenteditor='modern'"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
+
 	if (!DBAdapter::queryExistence("DESC {$database['prefix']}Sessions expires")) {
 		$changed = true;
 		echo '<li>', _text('자동 로그인을 위해 세션 테이블 구조를 수정합니다.'), ': ';
