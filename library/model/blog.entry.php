@@ -232,14 +232,25 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 
 function getEntriesWithPaging($blogid, $page, $count) {
 	$ctx = Model_Context::getInstance();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0 AND (c.visibility > 1 OR e.category = 0)';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.*, c.label AS categoryLabel
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0
-		ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count);
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->extend("Categories","LEFT", array(array('e.blogid','eq','c.blogid'),array('e.category','eq','c.id')));
+	$pool->setAlias("Categories","c");
+
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+		$pool->setQualifierSet(array('c.visibility','>',1),'OR',array('e.category','eq',0));
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array('e.userid','eq',getUserId()),'OR',array('e.visibility','eq',0));
+	}
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.category",">=",0);
+	$pool->setOrder("e.published","DESC");
+	$pool->setProjection("e.*","c.label AS categoryLabel");
+	return Paging::fetch($pool, $page, $count);
 }
 
 function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $countItem) {

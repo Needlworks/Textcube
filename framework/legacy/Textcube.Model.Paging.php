@@ -112,14 +112,17 @@ class Paging {
 		if (empty($sqlmodel))
 			return array(array(), $paging);
 
-		if (get_class($sqlmodel) == "DBModel") { // It's DBModel.
+		if (gettype($sqlmodel) == "object" && get_class($sqlmodel) == "DBModel") { // It's DBModel.
 			$isDBModel = true;
 		} else { // It's SQL
 			$isDBModel = false;
 		}
 
 		if ($isDBModel) {
+			$order = $sqlmodel->getOrder();
+			$sqlmodel->unsetOrder();
 			$paging['total'] = $sqlmodel->getSize(); // get record size
+			$sqlmodel->setOrder($order['attribute'],$order['order']);
 		} else { // It's SQL
 			if (preg_match('/\s(FROM.*)(ORDER BY.*)$/si', $sqlmodel, $matches)) {
 				$from = $matches[1];

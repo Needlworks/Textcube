@@ -31,11 +31,12 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.8.0.20150120 */
+/* 2.0.0.20150121 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limit, $table, $id, $_querysetCount;
 	protected $_reservedFields, $_isReserved, $param;
+	protected $_extended_objects, $_object_aliases;
 
 	function __construct($table = null) {
 		$this->context = Model_Context::getInstance();
@@ -47,7 +48,7 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function reset($table = null, $param = null) {
-		if(!is_null($table)) $this->table = $this->context->getProperty('database.prefix').$table;
+		if(!is_null($table)) $this->table = $table;
 		else $this->table = null;
 		$this->id = null;
 		$this->_attributes = array();
@@ -59,6 +60,8 @@ class DBModel extends Singleton implements IModel {
 		$this->_order = array();
 		$this->_limit = array();
 		$this->_isReserved = array();
+		$this->_extended_objects = array();
+		$this->_object_aliases = array();
 		$this->param = array();
 		$this->_querysetCount = 0;
 		$this->_reservedFields    = POD::reservedFieldNames();
@@ -194,6 +197,10 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
+	public function getOrder() {
+		return $this->_order;
+	}
+
 	public function setOrder($standard, $order = 'ASC') {
 		$this->_order['attribute'] = $standard;
 		if(!in_array(strtoupper($order), array('ASC','DESC'))) $order = 'ASC';
@@ -217,40 +224,68 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
+	public function setAlias($table, $alias) {
+		$this->_object_aliases[$table] = $alias;
+		return $this;
+	}
+
+	public function getAlias($table) {
+		if (array_key_exists($table,$this->_object_aliases)) {
+			return $this->_object_aliases[$table];
+		}
+		return null;
+	}
+
+	public function extend($table, $type, $relations) {
+		$this->_extended_objects[$table] = array();
+		$this->_extended_objects[$table]['type'] = $type;
+		$args = $relations;
+		$glues = array();
+		foreach($relations as $rel) {
+			$attribute1 = $rel[0];
+			$condition = $rel[1];
+			$attribute2 = $rel[2];
+			list($dummy, $condition) = $this->getQualifierModel($attribute1, $condition, $attribute2, false, false);
+			array_push($glues, $attribute1.' '.$condition.' '.$attribute2);
+		}
+		$this->_extended_objects[$table]['relations'] = implode(' AND ',$glues);
+		return $this;
+	}
+
+	/* CRUDs */
 	public function doesExist($field = '*') {
 		$field = $this->_treatReservedFields($field);
-		return POD::queryExistence('SELECT '. $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryExistence('SELECT '. $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 
 	public function getCell($field = '*') {
 		$field = $this->_treatReservedFields($field);
-		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 
 	public function getRow($field = '*') {
 		$field = $this->_treatReservedFields($field);
-		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getColumn($field = '*') {
 		$field = $this->_treatReservedFields($field);
-		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getAll($field = '*') {
 		$field = $this->_treatReservedFields($field);
-		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause());
+		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getCount($field = '*') { /// Returns the 'selection count'
 		$field = $this->_treatReservedFields($field);
-		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->table . $this->_makeWhereClause());
-//		return POD::queryCount('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getSize($field = '*') { /// Returns the table size
 		$field = $this->_treatReservedFields($field);
-		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->table .  ' WHERE 1');
+		return POD::queryCell('SELECT COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function insert($option = null) {
@@ -270,7 +305,7 @@ class DBModel extends Singleton implements IModel {
 		$pairs = $attributes;
 		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 
-		$this->_query = 'INSERT INTO ' . $this->table . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
+		$this->_query = 'INSERT INTO ' . $this->_getTableName() . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
 		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
@@ -289,7 +324,7 @@ class DBModel extends Singleton implements IModel {
 				(array_key_exists($name, $this->_isReserved) ? '"'.$name.'"' : $name) . '=' .
 				(is_null($value) ? ' NULL' : $value ));
 
-		$this->_query = 'UPDATE ' . $this->table . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
+		$this->_query = 'UPDATE ' . $this->_getTableName() . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
 		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query))
 			return true;
@@ -314,7 +349,7 @@ class DBModel extends Singleton implements IModel {
 		foreach($pairs as $key => $value) if (is_null($value)) $pairs[$key] = 'NULL';
 		$attributeFields = $this->_capsulateFields(array_keys($attributes));
 		if (in_array(POD::dbms(), array('MySQL','MySQLi','SQLite3'))) { // Those supports 'REPLACE'
-			$this->_query = 'REPLACE INTO ' . $this->table . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
+			$this->_query = 'REPLACE INTO ' . $this->_getTableName() . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
 			if($option == 'count') return POD::queryCount($this->_query);
 			if (POD::query($this->_query)) {
 				$this->id = POD::insertId();
@@ -322,7 +357,7 @@ class DBModel extends Singleton implements IModel {
 			}
 			return false;
 		} else {
-			$this->_query = 'SELECT * FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1';
+			$this->_query = 'SELECT * FROM ' . $this->_getTableName() . $this->_makeWhereClause() . ' LIMIT 1';
 			if(POD::queryExistence($this->_query)) {
 				return $this->update($option);
 			} else {
@@ -335,7 +370,7 @@ class DBModel extends Singleton implements IModel {
 		if (empty($this->table))
 			return false;
 		if(!is_null($count)) $this->setLimit($count);
-		$this->_query = 'DELETE FROM ' . $this->table . $this->_makeWhereClause();
+		$this->_query = 'DELETE FROM ' . $this->_getTableName() . $this->_makeWhereClause();
 		if($option == 'count') return POD::queryCount($this->_query);
 		if (POD::query($this->_query))
 			return true;
@@ -346,7 +381,7 @@ class DBModel extends Singleton implements IModel {
 	public function create() {
 		if(!isset($this->structure) || empty($this->structure) || !is_array($this->structure)) return false;
 		/// TO DO : implementing create method by structure
-		$sql = "CREATE ".$this->table." (".CRLF;
+		$sql = "CREATE ".$this->_getTableName()." (".CRLF;
 
 		foreach($this->structure as $field => $attributes) {
 			$sql .= $field;
@@ -372,10 +407,19 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function discard() {
-		$this->_query = 'DROP '. $this->table;
+		$this->_query = 'DROP '. $this->_getTableName();
 		if(POD::query($this->_query))
 			return true;
 		return false;
+	}
+
+	protected function _getTableName($table = null) {
+		if (is_null($table)) $table = $this->table;
+		if (array_key_exists($table, $this->_object_aliases)) {
+			return $this->context->getProperty('database.prefix').$table.' '.$this->_object_aliases[$table];
+		} else {
+			return $this->context->getProperty('database.prefix').$table;
+		}
 	}
 
 	protected function _makeWhereClause() {
@@ -427,6 +471,20 @@ class DBModel extends Singleton implements IModel {
 			$value = '('.$value.')';
 		}
 		return array($relations, $value);
+	}
+
+	protected function _extendClause() {
+		$clause = '';
+		if (!empty($this->_extended_objects)) {
+			foreach ($this->_extended_objects as $table => $property) {
+				$clause .= strtoupper($property['type']).' JOIN '.$this->context->getProperty('database.prefix').$table.' ';
+				if (array_key_exists($table, $this->_object_aliases)) {
+					$clause .= $this->_object_aliases[$table].' ';
+				}
+				$clause .= 'ON '.$property['relations'].' ';
+			}
+		}
+		return (strlen($clause) ? ' ' . $clause : '');
 	}
 
 	protected function _treatReservedFields($fields) {
