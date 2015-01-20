@@ -1347,7 +1347,6 @@ ini_set('display_errors', 'off');
 //\$service['session_cookie_path'] = \$service['path']; // for avoiding spoiling other textcube's session id sharing root.
 //\$service['allowBlogVisibilitySetting'] = true; // Allow service users to change blog visibility.
 //\$service['externalresources'] = false;  // Loads resources from external storage.
-//\$service['resourceURL'] = '';  // Loads resources from external storage.
 //\$service['resourcepath'] = 'http://example.com/resource';	// Specify the full URI of external resource.
 //\$service['autologinTimeout'] = 1209600;	// Automatic login timeout (sec.)
 //\$service['favicon_daily_traffic'] = 10; // Set favicon traffic limitation. default is 10MB.
