@@ -33,8 +33,8 @@ function doesExistTable($tablename) {
 /* DBModel */
 /* 1.8.0.20150120 */
 class DBModel extends Singleton implements IModel {
-	protected $_attributes, $_qualifiers, $_query;
-	protected $_relations, $_glues, $_filters, $_order, $_limitation, $table, $id, $_querysetCount;
+	protected $_attributes, $_qualifiers, $_projections, $_query;
+	protected $_relations, $_glues, $_filters, $_order, $_limit, $table, $id, $_querysetCount;
 	protected $_reservedFields, $_isReserved, $param;
 
 	function __construct($table = null) {
@@ -53,6 +53,7 @@ class DBModel extends Singleton implements IModel {
 		$this->_attributes = array();
 		$this->_qualifiers = array();
 		$this->_relations = array();
+		$this->_projections = array();
 		$this->_glues = array();
 		$this->_filters = array();
 		$this->_order = array();
@@ -98,6 +99,30 @@ class DBModel extends Singleton implements IModel {
 	public function unsetAttribute($name) {
 		unset($this->_attributes[$name]);
 		return $this;
+	}
+
+	public function resetProjections() {
+		$this->_projections = array();
+		return $this;
+	}
+
+	public function setProjection() {
+		$nargs = func_num_args();
+		$args = func_get_args();
+		for ($i = 0; $i < $nargs; $i++) {
+			if (!in_array($args[$i],$this->_projections)) {
+				array_push($this->_projections, $args[$i]);
+			}
+		}
+		return $this;
+	}
+
+	public function getProjection() {
+		return $this->_projections;
+	}
+
+	public function hasProjection($name) {
+		return in_array($name,$this->_projections);
 	}
 
 	public function resetQualifiers() {

@@ -278,7 +278,7 @@ function organizeRobotInfo($info)
 function getSubscriptionStatistics($blogid) {
 	$pool = DBModel::getInstance();
 	$pool->reset("SubscriptionStatistics");
-	$pool->setProperty("blogid","eq",$blogid);
+	$pool->setQualifier("blogid","eq",$blogid);
 	$pool->setOrder("referred","desc");
 	if ($result = $pool->getAll("ip, host, useragent, subscribed, referred")) {
 		return $result;
@@ -287,24 +287,30 @@ function getSubscriptionStatistics($blogid) {
 }
 
 function getSubscriptionLogsWithPage($page, $count) {
-	global $database;
 	$blogid = getBlogId();
-	requireComponent( "Textcube.Model.Paging");
-	return Paging::fetch("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);
+
+	$pool = DBModel::getInstance();
+	$pool->reset("SubscriptionLogs");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setOrder("referred","DESC");
+	$pool->setProjection('ip','host','useragent','referred');
+	return Paging::fetch($pool, $page, $count);
+
+
+	//return Paging::fetch("SELECT ip, host, useragent, referred FROM {$database['prefix']}SubscriptionLogs WHERE blogid = $blogid ORDER BY referred DESC", $page, $count);
 }
 
 function getSubscriptionLogs() {
 	$blogid = getBlogId();
 	$pool = DBModel::getInstance();
 	$pool->reset("SubscriptionLogs");
-	$pool->setProperty("blogid","eq",$blogid);
+	$pool->setQualifier("blogid","eq",$blogid);
 	$pool->setOrder("referred","desc");
 	$pool->setLimit(1000);
 	return $pool->getAll("ip, host, useragent, referred");
 }
 
 function updateSubscriptionStatistics($target, $mother) {
-	global $database, $blogURL;
 	$blogid = getBlogId();
 	$period = Timestamp::getDate();
 	requireComponent('Textcube.Data.Filter');
