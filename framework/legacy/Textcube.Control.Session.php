@@ -45,11 +45,16 @@ final class Session {
 	
 	public static function read($id) {
 		if(is_null(self::$context)) self::initialize();
+		$current = Timestamp::getUNIXtime();
 
-		if ($result = self::query('cell',"SELECT privilege FROM ".self::$context->getProperty('database.prefix')."Sessions ".
-///			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')).")")) {
-			"WHERE id = '$id' AND updated >= (".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')).")")) {
-			return $result;
+		$sql = "SELECT privilege, updated, expires FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE id = '$id' AND expires > $current";
+		if ($result = self::query('row',$sql)) {
+			if( $result['updated'] == 1 ) {
+				$expires = $current+self::$context->getProperty('service.timeout');
+				$sql = "UPDATE ".self::$context->getProperty('database.prefix')."Sessions SET updated = $current, expires = $expires WHERE id = '$id'";
+				self::query('query',$sql);
+			}
+			return $result['privilege'];
 		}
 		return '';
 	}
@@ -71,7 +76,7 @@ final class Session {
 		$timer = Timer::getMicroTime() - self::$sessionMicrotime;
 		$current = Timestamp::getUNIXtime();
 		$result = self::query('count',"UPDATE ".self::$context->getProperty('database.prefix')."Sessions 
-				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = ".$current." 
+				SET userid = $userid, privilege = '$data', server = '$server', request = '$request', referer = '$referer', timer = $timer, updated = IF(updated,$current,1)
 				WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 		if ($result && $result == 1) {
 			@POD::commit();
@@ -107,7 +112,8 @@ final class Session {
 	
 	private static function getAnonymousSession() {
 		if(is_null(self::$context)) self::initialize();
-		$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL");
+		$current = Timestamp::getUNIXtime();
+		$result = self::query('cell',"SELECT id FROM ".self::$context->getProperty('database.prefix')."Sessions WHERE address = '{$_SERVER['REMOTE_ADDR']}' AND userid IS NULL AND preexistence IS NULL AND expires > $current");
 		if ($result)
 			return $result;
 		return false;
@@ -116,22 +122,18 @@ final class Session {
 	private static function newAnonymousSession() {
 		if(is_null(self::$context)) self::initialize();
 		$current = Timestamp::getUNIXtime();
-		$meet_again_baby = 3600;
-		$t = self::$context->getProperty('service.timeout'); 
-		if( !empty($t)) { 
-			$meet_again_baby = self::$context->getProperty('service.timeout');
-		}
-
- 		//If you are not a robot, subsequent UPDATE query will override to proper timestamp.
-		$meet_again_baby -= 60;
+		$meet_again_baby = $current + 60;
 
 		for ($i = 0; $i < 3; $i++) {
-			if (($id = self::getAnonymousSession()) !== false)
+			if (($id = self::getAnonymousSession()) !== false) {
 				return $id;
+			}
 			$id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
-			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated, expires) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', ".Timestamp::getUNIXtime().", ".Timestamp::getUNIXtime()." - $meet_again_baby,".($current+self::$context->getProperty('service.timeout')).")");
-			if ($result > 0)
+			$result = self::query('count',"INSERT INTO ".self::$context->getProperty('database.prefix')."Sessions (id, address, server, request, referer, created, updated, expires) VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', '', '', '', $current, 0, $meet_again_baby)");
+			if ($result > 0) {
+				self::gc();
 				return $id;
+			}
 		}
 		return false;
 	}
