@@ -8,7 +8,7 @@
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2015.1.19
+   Last modified at : 2015.1.20
 
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -310,13 +310,38 @@ function updateSubscriptionStatistics($target, $mother) {
 	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
-	$ip = POD::escapeString($_SERVER['REMOTE_ADDR']);
-	$host = POD::escapeString(isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '');
-	$useragent = POD::escapeString(isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
-	POD::query("INSERT INTO {$database['prefix']}SubscriptionLogs values($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP())");
-	POD::query("DELETE FROM {$database['prefix']}SubscriptionLogs WHERE referred < UNIX_TIMESTAMP() - 604800");
-	if (!POD::queryCount("UPDATE {$database['prefix']}SubscriptionStatistics SET referred = UNIX_TIMESTAMP() WHERE blogid = $blogid AND ip = '$ip' AND host = '$host' AND useragent = '$useragent'"))
-		POD::query("INSERT INTO {$database['prefix']}SubscriptionStatistics VALUES ($blogid, '$ip', '$host', '$useragent', UNIX_TIMESTAMP(),UNIX_TIMESTAMP())");
+	$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+	$host = isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '';
+	$useragent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+
+	$pool = DBModel::getInstance();
+	$pool->reset("SubscriptionLogs");
+	$pool->setAttribute("blogid",$blogid);
+	$pool->setAttribute("ip",$ip,true);
+	$pool->setAttribute("host",$host,true);
+	$pool->setAttribute("useragent",$useragent,true);
+	$pool->setAttribute("referred",Timestamp::getUNIXtime());
+	$pool->insert();
+
+	$pool->reset("SubscriptionLogs");
+	$pool->setQualifier("referred","<",Timestamp::getUNIXtime() - 604800);
+	$pool->delete();
+
+	$pool->reset("SubscriptionStatistics");
+	$pool->setAttribute("referred",Timestamp::getUNIXtime());
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("ip","eq",$ip,true);
+	$pool->setQualifier("host","eq",$host,true);
+	$pool->setQualifieri("useragent","eq",$useragent,true);
+	if(!$pool->update('count')) {
+		$pool->reset("SubscriptionStatistics");
+		$pool->setAttribute("blogid",$blogid);
+		$pool->setAttribute("ip",$ip,true);
+		$pool->setAttribute("host",$host,true);
+		$pool->setAttribute("useragent",$useragent,true);
+		$pool->setAttribute("subscribed",Timestamp::getUNIXtime());
+		$pool->setAttribute("referred",Timestamp::getUNIXtime());
+	}
 	return $target;
 }
 
