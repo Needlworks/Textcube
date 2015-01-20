@@ -132,6 +132,7 @@ function writeConfigFile($settings, $description = null) {
 	$config['database'] = $database['database'];
 	$config['username'] = $database['username'];
 	$config['password'] = $database['password'];
+	$config['dbms'] = $database['dbms'];
 	$config['prefix'] = $database['prefix'];
 
 	foreach($config as $item => $value) {

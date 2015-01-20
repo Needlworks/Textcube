@@ -69,6 +69,7 @@ $description = array(
 	'database'=>'Database name.',
 	'username'=>'Database username.',
 	'password'=>'Database password.',
+	'dbms'=>'Database engine.',
 	'prefix'=>'Table prefix in database.',
 	'type'=>'Service type. [single|path|domain] e.g. [http://www.example.com/blog | http://www.example.com/blog/blog1 | http://blog1.example.com].',
 	'domain'=>'Service domain. (http://www.example.com)',
