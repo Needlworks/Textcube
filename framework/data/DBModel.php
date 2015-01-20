@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 1.7.2.20141105 */
+/* 1.8.0.20150120 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limitation, $table, $id, $_querysetCount;
@@ -220,6 +220,11 @@ class DBModel extends Singleton implements IModel {
 		$field = $this->_treatReservedFields($field);
 		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->table . $this->_makeWhereClause());
 //		return POD::queryCount('SELECT ' . $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+
+	public function getSize($field = '*') { /// Returns the table size
+		$field = $this->_treatReservedFields($field);
+		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->table .  ' WHERE 1');
 	}
 
 	public function insert($option = null) {
