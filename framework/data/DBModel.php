@@ -218,6 +218,7 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function doesExist($field = '*') {
+		$field = $this->_treatReservedFields($field);
 		return POD::queryExistence('SELECT '. $field . ' FROM ' . $this->table . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 
@@ -429,6 +430,7 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	protected function _treatReservedFields($fields) {
+		if (!empty($this->_projections) && $fields == '*') $fields = implode(',',$this->_projections);
 		if(empty($this->_reservedFields)) return $fields;
 		else {
 			$requestedFields = explode(',',str_replace(' ','',$fields));
