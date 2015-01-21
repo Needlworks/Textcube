@@ -35,7 +35,7 @@ function logout() {
 function requireLogin() {
 	$context = Model_Context::getInstance();
 	if(isset($_POST['refererURI'])) $_GET['refererURI'] = $_POST['refererURI'];
-	else if(isset($_SESSION['refererURI'])) { 
+	else if(isset($_SESSION['refererURI'])) {
 		$_GET['refererURI'] = $_SESSION['refererURI'];
 		unset($_SESSION['refererURI']);
 	}
@@ -93,8 +93,8 @@ function requireStrictRoute() {
 	header('Content-Type: text/html');
 	header("Connection: close");
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
 	<title><?php echo _t('Precondition Failed');?></title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -139,17 +139,14 @@ function validateAPIKey($blogid, $loginid, $key) {
 }
 
 function isLoginId($blogid, $loginid) {
-	global $database;
-	$loginid = POD::escapeString($loginid);
-	
-	// 팀블로그 :: 팀원 확인
-	$result = POD::queryCount("SELECT u.userid 
-			FROM {$database['prefix']}Users u, 
-				{$database['prefix']}Privileges t 
-			WHERE t.blogid = $blogid 
-				AND u.loginid = '$loginid' 
-				AND t.userid = u.userid");
-	// End TeamBlog
+	$pool = DBModel::getInstance();
+	$pool->reset("Users");
+	$pool->setAlias("Users","u");
+	$pool->setAlias("Privileges","t");
+	$pool->extend("Privileges","left",array("t.userid","eq","u.userid"));
+	$pool->setQualifier("t.blogid","eq",$blogid);
+	$pool->setQualifier("u.loginid","eq",$loginid, true);
+	$result = $pool->getCount("u.userid");
 	if ($result && $result === 1)
 		return true;
 	return false;
@@ -159,16 +156,20 @@ function generatePassword() {
 	return strtolower(substr(base64_encode(rand(0x10000000, 0x70000000)), 3, 8));
 }
 
-function resetPassword($blogid, $loginid) {	
+function resetPassword($blogid, $loginid) {
 	$ctx = Model_Context::getInstance();
-	
+
 	if (!isLoginId($blogid, $loginid))
 		return false;
 	$userid = User::getUserIdByEmail($loginid);
-	$password = POD::queryCell("SELECT password FROM {$database['prefix']}Users WHERE userid = $userid",'password',false);
-	$authtoken = md5(generatePassword());
-	
+
 	$query = DBModel::getInstance();
+	$query->reset("Users");
+	$query->setQualifier("userid","eq",$userid);
+	$password = $query->getCell("password");
+
+	$authtoken = md5(generatePassword());
+
 	$query->reset('UserSettings');
 	$query->setAttribute('userid',$userid);
 	$query->setAttribute('name','Authtoken',true);
@@ -176,7 +177,7 @@ function resetPassword($blogid, $loginid) {
 	$query->setQualifier('userid',$userid);
 	$query->setQualifier('name','Authtoken',true);
 	$query->replace();
-	
+
 	if(empty($result)) {
 		return false;
 	}

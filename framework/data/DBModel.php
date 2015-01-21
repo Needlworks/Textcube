@@ -247,7 +247,7 @@ class DBModel extends Singleton implements IModel {
 
 	public function extend($table, $type, $relations = null) {
 		$this->_extended_objects[$table] = array();
-		if(!in_array(strtolower($type),array('left','inner','outer','flat'))) return false;
+		if(!in_array(strtolower($type),array('left','inner','outer','equal'))) return false;
 		$this->_extended_objects[$table]['type'] = $type;
 		$args = $relations;
 		$glues = array();
