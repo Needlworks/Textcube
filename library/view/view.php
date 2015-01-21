@@ -614,7 +614,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 			echo ' <a href="'.$defaultURL.'/atom" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 		echo "<a href=\"", htmlspecialchars($tree['link']), '" class="categoryItem">', htmlspecialchars($tree['label']);
 		if ($skin['showValue'])
-			echo " <span class=\"c_cnt\">({$tree['value']})</span>";
+			echo " <span class=\"c_cnt\">{$tree['value']}</span>";
 		echo "</a>".CRLF;
 		if (sizeof($tree['children']) > 0) {
 			echo '<ul>'.CRLF;
@@ -631,7 +631,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 					echo ' <a href="'.$child['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 				echo "<a href=\"", htmlspecialchars($child['link']), '" class="categoryItem">', htmlspecialchars($child['label']);
 				if ($skin['showValue'])
-					echo " <span class=\"c_cnt\">({$child['value']})</span>";
+					echo " <span class=\"c_cnt\">{$child['value']}</span>";
 				echo "</a>".CRLF;
 
 				if (sizeof($child['children']) > 0) {
@@ -649,7 +649,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml=false) {
 							echo '<a href="'.$leaf['atomlink'].'" class="categoryFeed"><span class="text">ATOM</span></a>'.CRLF;
 						echo "<a href=\"", htmlspecialchars($leaf['link']), '" class="categoryItem">', htmlspecialchars($leaf['label']);
 						if ($skin['showValue'])
-							echo " <span class=\"c_cnt\">({$leaf['value']})</span>";
+							echo " <span class=\"c_cnt\">{$leaf['value']}</span>";
 						echo "</a>".CRLF;
 						echo "</li>".CRLF;
 					}
