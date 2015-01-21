@@ -166,7 +166,7 @@ final class Dispatcher {
 							$interfacePath = 'interface/blog/'.$pathPart.'/index.php';
 							break;
 						default:
-							if(!empty($uri['fragment'][0])) {
+							if(!empty($uri['fragment'][0]) && strpos($uri['fragment'][0],'page=')!==0) {
 								$pathPart = '';
 								$interfacePath = 'interface/page.php';
 							}
@@ -181,6 +181,7 @@ final class Dispatcher {
 				header("HTTP/1.0 404 Not Found");exit;
 			}
 			$uri['interfacePath'] = $this->interfacePath = $interfacePath;
+			$uri['interfaceRoute'] = rtrim($this->interfacePath,'index.php');
 		}
 		$this->uri = $uri;
 	}
