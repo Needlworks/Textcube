@@ -74,6 +74,7 @@ class DBModel extends Singleton implements IModel {
 		if(!empty($param)) $this->param = $param;
 	}
 
+	/// Attributes
 	public function resetAttributes() {
 		$this->_attributes = array();
 		return $this;
@@ -104,6 +105,7 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
+	/// Projections
 	public function resetProjections() {
 		$this->_projections = array();
 		return $this;
@@ -112,9 +114,13 @@ class DBModel extends Singleton implements IModel {
 	public function setProjection() {
 		$nargs = func_num_args();
 		$args = func_get_args();
-		for ($i = 0; $i < $nargs; $i++) {
-			if (!in_array($args[$i],$this->_projections)) {
-				array_push($this->_projections, $args[$i]);
+		if ($nargs == 1 && get_type($args[0]) == 'array' ) {
+			$this->_projections = $args[0];
+		} else {
+			for ($i = 0; $i < $nargs; $i++) {
+				if (!in_array($args[$i],$this->_projections)) {
+					array_push($this->_projections, $args[$i]);
+				}
 			}
 		}
 		return $this;
@@ -128,6 +134,7 @@ class DBModel extends Singleton implements IModel {
 		return in_array($name,$this->_projections);
 	}
 
+	/// Qualifiers
 	public function resetQualifiers() {
 		$this->_qualifiers = array();
 		$this->_relations = array();
@@ -197,6 +204,7 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
+	/// Manipulators
 	public function getOrder() {
 		return $this->_order;
 	}
@@ -224,6 +232,7 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
+	/// Extenders
 	public function setAlias($table, $alias) {
 		$this->_object_aliases[$table] = $alias;
 		return $this;
@@ -236,19 +245,22 @@ class DBModel extends Singleton implements IModel {
 		return null;
 	}
 
-	public function extend($table, $type, $relations) {
+	public function extend($table, $type, $relations = null) {
 		$this->_extended_objects[$table] = array();
+		if(!in_array(strtolower($type),array('left','inner','outer','flat'))) return false;
 		$this->_extended_objects[$table]['type'] = $type;
 		$args = $relations;
 		$glues = array();
-		foreach($relations as $rel) {
-			$attribute1 = $rel[0];
-			$condition = $rel[1];
-			$attribute2 = $rel[2];
-			list($dummy, $condition) = $this->getQualifierModel($attribute1, $condition, $attribute2, false, false);
-			array_push($glues, $attribute1.' '.$condition.' '.$attribute2);
+		if (!is_null($relations)) {
+			foreach($relations as $rel) {
+				$attribute1 = $rel[0];
+				$condition = $rel[1];
+				$attribute2 = $rel[2];
+				list($dummy, $condition) = $this->getQualifierModel($attribute1, $condition, $attribute2, false, false);
+				array_push($glues, $attribute1.' '.$condition.' '.$attribute2);
+			}
+			$this->_extended_objects[$table]['relations'] = implode(' AND ',$glues);
 		}
-		$this->_extended_objects[$table]['relations'] = implode(' AND ',$glues);
 		return $this;
 	}
 
@@ -477,11 +489,17 @@ class DBModel extends Singleton implements IModel {
 		$clause = '';
 		if (!empty($this->_extended_objects)) {
 			foreach ($this->_extended_objects as $table => $property) {
-				$clause .= strtoupper($property['type']).' JOIN '.$this->context->getProperty('database.prefix').$table.' ';
+				if ($property['type'] == 'flat') {
+					$clause .= ', '.$this->context->getProperty('database.prefix').$table.' ';
+				} else {
+					$clause .= strtoupper($property['type']).' JOIN '.$this->context->getProperty('database.prefix').$table.' ';
+				}
 				if (array_key_exists($table, $this->_object_aliases)) {
 					$clause .= $this->_object_aliases[$table].' ';
 				}
-				$clause .= 'ON '.$property['relations'].' ';
+				if (array_key_exists('relations',$property)) {
+					$clause .= 'ON '.$property['relations'].' ';
+				}
 			}
 		}
 		return (strlen($clause) ? ' ' . $clause : '');

@@ -15,6 +15,11 @@ interface IModel {
 	public function getAttribute($name);
 	public function setAttribute($name, $value, $escape = null);
 	public function unsetAttribute($name);
+	/// Projection methods
+	public function resetProjections();
+	public function setProjection();
+	public function getProjection();
+	public function hasProjection($name);
 	/// Qualifier methods
 	public function resetQualifiers();
 	public function getQualifiersCount();
