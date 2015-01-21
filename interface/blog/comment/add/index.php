@@ -102,10 +102,10 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$pool->setQualifier('acceptcomment','equals',1);
 			$row = $pool->getAll('*');
 			if(!empty($row))
-				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
+				sendCommentPing($entryId, $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		requireModel('blog.skin');
-		$skin = new Skin($skinSetting['skin']);
+		$skin = new Skin($context->getProperty('skin.skin'));
 		if ($entryId > 0) {
 			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
