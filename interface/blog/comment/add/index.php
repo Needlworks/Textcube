@@ -4,35 +4,34 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 require ROOT . '/library/preprocessor.php';
-
+$context = Model_Context::getInstance();
 $entryId = $suri['id'];
 $IV = array(
-	'GET' => array(
-		'__T__' => array('any', 13, 13)
-	),
 	'POST' => array(
 		'key' => array('string', 32, 32),
-		"name_$entryId" => array('string', 'default' => ''),
-		"password_$entryId" => array('string', 'default' => ''),
-		"secret_$entryId" => array(array('1', 'on'), 'mandatory' => false),
-		"homepage_$entryId" => array('string', 'default' => 'http://'),
-		"comment_$entryId" => array('string', 'default' => '')
+		"comment_type" => array(array('idpwd', ''), 'default' => '', 'mandatory' => false),
+		"name" => array('string', 'default' => ''),
+		"password" => array('string', 'default' => ''),
+		"secret" => array(array('1', 'on'), 'mandatory' => false),
+		"homepage" => array('url', 'default' => 'http://'),
+		"comment" => array('string', 'default' => '')
 	)
 );
-
-if(!Validator::validate($IV))
+$customIV = fireEvent('ManipulateIVRules',$IV,$context->getProperty('uri.interfaceRoute'));
+Validator::addRule($customIV);
+if(!Validator::isValid())
 	Respond::PrintResult(array('error' => 1, 'description' => 'Illegal parameters'));
 requireStrictRoute();
 header('Content-Type: text/xml; charset=utf-8');
-if (!isset($_GET['__T__']) || !isset($_POST['key']) || ($_POST['key'] != md5(filemtime(ROOT . '/config.php'))) || !Setting::getBlogSettingGlobal('acceptComments',0)) {
+if (!isset($_POST['key']) || ($_POST['key'] != md5(filemtime(ROOT . '/config.php'))) || !Setting::getBlogSettingGlobal('acceptComments',0)) {
 	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
 	exit;
 }
-$userName = isset($_POST["name_$entryId"]) ? trim($_POST["name_$entryId"]) : '';
-$userPassword = isset($_POST["password_$entryId"]) ? $_POST["password_$entryId"] : '';
-$userSecret = isset($_POST["secret_$entryId"]) ? 1 : 0;
-$userHomepage = isset($_POST["homepage_$entryId"]) ? trim($_POST["homepage_$entryId"]) : '';
-$userComment = isset($_POST["comment_$entryId"]) ? trim($_POST["comment_$entryId"]) : '';
+$userName = isset($_POST["name"]) ? trim($_POST["name"]) : '';
+$userPassword = isset($_POST["password"]) ? $_POST["password"] : '';
+$userSecret = isset($_POST["secret"]) ? 1 : 0;
+$userHomepage = isset($_POST["homepage"]) ? trim($_POST["homepage"]) : '';
+$userComment = isset($_POST["comment"]) ? trim($_POST["comment"]) : '';
 if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	Respond::PrintResult(array('error' => 2, 'description' => _text('이름을 입력해 주십시오.')));
 	exit;
@@ -60,9 +59,8 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 	$comment['secret'] = $userSecret;
 	$comment['comment'] = $userComment;
 	$comment['ip'] = $_SERVER['REMOTE_ADDR'];
-	
+
 	$result = addComment($blogid, $comment);
-	
 	if (in_array($result, array("ip", "name", "homepage", "comment", "openidonly", "etc"))) {
 		switch ($result) {
 			case "name":
@@ -86,7 +84,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 		}
 		Respond::PrintResult(array('error' => 1, 'description' => $errorString));
 		exit;
-		
+
 	} else if ($result === false) {
 		Respond::PrintResult(array('error' => 2, 'description' => _text('댓글을 달 수 없습니다.')));
 		exit;
@@ -104,10 +102,10 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$pool->setQualifier('acceptcomment','equals',1);
 			$row = $pool->getAll('*');
 			if(!empty($row))
-				sendCommentPing($entryId, $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
+				sendCommentPing($entryId, "$defaultURL/".($blog['useSloganOnPost'] ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
 		requireModel('blog.skin');
-		$skin = new Skin($context->getProperty('skin.skin'));
+		$skin = new Skin($skinSetting['skin']);
 		if ($entryId > 0) {
 			$commentBlock = getCommentView($entry, $skin);
 			dress('article_rep_id', $entryId, $commentBlock);
@@ -124,12 +122,12 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			$commentCount = 0;
 			$recentCommentBlock = escapeCData(revertTempTags(getRecentCommentsView(getRecentComments($blogid), $skin->recentComment, $skin->recentCommentItem)));
 		}
-		Respond::PrintResult(array('error' => 0, 
+		Respond::PrintResult(array('error' => 0,
 			'commentView'        => $commentView,
 			'commentCount'       => $commentCount,
 			'commentBlock'       => $commentBlock,
 			'recentCommentBlock' => $recentCommentBlock));
-		exit;	
+		exit;
 	}
 }
 ?>
