@@ -322,7 +322,7 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	$pool = DBModel::getInstance();
 	$pool->reset("Categories");
 	$pool->setAlias("Categories","c");
-	$pool->extend("Categories p","left",array("c.parent","eq","p.id"));
+	$pool->extend("Categories p","left",array(array("c.parent","eq","p.id")));
 	$pool->setQualifier("c.blogid","eq",$blogid);
 	$pool->setQualifier("c.id","eq",$id);
 
@@ -561,7 +561,7 @@ function moveCategory($blogid, $id, $direction) {
 	$nextPriority = '';
 	$pool->reset("Categories");
 	$pool->setAlias("Categories","c");
-	$pool->extend("Categories p","left",array("p.id","eq","c.parent"));
+	$pool->extend("Categories p","left",array(array("p.id","eq","c.parent")));
 	$pool->setQualifier("c.id","eq",$id);
 	$pool->setQualifier("c.blogid","eq",$blogid);
 	$row = $pool->getRow("p.id AS parentId, p.priority AS parentPriority, p.parent AS parentParent, c.priority AS myPriority, c.parent AS myParent");
