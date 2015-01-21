@@ -108,6 +108,7 @@ function setPrimaryDomain($blogid, $name) {
 
 function setSecondaryDomain($blogid, $domain) {
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 
 	requireModel('blog.feed');
 	$domain = Utils_Unicode::lessenAsEncoding(strtolower(trim($domain)), 64);
@@ -116,11 +117,13 @@ function setSecondaryDomain($blogid, $domain) {
 	if (empty($domain))
 		Setting::setBlogSettingGlobal('secondaryDomain','');
 	else if (Validator::domain($domain)) {
-		if (POD::queryExistence("SELECT * FROM ".$ctx->getProperty('database.prefix')."BlogSettings
-			WHERE blogid <> $blogid
-				AND name = 'secondaryDomain'
-				AND (value = '$domain' OR value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')"))
+		$pool->reset("BlogSettings");
+		$pool->setQualifier("blogid","neq",$blogid);
+		$pool->setQualifier("name","eq",'secondaryDomain',true);
+		$pool->setQualifierSet(array("value","eq",$domain,true),'OR',array("value","eq",(substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain),true));
+		if ($pool->doesExist()) {
 			return 1;
+		}
 		Setting::setBlogSettingGlobal('secondaryDomain',$domain);
 	}
 	else

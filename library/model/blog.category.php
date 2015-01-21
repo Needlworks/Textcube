@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 
-function getCategoryId($blogid, $name, $parentName = false) {	
+function getCategoryId($blogid, $name, $parentName = false) {
 	$context = Model_Context::getInstance();
 	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
 	if($result = MMCache::queryRow($context->getProperty('category.raw'),'name',$name)) {
@@ -79,7 +79,7 @@ function getCategoryLinkById($blogid, $id) {
 	return $result;
 }
 
-function getCategory($blogid, $id = null, $field = null) {	
+function getCategory($blogid, $id = null, $field = null) {
 	if ($id === null)
 		return '';
 	$context = Model_Context::getInstance();
@@ -93,19 +93,19 @@ function getCategory($blogid, $id = null, $field = null) {
 }
 
 function getCategories($blogid, $format = 'tree') {
-	$context = Model_Context::getInstance();	
+	$context = Model_Context::getInstance();
 	if($format == 'tree' && $context->getProperty('category.tree') !== null)
 		return $context->getProperty('category.tree');
 	else if($format == 'raw' &&  $context->getProperty('category.raw') !== null)
 		return $context->getProperty('category.raw');
-	
+
 	$pool = DBModel::getInstance();
 	$pool->reset('Categories');
 	$pool->setQualifier('blogid','equals',$blogid);
 	$pool->setQualifier('id','beq',0);
 	$pool->setOrder('parent , priority');
 	$rows = $pool->getAll();
-	
+
 	$categories = array();
 	if( empty($rows) ) {
 		$rows = array();
@@ -179,8 +179,8 @@ function getCategoriesSkin() {
 
 function getParentCategoryId($blogid, $id) {
 	$context = Model_Context::getInstance();
-	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.	
-	
+	if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+
 	if($result = MMCache::queryRow($context->getProperty('category.raw'),'id',$id))
 		return $result['parent'];
 	return null;
@@ -300,11 +300,11 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
 	return $result ? true : false;
 }
 
-function deleteCategory($blogid, $id) {	
+function deleteCategory($blogid, $id) {
 	if (!is_numeric($id))
 		return false;
 	CacheControl::flushCategory($id);
-	$pool = DBModel::getInstance();	
+	$pool = DBModel::getInstance();
 	$pool->reset('Categories');
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('id','eq',$id);
@@ -319,37 +319,48 @@ function modifyCategory($blogid, $id, $name, $bodyid) {
 	if($id==0) checkRootCategoryExistence($blogid);
 	if ((empty($name)) && (empty($bodyid)))
 		return false;
-	$row = POD::queryRow("SELECT p.name, p.id
-		FROM ".$ctx->getProperty('database.prefix')."Categories c
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories p ON c.parent = p.id
-		WHERE c.blogid = $blogid AND c.id = $id");
+	$pool = DBModel::getInstance();
+	$pool->reset("Categories");
+	$pool->setAlias("Categories","c");
+	$pool->extend("Categories p","left",array("c.parent","eq","p.id"));
+	$pool->setQualifier("c.blogid","eq",$blogid);
+	$pool->setQualifier("c.id","eq",$id);
+
+	$row = $pool->getRow("p.name,p.id");
 	$label = $row['name'];
 //	$parentId = $row['id'];
 //	if (!empty($parentId)) {
 //		$parentStr = "AND parent = $parentId";
 //	} else
 //		$parentStr = 'AND parent is null';
-	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 127));
-	$bodyid = POD::escapeString(Utils_Unicode::lessenAsEncoding($bodyid, 20));
-	if(POD::queryExistence("SELECT name
-		FROM ".$ctx->getProperty('database.prefix')."Categories
-		WHERE blogid = $blogid AND name = '".$name."' AND bodyid = '".$bodyid."'"))
-		return false;
-	$label = POD::escapeString(Utils_Unicode::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255));
-	$sql = "SELECT *
-		FROM ".$ctx->getProperty('database.prefix')."Categories
-		WHERE blogid = $blogid
-			AND id = $id";
-	// $sql = "SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND name='$name' $parentStr";
-	if(POD::queryExistence($sql) == false)
-		return false;
+	$name = Utils_Unicode::lessenAsEncoding($name, 127);
+	$bodyid = Utils_Unicode::lessenAsEncoding($bodyid, 20);
 
-	$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Categories
-		SET name = '$name',
-			label = '$label',
-			bodyid = '$bodyid'
-		WHERE blogid = $blogid
-			AND id = $id");
+	$pool->reset("Categories");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("name","eq",$name,true);
+	$pool->setQualifier("bodyid","eq",$bodyid,true);
+	if ($pool->doesExist("name")) {
+		return false;
+	}
+
+	$label = Utils_Unicode::lessenAsEncoding(empty($label) ? $name : "$label/$name", 255);
+
+	$pool->reset("Categories");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	if ($pool->doesExist() == false) {
+		return false;
+	}
+
+	$pool->reset("Categories");
+	$pool->setAttribute("name",$name,true);
+	$pool->setAttribute("label",$label,true);
+	$pool->setAttribute("bodyid",$bodyid,true);
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$result = $pool->update();
+
 	if ($result)
 		clearFeed();
 	updateEntriesOfCategory($blogid,$id);
@@ -365,7 +376,7 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 		$entry = $parameters['entry'];
 	$categoryId = $entry['category'];
 
-	$parent       = getParentCategoryId($blogid, $categoryId);
+	$parent = getParentCategoryId($blogid, $categoryId);
 	$categories = array($categoryId=>$action);
 
 	switch($action) {
@@ -378,28 +389,28 @@ function updateCategoryByEntryId($blogid, $entryId, $action = 'add',$parameters 
 			if(!empty($parent)) updateCategoryByCategoryId($blogid, $parent, 'delete', array('visibility'=> $entry['visibility']));
 			break;
 		case 'update':
-			
+
 			if(isset($parameters['category']) && $parameters['category'][0] != $parameters['category'][1]) { // category is changed. oldcategory - 1, newcategory + 1.
 				$oldparent = getParentCategoryId($blogid, $parameters['category'][0]);
 				$newparent = getParentCategoryId($blogid, $parameters['category'][1]);
-						
+
 				if(is_null($oldparent) && !is_null($newparent) && $parameters['category'][0] == $newparent) { // level 1 -> 2. newcategory + 1
 					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add', array('visibility'=>$parameters['visibility'][1]));
 				} else if(!is_null($oldparent) && is_null($newparent) && $parameters['category'][1] == $oldparent) { // level 2 -> 1. oldcategory - 1
 					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete', array('visibility'=>$parameters['visibility'][0]));
 				} else { // etcs
-					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete', array('visibility'=>$parameters['visibility'][0]));						
-					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add', array('visibility'=>$parameters['visibility'][1]));						
+					updateCategoryByCategoryId($blogid, $parameters['category'][0], 'delete', array('visibility'=>$parameters['visibility'][0]));
+					updateCategoryByCategoryId($blogid, $parameters['category'][1], 'add', array('visibility'=>$parameters['visibility'][1]));
 
 					if(!is_null($oldparent))
-						updateCategoryByCategoryId($blogid, $oldparent, 'delete', array('visibility'=>$parameters['visibility'][0]));	
+						updateCategoryByCategoryId($blogid, $oldparent, 'delete', array('visibility'=>$parameters['visibility'][0]));
 					if(!is_null($newparent))
 						updateCategoryByCategoryId($blogid, $newparent, 'add', array('visibility'=>$parameters['visibility'][1]));
-				}	
+				}
 
 			} else {	// Same category case. should see the visibility change
 				if(isset($parameters['visibility']) && $parameters['visibility'][0] != $parameters['visibility'][1]) {
-					updateCategoryByCategoryId($blogid, $categoryId, 'update', $parameters);	
+					updateCategoryByCategoryId($blogid, $categoryId, 'update', $parameters);
 				}
 			}
 		default:
@@ -450,8 +461,13 @@ function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 	$ctx = Model_Context::getInstance();
 	clearCategoryCache();
 
+	$pool = DBModel::getInstance();
+
 	if ($categoryId == -1) {
-		$result = POD::queryAll("SELECT * FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent IS NULL");
+		$pool->reset("Categories");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("parent","eq",null);
+		$result = $pool->getAll();
 	} else {
 		$parent = getParentCategoryId($blogid, $categoryId);
 		if (empty($parent)) {	// It is parent.
@@ -459,26 +475,64 @@ function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 		} else {
 			$lookup = $parent;
 		}
-		$result = POD::queryAll("SELECT * FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND id = $lookup");	
+		$pool->reset("Categories");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$lookup);
+		$result = $pool->getAll();
 	}
-	
+
 	foreach($result as $row) {
 		$parent = $row['id'];
 		$parentName = Utils_Unicode::lessenAsEncoding($row['name'], 127);
-		$row['name'] = POD::escapeString($parentName);
-		$countParent = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = $parent");
-		$countInLoginParent = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND category = $parent");
-		$result2 = POD::queryAll("SELECT * FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent = $parent");
+		$row['name'] = $parentName;
+
+		$pool->reset("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("draft","eq",0);
+		$pool->setQualifier("visibility",">",0);
+		$pool->setQualifier("category","eq",$parent);
+		$countParent = $pool->getCount('id');
+
+		$pool->unsetQualifier("visibility");
+		$countInLoginParent = $pool->getCount('id');
+
+		$pool->reset("Categories");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("parent","eq",$parent);
+		$result2 = $pool->getAll();
+
 		foreach ($result2 as $rowChild) {
-			$label = POD::escapeString(Utils_Unicode::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255));
-			$rowChild['name'] = POD::escapeString(Utils_Unicode::lessenAsEncoding($rowChild['name'], 127));
-			$countChild = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND visibility > 0 AND category = {$rowChild['id']}");
-			$countInLogInChild = POD::queryCell("SELECT COUNT(id) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND category = {$rowChild['id']}");
-			POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Categories SET entries = $countChild, entriesinlogin = $countInLogInChild, label = '$label' WHERE blogid = $blogid AND id = {$rowChild['id']}");
+			$label = Utils_Unicode::lessenAsEncoding($parentName . '/' . $rowChild['name'], 255);
+			$rowChild['name'] = Utils_Unicode::lessenAsEncoding($rowChild['name'], 127);
+
+			$pool->reset("Entries");
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("draft","eq",0);
+			$pool->setQualifier("visibility",">",0);
+			$pool->setQualifier("category","eq",$rowChild['id']);
+			$countChild = $pool->getCount('id');
+
+			$pool->unsetQualifier("visibility");
+			$countInLogInChild = $pool->getCount('id');
+
+			$pool->reset("Categories");
+			$pool->setAttribute("entries",$countChild);
+			$pool->setAttribute("entriesinlogin",$countInLogInChild);
+			$pool->setAttribute("label",$label,true);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("id","eq",$rowChild['id']);
+			$pool->update();
+
 			$countParent += $countChild;
 			$countInLoginParent += $countInLogInChild;
 		}
-		POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Categories SET entries = $countParent, entriesinlogin = $countInLoginParent, label = '{$row['name']}' WHERE blogid = $blogid AND id = $parent");
+		$pool->reset("Categories");
+		$pool->setAttribute("entries",$countParent);
+		$pool->setAttribute("entriesinlogin",$countInLoginParent);
+		$pool->setAttribute("label",$row['name'],true);
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$parent);
+		$pool->update();
 	}
 	if($categoryId >=0) CacheControl::flushCategory($categoryId);
 	return true;
@@ -486,7 +540,8 @@ function updateEntriesOfCategory($blogid, $categoryId = - 1) {
 
 function moveCategory($blogid, $id, $direction) {
 	$ctx = Model_Context::getInstance();
-	
+	$pool = DBModel::getInstance();
+
 	if ($direction == 'up') {
 		$sign = '<';
 		$arrange = 'DESC';
@@ -504,27 +559,36 @@ function moveCategory($blogid, $id, $direction) {
 	$nextId = '';
 //	$nextParentId = '';
 	$nextPriority = '';
-	$sql = "SELECT
-				_parent.id AS parentId,
-				_parent.priority AS parentPriority,
-				_parent.parent AS parentParent,
-				_my.priority AS myPriority,
-				_my.parent AS myParent
-			FROM ".$ctx->getProperty('database.prefix')."Categories AS _my
-				LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories AS _parent ON _parent.id = _my.parent
-			WHERE _my.id = $id AND _my.blogid = $blogid";
-	$row = POD::queryRow($sql);
+	$pool->reset("Categories");
+	$pool->setAlias("Categories","c");
+	$pool->extend("Categories p","left",array("p.id","eq","c.parent"));
+	$pool->setQualifier("c.id","eq",$id);
+	$pool->setQualifier("c.blogid","eq",$blogid);
+	$row = $pool->getRow("p.id AS parentId, p.priority AS parentPriority, p.parent AS parentParent, c.priority AS myPriority, c.parent AS myParent");
 	$myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
 	$parentId = is_null($row['parentId']) ? 'NULL' : $row['parentId'];
 	$parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
 //	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
 	$myPriority = $row['myPriority'];
-	$sql = "SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent = $myId AND blogid = $blogid";
-	$myIsHaveChild = (POD::queryCell($sql) > 0) ? true : false;
-	$aux = $parentId == 'NULL' ? 'parent is null' : "parent = $parentId";
-	$sql = "SELECT id, parent, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE $aux AND blogid = $blogid AND id != 0 AND priority $sign $myPriority ORDER BY priority $arrange LIMIT 1";
+
+	$pool->reset("Categories");
+	$pool->setQualifier("parent","eq",$myId);
+	$pool->setQualifier("blogid","eq",$blogid);
+
+	$myIsHaveChild = ($pool->getCount() > 0) ? true : false;
+
+	$pool->reset("Categories");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","neq",0);
+	$pool->setQualifier("priority",$sign,$myPriority);
+	if ($parentId == 'NULL') {
+		$pool->setQualifier("parent","eq",null);
+	} else {
+		$pool->setQualifier("parent","eq",$parentId);
+	}
+	$pool->setOrder("priority",$arrange);
+	$row = $pool->getRow("id, parent, priority");
 //	$canMove = (POD::queryCount($sql) > 0) ? true : false;
-	$row = POD::queryRow($sql);
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 //	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
 	$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
@@ -532,134 +596,190 @@ function moveCategory($blogid, $id, $direction) {
 	if ($myParent == 'NULL') {
 		// 자신이 2 depth를 가지고 있고, 위치를 바꿀 대상 카테고리가 있는 경우.
 		if ($myIsHaveChild && $nextId != 'NULL') {
-			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-						SET
-							priority = $myPriority
-						WHERE
-							id = $nextId AND blogid = $blogid";
-			POD::query($sql);
-			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-						SET
-							priority = $nextPriority
-						WHERE
-							id = $myId AND blogid = $blogid";
-			POD::query($sql);
+			$pool->reset("Categories");
+			$pool->setAttribute("priority",$myPriority);
+			$pool->setQualifier("id","eq",$nextId);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->update();
+
+			$pool->reset("Categories");
+			$pool->setAttribute("priority",$nextPriority);
+			$pool->setQualifier("id","eq",$myId);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->update();
 		// 자신이 2 depth를 가지지 않은 1 depth 카테고리이거나, 위치를 바꿀 대상이 없는 경우.
 		} else {
 			// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-			$myName = POD::queryCell("SELECT name FROM ".$ctx->getProperty('database.prefix')."Categories WHERE id = $myId AND blogid = $blogid");
-			$overlapCount = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
+			$pool->reset("Categories");
+			$pool->setQualifier("id","eq",$myId);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$myName = $pool->getCell("name");
+
+			$pool->reset("Categories");
+			$pool->setAttribute("priority",$myPriority);
+			$pool->setQualifier("name","eq",$myName, true);
+			$pool->setQualifier("parent","eq",$nextId);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$overlapCount = $pool->getCount();
 			// 같은 이름이 없으면 이동 시작.
 			if ($overlapCount == 0) {
-				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-							SET
-								parent = $nextId
-							WHERE
-								id = $myId AND blogid = $blogid";
-				POD::query($sql);
-				$sql = "SELECT id, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent = $nextId AND blogid = $blogid ORDER BY priority DESC";
-				$row = POD::queryRow($sql);
+				$pool->reset("Categories");
+				$pool->setAttribute("parent",$nextId);
+				$pool->setQualifier("id","eq",$myId);
+				$pool->setQualifier("blogid","eq",$blogid);
+				$pool->update();
+
+				$pool->reset("Categories");
+				$pool->setQualifier("parent","eq",$nextId);
+				$pool->setQualifier("blogid","eq",$blogid);
+				$pool->setorder("priority","DESC");
+				$row = $pool->getRow("id,priority");
+
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId != 'NULL') {
-					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-								SET
-									priority = " . max($nextPriority, $myPriority) . "
-								WHERE
-									id = $nextId AND blogid = $blogid";
-					POD::query($sql);
-					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-								SET
-									priority = " . min($nextPriority, $myPriority) . "
-								WHERE
-									id = $myId AND blogid = $blogid";
-					POD::query($sql);
+					$pool->reset("Categories");
+					$pool->setAttribute("priority",max($nextPriority, $myPriority));
+					$pool->setQualifier("id","eq",$nextId);
+					$pool->setQualifier("blogid","eq",$blogid);
+					$pool->update();
+
+					$pool->reset("Categories");
+					$pool->setAttribute("priority",min($nextPriority, $myPriority));
+					$pool->setQualifier("id","eq",$myId);
+					$pool->setQualifier("blogid","eq",$blogid);
+					$pool->update();
 				}
 			// 같은 이름이 있으면.
 			} else {
-				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-							SET
-								priority = $myPriority
-							WHERE
-								id = $nextId AND blogid = $blogid";
-				POD::query($sql);
-				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-							SET
-								priority = $nextPriority
-							WHERE
-								id = $myId AND blogid = $blogid";
-				POD::query($sql);
+				$pool->reset("Categories");
+				$pool->setAttribute("priority",$myPriority);
+				$pool->setQualifier("id","eq",$nextId);
+				$pool->setQualifier("blogid","eq",$blogid);
+				$pool->update();
+
+				$pool->reset("Categories");
+				$pool->setAttribute("priority",$nextPriority);
+				$pool->setQualifier("id","eq",$myId);
+				$pool->setQualifier("blogid","eq",$blogid);
+				$pool->update();
 			}
 		}
 	// 이동할 자신이 2 depth일 때.
 	} else {
 		// 위치를 바꿀 대상이 1 depth이면.
 		if ($nextId == 'NULL') {
-			$myName = POD::escapeString(POD::queryCell("SELECT name FROM ".$ctx->getProperty('database.prefix')."Categories WHERE id = $myId and blogid = $blogid"));
-			$overlapCount = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE name = '$myName' AND parent IS NULL AND blogid = $blogid");
+			$pool->reset("Categories");
+			$pool->setQualifier("id","eq",$myId);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$myName = $pool->getCell("name");
+
+			$pool->reset("Categories");
+			$pool->setQualifier("name","eq",$myName, true);
+			$pool->setQualifier("parent","eq",null);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$overlapCount = $pool->getCount();
+
 			// 1 depth에 같은 이름이 있으면 2 depth로 직접 이동.
 			if ($overlapCount > 0) {
-				$sql = "SELECT id, parent, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent IS NULL AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
-				$result = POD::queryAll($sql);
+				$pool->reset("Categories");
+				$pool->setQualifier("parent","eq",null);
+				$pool->setQualifier("blogid","eq",$blogid);
+				$pool->setQualifier("priority",$sign,$parentPriority);
+				$pool->setOrder("priority",$arrange);
+				$result = $pool->getAll("id, parent, priority");
 				foreach($result as $row) {
 					$nextId = $row['id'];
 //					$nextParentId = $row['parent'];
 					$nextPriority = $row['priority'];
 
 					// 위치를 바꿀 대상 카테고리에 같은 이름이 존재하는지 판별.
-					$myName = POD::escapeString(POD::queryCell("SELECT name FROM ".$ctx->getProperty('database.prefix')."Categories WHERE id = $myId AND blogid = $blogid"));
-					$overlapCount = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Categories WHERE name = '$myName' AND parent = $nextId AND blogid = $blogid");
+					$pool->reset("Categories");
+					$pool->setQualifier("id","eq",$myId);
+					$pool->setQualifier("blogid","eq",$blogid);
+					$myName = $pool->getCell("name");
+
+					$pool->reset("Categories");
+					$pool->setQualifier("name","eq",$myName, true);
+					$pool->setQualifier("parent","eq",$nextId);
+					$pool->setQualifier("blogid","eq",$blogid);
+					$overlapCount = $pool->getCount();
+
 					// 같은 이름이 없으면 이동 시작.
 					if ($overlapCount == 0) {
-						$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-									SET
-										parent = $nextId
-									WHERE
-										id = $myId AND blogid = $blogid";
-						POD::query($sql);
-							break;
+						$pool->reset("Categories");
+						$pool->setAttribute("parent",$nextId);
+						$pool->setQualifier("id","eq",$myId);
+						$pool->setQualifier("blogid","eq",$blogid);
+						$pool->update();
+						break;
 					}
 				}
 			// 같은 이름이 없으면 1 depth로 이동.
 			} else {
-				$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories SET parent = NULL WHERE id = $myId AND blogid = $blogid";
-				POD::query($sql);
-				$sql = "SELECT id, priority FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent is null AND blogid = $blogid AND priority $sign $parentPriority ORDER BY priority $arrange";
-				$row = POD::queryRow($sql);
+				$pool->reset("Categories");
+				$pool->setAttribute("parent",null);
+				$pool->setQualifier("id","eq",$myId);
+				$pool->setQualifier("blogid","eq",$blogid);
+				$pool->update();
+
+				$pool->reset("Categories");
+				$pool->setQualifier("parent","eq",null);
+				$pool->setQualifier("blogid","eq",$blogid);
+				$pool->setQualifier("priority",$sign,$parentPriority);
+				$pool->setOrder("priority",$arrange);
+				$row = $pool->getRow("id, priority");
+
 				$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
 				$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 				if ($nextId == 'NULL') {
-					$operator = ($direction == 'up') ? '-' : '+';
-					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories SET priority = $parentPriority $operator 1 WHERE id = $myId AND blogid = $blogid";
-					POD::query($sql);
+					$newParentPriority = ($direction == 'up') ? $parentPriority - 1 :  $parentPriority + 1;
+					$pool->reset("Categories");
+					$pool->setAttribute("priority",$newParentPriority);
+					$pool->setQualifier("id","eq",$myId);
+					$pool->setQualifier("blogid","eq",$blogid);
+					$pool->update();
 				} else {
 					if ($direction == 'up') {
-						$aux = "SET priority = priority+1 WHERE priority >= $parentPriority AND blogid = $blogid";
-						$aux2 = "SET priority = $parentPriority WHERE id = $myId AND blogid = $blogid";
+						$pool->reset("Categories");
+						$pool->setAttribute("priority","priority+1",false);
+						$pool->setQualifier("priority",">=",$parentPriority);
+						$pool->setQualifier("blogid","eq",$blogid);
+						$pool->update();
+
+						$pool->reset("Categories");
+						$pool->setAttribute("priority",$parentPriority);
+						$pool->setQualifier("id","eq",$myId);
+						$pool->setQualifier("blogid","eq",$blogid);
+						$pool->update();
 					} else {
-						$aux = "SET priority = priority+1 WHERE priority >= $nextPriority AND blogid = $blogid";
-						$aux2 = "SET priority = $nextPriority WHERE id = $myId AND blogid = $blogid";
+						$pool->reset("Categories");
+						$pool->setAttribute("priority","priority+1",false);
+						$pool->setQualifier("priority",">=",$nextPriority);
+						$pool->setQualifier("blogid","eq",$blogid);
+						$pool->update();
+
+						$pool->reset("Categories");
+						$pool->setAttribute("priority",$nextPriority);
+						$pool->setQualifier("id","eq",$myId);
+						$pool->setQualifier("blogid","eq",$blogid);
+						$pool->update();
 					}
-					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories $aux";
-					POD::query($sql);
-					$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories $aux2";
-					POD::query($sql);
 				}
 			}
 		// 위치를 바꿀 대상이 2 depth이면 위치 교환.
 		} else {
-			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-						SET
-							priority = $myPriority
-						WHERE
-							id = $nextId AND blogid = $blogid";
-			POD::query($sql);
-			$sql = "UPDATE ".$ctx->getProperty('database.prefix')."Categories
-						SET
-							priority = $nextPriority
-						WHERE
-							id = $myId AND blogid = $blogid";
-			POD::query($sql);
+			$pool->reset("Categories");
+			$pool->setAttribute("priority",$myPriority);
+			$pool->setQualifier("id","eq",$nextId);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->update();
+
+			$pool->reset("Categories");
+			$pool->setAttribute("priority",$nextPriority);
+			$pool->setQualifier("id","eq",$myId);
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->update();
 		}
 	}
 	updateEntriesOfCategory($blogid);
@@ -667,12 +787,12 @@ function moveCategory($blogid, $id, $direction) {
 }
 
 function checkRootCategoryExistence($blogid) {
-	$pool = DBModel::getInstance();	
+	$pool = DBModel::getInstance();
 	$pool->reset('Categories');
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('id','eq',0);
 	$childCategories = $pool->getCount();
-		
+
 	if(!($pool->getCount())) {
 		$name = _text('전체');
 		$result = addCategory($blogid,null,$name,0);
@@ -708,8 +828,8 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 	if($id == 0) return false;
 	$parentVisibility = getParentCategoryVisibility($blogid, $id);
 	if ($parentVisibility!==false && $parentVisibility < 2) return false; // return without changing if parent category is set to hidden.
-	
-	$pool = DBModel::getInstance();	
+
+	$pool = DBModel::getInstance();
 	$pool->reset('Categories');
 	$pool->setAttribute('visibility',$visibility);
 	$pool->setQualifier('blogid','eq',$blogid);
@@ -725,18 +845,18 @@ function setCategoryVisibility($blogid, $id, $visibility) {
 
 function setChildCategoryVisibility($blogid, $id, $visibility) {
 	if($id == 0) return false;
-	$pool = DBModel::getInstance();	
+	$pool = DBModel::getInstance();
 	$pool->reset('Categories');
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('parent','eq',$id);
 	$childCategories = $pool->getColumn('id');
-	
+
 	if($childCategories!=false) {
 		foreach($childCategories as $childCategory) {
 			$pool->reset('Categories');
 			$pool->setAttribute('visibility',$visibility);
 			$pool->setQualifier('blogid','eq',$blogid);
-			$pool->setQualifier('id','eq',$childCategory);			
+			$pool->setQualifier('id','eq',$childCategory);
 			$result = $pool->update();
 			if($result == false) return false;
 		}

@@ -520,7 +520,7 @@ class DBModel extends Singleton implements IModel {
 				} else {
 					$clause .= strtoupper($property['type']).' JOIN '.$this->context->getProperty('database.prefix').$table.' ';
 				}
-				if (array_key_exists($table, $this->_object_aliases)) {
+				if (array_key_exists($table, $this->_object_aliases) && strpos($table,' ')===false) { // When same table is attached, second table should have blank with its alias. e.g. 'example e'
 					$clause .= $this->_object_aliases[$table].' ';
 				}
 				if (array_key_exists('relations',$property)) {
