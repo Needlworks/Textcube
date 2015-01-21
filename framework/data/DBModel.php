@@ -34,7 +34,7 @@ function doesExistTable($tablename) {
 /* 2.0.0.20150121 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
-	protected $_relations, $_glues, $_filters, $_order, $_limit, $table, $id, $_querysetCount;
+	protected $_relations, $_glues, $_filters, $_order, $_limit, $_group, $table, $id, $_querysetCount;
 	protected $_reservedFields, $_isReserved, $param;
 	protected $_extended_objects, $_object_aliases;
 
@@ -59,6 +59,7 @@ class DBModel extends Singleton implements IModel {
 		$this->_filters = array();
 		$this->_order = array();
 		$this->_limit = array();
+		$this->_group = array();
 		$this->_isReserved = array();
 		$this->_extended_objects = array();
 		$this->_object_aliases = array();
@@ -232,6 +233,30 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
+	public function setGroup() {
+		$nargs = func_num_args();
+		$args = func_get_args();
+		if ($nargs == 1 && get_type($args[0]) == 'array' ) {
+			foreach($args[0] as $a) {
+				$treatedArg = $this->_treatReservedFields($a);
+				if (!in_array($treatedArg,$this->_group)) {
+					array_push($this->_group, $treatedArg);
+				}
+			}
+		} else {
+			for ($i = 0; $i < $nargs; $i++) {
+				$treatedArg = $this->_treatReservedFields($args[$i]);
+				if (!in_array($treatedArg,$this->_group)) {
+					array_push($this->_group, $treatedArg);
+				}
+			}
+		}
+		return $this;
+	}
+
+	public function unsetGroup() {
+		$this->_group = array();
+	}
 	/// Extenders
 	public function setAlias($table, $alias) {
 		$this->_object_aliases[$table] = $alias;
@@ -460,6 +485,7 @@ class DBModel extends Singleton implements IModel {
 				}
 			}
 		}
+		if(!empty($this->_group)) $clause .= ' GROUP BY '. implode(",",$this->_group);
 		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
 		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
