@@ -31,10 +31,10 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 2.0.0.20150121 */
+/* 2.0.1.20150122 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
-	protected $_relations, $_glues, $_filters, $_order, $_limit, $_group, $table, $id, $_querysetCount;
+	protected $_relations, $_glues, $_filters, $_order, $_limit, $_statements, $_group, $table, $id, $_querysetCount;
 	protected $_reservedFields, $_isReserved, $param;
 	protected $_extended_objects, $_object_aliases;
 
@@ -56,6 +56,7 @@ class DBModel extends Singleton implements IModel {
 		$this->_relations = array();
 		$this->_projections = array();
 		$this->_glues = array();
+		$this->_statements = array();
 		$this->_filters = array();
 		$this->_order = array();
 		$this->_limit = array();
@@ -289,42 +290,50 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
+	/* Selects */
+	public function doesExist($field = '*', $options = null) {
+		$field = $this->_treatReservedFields($field);
+		$options = $this->_treatOptions($options);
+		return POD::queryExistence('SELECT '. $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+
+	public function getCell($field = '*', $options = null) {
+		$field = $this->_treatReservedFields($field);
+		$options = $this->_treatOptions($options);
+		return POD::queryCell('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
+	}
+
+	public function getRow($field = '*', $options = null) {
+		$field = $this->_treatReservedFields($field);
+		$options = $this->_treatOptions($options);
+		return POD::queryRow('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+	}
+
+	public function getColumn($field = '*', $options = null) {
+		$field = $this->_treatReservedFields($field);
+		$options = $this->_treatOptions($options);
+		return POD::queryColumn('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+	}
+
+	public function getAll($field = '*', $options = null) {
+		$field = $this->_treatReservedFields($field);
+		$options = $this->_treatOptions($options);
+		return POD::queryAll('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+	}
+
+	public function getCount($field = '*', $options = null) { /// Returns the 'selection count'
+		$field = $this->_treatReservedFields($field);
+		$options = $this->_treatOptions($options);
+		return POD::queryCell('SELECT '  . $options . ' COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+	}
+
+	public function getSize($field = '*', $options = null) { /// Returns the table size
+		$field = $this->_treatReservedFields($field);
+		$options = $this->_treatOptions($options);
+		return POD::queryCell('SELECT '  . $options . ' COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+	}
+
 	/* CRUDs */
-	public function doesExist($field = '*') {
-		$field = $this->_treatReservedFields($field);
-		return POD::queryExistence('SELECT '. $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
-	}
-
-	public function getCell($field = '*') {
-		$field = $this->_treatReservedFields($field);
-		return POD::queryCell('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
-	}
-
-	public function getRow($field = '*') {
-		$field = $this->_treatReservedFields($field);
-		return POD::queryRow('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
-	}
-
-	public function getColumn($field = '*') {
-		$field = $this->_treatReservedFields($field);
-		return POD::queryColumn('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
-	}
-
-	public function getAll($field = '*') {
-		$field = $this->_treatReservedFields($field);
-		return POD::queryAll('SELECT ' . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
-	}
-
-	public function getCount($field = '*') { /// Returns the 'selection count'
-		$field = $this->_treatReservedFields($field);
-		return POD::queryCell('SELECT COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
-	}
-
-	public function getSize($field = '*') { /// Returns the table size
-		$field = $this->_treatReservedFields($field);
-		return POD::queryCell('SELECT COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
-	}
-
 	public function insert($option = null) {
 		$this->id = null;
 		if (empty($this->table))
@@ -457,6 +466,13 @@ class DBModel extends Singleton implements IModel {
 		} else {
 			return $this->context->getProperty('database.prefix').$table;
 		}
+	}
+
+	protected function _treatOptions($options) {
+		if (!in_array(strtolower($options), array('distinct'))) {
+			return '';
+		}
+		return strtoupper($options);
 	}
 
 	protected function _makeWhereClause() {
