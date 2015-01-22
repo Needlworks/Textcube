@@ -27,7 +27,7 @@ Textcube supports various environments. However, you need at least one webserver
  * IIS 5.0 or above
   * with ISAPI Rewrite Filter
 * Language
- * PHP 5.2 or above
+ * PHP 5.3 or above
   * with iconv / gd module
 * Database Management System (Need at least one environment)
  * MySQL > 5.0 / MariaDB 5.1 with UTF-8 character set and collation setting

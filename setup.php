@@ -10,10 +10,10 @@ ini_set('display_errors', 'on');
 define('ROOT','.');
 require ROOT.'/framework/id/textcube/config.default.php';
 
-if (version_compare(PHP_VERSION,'5.2.0', '<')) {
+if (version_compare(PHP_VERSION,'5.3.0', '<')) {
 	if(!isset($service['forceinstall']) || $service['forceinstall'] != true) {
 	    header('HTTP/1.1 503 Service Unavailable');
-		echo "PHP Version mismatch. You need at least PHP 5.2.0 to install this version of Textcube.";
+		echo "PHP Version mismatch. You need at least PHP 5.3.0 to install this version of Textcube.";
 		exit;
 	}
 }
@@ -578,10 +578,10 @@ xml_set_object
             if (!function_exists($function))
                 array_push($required, $function);
         }
-		if (version_compare(PHP_VERSION, '5.2.0') === -1 && ( !isset( $service['forceinstall'] ) || $service['forceinstall']==false) ) {
+		if (version_compare(PHP_VERSION, '5.3.0') === -1 && ( !isset( $service['forceinstall'] ) || $service['forceinstall']==false) ) {
 			$error = 4;
 ?>
-                <span style="color:red"><?php echo _f('PHP 버전이 낮습니다. 설치를 위해서는 최소한 %1 이상의 버전이 필요합니다.','5.2.0');?></span>
+                <span style="color:red"><?php echo _f('PHP 버전이 낮습니다. 설치를 위해서는 최소한 %1 이상의 버전이 필요합니다.','5.3.0');?></span>
 <?php
 		} else if (count($required) == 0) {
 ?>
