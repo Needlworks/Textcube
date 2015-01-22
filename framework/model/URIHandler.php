@@ -9,9 +9,6 @@ final class Model_URIHandler extends Singleton
 {
 	public $uri, $suri;
 	public static $blogid;
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-	}
 
 	public function __construct() {
 		$this->__URIInterpreter();

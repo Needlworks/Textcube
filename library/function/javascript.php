@@ -28,7 +28,7 @@ function filterJavaScript($str, $removeScript = true) {
 				$strippedTag = str_replace($attribute, '', $strippedTag);
 			$str = str_replace($tag, $strippedTag, $str);
 		}
-		$str = preg_replace('/&#x0*([0-9ad]{1,2});?/ie', "chr(hexdec('\\1'))", $str);
+		$str = preg_replace_callback('/&#x0*([0-9ad]{1,2});?/i', function($pattern) { return "chr(hexdec('".$pattern[1]."'))";},$str);
 		$patterns = array(
 			'/<\/?iframe.*?>/si',
 			'/<script.*?<\/script>/si',
@@ -37,7 +37,7 @@ function filterJavaScript($str, $removeScript = true) {
 			'/j\s*?a\s*?v\s*?a\s*?s\s*?c\s*?r\s*?i\s*?p\s*?t\s*?:/si',
 			'/<link.*?>/si'
 		);
-		$str = preg_replace($patterns, '', $str);
+		$str = preg_replace_callback($patterns, function($pattern) { return '';}, $str);
 	} else
 		$str = str_replace('<script', '<script defer="defer"', $str);
 	return $str;
@@ -48,5 +48,5 @@ function checkAjaxRequest() {
 		return true;
 	//else
 	//	return false;
-}	
+}
 ?>

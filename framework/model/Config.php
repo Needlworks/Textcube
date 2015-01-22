@@ -6,14 +6,10 @@
 final class Model_Config extends Singleton {
 	public $database, $service;
 
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-	}
-
 	public function __construct() {
 		$this->__basicConfigLoader('textcube');
 	}
-	
+
 	private function __basicConfigLoader($id) {
 		global $database, $service;	// For Legacy global variable support
 		$this->settings = array();
@@ -23,26 +19,26 @@ final class Model_Config extends Singleton {
 		// Map port setting.
 		if (@is_numeric($_SERVER['SERVER_PORT']) && ($_SERVER['SERVER_PORT'] != 80) && ($_SERVER['SERVER_PORT'] != 443))
 			$service['port'] = $_SERVER['SERVER_PORT'];
-		
+
 		// Include installation configuration.
 		if(!isset($service['session_cookie_path'])) $service['session_cookie_path'] = '/';
 		// Set service path.
 		if(isset($serviceURL)) $service['serviceURL'] = $serviceURL;
 		// Set resource path.
 		if($service['externalresources']) {
-			if(isset($service['resourceURL']) && !empty($service['resourceURL'])) 
+			if(isset($service['resourceURL']) && !empty($service['resourceURL']))
 				$service['resourcepath'] = $service['resourceURL'];
-			else 
+			else
 				$service['resourcepath'] = TEXTCUBE_RESOURCE_URL;
 		} else {
 			$service['resourcepath'] = $service['path'].'/resources';
 		}
-		
+
 		// Database setting.
 		if(isset($service['dbms'])) {
 			if($service['dbms'] == 'mysql' && class_exists('mysqli')) $service['dbms'] = 'mysqli';
 		}
-		
+
 		// Session cookie patch.
 		if(!empty($service['domain']) && strstr( $_SERVER['HTTP_HOST'], $service['domain'] ) ) {
 			$service['session_cookie_domain'] = $service['domain'];
@@ -88,9 +84,9 @@ final class Model_Config extends Singleton {
 		}
 		return $val;
 	}
-	
+
 	public function set($category, $name, $value) {
-		$this->$category[$name] = $value;	
+		$this->$category[$name] = $value;
 	}
 }
 

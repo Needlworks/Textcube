@@ -4,61 +4,34 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /// Singleton implementation.
-if(version_compare(PHP_VERSION, '5.3.0','>=')) { // >= 5.3 Singleton implementation 
-	class Singleton {
-		// If your model support higher than PHP 5.3, you do not implement getInstance method.
-		// However, models for prior to PHP 5.3 should have getInstance method. 
-		// See below (<5.3 Compatible singleton implementation) 
-		private static $instances;
+class Singleton {
+	// If your model support higher than PHP 5.3, you do not need to implement getInstance method.
+	// However, models for prior to PHP 5.3 should have getInstance method.
+	// See below (<5.3 Compatible singleton implementation)
+	private static $instances;
 
-		public function __construct() {
-			$c = get_class($this);
-			if(isset(self::$instances[$c])) {
-				throw new Exception('You can not create more than one copy of a singleton.');
-			} else {
-				self::$instances[$c] = $this;
-			}
-		}
-		public static function _getInstance($p = null) {
-			$c = get_called_class();
-			if (!isset(self::$instances[$c])) {
-				$args = func_get_args();
-				$reflection_object = new ReflectionClass($c);
-				self::$instances[$c] = $reflection_object->newInstanceArgs($args);
-			}
-			return self::$instances[$c];
-		}
-		public static function getInstance() {
-			return self::_getInstance();
-		}
-		public function __clone() {
-			throw new Exception('You can not clone a singleton.');
+	public function __construct() {
+		$c = get_class($this);
+		if(isset(self::$instances[$c])) {
+			throw new Exception('You can not create more than one copy of a singleton.');
+		} else {
+			self::$instances[$c] = $this;
 		}
 	}
-} else { //  < 5.3 Compatible Singleton implementation.
-	class Singleton {
-		private static $instances = array();
-
-		protected function __construct() {
+	public static function _getInstance($p = null) {
+		$c = get_called_class();
+		if (!isset(self::$instances[$c])) {
+			$args = func_get_args();
+			$reflection_object = new ReflectionClass($c);
+			self::$instances[$c] = $reflection_object->newInstanceArgs($args);
 		}
-
-		final protected static function _getInstance($className) {
-			if (!array_key_exists($className, self::$instances)) {
-				self::$instances[$className] = new $className();
-			}
-			return self::$instances[$className];
-		}
-
-		/*
-		// If your model support prior to PHP 5.3, you should implement this method to the final class. 
-		// (An example is below.)
-		// This is mainly because "late static bindings" is supported after PHP 5.3.
-
-		public static function getInstance() {
-			return self::_getInstance(__CLASS__);
-		}
-		*/
-		public static function getInstance(){}
+		return self::$instances[$c];
+	}
+	public static function getInstance() {
+		return self::_getInstance();
+	}
+	public function __clone() {
+		throw new Exception('You can not clone a singleton.');
 	}
 }
 
@@ -94,7 +67,7 @@ final class Validator {
 	**/
 
 	private static $queue;
-	
+
 	static function addRule($iv) {
 		if(empty(self::$queue)) self::$queue = array('GET'=>array(),'POST'=>array(),'REQUEST'=>array(),'SERVER'=>array(),'FILES'=>array());
 		if(isset($iv['GET'])) self::$queue['GET'] = array_merge(self::$queue['GET'],$iv['GET']);
@@ -106,7 +79,7 @@ final class Validator {
 	static function isValid() {
 		return self::validate(self::$queue);
 	}
-	
+
 	static function validate(&$iv) {
 		if (isset($iv['GET'])) {
 			if (!Validator::validateArray($_GET, $iv['GET']))
@@ -332,7 +305,7 @@ final class Validator {
 	/**
 	 *	Valid: Jan 1 1971 ~ Dec 31 2037 GMT
 	 */
-	
+
 	static function timestamp($value) {
 		return (Validator::isInteger($value) && ($value >= 31536000) && ($value < 2145916800));
 	}
@@ -629,11 +602,11 @@ final class Timestamp {
 	static function getUNIXtime($time = null) {
 		return intval(isset($time) ? date('U', $time) : date('U'));
 	}
-		
+
 	static function getHumanReadablePeriod($time = null) {
 		$deviation = abs(Timestamp::getUNIXtime($time));
 		if ($deviation < 60) {
-			return _f('%1초',$deviation);		
+			return _f('%1초',$deviation);
 		} else if ($deviation < 3600) {
 			return _f('%1분',intval($deviation/60));
 		} else if ($deviation < 86400) {
@@ -642,16 +615,16 @@ final class Timestamp {
 			return _f('%1일',intval($deviation/86400));
 		} else {
 			return _f('%1주',intval($deviation/604800));
-		}					
-	}	
-	
+		}
+	}
+
 	static function getHumanReadable($time = null, $from = null) {
 		if(is_null($from)) $deviation = Timestamp::getUNIXtime() - Timestamp::getUNIXtime($time);
 		else $deviation = Timestamp::getUNIXtime($from) - Timestamp::getUNIXtime($time);
 
 		if($deviation > 0) { // Past.
 			if ($deviation < 60) {
-				return _f('%1초 전',$deviation);		
+				return _f('%1초 전',$deviation);
 			} else if ($deviation < 3600) {
 				return _f('%1분 전',intval($deviation/60));
 			} else if ($deviation < 86400) {
@@ -664,7 +637,7 @@ final class Timestamp {
 		} else {
 			$deviation = abs($deviation);
 			if ($deviation < 60) {
-				return _f('%1초 후',$deviation);		
+				return _f('%1초 후',$deviation);
 			} else if ($deviation < 3600) {
 				return _f('%1분 후',intval($deviation/60));
 			} else if ($deviation < 86400) {
@@ -673,9 +646,9 @@ final class Timestamp {
 				return _f('%1일 후',intval($deviation/86400));
 			} else {
 				return _f('%1주 후',intval($deviation/604800));
-			}			
-		}					
-	}	
+			}
+		}
+	}
 }
 
 final class Timer {

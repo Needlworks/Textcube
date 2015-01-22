@@ -8,10 +8,6 @@ class Utils_Image extends Singleton {
 		$this->reset();
 	}
 
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-	}
-
 	function reset() {
 		$this->extraPadding = 0;
 		$this->imageFile = NULL;

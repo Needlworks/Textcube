@@ -12,10 +12,6 @@ final class Model_Line extends DBModel {
 		$this->reset();
 	}
 
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-	}
-		
 	public function reset($param = null) {
 		parent::reset('Lines');
 		$this->id = null;

@@ -5,25 +5,28 @@
 
 final class Dispatcher {
 	private static $instances = array();
-	
+
 	public $uri, $interfacePath;
-	
-	protected function __construct() {
+
+	public function __construct() {
 		$this->pathSelector();
 		$this->URIinterpreter();
 	}
-	
-	final protected static function _getInstance($className) {
-		if (!array_key_exists($className, self::$instances)) {
-			self::$instances[$className] = new $className();
+
+	final protected static function _getInstance($p = null) {
+		$c = get_called_class();
+		if (!isset(self::$instances[$c])) {
+			$args = func_get_args();
+			$reflection_object = new ReflectionClass($c);
+			self::$instances[$c] = $reflection_object->newInstanceArgs($args);
 		}
-		return self::$instances[$className];
+		return self::$instances[$c];
 	}
-	
+
 	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-    }
-    
+		return self::_getInstance();
+	}
+
     private function pathSelector() {
     	define('__TEXTCUBE_CONFIG_FILE__',ROOT.'/config.php');
     	define('__TEXTCUBE_CACHE_DIR__',ROOT.'/cache');
@@ -78,7 +81,7 @@ final class Dispatcher {
 		if (strtok($part, '?') == 'setup.php') {require 'setup.php'; exit;}
 		$uri['fragment'] = explode('/',strtok($uri['input'],'?'));
 		unset($part);
-	
+
 		/* Check the existence of config.php (whether installed or not) */
 		if (!file_exists(ROOT.'/config.php')) {
 			if (file_exists('.htaccess')) {print "<html><body>Remove '.htaccess' file first!</body></html>";exit;}
@@ -89,13 +92,13 @@ final class Dispatcher {
 		if(defined('__TEXTCUBE_NO_FANCY_URL__')) $service['type'] = 'single';
 		switch ($service['type']) {
 			case 'path': // For path-based multi blog.
-				array_splice($uri['fragment'],0,1); 
+				array_splice($uri['fragment'],0,1);
 				$pathPart = ltrim(rtrim(strtok(strstr($uri['input'],'/'), '?'), '/'), '/');
 				break;
 			case 'single':
 				$pathPart = (strpos($uri['input'],'?') !== 0 ? ltrim(rtrim(strtok($uri['input'], '?'), '/'), '/') : '');
 				break;
-			case 'domain': default: 
+			case 'domain': default:
 				$pathPart = ltrim(rtrim(strtok($uri['fullpath'], '?'), '/'), '/');
 				if(!empty($service['path'])) $pathPart = ltrim($pathPart,$service['path']);
 				break;
@@ -127,7 +130,7 @@ final class Dispatcher {
 						$uri['interfaceType'] = 'blog';
 						break;
 				}
-			}	
+			}
 		} else {
 			$uri['interfaceType'] = 'blog';
 		}
@@ -138,25 +141,25 @@ final class Dispatcher {
 		} else {
 			if (!empty($uri['fragment'])) {
 				if (is_numeric(strtok(end($uri['fragment']), '&'))) {
-					array_pop($uri['fragment']);	
+					array_pop($uri['fragment']);
 					$pathPart = count($uri['fragment'])==1 ? null : implode('/', $uri['fragment']);
 				}
 				if(isset($uri['fragment'][0])) {
 					switch($uri['fragment'][0]) {
 						case 'api': case 'archive': case 'attachment': case 'author':
-						case 'category':  case 'cfeed': case 'checkup': case 'cover': case 'cron': 
-						case 'entry': case 'feeder': case 'foaf': case 'guestbook': case 'iMazing': 
-						case 'keylog': case 'line': case 'location': case 'locationSuggest': 
-						case 'logout': case 'notice': case 'page': case 'plugin': case 'pluginForOwner': 
+						case 'category':  case 'cfeed': case 'checkup': case 'cover': case 'cron':
+						case 'entry': case 'feeder': case 'foaf': case 'guestbook': case 'iMazing':
+						case 'keylog': case 'line': case 'location': case 'locationSuggest':
+						case 'logout': case 'notice': case 'page': case 'plugin': case 'pluginForOwner':
 						case 'search': case 'stream': case 'suggest': case 'tag': case 'ttxml':
-						case 'imageResizer':	
+						case 'imageResizer':
 							$pathPart = $uri['fragment'][0];
 							$interfacePath = 'interface/blog/'.$pathPart.'.php';
 							break;
 						case 'rss': case 'atom':
 							if(isset($uri['fragment'][1]) && in_array($uri['fragment'][1],array('archive','author','category','comment','line','notifyComment','response','search','tag','trackback'))) {
 								$pathPart = $uri['fragment'][0].'/'.$uri['fragment'][1];
-								$interfacePath = 'interface/'.$pathPart.'/index.php';							
+								$interfacePath = 'interface/'.$pathPart.'/index.php';
 							}
 							break;
 						case 'login': case 'owner': case 'control':
@@ -172,7 +175,7 @@ final class Dispatcher {
 							}
 					}
 				}
-				
+
 			}
 			if (empty($interfacePath)) $interfacePath = 'interface/'.(empty($pathPart) ? '' : $pathPart.'/').'index.php';
 			define('PATH', 'interface/'.(empty($pathPart) ? '' : $pathPart.'/'));

@@ -6,9 +6,6 @@
 final class Model_Context extends Singleton
 {
 	private $__property, $__namespace;
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-	}
 
 	function __construct() {
 	}

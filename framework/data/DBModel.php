@@ -43,10 +43,6 @@ class DBModel extends Singleton implements IModel {
 		$this->reset($table);
 	}
 
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-	}
-
 	public function reset($table = null, $param = null) {
 		if(!is_null($table)) $this->table = $table;
 		else $this->table = null;

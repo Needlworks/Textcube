@@ -6,9 +6,6 @@
 final class Utils_Browser extends Singleton
 {
 	private static $browserName;
-	public static function getInstance() {
-		return self::_getInstance(__CLASS__);
-	}
 
 	function __construct() {
 		$this->browserName = null;

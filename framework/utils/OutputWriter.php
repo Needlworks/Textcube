@@ -5,17 +5,17 @@
 class Utils_OutputWriter {
 	var $type = 'stdout';
 
-	function __construct() {
+	public function __construct() {
 		$this->_buffer = null;
 	}
 
-	function openStdout() {
+	public function openStdout() {
 		$this->type = 'stdout';
 		ob_start();
 		return true;
 	}
 
-	function openGZipStdout() {
+	public function openGZipStdout() {
 		if (!function_exists('ob_gzhandler'))
 			return false;
 		$this->type = 'gz.stdout';
@@ -23,14 +23,14 @@ class Utils_OutputWriter {
 		return true;
 	}
 
-	function openFile($filename) {
+	public function openFile($filename) {
 		if (!$this->_writer = fopen($filename, 'wb'))
 			return false;
 		$this->type = 'file';
 		return true;
 	}
 
-	function openGZip($filename) {
+	public function openGZip($filename) {
 		if (!function_exists('gzopen'))
 			return false;
 		if (!$this->_writer = gzopen($filename, 'wb'))
@@ -39,7 +39,7 @@ class Utils_OutputWriter {
 		return true;
 	}
 
-	function close() {
+	public function close() {
 		switch ($this->type) {
 			default:
 			case 'stdout':
@@ -59,7 +59,7 @@ class Utils_OutputWriter {
 		return $return;
 	}
 
-	function flush() {
+	public function flush() {
 		$this->_buffer = null;
 		switch ($this->type) {
 			default:
@@ -75,7 +75,7 @@ class Utils_OutputWriter {
 		}
 	}
 
-	function write($data = null) {
+	public function write($data = null) {
 		if($data == null) $data = $this->_buffer;
 		switch ($this->type) {
 			default:
@@ -92,11 +92,11 @@ class Utils_OutputWriter {
 		}
 	}
 
-	function buffer($data,$autoLineBreak = false) {
+	public function buffer($data,$autoLineBreak = false) {
 		$this->_buffer = $this->_buffer.($autoLineBreak ? CRLF : '').$data;
 	}
 
-//	function start($filename = null, $mode = 'wb', $compress = null) {
+//	public function start($filename = null, $mode = 'wb', $compress = null) {
 //		if (!empty($filename)) {
 //			if (empty($compress)) {
 //				if (!$this->fp = @fopen($filename, $mode))
@@ -116,7 +116,7 @@ class Utils_OutputWriter {
 //		return true;
 //	}
 //
-//	function end() {
+//	public function end() {
 //		if ($this->fp) {
 //			ob_end_clean();
 //			if ($this->compress)
@@ -129,7 +129,7 @@ class Utils_OutputWriter {
 //		}
 //	}
 //
-//	function write($string) {
+//	public function write($string) {
 //		if ($this->fp) {
 //			if ($this->compress)
 //				gzwrite($this->fp, $string);
