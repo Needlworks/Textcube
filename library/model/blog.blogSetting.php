@@ -563,23 +563,31 @@ function removeBlog($blogid) {
 		$pool->setQualifier('blogid','eq',$blogid);
 		$pool->delete();
 	}
-
 	//Delete Tags
-	$tags = POD::queryColumn("SELECT DISTINCT tag FROM ".$ctx->getProperty('database.prefix')."TagRelations WHERE blogid = $blogid");
-	if (count($tags) > 0)
-	{
-		$tagliststr = implode(', ', $tags);	// Tag id used at deleted blog.
-		$nottargets = POD::queryColumn("SELECT DISTINCT tag FROM ".$ctx->getProperty('database.prefix')."TagRelations WHERE tag in ( $tagliststr )");	// Tag id used at other blogs.
+	$pool->reset("TagRelations");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$tags = $pool->getColumn("tag","DISTINCT");
+	if (count($tags) > 0) {
+		$pool->reset("TagRelations");	// Tag id used at deleted blog.
+		$pool->setQualifier("tag","hasoneof",$tags);
+		$nottargets = $pool->getColumn("tag","DISTINCT");	// Tag id used at other blogs.
 		if (count($nottargets) > 0) {
-			$nottargetstr	= implode(', ', $nottargets);
-			POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."Tags WHERE id IN ( $tagliststr ) AND id NOT IN ( $nottargetstr )");
+			$pool->reset("Tags");
+			$pool->setQualifier("id","hasoneof",$tags);
+			$pool->setQualifier("id","hasnoneof",$nottargets);
+			$pool->delete();
 		} else {
-			POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."Tags WHERE id IN ( $tagliststr ) ");
+			$pool->reset("Tags");
+			$pool->setQualifier("id","hasoneof",$tags);
+			$pool->delete();
 		}
 	}
 
 	//Delete Feeds
-	$feeds = POD::queryColumn("SELECT DISTINCT feeds FROM ".$ctx->getProperty('database.prefix')."FeedGroupRelations WHERE blogid = $blogid");
+	$pool->reset("FeedGroupRelations");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$feeds = $pool->getColumn("feeds","DISTINCT");
+
 	if (count($feeds) > 0)
 	{
 		foreach($feeds as $feedId)
@@ -590,11 +598,13 @@ function removeBlog($blogid) {
 
 	//Clear Plugin Database
 	// TODO : encapsulate with 'value'
-	$query = "SELECT name, value FROM ".$ctx->getProperty('database.prefix')."ServiceSettings WHERE name like 'Database\\_%'";
-	$plugintablesraw = POD::queryAll($query);
+	$pool->reset("ServiceSettings");
+	$pool->setQualifier("name","like","Database_");
+	$plugintablesraw = $pool->getAll();
 	foreach($plugintablesraw as $table) {
-		$dbname = $ctx->getProperty('database.prefix') . substr($table['name'], 9);
-		POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."{$dbname} WHERE blogid = $blogid");
+		$pool->reset(substr($table['name'], 9));
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->delete();
 	}
 
 	//Clear RSS Cache
