@@ -74,6 +74,7 @@ class DBModel extends Singleton implements IModel {
 			}
 		}
 		if(!empty($param)) $this->param = $param;
+		return $this;
 	}
 
 	/// Attributes

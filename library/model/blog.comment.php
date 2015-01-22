@@ -17,7 +17,7 @@ function doesHaveOpenIDPriv(&$comment) {
 		return false;
 	}
 	$openid = POD::escapeString($openid);
-	
+
 	$pool = DBModel::getInstance();
 	$pool->reset('Comments');
 	$pool->setQualifier('blogid','eq',$blogid);
@@ -50,37 +50,61 @@ function decorateComment(&$comment){
 
 function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count, $isGuestbook = false) {
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 	$postfix = '';
-	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
-	else $userLimit = '';
-	$sql = "SELECT c.*, e.title, c2.name AS parentName
-		FROM ".$ctx->getProperty('database.prefix')."Comments c
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0$userLimit
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid
-		WHERE c.blogid = $blogid AND c.isfiltered = 0";
+
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM ".$ctx->getProperty('database.prefix')."Categories WHERE parent = $category");
+		$pool->reset("Categories");
+		$pool->setQualifier("parent","eq",$category);
+		$categories = $pool->getColumn("id");
 		array_push($categories, $category);
-		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
+	}
+
+	$pool->reset("Comments");
+	$pool->setAlias("Comments","c");
+	$extension = array(
+		array("c.blogid","eq","e.blogid"),
+		array("c.entry","eq","e.id"),
+		array("e.draft","eq",0)
+	);
+	if(!$isGuestbook && !Acl::check("group.editors")) {
+		array_push($extension,array("e.userid","eq",getUserId()));
+	}
+	$pool->setProjection("c.*","e.title","c2.name AS parentName");
+	$pool->setAlias("Entries","e");
+	$pool->extend("Entries","left",$extension);
+	$pool->extend("Comments c2","left",array(array("c.parent","eq","c2.id"),array("c.blogid","eq","c2.blogid")));
+	$pool->setQualifier("c.blogid","eq",$blogid);
+	$pool->setQualifier("c.isfiltered","eq",0);
+
+	if ($category > 0) {
+		$pool->setQualifier("e.category","hasoneof",$categories);
 		$postfix .= '&amp;category=' . rawurlencode($category);
-	} else
-		$sql .= ' AND e.category >= 0';
+	} else {
+		$pool->setQualifier("e.category",">=",0);
+	}
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
+		$pool->setQualifier("c.name","eq",$name,true);
 		$postfix .= '&amp;name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
+		$pool->setQualifier("c.ip","eq",$ip,true);
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
 		$search = escapeSearchString($search);
-		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
+		$searchRequest = array(
+				array("c.name","like",$search,true),
+				"OR",
+				array("c.homepage","like",$search,true),
+				"OR",
+				array("c.comment","like",$search,true)
+		);
+		$pool->setQualifierSet($searchRequest);
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
-
-	$sql .= ' ORDER BY c.written DESC';
-	list($comments, $paging) = Paging::fetch($sql, $page, $count);
+	$pool->setOrder("c.written","desc");
+	list($comments, $paging) = Paging::fetch($pool, $page, $count);
 	if (strlen($postfix) > 0) {
 		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
@@ -91,28 +115,40 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 
 function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $count) {
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 	$postfix = '&amp;status=guestbook';
 
-	$sql = "SELECT c.*, c2.name AS parentName
-		FROM ".$ctx->getProperty('database.prefix')."Comments c
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid
-		WHERE c.blogid = $blogid AND c.entry = 0 AND c.isfiltered = 0";
+
+	$pool->reset("Comments");
+	$pool->setAlias("Comments","c");
+	$pool->extend("Comments c2","left",array(array("c.parent","eq","c2.id"),array("c.blogid","eq","c2.blogid")));
+	$pool->setQualifier("c.blogid","eq",$blogid);
+	$pool->setQualifier("c.entry","eq",0);
+	$pool->setQualifier("c.isfiltered","eq",0);
+	$pool->setProjection("c.*","c2.name AS parentName");
 	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
+		$pool->setQualifier("c.name","eq",$name,true);
 		$postfix .= '&amp;name=' . rawurlencode($name);
 	}
 	if (!empty($ip)) {
-		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
+		$pool->setQualifier("c.ip","eq",$ip,true);
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
 	}
 	if (!empty($search)) {
 		$search = escapeSearchString($search);
-		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
+		$searchRequest = array(
+			array("c.name","like",$search,true),
+			"OR",
+			array("c.homepage","like",$search,true),
+			"OR",
+			array("c.comment","like",$search,true)
+		);
+		$pool->setQualifierSet($searchRequest);
 		$postfix .= '&amp;search=' . rawurlencode($search);
 	}
 
-	$sql .= ' ORDER BY c.written DESC';
-	list($comments, $paging) = Paging::fetch($sql, $page, $count);
+	$pool->setOrder("c.written","desc");
+	list($comments, $paging) = Paging::fetch($pool, $page, $count);
 	if (strlen($postfix) > 0) {
 		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
@@ -321,9 +357,9 @@ function getCommentComments($parent,$parentComment=null) {
 	$pool->setQualifier('parent','eq',$parent);
 	$pool->setQualifier('isfiltered','eq',0);
 	$pool->setOrder('written');
-	
-	$row = $pool->getRow();	
-	
+
+	$row = $pool->getRow();
+
 	if ($result = $pool->getAll()) {
 		if( $parentComment == null ) {
 			$pool->reset('Comments');
@@ -368,7 +404,7 @@ function getComment($blogid, $id, $password, $restriction = true) {
 	$pool->reset('Comments');
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('id','eq',$id);
-	
+
 	if($restriction == true) {
 		if (!doesHaveOwnership()) {
 			if (doesHaveMembership())
@@ -410,7 +446,7 @@ function updateCommentsOfEntry($blogid, $entryId) {
 	$pool->setQualifier('entry','eq',$entryId);
 	$pool->setQualifier('isfiltered','eq',0);
 	$commentCount = $pool->getCell('COUNT(*)');
-	
+
 	$pool->reset('Entries');
 	$pool->setAttribute('comments',$commentCount);
 	$pool->setQualifier('blogid','eq',$blogid);
@@ -430,7 +466,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 		WHERE blogid = $blogid
 			AND id = $entryId
 			AND draft = 0
-			AND visibility = 3 
+			AND visibility = 3
 			AND acceptcomment = 1")) {
 		$rpc = new XMLRPC();
 		$rpc->url = TEXTCUBE_SYNC_URL;
@@ -446,7 +482,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 
 function addComment($blogid, & $comment) {
 	$pool = DBModel::getInstance();
-		
+
 	$openid = Acl::getIdentity('openid');
 	$filtered = 0;
 
@@ -508,7 +544,7 @@ function addComment($blogid, & $comment) {
 	$comment0 = $comment['comment'];
 	$filteredAux = ($filtered == 1 ? Timestamp::getUNIXtime() : 0);
 	$insertId = getCommentsMaxId() + 1;
-	
+
 	$pool->reset('Comments');
 	$pool->setAttribute('blogid',$blogid);
 	$pool->setAttribute('replier',$comment['replier']);
@@ -528,8 +564,8 @@ function addComment($blogid, & $comment) {
 	$pool->setAttribute('ip',$comment['ip'],true);
 	$pool->setAttribute('written',Timestamp::getUNIXtime());
 	$pool->setAttribute('isfiltered',$filteredAux);
-	$result = $pool->insert();	
-	
+	$result = $pool->insert();
+
 	if ($result) {
 		$id = $insertId;
 		if($filtered != 1) {
@@ -589,7 +625,7 @@ function updateComment($blogid, $comment, $password) {
 	if ($pool->doesExist()) {
 		$guestcomment = true;
 	}
-	
+
 	$pool->reset('Comments');
 
 	$setPassword = '';
@@ -598,7 +634,7 @@ function updateComment($blogid, $comment, $password) {
 		$comment['replier'] = $userid;
 		$name = User::getName($userid);
 		$homepage = User::getHomepage($userid);
-		$pool->setAttribute('password','',true);		
+		$pool->setAttribute('password','',true);
 		if( empty($homepage) && $openid ) { $homepage = $openid; }
 	} else {
 		$name = $comment['name'];
@@ -607,7 +643,7 @@ function updateComment($blogid, $comment, $password) {
 		$homepage = $comment['homepage'];
 	}
 	$comment0 = $comment['comment'];
-	
+
 	$wherePassword = '';
 	if (!doesHaveOwnership()) {
 		if ($guestcomment == false) {
@@ -624,7 +660,7 @@ function updateComment($blogid, $comment, $password) {
 	}
 
 	$replier = is_null($comment['replier']) ? 'NULL' : "'{$comment['replier']}'";
-	
+
 	$pool->setAttribute('name',$name,true);
 	$pool->setAttribute('homepage',$homepage,true);
 	$pool->setAttribute('secret',$comment['secret']);
@@ -659,7 +695,7 @@ function deleteComment($blogid, $id, $entry, $password) {
 	if ($pool->doesExist()) {
 		$guestcomment = true;
 	}
-	
+
 	$wherePassword = '';
 	$pool->reset('Comments');
 	$pool->setQualifier('blogid','eq',$blogid);
@@ -695,7 +731,7 @@ function trashComment($blogid, $id, $entry, $password) {
 	if (!is_numeric($id)) return false;
 	if (!is_numeric($entry)) return false;
 
-	$pool = DBModel::getInstance();	
+	$pool = DBModel::getInstance();
 	$pool->reset('Comments');
 	$pool->setAttribute('isfiltered',Timestamp::getUNIXtime());
 	$pool->setQualifier('blogid','eq',$blogid);
@@ -725,7 +761,7 @@ function filterTrashComments($blogid,$id = null) {
 	if (!doesHaveOwnership()) {
 		return false;
 	}
-	$pool = DBModel::getInstance();	
+	$pool = DBModel::getInstance();
 	$pool->reset('Comments');
 	if (is_null($id)) {
 		$pool->setQualifier('blogid','eq',$blogid);
@@ -737,13 +773,13 @@ function filterTrashComments($blogid,$id = null) {
 			}
 		}
 	} else {
-		moveCommentToTrash($blogid, $id);		
+		moveCommentToTrash($blogid, $id);
 	}
 }
 
 function moveCommentToTrash($blogid, $id) {
 	// TODO: implement 'copy' method to DBModel and rewrite.
-	$pool = DBModel::getInstance();	
+	$pool = DBModel::getInstance();
 	$pool->reset('Comments');
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('id'    ,'eq',$id);
@@ -846,7 +882,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 }
 
 function getRecentGuestbook($blogid,$count = false) {
-	$ctx = Model_Context::getInstance();	
+	$ctx = Model_Context::getInstance();
 	$comments = array();
 	$sql = "SELECT r.*
 		FROM
@@ -914,7 +950,7 @@ function deleteCommentInOwner($blogid, $id) {
 			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
 			return true;
-		}			
+		}
 	}
 	return false;
 }
@@ -944,7 +980,7 @@ function trashCommentInOwner($blogid, $id) {
 function trashCommentInOwnerByIP($blogid, $ip) {
 	$pool = DBModel::getInstance();
 	$pool->reset('Comments');
-	
+
 	$pool->setQualifier('blogid','eq',$blogid);
 	$pool->setQualifier('ip','eq',$ip,true);
 	$ids = $pool->getColumn('id');
@@ -967,7 +1003,7 @@ function revertCommentInOwner($blogid, $id) {
 	if($pool->update()) {
 		if(!is_null($parent)) {
 			$pool->setQualifier('id','eq',$parent);
-		}	
+		}
 		if (is_null($parent) || $pool->update()) {
 			CacheControl::flushCommentRSS($entryId);
 			updateCommentsOfEntry($blogid, $entryId);
@@ -1101,11 +1137,11 @@ function receiveNotifiedComment($post) {
 	$child_written  = $post['r2_regdate'];
 	$child_comment  = $post['r2_body'];
 	$child_url      = Utils_Unicode::lessenAsEncoding($post['r2_url'],255);
-	
+
 	$pool->reset('CommentsNotifiedSiteInfo');
 	$pool->setQualifier('url','eq',$homepage);
 	$siteid = $pool->getCell('id');
-	
+
 	if (empty($siteid)) {
 		$insertId = getCommentsNotifiedSiteInfoMaxId() + 1;
 		$pool->reset('CommentsNotifiedSiteInfo');
@@ -1136,7 +1172,7 @@ function receiveNotifiedComment($post) {
 		$pool->setAttribute('parent',(empty($parent_parent) ? NULL : $parent_parent));
 		$pool->setAttribute('name',$parent_name,true);
 		$pool->setAttribute('password','',true);
-		$pool->setAttribute('homepage',$parent_homepage,true);		
+		$pool->setAttribute('homepage',$parent_homepage,true);
 		$pool->setAttribute('secret','',true);
 		$pool->setAttribute('comment',$parent_comment, true);
 		$pool->setAttribute('ip','',true);
@@ -1148,7 +1184,7 @@ function receiveNotifiedComment($post) {
 		$pool->setAttribute('remoteid',$parent_id);
 		$pool->setAttribute('entrytitle',$entrytitle,true);
 		$pool->setAttribute('entryurl',$entryurl,true);
-		
+
 		if(!$pool->insert()) {
 			return 3;
 		}
@@ -1169,7 +1205,7 @@ function receiveNotifiedComment($post) {
 	$pool->setAttribute('parent',$parentId);
 	$pool->setAttribute('name',$child_name,true);
 	$pool->setAttribute('password','',true);
-	$pool->setAttribute('homepage',$child_homepage,true);		
+	$pool->setAttribute('homepage',$child_homepage,true);
 	$pool->setAttribute('secret','',true);
 	$pool->setAttribute('comment',$child_comment, true);
 	$pool->setAttribute('ip','',true);
@@ -1195,7 +1231,7 @@ function receiveNotifiedComment($post) {
 function getCommentCount($blogid, $entryId = null) {
 	$pool = DBModel::getInstance();
 	$pool->reset('Entries');
-	$pool->setQualifier('blogid','eq',$blogid);		
+	$pool->setQualifier('blogid','eq',$blogid);
 	if (is_null($entryId)) {
 		$pool->setQualifier('draft','eq',0);
 		return $pool->getCell('SUM(comments)');
