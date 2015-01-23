@@ -46,12 +46,23 @@ function getSpecialEntriesTotalCount($blogid, $categoryId) {
 	return $pool->getCount('*');
 }
 
-function getEntries($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
+function getEntries($blogid, $attributes = '*', $condition = false, $order = array('published','DESC')) {
 	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+
 	if (!empty($condition))
-		$condition = 'AND ' . $condition;
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (userid = '.getUserId().' OR visibility > 0)' : '';
+		$pool->setQualifierSet($condition);
+	
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("visibility",">",0);
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array("userid","eq",getUserId()),"OR",array("visibility",">",0));
+	}
+	$pool->setOrder($order[0],$order[1]);
+	return $pool->getAll($attributes);
+
 	return POD::queryAll("SELECT $attributes FROM ".$context->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
 }
 

@@ -72,7 +72,7 @@ class DBModel extends Singleton implements IModel {
 		if(!empty($param)) $this->param = $param;
 		return $this;
 	}
-	
+
 	public function init($table = null, $param = null) {
 		return $this->reset($table, $param);
 	}
@@ -180,6 +180,9 @@ class DBModel extends Singleton implements IModel {
 		$nargs = func_num_args();
 		if ($nargs % 2 != 1) return false;
 		$args = func_get_args();
+		if ($nargs == 1 && is_array($args[0])) {
+			$args = $args[0];
+		}
 		$mqualifier = array();
 		$mrelation = array();
 		$mglue = array();
@@ -197,9 +200,7 @@ class DBModel extends Singleton implements IModel {
 				$mglue[$name] = $args[$i];
 			}
 		}
-		//$this->_qualifiers['QualifierSet'.$this->_querysetCount] = array();
-		//$this->_relations['QualifierSet'.$this->_querysetCount] = array();
-		//$this->_glues['QualifierSet'.$this->_querysetCount] = array();
+
 		$this->_qualifiers['QualifierSet'.$this->_querysetCount] = $mqualifier;
 		$this->_relations['QualifierSet'.$this->_querysetCount] = $mrelation;
 		$this->_glues['QualifierSet'.$this->_querysetCount] = $mglue;
@@ -272,7 +273,7 @@ class DBModel extends Singleton implements IModel {
 		return null;
 	}
 
-	public function extend($table, $type, $relations = null) {
+	public function join($table, $type, $relations = null) {
 		$this->_extended_objects[$table] = array();
 		if(!in_array(strtolower($type),array('left','inner','outer','equal'))) return false;
 		$this->_extended_objects[$table]['type'] = $type;
@@ -289,6 +290,10 @@ class DBModel extends Singleton implements IModel {
 			$this->_extended_objects[$table]['relations'] = implode(' AND ',$glues);
 		}
 		return $this;
+	}
+
+	public function extend($table, $type, $relation = null) {
+		return $this->join($table, $type, $relation);
 	}
 
 	/* Selects */
@@ -626,12 +631,13 @@ class DBModel extends Singleton implements IModel {
 				}
 				$qualifiers = $value;
 			} else {
+				if($relations == 'LIKE') {
+					if (substr($value,-1) != '%' && substr($value,0) != '%') {
+						$value = '%'.$value.'%';
+					}
+				}
 				$qualifiers = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions) || $autoquote == false) ?
-					$value : ($escape ? '\'' .
-						POD::escapeString(
-							(($relations == 'LIKE') ? '%'.$value.'%' : $value)
-						) .
-				'\'' : "'" . $value . "'"));
+					$value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 			}
 		}
 		return array($qualifiers, $relations);

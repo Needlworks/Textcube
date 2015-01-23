@@ -157,10 +157,11 @@ function getPrivateCategoryExclusionQuery($blogid) {
 	return '  AND e.category NOT IN ('.implode(',',$exclusionList).')';
 }
 
-function getPrivateCategoryExclusionId($blogid) {
+function getPrivateCategoryExclusionQualifier($pool) {
 	$exclusionList = getCategoryVisibilityList($blogid, 'private');
-	if(empty($exclusionList)) return null;
-	return '  AND e.category NOT IN ('.implode(',',$exclusionList).')';
+	if(empty($exclusionList)) return $pool;
+	$pool->setQualifier("e.category","hasnoneof",$exclusionList);
+	return $pool;
 }
 
 function getCategoriesSkin() {

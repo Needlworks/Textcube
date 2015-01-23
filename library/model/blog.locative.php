@@ -4,13 +4,19 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getLocatives($blogid) {
-	return getEntries($blogid, 'id, userid, title, slogan, location', 'length(location) > 1 AND category > -1', 'location');
+	return getEntries($blogid, 'id, userid, title, slogan, location', array(array('length(location)','>',1),'AND',array('category','>',-1)), 'location');
 }
 
 function suggestLocatives($blogid, $filter) {
-	global $database;
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("location","like",$filter.'%',true);
+	$pool->setGroup("location");
+	$pool->setOrder("cnt","desc");
+	$pool->setLimit(10);
+	$result = $pool->getAll("location, COUNT(*) cnt","distinct");
 	$locatives = array();
-	$result = POD::queryAll('SELECT DISTINCT location, COUNT(*) cnt FROM '.$database['prefix'].'Entries WHERE blogid = '.$blogid.' AND location LIKE "'.POD::escapeString($filter).'%" GROUP BY location ORDER BY cnt DESC LIMIT 10');
 	if ($result) {
 		foreach ($result as $locative) {
 			$locatives[] = $locative[0];

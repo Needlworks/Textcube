@@ -231,7 +231,7 @@ function GoogleMap_LocationLogView($target) {
 	global $pluginURL, $configVal;
 	$ctx->setProperty('is_used', true);
 	$config = Setting::fetchConfigVal($configVal);
-	$locatives =  getEntries($blogId, 'id, title, slogan, location, longitude, latitude','(length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL)', 'location');
+	$locatives =  getEntries($blogId, 'id, title, slogan, location, longitude, latitude','((length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL))', 'location');
 	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = isset($config['locative_maptype']) ? _GMap_convertLegacyMapType($config['locative_maptype']) : 'ROADMAP';

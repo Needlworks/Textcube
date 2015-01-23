@@ -72,8 +72,8 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 	}
 	$pool->setProjection("c.*","e.title","c2.name AS parentName");
 	$pool->setAlias("Entries","e");
-	$pool->extend("Entries","left",$extension);
-	$pool->extend("Comments c2","left",array(array("c.parent","eq","c2.id"),array("c.blogid","eq","c2.blogid")));
+	$pool->join("Entries","left",$extension);
+	$pool->join("Comments c2","left",array(array("c.parent","eq","c2.id"),array("c.blogid","eq","c2.blogid")));
 	$pool->setQualifier("c.blogid","eq",$blogid);
 	$pool->setQualifier("c.isfiltered","eq",0);
 
@@ -121,7 +121,7 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 
 	$pool->reset("Comments");
 	$pool->setAlias("Comments","c");
-	$pool->extend("Comments c2","left",array(array("c.parent","eq","c2.id"),array("c.blogid","eq","c2.blogid")));
+	$pool->join("Comments c2","left",array(array("c.parent","eq","c2.id"),array("c.blogid","eq","c2.blogid")));
 	$pool->setQualifier("c.blogid","eq",$blogid);
 	$pool->setQualifier("c.entry","eq",0);
 	$pool->setQualifier("c.isfiltered","eq",0);
@@ -264,16 +264,17 @@ function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url =
 	$comments = array();
 
 	$pool->reset("Comments");
+	$pool->setQualifier("blogid","eq",$blogid);
 	if($entryId != -1) {
-
-		$filter = 'AND entry = '.$entryId;
-	} else $filter = 'AND entry > 0';
-	$sql = "SELECT * FROM ".$ctx->getProperty('database.prefix')."Comments
-		WHERE blogid = $blogid $filter
-			AND parent IS NULL
-			AND isfiltered = 0
-		ORDER BY written ".($order == 'DESC' ? "DESC" : "ASC");
-	list($comments, $paging) = Paging::fetch($sql, $page, $count, $url, $prefix, $countItem);
+		$pool->setQualifier("entry","eq",$entryId);
+	} else {
+		$pool->setQualifier("entry",">",0);
+	}
+	$pool->setQualifier("parent","eq",null);
+	$pool->setQualifier("isfiltered","eq",0);
+	$pool->setOrder("written",($order == 'DESC' ? "DESC" : "ASC"));
+	$pool->setProjection("*");
+	list($comments, $paging) = Paging::fetch($pool, $page, $count, $url, $prefix, $countItem);
 	$paging['postfix'] = $postfix;
 	$comments = coverComments($comments);
 	return array($comments, $paging);
@@ -281,18 +282,26 @@ function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url =
 
 function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null) {
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 	$comments = array();
-	$sql = "SELECT r.*
-		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
-			INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
-			LEFT OUTER JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE
-			r.blogid = $blogid AND e.draft = 0 AND r.parent IS NULL".(doesHaveOwnership() ? "" : " AND e.visibility >= 2").getPrivateCategoryExclusionQuery($blogid)."
-			AND r.entry > 0 AND r.isfiltered = 0
-		ORDER BY
-			r.written DESC";
-	list($comments, $paging) = Paging::fetch($sql, $page, $count, $url, $prefix, $countItem);
+
+	$pool->reset("Comments");
+	$pool->setAlias("Comments","r");
+	$pool->join("Entries","inner",array(array("r.blogid","eq","e.blogid"),array("r.entry","eq","e.id"),array("e.draft","eq",0)));
+	$pool->setAlias("Entries","e");
+	$pool->join("Categories","left",array(array("e.blogid","eq","c.blogid"),array("e.category","eq","c.id")));
+	$pool->setAlias("Categories","c");
+	$pool->setQualifier("r.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("r.parent","eq",null);
+	if(!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">=",2);
+	}
+	$pool->setQualifier("r.entry",">",0);
+	$pool->setQualifier("r.isfiltered","eq",0);
+	$pool->setOrder("r.written","desc");
+	$pool = getPrivateCategoryExclusionQualifier($pool);
+	list($comments, $paging) = Paging::fetch($pool, $page, $count, $url, $prefix, $countItem);
 	$paging['postfix'] = $postfix;
 	$comments = coverComments($comments);
 	return array($comments, $paging);
