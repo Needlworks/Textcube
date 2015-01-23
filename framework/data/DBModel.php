@@ -72,6 +72,10 @@ class DBModel extends Singleton implements IModel {
 		if(!empty($param)) $this->param = $param;
 		return $this;
 	}
+	
+	public function init($table = null, $param = null) {
+		return $this->reset($table, $param);
+	}
 
 	/// Attributes
 	public function resetAttributes() {

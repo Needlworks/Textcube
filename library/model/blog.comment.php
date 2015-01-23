@@ -260,8 +260,12 @@ function getCommentCommentsNotified($parent) {
 function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null, $order = 'ASC') {
 
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 	$comments = array();
+
+	$pool->reset("Comments");
 	if($entryId != -1) {
+
 		$filter = 'AND entry = '.$entryId;
 	} else $filter = 'AND entry > 0';
 	$sql = "SELECT * FROM ".$ctx->getProperty('database.prefix')."Comments
