@@ -9,24 +9,28 @@ function RSSMessage($message) {
 }
 
 function refreshFeed($blogid, $mode = 'both') {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$result = POD::queryAll("SELECT 
-			e.*, 
-			c.name AS categoryName, 
-			u.name AS author,
-			u.loginid AS email
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c
-			ON e.blogid = c.blogid AND e.category = c.id
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Users u
-			ON e.userid = u.userid
-		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND e.category >= 0 AND (c.visibility > 1 OR e.category = 0)
-		ORDER BY e.published 
-		DESC LIMIT ".$ctx->getProperty('blog.entriesOnRSS'));
+
+	$pool->reset("Entries");
+	$pool->join("Categories","left",array(array("e.blogid","eq","c.blogid"),array("e.category","eq","c.id")));
+	$pool->join("Users","left",array(array("e.userid","eq","u.userid")));
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("Categories","c");
+	$pool->setAlias("Users","u");
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.visibility",">=",($context->getProperty("blog.publishEolinSyncOnRSS",false) ? 2 : 3));
+	$pool->setQualifierSet(array("c.visibility",">",1),"OR",array("e.category","eq",0));
+	$pool->setOrder("e.published","desc");
+	$pool->setLimit($context->getProperty("blog.entriesOnRSS"));
+
+	$result = $pool->getAll("e.*, c.name AS categoryName, u.name AS author, u.loginid AS email");
 	if (!$result)
 		$result = array();
+
 	$channel['items'] = getFeedItemByEntries($result);
 	// RSS
 	if($mode == 'both' || $mode == 'rss') {
@@ -76,7 +80,7 @@ function refreshFeed($blogid, $mode = 'both') {
 
 function initializeRSSchannel($blogid = null) {
 	$ctx = Model_Context::getInstance();
-	
+
 	if(empty($blogid)) $blogid = getBlogId();
 
 	$channel = array();
@@ -110,7 +114,7 @@ function getFeedItemByEntries($entries) {
 			$content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) ."?commentInput=true#entry".$row['id']."WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
 		}
 		$row['repliesCount'] = $row['comments'] + $row['trackbacks'];
-		
+
 		if(!isset($row['author']) && isset($row['userid'])) {
 			$row['author'] = User::getName($row['userid']);
 		}
@@ -118,15 +122,15 @@ function getFeedItemByEntries($entries) {
 			if(isset($row['categoryLabel'])) {
 				$row['categoryName'] = $row['categoryLabel'];
 			} else {
-				$row['categoryName'] = null;	
-			}	
+				$row['categoryName'] = null;
+			}
 		}
 		$item = array(
-			'id' => $row['id'], 
-			'title' => RSSMessage($row['title']), 
-			'link' => $entryURL, 
-			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => RSSMessage($row['author']), 
+			'id' => $row['id'],
+			'title' => RSSMessage($row['title']),
+			'link' => $entryURL,
+			'categories' => array(), 'description' => RSSMessage($content),
+			'author' => RSSMessage($row['author']),
 			'pubDate' => $row['published'],
 			'updDate' => $row['modified'],
 			'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
@@ -148,10 +152,10 @@ function getFeedItemByEntries($entries) {
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = POD::queryColumn("SELECT name 
-				FROM ".$ctx->getProperty('database.prefix')."Tags, 
-					".$ctx->getProperty('database.prefix')."TagRelations 
-				WHERE id = tag 
+		$tag_result = POD::queryColumn("SELECT name
+				FROM ".$ctx->getProperty('database.prefix')."Tags,
+					".$ctx->getProperty('database.prefix')."TagRelations
+				WHERE id = tag
 					AND entry = {$row['id']}
 					AND blogid = {$row['blogid']}
 				ORDER BY name");
@@ -170,12 +174,12 @@ function getFeedItemByLines($lines) {
 		$entryURL = $ctx->getProperty('uri.default') . '/line#' . ($row['id']);
 		$content = $row['content'];
 		$item = array(
-			'id' => $row['id'], 
-			'title' => RSSMessage(Timestamp::format5($row['created'])), 
-			'link' => $entryURL, 
-			'author' => RSSMessage($row['author']), 
-			'categories' => array(), 
-			'description' => RSSMessage($content), 
+			'id' => $row['id'],
+			'title' => RSSMessage(Timestamp::format5($row['created'])),
+			'link' => $entryURL,
+			'author' => RSSMessage($row['author']),
+			'categories' => array(),
+			'description' => RSSMessage($content),
 			'pubDate' => $row['created'],
 			'updDate' => $row['created'],
 			'guid' => $entryURL
@@ -202,7 +206,7 @@ function getResponseFeedTotal($blogid, $mode = 'rss') {
 }
 
 function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
-	$ctx = Model_Context::getInstance();	
+	$ctx = Model_Context::getInstance();
 	if(empty($blogid)) $blogid = getBlogId();
 
 	$entry = POD::queryRow("SELECT slogan, visibility, category FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId");
@@ -218,7 +222,7 @@ function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 	$recentTrackback = getTrackbackFeedByEntryId($blogid,$entryId,true,$mode);
 	$merged = array_merge($recentComment, $recentTrackback);
 	$channel['items'] = $merged;
-	
+
 	$rss = array('channel' => $channel);
 	if($mode == 'rss') return publishRSS($blogid, $rss);
 	else if($mode == 'atom') return publishATOM($blogid, $rss);
@@ -229,7 +233,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 	$ctx = Model_Context::getInstance();
 	$channel = initializeRSSchannel($blogid);
 	$channel['title'] = $ctx->getProperty('blog.title'). ': '._text('최근 댓글 목록');
-	
+
 	$result = getRecentComments($blogid, Setting::getBlogSettingGlobal('commentsOnRSS',20), false, true);
 	if (!$result)
 		$result = array();
@@ -239,11 +243,11 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 		$commentURL = $ctx->getProperty('uri.default')."/".$row['entry']."#comment";
 		$content = htmlspecialchars($row['comment']);
 		$item = array(
-			'id' => $row['id'], 
-			'title' => RSSMessage(Utils_Unicode::lessen($row['title'],30).' : '._textf('%1님의 댓글',$row['name'])), 
-			'link' => $commentURL.$row['id'], 
-			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => RSSMessage($row['name']), 
+			'id' => $row['id'],
+			'title' => RSSMessage(Utils_Unicode::lessen($row['title'],30).' : '._textf('%1님의 댓글',$row['name'])),
+			'link' => $commentURL.$row['id'],
+			'categories' => array(), 'description' => RSSMessage($content),
+			'author' => RSSMessage($row['name']),
 			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -260,7 +264,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 
 function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mode = 'rss') {
 	$ctx = Model_Context::getInstance();
-		
+
 	if(empty($blogid)) $blogid = getBlogId();
 
 	$entry = POD::queryRow("SELECT slogan, visibility, title, category FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId");
@@ -277,7 +281,7 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 	}
 	$result = POD::queryAll("SELECT *
 		FROM ".$ctx->getProperty('database.prefix')."Comments
-		WHERE blogid = ".$blogid." 
+		WHERE blogid = ".$blogid."
 			AND entry = ".$entryId."
 			AND isfiltered = 0");
 	if (!$result)
@@ -288,11 +292,11 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 		$commentURL = $channel['link']."#comment";
 		$content = htmlspecialchars($row['comment']);
 		$item = array(
-			'id' => $row['id'], 
-			'title' => RSSMessage(_textf('%1님의 댓글',$row['name'] )), 
-			'link' => $commentURL.$row['id'], 
-			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => RSSMessage($row['name']), 
+			'id' => $row['id'],
+			'title' => RSSMessage(_textf('%1님의 댓글',$row['name'] )),
+			'link' => $commentURL.$row['id'],
+			'categories' => array(), 'description' => RSSMessage($content),
+			'author' => RSSMessage($row['name']),
 			'pubDate' => $row['written'],
 			'comments' => $commentURL,
 			'guid' => $commentURL.$row['id']
@@ -322,11 +326,11 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 		$trackbackURL = $ctx->getProperty('uri.default')."/".$row['entry']."#trackback";
 		$content = htmlspecialchars($row['excerpt']);
 		$item = array(
-			'id' => $row['id'], 
-			'title' => RSSMessage($row['subject']), 
-			'link' => $trackbackURL.$row['id'], 
-			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => RSSMessage(htmlspecialchars($row['site'])), 
+			'id' => $row['id'],
+			'title' => RSSMessage($row['subject']),
+			'link' => $trackbackURL.$row['id'],
+			'categories' => array(), 'description' => RSSMessage($content),
+			'author' => RSSMessage(htmlspecialchars($row['site'])),
 			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -357,9 +361,9 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 	} else {
 		$channel['link'] = $ctx->getProperty('uri.default')."/".$entryId;
 	}
-	$result = POD::queryAll("SELECT * 
+	$result = POD::queryAll("SELECT *
 		FROM ".$ctx->getProperty('database.prefix')."RemoteResponses
-		WHERE blogid = ".$blogid." 
+		WHERE blogid = ".$blogid."
 			AND entry = ".$entryId."
 			AND isfiltered = 0
 			AND type = 'trackback'");
@@ -372,11 +376,11 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 		$trackbackURL = $channel['link']."#trackback";
 		$content = htmlspecialchars($row['excerpt']);
 		$item = array(
-			'id' => $row['id'], 
-			'title' => RSSMessage($row['subject']), 
-			'link' => $trackbackURL.$row['id'], 
-			'categories' => array(), 'description' => RSSMessage($content), 
-			'author' => RSSMessage(htmlspecialchars($row['site'])), 
+			'id' => $row['id'],
+			'title' => RSSMessage($row['subject']),
+			'link' => $trackbackURL.$row['id'],
+			'categories' => array(), 'description' => RSSMessage($content),
+			'author' => RSSMessage(htmlspecialchars($row['site'])),
 			'pubDate' => $row['written'],
 			'comments' => $trackbackURL,
 			'guid' => $trackbackURL.$row['id']
@@ -403,20 +407,20 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 		for ($j = 0; $j < count($result); $j++) {
 			array_push($mergedComments, $result[$j]);
 		}
-	}	
-	
+	}
+
 	if (!$mergedComments)
 		$mergedComments = array();
 
 	$channel['items'] = array();
 	foreach($mergedComments as $row) {
 		$item = array(
-			'id' => $row['id'], 
-			'title' => RSSMessage($row['entrytitle']), 
-			'link' => $row['url'], 
-			'categories' => array(), 
-			'description' => RSSMessage(htmlspecialchars($row['comment'])), 
-			'author' => RSSMessage(htmlspecialchars($row['name'])), 
+			'id' => $row['id'],
+			'title' => RSSMessage($row['entrytitle']),
+			'link' => $row['url'],
+			'categories' => array(),
+			'description' => RSSMessage(htmlspecialchars($row['comment'])),
+			'author' => RSSMessage(htmlspecialchars($row['name'])),
 			'pubDate' => $row['written'],
 			'comments' => $row['entryurl'],
 			'guid' => $row['url']
@@ -433,8 +437,8 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 	$ctx = Model_Context::getInstance();
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$entries = POD::queryAll("SELECT 
-			e.*, 
+	$entries = POD::queryAll("SELECT
+			e.*,
 			c.name AS categoryName,
 			u.name AS author,
 			u.loginid AS email
@@ -443,10 +447,10 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 			ON e.blogid = c.blogid AND e.category = c.id
 		LEFT JOIN ".$ctx->getProperty('database.prefix')."Users u
 			ON e.userid = u.userid
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t 
-			ON e.id = t.entry AND e.blogid = t.blogid 
+		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t
+			ON e.id = t.entry AND e.blogid = t.blogid
 		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND c.visibility > 1 AND t.tag = $tagId
-		ORDER BY e.published 
+		ORDER BY e.published
 		DESC LIMIT ".$ctx->getProperty('blog.entriesOnRSS'));
 	if (!$entries)
 		$entries = array();
@@ -458,8 +462,8 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
 	$search = escapeSearchString($search);
-	$entries = POD::queryAll("SELECT 
-			e.*, 
+	$entries = POD::queryAll("SELECT
+			e.*,
 			c.name AS categoryName,
 			u.name AS author,
 			u.loginid AS email
@@ -468,8 +472,8 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 			ON e.blogid = c.blogid AND e.category = c.id
 		LEFT JOIN ".$ctx->getProperty('database.prefix')."Users u
 			ON e.userid = u.userid
-		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND c.visibility > 1 AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%') 
-		ORDER BY e.published 
+		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND c.visibility > 1 AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')
+		ORDER BY e.published
 		DESC LIMIT ".$ctx->getProperty('blog.entriesOnRSS'));
 	if (!$entries)
 		$entries = array();
@@ -480,18 +484,18 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	$ctx = Model_Context::getInstance();
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$entries = POD::queryAll("SELECT 
-			e.*, 
-			c.name AS categoryName, 
+	$entries = POD::queryAll("SELECT
+			e.*,
+			c.name AS categoryName,
 			u.name AS author,
 			u.loginid AS email
-		FROM ".$ctx->getProperty('database.prefix')."Entries e 
+		FROM ".$ctx->getProperty('database.prefix')."Entries e
 		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c
 			ON e.blogid = c.blogid AND e.category = c.id
 		LEFT JOIN ".$ctx->getProperty('database.prefix')."Users u
 			ON e.userid = u.userid
 		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND e.category IN (".implode(',',$categoryIds).")
-		ORDER BY e.published 
+		ORDER BY e.published
 		DESC LIMIT ".$ctx->getProperty('blog.entriesOnRSS'));
 	return getFeedWithEntries($blogid, $entries, _textf('%1 카테고리 글 목록',$categoryTitle), $mode);
 }
@@ -516,14 +520,14 @@ function getLinesFeed($blogid, $category = 'public', $mode = 'atom') {
 	$context = Model_Context::getInstance();
 	$blogTitle = $context->getProperty('blog.title');
 	$channel = array();
-	$channel = initializeRSSchannel($blogid);	
+	$channel = initializeRSSchannel($blogid);
 	$lineobj = Model_Line::getInstance();
 	$lineobj->reset();
 	$lineobj->setFilter(array('created','bigger',Timestamp::getUNIXTime()-86400));
 	$lineobj->setFilter(array('blogid','equals',$blogid));
 	$lineobj->setFilter(array('category','equals',$category,true));
 	$lines = $lineobj->get();
-	
+
 	$channel['items'] = getFeedItemByLines($lines);
 	$channel['title'] = RSSMessage($blogTitle. ': '._text('Lines'));
 
@@ -568,7 +572,7 @@ function publishRSS($blogid, $data) {
 		echo '			<description>', htmlspecialchars($item['description'], ENT_QUOTES), '</description>', CRLF;
 		foreach ($item['categories'] as $category) {
 			if ($category = trim($category))
-				echo '			<category>', htmlspecialchars($category, ENT_QUOTES), '</category>', CRLF; 
+				echo '			<category>', htmlspecialchars($category, ENT_QUOTES), '</category>', CRLF;
 		}
 		if(!empty($item['email'])) {
 			echo '			<author>',$item['email'],' (', htmlspecialchars($item['author'], ENT_QUOTES), ')</author>', CRLF;
@@ -619,7 +623,7 @@ function publishATOM($blogid, $data) {
 		}
 		foreach ($item['categories'] as $category) {
 			if ($category = trim($category))
-				echo '    <category term="', htmlspecialchars($category, ENT_QUOTES), '" />', CRLF; 
+				echo '    <category term="', htmlspecialchars($category, ENT_QUOTES), '" />', CRLF;
 		}
 		if(isset($item['author'])) {
 			echo '    <author>', CRLF;
