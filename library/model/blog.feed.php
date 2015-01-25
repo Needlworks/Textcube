@@ -103,6 +103,7 @@ function initializeRSSchannel($blogid = null) {
 function getFeedItemByEntries($entries) {
 	$ctx = Model_Context::getInstance();
 	$channelItems = array();
+	$pool = DBModel::getInstance();
 	foreach($entries as $row) {
 		$entryURL = $ctx->getProperty('uri.default') . '/' . ($ctx->getProperty('blog.useSloganOnPost') ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
 
@@ -145,20 +146,24 @@ function getFeedItemByEntries($entries) {
 			$item['link'] = $ctx->getProperty('uri.default')."/".$row['id'];
 		}
 		if (!empty($row['id'])) {
-			$sql = "SELECT name, size, mime FROM ".$ctx->getProperty('database.prefix')."Attachments WHERE parent= {$row['id']} AND blogid = {$row['blogid']} AND enclosure = 1";
-			$attaches = POD::queryRow($sql);
+			$pool->reset("Attachments");
+			$pool->setQualifier("parent","eq",$row['id']);
+			$pool->setQualifier("blogid","eq",$row['blogid']);
+			$pool->setQualifier("enclosure","eq",1);
+			$attaches = $pool->getRow("name, size, mime");
 			if (count($attaches) > 0) {
 				$item['enclosure'] = array('url' => $ctx->getProperty('uri.service')."/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
 			}
 		}
 		array_push($item['categories'], $row['categoryName']);
-		$tag_result = POD::queryColumn("SELECT name
-				FROM ".$ctx->getProperty('database.prefix')."Tags,
-					".$ctx->getProperty('database.prefix')."TagRelations
-				WHERE id = tag
-					AND entry = {$row['id']}
-					AND blogid = {$row['blogid']}
-				ORDER BY name");
+		$pool->reset("Tags");
+		$pool->setAlias("Tags","t");
+		$pool->setAlias("TagRelations","r");
+		$pool->join("TagRelations","inner",array(array("t.id","eq","r.tag")));
+		$pool->setQualifier("r.entry","eq",$row['id']);
+		$pool->setQualifier("r.blogid","eq",$row['blogid']);
+		$pool->setOrder("name","desc");
+		$tag_result = $pool->getColumn("t.name AS name");
 		foreach($tag_result as $tag) {
 			array_push($item['categories'], $tag);
 		}
