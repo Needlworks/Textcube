@@ -213,8 +213,11 @@ function getResponseFeedTotal($blogid, $mode = 'rss') {
 function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 	$ctx = Model_Context::getInstance();
 	if(empty($blogid)) $blogid = getBlogId();
-
-	$entry = POD::queryRow("SELECT slogan, visibility, category FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId");
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entryId);
+	$entry = $pool->getRow("slogan,visibility,category");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -271,8 +274,12 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 	$ctx = Model_Context::getInstance();
 
 	if(empty($blogid)) $blogid = getBlogId();
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entryId);
+	$entry = $pool->getRow("slogan,visibility,title,category");
 
-	$entry = POD::queryRow("SELECT slogan, visibility, title, category FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -284,11 +291,11 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 	} else {
 		$channel['link'] = $ctx->getProperty('uri.default')."/".$entryId;
 	}
-	$result = POD::queryAll("SELECT *
-		FROM ".$ctx->getProperty('database.prefix')."Comments
-		WHERE blogid = ".$blogid."
-			AND entry = ".$entryId."
-			AND isfiltered = 0");
+	$pool->reset("Comments");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("entry","eq",$entryId);
+	$pool->setQualifier("isfiltered","eq",0);
+	$result = $pool->getAll();
 	if (!$result)
 		$result = array();
 
@@ -352,8 +359,12 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mode = 'rss') {
 	$ctx = Model_Context::getInstance();
 	if(empty($blogid)) $blogid = getBlogId();
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entryId);
+	$entry = $pool->getRow("slogan,visibility,category");
 
-	$entry = POD::queryRow("SELECT slogan, visibility, category FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId");
 	if(empty($entry)) return false;
 	if($entry['visibility'] < 2) return false;
 	if(in_array($entry['category'], getCategoryVisibilityList($blogid, 'private'))) return false;
@@ -366,12 +377,14 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 	} else {
 		$channel['link'] = $ctx->getProperty('uri.default')."/".$entryId;
 	}
-	$result = POD::queryAll("SELECT *
-		FROM ".$ctx->getProperty('database.prefix')."RemoteResponses
-		WHERE blogid = ".$blogid."
-			AND entry = ".$entryId."
-			AND isfiltered = 0
-			AND type = 'trackback'");
+
+	$pool->reset("RemoteResponses");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("entry","eq",$entryId);
+	$pool->setQualifier("isfiltered","eq",0);
+	$pool->setQualifier("type","eq","trackback",true);
+	$result = $pool->getAll();
+
 	if (!$result)
 		$result = array();
 
@@ -442,21 +455,28 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 	$ctx = Model_Context::getInstance();
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$entries = POD::queryAll("SELECT
-			e.*,
-			c.name AS categoryName,
-			u.name AS author,
-			u.loginid AS email
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c
-			ON e.blogid = c.blogid AND e.category = c.id
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Users u
-			ON e.userid = u.userid
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t
-			ON e.id = t.entry AND e.blogid = t.blogid
-		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND c.visibility > 1 AND t.tag = $tagId
-		ORDER BY e.published
-		DESC LIMIT ".$ctx->getProperty('blog.entriesOnRSS'));
+
+	$pool = DBModel::getInstance();
+
+	$pool->reset("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("Categories","c");
+	$pool->setAlias("Users","u");
+	$pool->setAlias("TagRelations","t");
+
+	$pool->extend("Categories","left",array(array("e.blogid","eq","c.blogid"),array("e.category","eq","c.id")));
+	$pool->extend("Users","left",array(array("e.userid","eq","u.userid")));
+	$pool->extend("TagRelations","left",array(array("e.id","eq","t.entry"),array("e.blogid","eq","t.blogid")));
+
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.visibility",">=",($ctx->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
+	$pool->setQualifier("c.visibility",">",1);
+	$pool->setQualifier("t.tag","eq",$tagId);
+	$pool->setOrder("e.published","desc");
+	$pool->setLimit($ctx->getProperty('blog.entriesOnRSS'));
+	$entries = $pool->getAll("e.*,c.name AS categoryName, u.name as author, u.loginid AS email");
+
 	if (!$entries)
 		$entries = array();
 	return getFeedWithEntries($blogid, $entries, _textf('%1 태그 글 목록',$tagTitle), $mode);
@@ -467,19 +487,28 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
 	$search = escapeSearchString($search);
-	$entries = POD::queryAll("SELECT
-			e.*,
-			c.name AS categoryName,
-			u.name AS author,
-			u.loginid AS email
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c
-			ON e.blogid = c.blogid AND e.category = c.id
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Users u
-			ON e.userid = u.userid
-		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND c.visibility > 1 AND (e.title LIKE '%$search%' OR e.content LIKE '%$search%')
-		ORDER BY e.published
-		DESC LIMIT ".$ctx->getProperty('blog.entriesOnRSS'));
+
+	$pool = DBModel::getInstance();
+
+	$pool->reset("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("Categories","c");
+	$pool->setAlias("Users","u");
+
+	$pool->extend("Categories","left",array(array("e.blogid","eq","c.blogid"),array("e.category","eq","c.id")));
+	$pool->extend("Users","left",array(array("e.userid","eq","u.userid")));
+
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.visibility",">=",($ctx->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
+	$pool->setQualifier("c.visibility",">",1);
+	$pool->setQualifierSet(array("e.title","like",$search,true),"OR",array("e.content","like",$search,true));
+
+	$pool->setOrder("e.published","desc");
+	$pool->setLimit($ctx->getProperty('blog.entriesOnRSS'));
+
+	$entries = $pool->getAll("e.*,c.name AS categoryName, u.name as author, u.loginid AS email");
+
 	if (!$entries)
 		$entries = array();
 	return getFeedWithEntries($blogid, $entries, _textf('%1 이 포함된 글 목록',$title), $mode);
@@ -489,19 +518,27 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 	$ctx = Model_Context::getInstance();
 	$channel = array();
 	$channel = initializeRSSchannel($blogid);
-	$entries = POD::queryAll("SELECT
-			e.*,
-			c.name AS categoryName,
-			u.name AS author,
-			u.loginid AS email
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c
-			ON e.blogid = c.blogid AND e.category = c.id
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Users u
-			ON e.userid = u.userid
-		WHERE e.blogid = $blogid AND e.draft = 0 AND e.visibility >= ".($ctx->getProperty('blog.publishEolinSyncOnRSS') ? '2' : '3')." AND e.category IN (".implode(',',$categoryIds).")
-		ORDER BY e.published
-		DESC LIMIT ".$ctx->getProperty('blog.entriesOnRSS'));
+
+	$pool = DBModel::getInstance();
+
+	$pool->reset("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("Categories","c");
+	$pool->setAlias("Users","u");
+
+	$pool->extend("Categories","left",array(array("e.blogid","eq","c.blogid"),array("e.category","eq","c.id")));
+	$pool->extend("Users","left",array(array("e.userid","eq","u.userid")));
+
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.visibility",">=",($ctx->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
+	$pool->setQualifier("e.category","hasoneof",$categoryIds);
+
+	$pool->setOrder("e.published","desc");
+	$pool->setLimit($ctx->getProperty('blog.entriesOnRSS'));
+
+	$entries = $pool->getAll("e.*, c.name AS categoryName, u.name as author, u.loginid AS email");
+
 	return getFeedWithEntries($blogid, $entries, _textf('%1 카테고리 글 목록',$categoryTitle), $mode);
 }
 
