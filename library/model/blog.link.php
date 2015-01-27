@@ -3,51 +3,68 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-global $__gCacheLink;
-$__gCacheLink = array();
-
 function getLinks($blogid, $sort="category") {
-	global $database, $__gCacheLink;
+	$context = Model_Context::getInstance();
+	$__gCacheLink = $context->getProperty("cache.links",array());
 	if(empty($__gCacheLink)) {
-		if ($result = POD::queryAll("SELECT l.*, lc.name AS categoryName
-			FROM {$database['prefix']}Links l
-			LEFT JOIN {$database['prefix']}LinkCategories lc ON lc.blogid = l.blogid AND lc.id = l.category
-			WHERE l.blogid = $blogid 
-			ORDER BY lc.name, l.name")) {
+		$pool = DBModel::getInstance();
+		$pool->init("Links");
+		$pool->setAlias("Links","l");
+		$pool->setAlias("LinkCategories","lc");
+		$pool->join("LinkCategories","left",array(array("lc.blogid","eq","l.blogid"),array("lc.id","eq","l.category")));
+		$pool->setQualifier("l.blogid","eq",$blogid);
+		$pool->setOrder("lc.name, l.name","desc");
+		if ($result = $pool->getAll("l.*, lc.name AS categoryName")) {
 			$__gCacheLink = array();
 			foreach($result as $link) {
 				array_push($__gCacheLink, $link);
 			}
+			$context->setProperty("cache.links",$__gCacheLink);
 		}
 	}
 	return $__gCacheLink;
 }
 
 function getLinksWithPagingForOwner($blogid, $page, $count) {
-	global $database;
-	return Paging::fetch("SELECT l.*, lc.name AS categoryName
-			FROM {$database['prefix']}Links l 
-			LEFT JOIN {$database['prefix']}LinkCategories lc ON lc.blogid = l.blogid AND lc.id = l.category
-			WHERE l.blogid = $blogid ORDER BY l.name", $page, $count );
+	$pool = DBModel::getInstance();
+	$pool->init("Links");
+	$pool->setAlias("Links","l");
+	$pool->setAlias("LinkCategories","lc");
+	$pool->join("LinkCategories","left",array(array("lc.blogid","eq","l.blogid"),array("lc.id","eq","l.category")));
+	$pool->setQualifier("l.blogid","eq",$blogid);
+	$pool->setOrder("l.name","desc");
+	$pool->setProjection("l.*","lc.name AS categoryName");
+
+	return Paging::fetch($pool, $page, $count );
 }
 
 function getLink($blogid, $id) {
-	global $database, $__gCacheLink;
-	return POD::queryRow("SELECT l.*, lc.name AS categoryName
-			FROM {$database['prefix']}Links l 
-			LEFT JOIN {$database['prefix']}LinkCategories lc ON lc.blogid = l.blogid AND lc.id = l.category
-			WHERE l.blogid = $blogid AND l.id = $id");
+	$pool = DBModel::getInstance();
+	$pool->init("Links");
+	$pool->setAlias("Links","l");
+	$pool->setAlias("LinkCategories","lc");
+	$pool->join("LinkCategories","left",array(array("lc.blogid","eq","l.blogid"),array("lc.id","eq","l.category")));
+	$pool->setQualifier("l.blogid","eq",$blogid);
+	$pool->setQualifier("l.id","eq",$id);
+	return $pool->getRow("l.*, lc.name AS categoryName");
 }
 
 function deleteLink($blogid, $id) {
-	global $database;
-	$result = POD::execute("DELETE FROM {$database['prefix']}Links WHERE blogid = $blogid AND id = $id");
+	$pool = DBModel::getInstance();
+	$pool->init("Links");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$result = $pool->delete();
 	return ($result) ? true : false;
 }
 
 function toggleLinkVisibility($blogid, $id, $visibility) {
-	global $database;
-	$result = POD::execute("UPDATE {$database['prefix']}Links SET visibility = $visibility WHERE blogid = $blogid AND id = $id");
+	$pool = DBModel::getInstance();
+	$pool->init("Links");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$pool->setAttribute("visibility",$visibility);
+	$result = $pool->update();
 	return array( ($result) ? true : false, $visibility );
 }
 
