@@ -4,15 +4,15 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getNoticesWithPaging($blogid, $search, $page, $count) {
-	global $database, $folderURL, $suri;
-	$aux = '';
+	$context = Model_Context::getInstance();
+	$pool = getDefaultDBModelOnNotice($blogid);
+
 	if (($search !== true) && $search) {
 		$search = escapeSearchString($search);
-		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
+		$pool->setQualifierSet(array("title","like",$search,true),"OR",array("content","like",$search,true));
 	}
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -2 $aux ORDER BY published DESC";
-	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
+
+	return Paging::fetch($pool, $page, $count, $context->getProperty("uri.folder")."/".$context->getProperty("suri.value"));
 }
 
 function getNotice($blogid, $id) {
