@@ -19,19 +19,27 @@ function getTagById($blogid, $id) {
 }
 
 function getTags($blogid, $entry) {
-	global $database;
 	$tags = array();
-	if (doesHaveOwnership())
-		$result = POD::queryAll("SELECT t.* FROM {$database['prefix']}Tags t
-			INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.tag = t.id AND r.entry = $entry AND r.tag = t.id
-			GROUP BY r.tag, t.id, t.name 
-			ORDER BY t.name");
-	else
-		$result = POD::queryAll("SELECT t.* FROM {$database['prefix']}Tags t
-			INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.entry = $entry AND r.tag = t.id
-			INNER JOIN {$database['prefix']}Entries e ON e.id = r.entry AND e.visibility > 0
-			GROUP BY r.tag, t.id, t.name
-			ORDER BY t.name");
+	$pool = DBModel::getInstance();
+	$pool->init("Tags");
+	$pool->setAlias("Tags","t");
+	$pool->setAlias("TagRelations","r");
+	$pool->join("TagRelations","inner",array(
+		array("r.blogid","eq",$blogid),
+		array("r.entry","eq",$entry),
+		array("r.tag","eq","t.id")
+	));
+	if (!doesHaveOwnership()) {
+		$pool->setAlias("Entries", "e");
+		$pool->join("Entries", "inner", array(
+			array("e.id", "eq", "r.entry"),
+			array("e.visibility", ">", 0)
+		));
+	}
+	$pool->setGroup("r.tag","t.id","t.name");
+	$pool->setOrder("t.name","desc");
+	$result = $pool->getAll("t.*");
+
 	if(!empty($result)) {
 		$tags = $result;
 	}
@@ -83,81 +91,82 @@ function getRandomTags($blogid) {
 }
 
 function getSiteTags($blogid) {
-	global $database;
-	if (doesHaveOwnership())
-		$names = POD::queryAll("SELECT t.id, name FROM {$database['prefix']}Tags t, 
-			{$database['prefix']}TagRelations r 
-			WHERE t.id = r.tag AND r.blogid = $blogid 
-			GROUP BY r.tag, t.id, name
-			ORDER BY t.name ASC
-			LIMIT 2000");
-	else
-		$names = POD::queryAll("SELECT t.id, t.name FROM {$database['prefix']}Tags t, 
-			{$database['prefix']}TagRelations r,
-			{$database['prefix']}Entries e
-			WHERE r.entry = e.id AND e.visibility > 0 AND t.id = r.tag AND r.blogid = $blogid 
-			GROUP BY r.tag, t.id, t.name
-			ORDER BY t.name ASC
-			LIMIT 2000");
+	$pool = DBModel::getInstance();
+	$pool->init("Tags");
+	$pool->setAlias("Tags","t");
+	$pool->setAlias("TagRelations","r");
+	$pool->join("TagRelations","inner",array(
+		array("r.blogid","eq",$blogid),
+		array("r.tag","eq","t.id")
+	));
+
+	if (!doesHaveOwnership()) {
+		$pool->setAlias("Entries", "e");
+		$pool->join("Entries", "inner", array(
+			array("e.id", "eq", "r.entry"),
+			array("e.visibility", ">", 0)
+		));
+	}
+	$pool->setGroup("r.tag","t.id","t.name");
+	$pool->setOrder("t.name","asc");
+	$pool->setLimit(2000);
+	$names = $pool->getAll("t.id, t.name");
 	if(!empty($names)) return $names;
 	else $names = array();
 	return $names;
 }
 
 function getTagFrequencyRange() {
-	global $database;
 	$blogid = getBlogId();
 	$max = $min = 0;
-	if (doesHaveOwnership())
-		$max = POD::queryCell("SELECT count(r.entry) AS cnt FROM {$database['prefix']}TagRelations r 
-			WHERE r.blogid = $blogid 
-			GROUP BY r.tag
-			ORDER BY cnt 
-			DESC LIMIT 1");
-	else
-		$max = POD::queryCell("SELECT count(r.entry) AS cnt FROM {$database['prefix']}TagRelations r
-			INNER JOIN {$database['prefix']}Entries e ON r.blogid = e.blogid AND e.visibility > 0 AND r.entry = e.id
-			WHERE r.blogid = $blogid 
-			GROUP BY r.tag 
-			ORDER BY cnt 
-			DESC LIMIT 1");
-/*	if (doesHaveOwnership())
-		$min = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r 
-			WHERE r.blogid = $blogid 
-			GROUP BY r.tag 
-			ORDER BY cnt 
-			LIMIT 1");
-	else
-		$min = POD::queryCell("SELECT count(r.entry) cnt FROM {$database['prefix']}TagRelations r
-			INNER JOIN {$database['prefix']}Entries e 
-				ON e.blogid = r.blogid AND e.visibility > 0 AND r.entry = e.id
-			WHERE r.blogid = $blogid 
-			GROUP BY r.tag 
-			ORDER BY cnt 
-			LIMIT 1");*/
+	$pool = DBModel::getInstance();
+	$pool->init("TagRelations");
+	$pool->setAlias("TagRelations","r");
+	$pool->setQualifier("r.blogid","eq",$blogid);
+	$pool->setGroup("r.tag");
+	$pool->setOrder("cnt","desc");
+
+	if(!doesHaveOwnership()) {
+		$pool->setAlias("Entries", "e");
+		$pool->join("Entries", "inner", array(
+			array("r.blogid", "eq", "e.blogid"),
+			array("e.visibility",">",0),
+			array("r.entry", "eq", "e.id")
+		));
+	}
+	$max = $pool->getCell("r.entry AS cnt");
 	$max = ($max === null ? 0 : $max);
-	//$min = ($min === null ? 0 : $min);
 	$min = 1;
 	return array($max, $min);
 }
 
 function getTagFrequency($tag, $max, $min) {
-	global $database;
+	$pool = DBModel::getInstance();
+
 	$blogid = getBlogId();
-	if (is_array($tag) && array_key_exists('cnt', $tag)) $count = $tag['cnt'];
-	else {
+	if (is_array($tag) && array_key_exists('cnt', $tag)) {
+		$count = $tag['cnt'];
+	} else {
 		if (!is_array($tag)) {
 			$tag = array('name' => $tag);
-		} 
-		if (doesHaveOwnership())
-			$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Tags t
-				INNER JOIN {$database['prefix']}TagRelations r ON r.tag = t.id AND r.blogid = $blogid
-				WHERE t.name = '" . POD::escapeString($tag['name']) . "'");
-		else
-			$count = POD::queryCell("SELECT count(*) FROM {$database['prefix']}Tags t
-				INNER JOIN {$database['prefix']}TagRelations r ON r.tag = t.id AND r.blogid = $blogid 
-				INNER JOIN {$database['prefix']}Entries e ON e.blogid = r.blogid AND e.id = r.entry AND e.visibility > 0 
-				WHERE t.name = '" . POD::escapeString($tag['name']) . "'");
+		}
+		$pool->init("Tags");
+		$pool->setAlias("Tags","t");
+		$pool->setAlias("TagRelations","r");
+		$pool->join("TagRelations","inner",array(
+			array("r.tag","eq","t.id"),
+			array("r.blogid","eq",$blogid)
+		));
+		$pool->setQualifier("t.name","eq",$tag['name'],true);
+
+		if (!doesHaveOwnership()) {
+			$pool->setAlias("Entries","e");
+			$pool->join("Entries","inner",array(
+				array("e.blogid","eq","r.blogid"),
+				array("e.id","eq","r.entry"),
+				array("e.visibility",">",0)
+			));
+		}
 	}
 	$dist = $max / 3;
 	if ($count == $min)
@@ -173,17 +182,22 @@ function getTagFrequency($tag, $max, $min) {
 }
 
 function suggestLocalTags($blogid, $filter) {
-	global $database;
 	$tags = array();
-	$result = POD::queryAll("SELECT DISTINCT t.name, count(*) AS cnt 
-		FROM {$database['prefix']}Tags t 
-		INNER JOIN {$database['prefix']}TagRelations r
-		WHERE t.id = r.tag 
-			AND r.blogid = $blogid
-			AND $filter
-		GROUP BY tag, t.name
-		ORDER BY cnt 
-		DESC LIMIT 10");
+	$pool->init("Tags");
+	$pool->setAlias("Tags","t");
+	$pool->setAlias("TagRelations","r");
+	$pool->join("TagRelations","inner",array(
+		array("t.id","eq","r.tag"),
+		array("r.blogid","eq",$blogid),
+
+	));
+	$pool->setGroup("tag","t.name");
+	$pool->setOrder("cnt","desc");
+	$pool->setLimit(10);
+	if (!is_null($filter)) {
+		$pool->setQualifier($filter[0],$filter[1],$filter[2],true);
+	}
+	$result = $pool->getAll("t.name, count(*) AS cnt",array("filter"=>"distinct"));
 	if ($result) {
 		foreach($result as $tag)
 			array_push($tags, $tag[0]);
@@ -193,16 +207,24 @@ function suggestLocalTags($blogid, $filter) {
 
 function deleteTagById($blogid, $id) {
 	global $database;
+	$pool = DBModel::getInstance();
+
+	$pool->init("TagRelations");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("tag","eq",$id);
 
 	/// delete relation
-	$result = POD::execute('DELETE FROM '.$database['prefix'].'TagRelations WHERE blogid = '.$blogid.' AND tag = '.$id);
+	$result = $pool->delete();
+
 	if (!$result) {
 		return false;
 	}
-	
-	$count = POD::queryCell('SELECT COUNT(*) FROM '.$database['prefix'].'TagRelations WHERE tag = '.$id);
+	$pool->unsetQualifier("blogid");
+	$count = $pool->getCount();
 	if (intval($count) == 0) {
-		POD::execute('DELETE FROM '.$database['prefix'].'Tags WHERE id = '.$id);
+		$pool->init("Tags");
+		$pool->setQualifier("id","eq",$id);
+		$pool->delete();
 	}
 
 	return true;
@@ -227,7 +249,6 @@ function renameTag($blogid, $id, $name) {
 	// 2. If tag with new name does not exist in this service, create new tag.
 	// 3. Modify the tag relation information
 	// 4. If older tag is not used anymore, drop the tag.
-	global $database;
 	$oldTagId = $id;
 	$newTagId = addTag($blogid, $name);
 	$query = DBModel::getInstance();

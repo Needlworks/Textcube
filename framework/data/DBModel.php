@@ -216,7 +216,7 @@ class DBModel extends Singleton implements IModel {
 	public function setOrder($standard, $order = 'ASC') {
 		$this->_order['attribute'] = $standard;
 		if(!in_array(strtoupper($order), array('ASC','DESC'))) $order = 'ASC';
-		$this->_order['order'] = $order;
+		$this->_order['order'] = strtoupper($order);
 		return $this;
 	}
 
@@ -239,7 +239,7 @@ class DBModel extends Singleton implements IModel {
 	public function setGroup() {
 		$nargs = func_num_args();
 		$args = func_get_args();
-		if ($nargs == 1 && get_type($args[0]) == 'array' ) {
+		if ($nargs == 1 && gettype($args[0]) == 'array' ) {
 			foreach($args[0] as $a) {
 				$treatedArg = $this->_treatReservedFields($a);
 				if (!in_array($treatedArg,$this->_group)) {

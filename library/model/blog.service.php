@@ -16,8 +16,15 @@ function getBlogidByName($name) {
 }
 
 function getBlogidBySecondaryDomain($domain) {
-	global $database;
-	return POD::queryCell("SELECT blogid FROM {$database['prefix']}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) . "')");
+	$pool = DBModel::getInstance();
+	$pool->init("BlogSettings");
+	$pool->setQualifier('name','eq','secondaryDomain',true);
+	$pool->setQualifierSet(
+		array("value","eq",$domain,true),
+		"OR",
+		array("value","eq",(substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain),true)
+	);
+	return $pool->getCell("blogid");
 }
 
 function getBlogSettingGlobals($blogid) {
