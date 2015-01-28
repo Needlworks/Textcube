@@ -69,15 +69,14 @@ function toggleLinkVisibility($blogid, $id, $visibility) {
 }
 
 function addLink($blogid, $link) {
-	global $database;
 	$name = Utils_Unicode::lessenAsEncoding(trim($link['name']), 255);
 	$url = Utils_Unicode::lessenAsEncoding(trim($link['url']), 255);
 
 	if (empty($name) || empty($url))
 		return - 1;
+	$pool = DBModel::getInstance();
+
 	$category = (isset($link['category'])) ? $link['category'] : 0;
-	$name = POD::escapeString($name);
-	$url = POD::escapeString($url);
 	if(isset($link['newCategory']) && !empty($link['newCategory'])) { // Add new category information
 		$newCategoryTitle = POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($link['newCategory']), 255));
 		$newCategoryId = addLinkCategory($blogid, $newCategoryTitle);
@@ -88,25 +87,37 @@ function addLink($blogid, $link) {
 	$id = getMaxIdOfLink() + 1;
 	$pid = getMaxPidOfLink() + 1;
 
-	$rss = isset($link['rss']) ? POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($link['rss']), 255)) : '';
-	if (POD::queryCell("SELECT id FROM {$database['prefix']}Links WHERE blogid = $blogid AND url = '$url'"))
+	$pool->init("Links");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("url","eq",$url,true);
+
+	if ($pool->getCell("id"))
 		return 1;
-	if (POD::execute("INSERT INTO {$database['prefix']}Links (pid, blogid, id,category,name,url,rss,written) VALUES ($pid, $blogid, $id, $category, '$name', '$url', '$rss', UNIX_TIMESTAMP())"))
+
+	$rss = isset($link['rss']) ? Utils_Unicode::lessenAsEncoding(trim($link['rss']), 255) : '';
+
+	$pool->init("Links");
+	$pool->setAttribute("pid",$pid);
+	$pool->setAttribute("blogid",$blogid);
+	$pool->setAttribute("id",$id);
+	$pool->setAttribute("category",$category);
+	$pool->setAttribute("name",$name,true);
+	$pool->setAttribute("url",$url,true);
+	$pool->setAttribute("rss",$rss,true);
+	$pool->setAttribute("written",Timestamp::getUNIXtime());
+	if ($pool->insert())
 		return 0;
 	else
 		return - 1;
 }
 
 function updateLink($blogid, $link) {
-	global $database;
 	$id = $link['id'];
 	$name = Utils_Unicode::lessenAsEncoding(trim($link['name']), 255);
 	$url = Utils_Unicode::lessenAsEncoding(trim($link['url']), 255);
 	if (empty($name) || empty($url))
 		return false;
 	$category = (isset($link['category'])) ? $link['category'] : 0;
-	$name = POD::escapeString($name);
-	$url = POD::escapeString($url);
 
 	if(isset($link['newCategory']) && !empty($link['newCategory'])) { // Add new category information
 		$newCategoryTitle = Utils_Unicode::lessenAsEncoding(trim($link['newCategory']), 255);
@@ -114,51 +125,63 @@ function updateLink($blogid, $link) {
 		if(!empty($newCategoryId)) $category = $newCategoryId;
 	}
 
-	$rss = isset($link['rss']) ? POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($link['rss']), 255)) : '';
-	$result = POD::execute("UPDATE {$database['prefix']}Links
-				SET
-					category = $category,
-					name = '$name',
-					url = '$url',
-					rss = '$rss',
-					written = UNIX_TIMESTAMP()
-				WHERE
-					blogid = $blogid and id = {$link['id']}");
+	$rss = isset($link['rss']) ? Utils_Unicode::lessenAsEncoding(trim($link['rss']), 255) : '';
+
+	$pool = DBModel::getInstance();
+
+	$pool->init("Links");
+	$pool->setAttribute("category",$category);
+	$pool->setAttribute("name",$name,true);
+	$pool->setAttribute("url",$url,true);
+	$pool->setAttribute("rss",$rss,true);
+	$pool->setAttribute("written",Timestamp::getUNIXtime());
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$link['id']);
+	$result = $pool->update();
+
 	// Garbage correction
-	$existCategories = POD::queryColumn("SELECT DISTINCT category FROM {$database['prefix']}Links
-			WHERE blogid = $blogid");
-	@POD::execute("DELETE FROM {$database['prefix']}LinkCategories
-			WHERE blogid = $blogid AND id NOT IN (".implode(",",$existCategories).")");
+	$pool->init("Links");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$existCategories = $pool->getColumn("category","distinct");
+
+	$pool->init("LinkCategories");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","hasnoneof",$existCategories);
+	$pool->delete();
 	return $result;
 }
 
 function updateXfn($blogid, $links) {
-	global $database;
+	$pool = DBModel::getInstance();
+
 	$ids = Array();
 	foreach( $links as $k => $v ) {
 		if( substr($k,0,3) == 'xfn' ) {
 			$id = substr( $k, 3 );
 			$xfn = POD::escapeString($v);
-			POD::execute("update {$database['prefix']}Links
-				set
-					xfn = '$xfn',
-					written = UNIX_TIMESTAMP()
-				where
-					blogid = $blogid and id = $id");
+			$pool->init("Links");
+			$pool->setAttribute("xfn",$xfn,true);
+			$pool->setAttribute("written",Timestamp::getUNIXtime());
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("id","eq",$id);
+			$pool->update();
 		}
 	}
 }
+
 function getLinkCategories($blogid) {
-	global $database;
-	return POD::queryAll("SELECT * FROM {$database['prefix']}LinkCategories
-			WHERE blogid = $blogid");
+	$pool = DBModel::getInstance();
+	$pool->init("LinkCategories");
+	$pool->setQualifier("blogid", "eq", $blogid);
+	return $pool->getAll();
 }
 
 function addLinkCategory($blogid, $categoryTitle) {
-	global $database;
-	$categoryTitle = POD::escapeString($categoryTitle);
-	$id = POD::queryCell("SELECT id FROM {$database['prefix']}LinkCategories
-		WHERE blogid = $blogid AND name = '".$categoryTitle."'");
+	$pool = DBModel::getInstance();
+	$pool->init("LinkCategories");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("name","eq",$categoryTitle,true);
+	$id = $pool->getCell();
 	if(!empty($id)) {
 		return $id;
 	} else {	// Add new Link Category
@@ -166,9 +189,14 @@ function addLinkCategory($blogid, $categoryTitle) {
 		$id = getMaxIdOfLinkCategory($blogid) + 1;
 		$priority = 0;
 		$visibility = 2; // Default visibility
-		if(POD::query("INSERT INTO {$database['prefix']}LinkCategories
-			(pid, blogid, id, name, priority, visibility) VALUES
-			($pid, $blogid, $id, '$categoryTitle', $priority, $visibility)")) {
+		$pool->init("LinkCategories");
+		$pool->setAttribute("pid",$pid);
+		$pool->setAttribute("blogid"$blogid);
+		$pool->setAttribute("id",$id);
+		$pool->setAttribute("name",$categoryTitle,true);
+		$pool->setAttribute("priority",$priority);
+		$pool->setAttribute("visibility",$visibility);
+		if ($pool->insert()) {
 			return $id;
 		} else {
 			return false;
@@ -177,14 +205,14 @@ function addLinkCategory($blogid, $categoryTitle) {
 }
 
 function updateLinkCategory($blogid, $category) {
-	global $database;
-	$categoryTitle = POD::escapeString($category['name']);
-	$id = $category['id'];
-	
-	if(POD::query("UPDATE {$database['prefix']}LinkCategories
-		SET
-			name = '".$categoryTitle."'
-			WHERE blogid = $blogid AND id = $id")) {
+	$pool = DBModel::getInstance();
+
+	$pool->init("LinkCategories");
+	$pool->setAttribute("name",$category['name'],true);
+	$pool->setQualifier("id",$category['id']);
+	$pool->setQualifier("blogid"$blogid);
+
+	if ($pool->update()) {
 		return true;
 	} else {
 		return false;
@@ -192,12 +220,17 @@ function updateLinkCategory($blogid, $category) {
 }
 
 function deleteLinkCategory($blogid, $id) {
-	global $database;
-	if(POD::query("DELETE FROM {$database['prefix']}LinkCategories
-		WHERE blogid = $blogid AND id = $id")) {
-		POD::execute("UPDATE {$database['prefix']}Links
-			SET category = 0
-			WHERE blogid = $blogid AND category = $id");
+	$pool = DBModel::getInstance();
+
+	$pool->init("LinkCategories");
+	$pool->setQualifier("id",$category['id']);
+	$pool->setQualifier("blogid"$blogid);
+	if ($pool->delete()) {
+		$pool->init("Links");
+		$pool->setAttribute("category",0);
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("category","eq",$id);
+		$pool->update();
 		return true;
 	} else {
 		return false;
