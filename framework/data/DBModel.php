@@ -31,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 2.0.1.20150122 */
+/* 2.1.0.20150128 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limit, $_statements, $_group, $table, $id, $_querysetCount;
@@ -300,43 +300,55 @@ class DBModel extends Singleton implements IModel {
 	public function doesExist($field = '*', $options = null) {
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryExistence('SELECT '. $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
+		return POD::queryExistence('SELECT '. $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 
 	public function getCell($field = '*', $options = null) {
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryCell('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
+		if ($options['usedbcache'] == true) {
+			return POD::queryCellWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1',$options['cacheprefix']);
+		}
+		return POD::queryCell('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 
 	public function getRow($field = '*', $options = null) {
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryRow('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		if ($options['usedbcache'] == true) {
+			return POD::queryRowWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+		}
+		return POD::queryRow('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getColumn($field = '*', $options = null) {
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryColumn('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		if ($options['usedbcache'] == true) {
+			return POD::queryColumnWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+		}
+		return POD::queryColumn('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getAll($field = '*', $options = null) {
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryAll('SELECT ' . $options . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		if ($options['usedbcache'] == true) {
+			return POD::queryAllWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+		}
+		return POD::queryAll('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getCount($field = '*', $options = null) { /// Returns the 'selection count'
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryCell('SELECT '  . $options . ' COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		return POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getSize($field = '*', $options = null) { /// Returns the table size
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryCell('SELECT '  . $options . ' COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		return POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	/* CRUDs */
@@ -475,10 +487,14 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	protected function _treatOptions($options) {
-		if (!in_array(strtolower($options), array('distinct'))) {
-			return '';
+		$acceptedOptions = array('filter'=>'','usedbcache'=>false,'cacheprefix'=>'');
+		if (empty($options)) return $acceptedOptions;
+		foreach(array_keys($options) as $o) {
+			if (array_key_exists(strtolower($o),$options)) {
+				$acceptedOptions[strtolower($o)] = $options[$o];
+			}
 		}
-		return strtoupper($options);
+		return $acceptedOptions;
 	}
 
 	protected function _makeWhereClause() {

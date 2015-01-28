@@ -16,7 +16,7 @@ function suggestLocatives($blogid, $filter) {
 	$pool->setGroup("location");
 	$pool->setOrder("cnt","desc");
 	$pool->setLimit(10);
-	$result = $pool->getAll("location, COUNT(*) cnt","distinct");
+	$result = $pool->getAll("location, COUNT(*) cnt",array("filter"=>"distinct"));
 	$locatives = array();
 	if ($result) {
 		foreach ($result as $locative) {

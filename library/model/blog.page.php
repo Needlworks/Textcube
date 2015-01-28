@@ -4,15 +4,15 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getPagesWithPaging($blogid, $search, $page, $count) {
-	global $database, $folderURL, $suri;
-	$aux = '';
+	$context = Model_Context::getInstance();
+	$pool = getDefaultDBModelOnPage($blogid);
+
 	if (($search !== true) && $search) {
 		$search = escapeSearchString($search);
-		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
+		$pool->setQualifierSet(array("title","like",$search,true),"OR",array("content","like",$search,true));
 	}
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 1';
-	$sql = "SELECT * FROM {$database['prefix']}Entries WHERE blogid = $blogid AND draft = 0 $visibility AND category = -3 $aux ORDER BY published DESC";
-	return Paging::fetch($sql, $page, $count, "$folderURL/{$suri['value']}");
+
+	return Paging::fetch($pool, $page, $count, $context->getProperty("uri.folder")."/".$context->getProperty("suri.value"));
 }
 
 function getPage($blogid, $id) {
@@ -33,7 +33,6 @@ function getRecentPages($blogid) {
 	return $query->getAll('id, title, slogan, published, userid');
 }
 function getDefaultDBModelOnPage($blogid) {
-	$context = Model_Context::getInstance();
 	$query = DBModel::getInstance();
 	$query->reset('Entries');
 	$query->setQualifier('blogid','equals',$blogid);

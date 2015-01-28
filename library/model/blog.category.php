@@ -157,7 +157,8 @@ function getPrivateCategoryExclusionQuery($blogid) {
 	return '  AND e.category NOT IN ('.implode(',',$exclusionList).')';
 }
 
-function getPrivateCategoryExclusionQualifier($pool) {
+function getPrivateCategoryExclusionQualifier($pool, $blogid = null) {
+	if (is_null($blogid)) $blogid = getBlogId();
 	$exclusionList = getCategoryVisibilityList($blogid, 'private');
 	if(empty($exclusionList)) return $pool;
 	$pool->setQualifier("e.category","hasnoneof",$exclusionList);

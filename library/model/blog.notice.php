@@ -33,7 +33,6 @@ function getRecentNotices($blogid) {
 	return $query->getAll('id, title, slogan, published, userid');
 }
 function getDefaultDBModelOnNotice($blogid) {
-	$context = Model_Context::getInstance();
 	$query = DBModel::getInstance();
 	$query->reset('Entries');
 	$query->setQualifier('blogid','equals',$blogid);

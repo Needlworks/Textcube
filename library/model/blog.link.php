@@ -142,7 +142,7 @@ function updateLink($blogid, $link) {
 	// Garbage correction
 	$pool->init("Links");
 	$pool->setQualifier("blogid","eq",$blogid);
-	$existCategories = $pool->getColumn("category","distinct");
+	$existCategories = $pool->getColumn("category",array("filter"=>"distinct"));
 
 	$pool->init("LinkCategories");
 	$pool->setQualifier("blogid","eq",$blogid);
@@ -191,7 +191,7 @@ function addLinkCategory($blogid, $categoryTitle) {
 		$visibility = 2; // Default visibility
 		$pool->init("LinkCategories");
 		$pool->setAttribute("pid",$pid);
-		$pool->setAttribute("blogid"$blogid);
+		$pool->setAttribute("blogid",$blogid);
 		$pool->setAttribute("id",$id);
 		$pool->setAttribute("name",$categoryTitle,true);
 		$pool->setAttribute("priority",$priority);
@@ -210,7 +210,7 @@ function updateLinkCategory($blogid, $category) {
 	$pool->init("LinkCategories");
 	$pool->setAttribute("name",$category['name'],true);
 	$pool->setQualifier("id",$category['id']);
-	$pool->setQualifier("blogid"$blogid);
+	$pool->setQualifier("blogid","eq",$blogid);
 
 	if ($pool->update()) {
 		return true;
@@ -224,7 +224,7 @@ function deleteLinkCategory($blogid, $id) {
 
 	$pool->init("LinkCategories");
 	$pool->setQualifier("id",$category['id']);
-	$pool->setQualifier("blogid"$blogid);
+	$pool->setQualifier("blogid","eq",$blogid);
 	if ($pool->delete()) {
 		$pool->init("Links");
 		$pool->setAttribute("category",0);

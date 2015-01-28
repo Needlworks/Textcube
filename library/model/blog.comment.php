@@ -300,7 +300,7 @@ function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?
 	$pool->setQualifier("r.entry",">",0);
 	$pool->setQualifier("r.isfiltered","eq",0);
 	$pool->setOrder("r.written","desc");
-	$pool = getPrivateCategoryExclusionQualifier($pool);
+	$pool = getPrivateCategoryExclusionQualifier($pool, $blogid);
 	list($comments, $paging) = Paging::fetch($pool, $page, $count, $url, $prefix, $countItem);
 	$paging['postfix'] = $postfix;
 	$comments = coverComments($comments);
