@@ -40,7 +40,7 @@ $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_P
 $perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10); 
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
-	setBlogSetting('rowsPerPage', $_POST['perPage']);
+	Setting::setBlogSettingGlobal('rowsPerPage', $_POST['perPage']);
 }
 
 $tabsClass = array();

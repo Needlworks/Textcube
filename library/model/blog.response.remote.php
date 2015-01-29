@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /** Common remote response part */
-function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $search, $page, $count, $type = null) {
+function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $url, $search, $page, $count, $type = null, $filter_till = null) {
 	$pool = DBModel::getInstance();
 
 	$postfix = '';
@@ -23,8 +23,11 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 	$pool->join("Entries","left",array(array("t.blogid","eq","e.blogid"),array("t.entry","eq","e.id"),array("e.draft","eq",0)));
 	$pool->join("Categories","left",array(array("t.blogid","eq","c.blogid"),array("e.category","eq","c.id")));
 	$pool->setQualifier("t.blogid","eq",$blogid);
-	$pool->setQualifier("t.isfiltered","eq",0);
-
+	if(!is_null($filter_till) && $filter_till >= 0) {
+		$pool->setQualifier("t.isfiltered", ">", $filter_till);
+	} else {
+		$pool->setQualifier("t.isfiltered", "eq", 0);
+	}
 	if ($category > 0) {
 		$pool->setQualifier("e.category","hasoneof",$categories);
 		$postfix .= '&amp;category=' . rawurlencode($category);
@@ -37,6 +40,10 @@ function getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $ip, $s
 	if (!empty($ip)) {
 		$pool->setQualifier("t.ip","eq",$ip,true);
 		$postfix .= '&amp;ip=' . rawurlencode($ip);
+	}
+	if (!empty($url)) {
+		$pool->setQualifier("t.url","eq",$url,true);
+		$postfix .= '&amp;url=' . rawurlencode($url);
 	}
 	if (!is_null($type)) {
 		$pool->setQualifier("t.responsetype","eq",$type,true);

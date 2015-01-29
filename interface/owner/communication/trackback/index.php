@@ -78,7 +78,7 @@ if (isset($_POST['status'])) {
 }
 
 if(isset($tabsClass['received']) && $tabsClass['received'] == true) {
-	list($trackbacks, $paging) = getRemoteResponsesWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage, 'trackback');
+	list($trackbacks, $paging) = getRemoteResponsesWithPagingForOwner($blogid, $categoryId, $site, $ip, null, $search, $suri['page'], $perPage, 'trackback');
 } else {
 	list($trackbacks, $paging) = getRemoteResponseLogsWithPagingForOwner($blogid, $categoryId, $site, $ip, $search, $suri['page'], $perPage, 'trackback');
 }

@@ -52,7 +52,7 @@ function reloadSkin($blogid)
 }
 
 function selectSkin($blogid, $skinName) {
-	global $database, $service;
+	$context = Model_Context::getInstance();
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
 	if (empty($skinName))
@@ -70,7 +70,7 @@ function selectSkin($blogid, $skinName) {
 	if (file_exists(__TEXTCUBE_SKIN_DIR__."/$skinName/index.xml")) {
 		$xml = file_get_contents(__TEXTCUBE_SKIN_DIR__."/$skinName/index.xml");
 		$xmls = new XMLStruct();
-		if (!$xmls->open($xml, $service['encoding']))
+		if (!$xmls->open($xml, $context->getProperty('service.encoding')))
 			return _t('실패했습니다.');
 		$assignments = array('skin'=>$skinName);
 		$value = $xmls->getValue('/skin/default/recentEntries');
@@ -230,24 +230,23 @@ function selectSkin($blogid, $skinName) {
 }
 
 function writeSkinHtml($blogid, $contents, $mode, $file) {
-	global $database;
-	global $skinSetting;
-	requireComponent('Needlworks.Cache.PageCache');
+	$context = Model_Context::getInstance();
+	global $skinSetting;// Legacy global support. TODO: DELETE THIS LINE AFTER CHECK EVERY REFERENCES IN WHOLE SOURCE
 	requireLibrary('blog.skin');
 	if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style')
 		return _t('실패했습니다.');
-	if ($skinSetting['skin'] != "customize/$blogid") {
+	if ($context->getProperty('skin.skin') != "customize/$blogid") {
 		if (!@file_exists(ROOT . "/skin/blog/customize/$blogid")) {
 			if (!@mkdir(ROOT . "/skin/blog/customize/$blogid"))
 				return _t('권한이 없습니다.');
 			@chmod(ROOT . "/skin/blog/customize/$blogid", 0777);
 		}
 		deltree(ROOT . "/skin/blog/customize/$blogid");
-		copyRecusive(ROOT . "/skin/blog/{$skinSetting['skin']}", ROOT . "/skin/blog/customize/$blogid");
+		copyRecusive(ROOT . "/skin/blog/".$context->getProperty('skin.skin'). ROOT . "/skin/blog/customize/$blogid");
 	}
-	$skinSetting['skin'] = "customize/$blogid";
-	Setting::setSkinSetting('skin',$skinSetting['skin'],$blogid);
-	if (!Setting::setSkinSetting('skin',$skinSetting['skin'],$blogid))
+	$skinSetting['skin'] = "customize/$blogid";	// Legacy global support. TODO: DELETE THIS LINE AFTER CHECK EVERY REFERENCES IN WHOLE SOURCE
+	$context->setProperty('skin.skin',"customize/".$blogid);
+	if (!Setting::setSkinSetting('skin',$context->getProperty('skin.skin'),$blogid))
 		return _t('실패했습니다.');
 	//if ($mode == 'style')
 	//	$file = $mode . '.css';
@@ -269,33 +268,33 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 }
 
 function getCSSContent($blogid, $file) {
-	global $skinSetting;
-	return @file_get_contents(ROOT . "/skin/blog/{$skinSetting['skin']}/$file");
+	$context = Model_Context::getInstance();
+	return @file_get_contents(ROOT . "/skin/blog/".$context->getProperty('skin.skin')."/".$file);
 }
 
 function setSkinSetting($blogid, $setting) {
-	global $database;
-	global $skinSetting;
+	global $skinSetting; // Legacy global support. TODO: DELETE THIS LINE AFTER CHECK EVERY REFERENCES IN WHOLE SOURCE
 
 	requireLibrary('blog.skin');
 	$blogid = getBlogId();
-	if (strncmp($skinSetting['skin'], 'customize/', 10) == 0) {
-		if (strcmp($skinSetting['skin'], "customize/$blogid") != 0)
+	if (strncmp($context->getProperty('skin.skin'), 'customize/', 10) == 0) {
+		if (strcmp($context->getProperty('skin.skin'), "customize/$blogid") != 0)
 			return false;
 	} else {
-		$skinSetting['skin'] = Path::getBaseName($skinSetting['skin']);
-		if (($skinSetting['skin'] === '.') || ($skinSetting['skin'] ==='..'))
+		$skinSetting['skin'] = Path::getBaseName($context->getProperty('skin.skin'));// Legacy global support. TODO: DELETE THIS LINE AFTER CHECK EVERY REFERENCES IN WHOLE SOURCE
+		$context->setProperty('skin.skin',$skinSetting['skin']);
+		if (($context->getProperty('skin.skin') === '.') || ($context->getProperty('skin.skin') ==='..'))
 			return _t('실패 했습니다');
 	}
 	
-	$skinpath = __TEXTCUBE_SKIN_DIR__.'/' . $skinSetting['skin'];
+	$skinpath = __TEXTCUBE_SKIN_DIR__.'/' . $context->getProperty('skin.skin');
 	if (!is_dir($skinpath))
 		return _t('실패 했습니다');
 
 	foreach ($setting as $key => $value) {
 		Setting::setSkinSetting($key, $value, $blogid);
 	}
-	Setting::setSkinSetting('skin', $skinSetting['skin'], $blogid);
+	Setting::setSkinSetting('skin', $context->getProperty('skin.skin'), $blogid);
 	Setting::setBlogSetting('useMicroformat',$setting['useMicroformat'],true);
 	Setting::setBlogSetting('useAjaxComment',$setting['useAjaxComment'],true);
 	Setting::setBlogSetting('useFOAF',(($setting['useFOAF'] == 1) ? 1: 0),true);

@@ -48,7 +48,7 @@ function decorateComment(&$comment){
 	}
 }
 
-function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count, $isGuestbook = false) {
+function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count, $isGuestbook = false, $filter_till = null) {
 	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$postfix = '';
@@ -75,7 +75,11 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 	$pool->join("Entries","left",$extension);
 	$pool->join("Comments c2","left",array(array("c.parent","eq","c2.id"),array("c.blogid","eq","c2.blogid")));
 	$pool->setQualifier("c.blogid","eq",$blogid);
-	$pool->setQualifier("c.isfiltered","eq",0);
+	if (is_null($filter_till)) {
+		$pool->setQualifier("c.isfiltered", "eq", 0);
+	} else {
+		$pool->setQualifier("c.isfiltered",">",$filter_till);
+	}
 
 	if ($category > 0) {
 		$pool->setQualifier("e.category","hasoneof",$categories);

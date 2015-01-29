@@ -15,7 +15,7 @@ function getDefaultEditor() {
 function& getAllEditors() { global $editorMappings; return $editorMappings; }
 
 function getEditorInfo($editor) {
-	global $editorMappings, $configMappings, $pluginURL, $pluginName, $configVal, $pluginPath; 
+	global $editorMappings, $configMappings, $pluginURL, $pluginName, $configVal, $pluginPath;
 	$context = Model_Context::getInstance();
 	if (!isset($editorMappings[$editor])) {
 		reset($editorMappings);
@@ -60,7 +60,7 @@ function getEntryFormatterInfo($id) {
 	static $info;
 	$context = Model_Context::getInstance();
 	$blogid = intval($context->getProperty('blog.id'));
-	
+
 	if (!Validator::id($id)) {
 		return NULL;
 	} else if (!isset($info[$blogid][$id])) {
@@ -71,7 +71,7 @@ function getEntryFormatterInfo($id) {
 		$pool->setQualifier('id','equals',$id);
 		$info[$blogid][$id] = $pool->getCell('contentformatter');
 	}
-	
+
 	return $info[$blogid][$id];
 }
 
@@ -89,9 +89,10 @@ function summarizeContent($blogid, $id, $content, $formatter, $keywords = array(
 }
 
 function FM_default_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
+	$context = Model_Context::getInstance();
 	global $service, $hostURL;
-	$basepath = ($useAbsolutePath ? $hostURL : '');
-	return str_replace('[##_ATTACH_PATH_##]', "$basepath{$service['path']}/attach/$blogid", $content);
+	$basepath = ($useAbsolutePath ? $context->getProperty('uri.host') : '');
+	return str_replace('[##_ATTACH_PATH_##]', "$basepath".$context->getProperty('service.path')."/attach/$blogid", $content);
 }
 
 function FM_default_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {

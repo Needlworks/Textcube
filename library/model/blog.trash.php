@@ -4,82 +4,11 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getTrashTrackbackWithPagingForOwner($blogid, $category, $site, $url, $ip, $search, $page, $count) {
-	global $database;
-	
-	$postfix = '';
-	$sql = "SELECT t.*, c.name AS categoryName 
-		FROM {$database['prefix']}RemoteResponses t 
-		LEFT JOIN {$database['prefix']}Entries e ON t.blogid = e.blogid AND t.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Categories c ON t.blogid = c.blogid AND e.category = c.id 
-		WHERE t.blogid = $blogid AND t.isfiltered > 0 AND t.responsetype = 'trackback'";
-	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE blogid = $blogid AND parent = $category");
-		array_push($categories, $category);
-		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-		$postfix .= '&amp;category=' . rawurlencode($category);
-	} else
-		$sql .= ' AND e.category >= 0';
-	if (!empty($site)) {
-		$sql .= ' AND t.site = \'' . POD::escapeString($site) . '\'';
-		$postfix .= '&amp;site=' . rawurlencode($site);
-	}
-	if (!empty($url)) {
-		$sql .= ' AND t.url = \'' . POD::escapeString($url) . '\'';
-		$postfix .= '&amp;url=' . rawurlencode($url);
-	}
-	if (!empty($ip)) {
-		$sql .= ' AND t.ip = \'' . POD::escapeString($ip) . '\'';
-		$postfix .= '&amp;ip=' . rawurlencode($ip);
-	}
-	if (!empty($search)) {
-		$search = escapeSearchString($search);
-		$sql .= " AND (t.site LIKE '%$search%' OR t.subject LIKE '%$search%' OR t.excerpt LIKE '%$search%')";
-		$postfix .= '&amp;search=' . rawurlencode($search);
-	}
-	$sql .= ' ORDER BY t.written DESC';
-	list($trackbacks, $paging) =  Paging::fetch($sql, $page, $count);
-	if (strlen($postfix) > 0) {
-		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
-	}
-	return array($trackbacks, $paging);
+	return getRemoteResponsesWithPagingForOwner($blogid, $category, $site, $url, $ip, $search, $page, $count,'trackback',0);
 }
 
-
 function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
-	global $database;
-	$sql = "SELECT c.*, e.title, c2.name AS parentName 
-		FROM {$database['prefix']}Comments c 
-		LEFT JOIN {$database['prefix']}Entries e ON c.blogid = e.blogid AND c.entry = e.id AND e.draft = 0 
-		LEFT JOIN {$database['prefix']}Comments c2 ON c.parent = c2.id AND c.blogid = c2.blogid 
-		WHERE c.blogid = $blogid AND c.isfiltered > 0";
-
-	$postfix = '';	
-	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM {$database['prefix']}Categories WHERE parent = $category");
-		array_push($categories, $category);
-		$sql .= ' AND e.category IN (' . implode(', ', $categories) . ')';
-		$postfix .= '&amp;category=' . rawurlencode($category);
-	} else
-		$sql .= ' AND (e.category >= 0 OR c.entry = 0)';
-	if (!empty($name)) {
-		$sql .= ' AND c.name = \'' . POD::escapeString($name) . '\'';
-		$postfix .= '&amp;name=' . rawurlencode($name);
-	}
-	if (!empty($ip)) {
-		$sql .= ' AND c.ip = \'' . POD::escapeString($ip) . '\'';
-		$postfix .= '&amp;ip=' . rawurlencode($ip);
-	}
-	if (!empty($search)) {
-		$search = escapeSearchString($search);
-		$sql .= " AND (c.name LIKE '%$search%' OR c.homepage LIKE '%$search%' OR c.comment LIKE '%$search%')";
-		$postfix .= '&amp;search=' . rawurlencode($search);
-	}
-	$sql .= ' ORDER BY c.written DESC';
-	list($comments, $paging) =  Paging::fetch($sql, $page, $count);
-	if (strlen($postfix) > 0) {
-		$paging['postfix'] .= $postfix . '&amp;withSearch=on';
-	}
-	return array($comments, $paging);
+	return getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count, true, 0);
 }
 
 function getTrackbackTrash($entry) {
