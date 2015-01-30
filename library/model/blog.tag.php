@@ -47,47 +47,76 @@ function getTags($blogid, $entry) {
 }
 
 function getRandomTags($blogid) {
-	global $database, $skinSetting;
-	$tags = array();
-	$aux = ($skinSetting['tagsOnTagbox'] == - 1) ? '' : "LIMIT {$skinSetting['tagsOnTagbox']}";
-	if ($skinSetting['tagboxAlign'] == 1) { // order by count
-		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t 
-				INNER JOIN {$database['prefix']}TagRelations r ON r.blogid = $blogid AND r.tag = t.id
-				GROUP BY r.tag, t.name, t.id 
-				ORDER BY cnt DESC $aux");
-		else
-			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t
-				INNER JOIN {$database['prefix']}TagRelations r ON t.id = r.tag AND r.blogid = $blogid
-				INNER JOIN {$database['prefix']}Entries e ON r.entry = e.id AND e.visibility > 0 AND e.blogid = $blogid 
-				GROUP BY r.tag, t.name, t.id
-				ORDER BY cnt DESC $aux");
-	} else if ($skinSetting['tagboxAlign'] == 2) {  // order by name
-		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT DISTINCT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t, 
-				INNER JOIN {$database['prefix']}TagRelations r ON t.id = r.tag AND r.blogid = $blogid 
-				GROUP BY r.tag, t.name, t.id
-				ORDER BY t.name $aux");
-		else
-			$tags = POD::queryAll("SELECT DISTINCT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t 
-				INNER JOIN {$database['prefix']}TagRelations r ON t.id = r.tag AND r.blogid = $blogid
-				INNER JOIN {$database['prefix']}Entries e ON r.entry = e.id AND e.visibility > 0 AND e.blogid = $blogid
-				GROUP BY r.tag, t.name, t.id
-				ORDER BY t.name $aux");
-	} else { // random
-		if (doesHaveOwnership())
-			$tags = POD::queryAll("SELECT t.name, count(*) AS cnt, t.id FROM {$database['prefix']}Tags t
-				INNER JOIN {$database['prefix']}TagRelations r ON t.id = r.tag AND r.blogid = $blogid
-				GROUP BY r.tag, t.name, t.id 
-				ORDER BY RAND() $aux");
-		else
-			$tags = POD::queryAll("SELECT t.name, count(*) as cnt, t.id FROM {$database['prefix']}Tags t
-				INNER JOIN {$database['prefix']}TagRelations r ON t.id = r.tag AND r.blogid = $blogid
-				INNER JOIN {$database['prefix']}Entries e ON r.entry = e.id AND e.visibility > 0 AND e.blogid = $blogid
-				GROUP BY r.tag, t.name, t.id 
-				ORDER BY RAND() $aux");
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->init("Tags");
+	$pool->setAlias("Tags","t");
+	$pool->setAlias("TagRelations","r");
+	$pool->setAlias("Entries","e");
+	$pool->setGroup("r.tag","t.name","t.id");
+
+	if ($context->getProperty('skin.tagsOnTagbox',-1) != -1) {
+		$pool->setLimit($context->getProperty('skin.tagsOnTagbox'));
 	}
-	return $tags;
+	if ($context->getProperty('skin.tagboxAlign') == 1) { // order by count
+		$pool->setOrder("cnt","desc");
+		if (doesHaveOwnership()) {
+			$pool->join("TagRelations", "inner", array(
+				array("r.blogid", "eq", $blogid),
+				array("r.tag", "eq", "t.id")
+			));
+		} else {
+			$pool->join("TagRelations", "inner", array(
+				array("r.blogid", "eq", $blogid),
+				array("r.tag", "eq", "t.id")
+			));
+			$pool->join("Entries","inner",array(
+				array("r.entry","eq","e.id"),
+				array("e.visibility",">",0),
+				array("e.blogid","eq",$blogid)
+			));
+		}
+	} else if ($context->getProperty('skin.tagboxAlign') == 2) {  // order by name
+		$pool->setOrder("t.name","desc");
+		if (doesHaveOwnership()) {
+			$pool->join("TagRelations", "inner", array(
+				array("r.blogid", "eq", $blogid),
+				array("r.tag", "eq", "t.id")
+			));
+			$pool->setOption(array('filter'=>'DISTINCT'));
+		} else {
+			$pool->join("TagRelations", "inner", array(
+				array("r.blogid", "eq", $blogid),
+				array("r.tag", "eq", "t.id")
+			));
+			$pool->join("Entries","inner",array(
+				array("r.entry","eq","e.id"),
+				array("e.visibility",">",0),
+				array("e.blogid","eq",$blogid)
+			));
+			$pool->setOption(array('filter'=>'DISTINCT'));
+		}
+	} else { // random
+		$pool->setOrder("RAND()","desc");
+
+		if (doesHaveOwnership()) {
+			$pool->join("TagRelations", "inner", array(
+				array("r.blogid", "eq", $blogid),
+				array("r.tag", "eq", "t.id")
+			));
+		} else {
+			$pool->join("TagRelations", "inner", array(
+				array("r.blogid", "eq", $blogid),
+				array("r.tag", "eq", "t.id")
+			));
+			$pool->join("Entries","inner",array(
+				array("r.entry","eq","e.id"),
+				array("e.visibility",">",0),
+				array("e.blogid","eq",$blogid)
+			));
+		}
+	}
+	return $pool->getAll("t.name, count(*) as cnt, t.id");
 }
 
 function getSiteTags($blogid) {

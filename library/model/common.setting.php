@@ -67,7 +67,7 @@ function removeUserSetting($name, $userid = null) {
 function getDefinedTableNames() {
 	$context = Model_Context::getInstance();
 	$prefix = $context->getProperty('database.prefix');
-	$definedTables = array(
+	return array(
 			"{$prefix}Attachments", 
 			"{$prefix}BlogSettings", 
 			"{$prefix}BlogStatistics", 
@@ -110,6 +110,5 @@ function getDefinedTableNames() {
 			"{$prefix}UserSettings", 
 			"{$prefix}Widgets", 
 			"{$prefix}XMLRPCPingSettings");
-	return $definedTables;
 }
 ?>

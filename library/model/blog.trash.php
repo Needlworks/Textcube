@@ -12,43 +12,60 @@ function getTrashCommentsWithPagingForOwner($blogid, $category, $name, $ip, $sea
 }
 
 function getTrackbackTrash($entry) {
-	global $database;
-	$trackbacks = array();
-	$result = POD::queryAll("SELECT * 
-			FROM {$database['prefix']}RemoteResponses 
-			WHERE blogid = ".getBlogId()."
-				AND entry = $entry 
-			ORDER BY written",'assoc');
+	$pool = DBModel::getInstance();
+	$pool->init("RemoteResponses");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("entry","eq",$entry);
+	$pool->setOrder("written","desc");
+	$result = $pool->getAll();
+
 	if(!empty($result)) return $result;
 	else return array();
 }
 
 function getRecentTrackbackTrash($blogid) {
-	global $database;
-	global $skinSetting;
 	$trackbacks = array();
-	$sql = doesHaveOwnership() ? "SELECT * FROM {$database['prefix']}RemoteResponses
-		WHERE blogid = $blogid 
-		ORDER BY written 
-		DESC LIMIT {$skinSetting['trackbacksOnRecent']}" : 
-		"SELECT t.* FROM {$database['prefix']}RemoteResponses t, 
-		{$database['prefix']}Entries e 
-		WHERE t.blogid = $blogid AND t.blogid = e.blogid AND t.entry = e.id AND t.responsetype = 'trackback' AND e.draft = 0 AND e.visibility >= 2 
-		ORDER BY t.written DESC LIMIT {$skinSetting['trackbacksOnRecent']}";
-	if ($result = POD::queryAll($sql) && !empty($result)) {
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->init("RemoteResponses");
+	if (doesHaveOwnership()) {
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setOrder("written","desc");
+		$pool->setLimit($context->getProperty('skin.trackbacksOnRecent'));
+		$result = $pool->getAll();
+	} else {
+		$pool->setAlias("RemoteResponses","t");
+		$pool->setAlias("Entries","e");
+		$pool->join("Entries","left",array(
+			array("t.blogid","eq","e.blogid"),
+			array("t.entry","eq","e.id")
+		));
+		$pool->setQualifier("t.blogid","eq",$blogid);
+		$pool->setQualifier("t.responsetype","eq",'trackback',true);
+		$pool->setQualifier("e.draft","eq",0);
+		$pool->setQualifier("e.visibility",">=",2);
+		$pool->setOrder("t.written","desc");
+		$pool->setLimit($context->getProperty('skin.trackbacksOnRecent'));
+		$result = $pool->getAll("t.*");
+	}
+	if ($result && !empty($result)) {
 		$trackbacks = $result;
-//		while ($trackback = POD::fetch($result))
-//			array_push($trackbacks, $trackback);
 	}
 	return $trackbacks;
 }
 
 function deleteTrackbackTrash($blogid, $id) {
 	global $database;
-	$entry = POD::queryCell("SELECT entry FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id");
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->init("RemoteResponses");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$entry = $pool->getCell("entry");
+
 	if ($entry === null)
 		return false;
-	if (!POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = $blogid AND id = $id"))
+	if (!$pool->delete())
 		return false;
 	if (updateTrackbacksOfEntry($blogid, $entry))
 		return $entry;

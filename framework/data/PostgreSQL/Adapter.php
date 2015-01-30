@@ -377,14 +377,16 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function fieldType($abstractType) {
-		if(isset($typeTable[$abstractType])) return $typeTable[$abstractType];
+		if(isset(self::$typeTable[$abstractType])) return self::$typeTable[$abstractType];
 	}
 
 	static $typeTable = array(
 		"integer" => "integer",
+		"int" => "integer",
 		"float"	=> "float",
 		"timestamp"	=> "integer",
 		"mediumtext" => "varchar(512)",
+		"varchar" => "varchar",
 		"text"	=> "text");
 }
 ?>

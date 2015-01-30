@@ -7,16 +7,21 @@
 
 /* Editor */
 function getDefaultEditor() {
-	global $editorMappings;
+	$context = Model_Context::getInstance();
+	$editorMappings = $context->getProperty('plugin.editorMappings');
 	reset($editorMappings);
 	return Setting::getBlogSettingGlobal('defaultEditor', key($editorMappings));
 }
 
-function& getAllEditors() { global $editorMappings; return $editorMappings; }
+function& getAllEditors() {
+	$context = Model_Context::getInstance();
+	return $context->getProperty('plugin.editorMappings');
+}
 
 function getEditorInfo($editor) {
-	global $editorMappings, $configMappings, $pluginURL, $pluginName, $configVal, $pluginPath;
+	global $configMappings, $pluginURL, $pluginName, $configVal, $pluginPath;
 	$context = Model_Context::getInstance();
+	$editorMappings = $context->getProperty('plugin.editorMappings');
 	if (!isset($editorMappings[$editor])) {
 		reset($editorMappings);
 		$editor = key($editorMappings); // gives first declared (thought to be default) editor
@@ -34,18 +39,23 @@ function getEditorInfo($editor) {
 	return $editorMappings[$editor];
 }
 
-
 /* Formatter */
 // default formatter functions.
 function getDefaultFormatter() {
-	global $formatterMappings;
+	$context = Model_Context::getInstance();
+	$formatterMappings = $context->getProperty('plugin.formatterMappings');
 	reset($formatterMappings);
 	return Setting::getBlogSettingGlobal('defaultFormatter', key($formatterMappings));
 }
 
-function& getAllFormatters() { global $formatterMappings; return $formatterMappings; }
+function& getAllFormatters() {
+	$context = Model_Context::getInstance();
+	return $context->getProperty('plugin.formatterMappings');
+}
+
 function getFormatterInfo($formatter) {
-	global $formatterMappings;
+	$context = Model_Context::getInstance();
+	$formatterMappings = $context->getProperty('plugin.formatterMappings');
 	if (!isset($formatterMappings[$formatter])) {
 		reset($formatterMappings);
 		$formatter = key($formatterMappings); // gives first declared (thought to be default) formatter
@@ -90,13 +100,14 @@ function summarizeContent($blogid, $id, $content, $formatter, $keywords = array(
 
 function FM_default_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
 	$context = Model_Context::getInstance();
-	global $service, $hostURL;
 	$basepath = ($useAbsolutePath ? $context->getProperty('uri.host') : '');
 	return str_replace('[##_ATTACH_PATH_##]', "$basepath".$context->getProperty('service.path')."/attach/$blogid", $content);
 }
 
 function FM_default_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = false) {
-	if (!$blog['publishWholeOnRSS']) $content = Utils_Unicode::lessen(removeAllTags(stripHTML($content)), 255);
+	$context = Model_Context::getInstance();
+
+	if (!$context->getProperty('blog.publishWholeOnRSS')) $content = Utils_Unicode::lessen(removeAllTags(stripHTML($content)), 255);
 	return $content;
 }
 ?>

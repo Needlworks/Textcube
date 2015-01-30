@@ -24,7 +24,6 @@ $__requireModel = array(
 	'blog.blogSetting',
 //	'blog.user',
 	'blog.fx',
-	'common.legacysupport',
 	'common.setting',
 	'common.plugin',
 	'reader.common');

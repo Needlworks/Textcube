@@ -2,7 +2,9 @@
 /// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
-		
+
+$context = Model_Context::getInstance();
+
 $activePlugins        = array();
 $eventMappings        = array();
 $tagMappings          = array();
@@ -37,7 +39,6 @@ if (getBlogId()) {
 	$pageCache->load();
 	
 	$pluginSettings = $pageCache->contents;	
-	$context = Model_Context::getInstance();
 
 	$storageList = array('activePlugins','eventMappings','tagMappings',
 		'coverpageMappings','centerMappings',//'storageMappings','storageKeymappings',
@@ -51,7 +52,8 @@ if (getBlogId()) {
 			array_pop($storageList);
 		}
 		foreach ($storageList as $s) {
-			${$s} = $p[$s];	
+			${$s} = $p[$s];	// Legacy support. TODO : remove this line after moving to context grammar.
+			$context->setProperty('plugin.'.$s,$p[$s]);
 		}
 	} else {
 		$xmls = new XMLStruct();
@@ -372,7 +374,8 @@ if (getBlogId()) {
 			}
 		}
 		foreach ($storageList as $s) {
-			$p[$s] = ${$s};	
+			$p[$s] = ${$s}; // Legacy support. TODO : remove this line after moving to context grammar.
+			$context->setProperty('plugin.'.$s,$p[$s]);
 		}
 		$pageCache->contents = serialize($p);	
 		$pageCache->update();
@@ -404,6 +407,9 @@ if (getBlogId()) {
 		foreach ($formatterMappings as $formatterid => $formatterentry) {
 //			uksort($formatterMapping[$formatterid]['editors'], '_cmpfuncByEditorName');
 		}
+		$context->setProperty('plugin.formatterMappings',$formatterMappings);
+		$context->setProperty('plugin.editorMappings',$editorMappings);
+
 	}
 	unset($formatterid);
 	unset($formatterentry);

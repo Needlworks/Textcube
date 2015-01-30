@@ -31,12 +31,14 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 2.1.0.20150128 */
+/* 2.3.0.20150130 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limit, $_statements, $_group, $table, $id, $_querysetCount;
-	protected $_reservedFields, $_isReserved, $param;
+	protected $_reservedFields, $_isReserved, $param, $_options;
 	protected $_extended_objects, $_object_aliases;
+
+	public $structure, $option;
 
 	function __construct($table = null) {
 		$this->context = Model_Context::getInstance();
@@ -57,6 +59,7 @@ class DBModel extends Singleton implements IModel {
 		$this->_order = array();
 		$this->_limit = array();
 		$this->_group = array();
+		$this->_options = array();
 		$this->_isReserved = array();
 		$this->_extended_objects = array();
 		$this->_object_aliases = array();
@@ -64,6 +67,8 @@ class DBModel extends Singleton implements IModel {
 		$this->_querysetCount = 0;
 		$this->_reservedFields    = POD::reservedFieldNames();
 		$this->_reservedFunctions = POD::reservedFunctionNames();
+		$this->structure = null;
+		$this->option = null;
 		if(!empty($this->_reservedFields)) {
 			foreach($this->_reservedFields as $reserved) {
 				$this->_isReserved[$reserved] = true;
@@ -295,6 +300,13 @@ class DBModel extends Singleton implements IModel {
 	public function extend($table, $type, $relation = null) {
 		return $this->join($table, $type, $relation);
 	}
+	public function setOption($options) {
+		if (is_array($options)) {
+			$this->_options = $options;
+			return true;
+		}
+		return false;
+	}
 
 	/* Selects */
 	public function doesExist($field = '*', $options = null) {
@@ -445,14 +457,13 @@ class DBModel extends Singleton implements IModel {
 	public function create() {
 		if(!isset($this->structure) || empty($this->structure) || !is_array($this->structure)) return false;
 		/// TO DO : implementing create method by structure
-		$sql = "CREATE ".$this->_getTableName()." (".CRLF;
-
+		$sql = "CREATE TABLE ".$this->_getTableName()." (".CRLF;
+		$keys = array();
 		foreach($this->structure as $field => $attributes) {
-			$sql .= $field;
 			$type = $length = $isNull = $default = "";
 			foreach($attributes as $attr => $value) {
 				if($attr == "type") {	// Type casting
-					$type = POD::fieldType($type);
+					$type = POD::fieldType($value);
 				}
 				if($attr == "isNull") {
 					$isNull = $value;
@@ -460,11 +471,29 @@ class DBModel extends Singleton implements IModel {
 				if($attr == "default") {
 					$default = $value;
 				}
+				if($attr == "length") {
+					$length = intval($value);
+				}
+				if($attr == "autoincrement") {
+					$ai = $value;
+				}
+				if($attr == "index" && $value == true) {
+					array_push($keys, $field);
+				}
 			}
+			$sql .= $field;
 			$sql .= ' '.$type.(!empty($length) ? "(".$length.")" : "")
-				.' '.($default ? 'DEFAULT '.(in_array($type, array("integer","timestamp","float")) ? $default : '"'.$default.'"') : "")
+				.' '.($default ? 'DEFAULT '.(in_array($type, array("integer","timestamp","float")) ? $default : '"'.POD::escapeString($default).'"') : "")
 				.' '.($isNull ? "NULL" : "NOT NULL")
-				.CRLF;
+				.((isset($ai) && $ai == true) ? ' AUTO INCREMENT' : '')
+				.',';
+		}
+		$sql = rtrim($sql,",");
+		if (is_array($this->option) && array_key_exists('primary', $this->option)) {
+			$sql .= ', PRIMARY KEY ('.implode(',',$this->option['primary']) .')';
+		}
+		foreach ($keys as $key) {
+			$sql .= ', KEY ('.POD::escapeString($key).')';
 		}
 		$sql .= ")";
 		return POD::execute($sql);
@@ -480,9 +509,9 @@ class DBModel extends Singleton implements IModel {
 	protected function _getTableName($table = null) {
 		if (is_null($table)) $table = $this->table;
 		if (array_key_exists($table, $this->_object_aliases)) {
-			return $this->context->getProperty('database.prefix').$table.' '.$this->_object_aliases[$table];
+			return $this->context->getProperty('database.prefix').POD::escapeString($table).' '.$this->_object_aliases[$table];
 		} else {
-			return $this->context->getProperty('database.prefix').$table;
+			return $this->context->getProperty('database.prefix').POD::escapeString($table);
 		}
 	}
 
@@ -490,7 +519,10 @@ class DBModel extends Singleton implements IModel {
 		$acceptedOptions = array('filter'=>'','usedbcache'=>false,'cacheprefix'=>'');
 		if (empty($options)) return $acceptedOptions;
 		foreach(array_keys($options) as $o) {
-			if (array_key_exists(strtolower($o),$options)) {
+			if (array_key_exists(strtolower($o),$this->_options)) {
+				$acceptedOptions[strtolower($o)] = $this->_options[$o];
+			}
+			if (array_key_exists(strtolower($o),$options)) { // Overwrite options
 				$acceptedOptions[strtolower($o)] = $options[$o];
 			}
 		}
@@ -525,7 +557,12 @@ class DBModel extends Singleton implements IModel {
 		}
 		if(!empty($this->_group)) $clause .= ' GROUP BY '. implode(",",$this->_group);
 		if(!empty($this->_order)) $clause .= ' ORDER BY '.$this->_treatReservedFields($this->_order['attribute']).' '.$this->_order['order'];
-		if(!empty($this->_limit)) $clause .= ' LIMIT '.$this->_limit['count'].' OFFSET '.$this->_limit['offset'];
+		if(!empty($this->_limit)) {
+			$clause .= ' LIMIT '.$this->_limit['count'];
+			if ($this->_limit['offset'] != 0) {
+				$clause .= ' OFFSET '.$this->_limit['offset'];
+			}
+		}
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 

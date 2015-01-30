@@ -3,26 +3,23 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-global $pluginSetting;
-$pluginSetting = array();
-
 /***** Plugin data manipulation *****/
 function clearPluginSettingCache()
 {
-	global $pluginSetting, $gCacheStorage;
+	global $gCacheStorage;
+	$context = Model_Context::getInstance();
+	$context->unsetProperty('plugin.setting');
 	$gCacheStorage->purge();
-	if( !empty($pluginSetting) ) {
-		$pluginSetting = array();
-	}
 	$pageCache = pageCache::getInstance();
 	$pageCache->reset('PluginSettings');
 	$pageCache->purge();
 }
 
 function activatePlugin($name) {
-	global $activePlugins, $gCacheStorage;
-	if (in_array($name, $activePlugins))
-		return true;
+	global $gCacheStorage;
+	$context = Model_Context::getInstance();
+	if (in_array($name, $context->getProperty("plugin.activePlugins"))) return true;
+
 	if (!preg_match('/^[-a-zA-Z0-9_ ]+$/', $name))
 		return false;
 	if (!is_dir(ROOT . "/plugins/$name"))
@@ -72,28 +69,30 @@ function activatePlugin($name) {
 }
 
 function deactivatePlugin($name) {
-	global $database, $activePlugins;
-	if (!in_array($name, $activePlugins))
+	$context = Model_Context::getInstance();
+	if (!in_array($name, $context->getProperty("plugin.activePlugins")))
 		return false;
-	$pluginName = $name;
-	$name = POD::escapeString($name);
-	POD::query("DELETE FROM {$database['prefix']}Plugins 
-			WHERE blogid = ".getBlogId()."
-				AND name = '$name'");
+	$pool = DBModel::getInstance();
+	$pool->init("Plugins");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("name","eq",$name,true);
+	$pool->delete();
 	clearPluginSettingCache();
-	CacheControl::flushItemsByPlugin($pluginName);
+	CacheControl::flushItemsByPlugin($name);
 	return true;
 }
 
 function getCurrentSetting($name) {
-	global $database, $activePlugins;
-	global $pluginSetting;
+	$context = Model_Context::getInstance();
+	$activePlugins = $context->getProperty("plugin.activePlugins");
 	if( !in_array( $name , $activePlugins))
 		return false;
+	$pluginSetting = $context->getProperty('plugin.setting');
 	if( empty($pluginSetting) ) {
-		$settings = POD::queryAllWithCache("SELECT name, settings 
-				FROM {$database['prefix']}Plugins 
-				WHERE blogid = ".getBlogId(), MYSQL_NUM );
+		$pool = DBModel::getInstance();
+		$pool->init("Plugins");
+		$pool->setQualifier("blogid","eq",getBlogId());
+		$settings = $pool->getAll("name, settings",array("usedbcache"=>true));
 		foreach( $settings as $k => $v ) {
 			$pluginSetting[ $v[0] ] = $v[1];
 		}
@@ -105,16 +104,16 @@ function getCurrentSetting($name) {
 }
 
 function isActivePlugin( $name ) {
-	global $activePlugins;
-	return in_array($name , $activePlugins);
+	$context = Model_Context::getInstance();
+	return in_array($name , $context->getProperty("plugin.activePlugins"));
 }
 
 function updatePluginConfig( $name , $setVal) {
-	global $activePlugins;
-	if (!in_array($name, $activePlugins))
+	$context = Model_Context::getInstance();
+	if (!in_array($name, $context->getProperty("plugin.activePlugins")))
 		return false;
 	$pluginName = $name;
-	$name = POD::escapeString( Utils_Unicode::lessenAsEncoding($name, 255) ) ;
+	$name = Utils_Unicode::lessenAsEncoding($name, 255);
 	$setting = serialize(Setting::fetchConfigXML($setVal));
 	$pool = DBModel::getInstance();
 	$pool->reset('Plugins');
@@ -187,7 +186,8 @@ function getPluginInformation($plugin) {
 
 function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 	$context = Model_Context::getInstance();
-//	global $context;
+	$query = DBModel::getInstance();
+
 	if(doesExistTable($context->getProperty('database.prefix'). $name)) {
 		$keyname = 'Database_' . $name;
 		$value = $plugin;
@@ -195,7 +195,6 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		if (is_null($result)) {
 			$keyname = Utils_Unicode::lessenAsEncoding($keyname, 32);
 			$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
-			$query = DBModel::getInstance();
 			$query->reset('ServiceSettings');
 			$query->setAttribute('name',$keyname,true);
 			$query->setAttribute('value',$value,true);
@@ -207,7 +206,6 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 			if (strcmp($plugin, $values[0]) != 0) { // diff plugin
 				return false; // nothing can be done
 			} else if (strcmp($version, $values[1]) != 0) {
-				$query = DBModel::getInstance();
 				$query->reset('ServiceSettings');
 				$query->setQualifier('name','equals',$keyname,true);
 				$query->setAttribute('value',$value,true);
@@ -218,32 +216,41 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 		}
 		return true;
 	} else {
-		$query = "CREATE TABLE ".$context->getProperty('database.prefix').$name." (blogid int(11) NOT NULL default 0,";
+		$query->init($name);
+		$query->structure = array(
+			"blogid"=>
+				array("type"=>'integer', "isNull"=>false,"default"=>0,"index"=>true)
+		);
 		$isaiExists = false;
-		$index = '';
 		foreach($fields as $field) {
+			$branch = array();
 			$ai = '';
 			if( strtolower($field['attribute']) == 'int' || strtolower($field['attribute']) == 'mediumint'  ) {
 				if($field['autoincrement'] == 1 && !$isaiExists) {
-					$ai = ' AUTO_INCREMENT ';
+					$branch['autoincrement'] = true;
+					//$branch['index'] = true;
 					$isaiExists = true;
 					if(!in_array($field['name'], $keys))
-						$index = ", KEY({$field['name']})";
+						$branch['index'] = true;
 				}
 			}
-			$isNull = ($field['isnull'] == 0) ? ' NOT NULL ' : ' NULL ';
-			$defaultValue = is_null($field['default']) ? '' : " DEFAULT '" . POD::escapeString($field['default']) . "' ";
-			$fieldLength = ($field['length'] >= 0) ? "(".$field['length'].")" : '';
-			$sentence = $field['name'] . " " . $field['attribute'] . $fieldLength . $isNull . $defaultValue . $ai . ",";
-			$query .= $sentence;
+			$branch['type'] = strtolower($field['attribute']);
+			if ($field['isnull'] == 0) {
+				$branch['isNull'] = false;
+			} else {
+				$branch['isNull'] = true;
+			}
+			if (!is_null($field['default'])) {
+				$branch['default'] = $field['default'];
+			}
+			if ($field['length'] >= 0) {
+				$branch['length'] = $field['length'];
+			}
+			$query->structure[$field['name']] = $branch;
 		}
-		
 		array_unshift($keys, 'blogid');
-		$query .= " PRIMARY KEY (" . implode(',',$keys) . ")";
-		$query .= $index;
-		$query .= ") TYPE=MyISAM ";
-		$query .= (POD::charset() == 'utf8') ? 'DEFAULT CHARSET=utf8' : '';
-		if (POD::execute($query)) {
+		$query->option['primary'] = $keys;
+		if ($query->create()) {
 				$keyname = Utils_Unicode::lessenAsEncoding('Database_' . $name, 32);
 				$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
 				Setting::setServiceSetting($keyname, $value, true);
@@ -257,17 +264,17 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 }
 
 function clearPluginTable($name) {
-	global $database;
-	$name = POD::escapeString($name);
-	$count = POD::queryCount("DELETE FROM {$database['prefix']}{$name} WHERE blogid = ".getBlogId());
-	return ($count == 1);
+	$pool = DBModel::getInstance();
+	$pool->init($name);
+	$pool->setQualifier("blogid","eq",getBlogId());
+	return ($pool->delete(null, 'count') == 1)
 }
 
 function deletePluginTable($name) {
-	global $database;
 	if(getBlogId() !== 0) return false;
-	$name = POD::escapeString($name);
-	POD::query("DROP {$database['prefix']}{$name}");
+	$pool = DBModel::getInstance();
+	$pool->init($name);
+	$pool->discard($name);
 	return true;
 }
 

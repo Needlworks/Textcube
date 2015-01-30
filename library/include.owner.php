@@ -31,8 +31,7 @@ $__requireModel = array(
 	'blog.fx',
 	'common.plugin',
 	'common.module',
-	'common.setting',
-	'common.legacysupport');
+	'common.setting');
 $__requireView = array(
 	'html',					// Views
 	'ownerView',

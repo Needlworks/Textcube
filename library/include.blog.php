@@ -37,7 +37,6 @@ $__requireModel = array(
 	'common.setting',
 	'common.plugin',
 	'common.module',
-	'common.legacysupport',
 	'DEBUG : Models loaded.');
 $__requireView = array(
 	'html',						// Views

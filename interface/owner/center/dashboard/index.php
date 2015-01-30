@@ -430,7 +430,7 @@ function getDefaultCenterPanel($mapping) {
 		return true;
 	} else {
 		// Get default data
-		$stats = getStatistics($blogid);
+		$stats = Statistics::getStatistics($blogid);
 		$latestEntryId = Setting::getBlogSettingGlobal('LatestEditedEntry_user'.getUserId(),0);
 
 		$comments = getRecentComments($blogid,10);

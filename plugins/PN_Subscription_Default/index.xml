@@ -4,7 +4,7 @@
   <title xml:lang="ko">피드 구독 통계</title>
   <title xml:lang="ja">RSSフィード統計</title>
   <link>http://needlworks.org/</link>
-  <version>2.5</version>
+  <version>2.6</version>
   <description xml:lang="en">Shows Feed Subscription Log using Textcube Components.</description>
   <description xml:lang="ko">텍스트큐브 컴포넌트를 이용하여 피드 구독 통계를 보여줍니다.</description>
   <description xml:lang="ja">Textcubeの構成要素を利用して、RSSフィード購読情報を表示します。</description>
@@ -57,7 +57,7 @@
           </field>
           <field>
             <name>referred</name>
-            <attribute>int</attribute>
+            <attribute>integer</attribute>
             <length>11</length>
             <isnull>0</isnull>
             <default>0</default>
@@ -88,14 +88,14 @@
           </field>
           <field>
             <name>subscribed</name>
-            <attribute>int</attribute>
+            <attribute>integer</attribute>
             <length>11</length>
             <isnull>0</isnull>
             <default>0</default>
           </field>
           <field>
             <name>referred</name>
-            <attribute>int</attribute>
+            <attribute>integer</attribute>
             <length>11</length>
             <isnull>0</isnull>
             <default>0</default>
