@@ -10,7 +10,7 @@
    Created at       : 2006.7.25
    Last modified at : 2015.2.1
  
- This plugin shows recent entries on 'quilt'.
+ This plugin shows recent entries on 'dashboard'.
  For the detail, visit http://forum.tattersite.com/ko
 
 
