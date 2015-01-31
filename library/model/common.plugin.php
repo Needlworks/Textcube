@@ -267,7 +267,7 @@ function clearPluginTable($name) {
 	$pool = DBModel::getInstance();
 	$pool->init($name);
 	$pool->setQualifier("blogid","eq",getBlogId());
-	return ($pool->delete(null, 'count') == 1)
+	return ($pool->delete(null, 'count') == 1);
 }
 
 function deletePluginTable($name) {

@@ -11,7 +11,6 @@ $__requireBasics = array(
 	'function/html',
 	'function/xml',
 	'function/misc',
-	'function/image',
 	'function/mail',
 	'DEBUG : Basic functions loaded.');
 $__requireLibrary = array(
