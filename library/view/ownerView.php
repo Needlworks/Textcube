@@ -912,7 +912,6 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 }
 
 function getAttachmentValue($attachment) {
-	global $g_attachmentFolderPath;
 	if (strpos($attachment['mime'], 'image') === 0) {
 		return "{$attachment['name']}|width=\"{$attachment['width']}\" height=\"{$attachment['height']}\" alt=\"" . _text('사용자 삽입 이미지') . "\"";		
 	} else {
