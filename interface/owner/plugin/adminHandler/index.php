@@ -4,17 +4,10 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 require ROOT . '/library/preprocessor.php';
-
 requireStrictRoute();
-if (false) {
-	fetchConfigVal();
-	getBlogSetting();
-	setBlogSetting();
-}
-
+$context = Model_Context::getInstance();
 if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']]))) 
 {
-	
 	$IV = array (
 		'REQUEST' => array(
 			'name' => array('string')
@@ -44,6 +37,7 @@ if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']
 		$pluginURL = "{$context->getProperty('service.path')}/plugins/{$plugin}";
 		$pluginPath = ROOT . "/plugins/{$plugin}";
 		$pluginName = $plugin;
+
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler)) {
 			if( !empty( $configMappings[$plugin]['config'] ) ) 				

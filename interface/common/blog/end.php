@@ -112,13 +112,17 @@ if (preg_match("@\\[##_paging_##\\]@iU", $view)) {
 
 // Sidebar dressing
 $sidebarElements = array_keys($skin->sidebarStorage);
+$context = Model_Context::getInstance();
 if(!empty($sidebarElements)) {
 	foreach ($sidebarElements as $element) {
 		$pluginData = $skin->sidebarStorage[$element];
 		$plugin = $pluginData['plugin'];
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
-		$pluginURL = $context->getProperty('service.path')."/plugins/{$plugin}";
-		$pluginPath = ROOT . "/plugins/{$plugin}";
+		$pluginURL = $context->getProperty('service.path')."/plugins/{$plugin}"; // LEGACY SUPPORT
+		$pluginPath = ROOT . "/plugins/{$plugin}"; // LEGACY SUPPORT
+		$context->setProperty('plugin.uri', $context->getProperty('service.path')."/plugins/{$plugin}");
+		$context->setProperty('plugin.path', ROOT . "/plugins/{$plugin}");
+		$context->setProperty('plugin.name', ROOT . $plugin);
 		if( !empty( $configMappings[$plugin]['config'] ) ) 				
 			$configVal = getCurrentSetting($plugin);
 		else

@@ -1,6 +1,6 @@
 <?php
 
-requireComponent( "Needlworks.Mail.Pop3" );
+requireComponent( "Needlworks.PHP.Pop3" );
 requireModel( "common.setting" );
 
 class Moblog

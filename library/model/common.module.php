@@ -19,8 +19,9 @@ function& getAllEditors() {
 }
 
 function getEditorInfo($editor) {
-	global $configMappings, $pluginURL, $pluginName, $configVal, $pluginPath;
+	global $pluginURL, $pluginName, $configVal, $pluginPath;
 	$context = Model_Context::getInstance();
+	$configMappings = $context->getProperty('plugin.configMappings');
 	$editorMappings = $context->getProperty('plugin.editorMappings');
 	if (!isset($editorMappings[$editor])) {
 		reset($editorMappings);

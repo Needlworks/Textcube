@@ -1,12 +1,12 @@
 <?php
 /**
- * line Post for Textcube 1.8
+ * line Post for Textcube 2.0
  * ----------------------------------
- * Version 1.0
+ * Version 1.1
  * By Jeongkyu Shin
  *
  * Created at       : 2009.06.04
- * Last modified at : 2009.07.30
+ * Last modified at : 2015.02.01
  *  
  * This plugin makes you to post line.
  * For the detail, visit http://forest.nubimaru.com
@@ -22,12 +22,14 @@
 
 /// Posting widget for center.
 function linePost_widget($target) {
-	global $pluginURL, $blogURL, $configVal;
+	global $pluginURL;
+	$context = Model_Context::getInstance();
+	$blogURL = $context->getProperty('uri.blog');
 	$public = _t('공개');
 	$private = _t('비공개');
 	$write = _t('쓰기');
 	$view  = <<<EOS
-	<script type="text/javascript" src="{$blogURL}/plugin/linePostWidget.js"></script> 
+	<script type="text/javascript" src="{$blogURL}/plugin/linePostWidget.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="{$pluginURL}/widget.css" />
 	<div id="linePost_widget">
 		<input type="radio" id="linePost_public" class="radio" name="category" value="2" checked="checked" />
@@ -44,7 +46,8 @@ EOS;
 
 /// Dynamic JavaScript for Center Widget.
 function linePost_widget_Javascript($target) {
-	global $blogURL;
+	$context = Model_Context::getInstance();
+	$blogURL = $context->getProperty('uri.blog');
 	$view = <<< EOS
 /// Copyright (C) Jeongkyu Shin. / Needlworks
 /// Line Post Widget for Textcube
