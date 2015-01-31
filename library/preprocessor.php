@@ -71,6 +71,7 @@ $config  = Model_Config::getInstance();
 $uri     = Model_URIHandler::getInstance();
 /// Loading debug module
 if($context->getProperty('service.debugmode') == true) {
+	require_once(ROOT. "/library/debug.php");
 	if(!is_null($context->getProperty('database.dbms'))) {
 		require_once(ROOT. "/framework/data/".$context->getProperty('database.dbms')."/Debug.php");
 	} else require_once(ROOT. "/framework/data/MySQL/Debug.php");
