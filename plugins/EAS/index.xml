@@ -3,7 +3,7 @@
   <title xml:lang="ko">FAS : Frypan Antispam Service</title>
   <title xml:lang="en">FAS : Frypan Antispam Service</title>
   <link>http://antispam.textcube.org</link>
-  <version>0.1 beta</version>
+  <version>0.2</version>
   <description xml:lang="ko">니들웍스에서 제공하는 스팸 코멘트/트랙백 차단 서비스를 사용합니다.</description>
   <description xml:lang="en">Deny spam comments and trackback supplyed by Needlworks.</description>
   <license>GPL</license>

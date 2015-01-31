@@ -1,11 +1,31 @@
 <?php
+/* Frypan Anti-spam Service adapter for Textcube
+   ---------------------------------------------
+   Version 2.0
+   Tatter Network Foundation development team / Needlworks.
 
+   Creator          : Gendoh
+   Maintainer       : inureyes
+
+   Created at       : 2006.6.8
+   Last modified at : 2015.2.1
+
+ General Public License
+ http://www.gnu.org/licenses/gpl.html
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+
+*/
 function FAS_Call($type, $name, $title, $url, $content)
 {
-	global $hostURL, $blogURL, $database;
-	
-	$blogstr = $hostURL . $blogURL;
-	
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+
+	$blogstr = $context->getProperty('uri.host').$context->getProperty('uri.blog');
+
 	$rpc = new XMLRPC();
 	$rpc->url = 'http://antispam.textcube.org/RPC/';
 	if ($rpc->call('checkSpam', $blogstr, $type, $name, $title, $url, $content, $_SERVER['REMOTE_ADDR']) == false) 
@@ -13,39 +33,39 @@ function FAS_Call($type, $name, $title, $url, $content)
 		// call fail
 		// Do Local spam check with "Thief-cat algorithm"
 		$count = 0;
-		$tableName = $database['prefix'] . 'RemoteResponses';
-			
+
 		if ($type == 2) // Trackback Case
 		{
-			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'RemoteResponses WHERE';
-			$sql .= ' url = \'' . POD::escapeString($url) . '\'';
-			$sql .= ' AND isfiltered > 0';
-			
-			if ($row = POD::queryRow($sql)) {
-				$count += @$row[0];
+			$storage = "RemoteResponses";
+			$pool->init($storage);
+
+			$pool->setQualifier("url","eq",$url,true);
+			$pool->setQualifier("isfiltered",">",0);
+
+			if ($cnt = $pool->getCount("id")) {
+				$count += $cnt;
 			}
 			
 		} else { // Comment Case
-			$tableName = $database['prefix'] . 'Comments';	
+			$storage = "Comments";
+			$pool->init($storage);
+			$pool->setQualifier("comment","eq",$$content,true);
+			$pool->setQualifier("name","eq",$name,true);
+			$pool->setQualifier("homepage","eq",$url,true);
+			$pool->setQualifier("isfiltered",">",0);
 
-			$sql = 'SELECT COUNT(id) as cc FROM ' . $database['prefix'] . 'Comments WHERE';
-			$sql .= ' comment = \'' . POD::escapeString($content) . '\'';
-			$sql .= ' AND homepage = \'' . POD::escapeString($url) . '\'';
-			$sql .= ' AND name = \'' . POD::escapeString($name) . '\'';
-			$sql .= ' AND isfiltered > 0';
-			
-			if ($row = POD::queryRow($sql)) {
-				$count += @$row[0];
+			if ($cnt = $pool->getCount("id")) {
+				$count += $cnt;
 			}
 		}
 
 		// Check IP
-		$sql = 'SELECT COUNT(id) as cc FROM ' . $tableName . ' WHERE';
-		$sql .= ' ip = \'' . POD::escapeString($_SERVER['REMOTE_ADDR']) . '\'';
-		$sql .= ' AND isfiltered > 0';
+		$pool->init($storage);
+		$pool->setQualifier("ip","eq",$_SERVER['REMOTE_ADDR'],true);
+		//$pool->setQualifier("isfiltered",">",0);
 
-		if ($row = POD::queryRow($sql)) {
-			$count += @$row[0];
+		if ($cnt = $pool->getCount("id")) {
+			$count += $cnt;
 		}
 
 		if ($count >= 10) {
