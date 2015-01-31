@@ -84,6 +84,14 @@ function getMIMEType($ext, $filename = null) {
 				return 'application/vnd.openxmlformats';
 			case 'csv':
 				return 'text/comma-separated-values';
+			case 'apxl':
+				return 'application/octet-stream';
+			case 'key':case 'key-tef':case 'keynote':
+				return 'application/x-iwork-keynote-sffkey';
+			case 'pages':case 'pages-tef':
+				return 'application/x-iwork-pages-sffpages';
+			case 'numbers':case 'nmbtemplate':
+				return 'application/x-iwork-numbers-sffnumbers';
 			// Multimedia
 			case 'mpeg':case 'mpg':case 'mpe':
 				return 'video/mpeg';
@@ -91,6 +99,10 @@ function getMIMEType($ext, $filename = null) {
 				return 'video/quicktime';
 			case 'avi':case 'wmv':
 				return 'video/x-msvideo';
+			case 'mp4':
+				return 'video/mp4';
+			case 'mkv':
+				return 'video/x-matroska';
 			// Compression
 			case 'bz2':
 				return 'application/x-bzip2';
