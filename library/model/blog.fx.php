@@ -3,12 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-$fxList = array();
 function setDetailPanel($id,$type = 'section',$string = '') {
-	global $fxList;
-	$context = Model_Context::getInstance();	
+	$context = Model_Context::getInstance();
 //	if(in_array($fxList,$id)) return '';
+	$fxList = $context->getProperty('blog.fxList');
 	array_push($fxList, $id);
+
 	$hrefVal = '';
 	switch($type) {
 	case 'button':
@@ -35,12 +35,13 @@ function setDetailPanel($id,$type = 'section',$string = '') {
 		}
 		break;
 	}
+	$context->setProperty('blog.fxList',$fxList);
 	return $hrefVal;
 }
 
 function activateDetailPanelJS() {
-	global $fxList;
 	$context = Model_Context::getInstance();
+	$fxList = $context->getProperty('blog.fxList');
 	$jsVal = '';
 	if(!empty($fxList) && ($context->getProperty('service.interface') == 'simple')) {
 		$jsVal = "jQuery(document).ready(function(jQuery) {".CRLF;
