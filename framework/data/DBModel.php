@@ -122,7 +122,7 @@ class DBModel extends Singleton implements IModel {
 	public function setProjection() {
 		$nargs = func_num_args();
 		$args = func_get_args();
-		if ($nargs == 1 && get_type($args[0]) == 'array' ) {
+		if ($nargs == 1 && gettype($args[0]) == 'array' ) {
 			$this->_projections = $args[0];
 		} else {
 			for ($i = 0; $i < $nargs; $i++) {
