@@ -17,7 +17,7 @@ class DBAdapter implements IAdapter {
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
-		self::$db = @mysql_connect($database['server'].(isset($database['port']) ? ':'.$database['port'] : ''), $database['username'], $database['password']);
+		self::$db = @mysql_connect($database['server'].(isset($database['port']) ? ':'.intval($database['port']) : ''), $database['username'], $database['password']);
 		if(!self::$db) return false;
 		self::$db = @mysql_select_db($database['database']);
 		if(!self::$db) return false;
