@@ -163,65 +163,87 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 
 function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+
 	$postfix = '';
 
 	if (empty($name) && empty($ip) && empty($search)) {
-		$sql = "SELECT
-					c.*,
-					csiteinfo.title AS siteTitle,
-					csiteinfo.name AS nickname,
-					csiteinfo.url AS siteUrl,
-					csiteinfo.modified AS siteModified
-				FROM
-					".$ctx->getProperty('database.prefix')."CommentsNotified c
-				LEFT JOIN
-						".$ctx->getProperty('database.prefix')."CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
-				WHERE c.blogid = $blogid AND (c.parent is null)";
-		$sql .= ' ORDER BY c.modified DESC';
+		$pool->init("CommentsNotified");
+		$pool->setAlias("CommentsNotified","c");
+		$pool->setAlias("CommentsNotifiedSiteInfo","csiteinfo");
+		$pool->join("CommentsNotifiedSiteInfo","left",array(
+			array("c.siteid","eq","csiteinfo.id")
+		));
+		$pool->setQualifier("c.blogid","eq",$blogid);
+		$pool->setQualifier("c.parent","eq",null);
+		$pool->setOrder("c.modified","desc");
+		$pool->setProjections("c.*","csiteinfo.title AS siteTitle","csiteinfo.name AS nickname", "csiteinfo.url AS siteUrl", "csiteinfo.modified AS siteModified");
+
 	} else {
 		if (!empty($search)) {
 			$search = escapeSearchString($search);
 		}
-
-		$preQuery = "SELECT parent FROM ".$ctx->getProperty('database.prefix')."CommentsNotified WHERE blogid = $blogid AND parent is NOT NULL";
+		$pool->init("CommentsNotified");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("parent","neq",null);
 		if (!empty($name))
-			$preQuery .= ' AND name = \''. POD::escapeString($name) . '\' ';
+			$pool->setQualifier("name","eq",$name,true);
 		if (!empty($ip))
-			$preQuery .= ' AND ip = \''. POD::escapeString($ip) . '\' ';
+			$pool->setQualifier("ip","eq",$ip,true);
 		if (!empty($search)) {
-			$preQuery .= " AND ((name LIKE '%$search%') OR (homepage LIKE '%$search%') OR (comment LIKE '%$search%'))";
+			$pool->setQualifierSet(
+				array("name","like",$search,true),
+				"OR",
+				array("homepage","like",$search,true),
+				"OR",
+				array("comment","like",$search,true)
+			);
+		}
+		$childList = array_unique($pool->getColumn("parent"));
+
+		$pool->init("CommentsNotified");
+		$pool->setAlias("CommentsNotified","c");
+		$pool->setAlias("CommentsNotifiedSiteInfo","csiteinfo");
+		$pool->join("CommentsNotifiedSiteInfo","left",array(
+			array("c.siteid","eq","csiteinfo.id")
+		));
+		$pool->setQualifier("c.blogid","eq",$blogid);
+		if (count($childList) != 0) {
+			$pool->setQualifierSet(array(
+				array("c.parent","eq",null),
+				"OR"
+				array("c.id","hasoneof",$childList)
+			));
+		} else {
+			$pool->setQualifier("c.parent","eq",null);
 		}
 
-		$childList = array_unique(POD::queryColumn($preQuery));
-		$childListStr = (count($childList) == 0) ? '' : ('OR c.id IN ( ' . implode(', ',$childList) . ' ) ') ;
+		$pool->setQualifier("c.parent","eq",null);
+		$pool->setOrder("c.modified","desc");
+		$pool->setProjections("c.*","csiteinfo.title AS siteTitle","csiteinfo.name AS nickname", "csiteinfo.url AS siteUrl", "csiteinfo.modified AS siteModified");
 
-		$sql = "SELECT
-				c.*,
-				csiteinfo.title AS siteTitle,
-				csiteinfo.name AS nickname,
-				csiteinfo.url AS siteUrl,
-				csiteinfo.modified AS siteModified
-			FROM
-				".$ctx->getProperty('database.prefix')."CommentsNotified c
-				LEFT JOIN
-				".$ctx->getProperty('database.prefix')."CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
-			WHERE c.blogid = $blogid AND (c.parent is null) ";
 		if (!empty($name)) {
-			$sql .= ' AND ( c.name = \'' . POD::escapeString($name) . '\') ' ;
+			$pool->setQualifier("c.name","eq",$name,true);
 			$postfix .= '&amp;name=' . rawurlencode($name);
 		}
 		if (!empty($ip)) {
-			$sql .= ' AND ( c.ip = \'' . POD::escapeString($ip) . '\') ';
+			$pool->setQualifier("c.ip","eq",$ip,true);
 			$postfix .= '&amp;ip=' . rawurlencode($ip);
 		}
 		if (!empty($search)) {
-			$sql .= " AND ((c.name LIKE '%$search%') OR (c.homepage LIKE '%$search%') OR (c.comment LIKE '%$search%')) ";
+			$pool->setQualifierSet(
+				array("c.name","like",$search,true),
+				"OR",
+				array("c.homepage","like",$search,true),
+				"OR",
+				array("c.comment","like",$search,true)
+			);
 			$postfix .= '&amp;search=' . rawurlencode($search);
 		}
-		$sql .= $childListStr . ' ORDER BY c.modified DESC';
+		if
 	}
 
-	list($comments, $paging) = Paging::fetch($sql, $page, $count);
+	list($comments, $paging) = Paging::fetch($pool, $page, $count);
 	if (strlen($postfix) > 0) {
 		$postfix .= '&amp;withSearch=on';
 		$paging['postfix'] .= $postfix;
@@ -234,19 +256,17 @@ function getCommentCommentsNotified($parent) {
 	$ctx = Model_Context::getInstance();
 	$comments = array();
 	$authorized = doesHaveOwnership();
-	$sql = "SELECT
-				c.*,
-				csiteinfo.title AS siteTitle,
-				csiteinfo.name AS nickname,
-				csiteinfo.url AS siteUrl,
-				csiteinfo.modified AS siteModified
-			FROM
-				".$ctx->getProperty('database.prefix')."CommentsNotified c
-				LEFT JOIN
-				".$ctx->getProperty('database.prefix')."CommentsNotifiedSiteInfo csiteinfo ON c.siteid = csiteinfo.id
-			WHERE c.blogid = ".getBlogId()." AND c.parent = $parent";
-	$sql .= ' ORDER BY c.written ASC';
-	if ($result = POD::queryAll($sql)) {
+	$pool = DBModel::getInstance();
+	$pool->init("CommentsNotified");
+	$pool->setAlias("CommentsNotified","c");
+	$pool->setAlias("CommentsNotifiedSiteInfo","csiteinfo");
+	$pool->join("CommentsNotifiedSiteInfo","left",array(
+		array("c.siteid","eq","csiteinfo.id")
+	));
+	$pool->setQualifier("c.blogid","eq",getBlogId());
+	$pool->setQualifier("c.parent","eq",$parent);
+	$pool->setOrder("c.written","asc");
+	if ($result = $pool->getAll("c.*,csiteinfo.title AS siteTitle,csiteinfo.name AS nickname, csiteinfo.url AS siteUrl, csiteinfo.modified AS siteModified")) {
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !$authorized) {
 				if( !doesHaveOpenIDPriv($comment) ) {
@@ -261,7 +281,7 @@ function getCommentCommentsNotified($parent) {
 	return $comments;
 }
 
-function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null, $order = 'ASC') {
+function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null, $order = 'DESC') {
 
 	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
