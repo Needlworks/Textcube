@@ -14,7 +14,7 @@ class DBAdapter implements IAdapter {
 		// Connects DB and set environment variables
 		// $database array should contain 'server','username','password'.
 		if(!isset($database) || empty($database)) return false;
-		$handle = @cubrid_connect($database['server'], $database['port'], $database['database'], $database['username'], $database['password']);
+		$handle = @cubrid_connect($database['server'], intval($database['port']), $database['database'], $database['username'], $database['password']);
 		if(!$handle) return false;
 		self::$dbProperties['handle'] = $handle;	// Keeping handle
 		self::$dbProperties['charset'] = 'utf8';

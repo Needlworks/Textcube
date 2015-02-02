@@ -21,7 +21,7 @@ class DBAdapter implements IAdapter {
 			$database['port'] = $port[1];
 		}
 		if(isset($database['port'])) {
-			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database'],$database['port']);
+			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database'],intval($database['port']));
 		} else {
 			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database']);
 		}
