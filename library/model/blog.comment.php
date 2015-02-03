@@ -458,18 +458,45 @@ function getComment($blogid, $id, $password, $restriction = true) {
 }
 
 function getCommentList($blogid, $search) {
-	$ctx = Model_Context::getInstance();
 	$list = array('title' => "$search", 'items' => array());
 	$search = escapeSearchString($search);
-	$authorized = doesHaveOwnership() ? '' : 'AND c.secret = 0 '.getPrivateCategoryExclusionQuery($blogid);
-	if ($result = POD::queryAll("SELECT c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan
-		FROM ".$ctx->getProperty('database.prefix')."Comments c
-		INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON c.entry = e.id AND c.blogid = e.blogid AND e.draft = 0
-		WHERE c.entry > 0
-			AND c.blogid = $blogid $authorized
-			AND c.isfiltered = 0
-			AND (c.comment like '%$search%' OR c.name like '%$search%')
-		ORDER BY c.written")) {
+
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->reset('Comments');
+	$pool->setAlias("Comments","c");
+	$pool->setAlias("Entries","e");
+	$pool->join("Entries","inner",array(
+		array("c.entry","eq","e.id"),
+		array("c.blogid","eq","e.blogid"),
+		array("e.draft","eq",0)
+	));
+	$pool->setQualifier('c.blogid','eq',$blogid);
+	$pool->setQualifier('c.entry','>',0);
+	$pool->setQualifier('parent','eq',NULL);
+	$pool->setQualifier('isfiltered','eq',0);
+	$pool->setQualifierSet(
+		array("c.comment","like",$search,true),
+		"OR",
+		array("c.name","like",$search,true)
+	);
+	if (doesHaveOwnership()) {
+		$pool->setQualifier("c.secret","eq",0);
+		$pool = getPrivateCategoryExclusionQualifier($pool, $blogid);
+	}
+	$pool->setOrder("c.written","asc");
+
+	if ( $entry == 0 ) $pool->setOrder('written','desc');
+	else if ($order == 'DESC') {
+		$pool->setOrder('id','desc');
+	} else {
+		$pool->setOrder('id','asc');
+	}
+	if ($result = $pool->getAll()) {
+		$comments = coverComments($result);
+	}
+
+	if ($result = $pool->getAll("c.id, c.entry, c.parent, c.name, c.comment, c.written, e.slogan")) {
 		foreach ($result as $comment)
 			array_push($list['items'], $comment);
 	}
