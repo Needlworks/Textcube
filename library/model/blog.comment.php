@@ -907,30 +907,48 @@ function revertTrashToComment($blogid, $id) {
 
 function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 	$comments = array();
-	if(!$isGuestbook && !Acl::check("group.editors")) $userLimit = ' AND e.userid = '.getUserId();
-	else $userLimit = '';
-	$sql = (doesHaveOwnership() && !$guestShip) ? "SELECT r.*, e.title, e.slogan
-		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
-			INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0$userLimit
-		WHERE
-			r.blogid = $blogid".($isGuestbook != false ? " AND r.entry=0" : " AND r.entry>0")." AND r.isfiltered = 0
-		ORDER BY
-			r.written
-		DESC LIMIT ".($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent')) :
-		"SELECT r.*, e.title, e.slogan
-		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
-			INNER JOIN ".$ctx->getProperty('database.prefix')."Entries e ON r.blogid = e.blogid AND r.entry = e.id AND e.draft = 0
-			LEFT OUTER JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE
-			r.blogid = $blogid AND e.draft = 0 AND e.visibility >= 2".getPrivateCategoryExclusionQuery($blogid)
-			.($isGuestbook != false ? " AND r.entry = 0" : " AND r.entry > 0")." AND r.isfiltered = 0
-		ORDER BY
-			r.written
-		DESC LIMIT ".($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent'));
-	if ($result = POD::queryAllWithDBCache($sql,'comment')) {
+
+	$pool->init("Comments");
+	if (!(doesHaveOwnership() && !$guestShip)) {
+		$pool = getPrivateCategoryExclusionQualifier($pool, $blogid);
+	}
+	$pool->setAlias("Comments","r");
+	$pool->setAlias("Entries","e");
+	$joint = array(
+		array("r.blogid","eq","e.blogid"),
+		array("r.entry","eq","e.id"),
+		array("e.draft","eq",0));
+
+	if (doesHaveOwnership() && !$guestShip) {
+		if(!$isGuestbook && !Acl::check("group.editors")) {
+			array_push($joint, array("e.userid","eq",getUserId()));
+		}
+		$pool->join("Entries","inner",$joint);
+		$pool->setQualifier("r.blogid","eq",$blogid);
+	} else {
+		$pool->setAlias("Categories","r");
+		$pool->join("Entries","inner",$joint);
+		$pool->join("Categories","left outer",array(
+			array("e.blogid","eq","c.blogid"),
+			array("e.category","eq","c.id")
+		));
+		$pool->setQualifier("r.blogid","eq",$blogid);
+		$pool->setQualifier("e.draft","eq",0);
+		$pool->setQualifier("e.visibility",">=",2);
+	}
+	if ($isGuestbook != false) {
+		$pool->setQualifier("r.entry","eq",0);
+	} else {
+		$pool->setQualifier("r.entry",">",0);
+	}
+	$pool->setQualifier("r.isfiltered","eq",0);
+
+	$pool->setOrder("r.written","desc");
+	$pool->setLimit(($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent')));
+;
+	if ($result = 	$pool->getAll("r.*, e.title, e.slogan",array("usedbcache"=>true,"dbprefix"=>'comment'))) {
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
 				if( !doesHaveOpenIDPriv($comment) ) {
@@ -948,16 +966,15 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 function getRecentGuestbook($blogid,$count = false) {
 	$ctx = Model_Context::getInstance();
 	$comments = array();
-	$sql = "SELECT r.*
-		FROM
-			".$ctx->getProperty('database.prefix')."Comments r
-		WHERE
-			r.blogid = $blogid AND r.entry = 0 AND r.isfiltered = 0
-		ORDER BY
-			r.written
-		DESC LIMIT ".($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent'));
+	$pool = DBModel::getInstance();
+	$pool->init("Comments");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("entry","eq",0);
+	$pool->setQualifier("isfiltered","eq",0);
+	$pool->setOrder("written","desc");
+	$pool->setLimit(($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent')));
 
-	if ($result = POD::queryAll($sql)) {
+	if ($result = $pool->getAll()) {
 		foreach($result as $comment) {
 			if (($comment['secret'] == 1) && !doesHaveOwnership()) {
 				if( !doesHaveOpenIDPriv($comment) ) {
@@ -978,18 +995,22 @@ function getGuestbookPageById($blogid, $id) {
 
 function getCommentPageById($blogid, $entryId, $commentId) {
 	$ctx = Model_Context::getInstance();
-	$totalGuestbookId = POD::queryColumn("SELECT id
-		FROM ".$ctx->getProperty('database.prefix')."Comments
-		WHERE
-			blogid = $blogid AND entry = $entryId AND isfiltered = 0 AND parent is null
-		ORDER BY
-			written DESC");
+	$pool = DBModel::getInstance();
+	$pool->init("Comments");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("entry","eq",$entryId);
+	$pool->setQualifier("isfiltered","eq",0);
+	$pool->setQualifier("parent","eq",null);
+	$pool->setOrder("written","desc");
+	$totalGuestbookId = $pool->getColumn("id");
 	$order = array_search($commentId, $totalGuestbookId);
 	if($order == false) {
-		$parentCommentId = POD::queryCell("SELECT parent
-			FROM ".$ctx->getProperty('database.prefix')."Comments
-			WHERE
-				blogid = $blogid AND entry = $entryId AND isfiltered = 0 AND id = $commentId");
+		$pool->init("Comments");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("entry","eq",$entryId);
+		$pool->setQualifier("isfiltered","eq",0);
+		$pool->setQualifier("id","eq",$commentId);
+		$parentCommentId = $pool->getCell("parent");
 		if($parentCommentId != false) {
 			$order = array_search($parentCommentId, $totalGuestbookId);
 		} else {
