@@ -590,9 +590,7 @@ function moveCategory($blogid, $id, $direction) {
 	}
 	$pool->setOrder("priority",$arrange);
 	$row = $pool->getRow("id, parent, priority");
-//	$canMove = (POD::queryCount($sql) > 0) ? true : false;
 	$nextId = is_null($row['id']) ? 'NULL' : $row['id'];
-//	$nextParentId = is_null($row['parent']) ? 'NULL' : $row['parent'];
 	$nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
 	// 이동할 자신이 1 depth 카테고리일 때.
 	if ($myParent == 'NULL') {

@@ -16,7 +16,6 @@ function doesHaveOpenIDPriv(&$comment) {
 	if( empty($comment['parent']) ) {
 		return false;
 	}
-	$openid = POD::escapeString($openid);
 
 	$pool = DBModel::getInstance();
 	$pool->reset('Comments');
@@ -521,7 +520,7 @@ function updateCommentsOfEntry($blogid, $entryId) {
 
 function sendCommentPing($entryId, $permalink, $name, $homepage) {
 	return true;
-/*	Legacy code.
+/*	Legacy code. TODO : delete after confirm.
 	global $blog;
 	$blogid = getBlogId();
 	if($slogan = POD::queryCell("SELECT slogan

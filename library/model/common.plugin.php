@@ -61,8 +61,6 @@ function activatePlugin($name) {
 	$pool->setAttribute('settings',null);
 	$result = $pool->insert();
 
-//	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 255));
-//	$result = POD::queryCount("INSERT INTO {$database['prefix']}Plugins VALUES (".getBlogId().", '$name', null)");
 	clearPluginSettingCache();
 	CacheControl::flushItemsByPlugin($pluginName);
 	return ($result == true);
@@ -254,7 +252,6 @@ function treatPluginTable($plugin, $name, $fields, $keys, $version) {
 				$keyname = Utils_Unicode::lessenAsEncoding('Database_' . $name, 32);
 				$value = Utils_Unicode::lessenAsEncoding($plugin . '/' . $version , 255);
 				Setting::setServiceSetting($keyname, $value, true);
-				#POD::execute("INSERT INTO {$database['prefix']}ServiceSettings SET name='$keyname', value ='$value'");
 			return true;
 		}
 		else return false;

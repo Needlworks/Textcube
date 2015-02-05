@@ -78,7 +78,7 @@ function addLink($blogid, $link) {
 
 	$category = (isset($link['category'])) ? $link['category'] : 0;
 	if(isset($link['newCategory']) && !empty($link['newCategory'])) { // Add new category information
-		$newCategoryTitle = POD::escapeString(Utils_Unicode::lessenAsEncoding(trim($link['newCategory']), 255));
+		$newCategoryTitle = Utils_Unicode::lessenAsEncoding(trim($link['newCategory']), 255);
 		$newCategoryId = addLinkCategory($blogid, $newCategoryTitle);
 		if(!empty($newCategoryId)) $category = $newCategoryId;
 		else return false;
@@ -158,7 +158,7 @@ function updateXfn($blogid, $links) {
 	foreach( $links as $k => $v ) {
 		if( substr($k,0,3) == 'xfn' ) {
 			$id = substr( $k, 3 );
-			$xfn = POD::escapeString($v);
+			$xfn = $v;
 			$pool->init("Links");
 			$pool->setAttribute("xfn",$xfn,true);
 			$pool->setAttribute("written",Timestamp::getUNIXtime());

@@ -439,7 +439,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
 	if (strcmp($email, Utils_Unicode::lessenAsEncoding($email, 64)) != 0) return 11;
 
 	//$loginid = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
-	$name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 32));
+	$name = addslashes(Utils_Unicode::lessenAsEncoding($name, 32));
 
 	//$headers = 'From: ' . encodeMail($senderName) . '<' . $senderEmail . ">\n" . 'X-Mailer: ' . TEXTCUBE_NAME . "\n" . "MIME-Version: 1.0\nContent-Type: text/html; charset=utf-8\n";
 	if (empty($name))
@@ -510,11 +510,18 @@ function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
 		$pool->setQualifier('userid','eq',$userid);
 		return $pool->update();
 	}
-	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd))
-		$secret = '(password = \'' . md5($prevPwd) . "' OR password = '$prevPwd')";
-	else
-		$secret = 'password = \'' . md5($prevPwd) . '\'';
-	$count = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Users WHERE userid = $userid AND $secret");
+	$pool->reset("Users");
+	$pool->setQualifier("userid","eq",$userid);
+	if ((strlen($prevPwd) == 32) && preg_match('/[0-9a-f]/i', $prevPwd)) {
+		$pool->setQualifierSet(array(
+			array("password","eq",md5($prevPwd)),
+			"OR",
+			array("password","eq",$prevPwd)
+		));
+	} else {
+		$pool->setQualifier("password","eq",md5($prevPwd));
+	}
+	$count = $pool->getCount();
 	if ($count == 0)
 		return false;
 	$pwd = md5($pwd);

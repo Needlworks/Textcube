@@ -490,12 +490,10 @@ function sendTrackback($blogid, $entryId, $url) {
 	}
 
 	if ($isSuccess && (checkResponseXML($request->responseText) === 0)) {
-//		$url = POD::escapeString(Utils_Unicode::lessenAsEncoding($url, 255));
 		$trackbacklog = new TrackbackLog;
 		$trackbacklog->entry = $entryId;
 		$trackbacklog->url = Utils_Unicode::lessenAsEncoding($url, 255);
 		$trackbacklog->add();
-//		POD::query("INSERT INTO {$database['prefix']}TrackbackLogs VALUES ($blogid, '', $entryId, '$url', UNIX_TIMESTAMP())");
 		return true;
 	}
 	return false;
@@ -951,7 +949,7 @@ function getRDFfromURL($url) {
 
 /** ETC */
 function getURLForFilter($value) {
-	$value = POD::escapeString($value);
+	$value = rawurlencode($value);
 	$value = str_replace('http://', '', $value);
 	$value = str_replace('https://', '', $value);
 	$lastSlashPos = lastIndexOf($value, '/');

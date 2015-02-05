@@ -36,21 +36,25 @@ function getKeywords($blogid) {
 }
 
 function getKeywordsWithPaging($blogid, $search, $page, $count) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
 	$aux = '';
 	if (($search !== true) && $search) {
-		$search = POD::escapeString($search);
-		$aux = "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
+		$pool->setQualifierSet(array(
+			array("title","like",$search,true),
+			"OR",
+			array("content","like",$search,true)
+		));
 	}
-
-	$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-	$sql = "SELECT * 
-		FROM ".$ctx->getProperty('database.prefix')."Entries 
-		WHERE blogid = $blogid 
-			AND draft = 0 $visibility 
-			AND category = -1 $aux 
-		ORDER BY published DESC";
-	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("visibility",">",0);
+	}
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("draft","eq",0);
+	$pool->setQualifier("category","eq",-1);
+	$pool->setOrder("published","desc");
+	return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder')."/".$context->getProperty('suri.value'));
 }
 
 function getKeyword($blogid, $keyword) {	
