@@ -49,7 +49,7 @@ function decorateComment(&$comment){
 }
 
 function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count, $isGuestbook = false, $filter_till = null) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$postfix = '';
 
@@ -118,7 +118,7 @@ function getCommentsWithPagingForOwner($blogid, $category, $name, $ip, $search, 
 }
 
 function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $count) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$postfix = '&amp;status=guestbook';
 
@@ -162,7 +162,7 @@ function getGuestbookWithPagingForOwner($blogid, $name, $ip, $search, $page, $co
 }
 
 function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $search, $page, $count) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 
 	$postfix = '';
@@ -211,7 +211,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 		if (count($childList) != 0) {
 			$pool->setQualifierSet(array(
 				array("c.parent","eq",null),
-				"OR"
+				"OR",
 				array("c.id","hasoneof",$childList)
 			));
 		} else {
@@ -240,7 +240,6 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 			);
 			$postfix .= '&amp;search=' . rawurlencode($search);
 		}
-		if
 	}
 
 	list($comments, $paging) = Paging::fetch($pool, $page, $count);
@@ -253,7 +252,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 }
 
 function getCommentCommentsNotified($parent) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$comments = array();
 	$authorized = doesHaveOwnership();
 	$pool = DBModel::getInstance();
@@ -283,7 +282,7 @@ function getCommentCommentsNotified($parent) {
 
 function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null, $order = 'DESC') {
 
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$comments = array();
 
@@ -305,7 +304,7 @@ function getCommentsWithPagingByEntryId($blogid, $entryId, $page, $count, $url =
 }
 
 function getCommentsWithPaging($blogid, $page, $count, $url = null, $prefix = '?page=', $postfix = '', $countItem = null) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$comments = array();
 
@@ -526,7 +525,7 @@ function sendCommentPing($entryId, $permalink, $name, $homepage) {
 	global $blog;
 	$blogid = getBlogId();
 	if($slogan = POD::queryCell("SELECT slogan
-		FROM ".$ctx->getProperty('database.prefix')."Entries
+		FROM ".$context->getProperty('database.prefix')."Entries
 		WHERE blogid = $blogid
 			AND id = $entryId
 			AND draft = 0
@@ -906,7 +905,7 @@ function revertTrashToComment($blogid, $id) {
 }
 
 function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestShip = false) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$comments = array();
 
@@ -946,7 +945,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 	$pool->setQualifier("r.isfiltered","eq",0);
 
 	$pool->setOrder("r.written","desc");
-	$pool->setLimit(($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent')));
+	$pool->setLimit(($count != false ? $count : $context->getProperty('skin.commentsOnRecent')));
 ;
 	if ($result = 	$pool->getAll("r.*, e.title, e.slogan",array("usedbcache"=>true,"dbprefix"=>'comment'))) {
 		foreach($result as $comment) {
@@ -964,7 +963,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 }
 
 function getRecentGuestbook($blogid,$count = false) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$comments = array();
 	$pool = DBModel::getInstance();
 	$pool->init("Comments");
@@ -972,7 +971,7 @@ function getRecentGuestbook($blogid,$count = false) {
 	$pool->setQualifier("entry","eq",0);
 	$pool->setQualifier("isfiltered","eq",0);
 	$pool->setOrder("written","desc");
-	$pool->setLimit(($count != false ? $count : $ctx->getProperty('skin.commentsOnRecent')));
+	$pool->setLimit(($count != false ? $count : $context->getProperty('skin.commentsOnRecent')));
 
 	if ($result = $pool->getAll()) {
 		foreach($result as $comment) {
@@ -994,7 +993,7 @@ function getGuestbookPageById($blogid, $id) {
 }
 
 function getCommentPageById($blogid, $entryId, $commentId) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$pool->init("Comments");
 	$pool->setQualifier("blogid","eq",$blogid);
@@ -1017,7 +1016,7 @@ function getCommentPageById($blogid, $entryId, $commentId) {
 			return false;
 		}
 	}
-	$base = ($entryId == 0 ? $ctx->getProperty('skin.commentsOnGuestbook') : $ctx->getProperty('skin.commentsOnEntry'));
+	$base = ($entryId == 0 ? $context->getProperty('skin.commentsOnGuestbook') : $context->getProperty('skin.commentsOnEntry'));
 	return intval($order / $base)+1;
 }
 
@@ -1121,51 +1120,66 @@ function deleteCommentNotifiedInOwner($blogid, $id) {
 }
 
 function notifyComment() {
-	$ctx = Model_Context::getInstance();
 	$blogid = getBlogId();
-	$sql = "SELECT
-				CN.*,
+	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->init("CommentsNotifiedQueue");
+	$pool->setAlias("CommentsNotifiedQueue","CNQ");
+	$pool->setAlias("Comments","CN");
+	$pool->join("Comments", "left", array(
+		array("CNQ.commentid","eq","CN.id")
+	));
+	$pool->setQualifier("CNQ.sendstatus","eq",0);
+	$pool->setQualifier("CN.parent","neq",null);
+	$pool->setOrder("CNQ.id","asc");
+	$pool->setLimit(1);
+	$queue = $pool->getRow("CN.*,
 				CNQ.id AS queueId,
 				CNQ.commentid AS commentid,
 				CNQ.sendstatus AS sendstatus,
 				CNQ.checkdate AS checkdate,
-				CNQ.written  AS queueWritten
-			FROM
-				".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue AS CNQ
-			LEFT JOIN
-				".$ctx->getProperty('database.prefix')."Comments AS CN ON CNQ.commentid = CN.id
-			WHERE
-				CNQ.sendstatus = 0
-				and CN.parent is not null
-			ORDER BY CNQ.id ASC LIMIT 1 OFFSET 0";
-	$queue = POD::queryRow($sql);
+				CNQ.written  AS queueWritten");
 	if (empty($queue) && empty($queue['queueId'])) {
 		return false;
 	}
-	$comments = (POD::queryRow("SELECT * FROM ".$ctx->getProperty('database.prefix')."Comments WHERE blogid = $blogid AND id = {$queue['commentid']}"));
+	$pool->init("Comments");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$queue['commentid']);
+	$comments = $pool->getRow();
 	if (empty($comments['parent']) || $comments['secret'] == 1) {
-		POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		$pool->init("CommentsNotifiedQueue");
+		$pool->setQualifier("id","eq",$queue['queueId']);
+		$pool->delete();
 		return false;
 	}
-	$parentComments = POD::queryRow("SELECT * FROM ".$ctx->getProperty('database.prefix')."Comments WHERE blogid = $blogid AND id = {$comments['parent']}");
+	$pool->init("Comments");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$queue['parent']);
+	$parentComments = $pool->getRow();
 	if (empty($parentComments['homepage'])) {
-		POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+		$pool->init("CommentsNotifiedQueue");
+		$pool->setQualifier("id","eq",$queue['queueId']);
+		$pool->delete();
 		return false;
 	}
-	$entry = POD::queryRow("SELECT * FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id={$comments['entry']}");
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$comments['entry']);
+	$entry = $pool->getRow();
+
 	if(is_null($entry)) {
-		$r1_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/guestbook/".$parentComments['id']."#guestbook".$parentComments['id']);
-		$r2_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/guestbook/".$comments['id']."#guestbook".$comments['id']);
-		$entry['title'] = _textf('%1 블로그의 방명록',$ctx->getProperty('blog.title'));
-		$entryPermaLink = $ctx->getProperty('uri.default')."/guestbook/";
+		$r1_comment_check_url = rawurlencode($context->getProperty('uri.default')."/guestbook/".$parentComments['id']."#guestbook".$parentComments['id']);
+		$r2_comment_check_url = rawurlencode($context->getProperty('uri.default')."/guestbook/".$comments['id']."#guestbook".$comments['id']);
+		$entry['title'] = _textf('%1 블로그의 방명록',$context->getProperty('blog.title'));
+		$entryPermaLink = $context->getProperty('uri.default')."/guestbook/";
 		$entry['id'] = 0;
 	} else {
-		$r1_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $parentComments['id']);
-		$r2_comment_check_url = rawurlencode($ctx->getProperty('uri.default')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $comments['id']);
-		$entryPermaLink = $ctx->getProperty('uri.default')."/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']);
+		$r1_comment_check_url = rawurlencode($context->getProperty('uri.default')."/" . ($context->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $parentComments['id']);
+		$r2_comment_check_url = rawurlencode($context->getProperty('uri.default')."/" . ($context->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']) . "#comment" . $comments['id']);
+		$entryPermaLink = $context->getProperty('uri.default')."/" . ($context->getProperty('blog.useSloganOnPost') ? "entry/{$entry['slogan']}" : $entry['id']);
 	}
 
-	$data = "url=" . rawurlencode($ctx->getProperty('uri.default')) . "&mode=fb" . "&s_home_title=" . rawurlencode($ctx->getProperty('blog.title')) . "&s_post_title=" . rawurlencode($entry['title']) . "&s_name=" . rawurlencode($comments['name']) . "&s_no=" . rawurlencode($comments['entry']) . "&s_url=" . rawurlencode($entryPermaLink) . "&r1_name=" . rawurlencode($parentComments['name']) . "&r1_no=" . rawurlencode($parentComments['id']) . "&r1_pno=" . rawurlencode($comments['entry']) . "&r1_rno=0" . "&r1_homepage=" . rawurlencode($parentComments['homepage']) . "&r1_regdate=" . rawurlencode($parentComments['written']) . "&r1_url=" . $r1_comment_check_url. "&r2_name=" . rawurlencode($comments['name']) . "&r2_no=" . rawurlencode($comments['id']) . "&r2_pno=" . rawurlencode($comments['entry']) . "&r2_rno=" . rawurlencode($comments['parent']) . "&r2_homepage=" . rawurlencode($comments['homepage']) . "&r2_regdate=" . rawurlencode($comments['written']) . "&r2_url=" . $r2_comment_check_url . "&r1_body=" . rawurlencode($parentComments['comment']) . "&r2_body=" . rawurlencode($comments['comment']);
+	$data = "url=" . rawurlencode($context->getProperty('uri.default')) . "&mode=fb" . "&s_home_title=" . rawurlencode($context->getProperty('blog.title')) . "&s_post_title=" . rawurlencode($entry['title']) . "&s_name=" . rawurlencode($comments['name']) . "&s_no=" . rawurlencode($comments['entry']) . "&s_url=" . rawurlencode($entryPermaLink) . "&r1_name=" . rawurlencode($parentComments['name']) . "&r1_no=" . rawurlencode($parentComments['id']) . "&r1_pno=" . rawurlencode($comments['entry']) . "&r1_rno=0" . "&r1_homepage=" . rawurlencode($parentComments['homepage']) . "&r1_regdate=" . rawurlencode($parentComments['written']) . "&r1_url=" . $r1_comment_check_url. "&r2_name=" . rawurlencode($comments['name']) . "&r2_no=" . rawurlencode($comments['id']) . "&r2_pno=" . rawurlencode($comments['entry']) . "&r2_rno=" . rawurlencode($comments['parent']) . "&r2_homepage=" . rawurlencode($comments['homepage']) . "&r2_regdate=" . rawurlencode($comments['written']) . "&r2_url=" . $r2_comment_check_url . "&r1_body=" . rawurlencode($parentComments['comment']) . "&r2_body=" . rawurlencode($comments['comment']);
 	if (strpos($parentComments['homepage'], "http://") === false) {
 		$homepage = 'http://' . $parentComments['homepage'];
 	} else {
@@ -1188,13 +1202,15 @@ function notifyComment() {
 			}
 		}
 	}
-	POD::execute("DELETE FROM ".$ctx->getProperty('database.prefix')."CommentsNotifiedQueue WHERE id={$queue['queueId']}");
+	$pool->init("CommentsNotifiedQueue");
+	$pool->setQualifier("id","eq",$queue['queueId']);
+	$pool->delete();
 }
 
 function receiveNotifiedComment($post) {
 	if (empty($post['mode']) || $post['mode'] != 'fb')
 		return 1;
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 
 	CacheControl::flushCommentNotifyRSS();
 	$post = fireEvent('ReceiveNotifiedComment', $post);
