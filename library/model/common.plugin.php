@@ -287,9 +287,7 @@ function getPluginTableName() {
 
 	$dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames',true);
 	if($dbCaseInsensitive === null) {
-		$result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
-		$dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
-		Setting::setServiceSetting('lowercaseTableNames',$dbCaseInsensitive,true);
+		doesExistTable('');	// determine the table name rule. (lowercase only / mixed cases)
 	}
 
 	$definedTables = getDefinedTableNames();

@@ -9,10 +9,13 @@ function escapeSearchString($str) {
 }
 
 function doesExistTable($tablename) {
-	global $database;
 	static $tables = array();
 	if( empty($tables) ) {
-		$tables = POD::tableList($database['prefix']);
+		$ctx = Model_Context::getInstance();
+		$likeEscape = array ( '/_/' , '/%/' );
+		$likeReplace = array ( '\\_' , '\\%' );
+		$escapename = preg_replace($likeEscape, $likeReplace, $ctx->getProperty('database.prefix'));
+		$tables = POD::tableList($escapename);
 	}
 
 	$dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames',null,'global');
@@ -31,7 +34,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 2.3.0.20150130 */
+/* 2.3.1.20150206 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limit, $_statements, $_group, $table, $id, $_querysetCount;

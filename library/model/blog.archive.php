@@ -4,24 +4,36 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getArchives($blogid, $option = 'yearmonth') {
-	global $database;
 	$archives = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$skinSetting = Setting::getSkinSettings($blogid);
 	$archivesOnPage = $skinSetting['archivesOnPage'];
-	
+	$pool = DBModel::getInstance();
+
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.category",">=",0);
+	$pool->setLimit($archivesOnPage);
+
+	if ( !doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+
 	switch (POD::dbms()) {
 		case 'PostgreSQL':
-			if($option == 'year') $format = 'year';
-			else if ($option == 'month') $format = 'month';
-			else $format = 'year, month';
-			$sql = "SELECT EXTRACT(YEAR FROM FROM_UNIXTIME(e.published)) AS year, EXTRACT(MONTH FROM FROM_UNIXTIME(e.published)) AS month, COUNT(*) AS count 
-				FROM {$database['prefix']}Entries e
-				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-				GROUP BY $format 
-				ORDER BY $format
-				DESC LIMIT $archivesOnPage";
-			$result = POD::queryAllWithDBCache($sql, 'entry');
+			if($option == 'year') {
+				$pool->setGroup("year");
+				$pool->setOrder("year","desc");
+			} else if ($option == 'month') {
+				$pool->setGroup("month");
+				$pool->setOrder("month","desc");
+			} else {
+				$pool->setGroup("year","month");
+				$pool->setOrder("year, month","desc");
+			}
+			$result = $pool->getAll("EXTRACT(YEAR FROM FROM_UNIXTIME(e.published)) AS year, EXTRACT(MONTH FROM FROM_UNIXTIME(e.published)) AS month, COUNT(*) AS count",array('usedbcache'=>true,'cacheprefix'=>'entry'));
 			if ($result) {
 				foreach($result as $archive) {
 					switch ($option) {
@@ -44,13 +56,9 @@ function getArchives($blogid, $option = 'yearmonth') {
 			if($option == 'year') $format = '%Y';
 			else if ($option == 'month') $format = '%m';
 			else $format = '%Y%m';
-			$sql = "SELECT strftime('".$format."',e.published,'unixepoch') AS period, COUNT(*) AS count 
-				FROM {$database['prefix']}Entries e
-				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-				GROUP BY period 
-				ORDER BY period 
-				DESC LIMIT $archivesOnPage";
-			$result = POD::queryAllWithDBCache($sql, 'entry');
+			$pool->setGroup("period");
+			$pool->setOrder("period","desc");
+			$result = $pool->getAll("strftime('".$format."',e.published,'unixepoch') AS period, COUNT(*) AS count",array('usedbcache'=>true,'cacheprefix'=>'entry'));
 			if ($result) {
 				foreach($result as $archive)
 					array_push($archives, $archive);
@@ -60,14 +68,12 @@ function getArchives($blogid, $option = 'yearmonth') {
 			if($option == 'year') $format = 'YYYY';
 			else if ($option == 'month') $format = 'MM';
 			else $format = 'YYYYMM';
-			$sql = "SELECT TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, '$format') period, 
-				COUNT(*) \"count\"
-				FROM {$database['prefix']}Entries e
-				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-				GROUP BY TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYYMM') 
-				ORDER BY period
-				DESC FOR ORDERBY_NUM() BETWEEN 1 AND $archivesOnPage";
-			$result = POD::queryAllWithDBCache($sql, 'entry');
+
+			$pool->setGroup("TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYYMM')");
+			$pool->setOrder("period","desc");
+
+			$result = $pool->getAll("TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, '$format') period,
+				COUNT(*) \"count\"",array('usedbcache'=>true,'cacheprefix'=>'entry'));
 			if($result) {
 				foreach($result as $archive)
 					array_push($archives, $archive);
@@ -79,13 +85,9 @@ function getArchives($blogid, $option = 'yearmonth') {
 			if($option == 'year') $format = 'year';
 			else if ($option == 'month') $format = 'month';
 			else $format = 'year_month';
-			$sql = "SELECT EXTRACT($format FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count 
-				FROM {$database['prefix']}Entries e
-				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 
-				GROUP BY period 
-				ORDER BY period 
-				DESC LIMIT $archivesOnPage";
-			$result = POD::queryAllWithDBCache($sql, 'entry');
+			$pool->setGroup("period");
+			$pool->setOrder("period","desc");
+			$result = $pool->getAll("EXTRACT(".$format." FROM FROM_UNIXTIME(e.published)) period, COUNT(*) count",array('usedbcache'=>true,'cacheprefix'=>'entry'));
 			if ($result) {
 				foreach($result as $archive)
 					array_push($archives, $archive);
@@ -97,34 +99,44 @@ function getArchives($blogid, $option = 'yearmonth') {
 
 function getCalendar($blogid, $period) {
 	global $database;
+	$skinSetting = Setting::getSkinSettings($blogid);
+	$pool = DBModel::getInstance();
+
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.category",">=",0);
+	if ( !doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+
 	$calendar = array('days' => array());
 	if (($period === true) || !checkPeriod($period))
 		$period = Timestamp::getYearMonth();
 	$calendar['period'] = $period;
 	$calendar['year'] = substr($period, 0, 4);
 	$calendar['month'] = substr($period, 4, 2);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	
+
 	switch(POD::dbms()) {
 		case 'Cubrid':
-			$result=POD::queryAllWithDBCache("SELECT DISTINCT TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'DD')
-				FROM {$database['prefix']}Entries e
-				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND
-					TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYY') = '{$calendar['year']}' AND
-					TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'MM') = '{$calendar['month']}'",'entry');	
+			$pool->setQualifier("TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'YYYY')","eq",$calendar['year'],true);
+			$pool->setQualifier("TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'MM')","eq",$calendar['month'],true);
+			$result = $pool->getAll("TO_CHAR(to_timestamp('09:00:00 AM 01/01/1970')+e.published, 'DD')",array('filter'=>'distinct','usedbcache'=>true,'cacheprefix'=>'entry'));
 			break;
 		case 'SQLite3':
-		$result = POD::queryAllWithDBCache("SELECT DISTINCT strftime('%d',e.published,'unixepoch') 
-			FROM {$database['prefix']}Entries e
-			WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND strftime('%Y',e.published,'unixepoch') = {$calendar['year']} AND strftime('%m',e.published,'unixepoch') = {$calendar['month']}",'entry');		
+			$pool->setQualifier("strftime('%Y',e.published,'unixepoch')","eq",$calendar['year'],true);
+			$pool->setQualifier("strftime('%m',e.published,'unixepoch')","eq",$calendar['month'],true);
+			$result = $pool->getAll("strftime('%d',e.published,'unixepoch')",array('filter'=>'distinct','usedbcache'=>true,'cacheprefix'=>'entry'));
 			break;
 		case 'MySQL':
 		case 'MySQLi':
 		case 'PostgreSQL':
-		default:	
-			$result = POD::queryAllWithDBCache("SELECT DISTINCT DAYOFMONTH(FROM_UNIXTIME(e.published)) 
-				FROM {$database['prefix']}Entries e
-				WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND YEAR(FROM_UNIXTIME(e.published)) = {$calendar['year']} AND MONTH(FROM_UNIXTIME(e.published)) = {$calendar['month']}",'entry');
+		default:
+			$pool->setQualifier("YEAR(FROM_UNIXTIME(e.published))","eq",$calendar['year'],true);
+			$pool->setQualifier("MONTH(FROM_UNIXTIME(e.published))","eq",$calendar['month'],true);
+			$result = $pool->getAll("DAYOFMONTH(FROM_UNIXTIME(e.published))",array('filter'=>'distinct','usedbcache'=>true,'cacheprefix'=>'entry'));
 			break;
 	}
 	if ($result) {
