@@ -9,18 +9,19 @@ $pluginSetting = array();
 /***** Plugin data manipulation *****/
 function clearPluginSettingCache()
 {
-	global $pluginSetting, $gCacheStorage;
-	$gCacheStorage->purge();
+	global $pluginSetting;
 	if( !empty($pluginSetting) ) {
 		$pluginSetting = array();
 	}
+	$gCacheStorage = globalCacheStorage::getInstance();
+	$gCacheStorage->purge();
 	$pageCache = pageCache::getInstance();
 	$pageCache->reset('PluginSettings');
 	$pageCache->purge();
 }
 
 function activatePlugin($name) {
-	global $database, $activePlugins, $gCacheStorage;
+	global $database, $activePlugins;
 	if (in_array($name, $activePlugins))
 		return true;
 	if (!preg_match('/^[-a-zA-Z0-9_ ]+$/', $name))
