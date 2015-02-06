@@ -34,7 +34,7 @@ class POD extends DBAdapter {
 		$cache = queryCache::getInstance();
 		$cache->reset($query, $prefix);
 		if(!$cache->load()) {
-			$cache->contents = POD::queryAllWithCache($query, $type, $count);
+			$cache->contents = POD::queryAll($query, $type, $count);
 			$cache->update();
 		}
 		return $cache->contents;
