@@ -4,8 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getLocatives($blogid) {
-	//TODO Fix the parameter. Current code does not work. DBModel upgrade needed for complex queries.
-	return getEntries($blogid, 'id, userid, title, slogan, location', array(array('length(location)','>',1),'AND',array('category','>',-1)), 'location');
+	return getEntries($blogid, 'id, userid, title, slogan, location', array(array('length(location)','>',1),'AND',array('category','>',-1)), array('location','desc'));
 }
 
 function suggestLocatives($blogid, $filter) {

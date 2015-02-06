@@ -62,8 +62,6 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = arr
 	}
 	$pool->setOrder($order[0],$order[1]);
 	return $pool->getAll($attributes);
-
-	return POD::queryAll("SELECT $attributes FROM ".$context->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 $visibility $condition ORDER BY $order");
 }
 
 

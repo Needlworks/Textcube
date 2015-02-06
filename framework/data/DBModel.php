@@ -12,10 +12,7 @@ function doesExistTable($tablename) {
 	static $tables = array();
 	if( empty($tables) ) {
 		$ctx = Model_Context::getInstance();
-		$likeEscape = array ( '/_/' , '/%/' );
-		$likeReplace = array ( '\\_' , '\\%' );
-		$escapename = preg_replace($likeEscape, $likeReplace, $ctx->getProperty('database.prefix'));
-		$tables = POD::tableList($escapename);
+		$tables = POD::tableList($ctx->getProperty('database.prefix'));
 	}
 
 	$dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames',null,'global');
@@ -34,7 +31,7 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 2.3.1.20150206 */
+/* 2.3.3.20150207 */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limit, $_statements, $_group, $table, $id, $_querysetCount;
@@ -189,6 +186,7 @@ class DBModel extends Singleton implements IModel {
 		if ($nargs % 2 != 1) return false;
 		$args = func_get_args();
 		if ($nargs == 1 && is_array($args[0])) {
+			$nargs = count($args[0]);
 			$args = $args[0];
 		}
 		$mqualifier = array();
@@ -522,11 +520,15 @@ class DBModel extends Singleton implements IModel {
 		$acceptedOptions = array('filter'=>'','usedbcache'=>false,'cacheprefix'=>'');
 		if (empty($options)) return $acceptedOptions;
 		foreach(array_keys($options) as $o) {
-			if (array_key_exists(strtolower($o),$this->_options)) {
-				$acceptedOptions[strtolower($o)] = $this->_options[$o];
+			$OpKey = strtolower($o);
+			if (array_key_exists($OpKey,$this->_options)) {
+				$acceptedOptions[$OpKey] = $this->_options[$o];
 			}
-			if (array_key_exists(strtolower($o),$options)) { // Overwrite options
-				$acceptedOptions[strtolower($o)] = $options[$o];
+			if (array_key_exists($OpKey,$options)) { // Overwrite options
+				$acceptedOptions[$OpKey] = $options[$o];
+				if($OpKey == 'filter') {
+					$acceptedOptions[$OpKey] = $acceptedOptions[$OpKey].' ';
+				}
 			}
 		}
 		return $acceptedOptions;

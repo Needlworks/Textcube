@@ -926,7 +926,7 @@ function getRecentComments($blogid,$count = false,$isGuestbook = false, $guestSh
 		$pool->join("Entries","inner",$joint);
 		$pool->setQualifier("r.blogid","eq",$blogid);
 	} else {
-		$pool->setAlias("Categories","r");
+		$pool->setAlias("Categories","c");
 		$pool->join("Entries","inner",$joint);
 		$pool->join("Categories","left outer",array(
 			array("e.blogid","eq","c.blogid"),
