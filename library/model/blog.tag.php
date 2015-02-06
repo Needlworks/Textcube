@@ -179,6 +179,7 @@ function getTagFrequency($tag, $max, $min) {
 		if (!is_array($tag)) {
 			$tag = array('name' => $tag);
 		}
+
 		$pool->init("Tags");
 		$pool->setAlias("Tags","t");
 		$pool->setAlias("TagRelations","r");
@@ -196,7 +197,9 @@ function getTagFrequency($tag, $max, $min) {
 				array("e.visibility",">",0)
 			));
 		}
+		$count = $pool->getCount();
 	}
+
 	$dist = $max / 3;
 	if ($count == $min)
 		return 5;
