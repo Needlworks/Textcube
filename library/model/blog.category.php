@@ -140,7 +140,7 @@ function getCategoryVisibilityList($blogid, $mode = 'private') {
 			default:
 				$visibility = 1;
 		}
-				if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
+		if($context->getProperty('category.raw')=== null) getCategories($blogid, 'raw'); //To cache category information.
 		if($list = MMCache::queryColumn($context->getProperty('category.raw'),'visibility',$visibility,'id')) {
 			$CategoryVisibilityList[$mode] = $list;
 		} else {

@@ -47,7 +47,6 @@ function getSpecialEntriesTotalCount($blogid, $categoryId) {
 }
 
 function getEntries($blogid, $attributes = '*', $condition = false, $order = array('published','DESC')) {
-	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$pool->reset("Entries");
 
@@ -65,16 +64,16 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = arr
 }
 
 
-function getTemplates($blogid, $attributes = '*', $condition = false, $order = 'published DESC') {
+function getTemplates($blogid, $attributes = '*', $condition = false, $order = array('published','DESC')) {
 	$pool = DBModel::getInstance();
-	$context = Model_Context::getInstance();
+	$pool->reset("Entries");
+
 	if (!empty($condition))
-		$condition = 'AND ' . $condition;
-	return POD::queryAll("SELECT $attributes
-			FROM ".$context->getProperty('database.prefix')."Entries
-			WHERE blogid = $blogid
-				AND draft = 0 AND category = -4 $condition
-				ORDER BY $order");
+		$pool->setQualifierSet($condition);
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("category","eq",-4);
+	$pool->setOrder($order[0],$order[1]);
+	return $pool->getAll($attributes);
 }
 
 function getEntry($blogid, $id, $draft = false) {
@@ -104,26 +103,34 @@ function getEntry($blogid, $id, $draft = false) {
 				'slogan'     => '');
 	}
 	if ($draft) {
-		$entry = POD::queryRow("SELECT * FROM ".$context->getProperty('database.prefix')."Entries
-				WHERE blogid = $blogid
-					AND id = $id
-					AND draft = 1");
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$id);
+		$pool->setQualifier("draft","eq",1);
+		$entry = $pool->getRow();
 		if (!$entry)
 			return null;
 		if ($entry['published'] == 1)
 			$entry['republish'] = true;
 		else if ($entry['published'] != 0)
 			$entry['appointed'] = $entry['published'];
-		if ($id != 0)
-			$entry['published'] = POD::queryCell("SELECT published
-					FROM ".$context->getProperty('database.prefix')."Entries
-					WHERE blogid = $blogid AND id = $id AND draft = 0");
+		if ($id != 0) {
+			$pool->init("Entries");
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("id","eq",$id);
+			$pool->setQualifier("draft","eq",0);
+			$entry['published'] = $pool->getCell("published");
+		}
 		return $entry;
 	} else {
-		$visibility = doesHaveOwnership() ? '' : 'AND visibility > 0';
-		$entry = POD::queryRow("SELECT *
-				FROM ".$context->getProperty('database.prefix')."Entries
-				WHERE blogid = $blogid AND id = $id AND draft = 0 $visibility");
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$id);
+		$pool->setQualifier("draft","eq",0);
+		if (!doesHaveOwnership()) {
+			$pool->setQualifier("visibility",">",0);
+		}
+		$entry = $pool->getRow();
 		if (!$entry)
 			return null;
 		if ($entry['visibility'] < 0)
