@@ -52,7 +52,7 @@ function getEntries($blogid, $attributes = '*', $condition = false, $order = arr
 
 	if (!empty($condition))
 		$pool->setQualifierSet($condition);
-	
+
 	if (!doesHaveOwnership()) {
 		$pool->setQualifier("visibility",">",0);
 	}
@@ -1318,20 +1318,23 @@ function getSloganById($blogid, $id) {
 
 function getEntryIdBySlogan($blogid, $slogan) {
 	$ctx = Model_Context::getInstance();
-	$result = POD::queryCell("SELECT id
-		FROM ".$ctx->getProperty('database.prefix')."Entries
-		WHERE blogid = $blogid
-			AND slogan = '".POD::escapeString($slogan)."'");
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("slogan","eq",$slogan,true);
+	$result = $pool->getCell("id");
 	if(!$result) return false;
 	else return $result;
 }
 
 function setEntryStar($entryId, $mark) {
 	$ctx = Model_Context::getInstance();
-
-	$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries
-		SET starred = ".$mark."
-		WHERE blogid = ".getBlogId()." AND id = ".$entryId);
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
+	$pool->setAttribute("starred","eq",$mark);
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entryId);
+	$result = $pool->update();
 	if(!$result) return false;
 	else return true;
 }
