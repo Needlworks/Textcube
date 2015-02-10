@@ -30,12 +30,40 @@ function doesExistTable($tablename) {
 	return false;
 }
 
-/* DBModel */
-/* 2.4.0.20150210 */
+/* DBModel : lightweight database abstraction implementation for codeball / Textcube.
+
+   2.4.0.20150210
+   Needlworks / Tatter Network Foundation.
+*/
+
 /*
- * 2.4.0 (2015.2.10) : Added store / restore method to keep track of nested queries.
- *
- *
+  2.4.0 (2015.2.10)  : Added - store / restore method to keep track of nested queries.
+  2.3.3 (2015.2.7)   : Added - complex qualifierset support.
+  2.3.2 (2015.2.6)   : Bugfixes.
+  2.3.1 (2015.2.4)   : Added - complex join tables via left/right outer statements.
+  2.3.0 (2015.1.30)  : Added - Option support.
+  2.1.0 (2015.1.28)  : Added - Filter support. distinct / run-time memory cache support.
+  2.0.2 (2015.1.23)  : Modified - If value contains % at the beginning / end of the string, DBModel
+                       does not add % around the string. Instead, DBModel use % inside string.
+                       Added - init method
+  2.0.1 (2015.1.22)  : Added - keyword options for select statement.
+  2.0.0 (2015.1.21)  : Added - *Group methods,
+                       Projection methods (for prefetching cell names),
+                       Extend method to combine multiple tables
+  1.8.0 (2015.1.20)  : Added - getSize
+  1.7.2 (2014.11.5)  : Bugfixes.
+  1.6.0 (2014.9.16)  : Added - support multiple qualifiers for same field.
+  1.4.1 (2011.3.23)  : Added -  selectable option for automatic string escaping.
+  1.4.0 (2010.12.24) : Added - qualifierSet for multiple qualifier / nested qualifier combination.
+  1.3.1 (2010.9.12)  : Bugfixes.
+  1.3.0 (2010.8.24)  : Added - getCount
+                       Added - hasoneof / hasanyof / hasnoneof conditions
+  1.2.0 (2010.4.29)  : Bugfixes.
+  1.1.0 (2009.12.28) : Added - automatic string escaping.
+  1.0.0 (2009.8.13)  : Modified - singleton implementation.
+  0.9.0 (2009.8.12)  : First DBModel implementation as a lightweight database abstraction.
+                       Branched from POD (PHP Object-oriented DataModel) implementation
+                       (2007, Jeongkyu Shin)
  */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
