@@ -63,7 +63,7 @@ function doesExistTable($tablename) {
   1.0.0 (2009.8.13)  : Modified - singleton implementation.
   0.9.0 (2009.8.12)  : First DBModel implementation as a lightweight database abstraction.
                        Branched from POD (PHP Object-oriented DataModel) implementation
-                       (2007, Jeongkyu Shin)
+                       (By Jeongkyu Shin <inureyes@gmail.com>, 2007)
  */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
@@ -156,7 +156,6 @@ class DBModel extends Singleton implements IModel {
 	public function setAttribute($name, $value, $escape = false) {
 		if (is_null($value))
 			$this->_attributes[$name] = null;
-//			$this->_attributes[$name] = 'NULL';
 		else
 			$this->_attributes[$name] = ($escape === false && (!is_string($value) || in_array($value,$this->_reservedFunctions)) ? $value : ($escape ? '\'' . POD::escapeString($value) . '\'' : "'" . $value . "'"));
 	}
@@ -364,63 +363,74 @@ class DBModel extends Singleton implements IModel {
 
 	/* Selects */
 	public function doesExist($field = '*', $options = null) {
-		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryExistence('SELECT '. $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
+		$result = POD::queryExistence('SELECT '. $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	public function getCell($field = '*', $options = null) {
-		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
-			return POD::queryCellWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1',$options['cacheprefix']);
+			$result = POD::queryCellWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1',$options['cacheprefix']);
+		} else {
+			$result = POD::queryCell('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
 		}
-		return POD::queryCell('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	public function getRow($field = '*', $options = null) {
-		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
-			return POD::queryRowWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+			$result = POD::queryRowWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+		} else {
+			$result = POD::queryRow('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 		}
-		return POD::queryRow('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	public function getColumn($field = '*', $options = null) {
-		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
-			return POD::queryColumnWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+			$result = POD::queryColumnWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+		} else {
+			$result = POD::queryColumn('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 		}
-		return POD::queryColumn('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	public function getAll($field = '*', $options = null) {
-		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
-			return POD::queryAllWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+			$result = POD::queryAllWithDBCache('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause(),$options['cacheprefix']);
+		} else {
+			$result = POD::queryAll('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 		}
-		return POD::queryAll('SELECT ' . $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	public function getCount($field = '*', $options = null) { /// Returns the 'selection count'
-		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
-		return POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		$result =  POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	public function getSize($field = '*', $options = null) { /// Returns the table size
-		$this->_called = true;
 		$options = $this->_treatOptions($options);
-		return POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		$result =  POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	/* CRUDs */
@@ -443,11 +453,13 @@ class DBModel extends Singleton implements IModel {
 
 		$this->_query = 'INSERT INTO ' . $this->_getTableName() . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
 		if($option == 'count') return POD::queryCount($this->_query);
-		$this->_called = true;
-		if (POD::query($this->_query)) {
+		$result = POD::query($this->_query);
+		if ($result) {
+			$this->_manage_pool_stack();
 //			$this->id = POD::insertId();
 			return true;
 		}
+		$this->_manage_pool_stack();
 		return false;
 	}
 
@@ -464,8 +476,12 @@ class DBModel extends Singleton implements IModel {
 
 		$this->_query = 'UPDATE ' . $this->_getTableName() . ' SET ' . implode(',', $attributes) . $this->_makeWhereClause();
 		if($option == 'count') return POD::queryCount($this->_query);
-		if (POD::query($this->_query))
+		$result = POD::query($this->_query);
+		if ($result) {
+			$this->_manage_pool_stack();
 			return true;
+		}
+		$this->_manage_pool_stack();
 		return false;
 	}
 
@@ -490,14 +506,17 @@ class DBModel extends Singleton implements IModel {
 		if (in_array(POD::dbms(), array('MySQL','MySQLi','SQLite3'))) { // Those supports 'REPLACE'
 			$this->_query = 'REPLACE INTO ' . $this->_getTableName() . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
 			if($option == 'count') return POD::queryCount($this->_query);
-			if (POD::query($this->_query)) {
+			$result = POD::query($this->_query);
+			if ($result) {
 				$this->id = POD::insertId();
+				$this->_manage_pool_stack();
 				return true;
 			}
 			return false;
 		} else {
 			$this->_query = 'SELECT * FROM ' . $this->_getTableName() . $this->_makeWhereClause() . ' LIMIT 1';
-			if(POD::queryExistence($this->_query)) {
+			$result = POD::queryExistence($this->_query);
+			if($result) {
 				return $this->update($option);
 			} else {
 				return $this->insert($option);
@@ -511,9 +530,16 @@ class DBModel extends Singleton implements IModel {
 		$this->_called = true;
 		if(!is_null($count)) $this->setLimit($count);
 		$this->_query = 'DELETE FROM ' . $this->_getTableName() . $this->_makeWhereClause();
-		if($option == 'count') return POD::queryCount($this->_query);
-		if (POD::query($this->_query))
+		if($option == 'count') {
+			$result = POD::queryCount($this->_query);
+			$this->_manage_pool_stack();
+			return $result;
+		}
+		$result = POD::query($this->_query);
+		if ($result) {
+			$this->_manage_pool_stack();
 			return true;
+		}
 		return false;
 	}
 
@@ -561,18 +587,24 @@ class DBModel extends Singleton implements IModel {
 			$sql .= ', KEY ('.POD::escapeString($key).')';
 		}
 		$sql .= ")";
-		return POD::execute($sql);
+		$result = POD::execute($sql);
+		$this->_manage_pool_stack();
+		return $result;
 	}
 
 	public function discard() {
 		$this->_called = true;
 		$this->_query = 'DROP '. $this->_getTableName();
-		if(POD::query($this->_query))
+		$result = POD::query($this->_query);
+		if($result) {
+			$this->_manage_pool_stack();
 			return true;
+		}
+		$this->_manage_pool_stack();
 		return false;
 	}
 
-	protected function _getTableName($table = null) {
+	private function _getTableName($table = null) {
 		if (is_null($table)) $table = $this->table;
 		if (array_key_exists($table, $this->_object_aliases)) {
 			return $this->context->getProperty('database.prefix').POD::escapeString($table).' '.$this->_object_aliases[$table];
@@ -581,7 +613,7 @@ class DBModel extends Singleton implements IModel {
 		}
 	}
 
-	protected function _treatOptions($options) {
+	private function _treatOptions($options) {
 		$acceptedOptions = array('filter'=>'','usedbcache'=>false,'cacheprefix'=>'');
 		if (empty($options)) return $acceptedOptions;
 		foreach(array_keys($options) as $o) {
@@ -599,7 +631,7 @@ class DBModel extends Singleton implements IModel {
 		return $acceptedOptions;
 	}
 
-	protected function _makeWhereClause() {
+	private function _makeWhereClause() {
 		$clause = '';
 		if (count($this->_qualifiers) == 0) {
 			$clause = '1';
@@ -636,7 +668,7 @@ class DBModel extends Singleton implements IModel {
 		return (strlen($clause) ? ' WHERE ' . $clause : '');
 	}
 
-	protected function _canonicalWhereClause($relations, $value) {
+	private function _canonicalWhereClause($relations, $value) {
 		if(in_array($relations,array('hasoneof','hasanyof','hasnoneof'))) {
 			switch($relations) {
 				case 'hasoneof':
@@ -656,7 +688,7 @@ class DBModel extends Singleton implements IModel {
 		return array($relations, $value);
 	}
 
-	protected function _extendClause() {
+	private function _extendClause() {
 		$clause = '';
 		if (!empty($this->_extended_objects)) {
 			foreach ($this->_extended_objects as $table => $property) {
@@ -676,7 +708,7 @@ class DBModel extends Singleton implements IModel {
 		return (strlen($clause) ? ' ' . $clause : '');
 	}
 
-	protected function _treatReservedFields($fields) {
+	private function _treatReservedFields($fields) {
 		if (!empty($this->_projections) && $fields == '*') $fields = implode(',',$this->_projections);
 		if(empty($this->_reservedFields)) return $fields;
 		else {
@@ -685,7 +717,7 @@ class DBModel extends Singleton implements IModel {
 		}
 	}
 
-	protected function _capsulateFields($requestedFieldArray) {
+	private function _capsulateFields($requestedFieldArray) {
 		$escapedFields = array();
 		foreach ($requestedFieldArray as $req) {
 			if(array_key_exists($req,$this->_isReserved)) {
@@ -695,6 +727,13 @@ class DBModel extends Singleton implements IModel {
 			}
 		}
 		return $escapedFields;
+	}
+
+	private function _manage_pool_stack() {
+		if ($this->_buffer != null) {
+			$this->restore();
+		}
+		$this->_called = true;
 	}
 
 	protected function getQualifierModel($name, $condition, $value = null, $escape = false, $autoquote = true) {
