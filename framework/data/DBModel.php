@@ -31,21 +31,34 @@ function doesExistTable($tablename) {
 }
 
 /* DBModel */
-/* 2.3.3.20150207 */
+/* 2.4.0.20150210 */
+/*
+ * 2.4.0 (2015.2.10) : Added store / restore method to keep track of nested queries.
+ *
+ *
+ */
 class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
-	protected $_relations, $_glues, $_filters, $_order, $_limit, $_statements, $_group, $table, $id, $_querysetCount;
+	protected $_relations, $_glues, $_filters, $_order, $_limit;
+	protected $_statements, $_group, $table, $id, $_querysetCount;
 	protected $_reservedFields, $_isReserved, $param, $_options;
+	protected $_called, $_buffer;
 	protected $_extended_objects, $_object_aliases;
 
 	public $structure, $option;
 
 	function __construct($table = null) {
 		$this->context = Model_Context::getInstance();
+		$this->_called = true;
+		$this->_buffer = null;
 		$this->reset($table);
 	}
 
 	public function reset($table = null, $param = null) {
+		if ($this->_called == false) {
+			$this->store();	// Save current state on buffer.
+		}
+		$this->_called = false;
 		if(!is_null($table)) $this->table = $table;
 		else $this->table = null;
 		$this->id = null;
@@ -82,6 +95,18 @@ class DBModel extends Singleton implements IModel {
 		return $this->reset($table, $param);
 	}
 
+	public function store() {
+		$current_states = get_object_vars($this);
+		$this->_buffer = $current_states;
+		return $this;
+	}
+
+	public function restore() {
+		foreach($this->_buffer as $key => $value) {
+			$this->$key = $value;
+		}
+		return $this;
+	}
 	/// Attributes
 	public function resetAttributes() {
 		$this->_attributes = array();
@@ -311,12 +336,14 @@ class DBModel extends Singleton implements IModel {
 
 	/* Selects */
 	public function doesExist($field = '*', $options = null) {
+		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		return POD::queryExistence('SELECT '. $options['filter'] . $field . ' FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause() . ' LIMIT 1');
 	}
 
 	public function getCell($field = '*', $options = null) {
+		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
@@ -326,6 +353,7 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function getRow($field = '*', $options = null) {
+		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
@@ -335,6 +363,7 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function getColumn($field = '*', $options = null) {
+		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
@@ -344,6 +373,7 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function getAll($field = '*', $options = null) {
+		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		if ($options['usedbcache'] == true) {
@@ -353,13 +383,14 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function getCount($field = '*', $options = null) { /// Returns the 'selection count'
+		$this->_called = true;
 		$field = $this->_treatReservedFields($field);
 		$options = $this->_treatOptions($options);
 		return POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(' . $field . ') FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
 
 	public function getSize($field = '*', $options = null) { /// Returns the table size
-		$field = $this->_treatReservedFields($field);
+		$this->_called = true;
 		$options = $this->_treatOptions($options);
 		return POD::queryCell('SELECT '  . $options['filter'] . ' COUNT(*) FROM ' . $this->_getTableName() . $this->_extendClause() . $this->_makeWhereClause());
 	}
@@ -384,6 +415,7 @@ class DBModel extends Singleton implements IModel {
 
 		$this->_query = 'INSERT INTO ' . $this->_getTableName() . ' (' . implode(',', $this->_capsulateFields(array_keys($attributes))) . ') VALUES (' . implode(',', $pairs) . ')';
 		if($option == 'count') return POD::queryCount($this->_query);
+		$this->_called = true;
 		if (POD::query($this->_query)) {
 //			$this->id = POD::insertId();
 			return true;
@@ -394,6 +426,7 @@ class DBModel extends Singleton implements IModel {
 	public function update($option = null) {
 		if (empty($this->table) || empty($this->_attributes))
 			return false;
+		$this->_called = true;
 		$attributes = array();
 
 		foreach ($this->_attributes as $name => $value)
@@ -412,6 +445,7 @@ class DBModel extends Singleton implements IModel {
 		$this->id = null;
 		if (empty($this->table))
 			return false;
+		$this->_called = true;
 		// Use first qualifiers when multiple conditions exist.
 		$qualifiers = array();
 		if(!empty($this->_qualifiers)) {
@@ -446,6 +480,7 @@ class DBModel extends Singleton implements IModel {
 	public function delete($count = null, $option = null) {
 		if (empty($this->table))
 			return false;
+		$this->_called = true;
 		if(!is_null($count)) $this->setLimit($count);
 		$this->_query = 'DELETE FROM ' . $this->_getTableName() . $this->_makeWhereClause();
 		if($option == 'count') return POD::queryCount($this->_query);
@@ -458,6 +493,7 @@ class DBModel extends Singleton implements IModel {
 	public function create() {
 		if(!isset($this->structure) || empty($this->structure) || !is_array($this->structure)) return false;
 		/// TO DO : implementing create method by structure
+		$this->_called = true;
 		$sql = "CREATE TABLE ".$this->_getTableName()." (".CRLF;
 		$keys = array();
 		foreach($this->structure as $field => $attributes) {
@@ -501,6 +537,7 @@ class DBModel extends Singleton implements IModel {
 	}
 
 	public function discard() {
+		$this->_called = true;
 		$this->_query = 'DROP '. $this->_getTableName();
 		if(POD::query($this->_query))
 			return true;
