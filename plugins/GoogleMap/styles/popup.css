@@ -118,13 +118,14 @@ input, textarea {
 	left: 200px;
 	right: 60px;
 	padding: 8px 8px 8px 15px;
-	background: white;
-	background-color: rgba(255,255,255,0.75);
 	box-shadow: 0 2px 5px rgba(0,0,0,0.7);
-	-moz-box-shadow: 0 1px 5px rgba(0,0,0,0.7);
-	-webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.7);
+	-moz-box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+	-webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.7);
+	border-radius: 4px;
+	background-color: rgba(255,255,255,0.86);
 	text-align: left;
 	font-size: 0.9em;
+	z-index: 1;
 }
 #queryResult li {
 	margin: 0 0 0.3em 2em;

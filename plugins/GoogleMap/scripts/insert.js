@@ -1,5 +1,5 @@
 // Google Map Plugin UI Helper
-// - depends on jQuery 1.3.2, jQuery UI plugin 1.7.2, and Google Maps API
+// - depends on jQuery 1.11+, jQuery UI plugin 1.11+, and Google Maps API v3+
 
 var map;
 var listener_onclick = null;
@@ -20,7 +20,7 @@ function initializeCustomizableMap() {
 			$('#inputWidth').val($container.width());
 			$('#inputHeight').val($container.height());
 		})
-		.bind('mousewheel', function(ev) { ev.stopPropagation(); });
+		.bind('scroll', function(ev) { ev.stopPropagation(); });
 	$('#toggleMarkerAddingMode')
 		.removeClass('toggled')
 		.click(function(ev) {
@@ -65,7 +65,7 @@ function initializeCustomizableMap() {
 			i++;
 		}
 		options.user_markers = compact_user_markers;
-		editor.command('Raw', '[##_GoogleMap|' + $.toJSON(options) + '|_##]');
+		editor.command('Raw', '[##_GoogleMap|' + JSON.stringify(options) + '|_##]');
 		self.close();
 	});
 	icon_blue = new google.maps.MarkerImage(pluginURL + '/images/marker_blue.png');
@@ -132,7 +132,7 @@ function closeQueryResult() {
 }
 
 function convertToUserMarker(id) {
-	var um = GMap_onClick(query_markers[id].marker.getPosition());
+	var um = GMap_onClick({latLng: query_markers[id].marker.getPosition()});
 	query_markers[id].marker.setMap(null);
 	um.title = query_markers[id].query;
 	um.desc = query_markers[id].address;
@@ -175,7 +175,8 @@ function removeUserMarker(id) {
 	delete user_markers[id];
 }
 
-function GMap_onClick(latlng) {
+function GMap_onClick(e) {
+	var latlng = e.latLng;
 	if (user_markers.length == 20) {
 		alert('Too many markers!');
 		return;
@@ -190,11 +191,10 @@ function GMap_onClick(latlng) {
 	var info = new google.maps.InfoWindow({
 		'content' : ''
 	});
-	gogole.maps.event.addListener(marker, 'click', GMarker_onClick);
+	google.maps.event.addListener(marker, 'click', GMarker_onClick);
 	google.maps.event.addListener(info, 'closeclick', function() {
-		user_markers[id].title = $('#info_title').val();
-		user_markers[id].desc = $('#info_desc').val();
-		this.setContent('');
+		user_markers[id].title = $(user_markers[id].iw_dom).find('#info_title').val();
+		user_markers[id].desc = $(user_markers[id].iw_dom).find('#info_desc').val();
 	});
 	user_markers[id] = {
 		'id': id,
@@ -206,13 +206,16 @@ function GMap_onClick(latlng) {
 	return user_markers[id];
 }
 
-function GMarker_onClick(latlng) {
-	var um = findUserMarker(this);
-	var form = '<div class="GMapInfo">';
-	form += '<p><label for="info_title">제목 : </label><input id="info_title" type="text" value="'+um.title+'" /></p>';
-	form += '<p><label for="info_desc">설명 : </label><textarea id="info_desc" rows="3" cols="30">'+um.desc+'</textarea></p>';
-	form += '<div style="text-align:right"><a href="javascript:void(0);" onclick="removeUserMarker(\''+um.id+'\');">삭제하기</div></div>';
+function GMarker_onClick(e) {
 	plugin.gmap.closeActiveInfoWindow();
-	um.info.setContent(form);
+	var um = findUserMarker(this);
+	var form_str = '<div class="GMapInfo">';
+	form_str += '<p><label for="info_title">제목 : </label><input id="info_title" type="text" value="'+um.title+'" /></p>';
+	form_str += '<p><label for="info_desc">설명 : </label><textarea id="info_desc" rows="3" cols="30">'+um.desc+'</textarea></p>';
+	form_str += '<div style="text-align:right"><a href="javascript:void(0);" onclick="removeUserMarker(\''+um.id+'\');">삭제하기</div></div>';
+	um.info.setContent(form_str);
 	um.info.open(map, um.marker);
+	plugin.gmap.activeInfoWindow = um.info;
+	// Preserve reference to DOM
+	um.iw_dom = $('.GMapInfo')[0];
 }
