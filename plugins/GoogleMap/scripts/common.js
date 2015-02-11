@@ -1,13 +1,15 @@
 // Google Map Plugin Common Library
-// depends on Google Maps API
+// depends on Google Maps API v3+
 
 window.plugin = window.plugin || {};
 plugin.gmap = {
 	activeInfoWindow: null,
 	geocoder: null,
 	closeActiveInfoWindow: function() {
-		if (this.activeInfoWindow)
+		if (this.activeInfoWindow) {
+			google.maps.event.trigger(this.activeInfoWindow, 'closeclick');
 			this.activeInfoWindow.close();
+		}
 		this.activeInfoWindow = null;
 	},
 	detectMobileSafari: function() {
