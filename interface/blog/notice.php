@@ -10,7 +10,7 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	} else {
 		list($entries, $paging) = getEntryWithPaging($blogid, $suri['id'], true);
 	}
-	if(defined('__TEXTCUBE_LOGIN__')) {
+	if(defined('__TEXTCUBE_PAGE__')) {
 		unset($paging);
 	}
 	fireEvent('OBStart');
