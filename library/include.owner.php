@@ -12,7 +12,6 @@ $__requireBasics = array(
 	'function/html',
 	'function/xml',
 	'function/misc',
-	'function/image',
 	'function/mail');
 $__requireLibrary = array(
 	'blog.skin',

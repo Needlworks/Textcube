@@ -176,7 +176,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 		$pool->setQualifier("c.blogid","eq",$blogid);
 		$pool->setQualifier("c.parent","eq",null);
 		$pool->setOrder("c.modified","desc");
-		$pool->setProjections("c.*","csiteinfo.title AS siteTitle","csiteinfo.name AS nickname", "csiteinfo.url AS siteUrl", "csiteinfo.modified AS siteModified");
+		$pool->setProjection("c.*","csiteinfo.title AS siteTitle","csiteinfo.name AS nickname", "csiteinfo.url AS siteUrl", "csiteinfo.modified AS siteModified");
 
 	} else {
 		if (!empty($search)) {
@@ -219,7 +219,7 @@ function getCommentsNotifiedWithPagingForOwner($blogid, $category, $name, $ip, $
 
 		$pool->setQualifier("c.parent","eq",null);
 		$pool->setOrder("c.modified","desc");
-		$pool->setProjections("c.*","csiteinfo.title AS siteTitle","csiteinfo.name AS nickname", "csiteinfo.url AS siteUrl", "csiteinfo.modified AS siteModified");
+		$pool->setProjection("c.*","csiteinfo.title AS siteTitle","csiteinfo.name AS nickname", "csiteinfo.url AS siteUrl", "csiteinfo.modified AS siteModified");
 
 		if (!empty($name)) {
 			$pool->setQualifier("c.name","eq",$name,true);
