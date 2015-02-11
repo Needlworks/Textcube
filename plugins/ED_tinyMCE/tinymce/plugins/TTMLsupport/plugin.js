@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.3.0.20150112
+ * Version 2.4.0.20150212
  *
  * Created       : May 30, 2011
- * Last modified : Jan 12, 2015
+ * Last modified : Feb 12, 2015
  *
  * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
@@ -64,6 +64,9 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         uploadDlgCounter=true;
       }
     });
+	ed.addCommand('command', function(command, value1, value2) {
+		t.command(command, value1, value2);
+	});
 	ed.addCommand('textcubeSavePost', function() {
 			entryManager.saveEntry();
 			return false;
@@ -1772,7 +1775,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 				 author : 'Jeongkyu Shin',
 				 authorurl : 'http://www.textcube.org',
 				 infourl : 'http://github.com/needlworks/textcube',
-				 version : "2.3"
+				 version : "2.4"
 			 };
 		 }
 });
