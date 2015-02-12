@@ -131,6 +131,9 @@ function tinyMCE_editorinit($editor) {
 			editor.addObject = function(data) {
 				this.plugins.TTMLsupport.addObject(data);
 			};
+			editor.command = function(command, value1, value2) {
+				this.plugins.TTMLsupport.command(command,value1,value2);
+			};
 			editor.finalize = function() {
 				this.syncTextarea();
 				this.destroy();
