@@ -162,29 +162,43 @@ function getEntryAttributes($blogid, $id, $attributeNames) {
 }
 
 function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
-	$ctx = Model_Context::getInstance();
 	if ($category === null)
 		return array();
 	if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0)
 		return array();
+	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+
 	if ($category > 0) {
-		$categories = POD::queryColumn("SELECT id FROM ".$ctx->getProperty('database.prefix')."Categories WHERE blogid = $blogid AND parent = $category");
+		$pool->init("Categories");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("parent","eq",$category);
+		$categories = $pool->getColumn("id");
 		array_push($categories, $category);
 		if(!doesHaveOwnership())
 			$categories = array_diff($categories, getCategoryVisibilityList($blogid, 'private'));
-		$cond = 'AND e.category IN (' . implode(', ', $categories) . ')';
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
+		$pool->init("Entries");
+		$pool->setAlias("Entries","e");
+		$pool->setQualifier("e.category","hasoneof",$categories);
+		if (!doesHaveOwnership()) {
+			$pool->setQualifier("e.visibility",">",0);
+		}
 	} else {
-		$cond = 'AND e.category >= 0';
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
+		$pool->init("Entries");
+		$pool->setAlias("Entries","e");
+		$pool->setQualifier("e.category",">=",0);
+		if (!doesHaveOwnership()) {
+			$pool->setQualifier("e.visibility",">",0);
+			$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+		}
 	}
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array("e.userid","eq",getUserId()),"OR",array("e.visibility",">",0));
+	}
+	$pool->setProjection("e.blogid","e.userid","e.id","e.title","e.comments","e.slogan","e.published");
+	$pool->setOrder("e.published","desc");
 
-	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
-			FROM ".$ctx->getProperty('database.prefix')."Entries e
-			WHERE e.blogid = $blogid AND e.draft = 0 $visibility $cond
-			ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!$ctx->getProperty('blog.useSloganOnCategory',true) && $ctx->getProperty('suri.id',null) != null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
+	return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder')."/".((!$ctx->getProperty('blog.useSloganOnCategory',true) && $ctx->getProperty('suri.id',null) != null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
 }
 
 function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {

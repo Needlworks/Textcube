@@ -32,11 +32,12 @@ function doesExistTable($tablename) {
 
 /* DBModel : lightweight database abstraction implementation for codeball / Textcube.
 
-   2.4.0.20150210
+   2.4.1.20150212
    Needlworks / Tatter Network Foundation.
 */
 
 /*
+  2.4.1 (2015.2.12)  : Added - setProjection accepts comma-separated input string.
   2.4.0 (2015.2.10)  : Added - store / restore method to keep track of nested queries.
   2.3.3 (2015.2.7)   : Added - complex qualifierset support.
   2.3.2 (2015.2.6)   : Bugfixes.
@@ -171,11 +172,16 @@ class DBModel extends Singleton implements IModel {
 		return $this;
 	}
 
-	public function setProjection() {
+	public function setProjection()
+	{
 		$nargs = func_num_args();
 		$args = func_get_args();
-		if ($nargs == 1 && gettype($args[0]) == 'array' ) {
+		if ($nargs == 1 && gettype($args[0]) == 'array') {
 			$this->_projections = $args[0];
+		} elseif ($nargs ==1) {
+			foreach(explode(",",$args[0]) as $v) {
+				array_push($this->_projections,$v);
+			}
 		} else {
 			for ($i = 0; $i < $nargs; $i++) {
 				if (!in_array($args[$i],$this->_projections)) {
