@@ -33,7 +33,7 @@ function doesExistTable($tablename) {
 /* DBModel : lightweight database abstraction implementation for codeball / Textcube.
 
    2.4.1.20150212
-   Needlworks / Tatter Network Foundation.
+   Needlworks / Tatter Network Foundation. (http://www.needlworks.org)
 */
 
 /*
