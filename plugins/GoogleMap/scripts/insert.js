@@ -171,6 +171,7 @@ function findUserMarkerById(id) {
 }
 
 function removeUserMarker(id) {
+	plugin.gmap.activeInfoWindow = null;
 	user_markers[id].marker.setMap(null);
 	delete user_markers[id];
 }
@@ -219,3 +220,5 @@ function GMarker_onClick(e) {
 	// Preserve reference to DOM
 	um.iw_dom = $('.GMapInfo')[0];
 }
+
+/* vim: set ts=4 sts=4 sw=4 noet: */

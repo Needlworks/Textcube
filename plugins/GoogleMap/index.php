@@ -191,12 +191,12 @@ function GoogleMap_View($target, $mother) {
 		// Desktop
 		else {
 ?>
-		<div id="<?php echo $id;?>" style="border: 1px solid #666;"></div>
+		<div id="<?php echo $id;?>" class="GMapContainer"></div>
 		<script type="text/javascript">
 		//<![CDATA[
 		GMapOnLoadCallbacks.push(function() {
 			var c = document.getElementById('<?php echo $id;?>');
-			var map = GMap_CreateMap(c, <?php echo $matches[2][0];?>);
+			var map = GMap_createMap(c, <?php echo $matches[2][0];?>);
 		});
 		//]]>
 		</script>

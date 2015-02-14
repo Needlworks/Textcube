@@ -145,7 +145,7 @@ function GMap_findLocationCallback(results, status, gmap, location_info, title, 
 	}
 }
 
-function GMap_CreateMap(container, options) {
+function GMap_createMap(container, options) {
 	container.style.width = options.width + 'px';
 	container.style.height = options.height + 'px';
 	var map = new google.maps.Map(container, {
@@ -153,27 +153,28 @@ function GMap_CreateMap(container, options) {
 		'zoom': options.zoom,
 		'mapTypeId': eval('google.maps.MapTypeId.' + options.type) || google.maps.MapTypeId.ROADMAP,
 		'mapTypeControl': true,
-		'navigationControl': true,
 		'scaleControl': true
 	});
 	var i;
 	if (options.user_markers != undefined) {
-		for (i = 0; i < options.user_markers.length; i++) {
-			var um = options.user_markers[i];
+		var create_marker = function(um) {
 			var marker = new google.maps.Marker({
+				'map': map,
 				'position': new google.maps.LatLng(um.lat, um.lng)
 			});
 			if (um.title.trim() != '') {
 				var info = new google.maps.InfoWindow({
-					'content': '<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>',
-					'map': map
+					'content': '<div class="GMapInfo"><h4>'+um.title+'</h4><p>'+um.desc+'</p></div>'
 				});
 				google.maps.event.addListener(marker, 'click', function() {
 					plugin.gmap.closeActiveInfoWindow();
-					info.open(marker.getMap(), marker);
+					info.open(map, marker);
 					plugin.gmap.activeInfoWindow = info;
 				});
 			}
+		};
+		for (i = 0; i < options.user_markers.length; i++) {
+			create_marker(options.user_markers[i]);
 		}
 	}
 	return map;

@@ -1,5 +1,17 @@
 @charset "utf-8";
 
+.GMapContainer img {
+	max-width: none !important;
+	background-color: transparent !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	border: none !important;
+}
+.GMapContainer label {
+	width: auto !important;
+	display: inline !important;
+}
+
 .GMapInfo {
 	text-align: left;
 }
@@ -127,3 +139,5 @@ dl#toolbox-googlemap dd.command-box #googlemap-attachLocation {
 	margin: 0;
 	padding: 0;
 }
+
+/* vim: set ts=4 sts=4 sw=4 noet: */
