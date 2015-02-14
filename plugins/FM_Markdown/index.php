@@ -16,7 +16,9 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 		require_once dirname(__FILE__) . '/ttml.php';
 	}
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
+	$view = FM_TTML_preserve_TTML_type_tags($view);
 	$view = MarkdownExtra::defaultTransform($view);
+	$view = FM_TTML_restore_TTML_type_tags($view);
 	$view = FM_TTML_bindTags($id, $view);
 	return $view;
 }
