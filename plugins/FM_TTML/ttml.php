@@ -417,4 +417,12 @@ function FM_TTML_createNewProperty($filename, $imageWidth, $property) {
 	else
 		return array($property, false);
 }
+
+function FM_TTML_preserve_TTML_type_tags($contents) {
+	return str_replace("_##]","-##]",str_replace("[##_","[##-",$contents));
+}
+
+function FM_TTML_restore_TTML_type_tags($contents) {
+	return str_replace("-##]","_##]",str_replace("[##-","[##_",$contents));
+}
 ?>
