@@ -1,6 +1,6 @@
 <?php
 // PHP TTML parser
-// Version 1.10/2.0 (2014.12.14)
+// Version 1.10/2.0 (2015.02.15)
 // 2004-2015 Needlworks / TNF / Tatter and Company
 // Original TTML is created by JH, 2004.4
 // TTML port for Tattertools 1.0 by papacha, 2005.10
@@ -9,6 +9,7 @@
 // TTML External library for Textcube 1.8 by inureyes, 2010.7
 // TTML External library for Textcube 2.0 by inureyes, 2011.1
 // TTML External library for Textcube 1.10 by inureyes, 2014.12
+// TTML External library for Textcube 1.10/2.0 by inureyes, 2015.2
 
 function FM_TTML_bindTags($id, $content) {
 	$context = Model_Context::getInstance();
