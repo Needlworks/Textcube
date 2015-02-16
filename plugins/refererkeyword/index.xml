@@ -4,7 +4,7 @@
   <title xml:lang="ko">리퍼러 검색어 통계</title>
   <title xml:lang="ja">キーワード統計</title>
   <link>http://forum.tattersite.com/ko/</link>
-  <version>1.2+</version>
+  <version>1.10.3</version>
   <description xml:lang="en">Keyword Statistics</description>
   <description xml:lang="ko">리퍼러에서 검색 키워드를 추출하여 통계를 출력합니다.</description>
   <description xml:lang="ja">キーワード統計を表示します。</description>
@@ -13,8 +13,9 @@
   <author xml:lang="ko" link="http://forum.tattersite.com/ko/">태터앤프렌즈 (치리)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-  	<tattertools>1.1</tattertools>
-    <textcube>1.5</textcube>
+    <textcube>
+		<minVersion>1.10.3</minVersion>
+	</textcube>
   </requirements>
   <binding>
     <adminMenu>

@@ -6,25 +6,26 @@
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
-if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))) 
+if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']])))
 {
-	
+
 	$IV = array (
 		'REQUEST' => array(
 			'name' => array('string')
 			)
 		);
-	
+
 	foreach($adminMenuMappings[$_REQUEST['name']]['params'] as $param) {
 		$ivItem = array ( $param['type']);
 		if (isset($param['default']) && !is_null($param['default']) ) $ivItem['default'] = $param['default'];
 		if (isset($param['mandatory']) && !is_null($param['mandatory']) ) $ivItem['mandatory'] = $param['mandatory'];
-		
+
 		$IV['REQUEST'][$param['name']] = $ivItem;
 	}
-	
+
 	if (Validator::validate($IV)) {
-		$_GET = $_POST = $_REQUEST;		
+		$context = Model_Context::getInstance();
+		$_GET = $_POST = $_REQUEST;
 		$plugin = $adminMenuMappings[$_REQUEST['name']]['plugin'];
 		$handler = $adminMenuMappings[$_REQUEST['name']]['handler'];
 
@@ -35,10 +36,20 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 
 		$pluginAccessParam = '?name=' . $plugin;
 		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
-		
-		$pluginURL = "{$context->getProperty('service.path')}/plugins/{$plugin}";
-		$pluginPath = ROOT . "/plugins/{$plugin}";
-		$pluginName = $plugin;
+
+		$context->setProperty('plugin.uri.access',$pluginAccessURL);
+		$context->setProperty('plugin.uri.menu',$pluginMenuURL);
+		$context->setProperty('plugin.uri.handler',$pluginHandlerURL);
+		$context->setProperty('plugin.uri.self',$pluginSelfURL);
+		$context->setProperty('plugin.parameter.access',$pluginAccessParam);
+		$context->setProperty('plugin.parameter.self',$pluginSelfParam);
+		$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$plugin}");
+		$context->setProperty('plugin.path',ROOT . "/plugins/{$plugin}");
+		$context->setProperty('plugin.name',$plugin);
+
+		$pluginURL = $context->getProperty('plugin.uri');
+		$pluginPath = $context->getProperty('plugin.path');
+		$pluginName = $context->getProperty('plugin.name');
 
 		// Loading locale resource
 		$languageDomain = null;
@@ -50,17 +61,26 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 				$locale->set($locale->defaultLanguage, $pluginName);
 				$locale->domain = $pluginName;
 			}
-		}		
+		}
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler)) {
-			if( !empty( $configMappings[$plugin]['config'] ) ) 				
+			if( !empty( $configMappings[$plugin]['config'] ) )
 				$configVal = getCurrentSetting($plugin);
 			else
 				$configVal ='';
 			call_user_func($handler);
 		}
 		/// unload.
-		if(!is_null($languageDomain)) $locale->domain = $languageDomain;		
+		if(!is_null($languageDomain)) $locale->domain = $languageDomain;
+		$context->unsetProperty('plugin.uri');
+		$context->unsetProperty('plugin.path');
+		$context->unsetProperty('plugin.name');
+		$context->unsetProperty('plugin.uri.access');
+		$context->unsetProperty('plugin.uri.menu');
+		$context->unsetProperty('plugin.uri.handler');
+		$context->unsetProperty('plugin.uri.self');
+		$context->unsetProperty('plugin.parameter.access');
+		$context->unsetProperty('plugin.parameter.self');
 	}
 }
 require ROOT . '/interface/common/owner/footer.php';

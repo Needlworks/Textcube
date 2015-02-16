@@ -21,7 +21,6 @@ the Free Software Foundation; either version 2 of the License, or
 
 function URLkeeper($target)
 {
-	global $hostURL, $blogURL;
 	global $configVal;
 	requireComponent('Tattertools.Function.misc');
 	$data = Setting::fetchConfigVal( $configVal);
