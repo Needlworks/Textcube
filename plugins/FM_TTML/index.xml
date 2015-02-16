@@ -3,7 +3,7 @@
 	<title xml:lang="en">TTML Formatter</title>
 	<title xml:lang="ko">TTML 포매터</title>
 	<link>http://needlworks.org/</link>
-	<version>1.7</version>
+	<version>1.10.3</version>
 	<description xml:lang="en">Implements TTML formatter, dedicated HTML-like syntax for Textcube.</description>
 	<description xml:lang="ko">텍스트큐브 용으로 사용되는 TTML 문법을 구현합니다.</description>
 	<description xml:lang="ja">Textcube専用のTTML文法を構成・解釈するプラグイン。</description>
@@ -12,7 +12,9 @@
 	<author xml:lang="ko" link="http://tokigun.net/"><![CDATA[강 성훈 (lifthrasiir / Needlworks)]]></author>
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
-		<textcube>1.7</textcube>
+		<textcube>
+			<minVersion>1.10.3</minVersion>
+		</textcube>
 	</requirements>
 	<binding>
 		<formatter id="ttml" name="TTML">
