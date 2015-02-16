@@ -4,7 +4,7 @@
   <title xml:lang="ko">시작하기</title>
   <title xml:lang="ja">スタート</title>
   <link>http://needlworks.org/</link>
-  <version>1.6</version>
+  <version>1.10.3</version>
   <description xml:lang="en">Adds shortcuts to start tasks what you want to with Textcube.</description>
   <description xml:lang="ko"><![CDATA[글쓰기, 리더 보기, 다양한 설정 바꾸기 등 여러 일들에 대한 바로가기를 센터에 추가합니다.]]></description>
   <description xml:lang="ja">Textcube管理者のスタートページを構成します。</description>
@@ -13,7 +13,9 @@
   <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.6</textcube>
+    <textcube>
+      <minVersion>1.10.3</minVersion>
+    </textcube>
   </requirements>
   <binding>
 	<center handler="CT_Start_Default" />

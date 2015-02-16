@@ -49,7 +49,7 @@ final class Model_Context extends Singleton
 		if (isset($this->__property[$key])) return $this->__property[$key];
 		else return $defaultValue;
 	}
-	
+
 	public function useNamespace($ns = null) {
 		if(is_null($ns)) $this->__namespace = null;
 		else $this->__namespace = $ns;

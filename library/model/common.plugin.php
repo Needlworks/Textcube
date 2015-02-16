@@ -333,6 +333,10 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 				$configVal = getCurrentSetting($mapping['plugin']);
 			else
 				$configVal = null;
+
+			$context->setProperty('plugin.uri',"{$service['path']}/plugins/{$mapping['plugin']}");
+			$context->setProperty('plugin.path',ROOT . "/plugins/{$mapping['plugin']}");
+			$context->setProperty('plugin.name',$mapping['plugin']);
 			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
 			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
 			$pluginName = $mapping['plugin'];
@@ -363,6 +367,9 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 			/// unload.
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;
 			$pluginURL = $pluginPath = $pluginName = "";
+			$context->unsetProperty('plugin.uri');
+			$context->unsetProperty('plugin.path');
+			$context->unsetProperty('plugin.name');
 		}
 	}
 	return $target;
