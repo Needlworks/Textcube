@@ -4,7 +4,7 @@
   <title xml:lang="ko">최근 글</title>
   <title xml:lang="ja">最新記事</title>
   <link>http://needlworks.org/</link>
-  <version>1.6</version>
+  <version>1.10</version>
   <description xml:lang="en">Shows recent entries</description>
   <description xml:lang="ko">최근에 작성된 글들을 보여줍니다</description>
   <description xml:lang="ja">最新記事を表示します。</description>
@@ -15,7 +15,7 @@
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
     <textcube>
-      <minVersion>1.8</minVersion>
+      <minVersion>1.10.3</minVersion>
     </textcube>
   </requirements>
   <binding>

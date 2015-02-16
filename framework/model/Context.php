@@ -6,29 +6,38 @@
 final class Model_Context extends Singleton
 {
 	private $__property, $__namespace;
+
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
-
+	
 	function __construct() {
 	}
 
 	public function setProperty($key, $value, $namespace = null) {
-		global $pluginName;
-		if(strpos($key,'.') === false) {	// If key contains namespace, use it.
-			if(!is_null($namespace)) {
-				$key = $namespace.'.'.$key;
-			} else if (!empty($this->__namespace)) {
-				$key = $this->__namespace.'.'.$key;
-			} else if(!empty($pluginName)) {
-				$key = $pluginName.'.'.$key;
-			} else {
-				$key = 'global.'.$key;
-			}
-		}
+		$key = $this->__getKey($key, $namespace);
 		$this->__property[$key] = $value;
 	}
+	public function unsetProperty($key, $namespace = null) {
+		$key = $this->__getKey($key, $namespace);
+		unset($this->__property[$key]);
+	}
 
+	private function __getKey($key, $namespace) {
+		global $pluginName;
+		if(strpos($key,'.') === false) {    // If key contains namespace, use it.
+			if (!is_null($namespace)) {
+				$key = $namespace . '.' . $key;
+			} else if (!empty($this->__namespace)) {
+				$key = $this->__namespace . '.' . $key;
+			} else if (!empty($pluginName)) {
+				$key = $pluginName . '.' . $key;
+			} else {
+				$key = 'global.' . $key;
+			}
+		}
+		return $key;
+	}
 	public function getProperty($key, $defaultValue = null) {
 		global $pluginName;
 		if(strpos($key,'.') === false) {	// If key doesn't contain namespace,
@@ -44,7 +53,7 @@ final class Model_Context extends Singleton
 		if (isset($this->__property[$key])) return $this->__property[$key];
 		else return $defaultValue;
 	}
-	
+
 	public function useNamespace($ns = null) {
 		if(is_null($ns)) $this->__namespace = null;
 		else $this->__namespace = $ns;

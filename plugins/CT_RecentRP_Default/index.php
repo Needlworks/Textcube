@@ -1,7 +1,7 @@
 <?php
-/* Recent Replies plugin for Textcube 1.8
-   ----------------------------------
-   Version 1.8
+/* Recent Replies plugin for Textcube 1.10
+   ---------------------------------------
+   Version 1.10.3
    Tatter and Friends development team.
 
    Creator          : Peris
@@ -9,7 +9,7 @@
    Editor			: J.Parker
 
    Created at       : 2006.7.25
-   Last modified at : 2009.12.28
+   Last modified at : 2015.2.16
 
  This plugin shows recent eeplies on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -26,7 +26,7 @@
 */
 
 function RecentRP_getRecentComments($blogid) {
-	global $configVal, $pluginURL;
+	global $configVal;
 	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
 	$comments = array();
@@ -47,12 +47,12 @@ function RecentRP_getRecentComments($blogid) {
 			$pool->reset('Comments');
 			$pool->setQualifier('blogid','equals',$context->getProperty('blog.id'));
 			$pool->setQualifier('parent','equals',$comment['id']);
-			$row = $pool->getCell('COUNT(*)');
-			$comment['replier'] = ($row)?"<img src=\"{$pluginURL}/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";
+			$row = $pool->getCount();
+			$comment['replier'] = ($row)?"<img src=\"".$context->getProperty("plugin.uri")."/replier.gif\" width=\"11\" height=\"9\" align=\"top\" style=\"margin-left:2px;\" alt=\"\" />":"";
 		} else {
 			$comment['replier'] = "";
 		}
-		$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"{$pluginURL}/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\" alt=\"\" />":"";
+		$comment['secret'] = ($comment['secret'] == 1)?"<img src=\"".$context->getProperty("plugin.uri")."/secret.gif\" width=\"9\" height=\"11\" style=\"margin-left:2px;\" alt=\"\" />":"";
 		array_push($comments, $comment);
 	}
 	return $comments;

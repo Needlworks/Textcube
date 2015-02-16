@@ -1,14 +1,14 @@
 <?php
-/* Recent Entries plugin for Textcube 1.8
+/* Recent Entries plugin for Textcube 1.10
    ----------------------------------
-   Version 1.8
+   Version 1.10.3
    Tatter Network Foundation development team / Needlworks.
 
    Creator          : Peris
    Maintainer       : Peris, inureyes, graphittie
 
    Created at       : 2006.7.25
-   Last modified at : 2009.10.10
+   Last modified at : 2015.2.16
  
  This plugin shows recent entries on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -58,10 +58,10 @@ function _getRecentEntriesView($entries,$template){
 }
 
 function CT_RecentPS_Default($target) {
-	global $blogid,$pluginURL;
+	$context = Model_Context::getInstance();
 
 	$target .= '<ol>'.CRLF;
-	$target .= _getRecentEntriesView(_getRecentEntries($blogid),'											<li><a class="edit-link" href="[##_rctps_rep_edit_link_##]" style="background-image: url(\'' . $pluginURL . '/images/edit.gif\'); background-position: left center; background-repeat: no-repeat; display: block; float: left; height: 12px; margin: 2px 5px 0 0; width: 12px;" title="' . _t('이 포스트를 편집합니다.') . '"><span class="text" style="display: none;">[편집하기]</span></a> <a href="[##_rctps_rep_link_##]" title="' . _t('포스트를 보여줍니다.') . '">[##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span></li>'.CRLF);
+	$target .= _getRecentEntriesView(_getRecentEntries($context->getProperty('blog.id')),'											<li><a class="edit-link" href="[##_rctps_rep_edit_link_##]" style="background-image: url(\'' . $context->getProperty('plugin.uri','') . '/images/edit.gif\'); background-position: left center; background-repeat: no-repeat; display: block; float: left; height: 12px; margin: 2px 5px 0 0; width: 12px;" title="' . _t('이 포스트를 편집합니다.') . '"><span class="text" style="display: none;">[편집하기]</span></a> <a href="[##_rctps_rep_link_##]" title="' . _t('포스트를 보여줍니다.') . '">[##_rctps_rep_title_##]</a> <span class="cnt">[##_rctps_rep_rp_cnt_##]</span></li>'.CRLF);
 	$target .= '										</ol>'.CRLF;
 
 	return $target;
