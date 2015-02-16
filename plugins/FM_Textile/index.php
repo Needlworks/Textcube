@@ -8,6 +8,7 @@
 if(!class_exists('Textile')) require_once 'classTextile.php';
 
 function FM_Textile_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
+	$context = Model_Context::getInstance();
 	$textile = new Textile();
 	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	$url = $context->getProperty("service.path")."/attach/$blogid";
