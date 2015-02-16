@@ -11,7 +11,7 @@
    Last modified at : 2008.3.19 by gendoh (http://gendoh.com)
                       2008.3.21 by Chiri (http://moonmelody.com)
                       2015.2.16 by inureyes (http://forest.nubimaru.com)
-
+ 
  This plugin shows referer keyword statistics for a week on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
 

@@ -5,7 +5,6 @@
 
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-$context = Model_Context::getInstance();
 if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']])))
 {
 	$IV = array (
@@ -23,6 +22,8 @@ if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']
 	}
 
 	if (Validator::validate($IV)) {
+		$context = Model_Context::getInstance();
+
 		$plugin = $adminHandlerMappings[$_REQUEST['name']]['plugin'];
 		$handler = $adminHandlerMappings[$_REQUEST['name']]['handler'];
 
