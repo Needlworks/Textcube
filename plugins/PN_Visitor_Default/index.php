@@ -25,10 +25,8 @@
 */
 function PN_Visitor_Default()
 {
-	global $pluginMenuURL, $pluginAccessURL, $pluginHandlerURL;
+	global $pluginMenuURL, $pluginHandlerURL;
 	$blogid = getBlogId();
-	requireComponent( "Textcube.Model.Statistics");
-	requireComponent('Textcube.Function.misc');
 	$stats = Statistics::getStatistics($blogid);
 	$date = isset($_GET['date']) ? $_GET['date'] : date('Ym', strtotime("now"));
 ?>
@@ -163,7 +161,6 @@ if (isset($date)) {
 function PN_Visitor_Default_set()
 {
 	$blogid = getBlogId();
-	requireComponent( "Textcube.Model.Statistics");
 	$isAjaxRequest = isset($_REQUEST['ajaxcall']) ? true : false;
 	if ($isAjaxRequest) {
 		$result = Statistics::setTotalStatistics($blogid) ? 0 : -1;

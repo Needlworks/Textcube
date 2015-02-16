@@ -6,53 +6,73 @@
 require ROOT . '/library/preprocessor.php';
 
 requireStrictRoute();
-if (false) {
-	fetchConfigVal();
-	getBlogSetting();
-	setBlogSetting();
-}
 
-if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']]))) 
+if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']])))
 {
-	
+
 	$IV = array (
 		'REQUEST' => array(
 			'name' => array('string')
 			)
 		);
-	
+
 	foreach($adminHandlerMappings[$_GET['name']]['params'] as $param) {
 		$ivItem = array ( $param['type']);
 		if (isset($param['default']) && !is_null($param['default']) ) $ivItem['default'] = $param['default'];
 		if (isset($param['mandatory']) && !is_null($param['mandatory']) ) $ivItem['mandatory'] = $param['mandatory'];
-		
+
 		$IV['REQUEST'][$param['name']] = $ivItem;
 	}
-	
+
 	if (Validator::validate($IV)) {
+		$context = Model_Context::getInstance();
+
 		$plugin = $adminHandlerMappings[$_REQUEST['name']]['plugin'];
 		$handler = $adminHandlerMappings[$_REQUEST['name']]['handler'];
-		
+
 		$pluginAccessURL = $blogURL . '/owner/plugin/adminMenu?name=' . $plugin;
 		$pluginMenuURL = 'invalid link';
 		$pluginHandlerURL = $blogURL . '/owner/plugin/adminHandler?name=' . $plugin;
 		$pluginSelfURL = $blogURL . '/owner/plugin/adminHandler?name=' . $plugin . '/' . $handler;
-		
+
 		$pluginAccessParam = '?name=' . $plugin;
 		$pluginSelfParam = '?name=' . $plugin . '/' . $handler;
-		
-		$pluginURL = "{$service['path']}/plugins/{$plugin}";
-		$pluginPath = ROOT . "/plugins/{$plugin}";
-		$pluginName = $plugin;
+
+		$context->setProperty('plugin.uri.access',$pluginAccessURL);
+		$context->setProperty('plugin.uri.menu',$pluginMenuURL);
+		$context->setProperty('plugin.uri.handler',$pluginHandlerURL);
+		$context->setProperty('plugin.uri.self',$pluginSelfURL);
+		$context->setProperty('plugin.parameter.access',$pluginAccessParam);
+		$context->setProperty('plugin.parameter.self',$pluginSelfParam);
+
+		$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$plugin}");
+		$context->setProperty('plugin.path',ROOT . "/plugins/{$plugin}");
+		$context->setProperty('plugin.name',$plugin);
+
+
+		$pluginURL = $context->getProperty('plugin.uri');
+		$pluginPath = $context->getProperty('plugin.path');
+		$pluginName = $context->getProperty('plugin.name');
+
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler)) {
-			if( !empty( $configMappings[$plugin]['config'] ) ) 				
+			if( !empty( $configMappings[$plugin]['config'] ) )
 				$configVal = getCurrentSetting($plugin);
 			else
 				$configVal ='';
-			
+
 			call_user_func($handler);
 		}
+		$context->unsetProperty('plugin.uri');
+		$context->unsetProperty('plugin.path');
+		$context->unsetProperty('plugin.name');
+		$context->unsetProperty('plugin.uri.access');
+		$context->unsetProperty('plugin.uri.menu');
+		$context->unsetProperty('plugin.uri.handler');
+		$context->unsetProperty('plugin.uri.self');
+		$context->unsetProperty('plugin.parameter.access');
+		$context->unsetProperty('plugin.parameter.self');
+
 	}
 }
 
