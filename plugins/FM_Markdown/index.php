@@ -27,6 +27,6 @@ function FM_Markdown_summary($blogid, $id, $content, $keywords = array(), $useAb
 	$context = Model_Context::getInstance();
 	$view = FM_Markdown_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
     if (!$context->getProperty('blog.publishWholeOnRSS',true)) $view = Utils_Unicode::lessen(removeAllTags(stripHTML($view)), 255);
-		return $view;
+	return $view;
 }
 ?>

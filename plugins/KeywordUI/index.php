@@ -1,14 +1,14 @@
 <?php
-/* KeywordUI for Textcube 1.5
-   ----------------------------------
-   Version 1.5
+/* KeywordUI for Textcube 1.10.3
+   -----------------------------
+   Version 1.10.3
    Needlworks.
 
    Creator          : inureyes
    Maintainer       : inureyes
 
    Created at       : 2006.10.3
-   Last modified at : 2007.8.15
+   Last modified at : 2015.2.16
  
  This plugin enables keyword / keylog feature in Textcube.
  For the detail, visit http://forum.tattersite.com/ko
@@ -24,8 +24,8 @@
 
 */
 function KeywordUI_bindKeyword($target,$mother) {
-	global $blogURL;
-	$target = "<a href=\"#\" class=\"key1\" onclick=\"openKeyword('$blogURL/keylog/" . rawurlencode($target) . "'); return false\">{$target}</a>";
+	$context = Model_Context::getInstance();
+	$target = "<a href=\"#\" class=\"key1\" onclick=\"openKeyword('".$context->getProperty("uri.blog")."/keylog/" . rawurlencode($target) . "'); return false\">{$target}</a>";
 
 	return $target;
 }
@@ -35,9 +35,11 @@ function KeywordUI_setSkin($target,$mother) {
 	return $pluginPath."/keylogSkin.html";
 }
 function KeywordUI_bindTag($target,$mother) {
-	global $blogURL, $pluginURL, $configVal;
+	$context = Model_Context::getInstance();
 	requireModel('blog.keyword');
 	$blogid = getBlogId();
+	$blogURL = $context->getProperty("uri.blog");
+	$pluginURL = $context->getProperty("plugin.uri");
 	if(isset($mother) && isset($target)){
 		$tagsWithKeywords = array();
 		$keywordNames = getKeywordNames($blogid);

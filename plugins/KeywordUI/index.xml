@@ -3,7 +3,7 @@
   <title xml:lang="ko">키워드 출력</title>
   <title xml:lang="en">Keyword Interface</title>
   <link>http://needlworks.org/</link>
-  <version>1.0.1</version>
+  <version>1.10.3</version>
   <description xml:lang="en">This plugin enables keyword feature in Textcube.</description>
   <description xml:lang="ko">텍스트큐브의 키워드 기능을 사용합니다.</description>
   <license>GPL</license>
@@ -11,7 +11,9 @@
   <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <textcube>1.5</textcube>
+    <textcube>
+      <minVersion>1.10.3</minVersion>
+    </textcube>
   </requirements>
   <binding>
     <listener event="BindKeyword">KeywordUI_bindKeyword</listener>
