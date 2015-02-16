@@ -35,17 +35,7 @@ final class Model_Context extends Singleton
 		return $key;
 	}
 	public function getProperty($key, $defaultValue = null) {
-		global $pluginName;
-		if(strpos($key,'.') === false) {	// If key doesn't contain namespace,
-			if (!empty($this->__namespace)) $key = $this->__namespace.'.'.$key;
-			else {
-				if(!empty($pluginName)) {
-					$key = $pluginName.'.'.$key;
-				} else {
-					$key = 'global.'.$key;
-				}
-			}
-		}
+		$key = $this->__getKey($key, null);
 		if (isset($this->__property[$key])) return $this->__property[$key];
 		else return $defaultValue;
 	}
