@@ -5,6 +5,7 @@
 if(!function_exists('FM_TTML_bindAttachments')) require_once 'ttml.php';
 
 function FM_TTML_format($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true, $bRssMode = false) {
+	$context = Model_Context::getInstance();
 	$path = __TEXTCUBE_ATTACH_DIR__."/$blogid";
 	$url = $context->getProperty("service.path")."/attach/$blogid";
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
@@ -14,6 +15,7 @@ function FM_TTML_format($blogid, $id, $content, $keywords = array(), $useAbsolut
 }
 
 function FM_TTML_summary($blogid, $id, $content, $keywords = array(), $useAbsolutePath = true) {
+	$context = Model_Context::getInstance();
 	$view = FM_TTML_format($blogid, $id, $content, $keywords, $useAbsolutePath, true);
 	if (!$context->getProperty("blog.publishWholeOnRSS")) $view = UTF8::lessen(removeAllTags(stripHTML($view)), 255);
 	return $view;
