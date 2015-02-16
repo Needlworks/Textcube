@@ -326,12 +326,12 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 			else
 				$configVal = null;
 
-			$context->setProperty('plugin.uri',"{$service['path']}/plugins/{$mapping['plugin']}");
+			$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$mapping['plugin']}");
 			$context->setProperty('plugin.path',ROOT . "/plugins/{$mapping['plugin']}");
 			$context->setProperty('plugin.name',$mapping['plugin']);
-			$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
-			$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
-			$pluginName = $mapping['plugin'];
+			$pluginURL = $context->getProperty('plugin.uri'); // Legacy plugin support.
+			$pluginPath = $context->getProperty('plugin.path');
+			$pluginName = $context->getProperty('plugin.name');
 			// Loading locale resource
 			$languageDomain = null;
 			if(is_dir($pluginPath . '/locale/')) {
@@ -368,7 +368,8 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
 }
 
 function handleTags( & $content) {
-	global $service, $tagMappings, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
+	global $tagMappings, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
+	$context = Model_Context::getInstance();
 	if (preg_match_all('/\[##_(\w+)_##\]/', $content, $matches)) {
 		foreach ($matches[1] as $tag) {
 			if (!isset($tagMappings[$tag]))
@@ -381,9 +382,12 @@ function handleTags( & $content) {
 						$configVal = getCurrentSetting($mapping['plugin']);
 					else
 						$configVal ='';
-					$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
-					$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
-					$pluginName = $mapping['plugin'];
+					$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$mapping['plugin']}");
+					$context->setProperty('plugin.path',ROOT . "/plugins/{$mapping['plugin']}");
+					$context->setProperty('plugin.name',$mapping['plugin']);
+					$pluginURL = $context->getProperty('plugin.uri'); // Legacy plugin support.
+					$pluginPath = $context->getProperty('plugin.path');
+					$pluginName = $context->getProperty('plugin.name');
 					// Loading locale resource
 					$languageDomain = null;
 					if(is_dir($pluginPath . '/locale/')) {
@@ -398,6 +402,9 @@ function handleTags( & $content) {
 					$target = call_user_func($mapping['handler'], $target);
 					if(!is_null($languageDomain)) $locale->domain = $languageDomain;
 					$pluginURL = $pluginPath = $pluginName = "";
+					$context->unsetProperty('plugin.uri');
+					$context->unsetProperty('plugin.path');
+					$context->unsetProperty('plugin.name');
 				}
 			}
 			dress($tag, $target, $content);
@@ -406,7 +413,9 @@ function handleTags( & $content) {
 }
 
 function handleCenters($mapping) {
-	global $service, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
+	global $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal;
+	$context = Model_Context::getInstance();
+
 	$target = '';
 
 	include_once (ROOT . "/plugins/{$mapping['plugin']}/index.php");
@@ -415,9 +424,12 @@ function handleCenters($mapping) {
 			$configVal = getCurrentSetting($mapping['plugin']);
 		else
 			$configVal ='';
-		$pluginURL = "{$service['path']}/plugins/{$mapping['plugin']}";
-		$pluginPath = ROOT . "/plugins/{$mapping['plugin']}";
-		$pluginName = $mapping['plugin'];
+		$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$mapping['plugin']}");
+		$context->setProperty('plugin.path',ROOT . "/plugins/{$mapping['plugin']}");
+		$context->setProperty('plugin.name',$mapping['plugin']);
+		$pluginURL = $context->getProperty('plugin.uri'); // Legacy plugin support.
+		$pluginPath = $context->getProperty('plugin.path');
+		$pluginName = $context->getProperty('plugin.name');
 		// Loading locale resource
 		$languageDomain = null;
 		if(is_dir($pluginPath . '/locale/')) {
@@ -432,6 +444,9 @@ function handleCenters($mapping) {
 		$target = call_user_func($mapping['handler'], $target);
 		if(!is_null($languageDomain)) $locale->domain = $languageDomain;
 		$pluginURL = $pluginPath = $pluginName = "";
+		$context->unsetProperty('plugin.uri');
+		$context->unsetProperty('plugin.path');
+		$context->unsetProperty('plugin.name');
 	}
 
 	return $target;
@@ -509,6 +524,7 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 // 저장된 표지 정렬 순서 정보를 가져온다.
 function handleCoverpages(& $obj, $previewMode = false) {
 	global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings;
+	$context = Model_Context::getInstance();
 	requireModel("blog.coverpage");
 	// [coverpage id][element id](type, id, parameters)
 	// type : 3=plug-in
@@ -530,10 +546,15 @@ function handleCoverpages(& $obj, $previewMode = false) {
 				if (function_exists($handler)) {
 					$obj->coverpageModule[$j] = "[##_temp_coverpage_element_{$i}_{$j}_##]";
 					$parameters = $currentCoverpageOrder[$j]['parameters'];
-					$pluginURL = "{$service['path']}/plugins/{$plugin}";
-					$pluginPath = ROOT . "/plugins/{$plugin}";
-					$pluginName = $plugin;
-					if( !empty( $configMappings[$plugin]['config'] ) ) 				
+
+					$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$plugin}");
+					$context->setProperty('plugin.path',ROOT . "/plugins/{$plugin}");
+					$context->setProperty('plugin.name',$plugin);
+					$pluginURL = $context->getProperty('plugin.uri'); // Legacy plugin support.
+					$pluginPath = $context->getProperty('plugin.path');
+					$pluginName = $context->getProperty('plugin.name');
+
+					if( !empty( $configMappings[$plugin]['config'] ) )
 						$configVal = getCurrentSetting($plugin);
 					else
 						$configVal ='';
@@ -553,6 +574,9 @@ function handleCoverpages(& $obj, $previewMode = false) {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = call_user_func($handler, $parameters);
 						if(!is_null($languageDomain)) $locale->domain = $languageDomain;
 						$pluginURL = $pluginPath = $pluginName = "";
+						$context->unsetProperty('plugin.uri');
+						$context->unsetProperty('plugin.path');
+						$context->unsetProperty('plugin.name');
 					} else {
 						$obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
 					}
@@ -566,6 +590,8 @@ function handleCoverpages(& $obj, $previewMode = false) {
 
 function handleDataSet( $plugin , $DATA ) {
 	global $configMappings, $activePlugins, $service, $pluginURL, $pluginPath, $pluginName, $configMapping, $configVal;
+	$context = Model_Context::getInstance();
+
 	$xmls = new XMLStruct();
 	if( ! $xmls->open($DATA) ) {
 		unset($xmls);	
@@ -576,9 +602,13 @@ function handleDataSet( $plugin , $DATA ) {
 		return array('error' => '9' , 'customError'=> _f('%1 : 플러그인이 활성화되어 있지 않아 설정을 저장하지 못했습니다.',$plugin));
 	$reSetting = true;
 	if( !empty( $configMappings[$plugin]['dataValHandler'] ) ) {
-		$pluginURL = "{$service['path']}/plugins/{$plugin}";
-		$pluginPath = ROOT . "/plugins/{$plugin}";
-		$pluginName = $plugin;
+		$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$plugin}");
+		$context->setProperty('plugin.path',ROOT . "/plugins/{$plugin}");
+		$context->setProperty('plugin.name',$plugin);
+		$pluginURL = $context->getProperty('plugin.uri'); // Legacy plugin support.
+		$pluginPath = $context->getProperty('plugin.path');
+		$pluginName = $context->getProperty('plugin.name');
+
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if( function_exists( $configMappings[$plugin]['dataValHandler'] ) ) {
 			if( !empty( $configMappings[$plugin]['config'] ) ) 				
@@ -599,6 +629,9 @@ function handleDataSet( $plugin , $DATA ) {
 				
 			$reSetting = call_user_func( $configMappings[$plugin]['dataValHandler'] , serialize(Setting::fetchConfigXML($DATA)));
 			$pluginURL = $pluginPath = $pluginName = "";
+			$context->unsetProperty('plugin.uri');
+			$context->unsetProperty('plugin.path');
+			$context->unsetProperty('plugin.name');
 			if(!is_null($languageDomain)) $locale->domain = $languageDomain;	
 		}
 		if( true !== $reSetting )	
@@ -614,6 +647,7 @@ function fetchConfigVal($DATA) {
 
 function handleConfig($plugin) {
 	global $service , $typeSchema, $pluginURL, $pluginPath, $pluginName, $configMappings, $configVal, $adminSkinSetting;
+	$context = Model_Context::getInstance();
 	$typeSchema = array(
 		'text' 
 	,	'textarea'
@@ -639,9 +673,13 @@ function handleConfig($plugin) {
 		if( !empty($config['.attributes']['manifestHandler']) ) {
 			$handler = $config['.attributes']['manifestHandler'] ;
 			$oldconfig = $config;
-			$pluginURL = "{$service['path']}/plugins/{$plugin}";
-			$pluginPath = ROOT . "/plugins/{$plugin}";
-			$pluginName = $plugin;
+			$context->setProperty('plugin.uri',$context->getProperty('service.path')."/plugins/{$plugin}");
+			$context->setProperty('plugin.path',ROOT . "/plugins/{$plugin}");
+			$context->setProperty('plugin.name',$plugin);
+			$pluginURL = $context->getProperty('plugin.uri'); // Legacy plugin support.
+			$pluginPath = $context->getProperty('plugin.path');
+			$pluginName = $context->getProperty('plugin.name');
+
 			include_once (ROOT . "/plugins/$plugin/index.php");
 			if (function_exists($handler)) {
 				if( !empty( $configMappings[$plugin]['config'] ) ) 				
