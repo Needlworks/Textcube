@@ -59,7 +59,6 @@ $__requireBasics = array(
 	'function/html',
 	'function/xml',
 	'function/misc',
-	'function/image',
 	'function/mail');
 if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
