@@ -44,7 +44,7 @@ if( Acl::getIdentity('openid') ) {
 			var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false';?>;
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $ctx->getProperty('service.path').'/resources' : $ctx->getProperty('service.resourcepath'));?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo (doesHaveOwnership() ? $ctx->getProperty('service.path').'/resources' : $ctx->getProperty('service.resourcepath'));?>/script/common3.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			function submitComment() {
