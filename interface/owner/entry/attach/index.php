@@ -28,7 +28,7 @@ requireStrictRoute();
 		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 		<script type="text/javascript">jQuery.noConflict();</script>
 		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
-		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common2.js"></script>
+		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common3.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
 				var servicePath = "<?php echo $service['path'];?>";

@@ -608,7 +608,7 @@ function openFullScreen(content,caption,root) {
     <head>\
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">\
 	<title>'+caption+' - iMazing</title>\
-	<script type="text/javascript" src="'+root+'/resources/script/common2.js"></script>\
+	<script type="text/javascript" src="'+root+'/resources/script/common3.js"></script>\
 	<style>\
 		body {\
 			margin:0px;	\

@@ -73,7 +73,7 @@ function getScriptsOnHead($paging, $entryIds = null) {
 	<script type="text/javascript">jQuery.noConflict();</script>
 
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common3.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/gallery.js" ></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/flash.js" ></script>
 	<script type="text/javascript">

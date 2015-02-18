@@ -20,7 +20,7 @@ if (is_null($entry)) {
 	<link rel="stylesheet" type="text/css" href="<?php echo $service['path'] . $adminSkinSetting['skin'];?>/popup-trackback.css" />
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common3.js"></script>
 	<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
 	<!-- script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/EAF4.js"></script -->
 	<script type="text/javascript">

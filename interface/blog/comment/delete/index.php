@@ -215,7 +215,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common2.js"></script>
+	<script type="text/javascript" src="<?php echo $service['resourcepath'];?>/script/common3.js"></script>
 </head>
 <body>
 	<form name="deleteComment" method="post" action="<?php echo $blogURL;?>/comment/delete/<?php echo $suri['id'];?>">

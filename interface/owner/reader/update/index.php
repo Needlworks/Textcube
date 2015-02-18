@@ -25,7 +25,7 @@ ob_implicit_flush();
 	<head>
 		<title>Update all feeds</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="<?php echo $serviceURL;?>/resources/script/common2.js"></script>
+		<script type="text/javascript" src="<?php echo $serviceURL;?>/resources/script/common3.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
 				var servicePath = "<?php echo $service['path'];?>";
