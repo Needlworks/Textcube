@@ -210,11 +210,22 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
 	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
 
-	$sql = "SELECT e.blogid,e.userid,e.id,e.title,e.comments,e.slogan,e.published
-			FROM ".$ctx->getProperty('database.prefix')."Entries e
-			WHERE e.blogid = $blogid AND e.userid = $userid AND e.draft = 0 $visibility
-			ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.userid","eq",$userid);
+	$pool->setQualifier("e.draft","eq",0);
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array("e.userid","eq",getUserId()),"OR",array("e.visibility",">",0));
+	}
+	$pool->setOrder("e.published","DESC");
+	$pool->setProjection("e.blogid","e.userid","e.id","e.title","e.comments","e.slogan","e.published");
+	return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 }
 
 function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
@@ -222,42 +233,89 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
 
 	if ($tag === null)
 		return array(array(), array('url'=>'','prefix'=>'','postfix'=>''));
-	$tag = POD::escapeString($tag);
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
 	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."TagRelations t ON e.id = t.entry AND e.blogid = t.blogid
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 AND t.tag = '$tag'
-		ORDER BY published DESC";
-	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".((!Setting::getBlogSettingGlobal('useSloganOnTag',true) && ($ctx->getProperty('suri.id') != null)) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
+
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("TagRelations","t");
+	$pool->join("TagRelation","left",array(
+		array("e.id","eq","t.entry"),
+		array("e.blogid","eq","t.blogid")
+	));
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.category",">=",0);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("t.tag","eq",$tag,true);
+
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array("e.userid","eq",getUserId()),"OR",array("e.visibility",">",0));
+	}
+
+	$pool->setOrder("e.published","DESC");
+	$pool->setProjection("e.blogid","e.userid","e.id","e.title","e.comments","e.slogan","e.published");
+
+	return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder')."/".((!Setting::getBlogSettingGlobal('useSloganOnTag',true) && ($ctx->getProperty('suri.id') != null)) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
 }
 
 function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
-;
 	$ctx = Model_Context::getInstance();
 
-	$cond = "AND e.published >= " . getTimeFromPeriod($period) . " AND e.published < " . getTimeFromPeriod(addPeriod($period));
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
-		ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.category",">=",0);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.published",">=",getTimeFromPeriod($period));
+	$pool->setQualifier("e.published","<",getTimeFromPeriod(addPeriod($period)));
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array("e.userid","eq",getUserId()),"OR",array("e.visibility",">",0));
+	}
+
+	$pool->setOrder("e.published","DESC");
+	$pool->setProjection("e.blogid","e.userid","e.id","e.title","e.comments","e.slogan","e.published");
+
+	return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 }
 
 function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
 	$ctx = Model_Context::getInstance();
 	$search = escapeSearchString($search);
 	$cond = strlen($search) == 0 ? 'AND 0' : "AND (title LIKE '%$search%' OR content LIKE '%$search%')";
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1'.getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$sql = "SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0 $cond
-		ORDER BY e.published DESC";
-	return Paging::fetch($sql, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
+
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.category",">=",0);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.published",">=",getTimeFromPeriod($period));
+	$pool->setQualifier("e.published","<",getTimeFromPeriod(addPeriod($period)));
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",1);
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array("e.userid","eq",getUserId()),"OR",array("e.visibility",">",0));
+	}
+
+	if (strlen($search) == 0) {
+		$pool->resetQualifiers();
+	} else {
+		$pool->setQualifierSet(array("e.title","like",$search,true),"OR",array("e.content","like",$search,true));
+	}
+	$pool->setOrder("e.published","DESC");
+	$pool->setProjection("e.blogid","e.userid","e.id","e.title","e.comments","e.slogan","e.published");
+	return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder')."/".$ctx->getProperty('suri.value'));
 }
 
 function getEntriesWithPaging($blogid, $page, $count) {

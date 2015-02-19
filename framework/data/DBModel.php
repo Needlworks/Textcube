@@ -37,6 +37,7 @@ function doesExistTable($tablename) {
 */
 
 /*
+  2.4.2 (2015.2.19)  : Added - Affirmation / Negation
   2.4.1 (2015.2.12)  : Added - setProjection accepts comma-separated input string.
   2.4.0 (2015.2.10)  : Added - store / restore method to keep track of nested queries.
   2.3.3 (2015.2.7)   : Added - complex qualifierset support.
@@ -70,7 +71,7 @@ class DBModel extends Singleton implements IModel {
 	protected $_attributes, $_qualifiers, $_projections, $_query;
 	protected $_relations, $_glues, $_filters, $_order, $_limit;
 	protected $_statements, $_group, $table, $id, $_querysetCount;
-	protected $_reservedFields, $_isReserved, $param, $_options;
+	protected $_reservedFields, $_isReserved, $param, $_options, $_qualifierMode;
 	protected $_called, $_buffer;
 	protected $_extended_objects, $_object_aliases;
 
@@ -107,6 +108,7 @@ class DBModel extends Singleton implements IModel {
 		$this->_object_aliases = array();
 		$this->param = array();
 		$this->_querysetCount = 0;
+		$this->_qualifierMode = 0;
 		$this->_reservedFields    = POD::reservedFieldNames();
 		$this->_reservedFunctions = POD::reservedFunctionNames();
 		$this->structure = null;
@@ -270,6 +272,14 @@ class DBModel extends Singleton implements IModel {
 		$this->_glues['QualifierSet'.$this->_querysetCount] = $mglue;
 		$this->_querysetCount += 1;
 		return $this;
+	}
+
+	public function affirm() {
+		$this->_qualifierMode = 1;
+	}
+
+	public function negate() {
+		$this->_qualifierMode = 2;
 	}
 
 	/// Manipulators
@@ -639,8 +649,10 @@ class DBModel extends Singleton implements IModel {
 
 	private function _makeWhereClause() {
 		$clause = '';
-		if (count($this->_qualifiers) == 0) {
+		if (count($this->_qualifiers) == 0 || $this->_qualifierMode == 1) {
 			$clause = '1';
+		} else if ($this->_qualifierMode == 2) {
+			$clause = '0';
 		} else {
 			foreach ($this->_qualifiers as $name => $value) {
 				if (strpos($name,'QualifierSet') === 0) {
@@ -648,8 +660,8 @@ class DBModel extends Singleton implements IModel {
 					foreach ($value as $qname => $qvalue) {
 						list($qrelations, $qvalue) = $this->_canonicalWhereClause($this->_relations[$name][$qname],$qvalue);
 						$clause .= (array_key_exists($qname, $this->_isReserved) ? '"'.$qname.'"' : $qname) .
-						' '.(is_null($qvalue) ? ' IS NULL' : $qrelations . ' ' . $qvalue)
-						.(isset($this->_glues[$name][$qname]) ? ' '.$this->_glues[$name][$qname].' ' : '');
+							' '.(is_null($qvalue) ? ' IS NULL' : $qrelations . ' ' . $qvalue)
+							.(isset($this->_glues[$name][$qname]) ? ' '.$this->_glues[$name][$qname].' ' : '');
 					}
 
 					$clause .= ')';
