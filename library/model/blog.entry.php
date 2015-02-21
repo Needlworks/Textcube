@@ -314,7 +314,7 @@ function getEntriesWithPaging($blogid, $page, $count) {
 	$pool = DBModel::getInstance();
 	$pool->reset("Entries");
 	$pool->setAlias("Entries","e");
-	$pool->extend("Categories","LEFT", array(array('e.blogid','eq','c.blogid'),array('e.category','>','c.id')));
+	$pool->extend("Categories","LEFT", array(array('e.blogid','eq','c.blogid'),array('e.category','eq','c.id')));
 	$pool->setAlias("Categories","c");
 
 	if (!doesHaveOwnership()) {
@@ -606,32 +606,55 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 	requireModel('blog.category');
 	$entries = array();
 	$paging = Paging::init($ctx->getProperty('uri.folder'), '/');
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= ($isSpecialEntry || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$category = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? 'e.category = -3' : 'e.category = -2' ) : 'e.category >= 0';
+
 	if($categoryId !== false) {
 		if($categoryId != 0) {	// Not a 'total' category.
 			$childCategories = getChildCategoryId($blogid, $categoryId);
-			if(!empty($childCategories)) {
-				$category = 'e.category IN ('.$categoryId.','.implode(",",$childCategories).')';
-			} else {
-				$category = 'e.category = '.$categoryId;
-			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE e.blogid = $blogid
-			AND e.id = $id
-			AND e.draft = 0 $visibility AND $category");
-	$result = POD::queryColumn("SELECT e.id
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE e.blogid = $blogid
-			AND e.draft = 0 $visibility AND $category
-		ORDER BY e.published DESC");
+
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("Categories","c");
+	$pool->join("Categories","left",array(
+		array("e.blogid","eq","c.blogid"),
+		array("e.category","eq","c.id")
+	));
+	if(!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+	}
+	if (!($isSpecialEntry || doesHaveOwnership())) {
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array('e.userid','eq',getUserId()),'OR',array('e.visibility','>',0));
+	}
+	if ($isSpecialEntry) {
+		if($isSpecialEntry == 'page') {
+			$pool->setQualifier("e.category","=",-3);
+		} else {
+			$pool->setQualifier("e.category","=",-2);
+		}
+	} else {
+		$pool->setQualifier("e.category",">=",0);
+	}
+
+	if(!empty($childCategories)) {
+		$pool->setQualifier("e.category","hasoneof",$childCategories);
+	} else {
+		$pool->setQualifier("e.category","eq",$categoryId);
+	}
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.id","eq",$id);
+	$pool->setQualifier("e.draft","eq",0);
+
+	$currentEntry = $pool->getRow("e.*, c.label AS categoryLabel");
+
+	$pool->unsetQualifier("e.id");
+	$pool->setOrder("e.published","DESC");
+	$result = $pool->getColumn("e.id");
+
 	if (!$result || !$currentEntry)
 		return array($entries, $paging);
 	if($categoryId !== false) {
@@ -751,12 +774,19 @@ function getSlogan($slogan) {
 
 function getRecentEntries($blogid) {
 	$ctx = Model_Context::getInstance();
-	$entries = array();
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0'.getPrivateCategoryExclusionQuery($blogid);
- 	$result = POD::queryAll("SELECT e.id, e.userid, e.title, e.slogan, e.comments, e.published
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		WHERE e.blogid = $blogid AND e.draft = 0 $visibility AND e.category >= 0
-		ORDER BY published DESC LIMIT ".$ctx->getProperty('skin.entriesOnRecent'));
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.category","beq",0);
+	if (!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+		$pool = getPrivateCategoryExclusionQualifier($pool, $blogid);
+	}
+	$pool->setOrder("e.published","DESC");
+	$pool->setLimit($ctx->getProperty('skin.entriesOnRecent'));
+	$result = $pool->getAll("e.id, e.userid, e.title, e.slogan, e.comments, e.published");
  	if($result) {
  		return $result;
  	} else {
