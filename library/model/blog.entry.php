@@ -697,34 +697,60 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $
 	requireModel('blog.category');
 	$entries = array();
 	$ctx = Model_Context::getInstance();
+
+
+	requireModel('blog.category');
+	$entries = array();
 	$paging = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? Paging::init($ctx->getProperty('uri.blog')."/page", '/'): Paging::init($ctx->getProperty('uri.blog')."/notice", '/')) : Paging::init($ctx->getProperty('uri.blog')."/entry", '/');
-	$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 0';
-	$visibility .= ($isSpecialEntry || doesHaveOwnership()) ? '' : getPrivateCategoryExclusionQuery($blogid);
-	$visibility .= (doesHaveOwnership() && !Acl::check('group.editors')) ? ' AND (e.userid = '.getUserId().' OR e.visibility > 0)' : '';
-	$category = $isSpecialEntry ? ( $isSpecialEntry == 'page' ? 'e.category = -3' : 'e.category = -2' ) : 'e.category >= 0';
+
 	if($categoryId !== false) {
-		if(!$categoryId == 0) {	// Not a 'total' category.
+		if($categoryId != 0) {	// Not a 'total' category.
 			$childCategories = getChildCategoryId($blogid, $categoryId);
-			if(!empty($childCategories)) {
-				$category = 'e.category IN ('.$categoryId.','.implode(",",$childCategories).')';
-			} else {
-				$category = 'e.category = '.$categoryId;
-			}
 		}
 	}
-	$currentEntry = POD::queryRow("SELECT e.*, c.label AS categoryLabel
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE e.blogid = $blogid
-			AND e.slogan = '".POD::escapeString($slogan)."'
-			AND e.draft = 0 $visibility AND $category");
 
-	$result = POD::queryAll("SELECT e.id, e.slogan
-		FROM ".$ctx->getProperty('database.prefix')."Entries e
-		LEFT JOIN ".$ctx->getProperty('database.prefix')."Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE e.blogid = $blogid
-			AND e.draft = 0 $visibility AND $category
-		ORDER BY e.published DESC");
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("Categories","c");
+	$pool->join("Categories","left",array(
+		array("e.blogid","eq","c.blogid"),
+		array("e.category","eq","c.id")
+	));
+	if(!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",0);
+	}
+	if (!($isSpecialEntry || doesHaveOwnership())) {
+		$pool = getPrivateCategoryExclusionQualifier($pool,$blogid);
+	}
+	if (doesHaveOwnership() && !Acl::check('group.editors')) {
+		$pool->setQualifierSet(array('e.userid','eq',getUserId()),'OR',array('e.visibility','>',0));
+	}
+	if ($isSpecialEntry) {
+		if($isSpecialEntry == 'page') {
+			$pool->setQualifier("e.category","=",-3);
+		} else {
+			$pool->setQualifier("e.category","=",-2);
+		}
+	} else {
+		$pool->setQualifier("e.category",">=",0);
+	}
+
+	if(!empty($childCategories)) {
+		$pool->setQualifier("e.category","hasoneof",$childCategories);
+	} else {
+		$pool->setQualifier("e.category","eq",$categoryId);
+	}
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("e.slogan","eq",$slogan,true);
+	$pool->setQualifier("e.draft","eq",0);
+
+	$currentEntry = $pool->getRow("e.*, c.label AS categoryLabel");
+
+	$pool->unsetQualifier("e.id");
+	$pool->setOrder("e.published","DESC");
+	$result = $pool->getAll("e.id, e.slogan");
+
 	if (!$result || !$currentEntry)
 		return array($entries, $paging);
 
@@ -929,7 +955,6 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	requireModel('blog.attachment');
 	requireModel('blog.category');
 	requireModel('blog.feed');
-	requireComponent('Textcube.Data.Tag');
 
 	if($entry['id'] == 0) return false;
 
@@ -1509,8 +1534,11 @@ function getEntryVisibilityName($visibility) {
 }
 
 function getSloganById($blogid, $id) {
-	$ctx = Model_Context::getInstance();
-	$result = POD::queryCell("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $id");
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$result = $pool->getCell("slogan");
 	if (is_null($result))
 		return false;
 	else
@@ -1518,7 +1546,6 @@ function getSloganById($blogid, $id) {
 }
 
 function getEntryIdBySlogan($blogid, $slogan) {
-	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$pool->reset("Entries");
 	$pool->setQualifier("blogid","eq",$blogid);
@@ -1529,7 +1556,6 @@ function getEntryIdBySlogan($blogid, $slogan) {
 }
 
 function setEntryStar($entryId, $mark) {
-	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$pool->reset("Entries");
 	$pool->setAttribute("starred","eq",$mark);
@@ -1542,7 +1568,16 @@ function setEntryStar($entryId, $mark) {
 
 function getEntriesByTagId($blogid, $tagId) {
 	$ctx = Model_Context::getInstance();
-
-	return POD::queryAll('SELECT e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published FROM '.$ctx->getProperty('database.prefix').'Entries e LEFT JOIN '.$ctx->getProperty('database.prefix').'TagRelations t ON e.id = t.entry AND e.blogid = t.blogid WHERE e.blogid = '.$blogid.' AND t.tag = '.$tagId);
+	$pool = DBModel::getInstance();
+	$pool->init("Entries");
+	$pool->setAlias("Entries","e");
+	$pool->setAlias("TagRelations","t");
+	$pool->join("TagRelations","left",array(
+		array("e.id","eq","t.entry"),
+		array("e.blogid","eq","t.blogid")
+	));
+	$pool->setQualifier("e.blogid","eq",$blogid);
+	$pool->setQualifier("t.tag","eq",$tagId);
+	return $pool->getAll("e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published");
 }
 ?>
