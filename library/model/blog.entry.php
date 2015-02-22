@@ -823,7 +823,7 @@ function getRecentEntries($blogid) {
 function addEntry($blogid, $entry, $userid = null) {
 	global $gCacheStorage;
 	$ctx = Model_Context::getInstance();
-
+	$pool = DBModel::getInstance();
 	requireModel("blog.attachment");
 	requireModel("blog.feed");
 	requireModel("blog.category");
@@ -843,12 +843,17 @@ function addEntry($blogid, $entry, $userid = null) {
 	}
 
 	$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan, 255));
-	$title = POD::escapeString($entry['title']);
+	$title = $entry['title'];
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND draft = 0 AND title = '$title' AND category = -1") > 0)
+		$pool->reset("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("draft","eq",0);
+		$pool->setQualifier("title","eq",$title,true);
+		$pool->setQualifier("category","eq",-1);
+		if ($pool->getCount() > 0)
 			return false;
 	}
 
@@ -859,13 +864,20 @@ function addEntry($blogid, $entry, $userid = null) {
 	if ($entry['category'] == -4) {
 		$entry['visibility'] = 0;
 	}
-
-	$result = POD::queryCount("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("slogan","eq",$slogan,true);
+	$pool->setQualifier("draft","eq",0);
+	$result = $pool->doesExist("slogan");
 	for ($i = 1; $result > 0; $i++) {
 		if ($i > 1000)
 			return false;
 		$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i);
-		$result = POD::queryCount("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
+		$pool->reset("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("slogan","eq",$slogan,true);
+		$pool->setQualifier("draft","eq",0);
+		$result = $pool->doesExist("slogan");
 	}
 	$userid = $entry['userid'];
 	$content = POD::escapeString($entry['content']);
