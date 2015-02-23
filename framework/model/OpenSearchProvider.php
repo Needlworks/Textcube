@@ -5,10 +5,11 @@
 
 
 class Model_OpenSearchProvider extends XMLTree {
-	
-	/// Set the descriptors to DOM tree
-	function setDescriptor ($name, $content, $type = null) {
-		return $this->setValue('/OpenSearchDescription/'.$name, $content, $type);
-	}
+
+    /// Set the descriptors to DOM tree
+    function setDescriptor($name, $content, $type = null) {
+        return $this->setValue('/OpenSearchDescription/' . $name, $content, $type);
+    }
 }
+
 ?>

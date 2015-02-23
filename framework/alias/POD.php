@@ -15,50 +15,53 @@
 
 // Bypass variables are supported. ($_pod_setting);
 class POD extends DBAdapter {
-	/** Pre-definition **/
-	/** Initialization **/
+    /** Pre-definition **/
+    /** Initialization **/
 
-	/** Additional features for Textcube **/
-	/** NOTICE : PARTS BELOW EXTENDS DBQuery Class WHICH IS THE BASE OF POD
-	             AND WORKS ONLY WITH 'PageCache' Component in Textcube **/
-	public static function queryWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
-		$cache = queryCache::getInstance();
-		$cache->reset($query, $prefix);
-		if(!$cache->load()) {
-			$cache->contents = POD::query($query, $type, $count);
-			$cache->update();
-		}
-		return $cache->contents;
-	}
-	public static function queryAllWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
-		$cache = queryCache::getInstance();
-		$cache->reset($query, $prefix);
-		if(!$cache->load()) {
-			$cache->contents = POD::queryAllWithCache($query, $type, $count);
-			$cache->update();
-		}
-		return $cache->contents;
-	}
-	public static function queryRowWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
-		$cache = queryCache::getInstance();
-		$cache->reset($query, $prefix);
-		if(!$cache->load()) {
-			$cache->contents = POD::queryRow($query, $type, $count);
-			$cache->update();
-		}
-		return $cache->contents;
-	}
-	public static function queryColumnWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
-		$cache = queryCache::getInstance();
-		$cache->reset($query, $prefix);
-		if(!$cache->load()) {
-			$cache->contents = POD::queryColumn($query, $type, $count);
-			$cache->update();
-		}
-		return $cache->contents;
-	}
+    /** Additional features for Textcube **/
+    /** NOTICE : PARTS BELOW EXTENDS DBQuery Class WHICH IS THE BASE OF POD
+     * AND WORKS ONLY WITH 'PageCache' Component in Textcube **/
+    public static function queryWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
+        $cache = queryCache::getInstance();
+        $cache->reset($query, $prefix);
+        if (!$cache->load()) {
+            $cache->contents = POD::query($query, $type, $count);
+            $cache->update();
+        }
+        return $cache->contents;
+    }
+
+    public static function queryAllWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
+        $cache = queryCache::getInstance();
+        $cache->reset($query, $prefix);
+        if (!$cache->load()) {
+            $cache->contents = POD::queryAllWithCache($query, $type, $count);
+            $cache->update();
+        }
+        return $cache->contents;
+    }
+
+    public static function queryRowWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
+        $cache = queryCache::getInstance();
+        $cache->reset($query, $prefix);
+        if (!$cache->load()) {
+            $cache->contents = POD::queryRow($query, $type, $count);
+            $cache->update();
+        }
+        return $cache->contents;
+    }
+
+    public static function queryColumnWithDBCache($query, $prefix = null, $type = 'both', $count = -1) {
+        $cache = queryCache::getInstance();
+        $cache->reset($query, $prefix);
+        if (!$cache->load()) {
+            $cache->contents = POD::queryColumn($query, $type, $count);
+            $cache->update();
+        }
+        return $cache->contents;
+    }
 }
 
 POD::cacheLoad();
-register_shutdown_function( array('POD','cacheSave') );	
+register_shutdown_function(array('POD', 'cacheSave'));
 ?>

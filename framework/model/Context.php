@@ -3,62 +3,77 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-final class Model_Context extends Singleton
-{
-	private $__property, $__namespace;
+final class Model_Context extends Singleton {
+    private $__property, $__namespace;
 
-	function __construct() {
-	}
+    function __construct() {
+    }
 
-	public function setProperty($key, $value, $namespace = null) {
-		$key = $this->__getKey($key, $namespace);
-		$this->__property[$key] = $value;
-	}
-	public function unsetProperty($key, $namespace = null) {
-		$key = $this->__getKey($key, $namespace);
-		unset($this->__property[$key]);
-	}
+    public function setProperty($key, $value, $namespace = null) {
+        $key = $this->__getKey($key, $namespace);
+        $this->__property[$key] = $value;
+    }
 
-	private function __getKey($key, $namespace) {
-		global $pluginName;
-		if(strpos($key,'.') === false) {    // If key contains namespace, use it.
-			if (!is_null($namespace)) {
-				$key = $namespace . '.' . $key;
-			} else if (!empty($this->__namespace)) {
-				$key = $this->__namespace . '.' . $key;
-			} else if (!empty($pluginName)) {
-				$key = $pluginName . '.' . $key;
-			} else {
-				$key = 'global.' . $key;
-			}
-		}
-		return $key;
-	}
-	public function getProperty($key, $defaultValue = null) {
-		$key = $this->__getKey($key, null);
-		if (isset($this->__property[$key])) return $this->__property[$key];
-		else return $defaultValue;
-	}
+    public function unsetProperty($key, $namespace = null) {
+        $key = $this->__getKey($key, $namespace);
+        unset($this->__property[$key]);
+    }
 
-	public function useNamespace($ns = null) {
-		if(is_null($ns)) $this->__namespace = null;
-		else $this->__namespace = $ns;
-	}
-	public function getNamespace() {
-		return $this->__namespace;
-	}
+    private function __getKey($key, $namespace) {
+        global $pluginName;
+        if (strpos($key, '.') === false) {    // If key contains namespace, use it.
+            if (!is_null($namespace)) {
+                $key = $namespace . '.' . $key;
+            } else {
+                if (!empty($this->__namespace)) {
+                    $key = $this->__namespace . '.' . $key;
+                } else {
+                    if (!empty($pluginName)) {
+                        $key = $pluginName . '.' . $key;
+                    } else {
+                        $key = 'global.' . $key;
+                    }
+                }
+            }
+        }
+        return $key;
+    }
 
-	public function getAllFromNamespace($ns) {
-		$result = array();
-		$len = strlen($ns)+1;
-		foreach($this->__property as $k => $v) {
-			if(strpos($k,$ns) === 0) $result[substr($k,$len)] = $v;
-		}
-		return $result;
-	}
+    public function getProperty($key, $defaultValue = null) {
+        $key = $this->__getKey($key, null);
+        if (isset($this->__property[$key])) {
+            return $this->__property[$key];
+        } else {
+            return $defaultValue;
+        }
+    }
 
-	function __destruct() {
-		// Nothing to do: destruction of this class means the end of execution
-	}
+    public function useNamespace($ns = null) {
+        if (is_null($ns)) {
+            $this->__namespace = null;
+        } else {
+            $this->__namespace = $ns;
+        }
+    }
+
+    public function getNamespace() {
+        return $this->__namespace;
+    }
+
+    public function getAllFromNamespace($ns) {
+        $result = array();
+        $len = strlen($ns) + 1;
+        foreach ($this->__property as $k => $v) {
+            if (strpos($k, $ns) === 0) {
+                $result[substr($k, $len)] = $v;
+            }
+        }
+        return $result;
+    }
+
+    function __destruct() {
+        // Nothing to do: destruction of this class means the end of execution
+    }
 }
+
 ?>

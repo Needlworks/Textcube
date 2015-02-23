@@ -4,18 +4,17 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /**
-	Blog View
-	---------
-	- Modularize every blogview output.
-**/
-
+ * Blog View
+ * ---------
+ * - Modularize every blogview output.
+ **/
 class BlogView {
-	private $buf, $skin, $view;
-	
-	function __construct() {
-		global $skinSetting;
-		$this->buf  = new Utils_OutputWriter;
-		$this->skin = new Skin($skinSetting['skin']);
-		$this->view = $this->skin->outter;
-	}
+    private $buf, $skin, $view;
+
+    function __construct() {
+        global $skinSetting;
+        $this->buf = new Utils_OutputWriter;
+        $this->skin = new Skin($skinSetting['skin']);
+        $this->view = $this->skin->outter;
+    }
 }

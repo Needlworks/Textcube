@@ -3,15 +3,16 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-define( 'TCDEBUG', true );
+define('TCDEBUG', true);
 
-set_error_handler( "__error" );
+set_error_handler("__error");
 
-function __error( $errno, $errstr, $errfile, $errline )
-{
-	if(in_array($errno, array(2048))) return;
-	print("$errstr($errno)<br />");
-	print("File: $errfile:$errline<br /><hr size='1' />");
+function __error($errno, $errstr, $errfile, $errline) {
+    if (in_array($errno, array(2048))) {
+        return;
+    }
+    print("$errstr($errno)<br />");
+    print("File: $errfile:$errline<br /><hr size='1' />");
 }
 
 global $__tcSqlLog;
@@ -22,154 +23,159 @@ global $__tcPageEndTime;
 
 $__tcPageStartTime = explode(' ', microtime());
 
-$__tcSqlLog= array();
+$__tcSqlLog = array();
 $__tcSqlLogCount = 0;
 
-function __tcSqlLogBegin( $sql )
-{
-	global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount;
+function __tcSqlLogBegin($sql) {
+    global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount;
 
-	$backtrace = debug_backtrace();
-	array_shift($backtrace);
-	array_shift($backtrace);
+    $backtrace = debug_backtrace();
+    array_shift($backtrace);
+    array_shift($backtrace);
 
-	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => trim($sql), 'backtrace' => $backtrace );
-	$__tcSqlQueryBeginTime = explode(' ', microtime());
-	//dumpAsFile($sql);
+    $__tcSqlLog[$__tcSqlLogCount] = array('sql' => trim($sql), 'backtrace' => $backtrace);
+    $__tcSqlQueryBeginTime = explode(' ', microtime());
+    //dumpAsFile($sql);
 }
-function __tcSqlLogEnd( $result, $cachedResult = 0 )
-{
-	global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount, $__tcPageStartTime;
-	static $client_encoding = '';
-	$tcSqlQueryEndTime = explode(' ', microtime());
-	$elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
-	if( !$client_encoding ) {
-		$client_encoding = 'utf8';
+
+function __tcSqlLogEnd($result, $cachedResult = 0) {
+    global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount, $__tcPageStartTime;
+    static $client_encoding = '';
+    $tcSqlQueryEndTime = explode(' ', microtime());
+    $elapsed = ($tcSqlQueryEndTime[1] - $__tcSqlQueryBeginTime[1]) + ($tcSqlQueryEndTime[0] - $__tcSqlQueryBeginTime[0]);
+    if (!$client_encoding) {
+        $client_encoding = 'utf8';
 //		$client_encoding = str_replace('_','-',mysqli_client_encoding(POD::$db));
-	}
+    }
 
-	if( $client_encoding != 'utf8' && function_exists('iconv') ) {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = iconv( $client_encoding, 'utf-8', POD::$db->lastErrorMsg());
-	}
-	else {
-		$__tcSqlLog[$__tcSqlLogCount]['error'] = POD::$db->lastErrorMsg();
-	}
-	$__tcSqlLog[$__tcSqlLogCount]['errno'] = POD::$db->lastErrorCode();
+    if ($client_encoding != 'utf8' && function_exists('iconv')) {
+        $__tcSqlLog[$__tcSqlLogCount]['error'] = iconv($client_encoding, 'utf-8', POD::$db->lastErrorMsg());
+    } else {
+        $__tcSqlLog[$__tcSqlLogCount]['error'] = POD::$db->lastErrorMsg();
+    }
+    $__tcSqlLog[$__tcSqlLogCount]['errno'] = POD::$db->lastErrorCode();
 
-	if( $cachedResult == 0 ) {
-		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
-	} else {
-		$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = 0;
-	}
-	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = sprintf("%4.1f", $__tcSqlLog[$__tcSqlLogCount]['elapsed'] );
-	$__tcSqlLog[$__tcSqlLogCount]['cached'] = $cachedResult;
-	$__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
-	if( ! $cachedResult && POD::$db->lastErrorCode() == 0 ) {
-		switch( strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6 )) )
-		{
-			case 'select':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = __tcSqlQueryRowCount($result);
-				break;
-			case 'insert':
-			case 'delete':
-			case 'update':
-				$__tcSqlLog[$__tcSqlLogCount]['rows'] = POD::$db->changes();
-				break;
-		}
-	}
-	$__tcSqlLogCount++;
-	$__tcSqlQueryBeginTime = 0;
+    if ($cachedResult == 0) {
+        $__tcSqlLog[$__tcSqlLogCount]['elapsed'] = ceil($elapsed * 10000) / 10;
+    } else {
+        $__tcSqlLog[$__tcSqlLogCount]['elapsed'] = 0;
+    }
+    $__tcSqlLog[$__tcSqlLogCount]['elapsed'] = sprintf("%4.1f", $__tcSqlLog[$__tcSqlLogCount]['elapsed']);
+    $__tcSqlLog[$__tcSqlLogCount]['cached'] = $cachedResult;
+    $__tcSqlLog[$__tcSqlLogCount]['rows'] = 0;
+    $__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
+    $__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f", ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
+    if (!$cachedResult && POD::$db->lastErrorCode() == 0) {
+        switch (strtolower(substr($__tcSqlLog[$__tcSqlLogCount]['sql'], 0, 6))) {
+            case 'select':
+                $__tcSqlLog[$__tcSqlLogCount]['rows'] = __tcSqlQueryRowCount($result);
+                break;
+            case 'insert':
+            case 'delete':
+            case 'update':
+                $__tcSqlLog[$__tcSqlLogCount]['rows'] = POD::$db->changes();
+                break;
+        }
+    }
+    $__tcSqlLogCount++;
+    $__tcSqlQueryBeginTime = 0;
 }
 
 function __tcSqlQueryRowCount($resource) {
-	$count = 0;
-	while ($buf = $resource->fetchArray()) {
-		$count++;
-	}
-	$resource->reset();
-	return $count;
+    $count = 0;
+    while ($buf = $resource->fetchArray()) {
+        $count++;
+    }
+    $resource->reset();
+    return $count;
 }
 
-function __tcSqlLogPoint($description = null)
-{
-	global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount, $__tcPageStartTime, $__tcPageEndTime;
-	if (is_null($description)) $description = 'Point';
-	$backtrace = debug_backtrace();
-	array_shift($backtrace);
-	array_shift($backtrace);
-	$__tcSqlLog[$__tcSqlLogCount] = array( 'sql' => '['. trim($description) .']', 'backtrace' => $backtrace );
-	$__tcSqlQueryBeginTime = explode(' ', microtime());
-	$tcSqlQueryEndTime = explode(' ', microtime());
-	$__tcSqlLog[$__tcSqlLogCount]['error'] = '';
-	$__tcSqlLog[$__tcSqlLogCount]['errno'] = '';
-	$__tcSqlLog[$__tcSqlLogCount]['elapsed'] = '';
-	$__tcSqlLog[$__tcSqlLogCount]['cached'] = '';
-	$__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
-	$__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f",ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
-	$__tcPageEndTime = $__tcSqlLog[$__tcSqlLogCount]['endtime'];
-	$__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
-	$__tcSqlLogCount++;
-	$__tcSqlQueryBeginTime = 0;
+function __tcSqlLogPoint($description = null) {
+    global $__tcSqlLog, $__tcSqlQueryBeginTime, $__tcSqlLogCount, $__tcPageStartTime, $__tcPageEndTime;
+    if (is_null($description)) {
+        $description = 'Point';
+    }
+    $backtrace = debug_backtrace();
+    array_shift($backtrace);
+    array_shift($backtrace);
+    $__tcSqlLog[$__tcSqlLogCount] = array('sql' => '[' . trim($description) . ']', 'backtrace' => $backtrace);
+    $__tcSqlQueryBeginTime = explode(' ', microtime());
+    $tcSqlQueryEndTime = explode(' ', microtime());
+    $__tcSqlLog[$__tcSqlLogCount]['error'] = '';
+    $__tcSqlLog[$__tcSqlLogCount]['errno'] = '';
+    $__tcSqlLog[$__tcSqlLogCount]['elapsed'] = '';
+    $__tcSqlLog[$__tcSqlLogCount]['cached'] = '';
+    $__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
+    $__tcSqlLog[$__tcSqlLogCount]['endtime'] = ($tcSqlQueryEndTime[1] - $__tcPageStartTime[1]) + ($tcSqlQueryEndTime[0] - $__tcPageStartTime[0]);
+    $__tcSqlLog[$__tcSqlLogCount]['endtime'] = sprintf("%4.1f", ceil($__tcSqlLog[$__tcSqlLogCount]['endtime'] * 10000) / 10);
+    $__tcPageEndTime = $__tcSqlLog[$__tcSqlLogCount]['endtime'];
+    $__tcSqlLog[$__tcSqlLogCount]['rows'] = '';
+    $__tcSqlLogCount++;
+    $__tcSqlQueryBeginTime = 0;
 }
 
 function __tcSqlLoggetCallstack($backtrace, $level = 0) {
-	$callstack = '';
-	for ($i = $level; $i < count($backtrace); $i++) {
-		if (isset($backtrace[$i]['file'])) {
-			$callstack .= "{$backtrace[$i]['file']}:{$backtrace[$i]['line']}";
-			if (!empty($backtrace[$i + 1]['type']))
-				$callstack .= " {$backtrace[$i + 1]['class']}{$backtrace[$i + 1]['type']}{$backtrace[$i + 1]['function']}";
-			else if (isset($backtrace[$i + 1]['function']))
-				$callstack .= " {$backtrace[$i + 1]['function']}";
-			$callstack .= "\r\n";
-		}
-	}
-	if (empty($callstack))
-		$callstack = $_SERVER['SCRIPT_FILENAME'] . "\r\n";
-	return $callstack;
+    $callstack = '';
+    for ($i = $level; $i < count($backtrace); $i++) {
+        if (isset($backtrace[$i]['file'])) {
+            $callstack .= "{$backtrace[$i]['file']}:{$backtrace[$i]['line']}";
+            if (!empty($backtrace[$i + 1]['type'])) {
+                $callstack .= " {$backtrace[$i + 1]['class']}{$backtrace[$i + 1]['type']}{$backtrace[$i + 1]['function']}";
+            } else {
+                if (isset($backtrace[$i + 1]['function'])) {
+                    $callstack .= " {$backtrace[$i + 1]['function']}";
+                }
+            }
+            $callstack .= "\r\n";
+        }
+    }
+    if (empty($callstack)) {
+        $callstack = $_SERVER['SCRIPT_FILENAME'] . "\r\n";
+    }
+    return $callstack;
 }
 
-function __tcSqlLogDump()
-{
-	global $__tcSqlLog, $__tcPageEndTime;
-	global $service, $memcache;
-	static $sLogPumped = false;
-	if (!empty($sLogPumped)) return;
-	$sLogPumped = true;
+function __tcSqlLogDump() {
+    global $__tcSqlLog, $__tcPageEndTime;
+    global $service, $memcache;
+    static $sLogPumped = false;
+    if (!empty($sLogPumped)) {
+        return;
+    }
+    $sLogPumped = true;
 
-	__tcSqlLogPoint('shutdown');
+    __tcSqlLogPoint('shutdown');
 
-	$headers = array();
+    $headers = array();
 
-	if (function_exists('apache_response_headers') || function_exists('headers_list')) {
-		if (function_exists('apache_response_headers')) {
-			flush();
-			$headers = apache_response_headers();
-		} else  {
-			$headers = headers_list();
-		}
-	}
+    if (function_exists('apache_response_headers') || function_exists('headers_list')) {
+        if (function_exists('apache_response_headers')) {
+            flush();
+            $headers = apache_response_headers();
+        } else {
+            $headers = headers_list();
+        }
+    }
 
-	$commentBlosk = false;
+    $commentBlosk = false;
 
-	foreach ($headers as $row) {
-		if (strpos($row, '/xml') !== false || strpos($row, '+xml') !== false) {
-			/* To check text/xml, application/xml and application/xml+blah, application/blah+xml... types */
-			$commentBlosk = true;
-			break;
-		}
-		if (strpos($row, 'text/javascript') !== false) {
-			return;
-		}
-	}
+    foreach ($headers as $row) {
+        if (strpos($row, '/xml') !== false || strpos($row, '+xml') !== false) {
+            /* To check text/xml, application/xml and application/xml+blah, application/blah+xml... types */
+            $commentBlosk = true;
+            break;
+        }
+        if (strpos($row, 'text/javascript') !== false) {
+            return;
+        }
+    }
 
-	if ($commentBlosk == true) echo '<!--';
+    if ($commentBlosk == true) {
+        echo '<!--';
+    }
 
-	if (!$commentBlosk) {
-	print <<<EOS
+    if (!$commentBlosk) {
+        print <<<EOS
 <style type='text/css'>
 /*<![CDATA[*/
 	.debugTable
@@ -263,78 +269,85 @@ function __tcSqlLogDump()
 /*]]>*/
 </style>
 EOS;
-	}
+    }
 
-	$elapsed_total_db = 0;
+    $elapsed_total_db = 0;
 
-	$elapsed = array();
-	$count = 1;
-	$cached_count = 0;
-	foreach( $__tcSqlLog as $c => $log ) {
-		$elapsed[$count] = array( $log['elapsed'], $count, $log['cached'] ? "cached":"" );
-		$__tcSqlLog[$c]['percent'] = sprintf("%4.1f", $log['endtime']*100/$__tcPageEndTime);
-		$count++;
-	}
+    $elapsed = array();
+    $count = 1;
+    $cached_count = 0;
+    foreach ($__tcSqlLog as $c => $log) {
+        $elapsed[$count] = array($log['elapsed'], $count, $log['cached'] ? "cached" : "");
+        $__tcSqlLog[$c]['percent'] = sprintf("%4.1f", $log['endtime'] * 100 / $__tcPageEndTime);
+        $count++;
+    }
 
-	arsort( $elapsed );
-	$bgcolor = array();
-	foreach( array_splice($elapsed,0,5) as $e ) {
-		if($e[2] !=  "cached")
-			$top5[$e[1]] = true;
-	}
+    arsort($elapsed);
+    $bgcolor = array();
+    foreach (array_splice($elapsed, 0, 5) as $e) {
+        if ($e[2] != "cached") {
+            $top5[$e[1]] = true;
+        }
+    }
 
-	$count = 1;
-	if (!$commentBlosk) {
-		print '<table class="debugTable">';
-		print <<<THEAD
+    $count = 1;
+    if (!$commentBlosk) {
+        print '<table class="debugTable">';
+        print <<<THEAD
 		<thead>
 			<tr>
 				<th>count</th><th class="sql">query string</th><th>elapsed (ms)</th><th>elapsed sum (ms)</th><th></th><th>rows</th><th>error</th><th>stack</th>
 			</tr>
 		</thead>
 THEAD;
-		print '<tbody>';
-	}
-	foreach( $__tcSqlLog as $c => $log ) {
-		$error = '';
-		$backtrace = '';
-		$frame_count = 1;
-		$backtrace = __tcSqlLoggetCallstack($log['backtrace']);
-		if( $log['errno'] ) {
-			$error = "Error no. {$log['errno']} : {$log['error']}";
-		}
+        print '<tbody>';
+    }
+    foreach ($__tcSqlLog as $c => $log) {
+        $error = '';
+        $backtrace = '';
+        $frame_count = 1;
+        $backtrace = __tcSqlLoggetCallstack($log['backtrace']);
+        if ($log['errno']) {
+            $error = "Error no. {$log['errno']} : {$log['error']}";
+        }
 
-		$trclass = '';
-		$count_label = $count;
-		if (!empty($error)) {
-			$trclass = ' debugError';
-		} else if( isset( $top5[$count] ) ) {
-			$trclass = ' debugWarning';
-		} else if( $log['cached'] == 1) {
-			$error = "(cached)";
-			$trclass .= ' debugCached';
-			$cached_count++;
-		} else if( $log['cached'] == 2 ) {
-			$error = "";
-			$trclass .= ' debugCached';
-			$count_label = '';
-			$backtrace = '';
-		}
-		if ($log['sql'] == '[shutdown]') {
-			$error = "";
-			$log['sql'] = 'Shutdown';
-			$trclass .= ' debugSystem';
-			$count_label = '';
-			$backtrace = '';
-		}
+        $trclass = '';
+        $count_label = $count;
+        if (!empty($error)) {
+            $trclass = ' debugError';
+        } else {
+            if (isset($top5[$count])) {
+                $trclass = ' debugWarning';
+            } else {
+                if ($log['cached'] == 1) {
+                    $error = "(cached)";
+                    $trclass .= ' debugCached';
+                    $cached_count++;
+                } else {
+                    if ($log['cached'] == 2) {
+                        $error = "";
+                        $trclass .= ' debugCached';
+                        $count_label = '';
+                        $backtrace = '';
+                    }
+                }
+            }
+        }
+        if ($log['sql'] == '[shutdown]') {
+            $error = "";
+            $log['sql'] = 'Shutdown';
+            $trclass .= ' debugSystem';
+            $count_label = '';
+            $backtrace = '';
+        }
 
-		$elapsed_total_db += $log['elapsed'];
-		$elapsed_total = $log['endtime'];
-		$progress_bar = $log['percent'] / 2; //Max 50px;
-		if (!$commentBlosk) {
-			$log['sql'] = htmlspecialchars($log['sql']);
-			$log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;</div>";
-			print <<<TBODY
+        $elapsed_total_db += $log['elapsed'];
+        $elapsed_total = $log['endtime'];
+        $progress_bar = $log['percent'] / 2; //Max 50px;
+        if (!$commentBlosk) {
+            $log['sql'] = htmlspecialchars($log['sql']);
+            $log['percent'] = "<div style='background:#f00;line-height:10px;width:{$progress_bar}px'>&nbsp;</div>";
+            print <<<TBODY
 		<tr class="debugSQLLine{$trclass}">
 			<th>{$count_label}</th>
 			<td class="code"><code>{$log['sql']}</code></td>
@@ -346,9 +359,9 @@ THEAD;
 			<td class="backtrace"><pre>{$backtrace}</pre></td>
 		</tr>
 TBODY;
-		} else {
-			$log['sql'] = str_replace('-->', '-- >', $log['sql']);
-			print <<<TBODY
+        } else {
+            $log['sql'] = str_replace('-->', '-- >', $log['sql']);
+            print <<<TBODY
 
 ===============================================================================================
 $count_label:{$log['sql']}
@@ -356,19 +369,19 @@ Elapsed:{$log['elapsed']} ms/End time:{$log['endtime']}/Percent:{$log['percent']
 {$error}
 {$backtrace}
 TBODY;
-		}
+        }
 
-		if( $log['cached'] < 2 ) {
-			$count++;
-		}
-	}
+        if ($log['cached'] < 2) {
+            $count++;
+        }
+    }
 
-	$count--;
-	$real_query_count = $count - $cached_count;
+    $count--;
+    $real_query_count = $count - $cached_count;
 
-	if (!$commentBlosk) {
-		print '</tbody>';
-		print <<<TFOOT
+    if (!$commentBlosk) {
+        print '</tbody>';
+        print <<<TFOOT
 <tfoot>
 	<tr>
 		<td colspan='8'>
@@ -378,74 +391,89 @@ TBODY;
 	</tr>
 </tfoot>
 TFOOT;
-		print '</table>';
-	}
+        print '</table>';
+    }
 
-	global $service, $URLInfo, $suri;
-	print '<div class="debugTable">'.CRLF;
-	print '<h4>Current Database Management System :</h4>'.CRLF.'<p>'.POD::dbms().' '.POD::version().'</p>'.CRLF;
-	print '<h4>SSL support : </h4>'.CRLF;
-	if(isset($service['useSSL']) && $service['useSSL'] == true) print '<p>Enabled</p>'.CRLF;
-	else print '<p>Disabled</p>'.CRLF;
-	print '<h4>Cache system :</h4>'.CRLF;
-	if(isset($service['pagecache']) && $service['pagecache'] == true) print '<p>Page cache Enabled</p>'.CRLF;
-	else print '<p>Page cache Disabled</p>'.CRLF;
-	if(isset($service['skincache']) && $service['skincache'] == true) print '<p>Skin cache Enabled</p>'.CRLF;
-	else print '<p>Skin cache Disabled</p>'.CRLF;
-	if(isset($service['memcached']) && $service['memcached'] == true) print '<p>Memcached module Enabled</p>'.CRLF;
-	else print '<p>Memcached module Disabled</p>'.CRLF;
-	if( ! empty($service['debug_session_dump'])) {
-		print '<h4>Session Information</h4>'.CRLF;
-		print '<pre>session_id = ' . session_id() . CRLF;
-		print '$_SESSION = ';
-		print_r( $_SESSION );
-		print '$_COOKIE = ';
-		print_r( $_COOKIE );
-		print '</pre>';
-	}
-	if( ! empty($service['debug_rewrite_module'])) {
-		print '<h4>Path parse result</h4>'.CRLF;
-		print '<pre>'.CRLF;
-		print_r( $URLInfo );
-		print_r( $suri );
-		print '</pre>';
-	}
-	print '</div>'.CRLF;
-	if ($commentBlosk == true) echo '-->';
+    global $service, $URLInfo, $suri;
+    print '<div class="debugTable">' . CRLF;
+    print '<h4>Current Database Management System :</h4>' . CRLF . '<p>' . POD::dbms() . ' ' . POD::version() . '</p>' . CRLF;
+    print '<h4>SSL support : </h4>' . CRLF;
+    if (isset($service['useSSL']) && $service['useSSL'] == true) {
+        print '<p>Enabled</p>' . CRLF;
+    } else {
+        print '<p>Disabled</p>' . CRLF;
+    }
+    print '<h4>Cache system :</h4>' . CRLF;
+    if (isset($service['pagecache']) && $service['pagecache'] == true) {
+        print '<p>Page cache Enabled</p>' . CRLF;
+    } else {
+        print '<p>Page cache Disabled</p>' . CRLF;
+    }
+    if (isset($service['skincache']) && $service['skincache'] == true) {
+        print '<p>Skin cache Enabled</p>' . CRLF;
+    } else {
+        print '<p>Skin cache Disabled</p>' . CRLF;
+    }
+    if (isset($service['memcached']) && $service['memcached'] == true) {
+        print '<p>Memcached module Enabled</p>' . CRLF;
+    } else {
+        print '<p>Memcached module Disabled</p>' . CRLF;
+    }
+    if (!empty($service['debug_session_dump'])) {
+        print '<h4>Session Information</h4>' . CRLF;
+        print '<pre>session_id = ' . session_id() . CRLF;
+        print '$_SESSION = ';
+        print_r($_SESSION);
+        print '$_COOKIE = ';
+        print_r($_COOKIE);
+        print '</pre>';
+    }
+    if (!empty($service['debug_rewrite_module'])) {
+        print '<h4>Path parse result</h4>' . CRLF;
+        print '<pre>' . CRLF;
+        print_r($URLInfo);
+        print_r($suri);
+        print '</pre>';
+    }
+    print '</div>' . CRLF;
+    if ($commentBlosk == true) {
+        echo '-->';
+    }
 }
 
 register_shutdown_function('__tcSqlLogDump');
 
 function dump($data) {
-	echo '<pre>';
-	var_dump($data);
-	echo'</pre>';
+    echo '<pre>';
+    var_dump($data);
+    echo '</pre>';
 }
 
 function dumpToHeader($data) {
-	static $count = 0;
-	$debug_string = print_r($data, true);
-	foreach( split( "\n", $debug_string ) as $line ) {
-		$count++;
-		header( "X-TC-Debug-$count: $line" );
-	}
+    static $count = 0;
+    $debug_string = print_r($data, true);
+    foreach (split("\n", $debug_string) as $line) {
+        $count++;
+        header("X-TC-Debug-$count: $line");
+    }
 }
 
 function dumpAsFile($data) {
-	if(!is_dir(__TEXTCUBE_CACHE_DIR__."")) {
-		@mkdir(__TEXTCUBE_CACHE_DIR__."");
-		@chmod(__TEXTCUBE_CACHE_DIR__."",0777);
-	}
-	$dumpFile = __TEXTCUBE_CACHE_DIR__.'/dump';
-	if(file_exists($dumpFile)) {
-		$dumpedLog = @file_get_contents($dumpFile);
-	} else {
-		$dumpedLog = '';
-	}
-	//$dumpedLog = $dumpedLog.Timestamp::format5()." : ".var_export($data,true).CRLF;
-	$dumpedLog = $dumpedLog.var_export($data,true).CRLF;
-	$fileHandle = fopen($dumpFile,'w');
-	fwrite($fileHandle, $dumpedLog);
-	fclose($fileHandle);
+    if (!is_dir(__TEXTCUBE_CACHE_DIR__ . "")) {
+        @mkdir(__TEXTCUBE_CACHE_DIR__ . "");
+        @chmod(__TEXTCUBE_CACHE_DIR__ . "", 0777);
+    }
+    $dumpFile = __TEXTCUBE_CACHE_DIR__ . '/dump';
+    if (file_exists($dumpFile)) {
+        $dumpedLog = @file_get_contents($dumpFile);
+    } else {
+        $dumpedLog = '';
+    }
+    //$dumpedLog = $dumpedLog.Timestamp::format5()." : ".var_export($data,true).CRLF;
+    $dumpedLog = $dumpedLog . var_export($data, true) . CRLF;
+    $fileHandle = fopen($dumpFile, 'w');
+    fwrite($fileHandle, $dumpedLog);
+    fclose($fileHandle);
 }
+
 ?>
