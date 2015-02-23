@@ -347,6 +347,10 @@ class DBModel extends Singleton implements IModel {
 		return null;
 	}
 
+	public function setAutoAlias() {
+		return $this;
+	}
+
 	public function join($table, $type, $relations = null) {
 		$this->_extended_objects[$table] = array();
 		if(!in_array(strtolower($type),array('left','inner','outer','equal','left outer','right outer'))) return false;

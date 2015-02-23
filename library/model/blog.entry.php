@@ -695,7 +695,6 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 
 function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $categoryId = false) {
 	requireModel('blog.category');
-	$entries = array();
 	$ctx = Model_Context::getInstance();
 
 
@@ -820,6 +819,29 @@ function getRecentEntries($blogid) {
 	}
 }
 
+function getUniqueSlogan($blogid, $slogan, $id = null) {
+	$slogan0 = $slogan;
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("slogan","eq",$slogan,true);
+	$pool->setQualifier("draft","eq",0);
+	if (!is_null($id)) {
+		$pool->setQualifier("id","eq",$id);
+	}
+	$result = $pool->doesExist("slogan");
+	for ($i = 1; $result > 0; $i++) {
+		if ($i > 1000)
+			return false;
+		$slogan = Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i;
+		$pool->reset("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("slogan","eq",$slogan,true);
+		$pool->setQualifier("draft","eq",0);
+		$result = $pool->doesExist("slogan");
+	}
+	return $slogan;
+}
+
 function addEntry($blogid, $entry, $userid = null) {
 	global $gCacheStorage;
 	$pool = DBModel::getInstance();
@@ -841,7 +863,7 @@ function addEntry($blogid, $entry, $userid = null) {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
 
-	$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan, 255));
+	$slogan = Utils_Unicode::lessenAsEncoding($slogan, 255);
 	$title = $entry['title'];
 
 	if($entry['category'] == -1) {
@@ -863,21 +885,8 @@ function addEntry($blogid, $entry, $userid = null) {
 	if ($entry['category'] == -4) {
 		$entry['visibility'] = 0;
 	}
-	$pool->reset("Entries");
-	$pool->setQualifier("blogid","eq",$blogid);
-	$pool->setQualifier("slogan","eq",$slogan,true);
-	$pool->setQualifier("draft","eq",0);
-	$result = $pool->doesExist("slogan");
-	for ($i = 1; $result > 0; $i++) {
-		if ($i > 1000)
-			return false;
-		$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i);
-		$pool->reset("Entries");
-		$pool->setQualifier("blogid","eq",$blogid);
-		$pool->setQualifier("slogan","eq",$slogan,true);
-		$pool->setQualifier("draft","eq",0);
-		$result = $pool->doesExist("slogan");
-	}
+
+	$slogan = getUniqueSlogan($blogid,$slogan);
 	$userid = $entry['userid'];
 	$latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
 	$longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
@@ -964,7 +973,7 @@ function addEntry($blogid, $entry, $userid = null) {
 
 function updateEntry($blogid, $entry, $updateDraft = 0) {
 	global $gCacheStorage;
-	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 
 	requireModel('blog.tag');
 	requireModel('blog.locative');
@@ -973,12 +982,11 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	requireModel('blog.feed');
 
 	if($entry['id'] == 0) return false;
-
-	$oldEntry = POD::queryRow("SELECT *
-		FROM ".$ctx->getProperty('database.prefix')."Entries
-		WHERE blogid = $blogid
-		AND id = {$entry['id']}
-		AND draft = 0");
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entry['id']);
+	$pool->setQualifier("draft","eq",0);
+	$oldEntry = $pool->getRow();
 	if(empty($oldEntry)) return false;
 
 	if(empty($entry['userid'])) $entry['userid'] = getUserId();
@@ -990,19 +998,18 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan, 255));
-	$title = POD::escapeString($entry['title']);
+	$slogan = Utils_Unicode::lessenAsEncoding($slogan, 255);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*)
-			FROM ".$ctx->getProperty('database.prefix')."Entries
-			WHERE blogid = $blogid
-				AND id <> {$entry['id']}
-				AND draft = 0
-				AND title = '$title'
-				AND category = -1") > 0)
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","neq",$entry['id']);
+		$pool->setQualifier("draft","eq",0);
+		$pool->setQualifier("title","eq",$entry['title'],true);
+		$pool->setQualifier("category","eq",-1);
+		if ($pool->getCount() > 0)
 			return false;
 	}
 
@@ -1014,37 +1021,19 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 		$entry['visibility'] = 0;
 	}
 
-	$result = POD::queryCount("SELECT slogan
-		FROM ".$ctx->getProperty('database.prefix')."Entries
-		WHERE blogid = $blogid
-		AND slogan = '$slogan'
-		AND id = {$entry['id']}
-		AND draft = 0
-		LIMIT 1");
-	if ($result == 0) { // if changed
-		$result = POD::queryCount("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
-		for ($i = 1; $result > 0; $i++) {
-			if ($i > 1000)
-				return false;
-			$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i);
-			$result = POD::queryCount("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
-		}
-	}
+	$slogan = getUniqueSlogan($blogid,$slogan,$entry['id']);
+
 	$tags = getTagsWithEntryString($entry['tag']);
 	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 
-	$location = POD::escapeString($entry['location']);
 	$latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
 	$longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
-	$content = POD::escapeString($entry['content']);
-	$contentformatter = POD::escapeString($entry['contentformatter']);
-	$contenteditor = POD::escapeString($entry['contenteditor']);
 	switch ($entry['published']) {
 		case 0:
 			$published = 'published';
 			break;
 		case 1:
-			$published = 'UNIX_TIMESTAMP()';
+			$published = Timestamp::getUNIXtime();
 			break;
 		default:
 			$published = $entry['published'];
@@ -1058,28 +1047,38 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 			break;
 	}
 
-	$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries
-			SET
-				userid             = {$entry['userid']},
-				visibility         = {$entry['visibility']},
-				starred            = {$entry['starred']},
-				category           = {$entry['category']},
-				draft              = 0,
-				location           = '$location',
-				latitude           = $latitude,
-				longitude          = $longitude,
-				title              = '$title',
-				content            = '$content',
-				contentformatter   = '$contentformatter',
-				contenteditor      = '$contenteditor',
-				slogan             = '$slogan',
-				acceptcomment      = {$entry['acceptcomment']},
-				accepttrackback    = {$entry['accepttrackback']},
-				published          = $published,
-				modified           = UNIX_TIMESTAMP()
-			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = $updateDraft");
-	if ($result)
-		@POD::query("DELETE FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
+	$pool->reset("Entries");
+	$pool->setAttribute("userid",$entry['userid']);
+	$pool->setAttribute("draft",0);
+	$pool->setAttribute("visibility",$entry['visibility']);
+	$pool->setAttribute("starred",$entry['starred']);
+	$pool->setAttribute("category",$entry['category']);
+	$pool->setAttribute("title",$title,true);
+	$pool->setAttribute("slogan",$slogan,true);
+	$pool->setAttribute("content",$entry['content'],true);
+	$pool->setAttribute("contentformatter",$entry['contentformatter'],true);
+	$pool->setAttribute("contenteditor",$entry['contenteditor'],true);
+	$pool->setAttribute("location",$entry['location'],true);
+	$pool->setAttribute("latitude",$latitude);
+	$pool->setAttribute("longitude",$longitude);
+	$pool->setAttribute("acceptcomment",$entry['acceptcomment']);
+	$pool->setAttribute("accepttrackback",$entry['accepttrackback']);
+	$pool->setAttribute("published",$published);
+	$pool->setAttribute("modified",Timestamp::getUNIXtime());
+
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entry['id']);
+	$pool->setQualifier("draft","eq",$updateDraft);
+
+	$result = $pool->update();
+	if (!$result)
+		return false;
+
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entry['id']);
+	$pool->setQualifier("draft","eq",1);
+	$pool->delete();
 
 	updateCategoryByEntryId($blogid, $entry['id'], 'update',
 		array('category'=>array($oldEntry['category'],$entry['category']),
@@ -1090,7 +1089,13 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 	$gCacheStorage->purge();
 	if ($entry['visibility'] == 3)
 		syndicateEntry($entry['id'], 'modify');
-	POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Attachments SET parent = {$entry['id']} WHERE blogid = $blogid AND parent = 0");
+
+	$pool->reset("Attachments");
+	$pool->setAttribute("parent",$entry['id']);
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("parent","eq",0);
+	$pool->update();
+
 	if ($entry['visibility'] >= 2)
 		clearFeed();
 	return $result ? $entry['id'] : false;
@@ -1108,22 +1113,25 @@ function saveDraftEntry($blogid, $entry) {
 
 	if($entry['id'] == 0) return -11;
 
-	$draftCount = POD::queryCell("SELECT count(*) FROM ".$ctx->getProperty('database.prefix')."Entries
-		WHERE blogid = $blogid
-			AND id = ".$entry['id']."
-			AND draft = 1");
+
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entry['id']);
+	$pool->setQualifier("draft","eq",1);
+	$draftCount = $pool->getCount();
 
 	if($draftCount > 0) { // draft가 없으면 insert를, 있으면 update를.
 		$doUpdate = true;
 	} else {
 		$doUpdate = false;
 	}
+
 	// 원 글을 읽어서 몇가지 정보를 보존한다. 원래 글이 없는 경우 draft는 저장될 수 없다.
-	$origEntry = POD::queryRow("SELECT created, comments, trackbacks, pingbacks, password
-		FROM ".$ctx->getProperty('database.prefix')."Entries
-		WHERE blogid = $blogid
-			AND id = ".$entry['id']."
-			AND draft = 0");
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$entry['id']);
+	$pool->setQualifier("draft","eq",0);
+	$origEntry = $pool->getRow("created, comments, trackbacks, pingbacks, password");
 	if(empty($origEntry)) return -12;
 
 	$created = $origEntry['created'];
@@ -1141,19 +1149,19 @@ function saveDraftEntry($blogid, $entry) {
 	} else {
 		$slogan = $slogan0 = getSlogan($entry['slogan']);
 	}
-	$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan, 255));
+	$slogan = Utils_Unicode::lessenAsEncoding($slogan, 255);
 	$title = POD::escapeString($entry['title']);
 
 	if($entry['category'] == -1) {
 		if($entry['visibility'] == 1 || $entry['visibility'] == 3)
 			return false;
-		if(POD::queryCell("SELECT count(*)
-			FROM ".$ctx->getProperty('database.prefix')."Entries
-			WHERE blogid = $blogid
-				AND id <> {$entry['id']}
-				AND draft = 0
-				AND title = '$title'
-				AND category = -1") > 0)
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","neq",$entry['id']);
+		$pool->setQualifier("draft","eq",0);
+		$pool->setQualifier("title","eq",$entry['title'],true);
+		$pool->setQualifier("category","eq",-1);
+		if ($pool->getCount() > 0)
 			return -13;
 	}
 
@@ -1165,21 +1173,9 @@ function saveDraftEntry($blogid, $entry) {
 		$entry['visibility'] = 0;
 	}
 
-	$result = POD::queryCount("SELECT slogan
-		FROM ".$ctx->getProperty('database.prefix')."Entries
-		WHERE blogid = $blogid
-		AND slogan = '$slogan'
-		AND id = {$entry['id']}
-		AND draft = 0 LIMIT 1");
-	if ($result == 0) { // if changed
-		$result = POD::queryExistence("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
-		for ($i = 1; $result != false; $i++) {
-			if ($i > 1000)
-				return false;
-			$slogan = POD::escapeString(Utils_Unicode::lessenAsEncoding($slogan0, 245) . '-' . $i);
-			$result = POD::queryExistence("SELECT slogan FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND slogan = '$slogan' AND draft = 0 LIMIT 1");
-		}
-	}
+
+	$slogan = getUniqueSlogan($blogid,$slogan, $entry['id']);
+
 	$tags = getTagsWithEntryString($entry['tag']);
 	Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 
@@ -1194,7 +1190,7 @@ function saveDraftEntry($blogid, $entry) {
 			$published = 'published';
 			break;
 		case 1:
-			$published = 'UNIX_TIMESTAMP()';
+			$published = Timestamp::getUNIXtime();
 			break;
 		default:
 			$published = $entry['published'];
@@ -1203,71 +1199,93 @@ function saveDraftEntry($blogid, $entry) {
 	}
 
 	if($doUpdate) {
-		$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries
-			SET
-				userid             = {$entry['userid']},
-				visibility         = {$entry['visibility']},
-				starred            = {$entry['starred']},
-				category           = {$entry['category']},
-				draft              = 1,
-				location           = '$location',
-				latitude           = $latitude,
-				longitude          = $longitude,
-				title              = '$title',
-				content            = '$content',
-				contentformatter   = '$contentformatter',
-				contenteditor      = '$contenteditor',
-				slogan             = '$slogan',
-				acceptcomment      = {$entry['acceptcomment']},
-				accepttrackback    = {$entry['accepttrackback']},
-				published          = $published,
-				modified           = UNIX_TIMESTAMP()
-			WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 1");
+		$pool->reset("Entries");
+		$pool->setAttribute("userid",$entry['userid']);
+		$pool->setAttribute("draft",1);
+		$pool->setAttribute("visibility",$entry['visibility']);
+		$pool->setAttribute("starred",$entry['starred']);
+		$pool->setAttribute("category",$entry['category']);
+		$pool->setAttribute("title",$title,true);
+		$pool->setAttribute("slogan",$slogan,true);
+		$pool->setAttribute("content",$entry['content'],true);
+		$pool->setAttribute("contentformatter",$entry['contentformatter'],true);
+		$pool->setAttribute("contenteditor",$entry['contenteditor'],true);
+		$pool->setAttribute("location",$entry['location'],true);
+		$pool->setAttribute("latitude",$latitude);
+		$pool->setAttribute("longitude",$longitude);
+		$pool->setAttribute("acceptcomment",$entry['acceptcomment']);
+		$pool->setAttribute("accepttrackback",$entry['accepttrackback']);
+		$pool->setAttribute("published",$published);
+		$pool->setAttribute("modified",Timestamp::getUNIXtime());
+
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$entry['id']);
+		$pool->setQualifier("draft","eq",1);
+
+		$result = $pool->update();
 	} else {
-		$result = POD::query("INSERT INTO ".$ctx->getProperty('database.prefix')."Entries
-			(blogid, userid, id, draft, visibility, starred, category, title, slogan, content, contentformatter,
-			 contenteditor, location, password, acceptcomment, accepttrackback, published, created, modified,
-			 comments, trackbacks, pingbacks)
-			VALUES (
-			$blogid,
-			{$entry['userid']},
-			{$entry['id']},
-			1,
-			{$entry['visibility']},
-			{$entry['starred']},
-			{$entry['category']},
-			'$title',
-			'$slogan',
-			'$content',
-			'$contentformatter',
-			'$contenteditor',
-			'$location',
-			'$password',
-			{$entry['acceptcomment']},
-			{$entry['accepttrackback']},
-			$published,
-			$created,
-			UNIX_TIMESTAMP(),
-			$comments,
-			$trackbacks,
-			$pingbacks)");
+		$pool->reset("Entries");
+		$pool->setAttribute("blogid",$blogid);
+		$pool->setAttribute("userid",$entry['userid']);
+		$pool->setAttribute("id",$entry['id']);
+		$pool->setAttribute("draft",1);
+		$pool->setAttribute("visibility",$entry['visibility']);
+		$pool->setAttribute("starred",$entry['starred']);
+		$pool->setAttribute("category",$entry['category']);
+		$pool->setAttribute("title",$title,true);
+		$pool->setAttribute("slogan",$slogan,true);
+		$pool->setAttribute("content",$entry['content'],true);
+		$pool->setAttribute("contentformatter",$entry['contentformatter'],true);
+		$pool->setAttribute("contenteditor",$entry['contenteditor'],true);
+		$pool->setAttribute("location",$entry['location'],true);
+		$pool->setAttribute("latitude",$latitude);
+		$pool->setAttribute("longitude",$longitude);
+		$pool->setAttribute("password",$password,true);
+		$pool->setAttribute("acceptcomment",$entry['acceptcomment']);
+		$pool->setAttribute("accepttrackback",$entry['accepttrackback']);
+		$pool->setAttribute("published",$published);
+		$pool->setAttribute("created",$created);
+		$pool->setAttribute("modified",Timestamp::getUNIXtime());
+		$pool->setAttribute("comments",$comments);
+		$pool->setAttribute("trackbacks",$trackbacks);
+		$pool->setAttribute("pingbacks",$pingbacks);
+
+		$result = $pool->insert();
 	}
 	return $result ? $entry['id'] : false;
 }
 
 function updateRemoteResponsesOfEntry($blogid, $id) {
-	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
+	$pool->reset("RemoteResponses");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("entry","eq",$id);
+	$pool->setQualifier("isfiltered","eq",0);
+	$pool->setQualifier("responsetype","eq",'trackback',true);
+	$trackbacks = getCount();
 
-	$trackbacks = POD::queryCell("SELECT COUNT(*) FROM ".$ctx->getProperty('database.prefix')."RemoteResponses WHERE blogid = $blogid AND entry = $id AND isfiltered = 0 AND responsetype = 'trackback'");
-	$pingbacks  = POD::queryCell("SELECT COUNT(*) FROM ".$ctx->getProperty('database.prefix')."RemoteResponses WHERE blogid = $blogid AND entry = $id AND isfiltered = 0 AND responsetype = 'pingback'");
+	$pool = DBModel::getInstance();
+	$pool->reset("RemoteResponses");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("entry","eq",$id);
+	$pool->setQualifier("isfiltered","eq",0);
+	$pool->setQualifier("responsetype","eq",'pingback',true);
+	$pingbacks = getCount();
+
 	if ($trackbacks === null || $pingbacks === null)
 		return false;
-	return POD::execute("UPDATE ".$ctx->getProperty('database.prefix')."Entries SET trackbacks = $trackbacks, pingbacks = $pingbacks WHERE blogid = $blogid AND id = $id");
+	$pool->reset("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$pool->setAttribute("trackbacks",$trackbacks);
+	$pool->setAttribute("pingbacks",$pingbacks);
+	return $pool->update();
 }
 
 function deleteEntry($blogid, $id) {
 	global $gCacheStorage;
 	$ctx = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 
 	requireModel("blog.feed");
 	requireModel("blog.category");
@@ -1277,18 +1295,23 @@ function deleteEntry($blogid, $id) {
 
 	$target = getEntry($blogid, $id);
 	if (is_null($target)) return false;
-	if (POD::queryCell("SELECT visibility FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $id") == 3)
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	if ($pool->getCell("visibility") == 3)
 		syndicateEntry($id, 'delete');
 	CacheControl::flushEntry($id);
 	CacheControl::flushDBCache('entry');
 	CacheControl::flushDBCache('comment');
 	CacheControl::flushDBCache('trackback');
 	$gCacheStorage->purge();
-	$result = POD::queryCount("DELETE FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $id");
-	if ($result > 0) {
-		$result = POD::query("DELETE FROM ".$ctx->getProperty('database.prefix')."Comments WHERE blogid = $blogid AND entry = $id");
-		$result = POD::query("DELETE FROM ".$ctx->getProperty('database.prefix')."RemoteResponses WHERE blogid = $blogid AND entry = $id");
-		$result = POD::query("DELETE FROM ".$ctx->getProperty('database.prefix')."RemoteResponseLogs WHERE blogid = $blogid AND entry = $id");
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid)->setQualifier("id","eq",$id);
+	$result = $pool->delete();
+	if ($result) {
+		$pool->init("Comments")->setQualifier("blogid","eq",$blogid)->setQualifier("entry","eq",$id)->delete();
+		$pool->init("RemoteResponses")->setQualifier("blogid","eq",$blogid)->setQualifier("entry","eq",$id)->delete();
+		$pool->init("RemoteResponseLogs")->setQualifier("blogid","eq",$blogid)->setQualifier("entry","eq",$id)->delete();
 		updateCategoryByEntryId($blogid, $id, 'delete', array('entry' => $target));
 		deleteAttachments($blogid, $id);
 
@@ -1302,7 +1325,7 @@ function deleteEntry($blogid, $id) {
 
 function changeCategoryOfEntries($blogid, $entries, $category) {
 	$ctx = Model_Context::getInstance();
-
+	$pool = DBModel::getInstance();
 	requireModel("blog.category");
 	requireModel("blog.feed");
 
@@ -1313,9 +1336,22 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 
 	if ($category == -1) { // Check Keyword duplication
 		foreach($targets as $entryId) {
-			$title = POD::queryCell("SELECT title FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
+			$pool->init("Entries");
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("id","eq",$entryId);
+			$pool->setQualifier("draft","eq",0);
+			$title = $pool->getCell("title");
 			if (is_null($title)) return false;
-			if (POD::queryExistence("SELECT id FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id <> $entryId AND draft = 0 AND title = '$title' AND category = -1") == true) return false;
+
+			$pool->init("Entries");
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("id","neq",$entryId);
+			$pool->setQualifier("draft","eq",0);
+			$pool->setQualifier("title","eq",$title,true);
+			$pool->setQualifier("category","eq",-1);
+			if ($pool->doesExist("id")) {
+				return false;
+			}
 		}
 	} else {
 		$parent = getParentCategoryId($blogid, $categoryId);
@@ -1323,7 +1359,12 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 	}
 
 	foreach($targets as $entryId) {
-		list($effectedCategoryId, $oldVisibility) = POD::queryRow("SELECT category, visibility FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $entryId AND draft = 0");
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$entryId);
+		$pool->setQualifier("draft","eq",0);
+
+		list($effectedCategoryId, $oldVisibility) = $pool->getRow("category, visibility");
 		$visibility = 	$oldVisibility;
 		if ($category < 0) {
 			if ($visibility == 1) $visibility = 0;
@@ -1333,7 +1374,12 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 		if (($oldVisibility == 3) && ($visibility != 3))
 			syndicateEntry($entryId, 'delete');
 
-		POD::execute("UPDATE ".$ctx->getProperty('database.prefix')."Entries SET category = $category , visibility = $visibility WHERE blogid = $blogid AND id = $entryId");
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$entryId);
+		$pool->setAttribute("category",$category);
+		$pool->setAttribute("visibility",$visibility);
+		$pool->update();
 
 		if (!in_array($effectedCategoryId, $effectedCategories)) {
 			array_push($effectedCategories, $effectedCategoryId);
@@ -1359,13 +1405,15 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 }
 
 function changeAuthorOfEntries($blogid, $entries, $userid) {
-	$ctx = Model_Context::getInstance();
-
 	requireModel("blog.feed");
 
 	$targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
 	foreach($targets as $entryId) {
-		POD::execute("UPDATE ".$ctx->getProperty('database.prefix')."Entries SET userid = $userid WHERE blogid = $blogid AND id = $entryId");
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("id","eq",$entryId);
+		$pool->setAttribute("userid",$userid);
+		$pool->update();
 	}
 	clearFeed();
 	CacheControl::flushAuthor();
@@ -1373,14 +1421,18 @@ function changeAuthorOfEntries($blogid, $entries, $userid) {
 }
 
 function setEntryVisibility($id, $visibility) {
-	$ctx = Model_Context::getInstance();
-
 	requireModel("blog.feed");
 	requireModel("blog.category");
 	$blogid = getBlogId();
 	if (($visibility < 0) || ($visibility > 3))
 		return false;
-	list($oldVisibility, $category) = POD::queryRow("SELECT visibility, category FROM ".$ctx->getProperty('database.prefix')."Entries WHERE blogid = $blogid AND id = $id AND draft = 0");
+
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$pool->setQualifier("draft","eq",0);
+
+	list($category, $oldVisibility) = $pool->getRow("category, visibility");
 
 	if ($category < 0) {
 		if ($visibility == 1) $visibility = 0;
@@ -1396,18 +1448,21 @@ function setEntryVisibility($id, $visibility) {
 		syndicateEntry($id, 'delete');
 	else if ($visibility == 3) {
 		if (!syndicateEntry($id, 'create')) {
-			POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries
-				SET visibility = $oldVisibility,
-					modified = UNIX_TIMESTAMP()
-				WHERE blogid = $blogid AND id = $id");
+			$pool->init("Entries");
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("id","eq",$id);
+			$pool->setAttribute("visibility",$oldVisibility);
+			$pool->setAttribute("modified",Timestamp::getUNIXtime());
+			$pool->update();
 			return false;
 		}
 	}
-
-	$result = POD::queryCount("UPDATE ".$ctx->getProperty('database.prefix')."Entries
-		SET visibility = $visibility,
-			modified = UNIX_TIMESTAMP()
-		WHERE blogid = $blogid AND id = $id");
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("id","eq",$id);
+	$pool->setAttribute("visibility",$visibility);
+	$pool->setAttribute("modified",Timestamp::getUNIXtime());
+	$result = $pool->update();
 	if (!$result)		// Error.
 		return false;
 	if ($result == 0)	// Not changed.
@@ -1431,11 +1486,16 @@ function setEntryVisibility($id, $visibility) {
 }
 
 function protectEntry($id, $password) {
-	$ctx = Model_Context::getInstance();
+	$pool->init("Entries");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("id","eq",$id);
+	$pool->setQualifier("visibility","eq",1);
 
-	$password = POD::escapeString($password);
-	$result = POD::queryCount("UPDATE ".$ctx->getProperty('database.prefix')."Entries SET password = '$password', modified = UNIX_TIMESTAMP() WHERE blogid = ".getBlogId()." AND id = $id AND visibility = 1");
-	if($result > 0) {
+	$pool->setAttribute("password",$password,true);
+	$pool->setAttribute("modified",Timestamp::getUNIXtime());
+	$result = $pool->update();
+
+	if($result) {
 		CacheControl::flushEntry($id);
 		CacheControl::flushDBCache('entry');
 		CacheControl::flushDBCache('comment');
@@ -1474,19 +1534,25 @@ function syndicateEntry($id, $mode) {
 
 function publishEntries() {
 	$ctx = Model_Context::getInstance();
-
+	$pool = DBModel::getInstance();
 	$blogid = getBlogId();
 	$closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 	if($closestReservedTime < Timestamp::getUNIXtime()) {
-		$entries = POD::queryAll("SELECT id, visibility, category
-			FROM ".$ctx->getProperty('database.prefix')."Entries
-			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published < UNIX_TIMESTAMP()");
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("draft","eq",0);
+		$pool->setQualifier("visibility","<",0);
+		$pool->setQualifier("published","<",Timestamp::getUNIXtime());
+		$entries = $pool->getAll("id, visibility, category");
 		if (count($entries) == 0)
 			return;
 		foreach ($entries as $entry) {
-			$result = POD::query("UPDATE ".$ctx->getProperty('database.prefix')."Entries
-				SET visibility = 0
-				WHERE blogid = $blogid AND id = {$entry['id']} AND draft = 0");
+			$pool->init("Entries");
+			$pool->setQualifier("blogid","eq",$blogid);
+			$pool->setQualifier("draft","eq",0);
+			$pool->setQualifier("id","eq",$entry['id']);
+			$pool->setAttribute("visibility",0);
+			$result = $pool->update();
 			if ($entry['visibility'] == -3) {
 				if ($result && setEntryVisibility($entry['id'], 2)) {
 					$updatedEntry = getEntry($blogid, $entry['id']);
@@ -1505,17 +1571,18 @@ function publishEntries() {
 				}
 			}
 		}
-		$newClosestTime = POD::queryCell("SELECT min(published)
-			FROM ".$ctx->getProperty('database.prefix')."Entries
-			WHERE blogid = $blogid AND draft = 0 AND visibility < 0 AND published > UNIX_TIMESTAMP()");
+		$pool->init("Entries");
+		$pool->setQualifier("blogid","eq",$blogid);
+		$pool->setQualifier("draft","eq",0);
+		$pool->setQualifier("visibility","<",0);
+		$pool->setQualifier("published",">",Timestamp::getUNIXtime());
+		$newClosestTime = $pool->getCell("min(published)");
 		if(!empty($newClosestTime)) Setting::setBlogSettingGlobal('closestReservedPostTime',$newClosestTime);
 		else Setting::setBlogSettingGlobal('closestReservedPostTime',INT_MAX);
 	}
 }
 
 function getTagsWithEntryString($entryTag) {
-	$ctx = Model_Context::getInstance();
-
 	$tags = explode(',', $entryTag);
 
 	$ret = array();
@@ -1583,7 +1650,6 @@ function setEntryStar($entryId, $mark) {
 }
 
 function getEntriesByTagId($blogid, $tagId) {
-	$ctx = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	$pool->init("Entries");
 	$pool->setAlias("Entries","e");
@@ -1596,4 +1662,5 @@ function getEntriesByTagId($blogid, $tagId) {
 	$pool->setQualifier("t.tag","eq",$tagId);
 	return $pool->getAll("e.blogid, e.userid, e.id, e.title, e.comments, e.slogan, e.published");
 }
+
 ?>
