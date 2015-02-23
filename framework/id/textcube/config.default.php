@@ -29,6 +29,7 @@ define("Auth_OpenID_NO_MATH_SUPPORT", 1);
 define("OPENID_PASSWORD", "-OPENID-");
 
 define('JQUERY_VERSION', '1.11.2.min');
+define('JQUERY_BPOPUP_VERSION', '0.10.0.min');
 define('JQUERY_UI_VERSION', '1.11.2.min');
 define('LODASH_VERSION', '2.4.1.min');
 

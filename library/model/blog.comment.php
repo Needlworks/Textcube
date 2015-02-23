@@ -618,9 +618,13 @@ function addComment($blogid, & $comment) {
         $name = User::getName($userid);
         $password = '';
         $homepage = User::getHomepage($userid);
-        if (empty($homepage) && $openid) {
-            $homepage = $openid;
-        }
+		if (empty($homepage)) {
+		    if ($openid) {
+	            $homepage = $openid;
+			} else {
+				$homepage = '';
+			}
+        } 
     } else {
         $comment['replier'] = null;
         $name = $comment['name'];

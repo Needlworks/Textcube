@@ -93,7 +93,6 @@ class User {
         if (!isset($loginid)) {
             return null;
         }
-        $loginid = POD::escapeString($loginid);
 
         $pool->reset("Users");
         $pool->setQualifier("loginid", "eq", $loginid, true);
