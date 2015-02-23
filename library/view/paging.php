@@ -4,7 +4,8 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 // NOTE : This file and function will be deprecated. Use Paging object instead.
-function getPagingView( & $paging, & $template, & $itemTemplate, $useSkinCache = false) {
-	return Paging::getPagingView( $paging, $template, $itemTemplate, $useSkinCache);
+function getPagingView(& $paging, & $template, & $itemTemplate, $useSkinCache = false) {
+    return Paging::getPagingView($paging, $template, $itemTemplate, $useSkinCache);
 }
+
 ?>

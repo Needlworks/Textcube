@@ -5,11 +5,11 @@
 
 function printSimpleHtmlHeader($title) {
 ?>
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php echo $title;?></title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $title; ?></title>
 </head>
 <body>
 <?php
@@ -25,13 +25,13 @@ function printSimpleHtmlFooter() {
 function printScriptStart() {
 ?>
 <script type="text/javascript">
-//<![CDATA[
-<?php
-}
+    //<![CDATA[
+    <?php
+    }
 
-function printScriptEnd() {
-?>
-//]]>
+    function printScriptEnd() {
+    ?>
+    //]]>
 </script>
 <?php
 }

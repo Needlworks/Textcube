@@ -5,35 +5,35 @@
 
 $__requireComponent = array();
 $__requireBasics = array(
-	'function/file',
-	'function/string',
-	'function/time',
-	'function/javascript',
-	'function/html',
-	'function/xml',
-	'function/misc',
-	'function/mail');
+    'function/file',
+    'function/string',
+    'function/time',
+    'function/javascript',
+    'function/html',
+    'function/xml',
+    'function/misc',
+    'function/mail');
 $__requireLibrary = array(
-	'blog.skin',
-	'auth');
+    'blog.skin',
+    'auth');
 $__requireModel = array(
-	'blog.service',			// Models
-	'blog.blogSetting',
-	'blog.category',
-	'blog.skin',
-	'blog.tag',
-	'blog.keyword',
-	'blog.archive',
-	'blog.page',
-	'blog.notice',
-	'blog.link',
-	'blog.fx',
-	'common.plugin',
-	'common.module',
-	'common.setting');
+    'blog.service',            // Models
+    'blog.blogSetting',
+    'blog.category',
+    'blog.skin',
+    'blog.tag',
+    'blog.keyword',
+    'blog.archive',
+    'blog.page',
+    'blog.notice',
+    'blog.link',
+    'blog.fx',
+    'common.plugin',
+    'common.module',
+    'common.setting');
 $__requireView = array(
-	'html',					// Views
-	'ownerView',
-	'paging',
-	'view');
+    'html',                    // Views
+    'ownerView',
+    'paging',
+    'view');
 ?>
