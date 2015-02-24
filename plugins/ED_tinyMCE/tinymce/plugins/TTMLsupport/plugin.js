@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.4.1.20150212
+ * Version 2.4.2.20150224
  *
  * Created       : May 30, 2011
- * Last modified : Feb 12, 2015
+ * Last modified : Feb 24, 2015
  *
  * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
@@ -15,7 +15,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
     init: function (ed, url) {
         var t = this;
         t.propertyFilePath = ed.propertyFilePath;
-        t.propertyNames = ["propertyHyperLink", "propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
+        t.propertyNames = ["propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
         t.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + servicePath + '/resources/image/extension/unknown.gif\')"';
 
         ed.on('LoadContent', function (e) {
@@ -506,7 +506,6 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             getObject(t.id + "propertyObject_height").value = size[1];
             getObject(t.id + "propertyObject_chunk").value = t.objectUnSerialize(attribute);
             getObject(t.id + "propertyInsertObject").style.display = "none";
-            getObject(t.id + "propertyHyperLink").style.display = "none";
             getObject(t.id + "propertyObject").style.display = "block";
         } else if (obj.className == "tatterEmbed") {
             t.propertyHeader = "tatterEmbed";
@@ -672,33 +671,16 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                     var moreText = node.getAttribute("more");
                     var lessText = node.getAttribute("less");
                     getObject(t.id + "propertyInsertObject").style.display = "none";
-                    getObject(t.id + "propertyHyperLink").style.display = "none";
                     getObject(t.id + "propertyMoreLess").style.display = "block";
                     getObject(t.id + "propertyMoreLess_more").value = trim(t.un_htmlspecialchars(moreText));
                     getObject(t.id + "propertyMoreLess_less").value = trim(t.un_htmlspecialchars(lessText));
                     t.propertyWindowId = t.id + "propertyMoreLess";
-                    getObject(t.id + "propertyHyperLink").style.display = "none";
-                    t.setPropertyPosition();
-                    return false;
-                } else if (node.tagName.toLowerCase() == "a" && node.href) {
-                    getObject(t.id + "propertyHyperLink").style.display = "block";
-                    getObject(t.id + "propertyHyperLink_url").value = node.href;
-                    getObject(t.id + "propertyHyperLink_target").value = node.target;
-                    if (getObject(t.id + "propertyHyperLink_target").selectedIndex == -1)
-                        getObject(t.id + "propertyHyperLink_target").value = "_self";
-                    t.selectedAnchorElement = node;
-                    t.propertyWindowId = t.id + "propertyHyperLink";
-                    getObject(t.id + "propertyMoreLess").style.display = "none";
-                    getObject(t.id + "propertyInsertObject").style.display = "none";
-                    getObject(t.id + "propertyObject").style.display = "none";
                     t.setPropertyPosition();
                     return false;
                 }
 
                 node = node.parentNode;
             }
-            if (typeof obj.tagName == "string" && obj.tagName.toLowerCase() != "a")
-                getObject(t.id + "propertyHyperLink").style.display = "none";
             return false;
         }
         //        	t.setPropertyPosition();
@@ -962,39 +944,8 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         var t = this;
         var fixPosition = editor.fixPosition;
         var hasGD = true;
-        // hyperlink
-        var html = ////
-            '<div id="__ID__propertyHyperLink" class="entry-editor-property" style="display: none;">' +
-            '<div class="entry-editor-property-option">' +
-            '<input type="checkbox" class="checkbox" id="__ID__propertyHyperLink-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return true;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
-            '<label for="__ID__propertyHyperLink-fix-position">' + _t('위치 고정') + '</label>' +
-            '</div>' +
-            '<h4>' + _t('하이퍼링크') + '</h4>' +
-            '<div class="group">' +
-            '<dl class="line">' +
-            '<dt class="property-name"><label for="__ID__propertyInsertObject_url">' + _t('URL') + '</label></dt>' +
-            '<dd><input type="text" id="__ID__propertyHyperLink_url" class="input-text" onkeyup="__EDITOR__.setProperty()" onkeypress="return preventEnter(event);" /></dd>' +
-            '</dl>' +
-            '<dl class="line">' +
-            '<dt class="property-name"><label for="__ID__propertyInsertObject_type">' + _t('대상') + '</label></dt>' +
-            '<dd>' +
-            '<select id="__ID__propertyHyperLink_target" style="width: 105px" >' +
-            '<option value="_blank">' + _t('새창') + '</option>' +
-            '<option value="_self">' + _t('현재창') + '</option>' +
-            '<option value="">' + _t('사용 안함') + '</option>' +
-            '</select>' +
-            '</dd>' +
-            '</dl>' +
-            '</div>' +
-            '<div class="button-box">' +
-            '<span class="insert-button button" onclick="__EDITOR__.command(\'ExcuteCreateLink\'); return false"><span class="text">' + _t('적용하기') + '</span></span>' +
-            '<span class="divider"> | </span>' +
-            '<span class="cancel-button button" onclick="__EDITOR__.command(\'CancelCreateLink\'); return false"><span class="text">' + _t('취소하기') + '</span></span>' +
-            '</div>' +
-            '</div>';
-
         // object
-        html += ////
+        html = ////
             '<div id="__ID__propertyInsertObject" class="entry-editor-property" style="display: none;">' +
             '<div class="entry-editor-property-option">' +
             '<input type="checkbox" class="checkbox" id="__ID__propertyInsertObject-fix-position" onclick="__EDITOR__.setPropertyPosition(1); return true;"' + (fixPosition ? ' checked="checked"' : '') + '/>' +
@@ -1828,9 +1779,9 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         return {
             longname: 'TTML Support',
             author: 'Jeongkyu Shin',
-            authorurl: 'http://www.textcube.org',
+            authorurl: 'https://www.textcube.org',
             infourl: 'http://github.com/needlworks/textcube',
-            version: "2.4.1"
+            version: "2.4.2"
         };
     }
 });
