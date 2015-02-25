@@ -159,7 +159,7 @@ function isLoginId($blogid, $loginid) {
     $pool->reset("Users");
     $pool->setAlias("Users", "u");
     $pool->setAlias("Privileges", "t");
-    $pool->extend("Privileges", "left", array("t.userid", "eq", "u.userid"));
+    $pool->extend("Privileges", "left", array(array("t.userid", "eq", "u.userid")));
     $pool->setQualifier("t.blogid", "eq", $blogid);
     $pool->setQualifier("u.loginid", "eq", $loginid, true);
     $result = $pool->getCount("u.userid");
