@@ -190,7 +190,7 @@ class Moblog
 		$p = '/{([^}:;]*)}/';
 		$tags = array();
 		if( preg_match( $p, $mail['text'], $m ) ) {
-			$tags = split( ',', $m[1] );
+			$tags = explode( ',', $m[1] );
 			$mail['text'] = preg_replace( $p, '', $mail['text'] );
 		}
 		return $tags;

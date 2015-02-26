@@ -96,7 +96,7 @@ class OpenID {
     }
 
     function getDisplayName($openid) {
-        $s = split('#', $openid);
+        $s = explode('#', $openid);
         $openid = $s[0];
         if (strlen($openid) > 40) {
             $openid = substr($openid, 0, 36) . "...";
@@ -312,7 +312,7 @@ class OpenIDConsumer extends OpenID {
     }
 
     function printErrorReturn($msg, $location) {
-        $query = split('\?', $location);
+        $query = explode('?', $location);
         $query = array_pop($query);
         parse_str($query, $args);
         if (!empty($args['tid'])) {

@@ -138,7 +138,7 @@ class Pop3 {
         $this->uids = array();
         $this->mails = array();
         foreach ($this->results as $line) {
-            list($number, $uid) = split(" ", $line);
+            list($number, $uid) = explode(" ", $line, 2);
             if (!empty($this->filterred[$number])) {
                 continue;
             }
@@ -161,7 +161,7 @@ class Pop3 {
         if (!$this->receiveResult(false)) {
             return false;
         }
-        list($total, $totalsize) = split(" ", $this->status);
+        list($total, $totalsize) = explode(" ", $this->status, 2);
         if ($this->stat_callback) {
             if (!call_user_func($this->stat_callback, $total, $totalsize)) {
                 return false;
@@ -180,7 +180,7 @@ class Pop3 {
             return false;
         }
         foreach ($this->results as $line) {
-            list($number, $size) = split(" ", $line);
+            list($number, $size) = explode(" ", $line, 2);
             if (!empty($this->filterred[$number])) {
                 continue;
             }
