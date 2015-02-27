@@ -22,7 +22,13 @@ $context = Model_Context::getInstance();
 $blogid = getBlogId();
 
 list($replier) = getCommentAttributes($blogid,$context->getProperty('suri.id'),'replier');
-$comment = POD::queryRow("SELECT * FROM {$database['prefix']}Comments WHERE blogid = $blogid AND id = ".$context->getProperty('suri.id'));
+
+$pool = DBModel::getInstance();
+$pool->init("Comments");
+$pool->setQualifier("blogid","eq",$blogid);
+$pool->setQualifier("id","eq",$context->getProperty('suri.id'));
+$comment = $pool->getRow();
+
 $openid_identity = Acl::getIdentity('openid');
 
 if(!Acl::check('group.administrators') && !Acl::check('group.owners')) { // If no administration permission,

@@ -15,6 +15,8 @@ $IV = array(
 		'secret' => array(array('on'), 'default' => null)
 	)
 );
+$context = Model_Context::getInstance();
+
 $customIV = fireEvent('ManipulateIVRules',$IV,$context->getProperty('uri.interfaceRoute'));
 Validator::addRule($customIV);
 if(!Validator::isValid())
@@ -25,6 +27,7 @@ if (!Setting::getBlogSettingGlobal('acceptComments',0) && !doesHaveOwnership()) 
 	Respond::PrintResult(array('error' => 0, 'commentBlock' => '', 'recentCommentBlock' => ''));
 	exit;
 }
+$pool = DBModel::getInstance();
 if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']) && !empty($_POST['mode']) && ($_POST['mode'] == 'commit')) {
 	if (!empty($_POST['name']))
 		setcookie('guestName', $_POST['name'], time() + 2592000, $context->getProperty('uri.blog')."/");
@@ -63,9 +66,15 @@ if ((doesHaveMembership() || !empty($_POST['name'])) && !empty($_POST['comment']
 <?php
 	} else if (addComment($blogid, $comment) !== false) {
 		if(!$comment['secret']) {
-			if($row = POD::queryRow("SELECT * FROM {$database['prefix']}Entries
-				WHERE blogid = $blogid AND id = {$comment['entry']} AND draft = 0 AND visibility = 3 AND acceptcomment = 1"))
-//				sendCommentPing($comment['entry'], $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$row['slogan']}": $comment['entry']), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
+            $pool->init("Entries");
+            $pool->setQualifier("blogid","eq",$blogid);
+            $pool->setQualifier("id","eq",$comment['entry']);
+            $pool->setQualifier("draft","eq",0);
+            $pool->setQualifier("visibility","eq",3);
+            $pool->setQualifier("acceptcomment","eq",1);
+            if($row = $pool->getRow()) {
+				sendCommentPing($comment['entry'], $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$row['slogan']}": $comment['entry']), !doesHaveMembership() ? $comment['name'] : User::getName(), !doesHaveMembership() ? $comment['homepage'] : User::getHomepage());
+            }
 		}
 		$skin = new Skin($context->getProperty('skin.skin'));
 		printHtmlHeader();
