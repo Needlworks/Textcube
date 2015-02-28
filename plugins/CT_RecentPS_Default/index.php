@@ -41,7 +41,6 @@ function _getRecentEntries($blogid){
 }
 
 function _getRecentEntriesView($entries,$template){
-	global $blogURL,$skinSetting;
 	$context = Model_Context::getInstance();
 	ob_start();
 	foreach($entries as $entry){
