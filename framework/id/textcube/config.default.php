@@ -6,7 +6,7 @@
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION_ID', '1.10.3');
-define('TEXTCUBE_REVISION', 'root-main-branch1.10-r35');
+define('TEXTCUBE_REVISION', 'root-main-branch1.10-r36');
 define('TEXTCUBE_CODENAME', 'Attacca');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2015. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
