@@ -278,7 +278,7 @@ function organizeRobotInfo($info)
 function getSubscriptionStatistics($blogid) {
 	$pool = DBModel::getInstance();
 	$pool->reset("SubscriptionStatistics");
-	$pool->setProperty("blogid","eq",$blogid);
+	$pool->setQualifier("blogid","eq",$blogid);
 	$pool->setOrder("referred","desc");
 	if ($result = $pool->getAll("ip, host, useragent, subscribed, referred")) {
 		return $result;
