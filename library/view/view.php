@@ -102,6 +102,7 @@ function getScriptsOnHead($paging, $entryIds = null) {
         var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
         var displayMode = "<?php echo $context->getProperty('blog.displaymode','desktop');?>";
         var workMode = "<?php echo $context->getProperty('blog.workmode','enhanced');?>";
+		var cookie_prefix = "<?php echo $context->getProperty('service.cookie_prefix','');?>";
         <?php
             if (!is_null($entryIds)) {
                 ?>

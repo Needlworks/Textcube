@@ -1421,7 +1421,7 @@ function reloadEntry(id) {
 	}
 	if (!password)
 		return;
-	document.cookie = "GUEST_PASSWORD=" + escape(password.value) + ";path=" + servicePath;
+	document.cookie = cookie_prefix + "GUEST_PASSWORD=" + escape(password.value) + ";path=" + servicePath;
 
 	window.location.href = window.location.href;
 }
