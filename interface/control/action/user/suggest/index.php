@@ -13,8 +13,6 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
-global $database;
-
 header('Content-type: text/javascript');
 
 $pool = DBModel::getInstance();
