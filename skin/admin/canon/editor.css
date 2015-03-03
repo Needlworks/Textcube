@@ -288,8 +288,8 @@ h3
 	/*position                         : absolute;*/
 	position                         : fixed;
 	z-index                          : 150;
-	right                            : 0;
-	top                              : 80px;
+	right                            : 15px;
+	top                              : 120px;
 	width                            : 245px;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -302,8 +302,8 @@ h3
 #templateDialog
 {
 	position: fixed;
-	top: 80px;
-	right: 40px;
+	top: 120px;
+	right: 15px;
 
 }
 
