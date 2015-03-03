@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.4.2.20150224
+ * Version 2.4.3.20150303
  *
  * Created       : May 30, 2011
- * Last modified : Feb 24, 2015
+ * Last modified : Mar 3, 2015
  *
  * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
@@ -1527,7 +1527,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                     document.getElementById(t.id + t.propertyNames[i] + "-fix-position").checked = isFixed;
             }
             if (isFixed)
-                win.style.top = "9px";
+                win.style.top = "120px";
             else {
                 if (t.propertyOffsetTop === null)
                     t.propertyOffsetTop = getOffsetTop(win);
@@ -1547,7 +1547,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                         win.style.top = Math.min(3000, 24 + STD.getScrollTop() - t.propertyOffsetTop) + "px";
                 }
                 else
-                    win.style.top = "9px";
+                    win.style.top = "120px";
                 t.scrollTop = STD.getScrollTop();
             }
         }
@@ -1781,7 +1781,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             author: 'Jeongkyu Shin',
             authorurl: 'https://www.textcube.org',
             infourl: 'http://github.com/needlworks/textcube',
-            version: "2.4.2"
+            version: "2.4.3"
         };
     }
 });
