@@ -3,7 +3,7 @@
   <title xml:lang="en">Spacer</title>
   <title xml:lang="ko">빈 줄 표시</title>
   <link>http://needlworks.org/</link>
-  <version>1.8</version>
+  <version>1.10.4</version>
   <description xml:lang="en">Insert spacers on sidebar.</description>
   <description xml:lang="ko">사이드바 플러그인 사이의 간격 조절을 위한 빈 줄을 출력해 줍니다.</description>
   <license>GPL</license>
@@ -11,7 +11,9 @@
   <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
-    <textcube>1.8</textcube>
+    <textcube>
+        <minVersion>1.10</minVersion>
+    </textcube>
   </requirements>
   <binding>
     <sidebar title="Spacer" handler="SB_Spacer"></sidebar>
