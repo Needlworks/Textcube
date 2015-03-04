@@ -43,8 +43,8 @@ if (strlen($suri['value'])) {
 
 	// Now, print starts.
 	require ROOT . '/interface/common/blog/begin.php';
-	$cache->reset();
 	if(Setting::getBlogSettingGlobal('useKeywordAsTag',true)==true) {
+		$cache->reset();
 		$cache->name = 'keyword-'.$tag.'-';
 		if($cache->load()) {
 			require ROOT . '/interface/common/blog/entries.php';
@@ -56,7 +56,7 @@ if (strlen($suri['value'])) {
 			}
 		}
 	}
-	
+
 	if ($skinSetting['showListOnTag'] != 0) {
 		$cache = $listCache;
 		require ROOT . '/interface/common/blog/list.php';
@@ -66,7 +66,7 @@ if (strlen($suri['value'])) {
 		$entries = $preservedEntries;
 		require ROOT . '/interface/common/blog/entries.php';
 	}
-	
+
 } else {
 	require ROOT . '/interface/common/blog/begin.php';
 	$cache->reset();

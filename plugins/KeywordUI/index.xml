@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="ko">키워드 출력</title>
-  <title xml:lang="en">Keyword Interface</title>
-  <link>http://needlworks.org/</link>
-  <version>1.10.3</version>
-  <description xml:lang="en">This plugin enables keyword feature in Textcube.</description>
-  <description xml:lang="ko">텍스트큐브의 키워드 기능을 사용합니다.</description>
-  <license>GPL</license>
-  <author xml:lang="en" link="http://forest.nubimaru.com"><![CDATA[Jeongkyu Shin (inureyes / Needlworks)]]></author>
-  <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
-  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
-  <requirements>
-    <textcube>
-      <minVersion>1.10.3</minVersion>
-    </textcube>
-  </requirements>
-  <binding>
-    <listener event="BindKeyword">KeywordUI_bindKeyword</listener>
-	<listener event="setKeylogSkin">KeywordUI_setSkin</listener>
-	<listener event="ViewTagLists">KeywordUI_bindTag</listener>
-	<config xml:lang="ko" dataValHandler="KeywordUI_handleConfig">
-       <window width="500" height="525" />
-       <fieldset legend="태그 설명 설정">
-         <field title="태그 설명" type="checkbox" name="tag">
-           <op name="useKeywordAsTag" value="1" checked="checked"><![CDATA[태그 설명에 키워드를 사용합니다]]></op>
-         </field>
-       </fieldset>
-    </config>
-  </binding>
+    <title xml:lang="ko">키워드</title>
+    <title xml:lang="en">Keyword Interface</title>
+    <link>http://needlworks.org/</link>
+    <version>1.10.5</version>
+    <description xml:lang="en">This plugin enables keyword feature in Textcube.</description>
+    <description xml:lang="ko">텍스트큐브의 키워드 기능을 사용합니다.</description>
+    <license>GPL</license>
+    <author xml:lang="en" link="http://forest.nubimaru.com"><![CDATA[Jeongkyu Shin (inureyes / Needlworks)]]></author>
+    <author xml:lang="ko" link="http://forest.nubimaru.com"><![CDATA[신정규 (inureyes / Needlworks)]]></author>
+    <safety changeData="no" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="no"/>
+    <requirements>
+        <textcube>
+            <minVersion>1.10.5</minVersion>
+        </textcube>
+    </requirements>
+    <binding>
+        <listener event="BindKeyword" listener="KeywordUI_bindKeyword"/>
+        <listener event="setKeylogSkin" listener="KeywordUI_setSkin"/>
+        <listener event="ViewTagLists" listener="KeywordUI_bindTag"/>
+        <config xml:lang="ko" dataValHandler="KeywordUI_handleConfig">
+            <window width="500" height="550"/>
+            <fieldset legend="설명 설정">
+                <field title="태그 설명에 키워드 사용" type="checkbox" name="tag">
+                    <op name="useKeywordAsTag" value="1" checked="checked"><![CDATA[태그 설명에 키워드를 사용합니다.]]></op>
+                    <caption>
+                        <![CDATA[태그를 볼 때 상단에 같은 이름의 키워드가 있는 경우 글로 보여집니다. 또한 글의 태그 옆에 같은 이름의 키워드가 있는 경우 링크 버튼이 추가됩니다.]]></caption>
+                </field>
+                <field title="카테고리 설명에 키워드 사용" type="checkbox" name="tag">
+                    <op name="useKeywordAsCategory" value="1" checked="checked"><![CDATA[카테고리 설명에 키워드를 사용합니다.]]></op>
+                    <caption><![CDATA[카테고리를 볼 때 상단에 같은 이름의 키워드가 있는 경우 글로 보여집니다.]]></caption>
+                </field>
+            </fieldset>
+        </config>
+    </binding>
 </plugin>
