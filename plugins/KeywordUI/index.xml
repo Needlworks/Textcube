@@ -27,7 +27,7 @@
                     <caption>
                         <![CDATA[태그를 볼 때 상단에 같은 이름의 키워드가 있는 경우 글로 보여집니다. 또한 글의 태그 옆에 같은 이름의 키워드가 있는 경우 링크 버튼이 추가됩니다.]]></caption>
                 </field>
-                <field title="카테고리 설명에 키워드 사용" type="checkbox" name="tag">
+                <field title="카테고리 설명에 키워드 사용" type="checkbox" name="category">
                     <op name="useKeywordAsCategory" value="1" checked="checked"><![CDATA[카테고리 설명에 키워드를 사용합니다.]]></op>
                     <caption><![CDATA[카테고리를 볼 때 상단에 같은 이름의 키워드가 있는 경우 글로 보여집니다.]]></caption>
                 </field>
