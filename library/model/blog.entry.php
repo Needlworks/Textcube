@@ -573,17 +573,13 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
     }
     $pool->reset("Entries");
     $pool->setAlias("Entries", "e");
-    $pool->extend("Categories", "LEFT", array(array('e.blogid', 'eq', 'c.blogid'), array('e.category', '>', 'c.id')));
+    $pool->extend("Categories", "LEFT", array(array('e.blogid', 'eq', 'c.blogid'), array('e.category', '=', 'c.id')));
     $pool->setAlias("Categories", "c");
     $pool->extend("Entries d", "LEFT", array(array('e.blogid', 'eq', 'd.blogid'), array('e.id', 'eq', 'd.id'), array("d.draft", "eq", 1)));
 
-    if (!doesHaveOwnership()) {
-        $pool->setQualifier("e.visibility", ">", 0);
-        $pool->setQualifierSet(array('c.visibility', '>', 1), 'OR', array('e.category', 'eq', 0));
-    }
-    if (doesHaveOwnership() && !Acl::check('group.editors')) {
-        $pool->setQualifierSet(array('e.userid', 'eq', getUserId()), 'OR', array('e.visibility', 'eq', 0));
-    }
+	if( ! Acl::check("group.editors", "entry.list") ) {
+		$pool->setQualifier("e.userid","eq",getUserId());
+	}	
     $pool->setQualifier("e.blogid", "eq", $blogid);
     $pool->setQualifier("e.draft", "eq", 0);
     $pool->setProjection("e.*", "c.label AS categoryLabel", "d.id AS draft");
@@ -594,21 +590,16 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
     }
     if ($category > 0) {
         $pool->setQualifier("e.category", "hasoneof", $categories);
+    } else if ($category == -3) {
+        $pool->setQualifier("e.category", "eq", 0);
+    } else if ($category == -5) {
+        $pool->setQualifier("e.category", ">=", -3);
+    } else if ($category == 0) {
+        $pool->setQualifier("e.category", ">=", 0);
     } else {
-        if ($category == -3) {
-            $pool->setQualifier("e.category", "eq", 0);
-        } else {
-            if ($category == -5) {
-                $pool->setQualifier("e.category", ">=", -3);
-            } else {
-                if ($category == 0) {
-                    $pool->setQualifier("e.category", ">=", 0);
-                } else {
-                    $pool->setQualifier("e.category", "eq", $category);
-                }
-            }
-        }
-    }
+        $pool->setQualifier("e.category", "eq", $category);      
+	}
+    
     if (isset($visibility)) {
         if (Validator::isInteger($visibility, 0, 3)) {
             $pool->setQualifier("e.visibility", "eq", $visibility);
