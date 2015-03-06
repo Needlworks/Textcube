@@ -330,7 +330,7 @@ h3
 {
 	border-bottom                    : 1px solid #666666;
 	color                            : #666666;
-	font-family                      : 'Lucida Grande', Tahoma, Verdana, "Apple SD Gothic Neo", "NanumGothic", "나눔고딕", "Malgun Gothic", '굴림', Gulim, Arial, sans-serif;
+	font-family                      : inherit;
 	font-weight                      : bold;
 	margin                           : 10px 0 3px 0;
 	max-width                        : 250px;
@@ -347,7 +347,7 @@ h3
 {
 	border                           : none;
 	color                            : #666666;
-	font-family                      : 'Lucida Grande', Tahoma, Verdana, "Apple SD Gothic Neo", "NanumGothic", "나눔고딕", "Malgun Gothic", '굴림', Gulim, Arial, sans-serif;
+	font-family                      : inherit;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	height                           : auto;
@@ -882,7 +882,7 @@ dl#permalink-line dd .input-text
 dl#permalink-line dd p
 {
 	display                          : none;
-	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : inherit;
 	font-size                        : 0.9em;
 	padding-right                    : 5px;
 	text-align                       : right;

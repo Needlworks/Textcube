@@ -123,7 +123,7 @@ dl dd
 
 #team-blog-about h3
 {
-	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-family                      : inherit;
 	padding-top                      : 55px;
 	margin                           : 30px 0 5px 360px;
 	text-align                       : center;
@@ -260,7 +260,7 @@ dl dd
 
 #team-user-about h3
 {
-	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-family                      : inherit;
 	padding-top                      : 55px;
 	margin                           : 30px 0 5px 360px;
 	text-align                       : center;
@@ -356,7 +356,7 @@ dl dd
 #part-control-config .section
 {
 	background-color                 : #FFF;
-	font-family                      : Verdana, Arial, Tahoma, "Lucida Grande", sans-serif;
+	font-family                      : inherit;
 	margin                           : 20px 0 3px 9px;
 	padding                          : 7px;
 }
@@ -393,7 +393,7 @@ dl dd
 {
 	background-color                 : #FFFFFF;
 	border                           : 1px solid #999999;
-	font-family                      : Courier, 'Courier New', monospace;
+	font-family                      : Menlo, "Source Code Pro", Courier, 'Courier New', monospace;
 	font-size                        : 12px;
 	height                           : 250px;
 	margin-left                      : 5px !important;
