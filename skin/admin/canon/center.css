@@ -134,8 +134,8 @@
 	height                           : 20px;
 }
 
-#total-information table.posts-line, 
-#total-information table.visitors-line 
+#total-information table.posts-line,
+#total-information table.visitors-line
 {
 	width                            : 133px !important;
 	margin                           : 0 !important;
@@ -208,7 +208,7 @@
 
 #textcube-notice table tbody tr td.date
 {
-	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-family                      : inherit;
 	font-size                        : 0.875em;
 	font-weight                      : bold;
 	padding-right                    : 10px;
@@ -221,7 +221,7 @@
 	background-image                 : url("./image/bg_title_right.png") !important;
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
-	line-height                      : 1.4em; 
+	line-height                      : 1.4em;
 	border-left                      : 1px solid #EEE;
 	border-right                     : 1px solid #EEE;
 	border-top                       : 1px solid #EEE;
@@ -258,11 +258,11 @@
 	height                           : 12px !important;
 	vertical-align                   : top;
 	border                           : none !important;
-	padding-bottom                   : 2px !important; 
+	padding-bottom                   : 2px !important;
 }
 #myBlogInfo table td.date
 {
-	font-family                      : Verdana, Tahoma, Arial, "Lucida Grande", sans-serif;
+	font-family                      : inherit;
 	font-weight                      : bold;
 	font-size                        : 0.875em;
 	width                            : 40px;
@@ -287,7 +287,7 @@
 	float                            : left;
 	margin-left                      : 10px;
 	min-height                       : 100px;
-	width                            : 300px; 
+	width                            : 300px;
 }
 
 #part-center-quilt .button-box,
@@ -346,7 +346,7 @@
 	line-height                      : 38px;
 	padding-left                     : 28px;
 	border-left                      : 1px solid #EEE;
-	width                            : 270px; 
+	width                            : 270px;
 }
 
 #part-center-quilt .section h4,
@@ -426,7 +426,7 @@
 	margin                           : 0;
 	position: fixed;
 	right: 35px;
-	top: 50px; 
+	top: 50px;
 	z-index: 400;
 	padding: 5px 0 !important;
 }
@@ -453,7 +453,7 @@
 {
 	display                          : none;
 }
-#widget-tabs-box 
+#widget-tabs-box
 {
 	margin-bottom:15px;
 }
@@ -466,7 +466,7 @@
 #direct-link-line
 {
 	margin                           : 25px 10px 20px 10px;
-	text-align                       : right;	
+	text-align                       : right;
 }
 
 #direct-link-line dd
@@ -537,7 +537,7 @@
 
 #part-center-about h3
 {
-	font-family                      : Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-family                      : inherit;
 	padding-top                      : 55px;
 	margin                           : 30px 0 5px 360px;
 	text-align                       : center;
@@ -723,7 +723,7 @@
 #developer-description .container h4
 {
 	color                            : #000000;
-	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-family                      : inherit;
 	font-size                        : 1.2em;
 	font-weight                      : normal;
 	margin                           : 0 0 3px 15px;
@@ -786,7 +786,7 @@
 #supporter-description .container h4
 {
 	color                            : #000000;
-	font-family                      : Arial, Tahoma, "Lucida Grande", Verdana, sans-serif;
+	font-family                      : inherit;
 	font-size                        : 1.2em;
 	font-weight                      : normal;
 	margin                           : 20px 0 3px 10px;
