@@ -34,7 +34,7 @@ body
 {
 	background-color                 : #fff;
 	color                            : #666666;
-	font-family                      : 'Helvetica Neue', 'Lucida Grande', "Apple SD Gothic Neo", '나눔고딕', 'NanumGothic', 'NanumGothicOTF', 'Malgun Gothic', '맑은 고딕', '굴림', Gulim, Tahoma, Verdana, Arial, sans-serif;
+	font-family                      : 'myriad-pro', 'Open Sans', 'Helvetica Neue', Tahoma, Verdana, Arial, "Noto Sans CJK KR", "Apple SD Gothic Neo", '나눔고딕', 'NanumGothic', 'NanumGothicOTF', 'Malgun Gothic', '맑은 고딕', '굴림', Gulim, sans-serif;
 	font-size						 : 75%;
 }
 
@@ -91,7 +91,7 @@ h3
 
 input
 {
-	font-family                      : 'Helvetica Neue', 'Lucida Grande', "Apple SD Gothic Neo", '나눔고딕', 'NanumGothic', 'NanumGothicOTF', 'Malgun Gothic', '맑은 고딕', '굴림', Gulim, Tahoma, Verdana, Arial, sans-serif;
+	font-family                      : inherit;
 }
 
 input[type=checkbox] {
@@ -188,14 +188,14 @@ option
 
 kbd, samp
 {
-	font-family                      : "Courier New", Courier, "Apple SD Gothic Neo", "Nanum Gothic", "Malgun Gothic", "맑은 고딕", "굴림", Gulim, monospace;
+	font-family                      : "Courier New", Courier, "Noto Sans CJK KR", "Apple SD Gothic Neo", "Nanum Gothic", "Malgun Gothic", "맑은 고딕", "굴림", Gulim, monospace;
 	font-size                        : 11px; /* Sarafi에서 상대크기를 제대로 인식하지 못함. */
 }
 
 select
 {
 	font-size                        : 1em;
-	font-family                      : 'Lucida Grande', Arial, "Apple SD Gothic Neo", "Nanum Gothic", "Malgun Gothic", "맑은 고딕", "굴림", Gulim, Tahoma, Verdana, sans-serif;
+	font-family                      : inherit;
 	vertical-align                   : middle;
 }
 
@@ -1450,7 +1450,7 @@ table.data-inbox tbody tr td.inactive-class
 	background-position              : left top;
 	background-repeat                : no-repeat;
 	display                          : inline;
-	font-family                      : 'Lucida Grande', Tahoma, Verdana, sans-serif;
+	font-family                      : inherit;
 	font-size                        : 0.93em;
 	font-weight                      : normal;
 	padding                          : 3px 0 1px 29px;
