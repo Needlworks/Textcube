@@ -41,7 +41,7 @@ dl dd
 
 #link-tabs-box li
 {
-	border-bottom                    : 1px solid #eee;	
+	border-bottom                    : 1px solid #eee;
 }
 
 #link-tabs-box li.selected
@@ -167,7 +167,7 @@ dl dd
 
 #part-link-list table.data-inbox tbody tr td.address
 {
-	font-family                      : "Courier New", Courier, monospace;
+	font-family                      : Menlo, "Source Code Pro", Courier, 'Courier New', monospace;
 	overflow                         : hidden;
 	padding-left                     : 25px;
 	text-align                       : left;
@@ -434,7 +434,7 @@ dl dd
 #letter-foot label
 {
 	display                          : block;
-	font-family                      : 돋움, Dotum, sans-serif;
+	font-family                      : 'myriad-pro', 'Open Sans', 'Helvetica Neue', Tahoma, Verdana, Arial, "Noto Sans CJK KR", "Apple SD Gothic Neo", '나눔고딕', 'NanumGothic', 'NanumGothicOTF', 'Malgun Gothic', '맑은 고딕', '굴림', Gulim, sans-serif;
 	font-size                        : 0.9em;
 	margin                           : 3px 0 1px 0;
 	text-align                       : left;
@@ -455,14 +455,14 @@ dl dd
 
 #invitation_identify
 {
-	font-family                      : "Courier New", Courier, monospace;
+	font-family                      : Menlo, "Source Code Pro", Courier, 'Courier New', monospace;
 	margin-left                      : 2px;
 	width                            : 150px;
 }
 
 .inter-word
 {
-	font-family                      : "Courier New", Courier, monospace;
+	font-family                      : Menlo, "Source Code Pro", Courier, 'Courier New', monospace;
 }
 
 #letter-body textarea
