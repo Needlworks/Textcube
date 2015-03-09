@@ -29,4 +29,10 @@ function FM_Markdown_summary($blogid, $id, $content, $keywords = array(), $useAb
     if (!$context->getProperty('blog.publishWholeOnRSS',true)) $view = Utils_Unicode::lessen(removeAllTags(stripHTML($view)), 255);
 	return $view;
 }
+
+function FM_Markdown_html_to_markdown($content) {
+	require_once dirname(__FILE__) . '/markdown-lib/HTML_To_Markdown.php';
+	$markdown = new HTML_To_Markdown($content);
+	return $markdown->output();
+}
 ?>
