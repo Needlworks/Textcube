@@ -1,9 +1,9 @@
 <?php
 /* WikiCube
    ----------------------------------
-   Version 0.13
+   Version 0.14
    Starts at        : Apr. 5, 2006
-   Last modified at : Jan. 9, 2011
+   Last modified at : Mar. 9, 2015
    
    jeongkyu Shin.
    E-mail : inureyes@gmail.com
@@ -19,6 +19,7 @@
  the Free Software Foundation; either version 2 of the License, or
  (at your option) any later version.
 
+ 14. 2.0-compatible fixes.
  13. user-custom link added. [[printWord|realLink]]
  12. category link added.
  11. tag link added.
@@ -55,5 +56,11 @@ function WikiCube_FormatErrorPage($target) {
 		($config['mode'] == 'entry' ? '' : '&category=-3').	
 		'">'._text('Empty page. Click here to add a new entry.').'</a></div>';
 	return $target.$additional;
+}
+
+function WikiCube_DataHandler($data) {
+    $config = Setting::fetchConfigVal($data);
+    if (!array_key_exists('mode',$config)) return false;
+    else return true;
 }
 ?>

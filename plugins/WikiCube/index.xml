@@ -2,13 +2,13 @@
 <plugin version="2.0">
 	<title xml:lang="en">WikiCube</title>
 	<title xml:lang="ko">WikiCube</title>
-	<version>0.13</version>
+	<version>0.14</version>
 	<description xml:lang="en">Add Wiki-like environment to Textcube.</description>
 	<description xml:lang="ko"><![CDATA[위키식의 사용 기능을 텍스트큐브에 추가합니다.]]></description>
 	<license>GPL</license>
 	<link>http://forest.nubimaru.com</link>
-	<author link="http://playground.postech.ac.kr/blog/forest"><![CDATA[inureyes]]></author>
-	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+	<author link="http://forest.nubimaru.com"><![CDATA[inureyes]]></author>
+	<safety changeData="no" exposeData="yes" accessLocal="yes" accessRemote="no" accessRaw="no" />
 	<requirements>
 		<textcube>
 			<minVersion>2.0</minVersion>
@@ -17,7 +17,7 @@
 	<binding>
 		<listener event="ViewPostContent" handler="WikiCube_FormatContent" />
 		<listener event="ViewErrorPage" handler="WikiCube_FormatErrorPage" />
-		<config xml:lang="en" dataValHandler="">
+		<config xml:lang="en" dataValHandler="WikiCube_DataHandler">
 			<window width="500" height="525" />
 			<fieldset legend="Default Mode">
 				<field title="Page mode" type="radio" name="mode">
