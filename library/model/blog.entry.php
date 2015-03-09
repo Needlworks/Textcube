@@ -579,7 +579,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 
 	if( ! Acl::check("group.editors", "entry.list") ) {
 		$pool->setQualifier("e.userid","eq",getUserId());
-	}	
+	}
     $pool->setQualifier("e.blogid", "eq", $blogid);
     $pool->setQualifier("e.draft", "eq", 0);
     $pool->setProjection("e.*", "c.label AS categoryLabel", "d.id AS draft");
@@ -597,9 +597,9 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
     } else if ($category == 0) {
         $pool->setQualifier("e.category", ">=", 0);
     } else {
-        $pool->setQualifier("e.category", "eq", $category);      
+        $pool->setQualifier("e.category", "eq", $category);
 	}
-    
+
     if (isset($visibility)) {
         if (Validator::isInteger($visibility, 0, 3)) {
             $pool->setQualifier("e.visibility", "eq", $visibility);
@@ -852,9 +852,10 @@ function getRecentEntries($blogid) {
     }
 }
 
-function getUniqueSlogan($blogid, $slogan, $id = null) {
+function getUniqueSlogan($blogid, $slogan, $id = null, $keepOriginal = false) {
     $slogan0 = $slogan;
-    $pool->reset("Entries");
+	$pool = DBModel::getInstance();
+	$pool->reset("Entries");
     $pool->setQualifier("blogid", "eq", $blogid);
     $pool->setQualifier("slogan", "eq", $slogan, true);
     $pool->setQualifier("draft", "eq", 0);
@@ -862,6 +863,9 @@ function getUniqueSlogan($blogid, $slogan, $id = null) {
         $pool->setQualifier("id", "eq", $id);
     }
     $result = $pool->doesExist("slogan");
+    if ($keepOriginal == true && $result) {
+        return $slogan;
+    }
     for ($i = 1; $result > 0; $i++) {
         if ($i > 1000) {
             return false;
@@ -1078,7 +1082,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
         $entry['visibility'] = 0;
     }
 
-    $slogan = getUniqueSlogan($blogid, $slogan, $entry['id']);
+    $slogan = getUniqueSlogan($blogid, $slogan, $entry['id'], true);
 
     $tags = getTagsWithEntryString($entry['tag']);
     Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
@@ -1087,7 +1091,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
     $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
     switch ($entry['published']) {
         case 0:
-            $published = 'published';
+            $published = $oldEntry['published'];
             break;
         case 1:
             $published = Timestamp::getUNIXtime();
@@ -1110,7 +1114,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
     $pool->setAttribute("visibility", $entry['visibility']);
     $pool->setAttribute("starred", $entry['starred']);
     $pool->setAttribute("category", $entry['category']);
-    $pool->setAttribute("title", $title, true);
+    $pool->setAttribute("title", $entry['title'], true);
     $pool->setAttribute("slogan", $slogan, true);
     $pool->setAttribute("content", $entry['content'], true);
     $pool->setAttribute("contentformatter", $entry['contentformatter'], true);
@@ -1162,7 +1166,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 }
 
 function saveDraftEntry($blogid, $entry) {
-    $ctx = Model_Context::getInstance();
+    $ctx = Model_Context::getInstance
+    $pool = DBModel::getInstance();
 
     requireModel('blog.tag');
     requireModel('blog.locative');
@@ -1193,7 +1198,7 @@ function saveDraftEntry($blogid, $entry) {
     $pool->setQualifier("blogid", "eq", $blogid);
     $pool->setQualifier("id", "eq", $entry['id']);
     $pool->setQualifier("draft", "eq", 0);
-    $origEntry = $pool->getRow("created, comments, trackbacks, pingbacks, password");
+    $origEntry = $pool->getRow("created, comments, trackbacks, pingbacks, password, published");
     if (empty($origEntry)) {
         return -12;
     }
@@ -1216,7 +1221,7 @@ function saveDraftEntry($blogid, $entry) {
         $slogan = $slogan0 = getSlogan($entry['slogan']);
     }
     $slogan = Utils_Unicode::lessenAsEncoding($slogan, 255);
-    $title = POD::escapeString($entry['title']);
+    $title = $entry['title'];
 
     if ($entry['category'] == -1) {
         if ($entry['visibility'] == 1 || $entry['visibility'] == 3) {
@@ -1259,7 +1264,7 @@ function saveDraftEntry($blogid, $entry) {
     $contenteditor = POD::escapeString($entry['contenteditor']);
     switch ($entry['published']) {
         case 0:
-            $published = 'published';
+            $published = $origEntry['published'];
             break;
         case 1:
             $published = Timestamp::getUNIXtime();

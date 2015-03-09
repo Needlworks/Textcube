@@ -15,7 +15,8 @@ function getDefaultEditor() {
 
 function& getAllEditors() {
     $context = Model_Context::getInstance();
-    return $context->getProperty('plugin.editorMappings');
+	$editorMappings = $context->getProperty('plugin.editorMappings');
+	return $editorMappings;
 }
 
 function getEditorInfo($editor) {
