@@ -1,6 +1,7 @@
 <?php
 /***
 	TinyMCE Editor for Textcube
+    2.0
 
 	Needlworks / Jeongkyu Shin (https://github.com/inureyes)
 	CodeMirror plugin by zvuc (https://github.com/zvuc)
@@ -12,9 +13,8 @@ function tinyMCE_handleconfig($configVal) {
 }
 
 function tinyMCE_editorinit($editor) {
-	global $configVal, $pluginURL, $pluginPath;
+	global $configVal;
 	$context = Model_Context::getInstance();
-	$blogid = getBlogId();
 	$config = Setting::fetchConfigVal($configVal);
 	if(empty($config['editormode'])) $config['editormode'] = 'simple';
 	if(empty($config['width'])) $config['width'] = 'skin';
@@ -28,13 +28,13 @@ function tinyMCE_editorinit($editor) {
 				theme : 'modern',
 				skin : 'light',
 <?php
-	if (file_exists($pluginPath.'/tinymce/langs/'.$context->getProperty('blog.language').'.js')) {
+	if (file_exists($context->getProperty("plugin.path","").'/tinymce/langs/'.$context->getProperty('blog.language').'.js')) {
 ?>
 				language : '<?php echo strtolower($context->getProperty('blog.language'));?>',
 <?php
 	}
 ?>
-				popup_css_add: "<?php echo $pluginURL;?>/popup.css",
+				popup_css_add: "<?php echo $context->getProperty("plugin.uri");?>/popup.css",
 				menubar: false,
 				fixed_toolbar_container: "#formatbox-container",
 				toolbar_location : "external",
@@ -155,12 +155,11 @@ function tinyMCE_editorinit($editor) {
 }
 
 function tinyMCE_adminheader($target, $mother) {
-	global $suri, $pluginURL;
     $context = Model_Context::getInstance();
 	if ($context->getProperty('editor.key') == 'tinyMCE') {
-		if ($context->getProperty('suri.directive') == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
-			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tinymce/tinymce.min.js\"></script>\n";
-			$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"$pluginURL/override.css\" />\n";
+		if ($context->getProperty('suri.directive') == '/owner/entry/post' || $context->getProperty("suri.directive") == '/owner/entry/edit') {
+			$target .= "\t<script type=\"text/javascript\" src=\"".$context->getProperty("plugin.uri","")."/tinymce/tinymce.min.js\"></script>\n";
+			$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"".$context->getProperty("plugin.uri","")."/override.css\" />\n";
 		}
 	}
 	return $target;
