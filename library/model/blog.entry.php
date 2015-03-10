@@ -1166,7 +1166,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 }
 
 function saveDraftEntry($blogid, $entry) {
-    $ctx = Model_Context::getInstance
+    $ctx = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     requireModel('blog.tag');

@@ -68,8 +68,6 @@ function tinyMCE_editorinit($editor) {
 
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
 				toolbar2: "undo redo | searchreplace | tcattach image media charmap insertdatetime | subscript superscript ltr rtl cite abbr acronym del ins | hr link unlink anchor | table | cut copy paste pastetext| removeformat code visualblocks",
-
-
 <?php
 	}
 ?>
@@ -122,6 +120,7 @@ function tinyMCE_editorinit($editor) {
 				        {title: 'figure', block: 'figure', wrapper: true}
 				    ]}
 				],
+				fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt",
 				forced_root_block : false,
 				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
