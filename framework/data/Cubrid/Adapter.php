@@ -419,11 +419,14 @@ class DBAdapter implements IAdapter {
 	}
 	
 	static $typeTable = array(
-		"integer" => "integer",
-		"float"	=> "float",
-		"timestamp"	=> "integer",
-		"mediumtext" => "varchar(512)",
-		"text"	=> "text");	
+        "integer" => "integer",
+        "int" => "integer",
+        "float" => "float",
+        "double" => "float",
+        "timestamp" => "integer",
+        "mediumtext" => "varchar(512)",
+        "varchar" => "varchar",
+        "text" => "text");
 }
 
 ?>
