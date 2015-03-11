@@ -4,7 +4,7 @@
 	<title xml:lang="ko">날짜 언어/형식 변경 플러그인</title>
 	<title xml:lang="ja">日付形式変更</title>
 	<link>http://needlworks.org/</link>
-	<version>1.6</version>
+	<version>2.0</version>
 	<description xml:lang="en">Change all date format in this blog</description>
 	<description xml:lang="ko">블로그에 표시되는 날짜의 언어와 형식을 변경해주는 플러그인입니다.</description>
 	<description xml:lang="ja">ブログから表示される日付の形式を変更します。</description>
@@ -15,21 +15,21 @@
 	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
 	<requirements>
 		<textcube>
-			<minVersion>1.8</minVersion>
+			<minVersion>2.0</minVersion>
 		</textcube>
 	</requirements>
 	<binding>
-		<listener event="ViewArchiveDate">convertDateLangAD</listener>
-		<listener event="ViewCalendarHead">convertDateLangCH</listener>
-		<listener event="ViewCommentDate">convertDateLangCD</listener>
-		<listener event="ViewCommentListDate">convertDateLangCLD</listener>
-		<listener event="ViewGuestCommentDate">convertDateLangGCD</listener>
-		<listener event="ViewListDate">convertDateLangLD</listener>
-		<listener event="ViewNoticeDate">convertDateLangND</listener>
-		<listener event="ViewPostDate">convertDateLangPD</listener>
+		<listener event="ViewArchiveDate" handler="convertDateLangAD" />
+		<listener event="ViewCalendarHead" handler="convertDateLangCH" />
+		<listener event="ViewCommentDate" handler=">convertDateLangCD" />
+		<listener event="ViewCommentListDate" handler="convertDateLangCLD" />
+		<listener event="ViewGuestCommentDate" handler="convertDateLangGCD" />
+		<listener event="ViewListDate" handler="convertDateLangLD" />
+		<listener event="ViewNoticeDate" handler="convertDateLangND" />
+		<listener event="ViewPostDate" handler="convertDateLangPD</listener>
 	<!--	<listener event="ViewRecentCommentDate">convertDateLangRCD</listener>-->
-		<listener event="ViewRecentTrackbackDate">convertDateLangRTD</listener>
-		<listener event="ViewTrackbackDate">convertDateLangTD</listener>
+		<listener event="ViewRecentTrackbackDate" handler="convertDateLangRTD" />
+		<listener event="ViewTrackbackDate" handler="convertDateLangTD" />
 		
 		<config xml:lang="ko" dataValHandler="">
 			<window width="500" height="525" />

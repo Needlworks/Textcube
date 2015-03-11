@@ -3,7 +3,7 @@
    ----------------------------------
    Version 0.14
    Starts at        : Apr. 5, 2006
-   Last modified at : Mar. 11, 2015 (WIP)
+   Last modified at : Mar. 12, 2015 (WIP)
    
    Jeongkyu Shin.
    E-mail : inureyes@gmail.com
@@ -28,9 +28,10 @@
 */
 
 function WikiCube_FormatContent($target, $mother) {
-	global $configVal;
-	$config = Setting::fetchConfigVal($configVal);
-	if(empty($config['mode'])) $config['mode'] = 'entry';
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
+
+    if(empty($config['mode'])) $config['mode'] = 'entry';
 
 	$context = Model_Context::getInstance();
 	$pattern = array(
@@ -46,8 +47,8 @@ function WikiCube_FormatContent($target, $mother) {
 }
 
 function WikiCube_FormatErrorPage($target) {
-	global $configVal;
-	$config = Setting::fetchConfigVal($configVal);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
 	if(empty($config['mode'])) $config['mode'] = 'entry';
 
 	$context = Model_Context::getInstance();
@@ -79,7 +80,9 @@ function WikiCube_AddButton($target) {
 }
 
 function WikiCube_DataHandler($data) {
-    $config = Setting::fetchConfigVal($data);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
+
     if (!array_key_exists('mode',$config)) return false;
     else return true;
 }

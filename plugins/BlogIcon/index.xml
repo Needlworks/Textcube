@@ -5,7 +5,7 @@
   <title xml:lang="ja">ブログのアイコン表示</title>
   <title xml:lang="zh-CN">表示日志?性??</title>
   <link>http://needlworks.org/</link>
-  <version>1.2</version>
+  <version>2.0</version>
   <description xml:lang="ko">댓글과 방명록의 작성자 홈페이지에 블로그 아이콘(index.gif)이 있으면 같이 표시됩니다.</description>
   <description xml:lang="en">This plugin displays blog icon (index.gif) along with comments or guestbook.</description>
   <description xml:lang="ja">コメントと?示板の作成者ペ?ジにブログのアイコン (index.gif) があったら名前の側に表示します。</description>
@@ -16,7 +16,7 @@
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
   <requirements>
     <textcube>
-		<minVersion>1.8</minVersion>	
+		<minVersion>2.0</minVersion>
 	</textcube>
   </requirements>
   <binding>

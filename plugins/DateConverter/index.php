@@ -24,24 +24,16 @@
 include_once "language.php";
 
 function convertDateFormat($argTarget, $argType) {
-	global $pluginURL, $configVal;
 	global $rgDateInformation;
 
-	if (is_null($configVal)) return $argTarget;
+    $context = Model_Context::getInstance();
+    $tempArray = $context->getProperty('plugin.config');
 
-	$temp = explode('/', $pluginURL);
+    if (empty($tempArray)) return $argTarget;
+
+	$temp = explode('/', $context->getProperty('plugin.uri'));
 	array_shift($temp);
 	array_shift($temp);
-
-	if (empty($configVal)) {
-		include 'config.ini.php';
-		$tempArray = $data;
-		unset($data);
-
-	} else {
-		requireComponent('Textcube.Function.misc');
-		$tempArray = Setting::fetchConfigVal($configVal);
-	}
 
 	$rgDateFormat = array();
 	$rgDateFormat['archive date'] = array("language" => $tempArray['language'], "format" => $tempArray['archive_date']);

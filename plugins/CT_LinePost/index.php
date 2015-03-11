@@ -2,7 +2,7 @@
 /**
  * line Post for Textcube 2.0
  * ----------------------------------
- * Version 1.1
+ * Version 2.0
  * By Jeongkyu Shin
  *
  * Created at       : 2009.06.04
@@ -22,9 +22,9 @@
 
 /// Posting widget for center.
 function linePost_widget($target) {
-	global $pluginURL;
 	$context = Model_Context::getInstance();
 	$blogURL = $context->getProperty('uri.blog');
+    $pluginURL = $context->getProperty('plugin.uri');
 	$public = _t('공개');
 	$private = _t('비공개');
 	$write = _t('쓰기');

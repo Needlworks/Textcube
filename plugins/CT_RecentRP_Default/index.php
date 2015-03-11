@@ -1,7 +1,7 @@
 <?php
-/* Recent Replies plugin for Textcube 1.10
+/* Recent Replies plugin for Textcube 2.0
    ---------------------------------------
-   Version 1.10.3
+   Version 2.0
    Tatter and Friends development team.
 
    Creator          : Peris
@@ -9,7 +9,7 @@
    Editor			: J.Parker
 
    Created at       : 2006.7.25
-   Last modified at : 2015.2.16
+   Last modified at : 2015.3.12
 
  This plugin shows recent eeplies on 'quilt'.
  For the detail, visit http://forum.tattersite.com/ko
@@ -26,9 +26,8 @@
 */
 
 function RecentRP_getRecentComments($blogid) {
-	global $configVal;
-	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
+    $data = $context->getProperty('plugin.config');
 	$comments = array();
 	$limitLine = ($data['repliesList'])?$data['repliesList']:$context->getProperty('skin.commentsOnRecent');
 
@@ -89,7 +88,8 @@ function CT_RecentRP_Default($target) {
 }
 
 function CT_RecentRP_Default_DataSet($DATA){
-	$cfg = Setting::fetchConfigVal($DATA);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
 	return true;
 }
 ?>

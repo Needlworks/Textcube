@@ -7,16 +7,17 @@
 	CodeMirror plugin by zvuc (https://github.com/zvuc)
 */
 function tinyMCE_handleconfig($configVal) {
-	$config = Setting::fetchConfigVal($configVal);
-	if (isset($config['editormode']) && $config['editormode'] != 'simple' && $config['editormode'] != 'advanced') return false;
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
+    if (isset($config['editormode']) && $config['editormode'] != 'simple' && $config['editormode'] != 'advanced') return false;
 	return true;
 }
 
 function tinyMCE_editorinit($editor) {
-	global $configVal;
-	$context = Model_Context::getInstance();
-	$config = Setting::fetchConfigVal($configVal);
-	if(empty($config['editormode'])) $config['editormode'] = 'simple';
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
+
+    if(empty($config['editormode'])) $config['editormode'] = 'simple';
 	if(empty($config['width'])) $config['width'] = 'skin';
 	if(empty($config['srctheme'])) $config['srctheme'] = 'default';
 //	var_dump($context->getAllFromNamespace("plugin"));

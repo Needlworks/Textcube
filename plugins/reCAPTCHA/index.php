@@ -9,8 +9,8 @@ function Recaptcha_AddInputValidatorRule($target, $mother) {
 }
 
 function Recaptcha_Header($target) {
-	global $configVal, $pluginURL;
-	$config = Setting::fetchConfigVal($configVal);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
 <script type="text/javascript">
@@ -76,8 +76,9 @@ EOS;
 }
 
 function Recaptcha_CCHeader($target) {
-	global $configVal, $pluginURL;
-	$config = Setting::fetchConfigVal($configVal);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
+
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
 <script type="text/javascript">
@@ -157,14 +158,13 @@ EOS;
 }
 
 function Recaptcha_ConfigHandler($data) {
-	$config = Setting::fetchConfigVal($data);
 	return true;
 }
 
 function Recaptcha_AddingCommentHandler($target, $mother)
 {
-	global $configVal, $pluginURL;
-	$config = Setting::fetchConfigVal($configVal);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
 	if (doesHaveOwnership() || doesHaveMembership()) return true;  /* Skip validation if signed-in. */
 	if (!is_null($config) && isset($config['secretKey'])) {
 		$recaptcha_response = $_POST["g-recaptcha-response"];

@@ -19,14 +19,15 @@ function GoogleMap_generateTranslationJavascript($messages) {
 }
 
 function GoogleMap_Header($target) {
-	global $configVal, $pluginURL;
-	$config = Setting::fetchConfigVal($configVal);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
+    $plugin_uri = $context->getProperty('plugin.uri');
 	if (!is_null($config)) {
 		$use_sensor = (isset($config['useSensor']) && $config['useSensor']) ? 'true' : 'false';
 		$target .= <<<EOS
-<link rel="stylesheet" type="text/css" href="$pluginURL/styles/common.css" />
+<link rel="stylesheet" type="text/css" href="$plugin_uri/styles/common.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=$use_sensor"></script>
-<script type="text/javascript" src="$pluginURL/scripts/common.js"></script>
+<script type="text/javascript" src="$plugin_uri/scripts/common.js"></script>
 <script type="text/javascript">
 //<![CDATA[
 	var GMapOnLoadCallbacks = [];
@@ -38,22 +39,21 @@ EOS;
 }
 
 function GoogleMap_AdminHeader($target) {
-	$ctx = Model_Context::getInstance();
-	$blogURL = $ctx->getProperty('uri.blog');
-	$serviceURL = $ctx->getProperty('uri.service');
-	global $pluginURL, $configVal;
-	if ($ctx->getProperty('suri.directive') == '/owner/entry/post' || $ctx->getProperty('suri.directive') == '/owner/entry/edit') {
-		$config = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$blog_uri = $context->getProperty('uri.blog');
+	if ($context->getProperty('suri.directive') == '/owner/entry/post' || $context->getProperty('suri.directive') == '/owner/entry/edit') {
+        $config = $context->getProperty('plugin.config');
+        $plugin_uri = $context->getProperty('plugin.uri');
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= <<<EOS
-<link rel="stylesheet" type="text/css" href="$pluginURL/styles/common.css" />
+<link rel="stylesheet" type="text/css" href="$plugin_uri/styles/common.css" />
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=$use_sensor"></script>
-<script type="text/javascript" src="$pluginURL/scripts/common.js"></script>
-<script type="text/javascript" src="$pluginURL/scripts/editor.js"></script>
+<script type="text/javascript" src="$plugin_uri/scripts/common.js"></script>
+<script type="text/javascript" src="$plugin_uri/scripts/editor.js"></script>
 <script type="text/javascript">
 //<![CDATA[
-	var pluginURL = '$pluginURL';
-	var blogURL = '$blogURL';
+	var plugin_uri = '$plugin_uri';
+	var blogURL = '$blog_uri';
 	var GMapOnLoadCallbacks = [];
 //]]>
 </script>
@@ -63,10 +63,9 @@ EOS;
 }
 
 function GoogleMap_Footer($target) {
-	global $configVal, $pluginURL;
-	$ctx= Model_Context::getInstance();
-	if ($ctx->getProperty('is_used')) {
-		$config = Setting::fetchConfigVal($configVal);
+	$context= Model_Context::getInstance();
+	if ($context->getProperty('is_used')) {
+        $config = $context->getProperty('plugin.config');
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		if (!is_null($config)) {
 			$target .= <<<EOS
@@ -89,10 +88,9 @@ EOS;
 }
 
 function GoogleMap_AdminFooter($target) {
-	global $configVal, $pluginURL;
-	$ctx = Model_Context::getInstance();
-	if ($ctx ->getProperty('is_used')) {
-		$config = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	if ($context ->getProperty('is_used')) {
+        $config = $context->getProperty('plugin.config');
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		if (!is_null($config)) {
 			$target .= <<<EOS
@@ -115,7 +113,6 @@ EOS;
 }
 
 function GoogleMap_AddToolbox($target) {
-	global $pluginURL;
 	$m_addGoogleMap = _t("지도 삽입하기");
 	$m_attachLocation = _t("현재 위치 첨부하기");
 	$target .= GoogleMap_generateTranslationJavascript(array(
@@ -140,19 +137,18 @@ EOS;
 }
 
 function GoogleMap_View($target, $mother) {
-	global $configVal, $pluginURL;
-	$ctx= Model_Context::getInstance();
-	if ($ctx->getProperty('is_used') === null)
-		$ctx->setProperty('is_used', false);
-	$dbPrefix = $ctx->getProperty('database.prefix');
-	$blogId = $ctx->getProperty('blog.id');
-	$config = Setting::fetchConfigVal($configVal);
+	$context= Model_Context::getInstance();
+	if ($context->getProperty('is_used') === null)
+		$context->setProperty('is_used', false);
+	$dbPrefix = $context->getProperty('database.prefix');
+	$blogId = $context->getProperty('blog.id');
+    $config = $context->getProperty('plugin.config');
 	$matches = array();
 	$offset = 0;
 
 
 	while (preg_match('/\[##_GoogleMap\|(([^|]+)\|)?_##\]/', $target, $matches, PREG_OFFSET_CAPTURE, $offset) > 0) {
-		$ctx->setProperty('is_used', true);
+		$context->setProperty('is_used', true);
 		// SUGGUEST: [##_GoogleMap|{JSON_REPRESENTATION_OF_PARAMETERS_WITHOUT_NEWLINES}|_##]
 		$id = 'GMapContainer'.$mother.rand();
 		ob_start();
@@ -224,13 +220,11 @@ EOS;
 }
 
 function GoogleMap_LocationLogView($target) {
-	$ctx = Model_Context::getInstance();
-	$blogId = $ctx->getProperty('blog.id');
-	$blogURL = $ctx->getProperty('uri.blog');
-	$serviceURL = $ctx->getProperty('uri.service');
-	global $pluginURL, $configVal;
-	$ctx->setProperty('is_used', true);
-	$config = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$blogId = $context->getProperty('blog.id');
+	$blog_uri = $context->getProperty('uri.blog');
+	$context->setProperty('is_used', true);
+    $config = $context->getProperty('plugin.config');
 	$locatives =  getEntries($blogId, 'id, title, slogan, location, longitude, latitude','((length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL))', 'location');
 	$width = Misc::getContentWidth();
 	$height = intval($width * 1.2);
@@ -290,10 +284,10 @@ function GoogleMap_LocationLogView($target) {
 <?php
 	$count = 0;
 	$countRemoteQuery = 0;
-	$dbPrefix = $ctx->getProperty('database.prefix');
+	$dbPrefix = $context->getProperty('database.prefix');
 	foreach ($locatives as $locative) {
 		//if ($count == 10) break; // for testing purpose
-		$locative['link'] = "$blogURL/" . ($ctx->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($locative['slogan'],$ctx->getProperty('service.useEncodedURL')) : $locative['id']);
+		$locative['link'] = "$blog_uri/" . ($context->getProperty('blog.useSloganOnPost') ? 'entry/' . URL::encode($locative['slogan'],$context->getProperty('service.useEncodedURL')) : $locative['id']);
 		$found = false;
 
 		if ($locative['longitude'] != NULL && $locative['latitude'] != NULL) {
@@ -332,7 +326,8 @@ function GoogleMap_LocationLogView($target) {
 }
 
 function GoogleMap_ConfigHandler($data) {
-	$config = Setting::fetchConfigVal($data);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
 	if (!is_numeric($config['latitude']) || !is_numeric($config['longitude']) ||
 		$config['latitude'] < -90 || $config['latitude'] > 90 || $config['longitude'] < -180 || $config['longitude'] > 180)
 		return _t('위도 또는 경도의 값이 올바르지 않습니다.');
@@ -341,9 +336,9 @@ function GoogleMap_ConfigHandler($data) {
 }
 
 function GoogleMap_Cache() {
-	$ctx = Model_Context::getInstance();
-	$dbPrefix = $ctx->getProperty('database.prefix');
-	$blogId = $ctx->getProperty('blog.id');
+	$context = Model_Context::getInstance();
+	$dbPrefix = $context->getProperty('database.prefix');
+	$blogId = $context->getProperty('blog.id');
 	$IV = array(
 		'POST' => array(
 			'original_path' => array('string', 'default'=>''),
@@ -371,8 +366,8 @@ function GoogleMap_Cache() {
 }
 
 function GoogleMapUI_InsertMap() {
-	global $configVal, $pluginURL;
-	$config = Setting::fetchConfigVal($configVal);
+    $context = Model_Context::getInstance();
+    $config = $context->getProperty('plugin.config');
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
 	$default_type = 'ROADMAP';
@@ -420,9 +415,9 @@ function GoogleMapUI_InsertMap() {
 }
 
 function _GMap_printHeaderForUI($title, $jsName, $use_sensor) {
-	$ctx = Model_Context::getInstance();
-	$blogURL = $ctx->getProperty('uri.blog');
-	global $pluginURL;
+	$context = Model_Context::getInstance();
+	$blog_uri = $context->getProperty('uri.blog');
+    $plugin_uri = $context->getProperty('plugin.uri');
 	header('Content-Type: text/html; charset=utf-8');
 ?><!DOCTYPE html>
 <html>
@@ -430,16 +425,16 @@ function _GMap_printHeaderForUI($title, $jsName, $use_sensor) {
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Google Map Plugin: <?php echo $title;?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $pluginURL;?>/styles/popup.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $plugin_uri;?>/styles/popup.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/common.js"></script>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/scripts/<?php echo $jsName;?>.js"></script>
+	<script type="text/javascript" src="<?php echo $plugin_uri;?>/scripts/common.js"></script>
+	<script type="text/javascript" src="<?php echo $plugin_uri;?>/scripts/<?php echo $jsName;?>.js"></script>
 	<script type="text/javascript">
 	//<![CDATA[
-	var pluginURL = '<?php echo $pluginURL;?>';
-	var blogURL = '<?php echo $blogURL;?>';
+	var plugin_uri = '<?php echo $plugin_uri;?>';
+	var blogURL = '<?php echo $blog_uri;?>';
 	var GMapOnLoadCallbacks = [];
 	//]]>
 	</script>
@@ -452,7 +447,6 @@ function _GMap_printHeaderForUI($title, $jsName, $use_sensor) {
 }
 
 function _GMap_printFooterForUI($jsName) {
-	global $pluginURL;
 ?>
 	<script type="text/javascript">
 	//<![CDATA[

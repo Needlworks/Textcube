@@ -4,7 +4,7 @@
 	<title xml:lang="ko">라인 쓰기</title>
 	<title xml:lang="ja">Line作成(日本語版)</title>
 	<link>http://forest.nubimaru.com/</link>
-	<version>0.1</version>
+	<version>2.0</version>
 	<description xml:lang="en">Quickly writing lines on dashboard</description>
 	<description xml:lang="ko"><![CDATA[재빨리 라인을 쓸 수 있는 위젯을 추가합니다.]]></description>
 	<description xml:lang="ja">Line作成用のウィジェットを利用</description>
@@ -13,7 +13,7 @@
 	<safety changeData="yes" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="yes" />
 	<requirements>
 		<textcube>
-		  <minVersion>1.8</minVersion>
+		  <minVersion>2.0</minVersion>
 		</textcube>
 	</requirements>
 	<binding>
