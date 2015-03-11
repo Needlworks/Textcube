@@ -355,10 +355,11 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
         if (function_exists($mapping['listener'])) {
             if (!empty($configMappings[$mapping['plugin']]['config'])) {
                 $configVal = getCurrentSetting($mapping['plugin']);
+                $context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
             } else {
                 $configVal = null;
+                $context->setProperty('plugin.config',array());
             }
-
             $context->setProperty('plugin.uri', $context->getProperty('service.path') . "/plugins/{$mapping['plugin']}");
             $context->setProperty('plugin.path', ROOT . "/plugins/{$mapping['plugin']}");
             $context->setProperty('plugin.name', $mapping['plugin']);
@@ -397,6 +398,7 @@ function fireEvent($event, $target = null, $mother = null, $condition = true) {
             $context->unsetProperty('plugin.uri');
             $context->unsetProperty('plugin.path');
             $context->unsetProperty('plugin.name');
+            $context->unsetProperty('plugin.config');
         }
     }
     return $target;
@@ -416,8 +418,10 @@ function handleTags(& $content) {
                 if (function_exists($mapping['handler'])) {
                     if (!empty($configMappings[$mapping['plugin']]['config'])) {
                         $configVal = getCurrentSetting($mapping['plugin']);
+                        $context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
                     } else {
                         $configVal = '';
+                        $context->setProperty('plugin.config',array());
                     }
                     $context->setProperty('plugin.uri', $context->getProperty('service.path') . "/plugins/{$mapping['plugin']}");
                     $context->setProperty('plugin.path', ROOT . "/plugins/{$mapping['plugin']}");
@@ -444,6 +448,7 @@ function handleTags(& $content) {
                     $context->unsetProperty('plugin.uri');
                     $context->unsetProperty('plugin.path');
                     $context->unsetProperty('plugin.name');
+                    $context->unsetProperty('plugin.config');
                 }
             }
             dress($tag, $target, $content);
@@ -461,8 +466,10 @@ function handleCenters($mapping) {
     if (function_exists($mapping['handler'])) {
         if (!empty($configMappings[$mapping['plugin']]['config'])) {
             $configVal = getCurrentSetting($mapping['plugin']);
+            $context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
         } else {
             $configVal = '';
+            $context->setProperty('plugin.config',array());
         }
         $context->setProperty('plugin.uri', $context->getProperty('service.path') . "/plugins/{$mapping['plugin']}");
         $context->setProperty('plugin.path', ROOT . "/plugins/{$mapping['plugin']}");
@@ -489,6 +496,7 @@ function handleCenters($mapping) {
         $context->unsetProperty('plugin.uri');
         $context->unsetProperty('plugin.path');
         $context->unsetProperty('plugin.name');
+        $context->unsetProperty('plugin.config');
     }
 
     return $target;
@@ -608,9 +616,12 @@ function handleCoverpages(& $obj, $previewMode = false) {
 
                     if (!empty($configMappings[$plugin]['config'])) {
                         $configVal = getCurrentSetting($plugin);
+                        $context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
                     } else {
                         $configVal = '';
+                        $context->setProperty('plugin.config',array());
                     }
+
 
                     if (function_exists($handler)) {
                         // Loading locale resource
@@ -632,6 +643,7 @@ function handleCoverpages(& $obj, $previewMode = false) {
                         $context->unsetProperty('plugin.uri');
                         $context->unsetProperty('plugin.path');
                         $context->unsetProperty('plugin.name');
+                        $context->unsetProperty('plugin.config');
                     } else {
                         $obj->coverpageStorage["temp_coverpage_element_{$i}_{$j}"] = "";
                     }
@@ -669,8 +681,10 @@ function handleDataSet($plugin, $DATA) {
         if (function_exists($configMappings[$plugin]['dataValHandler'])) {
             if (!empty($configMappings[$plugin]['config'])) {
                 $configVal = getCurrentSetting($plugin);
+                $context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
             } else {
                 $configVal = '';
+                $context->setProperty('plugin.config',array());
             }
             // Loading locale resource
             $languageDomain = null;
@@ -689,6 +703,7 @@ function handleDataSet($plugin, $DATA) {
             $context->unsetProperty('plugin.uri');
             $context->unsetProperty('plugin.path');
             $context->unsetProperty('plugin.name');
+            $context->unsetProperty('plugin.config',array());
             if (!is_null($languageDomain)) {
                 $locale->domain = $languageDomain;
             }
@@ -736,6 +751,7 @@ function handleConfig($plugin) {
             $context->setProperty('plugin.uri', $context->getProperty('service.path') . "/plugins/{$plugin}");
             $context->setProperty('plugin.path', ROOT . "/plugins/{$plugin}");
             $context->setProperty('plugin.name', $plugin);
+
             $pluginURL = $context->getProperty('plugin.uri'); // Legacy plugin support.
             $pluginPath = $context->getProperty('plugin.path');
             $pluginName = $context->getProperty('plugin.name');
@@ -744,8 +760,10 @@ function handleConfig($plugin) {
             if (function_exists($handler)) {
                 if (!empty($configMappings[$plugin]['config'])) {
                     $configVal = getCurrentSetting($plugin);
+                    $context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
                 } else {
                     $configVal = '';
+                    $context->setProperty('plugin.config',array());
                 }
 
 
