@@ -450,6 +450,7 @@ class DBAdapter implements IAdapter {
         "integer" => "integer",
         "int" => "integer",
         "float" => "float",
+        "double" => "float",
         "timestamp" => "integer",
         "mediumtext" => "varchar(512)",
         "varchar" => "varchar",
