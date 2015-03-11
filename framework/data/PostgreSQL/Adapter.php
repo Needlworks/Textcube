@@ -323,6 +323,7 @@ class DBAdapter implements IAdapter {
 	public static function commit() { 
 		return pg_query("commit");
 //		return true; // Auto commit.
+<<<<<<< HEAD
 	}
 
 	/* Raw public static functions (to easier adoptation) */
@@ -386,5 +387,88 @@ class DBAdapter implements IAdapter {
 		"timestamp"	=> "integer",
 		"mediumtext" => "varchar(512)",
 		"text"	=> "text");
+=======
+    }
+
+    /* Raw public static functions (to easier adoptation) */
+    /*@static@*/
+    public static function num_rows($handle = null) {
+        switch (self::$lastQueryType) {
+            case 'select':
+                return pg_num_rows($handle);
+                break;
+            default:
+                return pg_affected_rows($handle);
+                break;
+        }
+        return null;
+    }
+
+    /*@static@*/
+    public static function free($handle = null) {
+        pg_free_result($handle);
+    }
+
+    /*@static@*/
+    public static function fetch($handle = null, $type = 'assoc') {
+        if ($type == 'array') {
+            return pg_fetch_array($handle);
+        } // Can I use mysql_fetch_row instead?
+        else {
+            if ($type == 'row') {
+                return pg_fetch_row($handle);
+            } else {
+                return pg_fetch_assoc($handle);
+            }
+        }
+    }
+
+    /*@static@*/
+    public static function error($err = null) {
+        if ($err === null) {
+            return pg_error();
+        } else {
+            return pg_error($err);
+        }
+    }
+
+    /*@static@*/
+    public static function stat($stat = null) {
+        if ($stat === null) {
+            return pg_connection_status();
+        } else {
+            return pg_connection_status($stat);
+        }
+    }
+
+    /*@static@*/
+    public static function __queryType($type) {
+        switch (strtolower($type)) {
+            case 'num':
+                return PGSQL_NUM;
+            case 'assoc':
+                return PGSQL_ASSOC;
+            case 'both':
+            default:
+                return PGSQL_BOTH;
+        }
+    }
+
+    public static function fieldType($abstractType) {
+        if (isset(self::$typeTable[$abstractType])) {
+            return self::$typeTable[$abstractType];
+        }
+    }
+
+    static $typeTable = array(
+        "integer" => "integer",
+        "int" => "integer",
+        "float" => "float",
+        "double" => "float",
+        "timestamp" => "integer",
+        "mediumtext" => "varchar(512)",
+        "varchar" => "varchar",
+        "text" => "text");
+>>>>>>> d3cefd6...  refs #1753 : modified - DBModel to accept more types.
 }
 ?>
