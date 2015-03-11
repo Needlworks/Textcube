@@ -3,9 +3,9 @@
    ----------------------------------
    Version 0.14
    Starts at        : Apr. 5, 2006
-   Last modified at : Mar. 9, 2015
+   Last modified at : Mar. 11, 2015 (WIP)
    
-   jeongkyu Shin.
+   Jeongkyu Shin.
    E-mail : inureyes@gmail.com
 
 
@@ -56,6 +56,26 @@ function WikiCube_FormatErrorPage($target) {
 		($config['mode'] == 'entry' ? '' : '&category=-3').	
 		'">'._text('Empty page. Click here to add a new entry.').'</a></div>';
 	return $target.$additional;
+}
+
+function WikiCube_AddButton($target) {
+    ob_start();
+?>
+    <script type="text/javascript">
+        editor.addCommand('wikicubeAddLink', function () {
+        });
+        editor.addButton('wikicubeAddWikiLink', {
+            title: 'Add Wiki Link',
+            cmd: 'wikicubeAddLink',
+            icon: 'save'
+        });
+        editor.settings.toolbar1 = editor.settings.toolbar1 + ' wikicubeAddWikiLink';
+        editor.render();
+    </script>
+<?php
+    $result = ob_get_contents();
+    ob_end_clean();
+    return $target.$result;
 }
 
 function WikiCube_DataHandler($data) {

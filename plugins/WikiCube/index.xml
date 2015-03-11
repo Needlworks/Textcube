@@ -17,6 +17,7 @@
 	<binding>
 		<listener event="ViewPostContent" handler="WikiCube_FormatContent" />
 		<listener event="ViewErrorPage" handler="WikiCube_FormatErrorPage" />
+        <listener event="ShowAdminFooter" handler="WikiCube_AddButton" />
 		<config xml:lang="en" dataValHandler="WikiCube_DataHandler">
 			<window width="500" height="525" />
 			<fieldset legend="Default Mode">
