@@ -32,6 +32,9 @@ function getEditorInfo($editor) {
         $pluginURL = $context->getProperty('service.path') . '/plugins/' . $editorMappings[$editor]['plugin'];
         $pluginName = $editorMappings[$editor]['plugin'];
         $pluginPath = ROOT . "/plugins/{$pluginName}";
+        $context->setProperty('plugin.url',$context->getProperty('service.path') . '/plugins/' . $editorMappings[$editor]['plugin']);
+        $context->setProperty('plugin.name', $editorMappings[$editor]['plugin']);
+        $context->setProperty('plugin.path',ROOT . "/plugins/{$pluginName}");
         if (!empty($configMappings[$pluginName]['config'])) {
             $configVal = getCurrentSetting($pluginName);
         } else {

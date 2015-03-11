@@ -143,6 +143,8 @@ function printOwnerEditorScript($entryId = false) {
                         if (isset($editor['initfunc']) && function_exists($editor['initfunc'])) {
                             echo "\t\t\n".call_user_func_array($editor['initfunc'], array(&$editor))."\t\t\n";
                             $pluginURL = $pluginName = "";
+                            $context->unsetProperty('plugin.url');
+                            $context->unsetProperty('plugin.name');
                         }
                     }
                 }
