@@ -59,7 +59,7 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 						<div id="part-openid-loginhistory" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디로 로그인한 사람들의 목록입니다')?></span></h2>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t("이 블로그에 오픈아이디로 로그인하여 글을 남긴 사람들의 기록입니다.").' '._t('댓글을 남긴 아이디와 그에 연결된 오픈아이디를 동시에 확인할 수 있습니다.').'<br />'._t('아이디와 오픈아이디의 대조를 통하여 아이디의 사칭 여부를 판별할 수 있습니다.');?></p>
+								<p class="explain"><?php echo _t('이 블로그에 오픈아이디로 로그인하여 글을 남긴 사람들의 기록입니다.').' '._t('댓글을 남긴 아이디와 그에 연결된 오픈아이디를 동시에 확인할 수 있습니다.').'<br />'._t('아이디와 오픈아이디의 대조를 통하여 아이디의 사칭 여부를 판별할 수 있습니다.');?></p>
 							</div>
 							<table class="data-inbox" cellspacing="0" cellpadding="0">
 								<thead>

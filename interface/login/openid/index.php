@@ -83,12 +83,12 @@ function TryAuthByRequest()
 		$openid = $_GET['openid_identifier'];
 	}
 	if (empty($openid)) {
-		$errmsg = _text("오픈아이디를 입력하세요");
+		$errmsg = _text('오픈아이디를 입력하세요');
 	} else if (strstr($openid, ".") === false ) {
 		require_once(ROOT.'/framework/legacy/Textcube.Control.Openid.php');
 		require_once OPENID_LIBRARY_ROOT."Auth/Yadis/XRI.php";
 		if( Auth_Yadis_identifierScheme($openid) == 'URI' ) {
-			$errmsg = _text("오픈아이디에 도메인 부분이 없습니다. 예) textcube.example.com");
+			$errmsg = _text('오픈아이디에 도메인 부분이 없습니다. 예) textcube.example.com');
 		}
 	}
 	if( $errmsg ) {

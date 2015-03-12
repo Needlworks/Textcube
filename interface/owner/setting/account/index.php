@@ -406,7 +406,7 @@ if ($service['type'] != 'single' &&  Acl::check("group.creators")) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('대표 주소');?></span></h2>
 							
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t("댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다. 로그인 상태에서 댓글을 달 경우 댓글에 출력되는 블로그 아이콘은 이 주소의 정보에 의하여 결정됩니다.")?></p>
+								<p class="explain"><?php echo _t('댓글 및 필자 정보에 사용되는 대표 홈페이지 주소를 설정합니다. 로그인 상태에서 댓글을 달 경우 댓글에 출력되는 블로그 아이콘은 이 주소의 정보에 의하여 결정됩니다.')?></p>
 							</div>
 							
 							<div class="data-inbox">
@@ -461,7 +461,7 @@ if(!empty($blogs)) {
 						<div id="part-setting-openid" class="part">
 							<h2 class="caption"><span class="main-text"><?php echo _t('오픈아이디 연결');?></span></h2>
 							<div class="main-explain-box">
-								<p class="explain"><?php echo _t("오픈아이디를 현재 아이디와 연결합니다.").' '._t('연결 후에는 연결한 오픈아이디를 사용하여 블로그에 로그인 할 수 있습니다.');?></p>
+								<p class="explain"><?php echo _t('오픈아이디를 현재 아이디와 연결합니다.').' '._t('연결 후에는 연결한 오픈아이디를 사용하여 블로그에 로그인 할 수 있습니다.');?></p>
 							</div>
 							
 							<table class="data-inbox">
@@ -620,7 +620,7 @@ if ($service['type'] != 'single' && Acl::check("group.creators")):
 											</div>
 														
 											<div id="letter-body">
-												<textarea id="invitation_comment" cols="60" rows="3" name="textarea"><?php echo _t("블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.");?></textarea>
+												<textarea id="invitation_comment" cols="60" rows="3" name="textarea"><?php echo _t('블로그를 준비해 두었습니다.\n지금 바로 입주하실 수 있습니다.');?></textarea>
 											</div>
 											
 											<div id="letter-foot">

@@ -30,7 +30,7 @@ $page = $_GET['page'];
 				</dl>
 			</fieldset>
 			<div class="button-box">
-				<a class="button" href="#void" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value); return false;"><?php echo _t("새 블로그 생성");?></a>
+				<a class="button" href="#void" onclick="sendBlogAddInfo(ctlUserSuggestObj.getValue(),document.getElementById('bi-identify').value); return false;"><?php echo _t('새 블로그 생성');?></a>
 			</div>
 		</form>
 	</div>
@@ -91,7 +91,7 @@ if($bloglist){
 						<?php echo User::getName($bsetting['owner'])."(".User::getEmail($bsetting['owner']).")";?>
 					</td><?php if ( $service['type'] != "single" ) {?>
 					<td class="name">
-						<a href="<?php echo getDefaultUrl($itemBlogId);?>"><?php echo _t("보기");?></a>
+						<a href="<?php echo getDefaultUrl($itemBlogId);?>"><?php echo _t('보기');?></a>
 					</td><?php }?>
 				</tr>
 <?php
