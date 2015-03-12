@@ -858,10 +858,10 @@ if(Acl::check('group.administrators')) {
 <?php 
 		foreach($teamblog_users as $teamblog_user) {
 			$tmpstr = '';
-			if ($teamblog_user['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t("관리자");
-			if ($teamblog_user['acl'] & BITWISE_OWNER) $tmpstr .= _t("소유자");
-			if ($teamblog_user['acl'] & BITWISE_EDITOR) $tmpstr .= _t("글관리");
-			$tmpstr = ($tmpstr?$tmpstr:_t("없음"));
+			if ($teamblog_user['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t('관리자');
+			if ($teamblog_user['acl'] & BITWISE_OWNER) $tmpstr .= _t('소유자');
+			if ($teamblog_user['acl'] & BITWISE_EDITOR) $tmpstr .= _t('글관리');
+			$tmpstr = ($tmpstr?$tmpstr:_t('없음'));
 ?>
 									<option value="<?=$teamblog_user['userid']?>"><?="{$teamblog_user['name']}($tmpstr)"?></option>
 <?php

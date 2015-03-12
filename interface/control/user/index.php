@@ -32,7 +32,7 @@ $page = $_GET['page'];
 				</dl>
 			</fieldset>
 			<div class="button-box">
-				<a class="button" href="#void" onclick="sendUserAddInfo(document.getElementById('ui-name').value,document.getElementById('ui-email').value); return false;"><?php echo _t("새 사용자 등록");?></a>
+				<a class="button" href="#void" onclick="sendUserAddInfo(document.getElementById('ui-name').value,document.getElementById('ui-email').value); return false;"><?php echo _t('새 사용자 등록');?></a>
 			</div>
 		</form>
 	</div>

@@ -345,7 +345,7 @@ if( Acl::check('group.owners')) {
 														
 											<div id="letter-body">
 												<label for="invitation_comment"><?php echo _t('초대 메시지');?></label>
-												<textarea id="invitation_comment" cols="60" rows="3" name="textarea"><?php echo _f("%1님께서 블로그의 팀원으로 초대합니다",htmlspecialchars($user['name']));?></textarea>
+												<textarea id="invitation_comment" cols="60" rows="3" name="textarea"><?php echo _f('%1님께서 블로그의 팀원으로 초대합니다',htmlspecialchars($user['name']));?></textarea>
 											</div>
 											
 											<div id="letter-foot">

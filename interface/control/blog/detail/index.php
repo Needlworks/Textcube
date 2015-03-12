@@ -62,7 +62,7 @@ $pool = DBModel::getInstance();
 								msg = this.getText("/response/result");
 								alert("<?php echo _t('블로그 삭제에 실패하였습니다.');?>\r\nError : " + msg);
 							}
-							PM.addRequest(request, _t("블로그 삭제중"));
+							PM.addRequest(request, _t('블로그 삭제중'));
 							request.send();
 						}
 						
@@ -197,7 +197,7 @@ $pool = DBModel::getInstance();
 										<dd>
 											<span id="suggestContainer"><input type="text" id="bi-owner-loginid" name="user" value="" /></span>
 											<input type="hidden" name="blogid" value="<?php echo $bid?>" />
-											<input type="submit" class="input-button" value="<?php echo _t("팀원 추가");?>" onclick="addUser(ctlUserSuggestObj.getValue());return false;" />
+											<input type="submit" class="input-button" value="<?php echo _t('팀원 추가');?>" onclick="addUser(ctlUserSuggestObj.getValue());return false;" />
 										</dd>
 									</dl>
 								</form>
@@ -216,10 +216,10 @@ $pool = DBModel::getInstance();
 							</div>
 							
 							<div class="button-box">
-								<input type="submit" class="input-button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;" value="<?php echo _t("블로그 삭제");?>" />
+								<input type="submit" class="input-button" href="#void" onclick="deleteBlog(<?php echo $bid;?>); return false;" value="<?php echo _t('블로그 삭제');?>" />
 								<span class="hidden">|</span>
 								<?php if (!$isRepBlog) { ?><input type="submit" class="input-button" href="<?php echo $context->getProperty('uri.blog');?>/control/action/blog/setDefault/?blogid=<?php echo $bid;?>" onclick="setDefaultBlog('<?php echo $bid;?>'); return false;" value="<?php echo _t('대표 블로그 설정');?>" /><span class="hidden">|</span><?php } ?>
-								<input type="submit" class="input-button" onclick="location.href='<?php echo $context->getProperty('uri.blog');?>/control/blog'" value="<?php echo _t("돌아가기");?>" />
+								<input type="submit" class="input-button" onclick="location.href='<?php echo $context->getProperty('uri.blog');?>/control/blog'" value="<?php echo _t('돌아가기');?>" />
 							</div>
 						</div>
 <?php

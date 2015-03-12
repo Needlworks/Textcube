@@ -46,7 +46,7 @@ $AuthToken = Setting::getUserSettingGlobal('AuthToken',null,$uid);
 								
 								<ul>
 									<?php if(!is_null($AuthToken)) { ?>
-										<li><em><?php echo _t("임시 암호가 설정되어 있습니다.");?></em></li>
+										<li><em><?php echo _t('임시 암호가 설정되어 있습니다.');?></em></li>
 										<li><em><?php echo $AuthToken;?></em></li>
 									<?php }?>
 									<li><?php echo _f('이 계정은 %1에 생성되었습니다.', date("D M j G:i:s T Y", $usersetting['created']));?></li>
@@ -97,10 +97,10 @@ $teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE
 		echo "<td class=\"name\"><a href=\"{$blogURL}/control/blog/detail/{$row['blogid']}\">".POD::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";
 
 		$tmpstr = '';
-		if ($row['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t("관리자")." ";
-		if ($row['acl'] & BITWISE_OWNER) $tmpstr .= _t("소유자")." ";
-		if ($row['acl'] & BITWISE_EDITOR) $tmpstr .= _t("글관리")." ";
-		$tmpstr = ($tmpstr?$tmpstr:_t("없음"));
+		if ($row['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t('관리자')." ";
+		if ($row['acl'] & BITWISE_OWNER) $tmpstr .= _t('소유자')." ";
+		if ($row['acl'] & BITWISE_EDITOR) $tmpstr .= _t('글관리')." ";
+		$tmpstr = ($tmpstr?$tmpstr:_t('없음'));
 		echo "<td class=\"role\">".$tmpstr."</td>";
 		echo "</tr>";
 	}
