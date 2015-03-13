@@ -282,7 +282,7 @@ if (!defined('NO_INITIALIZAION')) {
     -------------------------------------------
     Load and bind specific plugin codes and initialze them.
 */
-if(in_array($context->getProperty('uri.interfaceType'), array('blog','owner','reader','mobile'))) {
+if(in_array($context->getProperty('uri.interfaceType'), array('blog','owner','reader'))) {
 	require_once(ROOT.'/library/plugins.php');
 }
 
