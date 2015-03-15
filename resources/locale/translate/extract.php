@@ -22,7 +22,8 @@ $interface_location = array(
 		"blog" => array(ROOT . "/interface/blog", ROOT . "/interface/common/blog",ROOT . "/library/model"),
 		"control" => array(ROOT . "/interface/control",ROOT . "/interface/common/control", ROOT . "/library/model"),
 		"setup" => array(ROOT . "/setup.php"),
-		"checkup" => array(ROOT . "/interface/blog/checkup.php")
+		"checkup" => array(ROOT . "/interface/blog/checkup.php"),
+		"all" => array(ROOT . "/interface", ROOT. "/library", ROOT. "/resources")
 );
 $interface_exception = array(
 	"owner" => array(ROOT . "/interface/blog/checkup.php"),
