@@ -14,12 +14,12 @@
 define('CRLF', "\r\n");
 define('ROOT',dirname(__FILE__).'/../../..');
 
-$lang = "ja";
-$interfaceType = "owner";
+$lang = "en";
+$interfaceType = "all";
 $addLocation = false;
 $interface_location = array(
 		"owner" => array(ROOT . "/interface/owner",ROOT . "/interface/common/owner",ROOT . "/library/model"),
-		"blog" => array(ROOT . "/interface/blog", ROOT . "/interface/common/blog",ROOT . "/library/model"),
+		"blog" => array(ROOT . "/interface/blog", ROOT . "/interface/common/blog", ROOT . "/interface/common/login", ROOT. "/interface/index.php",  ROOT . "/library/model"),
 		"control" => array(ROOT . "/interface/control",ROOT . "/interface/common/control", ROOT . "/library/model"),
 		"setup" => array(ROOT . "/setup.php"),
 		"checkup" => array(ROOT . "/interface/blog/checkup.php"),
@@ -80,9 +80,11 @@ sort($NEW__text);
 $output = '';
 if (!empty($lang)) {
 	$head = file_get_contents(ROOT . "/resources/locale/description/" . $lang  . ".php");
-	if ($lang != 'ko') {
+	if (!in_array($lang,array("en","ko"))) {
 		require ROOT . "/resources/locale/" . $interfaceType . "/en.php"; // Fill blanks with English locale.
 		$__text_english_locale = $__text;
+	} else {
+		$__text_english_locale = array();
 	}
 	require ROOT . "/resources/locale/" . $interfaceType . "/" . $lang  . ".php";
 	$counter = array('translated'=>0,'left'=>0);
