@@ -287,13 +287,12 @@ class queryCache extends Singleton {
 // blogSettings, ServiceSettings, activePlugins, etc..
 // Textcube will use it as global object.
 class globalCacheStorage extends pageCache {
-	function __construct($blogid = null) {
+	function __construct() {
 		$this->_isChanged = false;
 		$this->_gCacheStorage = array();
 		$this->context = Model_Context::getInstance();
 		$this->__usePageCache = $this->context->getProperty('service.pagecache');
-		if(is_null($blogid)) $this->_gBlogId = getBlogId();
-		else $this->_gBlogId = $blogid;
+		$this->_gBlogId = getBlogId();
 		if($this->context->getProperty('service.memcached') == true) {
 			$this->pool = Cache_Memcache::getInstance();
 		} else {
