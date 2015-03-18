@@ -63,8 +63,10 @@ function WikiCube_AddButton($target) {
     ob_start();
 ?>
     <script type="text/javascript">
-        editor.addCommand('wikicubeAddLink', function () {
-        });
+	editor.addCommand('wikicubeAddLink', function () {
+		insertTag(t.textarea,"[[","]]");
+		return true;
+		});
         editor.addButton('wikicubeAddWikiLink', {
             title: 'Add Wiki Link',
             cmd: 'wikicubeAddLink',

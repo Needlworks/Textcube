@@ -80,7 +80,7 @@ function deactivatePlugin($name) {
     }
     $pool = DBModel::getInstance();
     $pool->init("Plugins");
-    $pool->setQualifier("blogid", "eq", $blogid);
+    $pool->setQualifier("blogid", "eq", getBlogId());
     $pool->setQualifier("name", "eq", $name, true);
     $pool->delete();
     clearPluginSettingCache();
