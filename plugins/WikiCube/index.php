@@ -60,24 +60,28 @@ function WikiCube_FormatErrorPage($target) {
 }
 
 function WikiCube_AddButton($target) {
+	$result = '';
+	$context = Model_Context::getInstance();
+	if ($context->getProperty('suri.directive') == '/owner/entry/post' || $context->getProperty('suri.directive') == '/owner/entry/edit') {
     ob_start();
 ?>
     <script type="text/javascript">
 	editor.addCommand('wikicubeAddLink', function () {
-		insertTag(t.textarea,"[[","]]");
-		return true;
+        selectedContent = editor.selection.getContent();
+        editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
 		});
         editor.addButton('wikicubeAddWikiLink', {
             title: 'Add Wiki Link',
             cmd: 'wikicubeAddLink',
             icon: 'save'
         });
-        editor.settings.toolbar1 = editor.settings.toolbar1 + ' wikicubeAddWikiLink';
-        editor.render();
+        editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
+        //editor.render();
     </script>
 <?php
     $result = ob_get_contents();
-    ob_end_clean();
+	ob_end_clean();
+	 }
     return $target.$result;
 }
 
