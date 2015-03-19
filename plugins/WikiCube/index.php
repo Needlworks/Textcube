@@ -66,16 +66,25 @@ function WikiCube_AddButton($target) {
     ob_start();
 ?>
     <script type="text/javascript">
-	editor.addCommand('wikicubeAddLink', function () {
+	editor.addCommand('wikicubeAddLink1', function () {
         selectedContent = editor.selection.getContent();
         editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
 		});
-        editor.addButton('wikicubeAddWikiLink', {
+        editor.addButton('wikicubeAddWikiLink1', {
             title: 'Add Wiki Link',
-            cmd: 'wikicubeAddLink',
+            cmd: 'wikicubeAddLink1',
             icon: 'save'
         });
         editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
+	editor.addCommand('wikicubeAddLink2', function () {
+        selectedContent = editor.selection.getContent();
+        editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
+		});
+        editor.addButton('wikicubeAddWikiLink2', {
+            title: 'Add Wiki Link',
+            cmd: 'wikicubeAddLink2',
+            icon: 'save'
+        });
         //editor.render();
     </script>
 <?php
