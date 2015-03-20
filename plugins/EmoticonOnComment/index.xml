@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="1.0">
-  <title xml:lang="ko">댓글/방명록 이모티콘 표시</title>
-  <title xml:lang="en">Emoticons on comments</title>
-  <title xml:lang="ja">コメントと掲示板の絵文字表示</title>
-  <title xml:lang="zh-CN">评论/留言中显示个性表情</title>
-   <link>http://www.tnccompany.com</link>
-  <version>1.6</version>
-  <description xml:lang="ko">댓글 및 방명록 내용에 포함된 이모티콘 기호를 아이콘으로 바꿔서 보여줍니다. 지원되는 이모티콘은 :) ;) :P $D :( --; 입니다.</description>
-  <description xml:lang="en">This plugin automatically converts certain character strings to relevant emoticons. 
-The strings are :) ;) :P $D :( --;</description>
-  <description xml:lang="ja">コメントと掲示板の内容に含まれた絵文字の記号をアイコンに変えて見せます。出来る絵文字は :) ;) :P $D :( --; です。</description>
-  <description xml:lang="zh-CN">评论和留言中的特殊符号会转换成个性表情. 支持的符号有:) ;) :P $D :( --;</description>
-  <license>GPL</license>
-  <author xml:lang="en" link="http://www.tnccompany.com">Tatter &amp; Company</author>
-  <author xml:lang="ko" link="http://www.tnccompany.com">태터앤컴퍼니</author>
-  <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
-  <requirements>
-    <textcube>1.6</textcube>
-  </requirements>
-  <binding>
-    <listener event="ViewCommentContent">EmoticonOnComment_main</listener>
-    <listener event="ViewGuestCommentContent">EmoticonOnComment_main</listener>
-  </binding>
+    <title xml:lang="ko">댓글/방명록 이모티콘 표시</title>
+    <title xml:lang="en">Emoticons on comments</title>
+    <title xml:lang="ja">コメントと掲示板の絵文字表示</title>
+    <title xml:lang="zh-CN">评论/留言中显示个性表情</title>
+    <link>http://www.needlworks.org</link>
+    <version>2.0</version>
+    <description xml:lang="ko">댓글 및 방명록 내용에 포함된 이모티콘 기호를 아이콘으로 바꿔서 보여줍니다. 지원되는 이모티콘은 :) ;) :P $D :( --; 입니다.
+    </description>
+    <description xml:lang="en">This plugin automatically converts certain character strings to relevant emoticons.
+        The strings are :) ;) :P $D :( --;
+    </description>
+    <description xml:lang="ja">コメントと掲示板の内容に含まれた絵文字の記号をアイコンに変えて見せます。出来る絵文字は :) ;) :P $D :( --; です。</description>
+    <description xml:lang="zh-CN">评论和留言中的特殊符号会转换成个性表情. 支持的符号有:) ;) :P $D :( --;</description>
+    <license>GPL</license>
+    <author xml:lang="en" link="http://www.needlworks.org">Needlworks</author>
+    <author xml:lang="ko" link="http://www.needlworks.org">니들웍스</author>
+    <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no"/>
+    <requirements>
+        <textcube>
+            <minVersion>2.0</minVersion>
+        </textcube>
+    </requirements>
+    <binding>
+        <listener event="ViewCommentContent" handler="EmoticonOnComment_main"/>
+        <listener event="ViewGuestCommentContent" handler="EmoticonOnComment_main"/>
+    </binding>
 </plugin>

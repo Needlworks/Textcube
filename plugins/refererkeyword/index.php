@@ -26,8 +26,7 @@
 
 */
 
-function array_sort($array, $type = 'asc')
-{
+function array_sort($array, $type = 'asc') {
     $result = array();
     foreach ($array as $var => $val) {
         $set = false;
@@ -36,7 +35,9 @@ function array_sort($array, $type = 'asc')
                 if ($val > $val2 && $type == 'desc' || $val < $val2 && $type == 'asc') {
                     $temp = array();
                     foreach ($result as $var3 => $val3) {
-                        if ($var3 == $var2) $set = true;
+                        if ($var3 == $var2) {
+                            $set = true;
+                        }
                         if ($set) {
                             $temp[$var3] = $val3;
                             unset($result[$var3]);
@@ -56,17 +57,20 @@ function array_sort($array, $type = 'asc')
     return $result;
 }
 
-function unified_decode_processor($matches)
-{
+function unified_decode_processor($matches) {
     $grab = array();
     if (preg_match('@^%([[:alnum:]][[:alnum:]])$@', $matches[0], $grab) > 0) {
-        if (hexdec($grab[1]) == 0) return ' '; // 0x00은 공백으로 처리
+        if (hexdec($grab[1]) == 0) {
+            return ' ';
+        } // 0x00은 공백으로 처리
         return chr(hexdec($grab[1]));
     }
     if (preg_match('@^%u([[:alnum:]][[:alnum:]][[:alnum:]][[:alnum:]])$@', $matches[0], $grab) > 0) {
         $value = hexdec($grab[1]);
 
-        if ($value == 0) return ' '; // 0x00은 공백으로 처리
+        if ($value == 0) {
+            return ' ';
+        } // 0x00은 공백으로 처리
         if ($value < 0x0080) { // 7bit -> 1byte
             return chr($value);
         }
@@ -81,8 +85,7 @@ function unified_decode_processor($matches)
     return $matches[0]; // 번역이 안되는 놈들은 그대로 출력하자
 }
 
-function unified_decode($string)
-{
+function unified_decode($string) {
     return preg_replace_callback(
         '@(%u[[:alnum:]]{4}|%[[:alnum:]]{2})@',
         'unified_decode_processor',
@@ -90,44 +93,48 @@ function unified_decode($string)
     );
 }
 
-function tostring($text)
-{
+function tostring($text) {
     return iconv('UTF-16LE', 'UTF-8', chr(hexdec(substr($text[1], 2, 2))) . chr(hexdec(substr($text[1], 0, 2))));
 }
 
-function urlutfchr($text)
-{
+function urlutfchr($text) {
     return urldecode(preg_replace_callback('/%u([[:alnum:]]{4})/', 'tostring', $text));
 }
 
-function bringSearchWord($originalURL, $originalHost)
-{
+function bringSearchWord($originalURL, $originalHost) {
     $matches = array();
     $decodedURL = '';
     $decodedKeyword = '';
 //	$originalURL = urlutfchr($originalURL);
-	if(preg_match('/\W(q|query|k|keyword|search|stext|nlia|aqa|wd)(?:=|%3D)([^&]+)/i', $originalURL, $matches)){
-		$decodedKeyword = unified_decode($matches[2]);
-		$decodedURL = unified_decode($originalURL);}
-	else if(strpos($originalHost, 'images.google.') !== false && preg_match('/%3Fsearch%3D([^&]+)/i', $originalURL, $matches)) {
-		$decodedKeyword = unified_decode($matches[1]);
-		$decodedURL = unified_decode($originalURL);}
-	else if(strpos($originalURL, 'yahoo') !== false && preg_match('/\Wp=([^&]+)/i', $originalURL, $matches)){
-		$decodedKeyword = unified_decode($matches[1]);
-		$decodedURL = unified_decode($originalURL);}
-	else if(preg_match('@/search/(?:\w+/)*([^/?]+)@i', $originalURL, $matches)){
-		$decodedKeyword = unified_decode($matches[1]);
-		$decodedURL = unified_decode($originalURL);}
-if(!Utils_Unicode::validate($decodedKeyword)){
-	$decodedKeyword = Utils_Unicode::correct(Utils_Unicode::bring($decodedKeyword));
-	$decodedURL = Utils_Unicode::correct(Utils_Unicode::bring($decodedURL));}
+    if (preg_match('/\W(q|query|k|keyword|search|stext|nlia|aqa|wd)(?:=|%3D)([^&]+)/i', $originalURL, $matches)) {
+        $decodedKeyword = unified_decode($matches[2]);
+        $decodedURL = unified_decode($originalURL);
+    } else {
+        if (strpos($originalHost, 'images.google.') !== false && preg_match('/%3Fsearch%3D([^&]+)/i', $originalURL, $matches)) {
+            $decodedKeyword = unified_decode($matches[1]);
+            $decodedURL = unified_decode($originalURL);
+        } else {
+            if (strpos($originalURL, 'yahoo') !== false && preg_match('/\Wp=([^&]+)/i', $originalURL, $matches)) {
+                $decodedKeyword = unified_decode($matches[1]);
+                $decodedURL = unified_decode($originalURL);
+            } else {
+                if (preg_match('@/search/(?:\w+/)*([^/?]+)@i', $originalURL, $matches)) {
+                    $decodedKeyword = unified_decode($matches[1]);
+                    $decodedURL = unified_decode($originalURL);
+                }
+            }
+        }
+    }
+    if (!Utils_Unicode::validate($decodedKeyword)) {
+        $decodedKeyword = Utils_Unicode::correct(Utils_Unicode::bring($decodedKeyword));
+        $decodedURL = Utils_Unicode::correct(Utils_Unicode::bring($decodedURL));
+    }
 
-	return array($decodedKeyword, $decodedURL);
+    return array($decodedKeyword, $decodedURL);
 }
 
 
-function refererkeyword()
-{
+function refererkeyword() {
     global $pluginMenuURL, $pluginSelfParam, $configVal;
 
 
@@ -144,9 +151,13 @@ function refererkeyword()
         $Filtering = preg_split("/[\s,]+/", $data['WordFiltering']);
     }
 
-    if (!empty($_POST['showURL'])) $showURL = $_POST['showURL'];
+    if (!empty($_POST['showURL'])) {
+        $showURL = $_POST['showURL'];
+    }
 
-    if (!empty($_POST['showKeywordlistLight'])) $limitRank = $_POST['showKeywordlistLight'];
+    if (!empty($_POST['showKeywordlistLight'])) {
+        $limitRank = $_POST['showKeywordlistLight'];
+    }
 
 
     $refereres = Statistics::getRefererLogs();
@@ -158,7 +169,9 @@ function refererkeyword()
 
     for ($i = 0; $i < sizeof($refereres); $i++) {
         $record = $refereres[$i];
-        if ($i == 0) $referredend = $record['referred'];
+        if ($i == 0) {
+            $referredend = $record['referred'];
+        }
         $keyword = "";
         $passthiskeyword = 0;
 
@@ -225,13 +238,21 @@ function refererkeyword()
 										<span class="label"><select name="showKeywordlistLight"
                                                                     onchange="document.getElementById('refererkeyword-option').submit()">
                                                 <option
-                                                    value="5"<?php if ($limitRank == 5 || $limitRank == 0) echo " selected=\"selected\"";?>><?php echo _t('5위까지만 출력합니다');?></option>
+                                                    value="5"<?php if ($limitRank == 5 || $limitRank == 0) {
+                                                    echo " selected=\"selected\"";
+                                                }?>><?php echo _t('5위까지만 출력합니다');?></option>
                                                 <option
-                                                    value="10"<?php if ($limitRank == 10) echo " selected=\"selected\"";?>><?php echo _t('10위까지만 출력합니다');?></option>
+                                                    value="10"<?php if ($limitRank == 10) {
+                                                    echo " selected=\"selected\"";
+                                                }?>><?php echo _t('10위까지만 출력합니다');?></option>
                                                 <option
-                                                    value="15"<?php if ($limitRank == 15) echo " selected=\"selected\"";?>><?php echo _t('15위까지만 출력합니다');?></option>
+                                                    value="15"<?php if ($limitRank == 15) {
+                                                    echo " selected=\"selected\"";
+                                                }?>><?php echo _t('15위까지만 출력합니다');?></option>
                                                 <option
-                                                    value="3939"<?php if ($limitRank == 3939) echo " selected=\"selected\"";?>><?php echo _t('모든 순위를 출력합니다');?></option>
+                                                    value="3939"<?php if ($limitRank == 3939) {
+                                                    echo " selected=\"selected\"";
+                                                }?>><?php echo _t('모든 순위를 출력합니다');?></option>
                                             </select></span>
             </div>
             <div class="title">
@@ -239,9 +260,13 @@ function refererkeyword()
 										<span class="label"><select name="showURL"
                                                                     onchange="document.getElementById('refererkeyword-option').submit()">
                                                 <option
-                                                    value="0"<?php if ($showURL == 0 || $showURL == "") echo " selected=\"selected\"";?>><?php echo _t('출력하지 않습니다');?></option>
+                                                    value="0"<?php if ($showURL == 0 || $showURL == "") {
+                                                    echo " selected=\"selected\"";
+                                                }?>><?php echo _t('출력하지 않습니다');?></option>
                                                 <option
-                                                    value="1"<?php if ($showURL == 1) echo " selected=\"selected\"";?>><?php echo _t('출력합니다');?></option>
+                                                    value="1"<?php if ($showURL == 1) {
+                                                    echo " selected=\"selected\"";
+                                                }?>><?php echo _t('출력합니다');?></option>
                                             </select></span>
 
             </div>
@@ -279,11 +304,17 @@ function refererkeyword()
                             $i++;
                             continue;
                         }
-                        if (($wordlist[$wordwork]) > 50) $cloudstyle[$i] = "cloud1";
-                        elseif (($wordlist[$wordwork]) > 25) $cloudstyle[$i] = "cloud2";
-                        elseif (($wordlist[$wordwork]) > 15) $cloudstyle[$i] = "cloud3";
-                        elseif (($wordlist[$wordwork]) > 6) $cloudstyle[$i] = "cloud4";
-                        else $cloudstyle[$i] = "cloud5";
+                        if (($wordlist[$wordwork]) > 50) {
+                            $cloudstyle[$i] = "cloud1";
+                        } elseif (($wordlist[$wordwork]) > 25) {
+                            $cloudstyle[$i] = "cloud2";
+                        } elseif (($wordlist[$wordwork]) > 15) {
+                            $cloudstyle[$i] = "cloud3";
+                        } elseif (($wordlist[$wordwork]) > 6) {
+                            $cloudstyle[$i] = "cloud4";
+                        } else {
+                            $cloudstyle[$i] = "cloud5";
+                        }
                         $i++;
                     }
                     if (count($wordkeys) <= 10) {
@@ -301,7 +332,9 @@ function refererkeyword()
                         $wordvalue = $wordlist[$wordkey];
                         $wordkey = str_replace("\"", "&quot;", $wordkeys[$i]);
                         if ($wordvalue != $beforewordvalue) {
-                            if ($wordrank == 15) break;
+                            if ($wordrank == 15) {
+                                break;
+                            }
                             $wordrank++;
                             $beforewordvalue = $wordvalue;
                         }
@@ -366,17 +399,28 @@ function refererkeyword()
                     $rankcount++;
                     $beforekeywordvalue = $keywordvalue;
                     $samerank = 1;
-                } else $samerank++;
+                } else {
+                    $samerank++;
+                }
 
                 if ($limitRank != 3939) {
-                    if ($rankcount >= 6 && $limitRank == 5) break;
-                    if ($rankcount >= 11 && $limitRank == 10) break;
-                    if ($rankcount >= 16 && $limitRank == 15) break;
+                    if ($rankcount >= 6 && $limitRank == 5) {
+                        break;
+                    }
+                    if ($rankcount >= 11 && $limitRank == 10) {
+                        break;
+                    }
+                    if ($rankcount >= 16 && $limitRank == 15) {
+                        break;
+                    }
                 }
 
                 $RefererURLthiskeyword = $refererURL[$keywordkey];
-                if ($eversamerankTotal[$rankcount] == 1) $viewSameRank = '';
-                else $viewSameRank = " (" . $samerank . "／" . $eversamerankTotal[$rankcount] . ")";
+                if ($eversamerankTotal[$rankcount] == 1) {
+                    $viewSameRank = '';
+                } else {
+                    $viewSameRank = " (" . $samerank . "／" . $eversamerankTotal[$rankcount] . ")";
+                }
 
                 ?>
                 <tr onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
@@ -412,8 +456,7 @@ function refererkeyword()
 <?php
 }
 
-function refererkeyword_DataSet($DATA)
-{
+function refererkeyword_DataSet($DATA) {
     $cfg = Setting::fetchConfigVal($DATA);
     return true;
 }
