@@ -31,74 +31,91 @@ function WikiCube_FormatContent($target, $mother) {
     $context = Model_Context::getInstance();
     $config = $context->getProperty('plugin.config');
 
-    if(empty($config['mode'])) $config['mode'] = 'entry';
+    if (empty($config['mode'])) {
+        $config['mode'] = 'entry';
+    }
 
-	$context = Model_Context::getInstance();
-	$pattern = array(
-		'/\[\[(.*?)\|(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$2'.'">$1</a>',
-		'/\[\[tg:(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/tag/$1'.'">$1</a>',
-		'/\[\[ct:(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/category/$1'.'">$1</a>',
-		'/\[\[(.*?)\]\]/' => '<a href="'.$context->getProperty('uri.blog').'/'.$config['mode'].'/$1'.'">$1</a>'
-	);
+    $context = Model_Context::getInstance();
+    $pattern = array(
+        '/\[\[(.*?)\|(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/' . $config['mode'] . '/$2' . '">$1</a>',
+        '/\[\[tg:(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/tag/$1' . '">$1</a>',
+        '/\[\[ct:(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/category/$1' . '">$1</a>',
+        '/\[\[(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/' . $config['mode'] . '/$1' . '">$1</a>'
+    );
     foreach ($pattern as $original => $replaced)
         $target = preg_replace($original, $replaced, $target);
 
-	return $target;
+    return $target;
 }
 
 function WikiCube_FormatErrorPage($target) {
     $context = Model_Context::getInstance();
     $config = $context->getProperty('plugin.config');
-	if(empty($config['mode'])) $config['mode'] = 'entry';
+    if (empty($config['mode'])) {
+        $config['mode'] = 'entry';
+    }
 
-	$context = Model_Context::getInstance();
-	$additional = '<div style="border:none;width:100%;text-align:center;"><a href="'.$context->getProperty('uri.blog').
-		'/owner/entry/post?slogan='.$context->getProperty('suri.value').
-		($config['mode'] == 'entry' ? '' : '&category=-3').	
-		'">'._text('Empty page. Click here to add a new entry.').'</a></div>';
-	return $target.$additional;
+    $context = Model_Context::getInstance();
+    $additional = '<div style="border:none;width:100%;text-align:center;"><a href="' . $context->getProperty('uri.blog') .
+        '/owner/entry/post?slogan=' . $context->getProperty('suri.value') .
+        ($config['mode'] == 'entry' ? '' : '&category=-3') .
+        '">' . _text('Empty page. Click here to add a new entry.') . '</a></div>';
+    return $target . $additional;
 }
 
 function WikiCube_AddButton($target) {
-	$result = '';
-	$context = Model_Context::getInstance();
-	if ($context->getProperty('suri.directive') == '/owner/entry/post' || $context->getProperty('suri.directive') == '/owner/entry/edit') {
-    ob_start();
-?>
-    <script type="text/javascript">
-	editor.addCommand('wikicubeAddLink1', function () {
-        selectedContent = editor.selection.getContent();
-        editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
-		});
-        editor.addButton('wikicubeAddWikiLink1', {
-            title: 'Add Wiki Link',
-            cmd: 'wikicubeAddLink1',
-            icon: 'save'
-        });
-        editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
-	editor.addCommand('wikicubeAddLink2', function () {
-        selectedContent = editor.selection.getContent();
-        editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
-		});
-        editor.addButton('wikicubeAddWikiLink2', {
-            title: 'Add Wiki Link',
-            cmd: 'wikicubeAddLink2',
-            icon: 'save'
-        });
-        //editor.render();
-    </script>
-<?php
-    $result = ob_get_contents();
-	ob_end_clean();
-	 }
-    return $target.$result;
+    $result = '';
+    $context = Model_Context::getInstance();
+    if ($context->getProperty('suri.directive') == '/owner/entry/post' || $context->getProperty('suri.directive') == '/owner/entry/edit') {
+        ob_start();
+        ?>
+        <script type="text/javascript">
+            editor.addCommand('wikicubeAddLink', function () {
+                selectedContent = editor.selection.getContent();
+                editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
+            });
+            editor.addButton('wikicubeAddWikiLink', {
+                title: 'Add Wiki Link',
+                cmd: 'wikicubeAddLink',
+                icon: 'save'
+            });
+            editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
+            editor.addCommand('wikicubeAddTagLink', function () {
+                selectedContent = editor.selection.getContent();
+                editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
+            });
+            editor.addButton('wikicubeAddTagLink', {
+                title: 'Add Wiki Tag Link',
+                cmd: 'wikicubeAddTagLink',
+                icon: 'save'
+            });
+            editor.addCommand('wikicubeAddCategoryLink', function () {
+                selectedContent = editor.selection.getContent();
+                editor.execCommand('mceInsertContent', false, "[[ct:" + selectedContent + "]]");
+            });
+            editor.addButton('wikicubeAddCategoryLink', {
+                title: 'Add Wiki Link',
+                cmd: 'wikicubeAddCategoryLink',
+                icon: 'save'
+            });
+            //editor.render();
+        </script>
+        <?php
+        $result = ob_get_contents();
+        ob_end_clean();
+    }
+    return $target . $result;
 }
 
 function WikiCube_DataHandler($data) {
     $context = Model_Context::getInstance();
     $config = $context->getProperty('plugin.config');
 
-    if (!array_key_exists('mode',$config)) return false;
-    else return true;
+    if (!array_key_exists('mode', $config)) {
+        return false;
+    } else {
+        return true;
+    }
 }
+
 ?>
