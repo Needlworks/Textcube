@@ -79,7 +79,6 @@ function WikiCube_AddButton($target) {
                 cmd: 'wikicubeAddLink',
                 icon: 'save'
             });
-            editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
             editor.addCommand('wikicubeAddTagLink', function () {
                 selectedContent = editor.selection.getContent();
                 editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
@@ -98,6 +97,9 @@ function WikiCube_AddButton($target) {
                 cmd: 'wikicubeAddCategoryLink',
                 icon: 'save'
             });
+            editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
+            editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddTagLink';
+            editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddCategoryLink';
             //editor.render();
         </script>
         <?php
