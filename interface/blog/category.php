@@ -35,7 +35,7 @@ if ($skinSetting['showListOnCategory'] != 0) {
 	// Keylog as category description
 	if(Setting::getBlogSettingGlobal('useKeywordAsCategory',true)==true) {
 		$cache->reset();
-		$cache->name = 'keyword-'.$tag.'-';
+		$cache->name = 'keyword-'.$category.'-';
 		if($cache->load()) {
 			require ROOT . '/interface/common/blog/entries.php';
 		} else {
@@ -56,7 +56,7 @@ if ($skinSetting['showListOnCategory'] != 2) {
 	// Keylog as category description
 	if(Setting::getBlogSettingGlobal('useKeywordAsCategory',true)==true) {
 		$cache->reset();
-		$cache->name = 'keyword-'.$tag.'-';
+		$cache->name = 'keyword-'.$category.'-';
 		if($cache->load()) {
 			require ROOT . '/interface/common/blog/entries.php';
 		} else {
