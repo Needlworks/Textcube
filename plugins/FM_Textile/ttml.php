@@ -1,6 +1,6 @@
 <?php
 // PHP TTML parser
-// Version 1.10 (2014.12.14)
+// Version 1.10.6 (2015.03.23)
 // 2004-2015 Needlworks / TNF / Tatter and Company
 // Original TTML is created by JH, 2004.4
 // TTML port for Tattertools 1.0 by papacha, 2005.10
@@ -20,11 +20,7 @@ function FM_TTML_bindTags($id, $content) {
 		$less2 = htmlspecialchars(str_replace("\"", "&quot;", str_replace("'", "&#39;", $less)));
 		$postfix = substr($content, $end + 4);
 		$content = $prefix;
-		if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
-			$content .= "<div>[$more | $less]<br />$full</div>";
-		} else {
-			$content .= "<p id=\"more{$id}_$no\" class=\"moreless_fold\"><span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '{$id}_$no','$more2','$less2'); return false;\">$more</span></p><div id=\"content{$id}_$no\" class=\"moreless_content\" style=\"display: none;\">$full</div>";
-		}
+		$content .= "<p id=\"more{$id}_$no\" class=\"moreless_fold\"><span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '{$id}_$no','$more2','$less2'); return false;\">$more</span></p><div id=\"content{$id}_$no\" class=\"moreless_content\" style=\"display: none;\">$full</div>";
 		$content .= $postfix;
 	}
 	return $content;
