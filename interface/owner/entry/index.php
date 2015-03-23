@@ -902,148 +902,241 @@ if(isset($_POST['visibility'])) $returnURLpostfix .= (empty($returnURLpostfix) ?
 									</thead>
 									<tbody>
 <?php
-for ($i=0; $i<sizeof($entries); $i++) {
-	$entry = $entries[$i];
-	
-	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
-	if ($entry['category'] == -1)
-		$className .= ' keyword-line';
-	else if ($entry['category'] == -2)
-		$className .= ' notice-line';
+if (sizeof($entries) == 0) {
 ?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection">
-												<input id="entryCheckId<?php echo $entry['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $entry['id'];?>" onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);" />
-												<label for="entryCheckId<?php echo $entry['id'];?>"></label>
-											</td>
-											<td class="starred"><?php
-	if($entry['starred'] == 2) {
-?>
-												<span id="starIcon_<?php echo $entry['id'];?>" class="star-icon"><a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=unmark" onclick="setEntryStar(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('별표를 지웁니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>
+        <tr class="empty-list">
+            <td colspan="11"><?php echo _t('글이 없습니다');?></td>
+        </tr>
 <?php
-	} else {
-?>
-												<span id="starIcon_<?php echo $entry['id'];?>" class="unstar-icon"><a href="<?php echo $blogURL;?>/owner/entry/star/<?php echo $entry['id'];?>?command=mark" onclick="setEntryStar(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a></span>
-<?php
-	}
-?></td>
-											<td class="title">
-												<?php echo ($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : '');?>
-<?php
-	$editmode = 'entry';
-	$entryModifyLink = $entry['id'];
-	$contentLength = 75-UTF8::lengthAsEm(htmlspecialchars($entry['title']));
-?>
-												<a href="<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>" onclick="document.getElementById('list-form').action='<?php echo $blogURL;?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
-												<span class="description"><?php echo (($contentLength > 0) ? UTF8::lessenAsEm(removeAllTags(strip_tags($entry['content'])),$contentLength) : '');?></span>
-											</td>
-											<td class="category">
-<?php
-	if ($entry['category'] == 0) {
-?>
-<a id="category_<?php echo $entry['id'];?>" class="uncategorized" href="<?php echo $blogURL;?>/owner/entry?category=-3"><?php echo _t('분류 없음');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
-<?php
-	} else if (!empty($entry['categoryLabel'])) {
-?>
-												<a id="category_<?php echo $entry['id'];?>" class="categorized" href="<?php echo $blogURL;?>/owner/entry?category=<?php echo $entry['category'];?>"><?php echo htmlspecialchars($entry['categoryLabel']);?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
-<?php
-	} else if ($entry['category'] == -2) {
-?>
-												<a id="category_<?php echo $entry['id'];?>" class="notice" href="<?php echo $blogURL;?>/owner/entry?category=-2"><?php echo _t('공지');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
-<?php
-	} else if ($entry['category'] == -1) {
-?>
-												<a id="category_<?php echo $entry['id'];?>" class="keyword" href="<?php echo $blogURL;?>/owner/entry?category=-1"><?php echo _t('키워드');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
-<?php
-	} else if ($entry['category'] == -4) {
-?>
-												<a id="category_<?php echo $entry['id'];?>" class="template" href="<?php echo $blogURL;?>/owner/entry?category=-4"><?php echo _t('서식');?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
-<?php
-	}
-?>
-											</td>
-											<td class="author">
-												<span id="author_<?=$entry['id']?>"><?php echo User::getName($entry['userid']);?></span> 
-											</td>
-											<td class="response">
-											<a href="<?php echo $blogURL.((isset($blog['useSloganOnPost']) && $blog['useSloganOnPost'] == 1) ? '/entry/'.$entry['slogan'] : '/'.$entry['id']).'#entry'.$entry['id'].'Comment';?>"><?php echo $entry['comments']+$entry['trackbacks'];?></a>
-											</td>
-											<td class="date"><?php echo Timestamp::formatDate($entry['published']);?></td>
-											<td class="status">
-<?php
-	if($entry['category'] == -4) {
-?>
-												<span id="templateInstruction"><?php echo _t('서식');?></span>
-<?php
+} else {
+    for ($i = 0; $i < sizeof($entries); $i++) {
+        $entry = $entries[$i];
 
-	} else if ($entry['visibility'] == 0) {
-?>
-												<span id="privateIcon_<?php echo $entry['id'];?>" class="private-on-icon" title="<?php echo _t('현재 비공개 상태입니다.');?>"><span class="text"><?php echo _t('비공개');?></span></span>
-												<span id="protectedIcon_<?php echo $entry['id'];?>" class="protected-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=protect" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a></span>
-												<span id="publicIcon_<?php echo $entry['id'];?>" class="public-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a></span>
+        $className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+        $className .= ($i == sizeof($entries) - 1) ? ' last-line' : '';
+        if ($entry['category'] == -1) {
+            $className .= ' keyword-line';
+        } else {
+            if ($entry['category'] == -2) {
+                $className .= ' notice-line';
+            }
+        }
+        ?>
+        <tr class="<?php echo $className; ?> inactive-class" onmouseover="rolloverClass(this, 'over')"
+            onmouseout="rolloverClass(this, 'out')">
+            <td class="selection">
+                <input id="entryCheckId<?php echo $entry['id']; ?>" type="checkbox" class="checkbox" name="entry"
+                       value="<?php echo $entry['id']; ?>"
+                       onclick="document.getElementById('allCheckedTop').checked=false;document.getElementById('allCheckedBottom').checked=false; toggleThisTr(this);"/>
+                <label for="entryCheckId<?php echo $entry['id']; ?>"></label>
+            </td>
+            <td class="starred"><?php
+                if ($entry['starred'] == 2) {
+                    ?>
+                    <span id="starIcon_<?php echo $entry['id']; ?>" class="star-icon"><a
+                            href="<?php echo $blogURL; ?>/owner/entry/star/<?php echo $entry['id']; ?>?command=unmark"
+                            onclick="setEntryStar(<?php echo $entry['id']; ?>, 1); return false;"
+                            title="<?php echo _t('별표를 지웁니다.'); ?>"><span class="text"><?php echo _t('별표'); ?></span></a></span>
+                <?php
+                } else {
+                    ?>
+                    <span id="starIcon_<?php echo $entry['id']; ?>" class="unstar-icon"><a
+                            href="<?php echo $blogURL; ?>/owner/entry/star/<?php echo $entry['id']; ?>?command=mark"
+                            onclick="setEntryStar(<?php echo $entry['id']; ?>, 2); return false;"
+                            title="<?php echo _t('별표를 줍니다.'); ?>"><span class="text"><?php echo _t('별표'); ?></span></a></span>
+                <?php
+                }
+                ?></td>
+            <td class="title">
+                <?php echo($entry['draft'] ? ('<span class="temp-icon bullet" title="' . _t('임시 저장본이 있습니다.') . '"><span>' . _t('[임시]') . '</span></span> ') : ''); ?>
+                <?php
+                $editmode = 'entry';
+                $entryModifyLink = $entry['id'];
+                $contentLength = 75 - UTF8::lengthAsEm(htmlspecialchars($entry['title']));
+                ?>
+                <a href="<?php echo $blogURL; ?>/owner/<?php echo $editmode; ?>/edit/<?php echo $entryModifyLink; ?>"
+                   onclick="document.getElementById('list-form').action='<?php echo $blogURL; ?>/owner/<?php echo $editmode; ?>/edit/<?php echo $entryModifyLink; ?>'<?php echo($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : ''); ?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']); ?></a>
+                <span
+                    class="description"><?php echo(($contentLength > 0) ? UTF8::lessenAsEm(removeAllTags(strip_tags($entry['content'])), $contentLength) : ''); ?></span>
+            </td>
+            <td class="category">
+                <?php
+                if ($entry['category'] == 0) {
+                    ?>
+                    <a id="category_<?php echo $entry['id']; ?>" class="uncategorized"
+                       href="<?php echo $blogURL; ?>/owner/entry?category=-3"><?php echo _t('분류 없음'); ?><?php echo($entry['visibility'] < 0 ? '(' . _t('예약된 글') . ')' : ''); ?></a>
+                <?php
+                } else {
+                    if (!empty($entry['categoryLabel'])) {
+                        ?>
+                        <a id="category_<?php echo $entry['id']; ?>" class="categorized"
+                           href="<?php echo $blogURL; ?>/owner/entry?category=<?php echo $entry['category']; ?>"><?php echo htmlspecialchars($entry['categoryLabel']); ?><?php echo($entry['visibility'] < 0 ? '(' . _t('예약된 글') . ')' : ''); ?></a>
+                    <?php
+                    } else {
+                        if ($entry['category'] == -2) {
+                            ?>
+                            <a id="category_<?php echo $entry['id']; ?>" class="notice"
+                               href="<?php echo $blogURL; ?>/owner/entry?category=-2"><?php echo _t('공지'); ?><?php echo($entry['visibility'] < 0 ? '(' . _t('예약된 글') . ')' : ''); ?></a>
+                        <?php
+                        } else {
+                            if ($entry['category'] == -1) {
+                                ?>
+                                <a id="category_<?php echo $entry['id']; ?>" class="keyword"
+                                   href="<?php echo $blogURL; ?>/owner/entry?category=-1"><?php echo _t('키워드'); ?><?php echo($entry['visibility'] < 0 ? '(' . _t('예약된 글') . ')' : ''); ?></a>
+                            <?php
+                            } else {
+                                if ($entry['category'] == -4) {
+                                    ?>
+                                    <a id="category_<?php echo $entry['id']; ?>" class="template"
+                                       href="<?php echo $blogURL; ?>/owner/entry?category=-4"><?php echo _t('서식'); ?><?php echo($entry['visibility'] < 0 ? '(' . _t('예약된 글') . ')' : ''); ?></a>
+                                <?php
+                                }
+                            }
+                        }
+                    }
+                }
+                ?>
+            </td>
+            <td class="author">
+                <span id="author_<?= $entry['id'] ?>"><?php echo User::getName($entry['userid']); ?></span>
+            </td>
+            <td class="response">
+                <a href="<?php echo $blogURL . ((isset($blog['useSloganOnPost']) && $blog['useSloganOnPost'] == 1) ? '/entry/' . $entry['slogan'] : '/' . $entry['id']) . '#entry' . $entry['id'] . 'Comment'; ?>"><?php echo $entry['comments'] + $entry['trackbacks']; ?></a>
+            </td>
+            <td class="date"><?php echo Timestamp::formatDate($entry['published']); ?></td>
+            <td class="status">
+                <?php
+                if ($entry['category'] == -4) {
+                    ?>
+                    <span id="templateInstruction"><?php echo _t('서식'); ?></span>
+                <?php
+
+                } else {
+                    if ($entry['visibility'] == 0) {
+                        ?>
+                        <span id="privateIcon_<?php echo $entry['id']; ?>" class="private-on-icon"
+                              title="<?php echo _t('현재 비공개 상태입니다.'); ?>"><span
+                                class="text"><?php echo _t('비공개'); ?></span></span>
+                        <span id="protectedIcon_<?php echo $entry['id']; ?>" class="protected-off-icon"><a
+                                href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=protect"
+                                onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 1); return false;"
+                                title="<?php echo _t('현재 상태를 보호로 전환합니다.'); ?>"><span
+                                    class="text"><?php echo _t('보호'); ?></span></a></span>
+                        <span id="publicIcon_<?php echo $entry['id']; ?>" class="public-off-icon"><a
+                                href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=public"
+                                onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 2); return false;"
+                                title="<?php echo _t('현재 상태를 공개로 전환합니다.'); ?>"><span
+                                    class="text"><?php echo _t('공개'); ?></span></a></span>
+                    <?php
+                    } else {
+                        if ($entry['visibility'] == 1) {
+                            ?>
+                            <span id="privateIcon_<?php echo $entry['id']; ?>" class="private-off-icon"><a
+                                    href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=private"
+                                    onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 0); return false;"
+                                    title="<?php echo _t('현재 상태를 비공개로 전환합니다.'); ?>"><span
+                                        class="text"><?php echo _t('비공개'); ?></span></a></span>
+                            <span id="protectedIcon_<?php echo $entry['id']; ?>" class="protected-on-icon"
+                                  title="<?php echo _t('현재 보호 상태입니다.'); ?>"><a
+                                    href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>#status-line"
+                                    onclick="showProtectSetter('<?php echo $entry['id']; ?>'); return false;"
+                                    title="<?php echo _t('보호 패스워드를 설정합니다.'); ?>"><span
+                                        class="text"><?php echo _t('보호설정'); ?></span></a></span>
+                            <span id="publicIcon_<?php echo $entry['id']; ?>" class="public-off-icon"><a
+                                    href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=public"
+                                    onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 2); return false;"
+                                    title="<?php echo _t('현재 상태를 공개로 전환합니다.'); ?>"><span
+                                        class="text"><?php echo _t('공개'); ?></span></a></span>
+                        <?php
+                        } else {
+                            if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
+                                ?>
+                                <span id="privateIcon_<?php echo $entry['id']; ?>" class="private-off-icon"><a
+                                        href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=private"
+                                        onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 0); return false;"
+                                        title="<?php echo _t('현재 상태를 비공개로 전환합니다.'); ?>"><span
+                                            class="text"><?php echo _t('비공개'); ?></span></a></span>
+                                <span id="protectedIcon_<?php echo $entry['id']; ?>" class="protected-off-icon"><a
+                                        href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=protect"
+                                        onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 1); return false;"
+                                        title="<?php echo _t('현재 상태를 보호로 전환합니다.'); ?>"><span
+                                            class="text"><?php echo _t('보호'); ?></span></a></span>
+                                <span id="publicIcon_<?php echo $entry['id']; ?>" class="public-on-icon"
+                                      title="<?php echo _t('현재 공개 상태입니다.'); ?>"><span
+                                        class="text"><?php echo _t('공개'); ?></span></span>
+                            <?php
+                            } else {
+                                ?>
+                                <span id="privateIcon_<?php echo $entry['id']; ?>" class="private-off-icon"><span
+                                        class="text"><?php echo _t('비공개'); ?></span></span>
+                                <span id="protectedIcon_<?php echo $entry['id']; ?>" class="protected-off-icon"><span
+                                        class="text"><?php echo _t('보호'); ?></span></span>
+                                <span id="publicIcon_<?php echo $entry['id']; ?>" class="public-off-icon"><span
+                                        class="text"><?php echo _t('공개'); ?></span></span>
+                            <?php
+                            }
+                        }
+                    }
+                }
+                ?>
+            </td>
+            <td class="syndicate">
+                <?php
+                if ($entry['category'] == -4 || $entry['visibility'] < 0) {
+                    echo '';
+                } else {
+                    if ($entry['visibility'] == 3) {
+                        ?>
+                        <span id="syndicatedIcon_<?php echo $entry['id']; ?>" class="syndicated-on-icon"><a
+                                href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=public"
+                                onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 2); return false;"
+                                title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.'); ?>"><span
+                                    class="text"><?php echo _t('발행'); ?></span></a></span>
+                    <?php
+                    } else {
+                        ?>
+                        <span id="syndicatedIcon_<?php echo $entry['id']; ?>" class="syndicated-off-icon"><a
+                                href="<?php echo $blogURL; ?>/owner/entry/visibility/<?php echo $entry['id']; ?>?command=syndicate"
+                                onclick="setEntryVisibility(<?php echo $entry['id']; ?>, 3); return false;"
+                                title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.'); ?>"><span
+                                    class="text"><?php echo _t('미발행'); ?></span></a></span>
+                    <?php
+                    }
+                }
+                ?>
+            </td>
+            <?php
+            if ($entry['category'] != -4) {
+                ?>
+                <td class="trackback">
+                    <?php
+                    if ($entry['category'] < 0) {
+                    } else {
+                        ?>
+                        <a id="trackbackIcon_<?php echo $entry['id']; ?>" class="trackback-off-button button"
+                           href="#void" onclick="showTrackbackSender(<?php echo $entry['id']; ?>,event);return false;"
+                           title="<?php echo _t('관련된 글에 글을 겁니다.'); ?>"><span
+                                class="text"><?php echo _t('글걸기'); ?></span></a>
+                    <?php
+                    }
+                    ?>
+                </td>
+            <?php
+            } else {
+                ?>
+                <td class="empty"></td>
+            <?php
+            }
+            ?>
+            <td class="delete">
+                <a class="delete-button button"
+                   href="<?php echo $blogURL; ?>/owner/entry/delete/<?php echo $entry['id']; ?>"
+                   onclick="deleteEntry(<?php echo $entry['id']; ?>); return false;"
+                   title="<?php echo _t('이 포스트를 삭제합니다.'); ?>"><span class="text"><?php echo _t('삭제'); ?></span></a>
+            </td>
+        </tr>
 <?php
-	} else if ($entry['visibility'] == 1) {
-?>
-												<span id="privateIcon_<?php echo $entry['id'];?>" class="private-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=private" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a></span>
-												<span id="protectedIcon_<?php echo $entry['id'];?>" class="protected-on-icon" title="<?php echo _t('현재 보호 상태입니다.');?>"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>#status-line" onclick="showProtectSetter('<?php echo $entry['id'];?>'); return false;" title="<?php echo _t('보호 패스워드를 설정합니다.');?>"><span class="text"><?php echo _t('보호설정');?></span></a></span>
-												<span id="publicIcon_<?php echo $entry['id'];?>" class="public-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('현재 상태를 공개로 전환합니다.');?>"><span class="text"><?php echo _t('공개');?></span></a></span>
-<?php
-	} else if ($entry['visibility'] == 2 || $entry['visibility'] == 3) {
-?>
-												<span id="privateIcon_<?php echo $entry['id'];?>" class="private-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=private" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 0); return false;" title="<?php echo _t('현재 상태를 비공개로 전환합니다.');?>"><span class="text"><?php echo _t('비공개');?></span></a></span>
-												<span id="protectedIcon_<?php echo $entry['id'];?>" class="protected-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=protect" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 1); return false;" title="<?php echo _t('현재 상태를 보호로 전환합니다.');?>"><span class="text"><?php echo _t('보호');?></span></a></span>
-												<span id="publicIcon_<?php echo $entry['id'];?>" class="public-on-icon" title="<?php echo _t('현재 공개 상태입니다.');?>"><span class="text"><?php echo _t('공개');?></span></span>
-<?php
-	} else {
-?>
-												<span id="privateIcon_<?php echo $entry['id'];?>" class="private-off-icon"><span class="text"><?php echo _t('비공개');?></span></span>
-												<span id="protectedIcon_<?php echo $entry['id'];?>" class="protected-off-icon"><span class="text"><?php echo _t('보호');?></span></span>
-												<span id="publicIcon_<?php echo $entry['id'];?>" class="public-off-icon"><span class="text"><?php echo _t('공개');?></span></span>
-<?php
-	}
-?>
-											</td>
-											<td class="syndicate">
-<?php
-	if($entry['category'] == -4 || $entry['visibility'] < 0) {
-		echo '';
-	} else if ($entry['visibility'] == 3) {
-?>
-												<span id="syndicatedIcon_<?php echo $entry['id'];?>" class="syndicated-on-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=public" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 2); return false;" title="<?php echo _t('발행되었습니다. 클릭하시면 발행을 취소합니다.');?>"><span class="text"><?php echo _t('발행');?></span></a></span>
-<?php
-	} else {
-?>
-												<span id="syndicatedIcon_<?php echo $entry['id'];?>" class="syndicated-off-icon"><a href="<?php echo $blogURL;?>/owner/entry/visibility/<?php echo $entry['id'];?>?command=syndicate" onclick="setEntryVisibility(<?php echo $entry['id'];?>, 3); return false;" title="<?php echo _t('발행되지 않았습니다. 클릭하시면 발행으로 전환합니다.');?>"><span class="text"><?php echo _t('미발행');?></span></a></span>
-<?php
-	}
-?>
-											</td>
-<?php
-if ($entry['category'] != -4) {
-?>
-											<td class="trackback">
-<?php
-if($entry['category'] < 0) {
-} else {
-?>
-												<a id="trackbackIcon_<?php echo $entry['id'];?>" class="trackback-off-button button" href="#void" onclick="showTrackbackSender(<?php echo $entry['id'];?>,event);return false;" title="<?php echo _t('관련된 글에 글을 겁니다.');?>"><span class="text"><?php echo _t('글걸기');?></span></a>
-<?php
-}
-?>
-											</td>
-<?php
-} else {
-?>
-											<td class="empty"></td>
-<?php
-}
-?>
-											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/entry/delete/<?php echo $entry['id'];?>" onclick="deleteEntry(<?php echo $entry['id'];?>); return false;" title="<?php echo _t('이 포스트를 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
-											</td>
-										</tr>
-<?php
+    }
 }
 ?>
 									</tbody>
