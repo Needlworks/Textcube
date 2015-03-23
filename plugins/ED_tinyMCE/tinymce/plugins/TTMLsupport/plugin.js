@@ -1,6 +1,6 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.4.3.20150303
+ * Version 2.4.4.20150323
  *
  * Created       : May 30, 2011
  * Last modified : Mar 3, 2015
@@ -120,6 +120,13 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                     var less = t._htmlspecialchars(remain.substring(0, remain.indexOf("|")));
                     remain = remain.substring(remain.indexOf("|"), remain.length);
                     var body = remain.substring(remain.indexOf("|") + 1, remain.length);
+                    // Avoid the bug
+                    more = more.replaceAll("&lt;span id=&quot;CmCaReT&quot;&gt;&lt;/span&gt;", "");
+                    more = more.replaceAll("&lt;", "&amp;lt;");
+                    more = more.replaceAll("&gt;", "&amp;gt;");
+                    less = less.replaceAll("&lt;span id=&quot;CmCaReT&quot;&gt;&lt;/span&gt;", "");
+                    less = less.replaceAll("&lt;", "&amp;lt;");
+                    less = less.replaceAll("&gt;", "&amp;gt;");
 
                     str = str.replaceAll("[#M_" + block + "_M#]", '<div class="tattermoreless" more="' + more + '" less="' + less + '">' + body + '</div>');
                 }
@@ -1781,7 +1788,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             author: 'Jeongkyu Shin',
             authorurl: 'https://www.textcube.org',
             infourl: 'http://github.com/needlworks/textcube',
-            version: "2.4.3"
+            version: "2.4.4"
         };
     }
 });
