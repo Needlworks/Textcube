@@ -1253,6 +1253,14 @@ table.data-inbox tbody tr td.inactive-class
 	background-color                 : transparent;
 }
 
+/* empty box */
+table.data-inbox tbody tr.empty-list
+{
+	height: 450px;
+	font-size:1.5em;
+}
+
+
 /* data subbox */
 .data-subbox
 {

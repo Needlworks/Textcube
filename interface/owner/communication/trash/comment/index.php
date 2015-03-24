@@ -321,108 +321,145 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 										</tr>
 									</thead>
 <?php
-if (sizeof($comments) > 0) echo "									<tbody>";
-$nameNumber = array();
-$ipNumber = array();
-for ($i=0; $i<sizeof($comments); $i++) {
-	$comment = $comments[$i];
+echo "									<tbody>";
+if (sizeof($comments) == 0) {
+    ?>
+    <tr class="empty-list">
+        <td colspan="7"><?php echo _t('댓글이 없습니다');?></td>
+    </tr>
+<?php
+} else {
+    $nameNumber = array();
+    $ipNumber = array();
+    for ($i=0; $i<sizeof($comments); $i++) {
+        $comment = $comments[$i];
 
-	($i % 2) == 1 ? $className = 'even-line' : $className = 'odd-line';
-	$comment['parent'] ? $className .= ' reply-line' : null;
-	$filter = new Filter();
-	if (Filter::isFiltered('name', $comment['name']))
-		$isNameFiltered = true;
-	else
-		$isNameFiltered = false;
+        ($i % 2) == 1 ? $className = 'even-line' : $className = 'odd-line';
+        $comment['parent'] ? $className .= ' reply-line' : null;
+        $filter = new Filter();
+        if (Filter::isFiltered('name', $comment['name'])) {
+            $isNameFiltered = true;
+        } else {
+            $isNameFiltered = false;
+        }
 
-	if (Filter::isFiltered('ip', $comment['ip']))
-		$isIpFiltered = true;
-	else
-		$isIpFiltered = false;
+        if (Filter::isFiltered('ip', $comment['ip'])) {
+            $isIpFiltered = true;
+        } else {
+            $isIpFiltered = false;
+        }
 
-	if (!isset($nameNumber[$comment['name']])) {
-		$nameNumber[$comment['name']] = $i;
-		$currentNumber = $i;
-	} else {
-		$currentNumber = $nameNumber[$comment['name']];
-	}
+        if (!isset($nameNumber[$comment['name']])) {
+            $nameNumber[$comment['name']] = $i;
+            $currentNumber = $i;
+        } else {
+            $currentNumber = $nameNumber[$comment['name']];
+        }
 
-	if (!isset($ipNumber[$comment['ip']])) {
-		$ipNumber[$comment['ip']] = $i;
-		$currentIP = $i;
-	} else {
-		$currentIP = $ipNumber[$comment['ip']];
-	}
+        if (!isset($ipNumber[$comment['ip']])) {
+            $ipNumber[$comment['ip']] = $i;
+            $currentIP = $i;
+        } else {
+            $currentIP = $ipNumber[$comment['ip']];
+        }
 
-	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
-?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
-											<td class="selection">
-												<input id="commentCheckId<?php echo $comment['id'];?>" type="checkbox" class="checkbox" name="entry" value="<?php echo $comment['id'];?>" onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);" />
-												<label for="commentCheckId<?php echo $comment['id'];?>"></label>
-											</td>
-											<td class="date"><?php echo Timestamp::formatDate($comment['written']);?></td>
-											<td class="name">
-<?php
-	if ($isNameFiltered) {
-?>
-												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=unblock&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', '<?php echo $filter->id;?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
-<?php
-	} else {
-?>
-												<a id="nameFilter<?php echo $currentNumber;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>&amp;mode=name&amp;command=block&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']);?>', '<?php echo $filter->id;?>', 'name'); return false;" title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
-<?php
-	}
-?>
-												<a href="<?php echo $blogURL;?>/owner/communication/trash/comment?name=<?php echo urlencode(escapeJSInAttribute($comment['name']));?>" title="<?php echo _t('이 이름으로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo htmlspecialchars($comment['name']);?></a>
-											</td>
-											<td class="content">
-<?php
-	echo '<a class="entryURL" href="'.$blogURL.'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
-	echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
+        $className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+        $className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
+        ?>
+        <tr class="<?php echo $className; ?> inactive-class" onmouseover="rolloverClass(this, 'over')"
+            onmouseout="rolloverClass(this, 'out')">
+            <td class="selection">
+                <input id="commentCheckId<?php echo $comment['id']; ?>" type="checkbox" class="checkbox" name="entry"
+                       value="<?php echo $comment['id']; ?>"
+                       onclick="document.getElementById('allChecked').checked=false; toggleThisTr(this);"/>
+                <label for="commentCheckId<?php echo $comment['id']; ?>"></label>
+            </td>
+            <td class="date"><?php echo Timestamp::formatDate($comment['written']); ?></td>
+            <td class="name">
+                <?php
+                if ($isNameFiltered) {
+                    ?>
+                    <a id="nameFilter<?php echo $currentNumber; ?>-<?php echo $i; ?>" class="block-icon bullet"
+                       href="<?php echo $blogURL; ?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name'])); ?>&amp;mode=name&amp;command=unblock&amp;id=<?php echo $filter->id; ?>"
+                       onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']); ?>', '<?php echo $filter->id; ?>', 'name'); return false;"
+                       title="<?php echo _t('이 이름은 차단되었습니다. 클릭하시면 차단을 해제합니다.'); ?>"><span
+                            class="text"><?php echo _t('[차단됨]'); ?></span></a>
+                <?php
+                } else {
+                    ?>
+                    <a id="nameFilter<?php echo $currentNumber; ?>-<?php echo $i; ?>" class="unblock-icon bullet"
+                       href="<?php echo $blogURL; ?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['name'])); ?>&amp;mode=name&amp;command=block&amp;id=<?php echo $filter->id; ?>"
+                       onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['name']); ?>', '<?php echo $filter->id; ?>', 'name'); return false;"
+                       title="<?php echo _t('이 이름은 차단되지 않았습니다. 클릭하시면 차단합니다.'); ?>"><span
+                            class="text"><?php echo _t('[허용됨]'); ?></span></a>
+                <?php
+                }
+                ?>
+                <a href="<?php echo $blogURL; ?>/owner/communication/trash/comment?name=<?php echo urlencode(escapeJSInAttribute($comment['name'])); ?>"
+                   title="<?php echo _t('이 이름으로 등록된 댓글 목록을 보여줍니다.'); ?>"><?php echo htmlspecialchars($comment['name']); ?></a>
+            </td>
+            <td class="content">
+                <?php
+                echo '<a class="entryURL" href="' . $blogURL . '/' . $comment['entry'] . '#comment' . $comment['id'] . '" title="' . _t('댓글이 작성된 포스트로 직접 이동합니다.') . '">';
+                echo '<span class="entry-title">' . htmlspecialchars($comment['title']) . '</span>';
 
-	if ($comment['title'] != '' && $comment['parent'] != '') {
-		echo '<span class="divider"> | </span>';
-	}
-	if($comment['entry'] == 0) {	// Guestbook case
-		if(empty($comment['parent'])) {
-			echo '<span class="explain">' . _t('방명록') . '</span>';
-		} else {
-			echo '<span class="explain">' . _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) . '</span>';
-		}
-	} else {
-		echo empty($comment['parent']) ? '' : '<span class="explain">' . _f('%1 님의 댓글에 대한 댓글',$comment['parentName']) . '</span>';
-	}
-	echo "</a>";
-?>
-												<?php echo ((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : '');?>
-												<?php echo htmlspecialchars(UTF8::lessen($comment['comment'],80));?>
-											</td>
-											<td class="ip">
-<?php
-	if ($isIpFiltered) {
-?>
-												<a id="ipFilter<?php echo $currentIP;?>-<?php echo $i;?>" class="block-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>&amp;mode=ip&amp;command=unblock&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']);?>', '<?php echo $filter->id;?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.');?>"><span class="text"><?php echo _t('[차단됨]');?></span></a>
-<?php
-	} else {
-?>
-												<a id="ipFilter<?php echo $currentIP;?>-<?php echo $i;?>" class="unblock-icon bullet" href="<?php echo $blogURL;?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>&amp;mode=ip&amp;command=block&amp;id=<?php echo $filter->id;?>" onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']);?>', '<?php echo $filter->id;?>', 'ip'); return false;" title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.');?>"><span class="text"><?php echo _t('[허용됨]');?></span></a>
-<?php
-	}
-?>
-												<a href="<?php echo $blogURL;?>/owner/communication/trash/comment?ip=<?php echo urlencode(escapeJSInAttribute($comment['ip']));?>" title="<?php echo _t('이 IP로 등록된 댓글 목록을 보여줍니다.');?>"><?php echo $comment['ip'];?></a>
-											</td>
-											<td class="revert">
-												<a class="revert-button button" href="<?php echo $blogURL;?>/owner/communication/trash/comment/revert/<?php echo $comment['id'];?>" onclick="revertComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 복원합니다.');?>"><span class="text"><?php echo _t('복원');?></span></a>
-											</td>
-											<td class="delete">
-												<a class="delete-button button" href="<?php echo $blogURL;?>/owner/communication/trash/comment/delete/<?php echo $comment['id'];?>" onclick="deleteComment(<?php echo $comment['id'];?>); return false;" title="<?php echo _t('이 댓글을 삭제합니다.');?>"><span class="text"><?php echo _t('삭제');?></span></a>
-											</td>
-						  				</tr>
-<?php
+                if ($comment['title'] != '' && $comment['parent'] != '') {
+                    echo '<span class="divider"> | </span>';
+                }
+                if ($comment['entry'] == 0) {    // Guestbook case
+                    if (empty($comment['parent'])) {
+                        echo '<span class="explain">' . _t('방명록') . '</span>';
+                    } else {
+                        echo '<span class="explain">' . _f('%1 님의 방명록에 대한 댓글', $comment['parentName']) . '</span>';
+                    }
+                } else {
+                    echo empty($comment['parent']) ? '' : '<span class="explain">' . _f('%1 님의 댓글에 대한 댓글', $comment['parentName']) . '</span>';
+                }
+                echo "</a>";
+                ?>
+                <?php echo((!empty($comment['title']) || !empty($comment['parent'])) ? '<br />' : ''); ?>
+                <?php echo htmlspecialchars(UTF8::lessen($comment['comment'], 80)); ?>
+            </td>
+            <td class="ip">
+                <?php
+                if ($isIpFiltered) {
+                    ?>
+                    <a id="ipFilter<?php echo $currentIP; ?>-<?php echo $i; ?>" class="block-icon bullet"
+                       href="<?php echo $blogURL; ?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip'])); ?>&amp;mode=ip&amp;command=unblock&amp;id=<?php echo $filter->id; ?>"
+                       onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']); ?>', '<?php echo $filter->id; ?>', 'ip'); return false;"
+                       title="<?php echo _t('이 IP는 차단되었습니다. 클릭하시면 차단을 해제합니다.'); ?>"><span
+                            class="text"><?php echo _t('[차단됨]'); ?></span></a>
+                <?php
+                } else {
+                    ?>
+                    <a id="ipFilter<?php echo $currentIP; ?>-<?php echo $i; ?>" class="unblock-icon bullet"
+                       href="<?php echo $blogURL; ?>/owner/communication/filter/change/?value=<?php echo urlencode(escapeJSInAttribute($comment['ip'])); ?>&amp;mode=ip&amp;command=block&amp;id=<?php echo $filter->id; ?>"
+                       onclick="changeState(this,'<?php echo escapeJSInAttribute($comment['ip']); ?>', '<?php echo $filter->id; ?>', 'ip'); return false;"
+                       title="<?php echo _t('이 IP는 차단되지 않았습니다. 클릭하시면 차단합니다.'); ?>"><span
+                            class="text"><?php echo _t('[허용됨]'); ?></span></a>
+                <?php
+                }
+                ?>
+                <a href="<?php echo $blogURL; ?>/owner/communication/trash/comment?ip=<?php echo urlencode(escapeJSInAttribute($comment['ip'])); ?>"
+                   title="<?php echo _t('이 IP로 등록된 댓글 목록을 보여줍니다.'); ?>"><?php echo $comment['ip']; ?></a>
+            </td>
+            <td class="revert">
+                <a class="revert-button button"
+                   href="<?php echo $blogURL; ?>/owner/communication/trash/comment/revert/<?php echo $comment['id']; ?>"
+                   onclick="revertComment(<?php echo $comment['id']; ?>); return false;"
+                   title="<?php echo _t('이 댓글을 복원합니다.'); ?>"><span class="text"><?php echo _t('복원'); ?></span></a>
+            </td>
+            <td class="delete">
+                <a class="delete-button button"
+                   href="<?php echo $blogURL; ?>/owner/communication/trash/comment/delete/<?php echo $comment['id']; ?>"
+                   onclick="deleteComment(<?php echo $comment['id']; ?>); return false;"
+                   title="<?php echo _t('이 댓글을 삭제합니다.'); ?>"><span class="text"><?php echo _t('삭제'); ?></span></a>
+            </td>
+        </tr>
+    <?php
+    }
 }
-if (sizeof($comments) > 0) echo "									</tbody>";
+echo "									</tbody>";
 ?>
 								</table>
 
