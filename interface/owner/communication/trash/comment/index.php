@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 if (isset($_POST['page']))
 	$_GET['page'] = $_POST['page'];
-	
+
 if (isset($_GET['category'])) $_POST['category'] = $_GET['category'];
 if (isset($_GET['name'])) $_POST['name'] = $_GET['name'];
 if (isset($_GET['ip'])) $_POST['ip'] = $_GET['ip'];
@@ -37,7 +37,7 @@ $name = isset($_POST['name']) && !empty($_POST['name']) ? $_POST['name'] : $name
 $ip = isset($_GET['ip']) && !empty($_GET['ip']) ? $_GET['ip'] : '';
 $ip = isset($_POST['ip']) && !empty($_POST['ip']) ? $_POST['ip'] : $ip;
 $search = empty($_POST['withSearch']) || empty($_POST['search']) ? '' : trim($_POST['search']);
-$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10); 
+$perPage = Setting::getBlogSettingGlobal('rowsPerPage', 10);
 if (isset($_POST['perPage']) && is_numeric($_POST['perPage'])) {
 	$perPage = $_POST['perPage'];
 	Setting::setBlogSettingGlobal('rowsPerPage', $_POST['perPage']);
@@ -80,8 +80,8 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									request.send();
 								}
-								
-								function deleteComments() {	
+
+								function deleteComments() {
 									if (!confirm("<?php echo _t('선택된 댓글 및 방명록을 삭제합니다. 계속 하시겠습니까?');?>"))
 										return false;
 									var oElement;
@@ -114,8 +114,8 @@ require ROOT . '/interface/common/owner/header.php';
 									}
 									request.send();
 								}
-								
-								function revertComments() {	
+
+								function revertComments() {
 									if (!confirm("<?php echo _t('선택된 댓글 및 방명록을 복원합니다. 계속 하시겠습니까?');?>"))
 										return false;
 									var oElement;
@@ -146,7 +146,7 @@ require ROOT . '/interface/common/owner/header.php';
 										}
 									}
 								}
-								
+
 								function changeState(caller, value, no, mode) {
 									try {
 										if (caller.className == 'block-icon bullet') {
@@ -159,7 +159,7 @@ require ROOT . '/interface/common/owner/header.php';
 										param 	+= '&mode=' 	+ mode;
 										param 	+= '&command=' 	+ command;
 										param 	+= '&id=' 	+ no;
-										
+
 										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/filter/change/" + param);
 										var iconList = document.getElementsByTagName("a");
 										for (var i = 0; i < iconList.length; i++) {
@@ -191,17 +191,17 @@ require ROOT . '/interface/common/owner/header.php';
 										alert(e.message);
 									}
 								}
-								
+
 								window.addEventListener("load", execLoadFunction, false);
 								function execLoadFunction() {
 									document.getElementById('allChecked').disabled = false;
 									removeItselfById('category-move-button');
-									
+
 									trashSelect = document.createElement("SELECT");
 									trashSelect.id = "category";
 									trashSelect.name = "category";
 									trashSelect.onchange = function() { document.getElementById('trash-form').page.value=1; document.getElementById('trash-form').submit(); return false; };
-									
+
 									trashOption = document.createElement("OPTION");
 									trashOption.innerHTML = "<?php echo _t('전체');?>";
 									trashOption.value = "0";
@@ -239,13 +239,13 @@ foreach (getCategories($blogid) as $category) {
 	}
 }
 ?>
-									
+
 									document.getElementById('track-radio-comment').appendChild(trashSelect);
 								}
-								
+
 								function toggleThisTr(obj) {
 									objTR = getParentByTagName("TR", obj);
-									
+
 									if (objTR.className.match('inactive')) {
 										objTR.className = objTR.className.replace('inactive', 'active');
 									} else {
@@ -254,7 +254,7 @@ foreach (getCategories($blogid) as $category) {
 								}
 							//]]>
 						</script>
-						
+
 						<div id="part-post-trash" class="part">
 							<h2 class="caption">
 								<span class="main-text"><?php echo _t('삭제 대기중인 댓글 목록입니다');?></span>
@@ -265,7 +265,7 @@ if (strlen($name) > 0 || strlen($ip) > 0) {
 								<span class="filter-condition"><?php echo htmlspecialchars($name);?></span>
 <?php
 	}
-	
+
 	if (strlen($ip) > 0) {
 ?>
 								<span class="filter-condition"><?php echo htmlspecialchars($ip);?></span>
@@ -280,14 +280,14 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 
 							<div class="main-explain-box">
 								<p class="explain"><?php echo _t('휴지통에 버려진 댓글은 15일이 지나면 자동으로 지워집니다. 광고 댓글의 차단 및 분석을 위하여 휴지통의 데이터를 사용하는 플러그인이 있을 수 있으므로 수동으로 지우지 않는 것을 권장합니다.');?></p>
-							</div>	
+							</div>
 
 							<form id="trash-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash">
 								<fieldset class="section">
 									<legend><?php echo _t('삭제된 파일 보기 설정');?></legend>
-									
+
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
-									
+
 									<dl id="trash-type-line" class="line">
 										<dt><?php echo _t('종류');?></dt>
 										<dd>
@@ -302,7 +302,7 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 									<input type="submit" id="category-move-button" value="<?php echo _t('이동');?>" />
 								</fieldset>
 							</form>
-							
+
 							<form id="list-form" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment">
 								<table class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
@@ -320,41 +320,48 @@ require ROOT . '/interface/common/owner/communicationTab.php';
 										</tr>
 									</thead>
 <?php
-if (sizeof($comments) > 0) echo "									<tbody>";
-$nameNumber = array();
-$ipNumber = array();
-for ($i=0; $i<sizeof($comments); $i++) {
-	$comment = $comments[$i];
-	
-	($i % 2) == 1 ? $className = 'even-line' : $className = 'odd-line';
-	$comment['parent'] ? $className .= ' reply-line' : null;
-	$filter = new Filter();
-	if (Filter::isFiltered('name', $comment['name']))
-		$isNameFiltered = true;
-	else
-		$isNameFiltered = false;
-	
-	if (Filter::isFiltered('ip', $comment['ip']))
-		$isIpFiltered = true;
-	else
-		$isIpFiltered = false;
-	
-	if (!isset($nameNumber[$comment['name']])) {
-		$nameNumber[$comment['name']] = $i;
-		$currentNumber = $i;
-	} else {
-		$currentNumber = $nameNumber[$comment['name']];
-	}
-	
-	if (!isset($ipNumber[$comment['ip']])) {
-		$ipNumber[$comment['ip']] = $i;
-		$currentIP = $i;
-	} else {
-		$currentIP = $ipNumber[$comment['ip']];
-	}
-	
-	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
+echo "									<tbody>";
+if (sizeof($comments) == 0) {
+    ?>
+    <tr class="empty-list">
+        <td colspan="7"><?php echo _t('댓글이 없습니다');?></td>
+    </tr>
+<?php
+} else {
+	$nameNumber = array();
+	$ipNumber = array();
+	for ($i=0; $i<sizeof($comments); $i++) {
+		$comment = $comments[$i];
+
+		($i % 2) == 1 ? $className = 'even-line' : $className = 'odd-line';
+		$comment['parent'] ? $className .= ' reply-line' : null;
+		$filter = new Filter();
+		if (Filter::isFiltered('name', $comment['name']))
+			$isNameFiltered = true;
+		else
+			$isNameFiltered = false;
+
+		if (Filter::isFiltered('ip', $comment['ip']))
+			$isIpFiltered = true;
+		else
+			$isIpFiltered = false;
+
+		if (!isset($nameNumber[$comment['name']])) {
+			$nameNumber[$comment['name']] = $i;
+			$currentNumber = $i;
+		} else {
+			$currentNumber = $nameNumber[$comment['name']];
+		}
+
+		if (!isset($ipNumber[$comment['ip']])) {
+			$ipNumber[$comment['ip']] = $i;
+			$currentIP = $i;
+		} else {
+			$currentIP = $ipNumber[$comment['ip']];
+		}
+
+		$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+		$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection">
@@ -380,7 +387,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 <?php
 	echo '<a class="entryURL" href="'.$context->getProperty('uri.blog').'/'.$comment['entry'].'#comment'.$comment['id'].'" title="'._t('댓글이 작성된 포스트로 직접 이동합니다.').'">';
 	echo '<span class="entry-title">'. htmlspecialchars($comment['title']) .'</span>';
-	
+
 	if ($comment['title'] != '' && $comment['parent'] != '') {
 		echo '<span class="divider"> | </span>';
 	}
@@ -420,24 +427,25 @@ for ($i=0; $i<sizeof($comments); $i++) {
 											</td>
 						  				</tr>
 <?php
+	}
 }
-if (sizeof($comments) > 0) echo "									</tbody>";
+echo "									</tbody>";
 ?>
 								</table>
-	    						
+
 		    					<hr class="hidden" />
-		    					
+
 								<div class="data-subbox">
 									<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 									<input type="hidden" name="name" value="" />
 									<input type="hidden" name="ip" value="" />
-									
+
 									<div id="delete-section" class="section">
 										<span class="label"><?php echo _t('선택한 댓글을');?></span>
 										<input type="submit" class="delete-button input-button" value="<?php echo _t('삭제');?>" onclick="deleteComments(); return false;" />
 										<input type="submit" class="revert-button input-button" value="<?php echo _t('복구');?>" onclick="revertComments(); return false;" />
 									</div>
-									
+
 									<div id="page-section" class="section">
 										<div id="page-navigation">
 											<span id="page-list">
@@ -454,7 +462,7 @@ print Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate, false
 										</div>
 										<div class="page-count">
 											<?php echo getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0);?>
-											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">					
+											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
 	if ($i == $perPage) {
@@ -474,12 +482,12 @@ for ($i = 10; $i <= 30; $i += 5) {
 									</div>
 								</div>
 							</form>
-							
+
 							<hr class="hidden" />
-							
+
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/comment">
 								<h2><?php echo _t('검색');?></h2>
-								
+
 								<div class="section">
 									<label for="search"><?php echo _t('이름');?>, <?php echo _t('사이트명');?>, <?php echo _t('내용');?></label>
 									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($search);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
@@ -487,7 +495,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
 							</form>
-							
+
 							<div class="button-box">
 								<a class="all-delete-button button" href="<?php echo $context->getProperty('uri.blog');?>/owner/communication/trash/emptyTrash/?type=1" onclick="deleteCommentAll(); return false;" title="<?php echo _t('휴지통의 댓글을 한 번에 삭제합니다.');?>"><span class="text"><?php echo _t('휴지통 비우기');?></span></a>
 							</div>

@@ -128,7 +128,7 @@ require ROOT . '/interface/common/owner/header.php';
 											}
 										}
 									}
-									
+
 									var request = new HTTPRequest("POST", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/comment/delete/");
 									request.onSuccess = function() {
 										document.getElementById('list-form').submit();
@@ -337,40 +337,47 @@ foreach (getCategories($blogid) as $category) {
 										</tr>
 									</thead>
 <?php
-if (sizeof($comments) > 0) echo "									<tbody>";
-$nameNumber = array();
-$ipNumber = array();
-for ($i=0; $i<sizeof($comments); $i++) {
-	$comment = $comments[$i];
+echo "									<tbody>";
+if (sizeof($comments) == 0) {
+?>
+                                    <tr class="empty-list">
+                                        <td colspan="7"><?php echo _t('댓글이 없습니다');?></td>
+                                    </tr>
+<?php
+} else {
+	$nameNumber = array();
+	$ipNumber = array();
+	for ($i=0; $i<sizeof($comments); $i++) {
+		$comment = $comments[$i];
 
-	$filter = new Filter();
-	if (Filter::isFiltered('name', $comment['name']))
-		$isNameFiltered = true;
-	else
-		$isNameFiltered = false;
+		$filter = new Filter();
+		if (Filter::isFiltered('name', $comment['name']))
+			$isNameFiltered = true;
+		else
+			$isNameFiltered = false;
 
-	if (Filter::isFiltered('ip', $comment['ip']))
-		$isIpFiltered = true;
-	else
-		$isIpFiltered = false;
+		if (Filter::isFiltered('ip', $comment['ip']))
+			$isIpFiltered = true;
+		else
+			$isIpFiltered = false;
 
-	if (!isset($nameNumber[$comment['name']])) {
-		$nameNumber[$comment['name']] = $i;
-		$currentNumber = $i;
-	} else {
-		$currentNumber = $nameNumber[$comment['name']];
-	}
+		if (!isset($nameNumber[$comment['name']])) {
+			$nameNumber[$comment['name']] = $i;
+			$currentNumber = $i;
+		} else {
+			$currentNumber = $nameNumber[$comment['name']];
+		}
 
-	if (!isset($ipNumber[$comment['ip']])) {
-		$ipNumber[$comment['ip']] = $i;
-		$currentIP = $i;
-	} else {
-		$currentIP = $ipNumber[$comment['ip']];
-	}
+		if (!isset($ipNumber[$comment['ip']])) {
+			$ipNumber[$comment['ip']] = $i;
+			$currentIP = $i;
+		} else {
+			$currentIP = $ipNumber[$comment['ip']];
+		}
 
-	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= $comment['parent'] ? ' reply-line' : null;
-	$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
+		$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+		$className .= $comment['parent'] ? ' reply-line' : null;
+		$className .= ($i == sizeof($comments) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over');return false;" onmouseout="rolloverClass(this, 'out');return false">
 											<td class="selection">
@@ -411,7 +418,7 @@ for ($i=0; $i<sizeof($comments); $i++) {
 		echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글',$comment['parentName']) : _f('%1 님의 댓글에 대한 댓글',$comment['parentName'])) . '</span>';
 	echo "</a>";
 
-	if(!is_null($comment['replier']) && $comment['replier'] == getUserId()) 
+	if(!is_null($comment['replier']) && $comment['replier'] == getUserId())
 		echo '<span class="divider"> | </span><a href="'.$context->getProperty('uri.blog').'/comment/comment/'.$comment['id'].'" onclick="modifyComment('.$comment['id'].');return false;"><span class="text">'._t('수정').'</span></a>';
 
 ?>
@@ -443,8 +450,9 @@ for ($i=0; $i<sizeof($comments); $i++) {
 											</td>
 					  					</tr>
 <?php
+	}
 }
-if (sizeof($comments) > 0) echo "									</tbody>";
+echo "									</tbody>";
 ?>
 								</table>
 
@@ -511,7 +519,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 							</form>
 
 							<hr class="hidden" />
-							
+
 							<form id="search-form" class="data-subbox" method="post" action="<?php echo $context->getProperty('uri.blog');?>/owner/communication/comment">
 								<h2><?php echo _t('검색');?></h2>
 

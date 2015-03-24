@@ -361,31 +361,38 @@ foreach (getCategories($blogid) as $category) {
 										</tr>
 									</thead>
 <?php
-if (sizeof($trackbacks) > 0) echo "									<tbody>";
-$siteNumber = array();
-for ($i=0; $i<sizeof($trackbacks); $i++) {
-	$trackback = $trackbacks[$i];
-	$isFilterURL = Filter::isFiltered('url', $trackback['url']);
-	$filteredURL = getURLForFilter($trackback['url']);
+echo "									<tbody>";
+if (sizeof($trackbacks) == 0) {
+?>
+    <tr class="empty-list">
+        <td colspan="8"><?php echo _t('걸린글이 없습니다');?></td>
+    </tr>
+<?php
+} else {
+	$siteNumber = array();
+	for ($i=0; $i<sizeof($trackbacks); $i++) {
+		$trackback = $trackbacks[$i];
+		$isFilterURL = Filter::isFiltered('url', $trackback['url']);
+		$filteredURL = getURLForFilter($trackback['url']);
 
-	$filter = new Filter();
-	if (isset($trackback['ip']) && Filter::isFiltered('ip', $trackback['ip'])) {
-		$isIpFiltered = true;
-	} else {
-		$isIpFiltered = false;
-	}
-	if(isset($trackback['site'])) {
-		if (!isset($siteNumber[$trackback['site']])) {
-			$siteNumber[$trackback['site']] = $i;
-			$currentSite = $i;
+		$filter = new Filter();
+		if (isset($trackback['ip']) && Filter::isFiltered('ip', $trackback['ip'])) {
+			$isIpFiltered = true;
 		} else {
-			$currentSite = $siteNumber[$trackback['site']];
+			$isIpFiltered = false;
 		}
-	} else {
-		$currentSite = $i;
-	}
-	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-	$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
+		if(isset($trackback['site'])) {
+			if (!isset($siteNumber[$trackback['site']])) {
+				$siteNumber[$trackback['site']] = $i;
+				$currentSite = $i;
+			} else {
+				$currentSite = $siteNumber[$trackback['site']];
+			}
+		} else {
+			$currentSite = $i;
+		}
+		$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+		$className .= ($i == sizeof($trackbacks) - 1) ? ' last-line' : '';
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over'); return false;" onmouseout="rolloverClass(this, 'out'); return false;">
 											<td class="selection">
@@ -477,9 +484,9 @@ for ($i=0; $i<sizeof($trackbacks); $i++) {
 											</td>
 										</tr>
 <?php
+	}
 }
-
-if (sizeof($trackbacks) > 0) echo "									</tbody>";
+echo "									</tbody>";
 ?>
 								</table>
 
