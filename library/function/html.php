@@ -15,7 +15,7 @@ function stripHTML($text, $allowTags = array()) {
 		}
 	}
 	$text = preg_replace('/&nbsp;?|\xc2\xa0\x20/', ' ', $text);
-	$text = trim(preg_replace('/\s+/', ' ', $text));
+	//$text = trim(preg_replace('/\s+/', ' ', $text)); // replace white-spaces to one white-space (For narrow screen)
 	if(!empty($text))
 		$text = str_replace(array('&#39;', '&apos;', '&quot;'), array('\'', '\'', '"'), $text);
 	return $text;
