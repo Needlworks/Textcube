@@ -2,7 +2,7 @@
 // Markdown formatter for Textcube 2.0
 // By Jeongkyu Shin. (inureyes@gmail.com)
 
-if(!class_exists('Markdown')) {
+if(!class_exists('MarkdownExtra')) {
 	require_once dirname(__FILE__) . '/markdown-lib/MarkdownInterface.php';
 	require_once dirname(__FILE__) . '/markdown-lib/Markdown.php';
 	require_once dirname(__FILE__) . '/markdown-lib/MarkdownExtra.php';
@@ -17,7 +17,7 @@ function FM_Markdown_format($blogid, $id, $content, $keywords = array(), $useAbs
 	}
 	$view = FM_TTML_bindAttachments($id, $path, $url, $content, $useAbsolutePath, $bRssMode);
 	$view = FM_TTML_preserve_TTML_type_tags($view);
-	$view = MarkdownExtra::defaultTransform($view);
+	$view = \Michelf\MarkdownExtra::defaultTransform($view);
 	$view = FM_TTML_restore_TTML_type_tags($view);
 	$view = FM_TTML_bindTags($id, $view);
 	return $view;
