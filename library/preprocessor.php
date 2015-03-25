@@ -261,7 +261,6 @@ if (!defined('NO_INITIALIZAION')) {
 		if($browser->isMobile()) {
 			$adminSkinSetting['skin'] = "/skin/admin/mobile";
 		} else {
-
 			if(!is_null($context->getProperty('service.adminskin'))) {
 				$adminSkinSetting['skin'] = "/skin/admin/".$context->getProperty('service.adminskin');
 			} else {

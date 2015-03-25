@@ -3,7 +3,8 @@
 /* Common ------------------- */
 /* ------------------------- */
 body {
-    font: 0.938em/1.7 "Helvetica Neue", Helvetica, NanumBarunGothic, "나눔바른고딕", "Noto Sans Korean", "Apple SD Gothic Neo", "Malgun Gothic", AppleGothic, Dotum, "돋움", sans-serif;
+    font: 0.938em/1.7 "Helvetica Neue", Helvetica, Verdana, NanumBarunGothic, "나눔바른고딕", "Noto Sans CJK KR", "Apple SD Gothic Neo", "Malgun Gothic", AppleGothic, Dotum, "돋움", sans-serif;
+    background-color                 : #FFFFFF;
 }
 
 img {
@@ -77,4 +78,111 @@ h6 small,
     border-radius: 4px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+/* ------------------------- */
+/* Textcube default elements */
+/* ------------------------- */
+img.tatterImageLeft,
+img.tatterImageCenter,
+img.tatterImageRight,
+img.tatterImageDual,
+img.tatterImageTriple,
+img.tatterImageFree,
+img.tatterImazing,
+img.tatterGallery,
+img.tatterJukebox,
+img.tatterEmbed,
+img.tatterObject,
+img.tatterFlash
+{
+	cursor                           : move;
+	background-position              : center;
+	background-repeat                : no-repeat;
+	border                           : 1px solid #FFFFFF;
+}
+
+img.tatterImageLeft:hover,
+img.tatterImageCenter:hover,
+img.tatterImageRight:hover,
+img.tatterImageFree:hover,
+img.tatterImageDual,
+img.tatterImageTriple,
+img.tatterImazing,
+img.tatterGallery,
+img.tatterJukebox,
+img.tatterEmbed,
+img.tatterObject,
+img.tatterFlash
+{
+	background-color                 : #FFFFEF;
+	border                           : 1px dashed #AFAFAF;
+}
+
+img.tatterImageLeft
+{
+	float                            : left;
+	margin-right                     : 10px;
+}
+
+img.tatterImageCenter,
+img.tatterImageDual,
+img.tatterImageTriple,
+img.tatterImazing,
+img.tatterGallery,
+img.tatterJukebox
+{
+	display                          : block;
+	margin                           : 5px auto;
+}
+
+img.tatterImazing
+{
+	background-image                 : url("/resources/image/owner/wysiwyg/mark_iMazing.gif");
+}
+
+img.tatterGallery
+{
+	background-image                 : url("/resources/image/owner/wysiwyg/mark_gallery.gif");
+}
+
+img.tatterJukebox
+{
+	background-image                 : url("/resources/image/owner/wysiwyg/mark_jukebox.gif");
+}
+
+img.tatterImageRight
+{
+	float                            : right;
+	margin-left                      : 10px;
+}
+
+img.tatterImageDual
+{
+	background-image                 : url("/resources/image/owner/wysiwyg/mark_2images.gif");
+}
+
+img.tatterImageTriple
+{
+	background-image                 : url("/resources/image/owner/wysiwyg/mark_3images.gif");
+}
+
+img.tatterEmbed,
+img.tatterObject
+{
+	background-image                 : url("/resources/image/owner/wysiwyg/mark_embed.gif");
+	margin                           : 5px;
+}
+
+img.tatterFlash
+{
+	background-image                 : url("/resources/image/owner/wysiwyg/mark_flash.gif");
+}
+
+div.tattermoreless
+{
+	background-color                 : #EFFFAF;
+	border                           : 1px dashed #006;
+	margin                           : 0px;
+	padding                          : 8px;
 }
