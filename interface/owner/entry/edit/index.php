@@ -66,6 +66,7 @@ if (isset($_GET['editor']) && in_array($_GET['editor'],array_keys($editors))) {
 }
 
 $context->setProperty('editor.key',$entry['contenteditor']);
+$context->setProperty('formatter.key',$entry['contentformatter']);
 
 if (isset($_GET['popupEditor'])) {
 	require ROOT . '/interface/common/owner/headerForPopupEditor.php';

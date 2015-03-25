@@ -20,7 +20,7 @@ function tinyMCE_editorinit($editor) {
     if(empty($config['editormode'])) $config['editormode'] = 'simple';
 	if(empty($config['width'])) $config['width'] = 'skin';
 	if(empty($config['srctheme'])) $config['srctheme'] = 'default';
-//	var_dump($context->getAllFromNamespace("plugin"));
+	if($context->getProperty('formatter.key') == 'markdown') $config['width'] = 'full';
 	ob_start();
 ?>
 			var editor = new tinymce.Editor('editWindow', {
