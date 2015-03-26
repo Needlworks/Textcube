@@ -1,0 +1,57 @@
+@charset "utf-8";
+
+/* Common icon */
+#sub-menu li a:before {
+    font-family: 'FontAwesome';
+    float: left;
+    margin-left: -1.5em;
+    color: #666;
+}
+
+/* Center */
+#sub-menu-dashboard a:before { content: '\f0e4';}
+#sub-menu-about a:before { content: '\f129';}
+
+/* Entry */
+#sub-menu-entry a:before { content: '\f0c9';}
+#sub-menu-line a:before { content: '';}
+#sub-menu-post a:before { content: '\f040';}
+#sub-menu-page a:before { content: '';}
+#sub-menu-notice a:before { content: '';}
+#sub-menu-keylog a:before { content: '';}
+
+#sub-menu-template a:before { content: '';}
+#sub-menu-category a:before { content: '';}
+#sub-menu-tag a:before { content: '';}
+
+/* Communication */
+#sub-menu-guestbook a:before { content: '';}
+#sub-menu-notify a:before { content: '\f079';}
+#sub-menu-trackbackreceived a:before { content: '\f112';}
+#sub-menu-trackbacksent a:before { content: '\f1d9';}
+#sub-menu-openid a:before { content: '';}
+#sub-menu-trash a:before { content: '\f1f8';}
+#sub-menu-filter a:before { content: '\f0b0';}
+
+/* Network */
+#sub-menu-teamblog a:before { content: '\f0c0';}
+#sub-menu-link a:before { content: '\f0c1';}
+#sub-menu-reader a:before { content: '\f09e';}
+
+/* Skin */
+#sub-menu-skin a:before { content: '\f1fc';}
+#sub-menu-adminSkin a:before { content: '';}
+#sub-menu-edit a:before { content: '';}
+#sub-menu-setting a:before { content: '\f1de';}
+#sub-menu-sidebar a:before { content: '\f1ea';}
+#sub-menu-coverpage a:before { content: '\f009';}
+
+/* Plugin */
+#sub-menu-plugin a:before { content: '\f1e6';}
+#sub-menu-tableSetting a:before { content: '\f12e';}
+
+/* Setting */
+#sub-menu-blog a:before { content: '';}
+#sub-menu-entry a:before { content: '';}
+#sub-menu-account a:before { content: '';}
+#sub-menu-data a:before { content: '';}

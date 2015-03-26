@@ -492,7 +492,7 @@ foreach($blogTopMenuItem as $menuItem) {
 								<li class="divider"><?php
 		} else {
 ?>
-								<li id="sub-menu-<?php echo $PostIdStr;?>"<?php echo
+								<li id="main-sub-menu-<?php echo $PostIdStr;?>"<?php echo
 	((( $menuItem['menu'] == $blogMenu['topMenu'] && $blogMenu['contentMenu'] == $contentMenuItem['menu'])||
 	(isset($_GET['name']) && ('adminMenu?name='.$_GET['name'] == $contentMenuItem['menu'])) ||
 	($contentMenuItem['menu'] == 'add' && strpos($blogMenu['contentMenu'],'add') !== false) ||
