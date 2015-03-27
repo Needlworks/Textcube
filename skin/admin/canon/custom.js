@@ -1,6 +1,6 @@
 //<![CDATA[
 link = document.createElement( "link" );
-link.href = "//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css";
+link.href = servicePath+"/resources/image/FontAwesome/css/font-awesome.min.css";
 link.type = "text/css";
 link.rel = "stylesheet";
 link.media = "screen,print";

@@ -6,21 +6,38 @@
 }
 #sub-menu li a {
     width:10px;
-    height: 2em;
+    height: 2.5em;
 }
 
 #sub-menu li a span {
     display:none;
 }
 
+#sub-menu li:hover a {
+    width:125px!important;
+    height: 2.5em;
+    background-color:rgba(222,222,222,0.8);
+}
+
+#sub-menu li:hover a span {
+    display:inline;
+    padding-left : 15px;
+}
+
+
 #pseudo-box {
     padding-left: 32px;
+}
+.mce-toolbar-grp {
+    left:55px!important;
+
 }
 /* Common icon */
 #sub-menu li a:before {
     font-family: 'FontAwesome';
     float: left;
-    margin-left: -1.5em;
+    font-size:1.5em;
+    margin-left: -1em;
     color: #666;
 }
 

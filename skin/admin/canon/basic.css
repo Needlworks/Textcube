@@ -637,6 +637,7 @@ textarea
 {
 	-webkit-transition-duration      : 300ms;
 	-moz-transition-duration         : 300ms;
+    transition-duration      : 300ms;
 	background: #ddd;
 }
 
@@ -656,7 +657,8 @@ textarea
 {
 	-webkit-transform                : none;
 	-moz-transform                   : none;
-	background: none;
+    transform                   : none;
+    background: none;
 }
 
 #sub-menu li.selected,
