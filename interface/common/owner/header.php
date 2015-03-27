@@ -572,7 +572,7 @@ if(!defined('__TEXTCUBE_READER_SUBMENU__')) {
 							($contentMenuItem['menu'] == 'user' && strpos($blogMenu['contentMenu'],'user') !== false) ||
 							($blogMenu['contentMenu'] == 'edit' && $contentMenuItem['menu'] == 'post')) ? " class=\"selected{$firstChildClass}\"" : ($firstChildClass ? " class=\"$firstChildClass\"" : ''));?>><?php
 			if($contentMenuItem['menu'] == 'divider') {?><span class="divider"><?php echo $contentMenuItem['title'];?></span><?php
-				} else {?><a href="<?php
+				} else {?><a title="<?php echo $contentMenuItem['title'];?>" href="<?php
 						echo $context->getProperty('uri.blog').
 							$contentMenuItem['link'].
 							($contentMenuItem['menu'] == 'post' && isset($currentCategory) ? '?category='.$currentCategory : '');
