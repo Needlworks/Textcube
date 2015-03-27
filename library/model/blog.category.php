@@ -213,9 +213,9 @@ function getPrivateCategoryExclusionQualifier($pool, $blogid = null) {
     return $pool;
 }
 
-function getCategoriesSkin() {
-    $ctx = Model_Context::getInstance();
-    $setting = Setting::getSkinSettings(getBlogId());
+function getCategoriesSkin($setting = null) {
+	$ctx = Model_Context::getInstance();
+	if(is_null($setting)) $setting = Setting::getSkinSettings(getBlogId());
     $skin = array('name' => "{$setting['skin']}",
         'url' => $ctx->getProperty('service.path') . "/skin/tree/{$setting['tree']}",
         'labelLength' => $setting['labelLengthOnTree'],

@@ -654,7 +654,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
     if ($embedJava == false) { // not from getCategoriesViewInSkinSetting
         $skin = getCategoriesSkin();
     } else {
-        $skin = $ctx->getAllFromNamespace('skin');
+        $skin = getCategoriesSkin($ctx->getAllFromNamespace('skin'));
     }
     if ($xhtml) {
         echo '<ul>' . CRLF;
