@@ -6,7 +6,7 @@
 function setDetailPanel($id, $type = 'section', $string = '') {
     $context = Model_Context::getInstance();
 //	if(in_array($fxList,$id)) return '';
-    $fxList = $context->getProperty('blog.fxList');
+    $fxList = $context->getProperty('blog.fxList',array());
     array_push($fxList, $id);
 
     $hrefVal = '';
