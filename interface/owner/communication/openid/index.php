@@ -6,54 +6,66 @@ define( 'OPENID_REGISTERS', 10 );
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
-global $database, $context->getProperty('uri.blog'), $context->getProperty('uri.host');
+$context = Model_Context::_getInstance();
 
+/* Fetch registerred openid */
+$openid_list = array();
+for( $i=0; $i<OPENID_REGISTERS; $i++ )
+{
+    $openid_identity = Setting::getUserSetting( "openid." . $i ,null,true);
+    if( !empty($openid_identity) ) {
+        array_push( $openid_list, $openid_identity );
+    }
+}
+
+$pool = DBModel::_getInstance();
 $menu_url = $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/owner/communication/openid";
 $menu1 = $menu_url . "?mode=1";
 $menu2 = $menu_url . "?mode=3";
 $menu3 = $menu_url . "?mode=5";
 $menu4 = $menu_url . "?mode=7";
-$order = "order by lastlogin desc";
+
+$pool->init("OpenIDUsers");
+$pool->setOrder("lastlogin","desc");
 
 $mode = preg_replace( '/.*?mode=(\d)/', '\1', $_SERVER["QUERY_STRING"]);
 if( !is_numeric($mode) ) { $mode = 7; };
 switch( $mode )
 {
 case 2:
-	$menu2 = $menu_url . "?mode=3"; $order = "order by delegatedid asc";
+	$menu2 = $menu_url . "?mode=3";
+    $pool->setOrder("delegatedid","asc");
 	break;
 case 3:
-	$menu2 = $menu_url . "?mode=2"; $order = "order by delegatedid desc";
+	$menu2 = $menu_url . "?mode=2";
+    $pool->setOrder("delegatedid","desc");
 	break;
 case 4:
-	$menu3 = $menu_url . "?mode=5"; $order = "order by logincount asc";
+	$menu3 = $menu_url . "?mode=5";
+    $pool->setOrder("logincount","asc");
 	break;
 case 5:
-	$menu3 = $menu_url . "?mode=4"; $order = "order by logincount desc";
+	$menu3 = $menu_url . "?mode=4";
+    $pool->setOrder("logincount","desc");
 	break;
 case 6:
-	$menu4 = $menu_url . "?mode=7"; $order = "order by lastlogin asc";
+	$menu4 = $menu_url . "?mode=7";
+    $pool->setOrder("lastlogin","asc");
 	break;
 case 7:
-	$menu4 = $menu_url . "?mode=6"; $order = "order by lastlogin desc";
+	$menu4 = $menu_url . "?mode=6";
+    $pool->setOrder("lastlogin","desc");
 	break;
 case 0:
-	$menu1 = $menu_url . "?mode=1"; $order = "order by openid asc";
+	$menu1 = $menu_url . "?mode=1";
+    $pool->setOrder("openid","asc");
 	break;
 case 1:
-	$menu1 = $menu_url . "?mode=0"; $order = "order by openid desc";
+	$menu1 = $menu_url . "?mode=0";
+    $pool->setOrder("openid","desc");
 	break;
 }
 
-/* Fetch registerred openid */
-$openid_list = array();
-for( $i=0; $i<OPENID_REGISTERS; $i++ )
-{
-	$openid_identity = Setting::getUserSetting( "openid." . $i ,null,true);
-	if( !empty($openid_identity) ) {
-		array_push( $openid_list, $openid_identity );
-	}
-}
 ?>
 
 						<div id="part-openid-loginhistory" class="part">
@@ -72,15 +84,14 @@ for( $i=0; $i<OPENID_REGISTERS; $i++ )
 								</thead>
 								<tbody>
 <?php
-$sql="SELECT * FROM {$database['prefix']}OpenIDUsers $order";
-$rec = POD::queryAll( $sql );
+$rec = $pool->getAll();
 for ($i=0; $i<count($rec); $i++) {
-$record = $rec[$i];
-$data = unserialize($record['data']);
-$nickname = "({$data['nickname']})";
+    $record = $rec[$i];
+    $data = unserialize($record['data']);
+    $nickname = "({$data['nickname']})";
 
-$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
-$className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
+    $className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
+    $className .= ($i == sizeof($rec) - 1) ? ' last-line' : '';
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td><?php echo "{$record['openid']} {$nickname}";?></td>
