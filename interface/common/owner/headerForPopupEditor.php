@@ -30,20 +30,6 @@ foreach ($pluginListForCSS as $tempPluginDir) {
 	}
 }
 ?>
-	<!--[if lte IE 6]>
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie.css" />
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/post.ie.css" />
-		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/popup-editor.ie.css" />
-<?php
-foreach ($pluginListForCSS as $tempPluginDir) {
-	if (isset($tempPluginDir) && file_exists(ROOT . "/plugins/$tempPluginDir/plugin-main.ie.css")) {
-?>
-	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path');?>/plugins/<?php echo $tempPluginDir;?>/plugin-main.ie.css" />
-<?php
-	}
-}
-?>
-	<![endif]-->
 	<!--[if IE 7]>
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie7.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/post.ie7.css" />
