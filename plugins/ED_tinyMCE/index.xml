@@ -22,7 +22,6 @@
 		<editor xml:lang="en" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
 			<usedFor formatter="ttml" />
-			<usedFor formatter="markdown" />
 			<!--<usedFor formatter="textile" />-->
 		</editor>
 		<editor xml:lang="ko" id="tinyMCE" name="tinyMCE">
