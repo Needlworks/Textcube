@@ -924,6 +924,9 @@ if (sizeof($entries) == 0) {
 			$className .= ' notice-line';
 		else if ($entry['category'] == -3)
 			$className .= ' page-line';
+        if ($entry['draft']) {
+            $className .= ' draft';
+        }
 ?>
 										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 											<td class="selection">
