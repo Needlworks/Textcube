@@ -103,7 +103,7 @@ input[type=checkbox] {
     appearance:button;
 	border: double 2px #777;
 
-	background-color:#eee;
+	background-color:#fafafa;
 	color:#FFF;
 	white-space: nowrap;
 	overflow:hidden;

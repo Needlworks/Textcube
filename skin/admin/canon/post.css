@@ -58,6 +58,10 @@ table.data-inbox tbody tr td.ip
 	text-align                       : left;
 }
 
+table.data-inbox tbody tr span.temp-icon {
+    color                            : #ff984d;
+}
+
 /* data description */
 #data-description dl.starred-description
 {
@@ -87,6 +91,8 @@ table.data-inbox tbody tr td.ip
 	background-repeat                : no-repeat;
 	padding                          : 0 0 1px 29px;
 }
+
+
 
 /* Post *******************************************************************************************/
 #part-editor h2
