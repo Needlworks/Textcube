@@ -9,6 +9,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
+$context = Model_Context::getInstance();
 ?>
 						<script type="text/javascript">
 							//<![CDATA[
@@ -234,21 +235,24 @@ if( Acl::check('group.administrators')) {
 									<tbody>
 <?php
     $pool = DBModel::getInstance();
-	$blogid = getBlogId();
-	$teamblog_user = POD::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
-		FROM {$database['prefix']}Privileges t, 
-		 	{$database['prefix']}Users u 
-		WHERE t.blogid = '$blogid' 
-			AND u.userid = t.userid 
-		ORDER BY u.created DESC"); 
+    $pool->reset("Privileges");
+    $pool->setAlias("Privileges","t");
+    $pool->setAlias("Users","u");
+    $pool->join("Users","left",array(array("u.userid","eq","t.userid")));
+    $pool->setQualifier("t.blogid","eq",$context->getProperty("blog.id"));
+    $pool->setOrder("u.created","desc");
+    $teamblog_user = $pool->getAll("t.*, u.loginid, u.password, u.name, u.created");
 
 	$count = 0;
 
 	if(isset($teamblog_user)) {
 		foreach($teamblog_user as $value) {
-			$value['posting'] = POD::queryCell("SELECT count(*) 
-					FROM {$database['prefix']}Entries 
-					WHERE blogid = $blogid AND userid = {$value['userid']}");
+			$pool->reset("Entries");
+            $pool->setQualifier("blogid","eq",$context->getProperty("blog.id"));
+            $pool->setQualifier("userid","eq",$value['userid']);
+
+            $value['posting'] = $pool->getCount();
+
 			$className= ($count%2)==1 ? 'even-line' : 'odd-line';
 			$className.=($count==sizeof($teamblog_user)-1) ? ' last-line':'';
 ?>
