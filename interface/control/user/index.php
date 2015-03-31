@@ -83,7 +83,7 @@ $paging = array('url' => "", 'prefix' => '?page=', 'postfix' => '', 'total' => 0
 $paging['pages'] = $pages;
 $paging['page'] = $page ;
 $pagingTemplate = '[##_paging_rep_##]';
-$pagingItemTemplate = '<a [##_paging_rep_link_##]>[[##_paging_rep_link_num_##]]</a>';
+$pagingItemTemplate = '<a [##_paging_rep_link_##]>[##_paging_rep_link_num_##]</a>';
 ?>
 	<div id="page-navigation">
 		<span id="page-list"><?php echo Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate);?></span>

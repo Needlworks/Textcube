@@ -716,10 +716,12 @@ textarea
 .part .caption,
 h2.caption
 {
-	background-color                 : #FFF;
-	background-image                 : url("./image/bg_title_left.png");
-	background-position              : left top;
-	background-repeat                : no-repeat;
+    background-image : -moz-linear-gradient(top, #fff, #eee);
+    background-image : -webkit-linear-gradient(top, #fff, #eee);
+    background-image : linear-gradient(top, #fff, #eee);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 	clear                            : both;
 	color                            : #222;
 	display                          : block;
@@ -729,17 +731,13 @@ h2.caption
 	line-height                      : 38px;
 	margin-bottom                    : 10px;
 	overflow                         : hidden;
-	padding-left                     : 60px;
-	border-left                      : 1px solid #eee;
+	padding-left                     : 30px;
+	border                      : 1px solid #eee;
 }
 
 .part .caption span,
 h2.caption span
 {
-	background-color                 : #FFF;
-	background-image                 : url("./image/bg_title_right.png");
-	background-position              : right top;
-	background-repeat                : repeat-x;
 	display                          : block;
 	height                           : 38px;
 	line-height                      : 38px;
@@ -804,9 +802,9 @@ h2.caption span
 {
 	background-image                 : url('./image/bg_tabbox.jpg');
 	background-position              : left bottom;
-	line-height                      : 2.3em;
+	line-height                      : 30px;
 	list-style-type                  : none;
-	height                           : 2.55em;
+	height                           : 28px;
 	overflow                         : hidden;
 	padding-left                     : 10px;
 }
@@ -825,6 +823,8 @@ h2.caption span
     -moz-border-radius-topright      : 3px;
 	-webkit-border-top-left-radius   : 3px;
 	-webkit-border-top-right-radius  : 3px;
+    border-top-left-radius   : 3px;
+    border-top-right-radius  : 3px;
 }
 
 .right li

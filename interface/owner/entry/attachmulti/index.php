@@ -15,7 +15,8 @@ if (!empty($_GET['TSSESSION']))
 	$_COOKIE['TSSESSION'] = $_GET['TSSESSION'];
 require ROOT . '/library/preprocessor.php';
 requireModel("blog.attachment");
+$context = Model_Context::_getInstance();
 $file = array_pop($_FILES);
-$attachment = addAttachment($blogid, $suri['id'], $file);
+$attachment = addAttachment($context->getProperty('blog.id'), $context->getProperty('suri.id'), $file);
 echo "&success";
 ?>
