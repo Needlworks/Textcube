@@ -233,6 +233,7 @@ if( Acl::check('group.administrators')) {
 									</thead>
 									<tbody>
 <?php
+    $pool = DBModel::getInstance();
 	$blogid = getBlogId();
 	$teamblog_user = POD::queryAll("SELECT t.*, u.loginid, u.password, u.name, u.created
 		FROM {$database['prefix']}Privileges t, 

@@ -16,7 +16,7 @@ require ROOT . '/library/preprocessor.php';
 requireModel("blog.attachment");
 
 requireStrictRoute();
-$context = Model_Context::_getInstance();
+$context = Model_Context::getInstance();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $context->getProperty('blog.language','ko');?>">
