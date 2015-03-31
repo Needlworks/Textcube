@@ -294,14 +294,9 @@ dl dd
 #part-link-edit .button-box,
 #part-link-category-edit .button-box
 {
-	background-color                 : #F2F2F2;
-	background-image                 : url("./image/bg_link_button_box.png");
-	background-position              : left top;
-	background-repeat                : repeat-x;
 	clear                            : both;
-	margin                           : 0 auto 150px auto;
+	margin                           : 0 auto ;
 	padding                          : 20px 10px 20px 10px;
-	width                            : 680px;
 }
 
 #part-link-list .button-box .input-button,
@@ -320,16 +315,6 @@ dl dd
 
 /* Xfn *******************************************************************************************/
 
-#part-link-list .button-box
-{
-	margin-top                       : -50px;
-}
-
-#part-link-list .button-box
-{
-	margin                           : 0 auto 50px auto;
-}
-
 /* Team Blog **********************************************************************************/
 #part-setting-account .button-box,
 #part-setting-invite .button-box
@@ -337,6 +322,12 @@ dl dd
 	clear                            : both;
 	text-align                       : left !important;
 	margin-top                       : 10px;
+}
+
+#part-setting-account .data-inbox,
+#part-setting-invite .data-inbox
+{
+    margin                           :0 auto;
 }
 
 #part-setting-account .button-box .input-button,
@@ -424,9 +415,21 @@ dl dd
 	margin-top                       : 20px;
 }
 
+
+#part-setting-invite #letter-section dt
+{
+    display:none;
+}
+
 #letter
 {
-	width                            : 550px;
+    background-color                 : #efefef;
+    width                            : 670px;
+    margin                           : 20px auto;
+    padding                          : 40px;
+    box-shadow              		 : 0 -2px 3px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow               : 0 -2px 3px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow               : 0 -2px 3px rgba(0, 0, 0, 0.3);
 }
 
 #letter-head label,
@@ -447,10 +450,11 @@ dl dd
 }
 
 #invitation_receiver,
+#invitation_comment,
 #invitation_sender
 {
 	font-size                        : inherit;
-	width                            : 550px;
+	width                            : 100%;
 }
 
 #invitation_identify
@@ -467,7 +471,7 @@ dl dd
 
 #letter-body textarea
 {
-	width                            : 546px;
+    width                            : 100%;
 }
 
 #letter-section .button-box

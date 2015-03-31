@@ -339,19 +339,19 @@ if( Acl::check('group.owners')) {
 											<div id="letter-head">
 												<div id="receiver-line" class="line">
 													<label for="invitation_receiver"><?php echo _t('받는 사람'); ?></label>
-													<input type="text" id="invitation_receiver" class="input-text" name="text" value="<?php	echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event)" />
+													<input type="text" id="invitation_receiver" class="input-text" name="text" value="<?php	echo _t('이름&lt;이메일&gt; 혹은 이메일');?>" onclick="if(!this.selected) this.select();this.selected=true;" onblur="this.selected=false;" onkeydown="refreshReceiver(event);" />
 												</div>
 											</div>
 														
 											<div id="letter-body">
 												<label for="invitation_comment"><?php echo _t('초대 메시지');?></label>
-												<textarea id="invitation_comment" cols="60" rows="3" name="textarea"><?php echo _f("%1님께서 블로그의 팀원으로 초대합니다",htmlspecialchars($user['name']));?></textarea>
+												<textarea id="invitation_comment" cols="70" rows="3" name="textarea"><?php echo _f("%1님께서 블로그의 팀원으로 초대합니다",htmlspecialchars($user['name']));?></textarea>
 											</div>
 											
 											<div id="letter-foot">
 												<div id="sender-line" class="line">
 													<label for="invitation_sender"><?php echo _t('보내는 사람');?></label>
-													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php	echo htmlspecialchars(htmlspecialchars($user['name']).'<'.User::getEmail().'>');?>" />
+													<input type="text" id="invitation_sender" class="input-text" name="text2" value="<?php echo htmlspecialchars(htmlspecialchars($user['name']).'<'.User::getEmail().'>');?>" />
 												</div>
 											</div>
 										</dd>

@@ -142,11 +142,13 @@
 #part-skin-list .section .information .button-box a,
 #part-skin-current .section .information .button-box a
 {
-	background-color                 : #FFFFFF;
-	background-image                 : url("./image/bg_button.png");
-	background-position              : left top;
-	background-repeat                : repeat-x;
-	border                           : 1px solid #777777;
+    background-color                 : #fbfbfb;
+    background-position              : left bottom;
+    background-repeat                : repeat-x;
+    background-image : -moz-linear-gradient(top, #fff, #eee);
+    background-image : -webkit-linear-gradient(top, #fff, #eee);
+    background-image : linear-gradient(top, #fff, #eee);
+    border                           : 1px solid #777777;
 	font-size                        : 1em;
 	line-height                      : 1.5em;
 	padding                          : 3px 5px 1px 5px;
@@ -290,7 +292,7 @@
     border                           : none;
     margin                           : 0;
     position                         : relative;
-    left                             : 200px;
+    left                             : 400px;
     text-align                       : left;
     top                              : -38px;
     width                            : 40em;
