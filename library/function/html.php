@@ -63,7 +63,7 @@ function parseURL($path) {
 }
 
 function addLinkSense($text, $attributes = '') {
-	return preg_replace('@(\^|\s|"|\')(http://[^\s"\']+)@i','$1<a href="$2"' . $attributes . ' rel="external nofollow">$2</a>',$text);
+	return preg_replace('@(^|\s|"|\')(https?://[^\s"\']+)@i','$1<a href="$2"' . $attributes . ' rel="external nofollow">$2</a>',$text);
 }
 
 function addProtocolSense($url, $protocol = 'http://') {
@@ -78,6 +78,10 @@ function decorateSrcInObject($html)
 		$filename = $matches[1][$count - 1];
 		if (strncasecmp($filename, 'http://' , 7) != 0) {
 			$html = str_replace($orig, substr($orig,0,4) . '"http://' . $_SERVER['HTTP_HOST'] . $filename . '"', $html);
+		} else if (strncasecmp($filename, 'https://' , 8) != 0) {
+			$html = str_replace($orig, substr($orig,0,4) . '"https://' . $_SERVER['HTTP_HOST'] . $filename . '"', $html);
+		} else if (strncasecmp($filename, '//' , 2) != 0) {
+			$html = str_replace($orig, substr($orig,0,4) . '"//' . $_SERVER['HTTP_HOST'] . $filename . '"', $html);
 		}
 		$count--;
 	}
