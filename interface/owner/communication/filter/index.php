@@ -16,27 +16,6 @@ $IV = array(
 	//)
 );
 require ROOT . '/library/preprocessor.php';
-/*if (isset($_POST['ipValue'])) {
-	$_POST['mode'] = "ip";
-} else if (isset($_POST['urlValue'])) {
-	$_POST['mode'] = "url";
-} else if (isset($_POST['contentValue'])) {
-	$_POST['mode'] = "content";
-} else if (isset($_POST['nameValue'])) {
-	$_POST['mode'] = "name";
-} else if (isset($_POST['whiteurlValue'])) {
-	$_POST['mode'] = "whiteurl";
-}
-if (!empty($_POST['mode'])) {
-	$filter = new Filter();
-	$filter->type = $_POST['mode'];
-	$filter->pattern = $_POST[($_POST['mode'] . 'Value')];
-	$filter->add();
-	//$history = $_POST['mode'];
-}
-//if (!empty($_GET['history'])) {
-//	$history = $_GET['history'];
-//}*/
 require ROOT . '/interface/common/owner/header.php';
 
 
