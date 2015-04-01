@@ -364,7 +364,7 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
     }
     $pool = DBModel::getInstance();
     if ($category > 0) {
-        $categories = getChildCategoryId($blogid, $category);
+		$categories = getChildCategoryId($blogid, $category);
         array_push($categories, $category);
     }
     $pool->init("Entries");

@@ -243,11 +243,11 @@ function getChildCategoryId($blogid, $id) {
     $context = Model_Context::getInstance();
     if ($context->getProperty('category.raw') === null) {
         getCategories($blogid, 'raw');
-    } //To cache category information.
-    if ($result = MMCache::queryColumn($context->getProperty('category.raw'), 'parent', $id, 'id')) {
+	} //To cache category information.
+	if ($result = MMCache::queryColumn($context->getProperty('category.raw'), 'parent', $id, 'id')) {
         return $result;
     }
-    return null;
+    return array();
 }
 
 function getNumberChildCategory($id = null) {
