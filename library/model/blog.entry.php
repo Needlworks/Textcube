@@ -259,7 +259,7 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
     $pool->init("Entries");
     $pool->setAlias("Entries", "e");
     $pool->setAlias("TagRelations", "t");
-    $pool->join("TagRelation", "left", array(
+    $pool->join("TagRelations", "left", array(
         array("e.id", "eq", "t.entry"),
         array("e.blogid", "eq", "t.blogid")
     ));

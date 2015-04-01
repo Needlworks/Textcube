@@ -15,7 +15,6 @@ requireModel('blog.entry');
 /// Loads entry list.
 $listWithPaging = getEntryListWithPagingByTag(getBlogId(), $_POST['tagId'], 1, 1);
 $list = array('title' => $suri['value'], 'items' => $listWithPaging[0], 'count' => $listWithPaging[1]['total']);
-
 $tagName = getTagById(getBlogId(),$_POST['tagId']);
 $numberOfPosts = $list['count'];
 $entryList = '<a href="'.$context->getProperty('uri.blog').'/owner/entry/?tagId='.$_POST['tagId'].'">'._f('"%1" 태그를 갖는 모든 글의 목록을 봅니다',$tagName).'</a>';
