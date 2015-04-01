@@ -22,7 +22,7 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort = 'ASC') {
         $pool->setOrder($orderBy, $sort);
     }
     if ($result = $pool->getAll('*')) {
-        foreach ($result as $attachment) {
+		foreach ($result as $attachment) {
             array_push($attachments, $attachment);
             array_push($__gCacheAttachment, $attachment);
         }
@@ -33,8 +33,8 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort = 'ASC') {
 function getAttachmentsFromCache($blogid, $value, $filter = 'parent') {
     global $__gCacheAttachment;
     $result = array();
-    if (!empty($__gCacheAttachment)) {
-        foreach ($__gCacheAttachment as $id => $info) {
+	if (!empty($__gCacheAttachment)) {
+		foreach ($__gCacheAttachment as $id => $info) {
             $row = array_search($value, $info);
             if ($row !== FALSE) {
                 array_push($result, $__gCacheAttachment[$id]);
