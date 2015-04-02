@@ -10,12 +10,15 @@ $context->setProperty('service.admin_script','control.js');
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
-global $database;
 
 $uid = $suri['id'];
 
-$usersetting= POD::queryRow("SELECT * FROM {$database['prefix']}Users WHERE userid = " . $uid);
-$usersetting['owner']= POD::queryCell("SELECT userid FROM {$database['prefix']}Privileges WHERE acl & ".BITWISE_OWNER." != 0 AND blogid = " . $blogid);
+$usersetting = User::getInfo($uid);
+$pool = DBModel::getInstance();
+$pool->init("Privileges");
+$pool->setQualifier("acl & ".BITWISE_OWNER,"neq",0);
+$pool->setQualifier("blogid","eq",$blogid);
+$usersetting['owner'] = $pool->getCell("userid");
 $AuthToken = Setting::getUserSettingGlobal('AuthToken',null,$uid);
 ?>
 						<script type="text/javascript"> 
@@ -92,10 +95,12 @@ $AuthToken = Setting::getUserSettingGlobal('AuthToken',null,$uid);
 										</tr>
 									</thead>
 									<tbody><?php
-$teamblog = POD::queryAll("SELECT * FROM `{$database['prefix']}Privileges` WHERE userid = " . $uid);
+    $pool->init("Privileges");
+    $pool->setQualifier("userid","eq",$uid);
+    $teamblog = $pool->getAll();
 	foreach ($teamblog as $row){
 		echo "<tr>";
-		echo "<td class=\"name\"><a href=\"".$context->getProperty('uri.blog')."/control/blog/detail/{$row['blogid']}\">".POD::queryCell("SELECT value FROM `{$database['prefix']}BlogSettings` WHERE name = 'name' AND blogid = " . $row['blogid'])."</a></td>";
+		echo "<td class=\"name\"><a href=\"".$context->getProperty('uri.blog')."/control/blog/detail/{$row['blogid']}\">".Setting::getBlogSettingGlobal('name','',$row['blogid'],true)."</a></td>";
 
 		$tmpstr = '';
 		if ($row['acl'] & BITWISE_ADMINISTRATOR) $tmpstr .= _t('관리자')." ";

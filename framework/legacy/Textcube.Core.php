@@ -15,8 +15,6 @@ class User {
 
     static function getName($userid = null) {
         global $__gCacheUserNames;
-
-        $context = Model_Context::getInstance();
         $pool = DBModel::getInstance();
 
         if (empty($userid)) {
@@ -28,6 +26,13 @@ class User {
         $pool->reset("Users");
         $pool->setQualifier("userid", "eq", $userid);
         return $__gCacheUserNames[$userid] = $pool->getCell("name");
+    }
+
+    static function getInfo($userid = null) {
+        $pool = DBModel::getInstance();
+        $pool->init("Users");
+        $pool->setQualifier("userid", "eq", $userid);
+        return $pool->getRow();
     }
 
     static function getUserIdByName($name) {
@@ -289,8 +294,8 @@ class User {
             return 11;
         }
 
-        $loginid = POD::escapeString(Utils_Unicode::lessenAsEncoding($email, 64));
-        $name = POD::escapeString(Utils_Unicode::lessenAsEncoding($name, 32));
+        $loginid = Utils_Unicode::lessenAsEncoding($email, 64);
+        $name = Utils_Unicode::lessenAsEncoding($name, 32);
         $password = User::__generatePassword();
         $authtoken = md5(User::__generatePassword());
         $pool->reset("Users");
@@ -329,7 +334,6 @@ class User {
 
     /*@static@*/
     function remove($userid) {
-        $context = Model_Context::getInstance();
         $pool = DBModel::getInstance();
 
         if ($userid == 1) {
@@ -356,7 +360,6 @@ class User {
     }
 
     static function removePermanent($userid) {
-        $context = Model_Context::getInstance();
         $pool = DBModel::getInstance();
         $pool->reset("UserSettings");
         $pool->setQualifier("userid", "eq", $userid);
@@ -376,7 +379,6 @@ class User {
 
     /*@private static@*/
     function __getMaxUserId() {
-        $context = Model_Context::getInstance();
         $pool = DBModel::getInstance();
         $pool->reset("Users");
         $maxId = $pool->getCell("max(userid)");
