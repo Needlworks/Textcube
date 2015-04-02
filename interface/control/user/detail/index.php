@@ -3,9 +3,10 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-$service['admin_script']='control.js';
-
 require ROOT . '/library/preprocessor.php';
+$context = Model_Context::getInstance();
+$context->setProperty('service.admin_script','control.js');
+
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');

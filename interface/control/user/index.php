@@ -10,7 +10,8 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
-$service['admin_script']='control.js';
+$context = Model_Context::getInstance();
+$context->setProperty('service.admin_script','control.js');
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');

@@ -17,7 +17,9 @@ if( isset( $_GET['page'] ) ) {
 
 $tabsClass['xfn'] = true;
 list( $links, $paging ) = getLinksWithPagingForOwner($blogid, $page, 30);
-$service['admin_script'] = array( 'xfn.js' );
+$context = Model_Context::getInstance();
+$context->setProperty('service.admin_script',array('xfn.js'));
+
 require ROOT . '/interface/common/owner/header.php';
 
 ?>

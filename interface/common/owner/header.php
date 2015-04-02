@@ -355,16 +355,16 @@ if (file_exists(ROOT . $context->getProperty('panel.skin')."/custom.js")) {
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/custom.js"></script>
 <?php
 }
-if( isset($service['admin_script']) ) {
-	if( is_array($service['admin_script']) ) {
-		foreach( $service['admin_script'] as $src ) {
+if( $context->getProperty('service.admin_script') !== null) {
+	if( is_array($context->getProperty('service.admin_script')) ) {
+		foreach( $context->getProperty('service.admin_script') as $src ) {
 ?>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/<?php echo $src;?>"></script>
 <?php
 		}
 	} else {
 ?>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/<?php echo $service['admin_script'];?>"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/<?php echo $context->getProperty('service.admin_script');?>"></script>
 <?php
 	}
 }

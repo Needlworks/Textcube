@@ -9,13 +9,18 @@ $IV = array(
 	) 
 );
 
-$service['admin_script']='control.js';
 require ROOT . '/library/preprocessor.php';
+
+$pool = DBModel::getInstance();
+$context = Model_Context::getInstance();
+$context->setProperty('service.admin_script','control.js');
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');
 
 $page = $_GET['page'];
+
+
 ?>
 	<div id="part-create-newblog" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('새 블로그 만들기'); ?></span></h2>

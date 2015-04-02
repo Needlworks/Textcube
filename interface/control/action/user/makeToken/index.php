@@ -22,7 +22,6 @@ $pool->setAttribute("value",$authtoken,true);
 $result = $pool->replace();
 if ($result) {
 	Respond::PrintResult(array('error' => 0));
-	echo "s";
 }
 else {
 	$result = _t('임시 암호 발급에 실패하였습니다.');
