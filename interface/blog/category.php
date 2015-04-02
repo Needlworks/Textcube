@@ -25,13 +25,14 @@ if(Setting::getBlogSettingGlobal('useKeywordAsCategory',true)==true) {
 	if($cache->load()) {
 		$keylogEntry = unserialize($cache->contents);
 	} else {
+		$entries = array();
 		$entries[0] = getKeylogByTitle(getBlogId(), $suri['value']);
 		if(!empty($entries[0])) {
 			$keylogEntry = $entries;
 			$cache->contents = serialize($entries);
 			$cache->update();
-			unset($entries);
 		}
+		unset($entries);
 	}
 	$cache->reset();
 }
@@ -46,6 +47,7 @@ if ($skinSetting['showListOnCategory'] != 0) {
 		unset($keylogEntry);
 		unset($entries);
 	}
+	$cache->reset();
 	$cache->name = 'categoryList-'.$category."-".$suri['page']."-";
 	if (!$cache->load()) {
 		if(!$listWithPaging = getEntryListWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList']))
@@ -65,6 +67,7 @@ if ($skinSetting['showListOnCategory'] != 0) {
 
 $entries = array();
 if ($skinSetting['showListOnCategory'] != 2) {
+	unset($cache);
 	if($skinSetting['showListOnCategory'] == 1) $skinSetting['showListWithTotalEntries'] = true;
 	if($skinSetting['showListOnCategory'] == 0) require ROOT . '/interface/common/blog/begin.php';
 	if(!empty($keylogEntry)) {
@@ -73,8 +76,6 @@ if ($skinSetting['showListOnCategory'] != 2) {
 		unset($keylogEntry);
 		unset($entries);
 	}
-
-	unset($cache);
 	list($entries, $paging) = getEntriesWithPagingByCategory($blogid, $category, $suri['page'], $blog['entriesOnList'], ($skinSetting['showListOnCategory'] == 3 ? $blog['entriesOnPage'] : $blog['entriesOnList']));
 	require ROOT . '/interface/common/blog/entries.php';
 }
