@@ -30,7 +30,7 @@ function requireLibrary($name) {
     }
 }
 
-function requireModule($name) {
+function requireModule() {
     $context = Model_Context::getInstance();
     $args = func_get_args();
     if (empty($args)) {
@@ -48,7 +48,7 @@ function requireModule($name) {
         } else {
             if (!in_array($name, $context->getProperty('import.module',array()))) {
                 require_once ROOT . '/library/' . $str_replace(".", "/", $libPath) . ".php";
-                $context->setPropertyItem('import.module', $name);
+                $context->setPropertyItem('import.module', $libPath);
             }
         }
     }

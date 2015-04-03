@@ -1496,6 +1496,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 
 function changeAuthorOfEntries($blogid, $entries, $userid) {
     requireModel("blog.feed");
+	$pool = DBModel::getInstance();
 
     $targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
     foreach ($targets as $entryId) {
@@ -1517,7 +1518,7 @@ function setEntryVisibility($id, $visibility) {
     if (($visibility < 0) || ($visibility > 3)) {
         return false;
     }
-
+	$pool = DBModel::getInstance();
     $pool->init("Entries");
     $pool->setQualifier("blogid", "eq", $blogid);
     $pool->setQualifier("id", "eq", $id);
