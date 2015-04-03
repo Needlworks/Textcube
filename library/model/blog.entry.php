@@ -1175,7 +1175,6 @@ function saveDraftEntry($blogid, $entry) {
     requireModel('blog.attachment');
     requireModel('blog.category');
     requireModel('blog.feed');
-    requireComponent('Textcube.Data.Tag');
 
     if ($entry['id'] == 0) {
         return -11;
@@ -1370,7 +1369,6 @@ function deleteEntry($blogid, $id) {
     requireModel("blog.category");
     requireModel("blog.attachment");
     requireModel("blog.tag");
-    requireComponent("Textcube.Data.Tag");
 
     $target = getEntry($blogid, $id);
     if (is_null($target)) {

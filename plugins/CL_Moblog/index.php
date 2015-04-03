@@ -1,6 +1,5 @@
 <?php
 
-requireComponent( "Needlworks.PHP.Pop3" );
 requireModel( "common.setting" );
 
 class Moblog
@@ -218,7 +217,6 @@ class Moblog
 			$this->logMail( $mail, "SKIP" );
 			return false;
 		}
-		requireComponent( "Textcube.Data.Post" );
 
 		$post = new Post();
 		$moblog_begin = "\n<div class=\"moblog-entry\">";

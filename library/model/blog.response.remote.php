@@ -768,8 +768,6 @@ function getInfoFromURL($url) {
                     }
                     break;
                 default:
-                    requireComponent('Needlworks.PHP.HTTPRequest');
-
                     $request = new HTTPRequest($url);
                     if ($request->send()) {
                         $html = $request->responseText;

@@ -174,11 +174,9 @@ class Post {
         $this->saveSlogan();
         $this->addTags();
         if (($this->visibility == 'public') || ($this->visibility == 'syndicated')) {
-            requireComponent('Textcube.Control.RSS');
             RSS::refresh();
         }
         if ($this->visibility == 'syndicated') {
-            requireComponent('Eolin.API.Syndication');
             if (!Syndication::join($this->getLink())) {
                 $query->resetAttributes();
                 $query->setAttribute('visibility', 2);
@@ -210,7 +208,6 @@ class Post {
 
         // step 1. Check Syndication
         if ($entry['visibility'] == 3) {
-            requireComponent('Eolin.API.Syndication');
             Syndication::leave($this->getLink());
         }
 
@@ -258,7 +255,6 @@ class Post {
             $this->deleteTags();
 
             // step 9. Clear RSS
-            requireComponent('Textcube.Control.RSS');
             RSS::refresh();
 
             return true;
@@ -281,7 +277,6 @@ class Post {
         $bChangedCategory = ($old['category'] != $this->category);
 
         if ($old['visibility'] == 3) {
-            requireComponent('Eolin.API.Syndication');
             Syndication::leave($this->getLink());
         }
         if (!isset($this->modified)) {
@@ -303,7 +298,6 @@ class Post {
         $this->updateTags();
 
         if ($this->visibility == 'syndicated') {
-            requireComponent('Eolin.API.Syndication');
             if (!Syndication::join($this->getLink())) {
                 $query->resetAttributes();
                 $query->setAttribute('visibility', 2);
@@ -311,7 +305,6 @@ class Post {
                 $query->update();
             }
         }
-        requireComponent('Textcube.Control.RSS');
         RSS::refresh();
 
         return true;

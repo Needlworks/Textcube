@@ -24,10 +24,6 @@ if (!isset($service)) {
     $service = array();
 }
 
-function requireComponent($name) {
-    return true;
-}
-
 function requireModel($name) {
     global $__requireModel;
     if (!in_array($name, $__requireModel)) {
@@ -35,6 +31,8 @@ function requireModel($name) {
         array_push($__requireModel, $name);
     }
 }
+
+function requireComponent($name) { return true; } // Legacy code for plugins. TODO: move to legacy support code.
 
 function requireView($name) {
     global $__requireView;

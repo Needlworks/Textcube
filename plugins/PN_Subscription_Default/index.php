@@ -313,7 +313,6 @@ function getSubscriptionLogs() {
 function updateSubscriptionStatistics($target, $mother) {
 	$blogid = getBlogId();
 	$period = Timestamp::getDate();
-	requireComponent('Textcube.Data.Filter');
 	if (Filter::isFiltered('ip', $_SERVER['REMOTE_ADDR']))
 		return;
 	$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';

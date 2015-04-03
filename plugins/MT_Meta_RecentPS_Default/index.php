@@ -189,7 +189,6 @@ function MT_Cover_getCropProcess($blogid, $filename, $cropSize) {
 
 	$thumbnailSrc = __TEXTCUBE_CACHE_DIR__."/thumbnail/{$blogid}/coverPostThumbnail/th_{$filename}";
 	if (file_exists($originSrc)) {
-		requireComponent('Textcube.Function.Image');
 		$imageInfo = getimagesize($originSrc);
 
 		$objThumbnail = new Utils_Image();
