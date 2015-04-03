@@ -30,6 +30,31 @@ function requireLibrary($name) {
     }
 }
 
+function requireModule($name) {
+    $context = Model_Context::getInstance();
+    $args = func_get_args();
+    if (empty($args)) {
+        return false;
+    }
+    foreach ($args as $libPath) {
+        $paths = explode(".", $libPath);
+        if (end($paths) == "*") {
+            array_pop($paths);
+            foreach (new DirectoryIterator(ROOT . '/library/' . implode("/", $paths)) as $fileInfo) {
+                if ($fileInfo->isFile()) {
+                    require_once($fileInfo->getPathname());
+                }
+            }
+        } else {
+            if (!in_array($name, $context->getProperty('import.module',array()))) {
+                require_once ROOT . '/library/' . $str_replace(".", "/", $libPath) . ".php";
+                $context->setPropertyItem('import.module', $name);
+            }
+        }
+    }
+    return true;
+}
+
 /** Autoload components */
 class Autoload_Legacy {
     private function initialize() {
