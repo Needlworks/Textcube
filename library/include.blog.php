@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__NO_ADMINPANEL__', true);
-$__requireComponent = array();
-$__requireBasics = array(
+$context->setProperty('import.component', array());
+$context->setProperty('import.basics', array(
     'function/string',
     'function/time',
     'function/javascript',
@@ -12,12 +12,12 @@ $__requireBasics = array(
     'function/xml',
     'function/misc',
     'function/mail',
-    'DEBUG : Basic functions loaded.');
-$__requireLibrary = array(
+    'DEBUG : Basic functions loaded.'));
+$context->setProperty('import.library', array(
     'auth',
     'blog.skin',
-    'DEBUG : Default library loaded.');
-$__requireModel = array(
+    'DEBUG : Default library loaded.'));
+$context->setProperty('import.model', array(
     'blog.service',                // Models
     'blog.archive',
     'blog.attachment',
@@ -36,10 +36,10 @@ $__requireModel = array(
     'common.setting',
     'common.plugin',
     'common.module',
-    'DEBUG : Models loaded.');
-$__requireView = array(
+    'DEBUG : Models loaded.'));
+$context->setProperty('import.view', array(
     'html',                        // Views
     'paging',
     'view',
-    'DEBUG : Views loaded.');
+    'DEBUG : Views loaded.'));
 ?>

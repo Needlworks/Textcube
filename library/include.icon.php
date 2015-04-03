@@ -5,14 +5,14 @@
 define('NO_SESSION', true);
 define('NO_INITIALIZATION', true);
 
-$__requireComponent = array();
-$__requireBasics = array(        // Basics
-    'function/file');
-$__requireLibrary = array(        // Library
-    'auth');
-$__requireModel = array(        // Model
+$context->setProperty('import.component', array());
+$context->setProperty('import.basics', array( // Basics
+    'function/file'));
+$context->setProperty('import.library', array( // Library
+    'auth'));
+$context->setProperty('import.model', array( // Model
     'blog.service',
 //	'common.plugin', // Usually do not require for icons (no events).
-    'common.setting');
-$__requireView = array();
+    'common.setting'));
+$context->setProperty('import.view', array()); // View
 ?>

@@ -3,8 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-$__requireComponent = array();
-$__requireBasics = array(
+$context->setProperty('import.component', array());
+$context->setProperty('import.basics', array( // Basics
     'function/file',
     'function/string',
     'function/time',
@@ -12,12 +12,12 @@ $__requireBasics = array(
     'function/html',
     'function/xml',
     'function/misc',
-    'function/mail');
-$__requireLibrary = array(
+    'function/mail'));
+$context->setProperty('import.library', array( // Library
     'blog.skin',
-    'auth');
-$__requireModel = array(
-    'blog.service',            // Models
+    'auth'));
+$context->setProperty('import.model', array( // Model
+    'blog.service',
     'blog.blogSetting',
     'blog.category',
     'blog.skin',
@@ -30,10 +30,10 @@ $__requireModel = array(
     'blog.fx',
     'common.plugin',
     'common.module',
-    'common.setting');
-$__requireView = array(
-    'html',                    // Views
+    'common.setting'));
+$context->setProperty('import.view', array( // View
+    'html',
     'ownerView',
     'paging',
-    'view');
+    'view'));
 ?>

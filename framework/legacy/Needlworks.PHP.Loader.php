@@ -4,49 +4,29 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 /** Binders */
-global $__requireBasics, $__requireLibrary, $__requireComponent, $__requireModel, $__requireView;
-if (!isset($__requireBasics)) {
-    $__requireBasics = array();
-}
-if (!isset($__requireLibrary)) {
-    $__requireLibrary = array();
-}
-if (!isset($__requireComponent)) {
-    $__requireComponent = array();
-}
-if (!isset($__requireModel)) {
-    $__requireModel = array();
-}
-if (!isset($__requireView)) {
-    $__requireView = array();
-}
-if (!isset($service)) {
-    $service = array();
-}
-
 function requireModel($name) {
-    global $__requireModel;
-    if (!in_array($name, $__requireModel)) {
+    $context = Model_Context::getInstance();
+    if (!in_array($name, $context->getProperty('import.model',array()))) {
         include_once(ROOT . "/library/model/$name.php");
-        array_push($__requireModel, $name);
+        $context->setPropertyItem('import.model', $name);
     }
 }
 
 function requireComponent($name) { return true; } // Legacy code for plugins. TODO: move to legacy support code.
 
 function requireView($name) {
-    global $__requireView;
-    if (!in_array($name, $__requireView)) {
+    $context = Model_Context::getInstance();
+    if (!in_array($name, $context->getProperty('import.view',array()))) {
         include_once(ROOT . "/library/view/$name.php");
-        array_push($__requireView, $name);
+        $context->setPropertyItem('import.view', $name);
     }
 }
 
 function requireLibrary($name) {
-    global $__requireLibrary;
-    if (!in_array($name, $__requireLibrary)) {
+    $context = Model_Context::getInstance();
+    if (!in_array($name, $context->getProperty('import.library',array()))) {
         include_once(ROOT . "/library/$name.php");
-        array_push($__requireLibrary, $name);
+        $context->setPropertyItem('import.library', $name);
     }
 }
 

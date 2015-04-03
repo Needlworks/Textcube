@@ -14,6 +14,30 @@ final class Model_Context extends Singleton {
         $this->__property[$key] = $value;
     }
 
+    public function setPropertyItem($key, $value, $namespace = null) {
+        $key = $this->__getKey($key, $namespace);
+        if (empty($this->__property[$key])) {
+            $this->__property[$key] = array();
+        }
+        if (is_array($this->__property[$key])) {
+            array_push($this->__property[$key], $value);
+            return true;
+        }
+        return false;
+    }
+
+    public function unsetPropertyItem($key, $value, $namespace = null) {
+        $key = $this->__getKey($key, $namespace);
+        if (empty($this->__property[$key])) {
+            return true;
+        }
+        if (is_array($this->__property[$key]) && $removeKey = array_search($value,$this->__property[$key])) {
+            unset($this->__property[$key][$removeKey]);
+            return true;
+        }
+        return false;
+    }
+
     public function unsetProperty($key, $namespace = null) {
         $key = $this->__getKey($key, $namespace);
         unset($this->__property[$key]);
