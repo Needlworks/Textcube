@@ -7,7 +7,7 @@
 define('TEXTCUBE_NAME', 'Textcube');
 define('TEXTCUBE_VERSION_ID', '1.10.6');
 define('TEXTCUBE_REVISION', 'root-main-branch1.10-r39');
-define('TEXTCUBE_CODENAME', 'Release Candidate 1');
+define('TEXTCUBE_CODENAME', 'Release Candidate 2');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2015. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');
