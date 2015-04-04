@@ -7,7 +7,7 @@ $ajaxcall = isset($_REQUEST['ajaxcall']) ? true : false;
 
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-requireLibrary('blog.skin');
+importlib('blogskin');
 $ctx = Model_Context::getInstance();
 
 $skin = new Skin($ctx->getProperty('skin.skin'));

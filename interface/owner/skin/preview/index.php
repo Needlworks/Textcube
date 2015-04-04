@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.entry');
+importlib('model.blog.entry');
 
 if(!Validator::filename($_GET['skin']) && $_GET['skin'] != "customize/$blogid")
 	Respond::NotFoundPage();

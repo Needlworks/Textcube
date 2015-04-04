@@ -104,7 +104,7 @@ if (!doesHaveMembership() && !doesHaveOwnership() && $userName == '') {
 			if(!empty($row))
 				sendCommentPing($entryId, $context->getProperty('uri.default')."/".($context->getProperty('blog.useSloganOnPost') ? "entry/{$row['slogan']}": $entryId), is_null($user) ? $comment['name'] : $user['name'], is_null($user) ? $comment['homepage'] : $user['homepage']);
 		}
-		requireModel('blog.skin');
+		importlib('model.blog.skin');
 		$skin = new Skin($context->getProperty('skin.skin'));
 		if ($entryId > 0) {
 			$commentBlock = getCommentView($entry, $skin);

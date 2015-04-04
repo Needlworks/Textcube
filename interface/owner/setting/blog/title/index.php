@@ -10,7 +10,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 if (!empty($_POST['title'])){
-	requireModel('blog.blogSetting');
+	importlib('model.blog.blogSetting');
 	if(setBlogTitle(getBlogId(), trim($_POST['title']))) {
 		Respond::ResultPage(0);
 	}

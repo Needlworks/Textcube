@@ -12,10 +12,10 @@ $IV = array(
 		)
 	);
 require ROOT . '/library/preprocessor.php';
-requireLibrary('blog.skin');
+importlib('blogskin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
-requireModel('blog.entry');
+importlib('model.blog.entry');
 requireModel("blog.archive");
 requireModel("blog.tag");
 requireModel("blog.notice");

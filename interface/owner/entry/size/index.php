@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.attachment');
+importlib('model.blog.attachment');
 $result = getAttachmentSizeLabel($blogid, $_GET['parent']);
 Respond::PrintResult(array ('error' => empty($result) ? 1 : 0, 'result' => $result));
 ?> 

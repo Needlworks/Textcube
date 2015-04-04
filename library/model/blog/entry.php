@@ -82,7 +82,7 @@ function getTemplates($blogid, $attributes = '*', $condition = false, $order = a
 
 function getEntry($blogid, $id, $draft = false) {
     $pool = DBModel::getInstance();
-    requireModel('blog.attachment');
+    importlib('model.blog.attachment');
     if ($id == 0) {
         if (!doesHaveOwnership()) {
             return null;
@@ -628,7 +628,7 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId = false) {
     $ctx = Model_Context::getInstance();
 
-    requireModel('blog.category');
+    importlib('model.blog.category');
     $entries = array();
     $paging = Paging::init($ctx->getProperty('uri.folder'), '/');
 
@@ -724,11 +724,11 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 }
 
 function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $categoryId = false) {
-    requireModel('blog.category');
+    importlib('model.blog.category');
     $ctx = Model_Context::getInstance();
 
 
-    requireModel('blog.category');
+    importlib('model.blog.category');
     $entries = array();
     $paging = $isSpecialEntry ? ($isSpecialEntry == 'page' ? Paging::init($ctx->getProperty('uri.blog') . "/page", '/') : Paging::init($ctx->getProperty('uri.blog') . "/notice", '/')) : Paging::init($ctx->getProperty('uri.blog') . "/entry", '/');
 
@@ -1025,11 +1025,11 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
     global $gCacheStorage;
     $pool = DBModel::getInstance();
 
-    requireModel('blog.tag');
-    requireModel('blog.locative');
-    requireModel('blog.attachment');
-    requireModel('blog.category');
-    requireModel('blog.feed');
+    importlib('model.blog.tag');
+    importlib('model.blog.locative');
+    importlib('model.blog.attachment');
+    importlib('model.blog.category');
+    importlib('model.blog.feed');
 
     if ($entry['id'] == 0) {
         return false;
@@ -1170,11 +1170,11 @@ function saveDraftEntry($blogid, $entry) {
     $ctx = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
-    requireModel('blog.tag');
-    requireModel('blog.locative');
-    requireModel('blog.attachment');
-    requireModel('blog.category');
-    requireModel('blog.feed');
+    importlib('model.blog.tag');
+    importlib('model.blog.locative');
+    importlib('model.blog.attachment');
+    importlib('model.blog.category');
+    importlib('model.blog.feed');
 
     if ($entry['id'] == 0) {
         return -11;

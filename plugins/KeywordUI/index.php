@@ -37,7 +37,7 @@ function KeywordUI_setSkin($target, $mother) {
 
 function KeywordUI_bindTag($target, $mother) {
     $context = Model_Context::getInstance();
-    requireModel('blog.keyword');
+    importlib('model.blog.keyword');
     $blogid = getBlogId();
     $blogURL = $context->getProperty("uri.blog");
     $pluginURL = $context->getProperty("plugin.uri");

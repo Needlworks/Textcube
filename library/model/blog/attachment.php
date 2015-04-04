@@ -191,7 +191,7 @@ function addAttachment($blogid, $parent, $file) {
 }
 
 function deleteAttachment($blogid, $parent, $name) {
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     if (!Validator::filename($name)) {
         return false;
     }
@@ -260,7 +260,7 @@ function copyAttachments($blogid, $originalEntryId, $targetEntryId) {
 }
 
 function deleteTotalAttachment($blogid) {
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     $d = dir(__TEXTCUBE_ATTACH_DIR__ . "/$blogid");
     while ($file = $d->read()) {
         if (is_file(__TEXTCUBE_ATTACH_DIR__ . "/$blogid/$file")) {
@@ -273,7 +273,7 @@ function deleteTotalAttachment($blogid) {
 }
 
 function deleteAttachmentMulti($blogid, $parent, $names) {
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     $pool = DBModel::getInstance();
     $files = explode('!^|', $names);
     foreach ($files as $name) {
@@ -304,7 +304,7 @@ function deleteAttachments($blogid, $parent) {
 }
 
 function downloadAttachment($name) {
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     $pool = DBModel::getInstance();
     $blogid = getBlogId();
 
@@ -322,8 +322,8 @@ function downloadAttachment($name) {
 }
 
 function setEnclosure($name, $order) {
-    requireModel('blog.feed');
-    requireModel('blog.attachment');
+    importlib('model.blog.feed');
+    importlib('model.blog.attachment');
 
     $pool = DBModel::getInstance();
     $blogid = getBlogId();

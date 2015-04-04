@@ -4,14 +4,14 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 
-requireLibrary('blog.skin');
+importlib('blogskin');
 
-requireModel('reader.common');
-requireModel('blog.comment');
-requireModel('blog.response.remote');
-requireModel('blog.entry');
-requireModel('blog.trash');
-requireModel('common.setting');
+importlib('model.common.reader');
+importlib('model.blog.comment');
+importlib('model.blog.remoteresponse');
+importlib('model.blog.entry');
+importlib('model.blog.trash');
+importlib('model.common.setting');
 
 $blogMenu['topMenu'] = 'center';
 $blogMenu['contentMenu'] = 'dashboard';

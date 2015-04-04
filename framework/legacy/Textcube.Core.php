@@ -426,8 +426,8 @@ class Blog {
     /*@static@*/
     /* TODO : remove model dependency (addBlog, sendInvitationMail) */
     function addUser($email, $name, $comment, $senderName, $senderEmail) {
-        requireModel('blog.user');
-        requireModel('blog.blogSetting');
+        importlib('model.blog.user');
+        importlib('model.blog.blogSetting');
 
         $blogid = getBlogId();
         if (empty($email)) {

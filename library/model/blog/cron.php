@@ -39,7 +39,7 @@ function dumbCronScheduler($checkOnly = true) {
             }
             fireEvent("Cron$d", null, $now);
             if ($d == '6h') {
-                requireModel('blog.trash');
+                importlib('model.blog.trash');
                 trashVan();
             }
             fwrite($log, date('Y-m-d H:i:s') . ' ' . $ctx->getProperty('blog.name') . " Cron$d executed ({$_SERVER['REQUEST_URI']})\r\n");

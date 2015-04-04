@@ -9,7 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.attachment');
+importlib('model.blog.attachment');
 requireStrictRoute();
 
 $result = setEnclosure($_POST['fileName'], $_POST['order']);

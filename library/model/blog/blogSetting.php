@@ -12,8 +12,8 @@ function setBlogTitle($blogid, $title) {
         return false;
     }
     $context->setProperty('blog.title', $title);
-    requireModel('blog.feed');
-    requireLibrary('blog.skin');
+    importlib('model.blog.feed');
+    importlib('blogskin');
     clearFeed();
     CacheControl::flushSkin();
     return true;
@@ -28,8 +28,8 @@ function setBlogDescription($blogid, $description) {
         return false;
     }
     $context->setProperty('blog.description', $description);
-    requireModel('blog.feed');
-    requireLibrary('blog.skin');
+    importlib('model.blog.feed');
+    importlib('blogskin');
     clearFeed();
     CacheControl::flushSkin();
     return true;
@@ -53,7 +53,7 @@ function getBlogTags($blogid) {
 function removeBlogLogo($blogid) {
     $context = Model_Context::getInstance();
     $skin = new Skin($context->getProperty('skin.skin'));
-    requireModel('blog.attachment');
+    importlib('model.blog.attachment');
 
     if (Setting::setBlogSettingGlobal('logo', '') === false) {
         return false;
@@ -68,7 +68,7 @@ function removeBlogLogo($blogid) {
 function changeBlogLogo($blogid, $file) {
     $context = Model_Context::getInstance();
     $skin = new Skin($context->getProperty('skin.skin'));
-    requireModel('blog.attachment');
+    importlib('model.blog.attachment');
     if (($attachment = addAttachment($blogid, -1, $file)) === false) {
         return false;
     }
@@ -89,7 +89,7 @@ function checkBlogName($name) {
 }
 
 function setPrimaryDomain($blogid, $name) {
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     $name = Utils_Unicode::lessenAsEncoding(strtolower(trim($name)), 32);
     if ($name == $blog['name']) {
         return 0;
@@ -121,7 +121,7 @@ function setSecondaryDomain($blogid, $domain) {
     $ctx = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     $domain = Utils_Unicode::lessenAsEncoding(strtolower(trim($domain)), 64);
     if ($domain == $ctx->getProperty('blog.secondaryDomain')) {
         return 0;
@@ -160,7 +160,7 @@ function setDefaultDomain($blogid, $default) {
         return false;
     }
     $ctx->setProperty('blog.defaultDomain', $default);
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     clearFeed();
     return true;
 }
@@ -190,7 +190,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
     $ctx->setProperty('blog.useSloganOnCategory', $useSloganOnCategory);
     $ctx->setProperty('blog.useSloganOnTag', $useSloganOnTag);
 
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     CacheControl::flushCategory();
     CacheControl::flushEntry();
     CacheControl::flushTag();
@@ -201,7 +201,7 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
 
 function setEntriesOnRSS($blogid, $entriesOnRSS) {
     $context = Model_Context::getInstance();
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     if ($entriesOnRSS == $context->getProperty('blog.entriesOnRSS')) {
         return true;
     }
@@ -238,7 +238,7 @@ function setBlogLanguage($blogid, $language, $blogLanguage) {
     if (Setting::setBlogSettingGlobal('language', $language) && Setting::setBlogSettingGlobal('blogLanguage', $blogLanguage)) {
         $ctx->setProperty('blog.language', $language);
         $ctx->setProperty('blog.blogLanguage', $blogLanguage);
-        requireModel('blog.feed');
+        importlib('model.blog.feed');
         clearFeed();
         return true;
     } else {
@@ -405,7 +405,7 @@ function getDefaultPostContent() {
 }
 
 function setDefaultPost($blogid, $userid) {
-    requireModel('blog.entry');
+    importlib('model.blog.entry');
     $entry = array();
     $entry['category'] = 0;
     $entry['visibility'] = 2;

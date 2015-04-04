@@ -17,8 +17,8 @@ if(count($_POST) > 0) {
 }
 require ROOT . '/library/preprocessor.php';
 $context = Model_Context::getInstance();
-requireModel('blog.category');
-requireModel('blog.entry');
+importlib('model.blog.category');
+importlib('model.blog.entry');
 if (!empty($_POST['id']))
 	$selected = $_POST['id'];
 else if (empty($_GET['id']))

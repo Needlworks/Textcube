@@ -30,7 +30,7 @@ function FM_TTML_bindTags($id, $content) {
 
 function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $useAbsolutePath = false, $bRssMode = false) {
 	$context = Model_Context::getInstance();
-	requireModel('blog.attachment');
+	importlib('model.blog.attachment');
 	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	getAttachments($blogid, $entryId); // For attachment caching.

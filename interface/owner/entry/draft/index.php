@@ -23,7 +23,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 
-requireModel('blog.entry');
+importlib('model.blog.entry');
 
 requireStrictRoute();
 if(empty($suri['id'])) Respond::ResultPage(1);

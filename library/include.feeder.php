@@ -9,22 +9,22 @@ if ($context->getProperty('service.reader') === false) {
 
 define('NO_LOCALE', true);
 
-$context->setProperty('import.component', array());
-$context->setProperty('import.basics', array( // Basics
-    'function/string',
-    'function/time',
-    'function/javascript',
-    'function/html',
-    'function/xml',
-    'function/misc',
-    'function/mail'));
-$context->setProperty('import.library', array( // Library
-    'auth'));
-$context->setProperty('import.model', array( // Model
-    'blog.service',
-    'blog.blogSetting',
-    'common.setting',
-    'common.plugin',
-    'reader.common'));
-$context->setProperty('import.view', array()); // View
+$context->setProperty('import.library', array(
+    'function.string',
+    'function.time',
+    'function.javascript',
+    'function.html',
+    'function.xml',
+    'function.misc',
+    'function.mail',
+    'DEBUG : Basic functions loaded.',
+    'auth',
+    'DEBUG : Default library loaded.',
+    'model.blog.service',
+    'model.blog.blogSetting',
+    'model.common.setting',
+    'model.common.plugin',
+    'model.common.reader',
+    'DEBUG : Models loaded.'
+));
 ?>

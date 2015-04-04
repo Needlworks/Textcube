@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function setTreeSetting($blogid, $setting) {
-    requireLibrary('blog.skin');
+    importlib('blogskin');
 
     if (empty($setting['showValueOnTree'])) {
         $setting['showValueOnTree'] = 0;
@@ -60,7 +60,7 @@ function reloadSkin($blogid) {
 
 function selectSkin($blogid, $skinName) {
     $context = Model_Context::getInstance();
-    requireLibrary('blog.skin');
+    importlib('blogskin');
     $blogid = getBlogId();
     if (empty($skinName)) {
         return _t('실패했습니다.');
@@ -273,7 +273,7 @@ function selectSkin($blogid, $skinName) {
 function writeSkinHtml($blogid, $contents, $mode, $file) {
     $context = Model_Context::getInstance();
     global $skinSetting;// Legacy global support. TODO: DELETE THIS LINE AFTER CHECK EVERY REFERENCES IN WHOLE SOURCE
-    requireLibrary('blog.skin');
+    importlib('blogskin');
     if ($mode != 'skin' && $mode != 'skin_keyword' && $mode != 'style') {
         return _t('실패했습니다.');
     }
@@ -320,7 +320,7 @@ function getCSSContent($blogid, $file) {
 function setSkinSetting($blogid, $setting) {
     global $skinSetting; // Legacy global support. TODO: DELETE THIS LINE AFTER CHECK EVERY REFERENCES IN WHOLE SOURCE
 
-    requireLibrary('blog.skin');
+    importlib('blogskin');
     $blogid = getBlogId();
     if (strncmp($context->getProperty('skin.skin'), 'customize/', 10) == 0) {
         if (strcmp($context->getProperty('skin.skin'), "customize/$blogid") != 0) {

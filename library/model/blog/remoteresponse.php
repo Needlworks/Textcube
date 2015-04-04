@@ -221,7 +221,7 @@ function getRecentRemoteResponses($blogid, $count = false, $guestShip = false, $
 
 function deleteRemoteResponse($blogid, $id) {
     $pool = DBModel::getInstance();
-    requireModel('blog.entry');
+    importlib('model.blog.entry');
     if (!is_numeric($id)) {
         return null;
     }
@@ -245,7 +245,7 @@ function deleteRemoteResponse($blogid, $id) {
 
 function trashRemoteResponse($blogid, $id) {
     $pool = DBModel::getInstance();
-    requireModel('blog.entry');
+    importlib('model.blog.entry');
     if (!is_numeric($id)) {
         return null;
     }
@@ -310,7 +310,7 @@ function revertRemoteResponse($blogid, $id) {
     }
     CacheControl::flushDBCache('trackback');
     CacheControl::flushDBCache('remoteResponse');
-    requireModel('blog.entry');
+    importlib('model.blog.entry');
     if (updateRemoteResponsesOfEntry($blogid, $entry)) {
         return $entry;
     }
@@ -481,8 +481,8 @@ function revertTrackback($blogid, $id) {
 }
 
 function sendTrackback($blogid, $entryId, $url) {
-    requireModel('blog.entry');
-    requireModel('blog.keyword');
+    importlib('model.blog.entry');
+    importlib('model.blog.keyword');
     $context = Model_Context::getInstance();
     $entry = getEntry($blogid, $entryId);
     if (is_null($entry)) {

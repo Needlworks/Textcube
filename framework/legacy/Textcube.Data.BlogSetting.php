@@ -83,7 +83,7 @@ class BlogSetting {
 
     function save() {
         global $database;
-        requireModel('common.setting');
+        importlib('model.common.setting');
 
         if (isset($this->name)) {
             $this->name = trim($this->name);

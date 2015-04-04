@@ -375,7 +375,7 @@ function deleteCategory($blogid, $id) {
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
     $ctx = Model_Context::getInstance();
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     if ($id == 0) {
         checkRootCategoryExistence($blogid);
     }
@@ -912,7 +912,7 @@ function getParentCategoryVisibility($blogid, $id) {
 }
 
 function setCategoryVisibility($blogid, $id, $visibility) {
-    requireModel('blog.feed');
+    importlib('model.blog.feed');
     if ($id == 0) {
         return false;
     }

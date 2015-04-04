@@ -9,7 +9,7 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.service');
+importlib('model.blog.service');
 requireStrictRoute();
 	
 $result = writeHtaccess($_POST['body']);

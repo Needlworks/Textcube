@@ -8,33 +8,14 @@
 if (isset($uri)) {
     $codeName = $uri->uri['interfaceType'];
 }
-if (isset($service['codecache']) && ($service['codecache'] == true) && file_exists(__TEXTCUBE_CACHE_DIR__ . '/code/' . $codeName)) {
+if (($context->getProperty('service.codecache',null) == true) && file_exists(__TEXTCUBE_CACHE_DIR__ . '/code/' . $codeName)) {
     $codeCacheRead = true;
     require(__TEXTCUBE_CACHE_DIR__ . '/code/' . $codeName);
 } else {
     $codeCacheRead = false;
-    foreach ((array_merge($context->getProperty('import.basics'), $context->getProperty('import.library'))) as $lib) {
+    foreach ($context->getProperty('import.library') as $lib) {
         if (strpos($lib, 'DEBUG') === false) {
-            require ROOT . '/library/' . $lib . '.php';
-        } else {
-            if (defined('TCDEBUG')) {
-                __tcSqlLogPoint($lib);
-            }
-        }
-    }
-    foreach ($context->getProperty('import.model') as $lib) {
-        if (strpos($lib, 'DEBUG') === false) {
-            require ROOT . '/library/model/' . $lib . '.php';
-        } else {
-            if (defined('TCDEBUG')) {
-                __tcSqlLogPoint($lib);
-            }
-        }
-    }
-
-    foreach ($context->getProperty('import.view') as $lib) {
-        if (strpos($lib, 'DEBUG') === false) {
-            require ROOT . '/library/view/' . $lib . '.php';
+            importlib($lib);
         } else {
             if (defined('TCDEBUG')) {
                 __tcSqlLogPoint($lib);
@@ -42,19 +23,11 @@ if (isset($service['codecache']) && ($service['codecache'] == true) && file_exis
         }
     }
 }
-if (isset($service['codecache'])
-    && $service['codecache'] == true && $codeCacheRead == false
-) {
+if ($context->getProperty('service.codecache',null) == true && $codeCacheRead == false) {
     $libCode = new CodeCache();
     $libCode->name = $codeName;
-    foreach ((array_merge($context->getProperty('import.basics'), $context->getProperty('import.library'))) as $lib) {
-        array_push($libCode->sources, '/library/' . $lib . '.php');
-    }
-    foreach ($context->getProperty('import.model') as $lib) {
-        array_push($libCode->sources, '/library/model/' . $lib . '.php');
-    }
-    foreach ($context->getProperty('import.view') as $lib) {
-        array_push($libCode->sources, '/library/view/' . $lib . '.php');
+    foreach ($context->getProperty('import.library') as $lib) {
+        array_push($libCode->sources, '/library/' . str_replace(".", "/", $lib) . '.php');
     }
     $libCode->save();
     unset($libCode);
