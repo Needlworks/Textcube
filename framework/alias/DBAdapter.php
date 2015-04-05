@@ -5,7 +5,7 @@
 
 if (!defined('__TEXTCUBE_SETUP__')) {
     $context = Model_Context::getInstance();
-    $dbms = 'MySQL';
+    $dbms = 'MySQLi';
     if (!is_null($context->getProperty('database.dbms'))) {
         $dbms = $context->getProperty('database.dbms');
     }
