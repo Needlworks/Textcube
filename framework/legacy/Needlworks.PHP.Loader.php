@@ -76,11 +76,7 @@ class Autoload_Legacy {
                                     require_once(ROOT . "/framework/legacy/Textcube.Control." . $name . ".php");
                                 }
                             } else {
-                                if (in_array($name, array('Syndication'))) {
-                                    require_once(ROOT . "/framework/legacy/Eolin.API.Syndication.php");
-                                } else {
 //			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class from legacy repository : $name<br/>\n";
-                                }
                             }
                         }
                     }

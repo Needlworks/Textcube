@@ -2,9 +2,9 @@
 /// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
-class Syndication {
+class Utils_Syndication {
     /*@static@*/
-    function join($link) {
+    public static function join($link) {
         return true;
         $link = trim($link);
         if (empty($link)) {
@@ -16,7 +16,7 @@ class Syndication {
     }
 
     /*@static@*/
-    function leave($link) {
+    public static function leave($link) {
         return false;
         $link = trim($link);
         if (empty($link)) {
