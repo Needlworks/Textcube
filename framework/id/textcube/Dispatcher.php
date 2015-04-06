@@ -6,7 +6,7 @@
 final class Dispatcher {
     private static $instances = array();
 
-    public $uri, $interfacePath;
+    public $uri, $service, $interfacePath;
 
     public function __construct() {
         $this->pathSelector();
@@ -40,7 +40,6 @@ final class Dispatcher {
     }
 
     private function URIinterpreter() {
-        global $service;
         /* Workaround for IIS environment */
         if (!isset($_SERVER['REQUEST_URI']) && isset($_SERVER['SCRIPT_NAME'])) {
             $_SERVER['REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
@@ -244,6 +243,7 @@ final class Dispatcher {
             $uri['interfaceRoute'] = rtrim($this->interfacePath, 'index.php');
         }
         $this->uri = $uri;
+        $this->service = $service;
     }
 }
 
