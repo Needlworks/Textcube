@@ -10,7 +10,7 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireLibrary('blog.skin');
+importlib('blogskin');
 requireStrictRoute();
 $skin = new Skin($skinSetting['skin']);
 

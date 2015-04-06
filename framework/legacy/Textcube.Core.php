@@ -6,26 +6,24 @@
 /* This component contains 'User', 'Blog' and 'Transaction' class.
    NOTE : Classes described below are actually not objects. Usually they are static.*/
 
-// for Global Cache
-global $__gCacheUserNames;
-$__gCacheUserNames = array();
-
 class User {
-    private static $__gCacheUserNames;
 
     static function getName($userid = null) {
-        global $__gCacheUserNames;
-        $pool = DBModel::getInstance();
+        $context = Model_Context::getInstance();
 
         if (empty($userid)) {
             $userid = getUserId();
         }
-        if (array_key_exists($userid, $__gCacheUserNames)) {
-            return $__gCacheUserNames[$userid];
+        $userNames = $context->getProperty('cache.UserNames',array());
+        if (array_key_exists($userid, $userNames)) {
+            return $userNames[$userid];
         }
+        $pool = DBModel::getInstance();
         $pool->reset("Users");
         $pool->setQualifier("userid", "eq", $userid);
-        return $__gCacheUserNames[$userid] = $pool->getCell("name");
+        $userNames[$userid] = $pool->getCell("name");
+        $context->setProperty('cache.UserNames',$userNames);
+        return $userNames[$userid];
     }
 
     static function getInfo($userid = null) {
@@ -36,22 +34,23 @@ class User {
     }
 
     static function getUserIdByName($name) {
-        global $__gCacheUserNames;
-
         $context = Model_Context::getInstance();
-        $pool = DBModel::getInstance();
         if (!isset($name)) {
             return getUserId();
         }
-        $name = POD::escapeString($name);
-        $userid = array_search($name, $__gCacheUserNames);
+        $userNames = $context->getProperty('cache.UserNames',array());
+
+        $userid = array_search($name, $userNames);
         if (!empty($userid)) {
             return $userid;
         }
+        $pool = DBModel::getInstance();
         $pool->reset("Users");
         $pool->setQualifier("name", "eq", $name, true);
         $userid = $pool->getCell("userid");
-        $__gCacheUserNames[$userid] = $name;
+        $userNames[$userid] = $name;
+        $context->setProperty('cache.UserNames',$userNames);
+
         return $userid;
     }
 
@@ -427,8 +426,8 @@ class Blog {
     /*@static@*/
     /* TODO : remove model dependency (addBlog, sendInvitationMail) */
     function addUser($email, $name, $comment, $senderName, $senderEmail) {
-        requireModel('blog.user');
-        requireModel('blog.blogSetting');
+        importlib('model.blog.user');
+        importlib('model.blog.blogSetting');
 
         $blogid = getBlogId();
         if (empty($email)) {

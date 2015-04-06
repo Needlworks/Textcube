@@ -63,9 +63,9 @@ $__requireBasics = array(
 if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
 
-requireModel('blog.blogSetting');
-requireModel('blog.entry');
-requireLibrary('auth');
+importlib('model.blog.blogSetting');
+importlib('model.blog.entry');
+importlib('auth');
 
 if (!empty($_GET['test'])) {
 	echo getFingerPrint();

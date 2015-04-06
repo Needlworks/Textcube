@@ -11,7 +11,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.feed');
+importlib('model.blog.feed');
 
 requireStrictRoute();
 $result = false;

@@ -1,7 +1,7 @@
 <?php
 // POD : PHP Ontology(or Object-Oriented)-based Data model/framework
 // Version 0.19a-PHP5
-// By Jeongkyu Shin (jkshin@ncsl.postech.ac.kr)
+// By Jeongkyu Shin (inureyes@gmail.com)
 // Created       : 2007.11.30
 // Last modified : 2008.7.20
 

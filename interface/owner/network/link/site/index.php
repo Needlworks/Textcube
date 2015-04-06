@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.link');
+importlib('model.blog.link');
 
 if (!empty($_GET['rss'])) {
 	list($st, $header, $body, $lmdate, $rval) = @xml_parser($_GET['rss'], '');

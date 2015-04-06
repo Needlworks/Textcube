@@ -5,10 +5,10 @@
 
 require ROOT . '/library/preprocessor.php';
 
-requireModel('blog.trash');
-requireModel('blog.response.remote');
-requireModel('blog.sidebar');
-requireLibrary('blog.skin');
+importlib('model.blog.trash');
+importlib('model.blog.remoteresponse');
+importlib('model.blog.sidebar');
+importlib('blogskin');
 
 requireStrictRoute();
 $blogid = getBlogId();

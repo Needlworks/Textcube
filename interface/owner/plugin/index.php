@@ -6,7 +6,7 @@
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 
-requireModel('common.plugin');
+importlib('model.common.plugin');
 
 $pageCache = pageCache::getInstance();
 $pageCache->reset('PluginSettings');

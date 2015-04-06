@@ -40,7 +40,6 @@ if ((isset($_REQUEST['blogid'])) && is_numeric($_REQUEST['blogid'])) {
 	$blogid = intval($_REQUEST['blogid']);
 }
 
-requireComponent('Textcube.Model.Statistics');
 $row = Statistics::getWeeklyStatistics();
 
 $row = array_reverse($row);

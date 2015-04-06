@@ -5,14 +5,10 @@
 define('NO_SESSION', true);
 define('NO_INITIALIZATION', true);
 
-$__requireComponent = array();
-$__requireBasics = array(        // Basics
-    'function/file');
-$__requireLibrary = array(        // Library
-    'auth');
-$__requireModel = array(        // Model
-    'blog.service',
-//	'common.plugin', // Usually do not require for icons (no events).
-    'common.setting');
-$__requireView = array();
+$context->setProperty('import.library', array(
+    'function.file',
+    'auth',
+    'model.blog.service',
+//	'model.common.plugin', // Usually do not require for icons (no events).
+    'model.common.setting'));
 ?>

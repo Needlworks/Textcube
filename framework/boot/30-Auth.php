@@ -359,33 +359,32 @@ class Acl {
 
 class Auth {
     function login($loginid, $password) {
-        global $blogid;
-        if (Auth::authenticate($blogid, $loginid, $password, true) === false) {
+        $context = Model_Context::getInstance();
+        if (Auth::authenticate($context->getProperty('blog.id'), $loginid, $password, true) === false) {
             return false;
         }
         return true;
     }
 
     function authenticate($blogid, $loginid, $password, $blogapi = false) {
-        global $database;
         $session = array();
         Acl::clearAcl();
-        $loginid = POD::escapeString($loginid);
-
+        $pool = DBModel::getInstance();
         $blogApiPassword = Setting::getBlogSettingGlobal("blogApiPassword", "");
 
-        if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Raw login. ( with/without auth token)
+        $pool->reset("Users");
+        if ((strlen($password) == 32) && preg_match('/[0-9a-f]{32}/i', $password)) { // Traditional md5 Raw login. ( with/without auth token)
             $userid = User::getUserIdByEmail($loginid);
             if (!empty($userid) && !is_null($userid)) {
-                $query = DBModel::getInstance();
-                $query->reset('UserSettings');
-                $query->setQualifier('userid', 'equals', intval($userid));
-                $query->setQualifier('name', 'equals', 'AuthToken', true);
+                $pool->reset('UserSettings');
+                $pool->setQualifier('userid', 'equals', intval($userid));
+                $pool->setQualifier('name', 'equals', 'AuthToken', true);
                 $authtoken = $query->getCell('value');
+                $pool->reset("Users");
                 if (!empty($authtoken) && ($authtoken === $password)) {    // If user requested auth token, use it to confirm.
                     $session['userid'] = $userid;
                 } else {    // login with md5 hash
-                    $secret = 'password = \'' . md5($password) . '\'';
+                    $pool->setQualifier("password","eq",md5($password),true);
                 }
             } else {
                 return false;
@@ -393,13 +392,14 @@ class Auth {
         } else {
             if ($blogapi && !empty($blogApiPassword)) {    // BlogAPI login
                 $password = POD::escapeString($password);
-                $secret = '(password = \'' . md5($password) . '\' OR \'' . $password . '\' = \'' . $blogApiPassword . '\')';
+                $pool->setQualifierSet(array("password","eq",md5($password),true),"OR",array($password,"eq",$blogApiPassword,true));
             } else {    // Normal login
-                $secret = 'password = \'' . md5($password) . '\'';
+                $pool->setQualifier("password","eq",md5($password),true);
             }
         }
         if (empty($session)) {
-            $session = POD::queryRow("SELECT userid, loginid, name FROM {$database['prefix']}Users WHERE loginid = '$loginid' AND $secret");
+            $pool->setQualifier("loginid","eq",$loginid,true);
+            $session = $pool->getRow("userid, loginid");
         }
         if (empty($session)) {
             /* You should compare return value with '=== false' which checks with variable types*/
@@ -408,7 +408,10 @@ class Auth {
         $userid = $session['userid'];
 
         Acl::authorize('textcube', $userid);
-        POD::execute("UPDATE {$database['prefix']}Users SET lastlogin = " . Timestamp::getUNIXtime() . " WHERE loginid = '$loginid'");
+        $pool->reset("Users");
+        $pool->setAttribute("lastlogin",Timestamp::getUNIXtime());
+        $pool->setQualifier("loginid","eq",$loginid,true);
+        $pool->update();
 //		POD::execute("DELETE FROM {$database['prefix']}UserSettings WHERE userid = '$userid' AND name = 'AuthToken' LIMIT 1");
         return $userid;
     }

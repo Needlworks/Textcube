@@ -72,7 +72,7 @@ if(in_array(POD::dbms(),array('MySQL','MySQLi'))) {
 	$dbCaseInsensitive = true;
 }
 
-requireModel('common.setting');
+importlib('model.common.setting');
 $definedTables = getDefinedTableNames();
 
 $dbtables = array_values(array_diff($dbtables, $definedTables));

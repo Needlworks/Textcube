@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel('common.plugin');
+importlib('model.common.plugin');
 requireStrictRoute();
 
 if(empty($_POST['name'])) Respond::ResultPage(1);

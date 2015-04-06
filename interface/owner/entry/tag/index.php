@@ -14,8 +14,8 @@ if(count($_POST) > 0) {
 
 require ROOT . '/library/preprocessor.php';
 
-requireModel('blog.tag');
-requireModel('blog.entry');
+importlib('model.blog.tag');
+importlib('model.blog.entry');
 $blogid = getBlogId();
 if (!empty($_POST['deleteTag'])) {
 	deleteTagById($blogid, $_POST['deleteTag']);

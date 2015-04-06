@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
 $tabsClass['cover'] = true;
-requireLibrary('blog.skin');
+importlib('blogskin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 requireModel("blog.entry");

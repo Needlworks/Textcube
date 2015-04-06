@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $entriesView = '';
-requireModel('blog.comment');
+importlib('model.blog.comment');
 $context = Model_Context::getInstance();
 if (isset($cache->contents)) {
 	$entriesView = $cache->contents;

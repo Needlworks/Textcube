@@ -3,42 +3,38 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__NO_ADMINPANEL__', true);
-$__requireComponent = array();
-$__requireBasics = array(
-    'function/string',
-    'function/time',
-    'function/javascript',
-    'function/html',
-    'function/xml',
-    'function/misc',
-    'function/mail',
-    'DEBUG : Basic functions loaded.');
-$__requireLibrary = array(
+$context->setProperty('import.library', array(
+    'function.string',
+    'function.time',
+    'function.javascript',
+    'function.html',
+    'function.xml',
+    'function.misc',
+    'function.mail',
+    'DEBUG : Basic functions loaded.',
     'auth',
-    'blog.skin',
-    'DEBUG : Default library loaded.');
-$__requireModel = array(
-    'blog.service',                // Models
-    'blog.archive',
-    'blog.attachment',
-    'blog.blogSetting',
-    'blog.category',
-    'blog.comment',
-    'blog.entry',
-    'blog.keyword',
-    'blog.notice',
-    'blog.link',
-    'blog.locative',
-    'blog.sidebar',
-    'blog.response.remote',
-    'blog.tag',
-    'common.setting',
-    'common.plugin',
-    'common.module',
-    'DEBUG : Models loaded.');
-$__requireView = array(
-    'html',                        // Views
-    'paging.mobile',
-    'view',
-    'DEBUG : Views loaded (Mobile).');
+    'blogskin',
+    'DEBUG : Default library loaded.',
+    'model.blog.service',
+    'model.blog.archive',
+    'model.blog.attachment',
+    'model.blog.blogSetting',
+    'model.blog.category',
+    'model.blog.comment',
+    'model.blog.entry',
+    'model.blog.keyword',
+    'model.blog.notice',
+    'model.blog.link',
+    'model.blog.locative',
+    'model.blog.sidebar',
+    'model.blog.remoteresponse',
+    'model.blog.tag',
+    'model.common.setting',
+    'model.common.plugin',
+    'model.common.module',
+    'DEBUG : Models loaded.',
+    'view.html',
+    'view.paging.mobile',
+    'view.view',
+    'DEBUG : Views loaded (Mobile).'));
 ?>

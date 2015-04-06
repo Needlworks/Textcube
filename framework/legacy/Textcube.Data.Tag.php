@@ -16,7 +16,6 @@ class Tag {
     /*@static@*/
     function addTagsWithEntryId($blogid, $entry, /*string array*/
                                 $taglist) {
-        requireComponent('Needlworks.Cache.PageCache');
         global $database;
 
         if ($taglist == null) {

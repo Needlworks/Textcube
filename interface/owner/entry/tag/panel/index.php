@@ -10,7 +10,7 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-requireModel('blog.entry');
+importlib('model.blog.entry');
 
 /// Loads entry list.
 $listWithPaging = getEntryListWithPagingByTag(getBlogId(), $_POST['tagId'], 1, 1);

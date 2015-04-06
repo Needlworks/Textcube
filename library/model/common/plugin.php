@@ -299,7 +299,7 @@ function deletePluginTable($name) {
 }
 
 function getPluginTableName() {
-    requireModel('common.setting');
+    importlib('model.common.setting');
     $ctx = Model_Context::getInstance();
 
     $likeEscape = array('/_/', '/%/');
@@ -505,7 +505,7 @@ function handleCenters($mapping) {
 // 저장된 사이드바 정렬 순서 정보를 가져온다.
 function handleSidebars(& $sval, & $obj, $previewMode) {
     global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings;
-    requireModel('blog.sidebar');
+    importlib('model.blog.sidebar');
     $newSidebarAllOrders = array();
     // [sidebar id][element id](type, id, parameters)
     // type : 1=skin text, 2=default handler, 3=plug-in

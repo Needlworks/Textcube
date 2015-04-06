@@ -29,6 +29,33 @@ function import() {
     return true;
 }
 
+/** Library binders **/
+function importlib() {
+    $context = Model_Context::getInstance();
+    $args = func_get_args();
+    if (empty($args)) {
+        return false;
+    }
+    foreach ($args as $libPath) {
+        $paths = explode(".", $libPath);
+        if (end($paths) == "*") {
+            array_pop($paths);
+            foreach (new DirectoryIterator(ROOT . '/library/' . implode("/", $paths)) as $fileInfo) {
+                if ($fileInfo->isFile()) {
+                    require_once($fileInfo->getPathname());
+                    //$context->setPropertyItem('import.lib', implode(".", $paths).'.'.preg_replace('/\\.[^.\\s]{3,4}$/', '', $fileInfo->getFilename()));
+                }
+            }
+        } else {
+            //if (!in_array($libPath, $context->getProperty('import.lib',array()))) {
+                require_once ROOT . '/library/' . str_replace(".", "/", $libPath) . ".php";
+            //    $context->setPropertyItem('import.lib', $libPath);
+            //}
+        }
+    }
+    return true;
+}
+
 /// Autoload function
 class Autoload {
     static function load($className) {

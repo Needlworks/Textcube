@@ -18,7 +18,7 @@ $IV = array(
 		);
 
 require ROOT . '/library/preprocessor.php';
-requireLibrary('blog.skin');
+importlib('blogskin');
 requireModel("blog.sidebar");
 requireModel("blog.coverpage");
 

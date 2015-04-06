@@ -27,7 +27,7 @@ $interface_location = array(
 );
 $interface_exception = array(
 	"owner" => array(ROOT . "/interface/blog/checkup.php"),
-	"blog"=>array(ROOT."/library/model/reader.common.php"),
+	"blog"=>array(ROOT."/library/model/common/reader.php"),
 	"control"=>array(),
 	"setup"=>array(),
 	"checkup"=>array()

@@ -97,7 +97,7 @@ for ($i=0; $i<sizeof($links); $i++) {
 ?>
 	<tr id="link_id_<?php echo $link['id'];?>" class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 		<td class="xfn-homepage">
-			<a href="<?php echo $context->getProperty('uri.blog');?>/owner/network/link/edit/<?php echo $link['id'];?>" title="<?php echo htmlspecialchars($link['url']);?>"><?php echo htmlspecialchars(UTF8::lessen($link['name'],12));?></a>
+			<a href="<?php echo $context->getProperty('uri.blog');?>/owner/network/link/edit/<?php echo $link['id'];?>" title="<?php echo htmlspecialchars($link['url']);?>"><?php echo htmlspecialchars(Utils_Unicode::lessen($link['name'],12));?></a>
 			<input type="hidden" name="xfn<?php echo $link['id'];?>" id="xfn_id_<?php echo $link['id'];?>" value="<?php echo $xfn; ?>"/>
 		</td>
 

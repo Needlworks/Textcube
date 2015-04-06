@@ -15,7 +15,7 @@ if ($blogid != 1) {
 	exit;
 }
 
-requireModel('common.setting');
+importlib('model.common.setting');
 $definedTables = getDefinedTableNames();
 
 if ($_REQUEST['type'] == 1) { // type 1, plugin

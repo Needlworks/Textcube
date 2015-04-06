@@ -13,7 +13,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.user');
+importlib('model.blog.user');
 requireStrictRoute();
 if (($service['type'] == 'single') || !Acl::check("group.creators"))
 	Respond::ResultPage(false);

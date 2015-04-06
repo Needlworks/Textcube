@@ -42,7 +42,6 @@ function getTeamAuthorStyle($target, $mother){
 
 function getTeamProfileView($target, $mother){
 	global $suri, $entry, $entryView, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && empty($data['p2']) ) {
@@ -56,7 +55,6 @@ function getTeamProfileView($target, $mother){
 
 function getTeamProfile($userid){
 	global $database, $serviceURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." AND userid=".$userid);
@@ -82,7 +80,6 @@ function getTeamProfile($userid){
 
 function getTeamBlogSettings() {
 	global $database, $service, $serviceURL, $pluginURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 ?>
@@ -311,8 +308,6 @@ function getImageFileUpload($target){
 
 function getAddAttachment($file){
 	global $database, $serviceURL;
-	requireComponent('Textcube.Function.misc');
-	requireComponent('Textcube.Data.Attachment');
 	Attachment::confirmFolder();
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
@@ -358,7 +353,6 @@ function getDeleteAttachment($filename){
 
 function getTeamBlogStyle($target) {
 	global $blogURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	if($data['cssSelect'] == 1){
@@ -369,7 +363,6 @@ function getTeamBlogStyle($target) {
 
 function getTeamBlogStyleSet($target){
 	global $pluginURL, $configVal;
-	requireComponent('Textcube.Function.misc');
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	$lineColor = (strpos($data['lineColor'], "#")===0)?$data['lineColor']:"#".$data['lineColor'];
@@ -392,7 +385,6 @@ function getTeamBlogStyleSet($target){
 }
 
 function getTeamBlog_DataSet($DATA){
-	requireComponent('Textcube.Function.misc');
 	$cfg = Setting::fetchConfigVal($DATA);
 	return true;
 }

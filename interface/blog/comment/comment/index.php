@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/library/preprocessor.php';
-requireModel('blog.comment');
+importlib('model.blog.comment');
 $IV = array(
 	'POST' => array(
 		'name' => array('string', 'default' => ''),

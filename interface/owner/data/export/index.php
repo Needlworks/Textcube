@@ -88,7 +88,7 @@ if ($post->open('', '*', 'published, id')) {
 		}
 		$writer->write('<starred>' . $post->starred . '</starred>' .
 			'<title>' . htmlspecialchars($post->title) . '</title>' .
-			'<content formatter="' . htmlspecialchars($post->contentformatter) . '" editor="' . htmlspecialchars($post->contenteditor) .'">' . htmlspecialchars(UTF8::correct($post->content)) . '</content>' .
+			'<content formatter="' . htmlspecialchars($post->contentformatter) . '" editor="' . htmlspecialchars($post->contenteditor) .'">' . htmlspecialchars(Utils_Unicode::correct($post->content)) . '</content>' .
 			'<location>' . htmlspecialchars($post->location) . '</location>' .
 			(!is_null($post->password) ? '<password>' . htmlspecialchars($post->password) . '</password>' : '') .
 			'<acceptComment>' . $post->acceptcomment . '</acceptComment>' .
@@ -202,8 +202,8 @@ if ($notice->open()) {
 			'<id>' . $notice->id . '</id>' .
 			'<visibility>' . $notice->visibility . '</visibility>' .
 			'<starred>' . $notice->starred . '</starred>' .
-			'<title>' . htmlspecialchars(UTF8::correct($notice->title)) . '</title>' .
-			'<content formatter="' . htmlspecialchars($notice->contentformatter) . '" editor="' . htmlspecialchars($notice->contenteditor) .'">' . htmlspecialchars(UTF8::correct($notice->content)) . '</content>' .
+			'<title>' . htmlspecialchars(Utils_Unicode::correct($notice->title)) . '</title>' .
+			'<content formatter="' . htmlspecialchars($notice->contentformatter) . '" editor="' . htmlspecialchars($notice->contenteditor) .'">' . htmlspecialchars(Utils_Unicode::correct($notice->content)) . '</content>' .
 			'<published>' . $notice->published . '</published>' .
 			'<created>' . $notice->created . '</created>' .
 			'<modified>' . $notice->modified . '</modified>');
@@ -234,8 +234,8 @@ if ($keyword->open()) {
 			'<id>' . $keyword->id . '</id>' .
 			'<visibility>' . $keyword->visibility . '</visibility>' .
 			'<starred>' . $keyword->starred . '</starred>' .
-			'<name>' . htmlspecialchars(UTF8::correct($keyword->name)) . '</name>' .
-			'<description editor="' . htmlspecialchars($keyword->descriptionEditor) . '" formatter="' . htmlspecialchars($keyword->descriptionFormatter) .'">' . htmlspecialchars(UTF8::correct($keyword->description)) . '</description>' .
+			'<name>' . htmlspecialchars(Utils_Unicode::correct($keyword->name)) . '</name>' .
+			'<description editor="' . htmlspecialchars($keyword->descriptionEditor) . '" formatter="' . htmlspecialchars($keyword->descriptionFormatter) .'">' . htmlspecialchars(Utils_Unicode::correct($keyword->description)) . '</description>' .
 			'<published>' . $keyword->published . '</published>' .
 			'<created>' . $keyword->created . '</created>' .
 			'<modified>' . $keyword->modified . '</modified>');
@@ -307,9 +307,9 @@ if ($cmtNotified->open()) {
 		$site->close();
 		$writer->write('<remoteId>' . $cmtNotified->remoteid . '</remoteId>');
 		$writer->write('<isNew>' . $cmtNotified->isnew . '</isNew>');
-		$writer->write('<url>' . htmlspecialchars(UTF8::correct($cmtNotified->url)). '</url>');
-		$writer->write('<entryTitle>' . htmlspecialchars(UTF8::correct($cmtNotified->entrytitle)). '</entryTitle>');
-		$writer->write('<entryUrl>' . htmlspecialchars(UTF8::correct($cmtNotified->entryurl)). '</entryUrl>');
+		$writer->write('<url>' . htmlspecialchars(Utils_Unicode::correct($cmtNotified->url)). '</url>');
+		$writer->write('<entryTitle>' . htmlspecialchars(Utils_Unicode::correct($cmtNotified->entrytitle)). '</entryTitle>');
+		$writer->write('<entryUrl>' . htmlspecialchars(Utils_Unicode::correct($cmtNotified->entryurl)). '</entryUrl>');
 		$writer->write('</comment>');
 		$writer->write(CRLF);
 	} while ($cmtNotified->shift());
@@ -453,11 +453,11 @@ $line->setFilter(array('blogid','eq',getBlogId()));
 if($lines = $line->get()) {
 	foreach ($lines as $lineitem) {
 		$writer->write('<line>' .
-			'<author>' . htmlspecialchars(UTF8::correct($lineitem['author'])) . '</author>' .
-			'<category>' . htmlspecialchars(UTF8::correct($lineitem['category'])) . '</category>' .
-			'<root>' . htmlspecialchars(UTF8::correct($lineitem['root'])) . '</root>' .
-			'<permalink>' . htmlspecialchars(UTF8::correct($lineitem['permalink'])) . '</permalink>' .
-			'<content>' . htmlspecialchars(UTF8::correct($lineitem['content'])) . '</content>' .
+			'<author>' . htmlspecialchars(Utils_Unicode::correct($lineitem['author'])) . '</author>' .
+			'<category>' . htmlspecialchars(Utils_Unicode::correct($lineitem['category'])) . '</category>' .
+			'<root>' . htmlspecialchars(Utils_Unicode::correct($lineitem['root'])) . '</root>' .
+			'<permalink>' . htmlspecialchars(Utils_Unicode::correct($lineitem['permalink'])) . '</permalink>' .
+			'<content>' . htmlspecialchars(Utils_Unicode::correct($lineitem['content'])) . '</content>' .
 			'<created>' . $lineitem['created'] . '</created>' .
 			'</line>');
 		$writer->write(CRLF);

@@ -9,28 +9,29 @@ if ($context->getProperty('service.reader') === false) {
 
 define('__TEXTCUBE_ADMINPANEL__', true);
 
-$__requireComponent = array();
-$__requireBasics = array(        // Basics
-    'function/string',
-    'function/time',
-    'function/javascript',
-    'function/html',
-    'function/xml',
-    'function/misc',
-    'function/mail');
-$__requireLibrary = array(        // Library
-    'auth');
-$__requireModel = array(
-    'blog.service',
-    'blog.blogSetting',
-//	'blog.user',
-    'blog.fx',
-    'common.setting',
-    'common.plugin',
-    'reader.common');
-$__requireView = array(        // View
-    'html',
-    'ownerView',
-    'paging',
-    'view');
+$context->setProperty('import.library', array(
+    'function.string',
+    'function.time',
+    'function.javascript',
+    'function.html',
+    'function.xml',
+    'function.misc',
+    'function.mail',
+    'DEBUG : Basic functions loaded.',
+    'auth',
+    'DEBUG : Default library loaded.',
+    'model.blog.service',
+    'model.blog.blogSetting',
+//	'model.blog.user',
+    'model.blog.fx',
+    'model.common.setting',
+    'model.common.plugin',
+    'model.common.reader',
+    'DEBUG : Models loaded.',
+    'view.html',
+    'view.ownerView',
+    'view.paging',
+    'view.view',
+    'DEBUG : Views loaded.'
+));
 ?>

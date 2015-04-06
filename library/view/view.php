@@ -209,8 +209,8 @@ function getScriptsOnFoot() {
 
 function getTrackbacksView($entry, $skin, $accepttrackback) {
     $ctx = Model_Context::getInstance();
-    requireModel('blog.response.remote');
-    requireLibrary('blog.skin');
+    importlib('model.blog.remoteresponse');
+    importlib('blogskin');
 
     $trackbacksContainer = $skin->trackbackContainer;
     $trackbacksView = '';
@@ -278,7 +278,7 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
     requireModel("common.setting");
     requireModel("blog.entry");
     requireModel("blog.comment");
-    requireLibrary('blog.skin');
+    importlib('blogskin');
     $authorized = doesHaveOwnership();
     $useAjaxBlock = $context->getProperty('blog.useAjaxComment', true);
     $useMicroformat = $context->getProperty('blog.useMicroformat', 3);
@@ -549,8 +549,8 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
     $ctx = Model_Context::getInstance();
-    requireModel('blog.category');
-    requireLibrary('blog.skin');
+    importlib('model.blog.category');
+    importlib('blogskin');
     $blogid = getBlogId();
     $categoryCount = 0;
     $categoryCountAll = 0;
@@ -602,8 +602,8 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
     $ctx = Model_Context::getInstance();
     $blogid = getBlogId();
-    requireModel('blog.category');
-    requireLibrary('blog.skin');
+    importlib('model.blog.category');
+    importlib('blogskin');
     // Initialize root category.
     $tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => $ctx->getProperty('uri.blog') . "/owner/entry/category", 'children' => array());
     foreach ($categories as $category1) {
@@ -627,8 +627,8 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
 }
 
 function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
-    requireModel('blog.category');
-    requireLibrary('blog.skin');
+    importlib('model.blog.category');
+    importlib('blogskin');
 
     $tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => "", 'children' => array());
     foreach ($categories as $category1) {
@@ -648,8 +648,8 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 }
 
 function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
-    requireLibrary('blog.skin');
-    requireModel('blog.entry');
+    importlib('blogskin');
+    importlib('model.blog.entry');
     $ctx = Model_Context::getInstance();
     if ($embedJava == false) { // not from getCategoriesViewInSkinSetting
         $skin = getCategoriesSkin();
@@ -1365,9 +1365,9 @@ function getRandomTagsView($tags, $template) {
 
 function getEntryContentView($blogid, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = true, $bRssMode = false) {
     $ctx = Model_Context::getInstance();
-    requireModel('blog.attachment');
-    requireModel('blog.keyword');
-    requireLibrary('blog.skin');
+    importlib('model.blog.attachment');
+    importlib('model.blog.keyword');
+    importlib('blogskin');
     $context = Model_Context::getInstance();
     $cacheKey = 'entry-' . $id . '-' . $type . ($bRssMode ? 'format' : 'summarize') . ($useAbsolutePath ? 'absoultePath' : 'relativePath') . ($context->getProperty('blog.displaymode', 'desktop'));
     $cache = pageCache::getInstance();

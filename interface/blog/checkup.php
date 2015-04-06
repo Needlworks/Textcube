@@ -11,9 +11,9 @@ $codeCache->flush();
 
 require ROOT . '/library/model/blog.skin.php';
 
-requireModel('common.setting');
-requireModel('blog.entry');
-requireModel('blog.trash');
+importlib('model.common.setting');
+importlib('model.blog.entry');
+importlib('model.blog.trash');
 
 if(!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) $currentVersion = _text('첫번째 점검');
 else $currentVersion = file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP');

@@ -6,8 +6,6 @@
 /// Singleton implementation.
 class Singleton {
     // If your model support higher than PHP 5.3, you do not need to implement getInstance method.
-    // However, models for prior to PHP 5.3 should have getInstance method.
-    // See below (<5.3 Compatible singleton implementation)
     private static $instances;
 
     public function __construct() {
