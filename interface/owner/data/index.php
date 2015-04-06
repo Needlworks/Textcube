@@ -23,48 +23,6 @@ if (isset($checkFunction)) unset($checkFunction);
 								}
 							//]]>
 						</script>
-<?php
-
-if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
-?>
-						<script type="text/javascript">
-							//<![CDATA[
-								window.addEventListener("load", checkTextcubeVersion, false);
-								function checkTextcubeVersion() {
-									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
-								}
-							//]]>
-						</script>
-<?php
-	$checkFunction = 'checkForceTextcubeVersion();';
-} else if (file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP') != TEXTCUBE_VERSION) {
-?>
-						<script type="text/javascript">
-							//<![CDATA[
-								window.addEventListener("load", checkTextcubeVersion, false);
-								function checkTextcubeVersion() {
-									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-										window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
-								}
-							//]]>
-						</script>
-<?php
-	$checkFunction = 'checkForceTextcubeVersion();';
-}
-
-function forceCheckBlog($passFunction)
-{
-	global $checkFunction;
-	
-	if (!isset($checkFunction))
-		return $passFunction;
-	return $checkFunction;
-}
-
-if (false) forceCheckBlog('');
-
-?>
 						<script type="text/javascript">
 							//<![CDATA[
 								var dialog = null;
@@ -323,7 +281,7 @@ if(defined('__TEXTCUBE_NO_FANCY_URL__')) {
 							<h2 class="caption"><span class="main-text"><?php echo _t('데이터를 복원합니다');?></span></h2>
 							
 							<div class="data-inbox main-explain-box">
-								<div class="image" onclick="<?php echo forceCheckBlog("showDialog('DBImport');"); ?> return false">
+								<div class="image" onclick="showDialog('DBImport'); return false">
 									<img src="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/image/dbImport.png" alt="<?php echo _t('데이터 복원 이미지');?>" />
 								</div>
 								<p class="explain">

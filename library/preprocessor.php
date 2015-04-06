@@ -146,7 +146,6 @@ $uri = Model_URIHandler::getInstance();
 $uri->URIParser();
 $uri->VariableParser(); // Now DB-stored variables are loaded.
 
-
 /** LOAD : Required components / models / views
  * -------------------------------------------
  * include.XXXX contains necessary file list. (XXXX : blog, owner, reader, feeder, icon)
@@ -165,11 +164,19 @@ if ($context->getProperty('blog.useiPhoneUI', true) && ($browserUtil->isMobile()
     define('__TEXTCUBE_IPHONE__', true);    // Legacy flag for plugins
     $_SESSION['displaymode'] = 'mobile';
     define('__TEXTCUBE_SKIN_DIR__', ROOT . '/skin/default');
-    define('__TEXTCUBE_SKIN_CUSTOM_DIR__', __TEXTCUBE_SKIN_DIR__ . '/customize');
+    if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
+        define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+    } else {
+        define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/default/customize');
+    }
 } else {
     $_SESSION['displaymode'] = 'desktop';
     define('__TEXTCUBE_SKIN_DIR__', ROOT . '/skin/blog');
-    define('__TEXTCUBE_SKIN_CUSTOM_DIR__', __TEXTCUBE_SKIN_DIR__ . '/customize');
+    if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
+	} else {
+		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_STORAGE__.'/blog/customize');
+	}
     $context->setProperty('blog.displaymode', 'desktop');
 }
 /// Reading necessary file list

@@ -36,14 +36,23 @@ $context = Model_Context::getInstance();
 				var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 				var oSelect = window.parent.document.getElementById('TCfilelist');
 				
-				function addAttachOption(value) {
-					try {
+				function addAttachOption(fileField) {
+<?php
+if (defined('__TEXTCUBE_GAE__')) {
+?>
+				var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl", false);
+				request.send("target=<?php echo $_SERVER["REQUEST_URI"];?>");
+				fileField.parentElement.action = request.getText('/response/url');
+<?php
+}
+?>
+				try {
 						//window.parent.makeCrossDamainSubmit("<?php echo $context->getProperty('uri.blog');?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
 						if (!isSafari) {
 							if (isWin) {
-								var fileName = value.substring(value.lastIndexOf('\\')+1);
+								var fileName = fileField.value.substring(fileField.value.lastIndexOf('\\')+1);
 							} else {
-								var fileName = value.substring(value.lastIndexOf('/')+1);
+								var fileName = fileField.value.substring(fileField.value.lastIndexOf('/')+1);
 							}	
 							var oOption = window.parent.document.createElement("option");
 							oOption.text = fileName + " <?php echo _t('업로드 중..');?>";
@@ -52,7 +61,6 @@ $context = Model_Context::getInstance();
 							oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
 							
 							document.getElementById('fileNameInput').setAttribute('value', fileName);
-							
 						}
 					} catch(e) {
 						alert(e.message);
@@ -149,7 +157,7 @@ if (count($_FILES) == 1) {
 	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
 		<script type="text/javascript">
 			//<![CDATA[				
-				document.write('<input type="file" class="input-file" name="attachment" size="16" onchange="addAttachOption(this.value); document.getElementById(\'uploadForm\').submit();" />');
+				document.write('<input type="file" class="input-file" name="attachment" size="16" onchange="addAttachOption(this); document.getElementById(\'uploadForm\').submit();" />');
 			//]]>	
 		</script>
 		<input type="hidden" id="fileNameInput" name="fileName" value="" />
