@@ -23,7 +23,7 @@ function reloadSkin($blogid) {
     $context = Model_Context::getInstance();
     $skinName = $context->getProperty('skin.skin');
     if (file_exists(getSkinPath($skinName) . "/index.xml")) {
-        $xml = file_get_contents(getSkinPath($skinName) . "index.xml");
+        $xml = file_get_contents(getSkinPath($skinName) . "/index.xml");
         $xmls = new XMLStruct();
         if (!$xmls->open($xml, $context->getProperty('service.encoding'))) {
             return;
@@ -265,7 +265,7 @@ function selectSkin($blogid, $skinName) {
     Setting::removeBlogSetting("sidebarOrder", true);
     CacheControl::flushAll();
     CacheControl::flushSkin();
-    Path::removeFiles(getSkinPath('customize/' . getBlogId() . "/");
+    Path::removeFiles(getSkinPath('customize/' . getBlogId()) . "/");
     Setting::getSkinSettings($blogid, true); // refresh skin cache
     return true;
 }
@@ -278,8 +278,8 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
         return _t('실패했습니다.');
     }
     if ($context->getProperty('skin.skin') != "customize/$blogid") {
-        if (!@file_exists(getSkinPath("customize/$blogid")) {
-            if (!@mkdir(getSkinPath("customize/$blogid")) {
+        if (!@file_exists(getSkinPath("customize/$blogid"))) {
+            if (!@mkdir(getSkinPath("customize/$blogid"))) {
                 return _t('권한이 없습니다.');
             }
             @chmod(getSkinPath("customize/$blogid"), 0777);
@@ -296,10 +296,10 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
     //	$file = $mode . '.css';
     //else
     //	$file = $mode . '.html';
-    if (!is_writable(getSkinPath("customize/$blogid" . "/$file")) {
+    if (!is_writable(getSkinPath("customize/$blogid") . "/$file")) {
         return $file . _t('권한이 없습니다.') . " -> /skin/blog/customize/$blogid/$file";
     }
-    $handler = fopen(getSkinPath("customize/$blogid" . "/$file", 'w');
+    $handler = fopen(getSkinPath("customize/$blogid") . "/$file", 'w');
     if (fwrite($handler, $contents) === false) {
         fclose($handler);
         return _t('실패했습니다.');

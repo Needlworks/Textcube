@@ -9,8 +9,8 @@ require ROOT . '/library/preprocessor.php';
 $codeCache = new CodeCache();
 $codeCache->flush();
 
-require ROOT . '/library/model/blog.skin.php';
-
+importlib('blogskin');
+importlib('model.blog.skin');
 importlib('model.common.setting');
 importlib('model.blog.entry');
 importlib('model.blog.trash');
