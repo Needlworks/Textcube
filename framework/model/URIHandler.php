@@ -117,7 +117,7 @@ final class Model_URIHandler extends Singleton
 	private function __URIvariableParser() {
 		global $suri, $blog, $blogid, $skinSetting, $gCacheStorage;	// To support legacy for global variables.
 		$blogid        = $this->blogid;
-		$gCacheStorage = new globalCacheStorage; // Initialize global cache
+		$gCacheStorage = globalCacheStorage::getInstance(); // Initialize global cache
 
 		$suri        = $this->suri;
 		$blog        = Setting::getBlogSettingsGlobal($this->blogid);
