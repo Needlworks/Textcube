@@ -11,9 +11,6 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-if (false) {
-	fetchConfigVal();
-}
 fireEvent('OBStart');
 require ROOT . '/interface/common/blog/begin.php';
 if(count($coverpageMappings) > 0) {

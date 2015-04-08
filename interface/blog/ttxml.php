@@ -14,9 +14,6 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 
 requireStrictBlogURL();
-if (false) {
-	fetchConfigVal();
-}
 if(validateAPIKey($blogid, $_GET['loginid'], $_GET['key'])) {
 	$userid = User::getUserIdByEmail($_GET['loginid']);
 	if(in_array($blogid, User::getOwnedBlogs($userid))) { 
