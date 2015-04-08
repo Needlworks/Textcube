@@ -217,7 +217,11 @@ final class Model_URIHandler extends Singleton
 	}
 
 	private function __getBlogIdBySecondaryDomain($domain) {
- 		return POD::queryCell("SELECT blogid FROM {$this->context->getProperty('database.prefix')}BlogSettings WHERE name = 'secondaryDomain' AND (value = '$domain' OR  value = '" . (substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain) ."')");
+        $pool = DBModel::getInstance();
+        $pool->reset("BlogSettings");
+        $pool->setQualifier("name","eq","secondaryDomain",true);
+        $pool->setQualifierSet(array("value","eq",$domain,true),"OR",array("value","eq",(substr($domain, 0, 4) == 'www.' ? substr($domain, 4) : 'www.' . $domain),true));
+        return $pool->getCell("blogid");
 	}
 
 	private function __getFancyURLpostfix() {
