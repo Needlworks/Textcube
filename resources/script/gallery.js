@@ -19,12 +19,12 @@ function TTGallery(containerId)
 	this.width = new Array();
 	this.height = new Array();
 	this.imageCache = new Array();
-	
+
 	this.nextText = "NEXT";
 	this.prevText = "PREVIOUS";
 	this.enlargeText = "ZOOM";
 	this.altText = "gellery image";
-	
+
 	this.container = null;
 };
 
@@ -50,7 +50,7 @@ TTGallery.prototype.getControl = function()
 	control.style.marginBottom = "10px";
 	control.className = "galleryControl";
 	control.style.color = "#777";
-	control.style.font = "bold 0.9em Verdana, Sans-serif";
+	control.style.font = "bold 0.9em Helvetica, Verdana, Sans-serif";
 	control.innerHTML = '(' + (this.offset + 1) + '/' + this.numImages + ') <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.prev(); return false;"><img src="' + serviceURL + '/resources/image/gallery/gallery_prev.gif" style="vertical-align: middle;" alt="' + this.prevText + '" \/><\/a> <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.showImagePopup1(); return false;"><img src="' + serviceURL + '/resources/image/gallery/gallery_enlarge.gif" style="vertical-align: middle;" alt="' + this.enlargeText + '" \/><\/a> <a href="#void" onclick="document.getElementById(\'' + this.containerId + '\').instance.next(); return false;"><img src="' + serviceURL + '/resources/image/gallery/gallery_next.gif" style="vertical-align: middle;" alt="' + this.nextText + '" \/><\/a>';
 
 	return control;
@@ -84,7 +84,7 @@ TTGallery.prototype.getCaption = function()
 	captionText = captionText.replace(new RegExp("&quot;?", "gi"), "\"");
 	captionText = captionText.replace(new RegExp("&#39;?", "gi"), "'");
 	captionText = captionText.replace(new RegExp("&amp;?", "gi"), "&");
-	
+
 	var caption = document.createElement("div");
 	caption.style.textAlign = "center";
 	caption.style.marginTop = "8px";
@@ -97,13 +97,13 @@ TTGallery.prototype.getCaption = function()
 TTGallery.prototype.show = function(offset)
 {
     this.container = document.getElementById(this.containerId);
-    
+
 	if(this.numImages == 0) {
 		var div = document.createElement("div");
 		div.style.textAlign = "center";
 		div.style.color = "#888";
 		div.style.margin = "10px auto";
-		div.style.font = "bold 2em/1 Verdana, Sans-serif";
+		div.style.font = "bold 2em/1 Helvetica, Verdana, Sans-serif";
 		div.innerHTML = "NO IMAGES";
 		this.container.appendChild(div);
 		this.container = null;
@@ -132,7 +132,7 @@ TTGallery.prototype.show = function(offset)
 
 	if(this.container.filters)
 		this.container.filters[0].Play();
-		
+
 	this.container = null;
 };
 
@@ -161,6 +161,6 @@ TTGallery.prototype.showImagePopup = function(offset)
 	try {
 		open_img(this.src[this.offset]);
 	} catch(e) {
-		window.open(this.src[this.offset]); 
+		window.open(this.src[this.offset]);
 	}
 };
