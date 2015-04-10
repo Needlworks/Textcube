@@ -20,80 +20,48 @@ final class Utils_Browser extends Singleton {
         if (!is_null($this->browserName)) {
             return $this->browserName;
         }
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            if (strpos($_SERVER['HTTP_USER_AGENT'], 'iPhone') ||
-                strpos($_SERVER['HTTP_USER_AGENT'], 'iPod') ||
-                strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile Safari') ||
-                (strpos($_SERVER['HTTP_USER_AGENT'], 'AppleWebkit') !== false &&
-                    (strpos($_SERVER['HTTP_USER_AGENT'], 'SymbianOS') !== false ||    // Nokia
-                        strpos($_SERVER['HTTP_USER_AGENT'], 'Pre') !== false))
-            ) {    // Palm pre
+        if(isset($_SERVER['HTTP_USER_AGENT'])) {
+            if(strpos($_SERVER['HTTP_USER_AGENT'],'iPhone') ||
+                strpos($_SERVER['HTTP_USER_AGENT'],'iPod') ||
+                strpos($_SERVER['HTTP_USER_AGENT'],'Mobile Safari') ||
+                (strpos($_SERVER['HTTP_USER_AGENT'],'AppleWebkit')!== false &&
+                    (strpos($_SERVER['HTTP_USER_AGENT'],'SymbianOS')!== false ||	// Nokia
+                        strpos($_SERVER['HTTP_USER_AGENT'],'Pre')!== false))){ 	// Palm pre
                 $this->browserName = 'MobileSafari';
+            } else if(strpos($_SERVER['HTTP_USER_AGENT'],'Android')) {
+                $this->browserName = 'Android';
+            } else if(strpos($_SERVER['HTTP_USER_AGENT'],'Firefox') ||
+                strpos($_SERVER['HTTP_USER_AGENT'],'iceweasel') ||
+                strpos($_SERVER['HTTP_USER_AGENT'],'Minefield')) {
+                $this->browserName = 'firefox';
+            } else if(strpos($_SERVER['HTTP_USER_AGENT'],'Safari')) {
+                $this->browserName = 'Safari';
+            } else if(strpos($_SERVER['HTTP_USER_AGENT'],'Chrome')) {
+                $this->browserName = 'Chrome';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'Webkit')) {
+                $this->browserName = 'Webkit';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'IEMobile')) {
+                $this->browserName = 'IEMobile';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')) {
+                $this->browserName = 'IE';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'Opera Mini')) {
+                $this->browserName = 'OperaMini';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'Opera')) {
+                $this->browserName = 'Opera';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'AvantGo')) {	// Avantgo (palm)
+                $this->browserName = 'AvantGo';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'DoCoMo')) {	// DoCoMo Phones
+                $this->browserName = 'DoCoMo';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'Minimo')) {	// Firefox mini
+                $this->browserName = 'Minimo';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'Maemo')) {	// Firefox mini
+                $this->browserName = 'Maemo';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'BlackBerry')!== false) {	// Blackberry
+                $this->browserName = 'BlackBerry';
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'POLARIS')!== false) {	// LGE Phone
+                $this->browserName = 'Polaris';
             } else {
-                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Android')) {
-                    $this->browserName = 'Android';
-                } else {
-                    if (strpos($_SERVER['HTTP_USER_AGENT'], 'Firefox') ||
-                        strpos($_SERVER['HTTP_USER_AGENT'], 'iceweasel') ||
-                        strpos($_SERVER['HTTP_USER_AGENT'], 'Minefield')
-                    ) {
-                        $this->browserName = 'firefox';
-                    } else {
-                        if (strpos($_SERVER['HTTP_USER_AGENT'], 'Safari')) {
-                            $this->browserName = 'Safari';
-                        } else {
-                            if (strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome')) {
-                                $this->browserName = 'Chrome';
-                            } else {
-                                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Webkit')) {
-                                    $this->browserName = 'Webkit';
-                                } else {
-                                    if (strpos($_SERVER['HTTP_USER_AGENT'], 'IEMobile')) {
-                                        $this->browserName = 'IEMobile';
-                                    } else {
-                                        if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
-                                            $this->browserName = 'IE';
-                                        } else {
-                                            if (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera Mini')) {
-                                                $this->browserName = 'OperaMini';
-                                            } else {
-                                                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Opera')) {
-                                                    $this->browserName = 'Opera';
-                                                } else {
-                                                    if (strpos($_SERVER['HTTP_USER_AGENT'], 'AvantGo')) {    // Avantgo (palm)
-                                                        $this->browserName = 'AvantGo';
-                                                    } else {
-                                                        if (strpos($_SERVER['HTTP_USER_AGENT'], 'DoCoMo')) {    // DoCoMo Phones
-                                                            $this->browserName = 'DoCoMo';
-                                                        } else {
-                                                            if (strpos($_SERVER['HTTP_USER_AGENT'], 'Minimo')) {    // Firefox mini
-                                                                $this->browserName = 'Minimo';
-                                                            } else {
-                                                                if (strpos($_SERVER['HTTP_USER_AGENT'], 'Maemo')) {    // Firefox mini
-                                                                    $this->browserName = 'Maemo';
-                                                                } else {
-                                                                    if (strpos($_SERVER['HTTP_USER_AGENT'], 'BlackBerry') !== false) {    // Blackberry
-                                                                        $this->browserName = 'BlackBerry';
-                                                                    } else {
-                                                                        if (strpos($_SERVER['HTTP_USER_AGENT'], 'POLARIS') !== false) {    // LGE Phone
-                                                                            $this->browserName = 'Polaris';
-                                                                        } else {
-                                                                            $this->browserName = 'unknown';
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                $this->browserName = 'unknown';
             }
         }
         return $this->browserName;
