@@ -33,11 +33,15 @@ final class Utils_Browser extends Singleton {
             } else if(strpos($_SERVER['HTTP_USER_AGENT'],'Firefox') ||
                 strpos($_SERVER['HTTP_USER_AGENT'],'iceweasel') ||
                 strpos($_SERVER['HTTP_USER_AGENT'],'Minefield')) {
-                $this->browserName = 'firefox';
+                $this->browserName = 'Firefox';
             } else if(strpos($_SERVER['HTTP_USER_AGENT'],'Safari')) {
                 $this->browserName = 'Safari';
             } else if(strpos($_SERVER['HTTP_USER_AGENT'],'Chrome')) {
-                $this->browserName = 'Chrome';
+                if (stripos($_SERVER['HTTP_USER_AGENT'],'mobile')!==false) {
+                    $this->browserName = 'MobileChrome';
+                } else {
+                    $this->browserName = 'Chrome';
+                }
             } else if (strpos($_SERVER['HTTP_USER_AGENT'],'Webkit')) {
                 $this->browserName = 'Webkit';
             } else if (strpos($_SERVER['HTTP_USER_AGENT'],'IEMobile')) {
@@ -60,6 +64,8 @@ final class Utils_Browser extends Singleton {
                 $this->browserName = 'BlackBerry';
             } else if (strpos($_SERVER['HTTP_USER_AGENT'],'POLARIS')!== false) {	// LGE Phone
                 $this->browserName = 'Polaris';
+            } else if (stripos($_SERVER['HTTP_USER_AGENT'],'mobile')!==false) {
+                $this->browserName = 'MobileOther';
             } else {
                 $this->browserName = 'unknown';
             }
@@ -82,8 +88,12 @@ final class Utils_Browser extends Singleton {
         return ($this->getBrowserName() == 'IE' ? true : false);
     }
 
+    public function isFirefox() {
+        return ($this->getBrowserName() == 'Firefox' ? true : false);
+    }
+
     public function isChrome() {
-        return ($this->getBrowserName() == 'Chrome' ? true : false);
+        return (in_array($this->getBrowserName(), array('Chrome','MobileChrome')) ? true : false);
     }
 
     public function isOpera() {
