@@ -223,7 +223,7 @@ list($tempTag, $commentView) = getCommentCountPart($commentCount, $skin);
 			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common3.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common3.min.js"></script>
 </head>
 <body>
 	<form name="deleteComment" method="post" action="<?php echo $context->getProperty('uri.blog');?>/comment/delete/<?php echo $context->getProperty('suri.id');?>">

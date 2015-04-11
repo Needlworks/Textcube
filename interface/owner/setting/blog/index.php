@@ -5,7 +5,7 @@
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 ?>
-						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/generaltag.js"></script>
+						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/generaltag.min.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var title = "<?php echo escapeJSInCData($context->getProperty('blog.title'));?>";

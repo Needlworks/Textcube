@@ -50,7 +50,7 @@ if (Acl::getIdentity('openid')) {
         //]]>
     </script>
     <script type="text/javascript"
-            src="<?php echo(doesHaveOwnership() ? $ctx->getProperty('service.path') . '/resources' : $ctx->getProperty('service.resourcepath')); ?>/script/common3.js"></script>
+            src="<?php echo(doesHaveOwnership() ? $ctx->getProperty('service.path') . '/resources' : $ctx->getProperty('service.resourcepath')); ?>/script/common3.min.js"></script>
     <script type="text/javascript">
         //<![CDATA[
         function submitComment() {
