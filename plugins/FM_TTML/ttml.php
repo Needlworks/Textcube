@@ -115,7 +115,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 
 				if (($useAbsolutePath == true) && ($bWritedGalleryJS == false)) {
 					$bWritedGalleryJS = true;
-					$buf .= printScript('gallery.js');
+					$buf .= printScript('gallery.min.js');
 				}
 				$buf .= CRLF . '<div id="' . $cssId . '" class="tt-gallery-box">' . CRLF;
 				$buf .= '	<script type="text/javascript">' . CRLF;
