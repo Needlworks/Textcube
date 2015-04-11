@@ -185,7 +185,7 @@ if (isset($_REQUEST['edit'])) {
 <?php echo "\tvar editMode = ".isset($_REQUEST['edit']).";\n";?>
 //]]>
 </script>
-<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/dashboard.js" type="text/javascript"></script>
+<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/dashboard.min.js" type="text/javascript"></script>
 <?php
 }
 ?>

@@ -101,7 +101,7 @@ if (defined('__TEXTCUBE_POST__')) {
 }
 ?>
 						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/generaltag.min.js"></script>
-						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/locationtag.js"></script>
+						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/locationtag.min.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var enclosured = "<?php echo getEnclosure($entry['id']);?>";
