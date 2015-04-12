@@ -22,19 +22,19 @@ Textcube supports various environments. However, you need at least one webserver
 
 * Web servers (Need at least one environment)
  * Apache 2.1 or above
-  * fancyURL support with mod_rewrite module
+  * fancyURL support with mod_rewrite module (recommended)
  * Nginx 1.1
  * IIS 5.0 or above
   * with ISAPI Rewrite Filter
 * Language
- * PHP 5.3 or above
-  * with iconv / gd module
+ * PHP 5.5 or above
+  * with iconv (for TTXML character converting from old servers) / gd module (for image resampling)
 * Database Management System (Need at least one environment)
  * MySQL > 5.0 / MariaDB 5.1 with UTF-8 character set and collation setting
+  * With PHP MySQLi extension (MySQLnd support is in development stage.)
  * Cubrid R2008 or above
  * PostgreSQL 8.3 or above
  * Sqlite 3 or above
-
 
 For massive service / Heavy load environments
 
@@ -50,7 +50,7 @@ are strongly recommended.
  * Apache 1.3 or above
   * fancyURL support with mod_rewrite module
 * Language
- * (Till Textcube 1.7) PHP 4.3~5.1
+ * (Till Textcube 1.7) PHP 4.3~5.1, (Till Textcube 1.10) ~PHP 5.3
   * with iconv / gd module
 * Database Management System (Need at least one environment)
  * (Till Textcube 1.7) MySQL > 4.1 / MariaDB > 5 (lower version with UTF-8 emulation routine in Textcube)

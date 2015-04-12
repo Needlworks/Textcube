@@ -11,7 +11,7 @@ $IV = array(
 require ROOT . '/library/preprocessor.php';
 $page=(isset($_GET['page']) && $_GET['page'] >= 1 ? $_GET['page'] : 1 );
 $context = Model_Context::getInstance();
-$context->setProperty('service.admin_script','control.js');
+$context->setProperty('service.admin_script','control.min.js');
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');

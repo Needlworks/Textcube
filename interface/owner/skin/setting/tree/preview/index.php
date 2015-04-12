@@ -54,8 +54,8 @@ if (isset($_GET['showValue']))
 	</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common3.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common3.min.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
 	<style type="text/css">
 		/*<![CDATA[*/

@@ -5,8 +5,8 @@
 
 /***** Plugin data manipulation *****/
 function clearPluginSettingCache() {
-    global $gCacheStorage;
-    $context = Model_Context::getInstance();
+	$gCacheStorage = globalCacheStorage::getInstance();
+	$context = Model_Context::getInstance();
     $context->unsetProperty('plugin.setting');
     $gCacheStorage->purge();
     $pageCache = pageCache::getInstance();

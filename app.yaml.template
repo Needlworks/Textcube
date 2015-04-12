@@ -1,0 +1,27 @@
+# Copy This file to app.yaml then fill values.
+
+application: [# project instance name without quotes : test-voice-123 #]
+version: 1
+runtime: php
+api_version: 1
+
+handlers:
+- url: /resources
+  static_dir: resources
+  application_readable: true
+- url: /skin/blog/customize/.*
+  script: gae.php
+- url: /skin
+  static_dir: skin
+  application_readable: true
+- url: /owner
+  script: gae.php
+  secure: always
+- url: /.*
+  script: gae.php
+
+env_variables:
+  # STORAGE -> Cloud SQL -> New Instance
+  blog_db_instance: '[# SQL instance id after application id : textcube for test-voice-123:textcube #]'
+  # STORAGE -> CLOUD STORAGE -> Storage Browser -> New Bucket
+  blog_fs_bucket: '[# Bucket name : blog_storage #]'

@@ -68,12 +68,11 @@ include ROOT . '/resources/locale/messages.php';
 		//]]>
 	</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/locale/messages.php"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common3.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/gallery.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common3.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/gallery.min.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/editor3.js"></script>
 <?php echo fireEvent('ShowAdminHeader', ''); ?>

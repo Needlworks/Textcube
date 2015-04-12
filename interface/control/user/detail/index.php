@@ -5,7 +5,7 @@
 
 require ROOT . '/library/preprocessor.php';
 $context = Model_Context::getInstance();
-$context->setProperty('service.admin_script','control.js');
+$context->setProperty('service.admin_script','control.min.js');
 
 require ROOT . '/interface/common/control/header.php';
 

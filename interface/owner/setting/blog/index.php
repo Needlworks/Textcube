@@ -5,7 +5,7 @@
 require ROOT . '/library/preprocessor.php';
 require ROOT . '/interface/common/owner/header.php';
 ?>
-						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/generaltag.js"></script>
+						<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/generaltag.min.js"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var title = "<?php echo escapeJSInCData($context->getProperty('blog.title'));?>";
@@ -233,7 +233,26 @@ if ($service['type'] != 'single') {
 ?>
 								
 								function setIcons() {
+<?php
+if (defined('__TEXTCUBE_GAE__')) {
+?>
+									var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl");
+									request.onSuccess = function() {
+										$upload_url = this.getText('/response/url');
+										document.getElementById('icons-form').action = $upload_url;
+										document.getElementById('icons-form').submit();
+									}
+									request.onError = function() {
+										alert("<?php echo _t('실패했습니다.');?>");
+									}
+									request.send("target=<?php echo $blogURL;?>/owner/setting/blog/icons/");
+<?php
+} else {
+?>
 									document.getElementById('icons-form').submit();
+<?php
+}
+?>
 								}
 								
 								var useSlogan             = "<?php echo $blog['useSloganOnPost'];?>";

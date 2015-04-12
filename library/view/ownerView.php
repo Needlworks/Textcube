@@ -291,579 +291,611 @@ function printEntryFileList($attachments, $param) {
                                                         ?>
                                                     </select>
 												</span>
-    </div>
-
-    <script type="text/javascript">
-        //<![CDATA[
-        function addAttachment() {
-            var attachHidden = document.getElementById('attachHiddenNest');
-            attachHidden.contentDocument.forms[0].action = "<?php echo $param['singleUploadPath'];?>" + entryManager.entryId;
-            attachHidden.contentDocument.forms[0].attachment.click();
-        }
-
-        function deleteAttachment() {
-            var fileList = document.getElementById('TCfilelist');
-
-            if (fileList.selectedIndex < 0) {
-                alert("<?php echo _t('삭제할 파일을 선택해 주십시오\t');?>");
-                return false;
-            }
-
-            try {
-
-                var targetStr = '';
-                deleteFileList = new Array();
-                for (var i = 0; i < fileList.length; i++) {
-                    if (fileList[i].selected) {
-                        var name = fileList[i].value.split("|")[0];
-                        targetStr += name + '!^|';
-                        deleteFileList.push(i);
-                    }
-                }
-            } catch (e) {
-                alert("<?php echo _t('파일을 삭제하지 못했습니다');?> ::" + e.message);
-            }
-
-            var request = new HTTPRequest("POST", "<?php echo $param['deletePath'];?>" + entryManager.entryId);
-            request.onVerify = function () {
-                return true
-            }
-
-            request.onSuccess = function () {
-                for (var i = deleteFileList.length - 1; i >= 0; i--) {
-                    fileList.remove(deleteFileList[i]);
-                }
-
-                if (fileList.options.length == 0)
-                    document.getElementById('previewSelected').innerHTML = '';
-                else {
-                    fileList.selectedIndex = 0;
-                    selectAttachment();
-                }
-                refreshAttachFormSize();
-                refreshFileSize();
-            }
-
-            request.onError = function () {
-                alert("<?php echo _t('파일을 삭제하지 못했습니다');?>");
-            }
-            request.send("names=" + targetStr);
-        }
-
-        function selectAttachment() {
-            try {
-                width = document.getElementById('previewSelected').clientWidth;
-                height = document.getElementById('previewSelected').clientHeight;
-                var code = '';
-                var fileList = document.getElementById('TCfilelist');
-                if (fileList.selectedIndex < 0)
-                    return false;
-                var fileName = fileList.value.split("|")[0];
-
-                if ((new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(fileName))) {
-                    try {
-                        var width = new RegExp('width="(\\d+)').exec(fileList.value);
-                        width = width[1];
-                        var height = new RegExp('height="(\\d+)').exec(fileList.value);
-                        height = height[1];
-                        if (width > 120) {
-                            height = 120 / width * height;
-                            width = 120;
-                        }
-                        if (height > 90) {
-                            width = 90 / height * width;
-                            height = 90;
-                        }
-                        document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/' + fileName + '?randseed=' + Math.random() + '" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90 - height) / 2) + 'px" onerror="if (this.src != \'<?php echo $spacerURL; ?>\') { this.src=\'<?php echo $spacerURL; ?>\' }"/>';
-                    }
-                    catch (e) {
-                    }
-                    return false;
-                }
-
-                if ((new RegExp("\\.(mp3)$", "gi").exec(fileName))) {
-                    var str = getEmbedCode("<?php echo $context->getProperty('service.path');?>/resources/script/jukebox/flash/mini.swf", "100%", "100%", "jukeBox0Flash", "#FFFFFF", "sounds=<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/" + fileName + "&autoplay=false", "false");
-                    writeCode(str, 'previewSelected');
-                    return false;
-                }
-
-                if ((new RegExp("\\.(swf)$", "gi").exec(fileName))) {
-
-                    code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/' + fileName + '"/><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
-                    code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/' + fileName + '" width="100%" height="100%"><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/><\/object><!--> <![endif]--><\/object>';
-
-                    writeCode(code, 'previewSelected');
-                    return false;
-                }
-
-                if ((new RegExp("\\.(mov)$", "gi").exec(fileName))) {
-                    code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="' + width + '" height="' + height + '"><param name="src" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/' + fileName + '"/><param name="controller" value="true"><param name="autoplay" value="false"><param name="scale" value="Aspect">';
-                    code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/' + fileName + '" width="' + width + '" height="' + height + '" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="autoplay" value="false"><param name="scale" value="ToFit"><\/object><!--> <![endif]--><\/object>';
-                    writeCode(code, 'previewSelected');
-                    return false;
-                }
-
-                if ((new RegExp("\\.(mp2|wma|mid|midi|mpg|wav|avi|mp4)$", "gi").exec(fileName))) {
-                    code = '<object width="' + width + '" height="' + height + '" classid="CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" standby="Loading for you" type="application/x-oleobject" align="middle">';
-                    code += '<param name="FileName" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/' + fileName + '">';
-                    code += '<param name="ShowStatusBar" value="False">';
-                    code += '<param name="DefaultFrame" value="mainFrame">';
-                    code += '<param name="autoplay" value="false">';
-                    code += '<param name="showControls" value="true">';
-                    code += '<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/' + fileName + '" align="middle" width="' + width + '" height="' + height + '" showControls="true" defaultframe="mainFrame" showstatusbar="false" autoplay="false"><\/embed>';
-                    code += '<\/object>';
-
-                    writeCode(code, 'previewSelected');
-
-                    return false;
-                }
-
-                if ((new RegExp("\\.(rm|ram)$", "gi").exec(fileName))) {
-                    /*
-                     code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="
-                    <?php echo $context->getProperty('service.path');?>/attach/
-                    <?php echo $blogid;?>/'+fileName+'"/><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
-                     code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="
-                    <?php echo $context->getProperty('service.path');?>/attach/
-                    <?php echo $blogid;?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"><\/object><!--> <![endif]--><\/object>';
-                     */
-                }
-
-                if (code == undefined || code == '') {
-                    document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?><\/td><\/tr><\/table>";
-                    return true;
-                }
-
-
-                return false;
-            } catch (e) {
-                document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?><\/td><\/tr><\/table>";
-                alert(e.message);
-                return true;
-            }
-        }
-
-        function downloadAttachment() {
-            try {
-                var fileList = document.getElementById('TCfilelist');
-                if (fileList.selectedIndex < 0) {
-                    return false;
-                }
-                for (var i = 0; fileList.length; i++) {
-                    if (fileList[i].selected) {
-                        var fileName = fileList[i].value.split("|")[0];
-                        if (STD.isIE) {
-                            document.getElementById('fileDownload').innerHTML = '<iframe style="display:none;" src="' + blogURL + '\/attachment\/' + fileName + '"><\/iframe>';
-
-                        } else {
-                            window.location = blogURL + '/attachment/' + fileName;
-                        }
-                        break;
-                    }
-                }
-            } catch (e) {
-                alert(e.message);
-            }
-        }
-
-        STD.addEventListener(window);
-        window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
-
-        function stripLabelToValue(fileLabel) {
-            var pos = fileLabel.lastIndexOf('(');
-            return fileLabel.substring(0, pos - 1);
-        }
-
-        function refreshAttachFormSize() {
-            fileListObj = document.getElementById('TCfilelist');
-            fileListObj.setAttribute('size', Math.max(8, Math.min(fileListObj.length, 30)));
-        }
-
-        function refreshAttachList() {
-            var request = new HTTPRequest("POST", "<?php echo $param['refreshPath'];?>" + entryManager.entryId);
-            request.onVerify = function () {
-                return true
-            }
-            request.onSuccess = function () {
-                var fileListObj = document.getElementById("attachManagerSelect");
-                fileListObj.innerHTML = this.getText();
-                refreshAttachFormSize();
-                //getUploadObj().setAttribute('width',1)
-                //getUploadObj().setAttribute('height',1)
-
-
-                refreshFileSize();
-                entryManager.delay = true;
-                entryManager.nowsaving = false;
-            }
-            request.onError = function () {
-                entryManager.delay = true;
-                entryManager.nowsaving = false;
-
-            }
-            request.send();
-        }
-
-        function uploadProgress(target, loaded, total) {
-            loaded = Number(loaded);
-            total = Number(total);
-            var fileListObj = document.getElementById("TCfilelist");
-            for (var i = 0; i < fileListObj.length; i++) {
-                if (fileListObj[i].getAttribute("value") == target) {
-                    fileListObj[i].innerHTML = target + " " + (Math.ceil(100 * loaded / total)) + "%";
-                    break;
-                }
-            }
-        }
-
-        function uploadComplete(target, size) {
-            loaded = Number(loaded);
-            total = Number(total);
-            var fileListObj = document.getElementById("TCfilelist");
-            for (var i = 0; i < fileListObj.length; i++) {
-                if (fileListObj[i].getAttribute("value") == target) {
-                    fileListObj[i].innerHTML = target + " " + (Math.ceil(100 * loaded / total)) + "%";
-                    break;
-                }
-            }
-        }
-
-        /**
-         *
-         *  Base64 encode / decode
-         *  http://www.webtoolkit.info/
-         *
-         **/
-
-        var Base64 = {
-
-            // private property
-            _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-
-            // public method for encoding
-            encode: function (input) {
-                var output = "";
-                var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-                var i = 0;
-
-                input = Base64._utf8_encode(input);
-
-                while (i < input.length) {
-
-                    chr1 = input.charCodeAt(i++);
-                    chr2 = input.charCodeAt(i++);
-                    chr3 = input.charCodeAt(i++);
-
-                    enc1 = chr1 >> 2;
-                    enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-                    enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-                    enc4 = chr3 & 63;
-
-                    if (isNaN(chr2)) {
-                        enc3 = enc4 = 64;
-                    } else if (isNaN(chr3)) {
-                        enc4 = 64;
-                    }
-
-                    output = output +
-                    this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
-                    this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
-
-                }
-
-                return output;
-            },
-
-            // public method for decoding
-            decode: function (input) {
-                var output = "";
-                var chr1, chr2, chr3;
-                var enc1, enc2, enc3, enc4;
-                var i = 0;
-
-                input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-
-                while (i < input.length) {
-
-                    enc1 = this._keyStr.indexOf(input.charAt(i++));
-                    enc2 = this._keyStr.indexOf(input.charAt(i++));
-                    enc3 = this._keyStr.indexOf(input.charAt(i++));
-                    enc4 = this._keyStr.indexOf(input.charAt(i++));
-
-                    chr1 = (enc1 << 2) | (enc2 >> 4);
-                    chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-                    chr3 = ((enc3 & 3) << 6) | enc4;
-
-                    output = output + String.fromCharCode(chr1);
-
-                    if (enc3 != 64) {
-                        output = output + String.fromCharCode(chr2);
-                    }
-                    if (enc4 != 64) {
-                        output = output + String.fromCharCode(chr3);
-                    }
-
-                }
-
-                output = Base64._utf8_decode(output);
-
-                return output;
-
-            },
-
-            // private method for UTF-8 encoding
-            _utf8_encode: function (string) {
-                string = string.replace(/\r\n/g, "\n");
-                var utftext = "";
-
-                for (var n = 0; n < string.length; n++) {
-
-                    var c = string.charCodeAt(n);
-
-                    if (c < 128) {
-                        utftext += String.fromCharCode(c);
-                    }
-                    else if ((c > 127) && (c < 2048)) {
-                        utftext += String.fromCharCode((c >> 6) | 192);
-                        utftext += String.fromCharCode((c & 63) | 128);
-                    }
-                    else {
-                        utftext += String.fromCharCode((c >> 12) | 224);
-                        utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-                        utftext += String.fromCharCode((c & 63) | 128);
-                    }
-
-                }
-
-                return utftext;
-            },
-
-            // private method for UTF-8 decoding
-            _utf8_decode: function (utftext) {
-                var string = "";
-                var i = 0;
-                var c = c1 = c2 = 0;
-
-                while (i < utftext.length) {
-
-                    c = utftext.charCodeAt(i);
-
-                    if (c < 128) {
-                        string += String.fromCharCode(c);
-                        i++;
-                    }
-                    else if ((c > 191) && (c < 224)) {
-                        c2 = utftext.charCodeAt(i + 1);
-                        string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-                        i += 2;
-                    }
-                    else {
-                        c2 = utftext.charCodeAt(i + 1);
-                        c3 = utftext.charCodeAt(i + 2);
-                        string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-                        i += 3;
-                    }
-
-                }
-
-                return string;
-            }
-
-        }
-
-
-        function addFileList(list) {
-
-            var list = Base64.decode(list);
-            var fileListObj = document.getElementById("TCfilelist");
-            var listTemp = list.split("!^|");
-            var fileLabel = listTemp[0];
-            var fileValue = listTemp[1];
-            for (var i = 0; i < fileListObj.length; i++) {
-                if (stripLabelToValue(fileLabel).indexOf(fileListObj[i].getAttribute("value")) != -1) {
-                    var oOption = document.createElement("option");
-                    oOption.innerHTML = fileLabel;
-                    oOption.setAttribute("value", fileValue);
-                    fileListObj.replaceChild(oOption, fileListObj[i]);
-                    break;
-                }
-            }
-        }
-
-        function newLoadItem(fileValue) {
-            var fileListObj = document.getElementById("TCfilelist");
-            for (var i = 0; i < fileListObj.length; i++) {
-                if (fileValue.indexOf(fileListObj[i].getAttribute("value")) != -1) {
-                    fileListObj[i].style.backgroundColor = "#C8DAF3";
-                    break;
-                }
-            }
-        }
-
-        function setFileList() {
-            try {
-                list = getUploadObj().GetVariable("/:listStr");
-            } catch (e) {
-                alert(e.message);
-            }
-            var fileListObj = document.getElementById("TCfilelist");
-            var listTemp = list.split("!^|");
-            for (var i = 0; i < listTemp.length; i++) {
-                temp = listTemp[i].split('(_!');
-                var fileName = temp[0];
-                var fileSize = temp[1];
-                if (fileName == undefined || fileSize == undefined)
-                    continue;
-                var oOption = document.createElement("option");
-                oOption.innerHTML = fileName + ' (' + Math.ceil((fileSize / 1024)) + 'KB) <?php echo _t('대기 중..');?>';
-                oOption.setAttribute("value", fileName);
-                oOption.style.backgroundColor = "#A4C3F0";
-                fileListObj.insertBefore(oOption, fileListObj[i]);
-                if (i == 0) {
-                    newLoadItem(fileName);
-                }
-            }
-            fileListObj.setAttribute('size', Math.max(8, Math.min(fileListObj.length, 30)));
-        }
-
-        function selectFileList(value) {
-            selectedFiles = value.split("!^|");
-            var fileListObj = document.getElementById("TCfilelist");
-            for (var i = 0; i < fileListObj.length; i++) {
-                for (var j = 0; j < selectedFiles.length; j++) {
-                    if (fileListObj[i].getAttribute("value") == selectedFiles[j]) {
-                        fileListObj[i].setAttribute("selected", "selected");
-                        selectAttachment();
-                        break;
-                    }
-
-                    fileListObj[i].setAttribute("selected", "");
-                }
-            }
-            refreshAttachFormSize();
-        }
-
-        function disabledDeleteBtn() {
-            if (document.getElementById('TCfilelist').length > 0) {
-                document.getElementById('deleteBtn').disabled = false;
-            } else {
-                document.getElementById('deleteBtn').disabled = true;
-            }
-        }
-
-        function removeUploadList(list) {
-            selectedFiles = list.split("!^|");
-            var fileListObj = document.getElementById("TCfilelist");
-            for (var j = 0; j < selectedFiles.length; j++) {
-                for (var i = 0; i < fileListObj.length; i++) {
-                    if (selectedFiles[j] == undefined)
-                        continue;
-                    if (fileListObj[i].getAttribute("value") == selectedFiles[j]) {
-                        fileListObj.remove(i);
-                        break;
-                    }
-                }
-            }
-            refreshAttachFormSize();
-        }
-
-        function browser() {
-            entryManager.delay = true;
-            entryManager.nowsaving = true;
-            getUploadObj().SetVariable('/:openBrowser', 'true');
-            getUploadObj().browser();
-        }
-
-        function stopUpload() {
-            getUploadObj().SetVariable('/:stopUpload', 'true');
-        }
-
-        function refreshFileSize() {
-            try {
-                var request = new HTTPRequest("POST", "<?php echo $param['fileSizePath'];?>" + entryManager.entryId);
-                request.onVerify = function () {
-                    return true;
-                }
-
-                request.onSuccess = function () {
-                    try {
-                        var result = this.getText("/response/result");
-                        document.getElementById('fileSize').innerHTML = result;
-                    } catch (e) {
-
-                    }
-                }
-
-                request.onError = function () {
-                }
-                request.send();
-
-            } catch (e) {
-                alert(e.message);
-            }
-        }
-
-        function getUploadObj() {
-            try {
-                var result;
-                if (isIE)
-                    result = document.getElementById("uploader");
-                else
-                    result = document.getElementById("uploader2");
-                if (result == null)
-                    return false;
-                else
-                    return result;
-            } catch (e) {
-                return false;
-            }
-        }
-        refreshAttachFormSize();
-        //]]>
-    </script>
-
-    <?php
-    require_once ROOT . '/resources/script/detectFlash.inc';
-    $maxSize = min(return_bytes(ini_get('upload_max_filesize')), return_bytes(ini_get('post_max_size')));
-    ?>
-
-    <script type="text/javascript">
-        //<![CDATA[
-        var uploaderStr = '';
-        function reloadUploader() {
-            var requiredMajorVersion = 8;
-            var requiredMinorVersion = 0;
-            var requiredRevision = 0;
-            var jsVersion = 1.0;
-            var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
-            uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
-            + 'width="400" height="40"'
-            + 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
-            + '<param name="movie" value="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand()?>" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="FlashVars" value="uploadPath=<?php echo $param['uploadPath'];?>'
-            + entryManager.entryId
-            + '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
-            + '&labelingPath=<?php echo $param['labelingPath'];?>'
-            + entryManager.entryId
-            + '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
-            + '<embed id="uploader2" src="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>" flashvars="uploadPath=<?php echo $param['uploadPath'];?>'
-            + entryManager.entryId
-            + '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
-            + '&labelingPath=<?php echo $param['labelingPath'];?>'
-            + entryManager.entryId
-            + '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" /><\/embed><\/object>';
-
-            if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
-                if (<?php echo ($context->getProperty('service.flashuploader') ? 'true' : 'false');?>) {
-                    writeCode(uploaderStr, 'uploaderNest');
-                }
-            }
-            window.uploader = document.getElementById('uploader');
-            refreshUploadButton();
-        }
-        //]]>
-    </script>
-    <div id="uploaderNest">
-    </div>
+											</div>
+
+											<script type="text/javascript">
+												//<![CDATA[
+												  function addAttachment() {
+<?php
+  if (!defined('__TEXTCUBE_GAE__')) {
+?>
+														var uploadPath = "<?php echo $param['singleUploadPath'];?>" + entryManager.entryId;
+<?php
+  } else {
+?>
+                            var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl", false);
+														request.send("target=<?php echo $param['singleUploadPath'];?>" + entryManager.entryId);
+														var uploadPath = request.getText('/response/url');
+<?php
+  }
+?>
+												    var attachHidden = document.getElementById('attachHiddenNest');
+														attachHidden.contentDocument.forms[0].action = uploadPath;
+														attachHidden.contentDocument.forms[0].attachment.click();
+													}
+
+													function deleteAttachment() {
+														var fileList = document.getElementById('TCfilelist');
+
+														if (fileList.selectedIndex < 0) {
+															alert("<?php echo _t('삭제할 파일을 선택해 주십시오\t');?>");
+															return false;
+														}
+
+														try {
+
+															var targetStr = '';
+															deleteFileList = new Array();
+															for(var i=0; i<fileList.length; i++) {
+																if(fileList[i].selected) {
+																	var name = fileList[i].value.split("|")[0];
+																	targetStr += name+'!^|';
+																	deleteFileList.push(i);
+																}
+															}
+														} catch(e) {
+															alert("<?php echo _t('파일을 삭제하지 못했습니다');?> ::"+e.message);
+														}
+
+														var request = new HTTPRequest("POST", "<?php echo $param['deletePath'];?>"+entryManager.entryId);
+														request.onVerify = function () {
+															return true
+														}
+
+														request.onSuccess = function() {
+															for(var i=deleteFileList.length-1; i>=0; i--) {
+																fileList.remove(deleteFileList[i]);
+															}
+
+															if (fileList.options.length == 0)
+																document.getElementById('previewSelected').innerHTML = '';
+															else {
+																fileList.selectedIndex = 0;
+																selectAttachment();
+															}
+															refreshAttachFormSize();
+															refreshFileSize();
+														}
+
+														request.onError = function() {
+															alert("<?php echo _t('파일을 삭제하지 못했습니다');?>");
+														}
+														request.send("names="+targetStr);
+													}
+
+													function selectAttachment() {
+														try {
+														width = document.getElementById('previewSelected').clientWidth;
+														height = document.getElementById('previewSelected').clientHeight;
+														var code = '';
+														var fileList = document.getElementById('TCfilelist');
+														if (fileList.selectedIndex < 0)
+															return false;
+														var fileName = fileList.value.split("|")[0];
+
+														if((new RegExp("\\.(gif|jpe?g|png)$", "gi").exec(fileName))) {
+															try {
+																var width = new RegExp('width="(\\d+)').exec(fileList.value);
+																width = width[1];
+																var height = new RegExp('height="(\\d+)').exec(fileList.value);
+																height = height[1];
+																if(width > 120) {
+																	height = 120 / width * height;
+																	width = 120;
+																}
+																if(height > 90) {
+																	width = 90 / height * width;
+																	height = 90;
+																}
+																document.getElementById('previewSelected').innerHTML = '<img src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'?randseed='+Math.random()+'" width="' + parseInt(width) + '" height="' + parseInt(height) + '" alt="" style="margin-top: ' + ((90-height)/2) + 'px" onerror="if (this.src != \'<?php echo $spacerURL; ?>\') { this.src=\'<?php echo $spacerURL; ?>\' }"/>';
+															}
+															catch(e) { }
+															return false;
+														}
+
+														if((new RegExp("\\.(mp3)$", "gi").exec(fileName))) {
+															var str = getEmbedCode("<?php echo $context->getProperty('service.path');?>/resources/script/jukebox/flash/mini.swf","100%","100%", "jukeBox0Flash","#FFFFFF", "sounds=<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/"+fileName+"&autoplay=false", "false");
+															writeCode(str, 'previewSelected');
+															return false;
+														}
+
+														if((new RegExp("\\.(swf)$", "gi").exec(fileName))) {
+
+															code = '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,0,0" width="100%" height="100%"><param name="movie" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/>';
+															code += '<!--[if !IE]> <--><object type="application/x-shockwave-flash" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" width="100%" height="100%"><param name="allowscriptAccess" value="sameDomain" /><param name="menu" value="false" /><param name="quality" value="high" /><param name="bgcolor" value="#FFFFFF"/><\/object><!--> <![endif]--><\/object>';
+
+															writeCode(code,'previewSelected');
+															return false;
+														}
+
+														if((new RegExp("\\.(mov)$", "gi").exec(fileName))) {
+															code = '<object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" codebase="http://www.apple.com/qtactivex/qtplugin.cab" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="controller" value="true"><param name="autoplay" value="false"><param name="scale" value="Aspect">';
+															code += '<!--[if !IE]> <--><object type="video/quicktime" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" width="'+width+'" height="'+height+'" showcontrols="true" TYPE="video/quicktime" scale="Aspect" nomenu="true"><param name="showcontrols" value="true"><param name="autoplay" value="false"><param name="scale" value="ToFit"><\/object><!--> <![endif]--><\/object>';
+															writeCode(code,'previewSelected');
+															return false;
+														}
+
+														if((new RegExp("\\.(mp2|wma|mid|midi|mpg|wav|avi|mp4)$", "gi").exec(fileName))) {
+															code ='<object width="'+width+'" height="'+height+'" classid="CLSID:22D6F312-B0F6-11D0-94AB-0080C74C7E95" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" standby="Loading for you" type="application/x-oleobject" align="middle">';
+															code +='<param name="FileName" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'">';
+															code +='<param name="ShowStatusBar" value="False">';
+															code +='<param name="DefaultFrame" value="mainFrame">';
+															code +='<param name="autoplay" value="false">';
+															code +='<param name="showControls" value="true">';
+															code +='<embed type="application/x-mplayer2" pluginspage = "http://www.microsoft.com/Windows/MediaPlayer/" src="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" align="middle" width="'+width+'" height="'+height+'" showControls="true" defaultframe="mainFrame" showstatusbar="false" autoplay="false"><\/embed>';
+															code +='<\/object>';
+
+															writeCode(code,'previewSelected');
+
+															return false;
+														}
+
+														if((new RegExp("\\.(rm|ram)$", "gi").exec(fileName))) {
+														/*
+															code = '<object classid="clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA" width="'+width+'" height="'+height+'"><param name="src" value="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'"/><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE">';
+															code += '<!--[if !IE]> <--><object type="audio/x-pn-realaudio-plugin" data="<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/'+fileName+'" width="'+width+'" height="'+height+'" ><param name="CONTROLS" value="imagewindow"><param name="AUTOGOTOURL" value="FALSE"><param name="CONSOLE" value="radio"><param name="AUTOSTART" value="TRUE"><\/object><!--> <![endif]--><\/object>';
+														*/
+														}
+
+														if (code == undefined || code == '') {
+															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?><\/td><\/tr><\/table>";
+															return true;
+														}
+
+
+
+														return false;
+														} catch (e) {
+															document.getElementById('previewSelected').innerHTML = "<table width=\"100%\" height=\"100%\"><tr><td valign=\"middle\" align=\"center\"><?php echo _t('미리보기');?><\/td><\/tr><\/table>";
+															alert(e.message);
+															return true;
+														}
+													}
+
+													function downloadAttachment() {
+														try {
+															var fileList = document.getElementById('TCfilelist');
+															if (fileList.selectedIndex < 0) {
+																return false;
+															}
+															for(var i=0; fileList.length; i++) {
+																if (fileList[i].selected) {
+																	var fileName = fileList[i].value.split("|")[0];
+																	if(STD.isIE) {
+																		document.getElementById('fileDownload').innerHTML='<iframe style="display:none;" src="'+blogURL+'\/attachment\/'+fileName+'"><\/iframe>';
+
+																	} else {
+																		window.location = blogURL+'/attachment/'+fileName;
+																	}
+																	break;
+																}
+															}
+														} catch(e) {
+															alert(e.message);
+														}
+													}
+
+													STD.addEventListener(window);
+													window.addEventListener("beforeunload", PageMaster.prototype._onBeforeUnload, false);
+
+													function stripLabelToValue(fileLabel) {
+														var pos = fileLabel.lastIndexOf('(');
+														return fileLabel.substring(0,pos-1);
+													}
+
+													function refreshAttachFormSize() {
+														fileListObj = document.getElementById('TCfilelist');
+														fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
+													}
+
+													function refreshAttachList() {
+														var request = new HTTPRequest("POST", "<?php echo $param['refreshPath'];?>"+entryManager.entryId);
+														request.onVerify = function () {
+															return true
+														}
+														request.onSuccess = function() {
+															var fileListObj = document.getElementById("attachManagerSelect");
+															fileListObj.innerHTML = this.getText();
+															refreshAttachFormSize();
+															//getUploadObj().setAttribute('width',1)
+															//getUploadObj().setAttribute('height',1)
+
+
+															refreshFileSize();
+															entryManager.delay     = true;
+															entryManager.nowsaving = false;
+														}
+														request.onError = function() {
+															entryManager.delay     = true;
+															entryManager.nowsaving = false;
+
+														}
+														request.send();
+													}
+
+													function uploadProgress(target,loaded, total) {
+														loaded = Number(loaded);
+														total = Number(total);
+														var fileListObj = document.getElementById("TCfilelist");
+														for(var i=0; i<fileListObj.length; i++) {
+															if (fileListObj[i].getAttribute("value") == target) {
+																fileListObj[i].innerHTML = target+" "+(Math.ceil(100*loaded/total))+"%";
+																break;
+															}
+														}
+													}
+
+													function uploadComplete(target,size) {
+														loaded = Number(loaded);
+														total = Number(total);
+														var fileListObj = document.getElementById("TCfilelist");
+														for(var i=0; i<fileListObj.length; i++) {
+															if (fileListObj[i].getAttribute("value") == target) {
+																fileListObj[i].innerHTML = target+" "+(Math.ceil(100*loaded/total))+"%";
+																break;
+															}
+														}
+													}
+
+													/**
+													*
+													*  Base64 encode / decode
+													*  http://www.webtoolkit.info/
+													*
+													**/
+
+													var Base64 = {
+
+														// private property
+														_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+
+														// public method for encoding
+														encode : function (input) {
+															var output = "";
+															var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+															var i = 0;
+
+															input = Base64._utf8_encode(input);
+
+															while (i < input.length) {
+
+																chr1 = input.charCodeAt(i++);
+																chr2 = input.charCodeAt(i++);
+																chr3 = input.charCodeAt(i++);
+
+																enc1 = chr1 >> 2;
+																enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+																enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+																enc4 = chr3 & 63;
+
+																if (isNaN(chr2)) {
+																	enc3 = enc4 = 64;
+																} else if (isNaN(chr3)) {
+																	enc4 = 64;
+																}
+
+																output = output +
+																this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
+																this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4);
+
+															}
+
+															return output;
+														},
+
+														// public method for decoding
+														decode : function (input) {
+															var output = "";
+															var chr1, chr2, chr3;
+															var enc1, enc2, enc3, enc4;
+															var i = 0;
+
+															input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+															while (i < input.length) {
+
+																enc1 = this._keyStr.indexOf(input.charAt(i++));
+																enc2 = this._keyStr.indexOf(input.charAt(i++));
+																enc3 = this._keyStr.indexOf(input.charAt(i++));
+																enc4 = this._keyStr.indexOf(input.charAt(i++));
+
+																chr1 = (enc1 << 2) | (enc2 >> 4);
+																chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+																chr3 = ((enc3 & 3) << 6) | enc4;
+
+																output = output + String.fromCharCode(chr1);
+
+																if (enc3 != 64) {
+																	output = output + String.fromCharCode(chr2);
+																}
+																if (enc4 != 64) {
+																	output = output + String.fromCharCode(chr3);
+																}
+
+															}
+
+															output = Base64._utf8_decode(output);
+
+															return output;
+
+														},
+
+														// private method for UTF-8 encoding
+														_utf8_encode : function (string) {
+															string = string.replace(/\r\n/g,"\n");
+															var utftext = "";
+
+															for (var n = 0; n < string.length; n++) {
+
+																var c = string.charCodeAt(n);
+
+																if (c < 128) {
+																	utftext += String.fromCharCode(c);
+																}
+																else if((c > 127) && (c < 2048)) {
+																	utftext += String.fromCharCode((c >> 6) | 192);
+																	utftext += String.fromCharCode((c & 63) | 128);
+																}
+																else {
+																	utftext += String.fromCharCode((c >> 12) | 224);
+																	utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+																	utftext += String.fromCharCode((c & 63) | 128);
+																}
+
+															}
+
+															return utftext;
+														},
+
+														// private method for UTF-8 decoding
+														_utf8_decode : function (utftext) {
+															var string = "";
+															var i = 0;
+															var c = c1 = c2 = 0;
+
+															while ( i < utftext.length ) {
+
+																c = utftext.charCodeAt(i);
+
+																if (c < 128) {
+																	string += String.fromCharCode(c);
+																	i++;
+																}
+																else if((c > 191) && (c < 224)) {
+																	c2 = utftext.charCodeAt(i+1);
+																	string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+																	i += 2;
+																}
+																else {
+																	c2 = utftext.charCodeAt(i+1);
+																	c3 = utftext.charCodeAt(i+2);
+																	string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+																	i += 3;
+																}
+
+															}
+
+															return string;
+														}
+
+													}
+
+
+
+													function addFileList(list) {
+
+														var list = Base64.decode(list);
+														var fileListObj = document.getElementById("TCfilelist");
+														var listTemp = list.split("!^|");
+														var fileLabel = listTemp[0];
+														var fileValue = listTemp[1];
+														for(var i=0; i<fileListObj.length; i++) {
+															if (stripLabelToValue(fileLabel).indexOf(fileListObj[i].getAttribute("value")) != -1) {
+																var oOption = document.createElement("option");
+																oOption.innerHTML= fileLabel;
+																oOption.setAttribute("value",fileValue);
+																fileListObj.replaceChild(oOption,fileListObj[i]);
+																break;
+															}
+														}
+													}
+
+													function newLoadItem(fileValue) {
+														var fileListObj = document.getElementById("TCfilelist");
+														for(var i=0; i<fileListObj.length; i++) {
+															if (fileValue.indexOf(fileListObj[i].getAttribute("value")) != -1) {
+																fileListObj[i].style.backgroundColor="#C8DAF3";
+																break;
+															}
+														}
+													}
+
+													function setFileList() {
+														try {
+															list = getUploadObj().GetVariable("/:listStr");
+														} catch(e) {
+															alert(e.message);
+														}
+														var fileListObj = document.getElementById("TCfilelist");
+														var listTemp = list.split("!^|");
+														for(var i=0; i<listTemp.length; i++) {
+															temp = listTemp[i].split('(_!');
+															var fileName = temp[0];
+															var fileSize = temp[1];
+															if(fileName == undefined || fileSize == undefined)
+																continue;
+															var oOption = document.createElement("option");
+															oOption.innerHTML= fileName+' ('+Math.ceil((fileSize/1024))+'KB) <?php echo _t('대기 중..');?>';
+															oOption.setAttribute("value",fileName);
+															oOption.style.backgroundColor="#A4C3F0";
+															fileListObj.insertBefore(oOption,fileListObj[i]);
+															if(i == 0) {
+																newLoadItem(fileName);
+															}
+														}
+														fileListObj.setAttribute('size',Math.max(8,Math.min(fileListObj.length,30)));
+													}
+
+													function selectFileList(value) {
+														selectedFiles = value.split("!^|");
+														var fileListObj = document.getElementById("TCfilelist");
+														for(var i=0; i<fileListObj.length; i++) {
+															for(var j=0; j<selectedFiles.length; j++) {
+																if (fileListObj[i].getAttribute("value") == selectedFiles[j]) {
+																	fileListObj[i].setAttribute("selected","selected");
+																	selectAttachment();
+																	break;
+																}
+
+																fileListObj[i].setAttribute("selected","");
+															}
+														}
+														refreshAttachFormSize();
+													}
+
+													function disabledDeleteBtn() {
+														if(document.getElementById('TCfilelist').length>0) {
+															document.getElementById('deleteBtn').disabled = false;
+														} else {
+															document.getElementById('deleteBtn').disabled = true;
+														}
+													}
+
+													function removeUploadList(list) {
+														selectedFiles = list.split("!^|");
+														var fileListObj = document.getElementById("TCfilelist");
+														for(var j=0; j<selectedFiles.length; j++) {
+															for(var i=0; i<fileListObj.length; i++) {
+																if(selectedFiles[j] == undefined)
+																	continue;
+																if (fileListObj[i].getAttribute("value") == selectedFiles[j]) {
+																	fileListObj.remove(i);
+																	break;
+																}
+															}
+														}
+														refreshAttachFormSize();
+													}
+
+													function browser() {
+														entryManager.delay     = true;
+														entryManager.nowsaving = true;
+														getUploadObj().SetVariable('/:openBrowser','true');
+														getUploadObj().browser();
+													}
+
+													function stopUpload() {
+														getUploadObj().SetVariable('/:stopUpload','true');
+													}
+
+													function refreshFileSize() {
+														try {
+															var request = new HTTPRequest("POST", "<?php echo $param['fileSizePath'];?>"+entryManager.entryId);
+															request.onVerify = function () {
+																return true;
+															}
+
+															request.onSuccess = function() {
+																try {
+																	var result = this.getText("/response/result");
+																	document.getElementById('fileSize').innerHTML = result;
+																} catch(e) {
+
+																}
+															}
+
+															request.onError = function() {
+															}
+															request.send();
+
+														} catch(e) {
+															alert(e.message);
+														}
+													}
+
+													function getUploadObj() {
+														try {
+															var result;
+															if(isIE)
+																result = document.getElementById("uploader");
+															else
+																result = document.getElementById("uploader2");
+															if (result == null)
+																return false;
+															else
+																return result;
+														} catch(e) {
+															return false;
+														}
+													}
+													refreshAttachFormSize();
+												//]]>
+											</script>
+
+<?php
+	require_once ROOT.'/resources/script/detectFlash.inc';
+	$maxSize = min( return_bytes(ini_get('upload_max_filesize')) , return_bytes(ini_get('post_max_size')) );
+?>
+
+												<script type="text/javascript">
+													//<![CDATA[
+<?php
+	if (defined('__TEXTCUBE_GAE__')) {
+?>
+													function getMultiUploadUrl() {
+														var request = new HTTPRequest("POST", "<?php echo $blogURL;?>/owner/api/uploadurl", false);
+														request.send("target=<?php echo $param['uploadPath'];?>" + entryManager.entryId + "?TSSESSION=<?php echo $_COOKIE[Session::getName()];?>");
+														return request.getText('/response/url');
+													}
+<?php
+  }
+?>
+													var uploaderStr = '';
+													function reloadUploader() {
+														var requiredMajorVersion = 8;
+														var requiredMinorVersion = 0;
+														var requiredRevision = 0;
+														var jsVersion = 1.0;
+														var hasRightVersion = DetectFlashVer(requiredMajorVersion, requiredMinorVersion, requiredRevision);
+<?php
+	if (!defined('__TEXTCUBE_GAE__')) {
+?>
+  													var uploadPath = "<?php echo $param['uploadPath'];?>" + entryManager.entryId;
+<?php
+  } else {
+?>
+														var uploadPath = '';
+<?php
+  }
+?>
+	                          uploadPath = uploadPath.replace(/=/g, '%3D').replace(/\?/g, '%3F').replace(/&/g, '%26').replace(/"/g, '%22').replace(/'/g, '%27');
+														uploaderStr = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="uploader"'
+															+ 'width="400" height="400"'
+															+ 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">'
+															+ '<param name="movie" value="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand()?>" />'
+															+ '<param name="quality" value="high" /><param name="bgcolor" value="#ffffff" /><param name="scale" value="noScale" />'
+															+ '<param name="wmode" value="transparent" />'
+															+ '<param name="FlashVars" value="uploadPath=' + uploadPath
+																+ '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
+																+ '&labelingPath=<?php echo $param['labelingPath'];?>' + entryManager.entryId
+																+ '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" />'
+															+ '<embed id="uploader2" src="<?php echo $context->getProperty('service.path');?>/resources/script/uploader/uploader.swf?<?php echo rand() ?>"'
+																+ 'flashvars="uploadPath=' + uploadPath
+															  + '&uploadStr=<?php echo _t('파일 업로드');?>&uploadStopStr=<?php echo _t('업로드 중지');?>&deleteStr=<?php echo _t('삭제하기');?>'
+															  + '&labelingPath=<?php echo $param['labelingPath'];?>' + entryManager.entryId
+															  + '&maxSize=<?php echo $maxSize;?>&sessionName=TSSESSION&sessionValue=<?php echo $_COOKIE[Session::getName()];?>" width="400" height="40" align="middle" wmode="transparent" quality="high" bgcolor="#ffffff" scale="noScale" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />'
+															  +'<\/embed><\/object>';
+
+														if (hasRightVersion && (isMoz || isIE || isMinSafari3)) {
+															if(<?php echo ($context->getProperty('service.flashuploader') ? 'true' : 'false');?>) { writeCode(uploaderStr,'uploaderNest'); }
+														}
+														window.uploader= document.getElementById('uploader');
+														refreshUploadButton();
+													}
+													//]]>
+												</script>
+											<div id="uploaderNest">
+											</div>
 <?php
 }
 
@@ -872,70 +904,70 @@ function printEntryFileUploadButton($entryId) {
 
     $blogid = getBlogId();
     ?>
+											<script type="text/javascript">
+												//<![CDATA[
 
-    <script type="text/javascript">
-        //<![CDATA[
+													var fileUploadNestOriginal = false;
 
-        var fileUploadNestOriginal = false;
+													function makeCrossDamainSubmit(uri,userAgent) {
+														var property =new Array();
+														property['ie'] = new Array();
+														property['ie']['width'] = '225px';
+														property['ie']['height'] = '25px';
 
-        function makeCrossDamainSubmit(uri, userAgent) {
-            var property = new Array();
-            property['ie'] = new Array();
-            property['ie']['width'] = '225px';
-            property['ie']['height'] = '25px';
+														property['moz'] = new Array();
+														property['moz']['width'] = '215px';
+														property['moz']['height'] = '22px';
 
-            property['moz'] = new Array();
-            property['moz']['width'] = '215px';
-            property['moz']['height'] = '22px';
+														property['etc'] = new Array();
+														property['etc']['width'] = '240px';
+														property['etc']['height'] = '22px';
 
-            property['etc'] = new Array();
-            property['etc']['width'] = '240px';
-            property['etc']['height'] = '22px';
+														if(fileUploadNestOriginal == false) {
+															fileUploadNestOriginal = document.getElementById('fileUploadNest').innerHTML;
+														}
+														var str = '<iframe id="attachHiddenNest" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height']+'; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"><\/iframe>';
+														document.getElementById('fileUploadNest').innerHTML = str + fileUploadNestOriginal;
+														/*if (document.getElementById('attachHiddenNest_' + (attachId - 1))) {
+															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.display = "none";
+															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.width = 0;
+															document.getElementById('attachHiddenNest_' + (attachId - 1)).style.height = 0;
+														}
+														attachId++;*/
+													}
 
-            if (fileUploadNestOriginal == false) {
-                fileUploadNestOriginal = document.getElementById('fileUploadNest').innerHTML;
-            }
-            var str = '<iframe id="attachHiddenNest" src="' + uri + '" style="display: block; height: ' + property[userAgent]['height'] + '; width: ' + property[userAgent]['width'] + ';" frameborder="no" scrolling="no"><\/iframe>';
-            document.getElementById('fileUploadNest').innerHTML = str + fileUploadNestOriginal;
-            /*if (document.getElementById('attachHiddenNest_' + (attachId - 1))) {
-             document.getElementById('attachHiddenNest_' + (attachId - 1)).style.display = "none";
-             document.getElementById('attachHiddenNest_' + (attachId - 1)).style.width = 0;
-             document.getElementById('attachHiddenNest_' + (attachId - 1)).style.height = 0;
-             }
-             attachId++;*/
-        }
+													function refreshUploadButton() {
+														if (getUploadObj()) {
 
-        function refreshUploadButton() {
-            if (getUploadObj()) {
-
-            } else {
-                if (isIE) {
-                    makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId, "ie");
-                } else if (isMoz) {
-                    makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId, "moz");
-                } else {
-                    makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId, "etc");
-                }
-            }
-        }
-        //]]>
-    </script>
-    <div id="fileUploadNest" class="container">
-        <div id="fileSize">
-            <?php
-            echo getAttachmentSizeLabel($blogid, $entryId);
-            ?>
-        </div>
-        <div id="fileDownload" class="system-message" style="display: none;"></div>
-    </div>
-    <script type="text/javascript">
-        //<![CDATA[
-        if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo ($context->getProperty('service.flashuploader', true) ? 'false' : 'true');?>) {
-            var deleteButtonContainer = document.getElementById('fileUploadNest');
-            deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
-        }
-        //]]>
-    </script>
+														} else {
+															if(isIE) {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId,"ie");
+															} else if(isMoz) {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId,"moz");
+															} else {
+																makeCrossDamainSubmit(blogURL + "/owner/entry/attach/" + entryManager.entryId,"etc");
+															}
+														}
+													}
+												//]]>
+											</script>
+										<div id="fileUploadNest" class="container">
+											<div id="fileSize">
+<?php
+echo getAttachmentSizeLabel($blogid, $entryId);
+?>
+											</div>
+											<div id="fileDownload" class="system-message" style="display: none;"></div>
+										</div>
+										<script type="text/javascript">
+										//<![CDATA[
+										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo ($context->getProperty('service.flashuploader', true) ? 'false' : 'true');?>) {
+											var deleteButtonContainer = document.getElementById('fileUploadNest');
+											deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
+											deleteButtonContainer.style.marginTop = '5px';
+										}
+										//]]>
+										</script>
 <?php
 }
 

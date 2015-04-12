@@ -499,7 +499,7 @@ foreach ($sidebarPluginArray as $nowKey) {
 						</form>
 						
 						<script src="<?php echo $context->getProperty('service.path');?>/resources/script/dojo/dojo.js" type="text/javascript"></script>
-						<script src="<?php echo $context->getProperty('service.path');?>/resources/script/sidebar.js" type="text/javascript"></script>
+						<script src="<?php echo $context->getProperty('service.path');?>/resources/script/sidebar.min.js" type="text/javascript"></script>
 						<script type="text/javascript">
 							//<![CDATA[
 								var decorateDragPanelString_deleteTitle = "<?php echo _t('이 사이드바 모듈을 삭제합니다.');?>";

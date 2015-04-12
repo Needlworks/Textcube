@@ -5,12 +5,12 @@
 require ROOT . '/library/preprocessor.php';
 
 importlib('blogskin');
-
 importlib('model.common.reader');
 importlib('model.blog.comment');
 importlib('model.blog.remoteresponse');
 importlib('model.blog.entry');
 importlib('model.blog.trash');
+importlib('model.blog.version');
 importlib('model.common.setting');
 
 $blogMenu['topMenu'] = 'center';
@@ -185,7 +185,7 @@ if (isset($_REQUEST['edit'])) {
 <?php echo "\tvar editMode = ".isset($_REQUEST['edit']).";\n";?>
 //]]>
 </script>
-<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/dashboard.js" type="text/javascript"></script>
+<script src="<?php echo $ctx->getProperty('service.path');?>/resources/script/dashboard.min.js" type="text/javascript"></script>
 <?php
 }
 ?>
@@ -195,28 +195,7 @@ if (isset($_REQUEST['edit'])) {
 									document.getElementById("form-quilt").submit();
 								}
 <?php
-if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
-?>
-
-								window.addEventListener("load", checkTextcubeVersion, false);
-								function checkTextcubeVersion() {
-									if (confirm("<?php echo _t('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-										window.location.href = "<?php echo $ctx->getProperty('uri.blog');?>/checkup";
-								}
-<?php
-} else {
-	$current_version = trim(file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP'));
-	if ($current_version != TEXTCUBE_VERSION) {
-?>
-
-								window.addEventListener("load", checkTextcubeVersion, false);
-								function checkTextcubeVersion() {
-									if (confirm("<?php echo _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-										window.location.href = "<?php echo $ctx->getProperty('uri.blog');?>/checkup";
-								}
-<?php
-	}
-}
+printScriptCheckTextcubeVersion($ctx);
 if(Acl::check("group.administrators")) {
 ?>
 								function cleanupCache() {

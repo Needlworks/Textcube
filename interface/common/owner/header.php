@@ -337,12 +337,11 @@ include ROOT . '/resources/locale/messages.php';
 ?>
 		//]]>
 	</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/jquery/jquery.bpopup-<?php echo JQUERY_BPOPUP_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common3.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common3.min.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/owner.js"></script>
 <?php
 if(!in_array($blogMenu['contentMenu'],array('post','edit'))) {

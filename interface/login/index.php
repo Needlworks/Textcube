@@ -110,11 +110,10 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.ie7.css" />
 		<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.ie7.css" />
 	<![endif]-->
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/byTextcube.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common3.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common3.min.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $context->getProperty('service.path');?>";
@@ -136,33 +135,6 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 			}
 		//]]>
 	</script>
-<?php
-if (!file_exists(__TEXTCUBE_CACHE_DIR__.'/CHECKUP')) {
-?>
-	<script type="text/javascript">
-		//<![CDATA[
-			window.addEventListener("load", checkTextcubeVersion, false);
-			function checkTextcubeVersion() {
-				if (confirm("<?php echo _text('버전업 체크를 위한 파일을 생성합니다. 지금 생성하시겠습니까?');?>"))
-					window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
-			}
-		//]]>
-	</script>
-<?php
-} else if (file_get_contents(__TEXTCUBE_CACHE_DIR__.'/CHECKUP') != TEXTCUBE_VERSION) {
-?>
-	<script type="text/javascript">
-		//<![CDATA[
-			window.addEventListener("load", checkTextcubeVersion, false);
-			function checkTextcubeVersion() {
-				if (confirm("<?php echo _text('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');?>"))
-					window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
-				}
-		//]]>
-	</script>
-<?php
-}
-?>
 </head>
 <body id="body-login">
 	<div id="temp-wrap">

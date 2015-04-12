@@ -1,4 +1,4 @@
-/// Copyright (c) 2005-2011. Tatter & Company / Needlworks
+/// Copyright (c) 2005-2015. Needlworks / Tatter & Company
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -22,8 +22,8 @@ function getObject(target) {
 
 Standardizer.prototype.namespace = "Eolin.Application.Framework";
 Standardizer.prototype.name      = "Eolin Standardizer";
-Standardizer.prototype.verion    = "1.0";
-Standardizer.prototype.copyright = "Copyright (c) 2005,2011 Needlworks / Tatter & Company. All rights reserved.";
+Standardizer.prototype.verion    = "1.1";
+Standardizer.prototype.copyright = "Copyright (c) 2005,2015 Needlworks / Tatter & Company. All rights reserved.";
 
 function Standardizer(){};
 
@@ -43,8 +43,15 @@ if(Standardizer.prototype.isFirefox) {
 // Webkit / Safari
 webkitIndex = Math.max(ua.indexOf("WebKit"), ua.indexOf("Safari"),0);
 Standardizer.prototype.isSafari = (ua.indexOf("Safari")>=0);
+Standardizer.prototype.isChrome = (ua.indexOf("Chrome")>=0);
 Standardizer.prototype.isWebkit = (webkitIndex > 0);
-if(Standardizer.prototype.isWebkit) {
+if(Standardizer.prototype.isChrome) {
+	chromeIndex = Math.max(ua.indexOf("Webkit"), ua.indexOf("Chrome"),0);
+	Standardizer.prototype.browserVersion  = parseFloat(ua.substr(chromeIndex+7));
+	alert(Standardizer.prototype.browserVersion);
+	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(webkitIndex+7));
+	alert(Standardizer.prototype.engineVersion);
+} else if(Standardizer.prototype.isWebkit) {
 	Standardizer.prototype.browserVersion  = parseFloat(ua.split("Version/")[1]) || ( ( parseFloat(ua.substr(webkitIndex+7)) >= 419.3 ) ? 3 : 2 ) || 2;
 	Standardizer.prototype.engineVersion  = parseFloat(ua.substr(webkitIndex+7));
 }
@@ -538,8 +545,8 @@ HTTPRequest.prototype.parseURL = function(url) {
 
 HTTPRequest.prototype.setTimeout = function(time) {
 	this.timeout = time;
-};	
-	
+};
+
 FileUploadRequest.prototype.namespace  = "Eolin.Application.Framework";
 FileUploadRequest.prototype.name       = "Eolin File Upload Request";
 FileUploadRequest.prototype.verion     = "1.0";

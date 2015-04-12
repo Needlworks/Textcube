@@ -3,7 +3,16 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-global $__gDressTags;
+function getSkinPath($skinname) {
+    if (isCustomSkin($skinname)) {
+        return __TEXTCUBE_SKIN_CUSTOM_DIR__ . '/' . substr($skinname, 10);
+    }
+    return __TEXTCUBE_SKIN_DIR__ . '/' . $skinname;
+}
+
+function isCustomSkin($skinname) {
+    return strncmp($skinname, 'customize/', 10) == 0;
+}
 
 class Skin {
     var $outter;
@@ -341,9 +350,8 @@ class Skin {
     }
 
     function cutSkinTag($contents, $tag, $replace = null) {
-        global $__gDressTags;
-        if (!isset($__gDressTags)) {
-            $__gDressTags = array();
+        if (empty($this->dressTags)) {
+            $this->dressTags = array();
         }
         if (is_null($replace)) {
             $replace = "[##_{$tag}_##]";
@@ -359,14 +367,13 @@ class Skin {
         }
         $inner = substr($contents, $begin + $tagSize, $end - $begin - $tagSize);
         $outter = substr($contents, 0, $begin) . $replace . substr($contents, $end + $tagSize + 1);
-        if (!in_array($tag, $__gDressTags)) {
-            array_push($__gDressTags, $tag);
+        if (!in_array($tag, $this->dressTags)) {
+            array_push($this->dressTags, $tag);
         }
         return array($outter, $inner);
     }
 
     function cutSkinReplacer($contents, $tag, $replace = null) {
-        global $__gDressTags;
         if (is_null($replace)) {
             $replace = "[##_{$tag}_##]";
         }
@@ -377,8 +384,8 @@ class Skin {
         }
         $inner = "[##_{$tag}_##]";
         $outter = substr($contents, 0, $pos) . $replace . substr($contents, $pos + $tagSize);
-        if (!in_array($tag, $__gDressTags)) {
-            array_push($__gDressTags, $tag);
+        if (!in_array($tag, $this->dressTags)) {
+            array_push($this->dressTags, $tag);
         }
         return array($outter, $inner);
     }
@@ -397,7 +404,6 @@ class Skin {
     }
 
     function loadCache() {
-        global $__gDressTags;
         if (!$this->cache->load()) {
             return false;
         }
@@ -405,12 +411,11 @@ class Skin {
         foreach ($skinCache as $key => $value) {
             $this->$key = $value;
         }
-        $__gDressTags = $this->dressTags;
         return true;
     }
 
     function purgeCache() {
-        global $gCacheStorage;
+        $gCacheStorage = globalCacheStorage::getInstance();
         $this->cache->purge();
         $gCacheStorage->purge();
     }
@@ -599,11 +604,11 @@ class KeylogSkin {
     var $keylogItem;
 
     function KeylogSkin($filename) {
-        global $service, $serviceURL;
+        $context = Model_Context::getInstance();
         if (!$sval = file_get_contents($filename)) {
             Respond::ErrorPage("KeywordSkin");
         }
-        $origPath = $serviceURL . substr($filename, strlen(ROOT));
+        $origPath = $context->getProperty('uri.service') . substr($filename, strlen(ROOT));
         $origPath = substr($origPath, 0, 0 - strlen(Path::getBaseName($origPath)));
         $sval = str_replace('./', $origPath, $sval);
         replaceSkinTag($sval, 'html');

@@ -7,7 +7,7 @@
 // $entries : Posts that contain specific keyword.
 
 $skin = new KeylogSkin($skinSetting['keylogSkin']);
-$out = str_replace("[##_SKIN_head_end_##]", '<script type="text/javascript">//<![CDATA' . CRLF . 'var servicePath = "' . $context->getProperty('service.path') . '"; var blogURL = "' . $context->getProperty('uri.blog') . '"; var adminSkin = "' . $context->getProperty('panel.skin','canon') . '";//]]></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/common3.js"></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/gallery.js"></script>' . $skin->skin, $skin->outter);
+$out = str_replace("[##_SKIN_head_end_##]", '<script type="text/javascript">//<![CDATA' . CRLF . 'var servicePath = "' . $context->getProperty('service.path') . '"; var blogURL = "' . $context->getProperty('uri.blog') . '"; var adminSkin = "' . $context->getProperty('panel.skin','canon') . '";//]]></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/common3.min.js"></script><script type="text/javascript" src="' . $service['resourcepath'] . '/script/gallery.min.js"></script>' . $skin->skin, $skin->outter);
 $keylogView = $skin->keylog;
 $itemsView = '';
 $contentContainer = array();
