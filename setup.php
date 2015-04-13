@@ -8,6 +8,9 @@ header('Content-Type: text/html; charset=utf-8');
 ini_set('display_errors', 'on');
 
 define('ROOT','.');
+//if (!defined('__TEXTCUBE_CACHE_DIR__')) {
+	define('__TEXTCUBE_CACHE_DIR__', ROOT . '/cache');
+//}
 require ROOT.'/framework/id/textcube/config.default.php';
 
 if (version_compare(PHP_VERSION,'5.4.0', '<')) {
@@ -52,14 +55,15 @@ $_SERVER['PHP_SELF'] = rtrim($_SERVER['PHP_SELF'], '/');
 if (isset($_POST['dbPrefix']) && $_POST['dbPrefix'] == '') {
 	$_POST['dbPrefix'] == 'tc_';
 }
-$__requireBasics = array(
+$context = Model_Context::getInstance();
+$context->setProperty('import.library', array(
 	'function/string',
 	'function/time',
 	'function/javascript',
 	'function/html',
 	'function/xml',
 	'function/misc',
-	'function/mail');
+	'function/mail'));
 if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
 

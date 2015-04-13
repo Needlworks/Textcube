@@ -7,7 +7,7 @@
 
 global $fileCachedResult;
 
-class DBAdapter implements IAdapter {	
+class DBAdapter implements IAdapter {
 	static $db;
 	static $cachedResult, $dbProperties, $escapeTag, $lastQueryType;
 	public static function bind($database) {
@@ -20,8 +20,11 @@ class DBAdapter implements IAdapter {
 			$database['server'] = $port[0];
 			$database['port'] = $port[1];
 		}
-		self::$db = new SQLite3(__TEXTCUBE_CACHE_DIR__.'/'.$database['database'].'.db');
-		
+		if(!file_exists(__TEXTCUBE_CACHE_DIR__)) {
+			@mkdir(__TEXTCUBE_CACHE_DIR__);
+		}
+		self::$db = new SQLite3(__TEXTCUBE_CACHE_DIR__.'/'.$database['database'].'.db',SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
+
 		if(!self::$db) return false;
 
 		return true;
@@ -51,7 +54,7 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function tableList($condition = null) {
-		if (!array_key_exists('tableList', self::$dbProperties)) { 
+		if (!array_key_exists('tableList', self::$dbProperties)) {
 			$tableData = self::queryAll('SELECT name from sqlite_master WHERE type="table"');
 			self::$dbProperties['tableList'] = array();
 			foreach($tableData as $tbl) {
@@ -71,20 +74,20 @@ class DBAdapter implements IAdapter {
 			return self::$dbProperties['tableList'];
 		}
 	}
-	
+
 	public static function setTimezone($time) {
 		return true;
 #		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
-	
+
 	public static function reservedFieldNames() {
 		return null;
 	}
-	
+
 	public static function reservedFunctionNames() {
 		return array('UNIX_TIMESTAMP()');
 	}
-	
+
 	public static function queryExistence($query) {
 		if ($result = self::query($query)) {
 			if (self::$db->changes() > 0) {
@@ -95,7 +98,7 @@ class DBAdapter implements IAdapter {
 		}
 		return false;
 	}
-	
+
 	public static function queryCount($query) {
 		$count = 0;
 		$query = trim($query);
@@ -140,7 +143,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result[0][$field];
 	}
-	
+
 	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
 			$result = self::queryAllWithCache($query, $type, 1);
@@ -152,7 +155,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result[0];
 	}
-	
+
 	public static function queryColumn($query, $useCache=true) {
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( self::$cachedResult[$cacheKey] ) ) {
@@ -167,7 +170,7 @@ class DBAdapter implements IAdapter {
 		$column = null;
 		if ($result = self::query($query)) {
 			$column = array();
-			
+
 			while ($row = $result->fetchArray())
 				array_push($column, $row[0]);
 			$result->finalize();
@@ -178,7 +181,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $column;
 	}
-	
+
 	public static function queryAll ($query, $type = 'both', $count = -1) {
 		return self::queryAllWithCache($query, $type, $count);
 		//return self::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
@@ -195,7 +198,7 @@ class DBAdapter implements IAdapter {
 		}
 		return null;
 	}
-	
+
 	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
@@ -210,7 +213,7 @@ class DBAdapter implements IAdapter {
 		self::$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
-	
+
 	public static function execute($query) {
 		return self::$db->exec($query);
 	}
@@ -231,15 +234,15 @@ class DBAdapter implements IAdapter {
 	public static function query($query, $compatibility = true) {
 //		var_dump($query);
 		if($compatibility) {
-			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.			
-			$query = str_replace('RAND()','RANDOM()',$query); // compatibility issue.			
+			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
+			$query = str_replace('RAND()','RANDOM()',$query); // compatibility issue.
 			$origPagingInst = array(
 				'/CHAR_LENGTH(.*) /si'
 			);
 			$descPagingInst = array(
 				'LENGTH($1) '
 			);
-			$query = preg_replace($origPagingInst, $descPagingInst,$query);	
+			$query = preg_replace($origPagingInst, $descPagingInst,$query);
 		}
 		if( function_exists( '__tcSqlLogBegin' ) ) {
 			__tcSqlLogBegin($query);
@@ -257,7 +260,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result;
 	}
-	
+
 	public static function escapeString($string, $link = null){
 		return self::$db->escapeString($string);
 	}
@@ -274,23 +277,23 @@ class DBAdapter implements IAdapter {
 	public static function cacheLoad() {
 		global $fileCachedResult;
 	}
-	
+
 	public static function cacheSave() {
 		global $fileCachedResult;
 	}
 	public static function rollback() {
 		return self::$db->rollback();
 	}
-	public static function commit() { 
+	public static function commit() {
 		self::$db->commit(); // Auto commit.
 		return true;
 	}
-		
+
 /*** Raw functions (to easier adoptation from traditional queries) ***/
 	public static function insertId() {
 		return self::$db->lastInsertRowID();
 	}
-	
+
 	public static function num_rows($handle = null) {
 		switch(self::$lastQueryType) {
 			case 'select':
@@ -302,42 +305,42 @@ class DBAdapter implements IAdapter {
 		}
 		return null;
 	}
-	
+
 	public static function free($handle = null) {
 		sqlite_free_result($handle);
 	}
-	
+
 	public static function fetch($handle = null, $type = 'assoc') {
 		if($type == 'array') return sqlite_fetch_array($handle); // Can I use mysqli_fetch_row instead?
 		else if ($type == 'row') return sqlite_fetch_row($handle);
 		else return sqlite_fetch_assoc($handle);
 	}
-	
+
 	public static function error($err = null) {
 		return sqlite_error($err);
 	}
-	
+
 	public static function stat($stat = null) {
 		if($stat === null) return self::$db->stat();
 		else return self::$db->stat($stat);
 	}
-	
+
 	public static function __queryType($type) {
 		switch(strtolower($type)) {
 			case 'num':
 				return SQLITE3_NUM;
 			case 'assoc':
-				return SQLITE3_ASSOC;				
+				return SQLITE3_ASSOC;
 			case 'both':
 			default:
 				return SQLITE3_BOTH;
 		}
 	}
-	
+
 	public static function fieldType($abstractType) {
 		if(isset($typeTable[$abstractType])) return $typeTable[$abstractType];
 	}
-	
+
 	static $typeTable = array(
 		"integer" => "int",
 		"int" => "int",
@@ -346,6 +349,6 @@ class DBAdapter implements IAdapter {
 		"timestamp"	=> "int",
 		"mediumtext" => "mediumtext",
 		"varchar" => "varchar",
-		"text"	=> "text");	
+		"text"	=> "text");
 }
 ?>
