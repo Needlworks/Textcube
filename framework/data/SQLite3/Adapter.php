@@ -237,10 +237,12 @@ class DBAdapter implements IAdapter {
 			$query = str_replace('UNIX_TIMESTAMP()',Timestamp::getUNIXtime(),$query); // compatibility issue.
 			$query = str_replace('RAND()','RANDOM()',$query); // compatibility issue.
 			$origPagingInst = array(
-				'/CHAR_LENGTH(.*) /si'
+				'/CHAR_LENGTH(.*) /si',
+				'/IF\(([A-Za-z0-9]+),([A-Za-z0-9]+),([A-Za-z0-9]+)\)/si'
 			);
 			$descPagingInst = array(
-				'LENGTH($1) '
+				'LENGTH($1) ',
+				'CASE WHEN $1 THEN $2 ELSE $3 END'
 			);
 			$query = preg_replace($origPagingInst, $descPagingInst,$query);
 		}
