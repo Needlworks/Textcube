@@ -764,11 +764,12 @@ function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $
     } else {
         $pool->setQualifier("e.category", ">=", 0);
     }
-
-    if (!empty($childCategories)) {
-        $pool->setQualifier("e.category", "hasoneof", $childCategories);
-    } else {
-        $pool->setQualifier("e.category", "eq", $categoryId);
+    if ($categoryId !== false) {
+        if (!empty($childCategories)) {
+            $pool->setQualifier("e.category", "hasoneof", $childCategories);
+        } else {
+            $pool->setQualifier("e.category", "eq", $categoryId);
+        }
     }
     $pool->setQualifier("e.blogid", "eq", $blogid);
     $pool->setQualifier("e.slogan", "eq", $slogan, true);
