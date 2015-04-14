@@ -114,7 +114,7 @@ Standardizer.prototype.querySelector = function(selector) {
 	return jQuery(selector)[0];
 	// NOTE: Possible side-effect:
 	//       If you pass a html string as selector, jQuery function will return a new extended DOM node.
-}
+};
 
 Standardizer.prototype.querySelectorAll = function(selector) {
 	//if (document.querySelectorAll) // Firefox 3.1+, IE8+, Webkit x.x+
@@ -124,7 +124,7 @@ Standardizer.prototype.querySelectorAll = function(selector) {
 	return jQuery(selector);
 	// NOTE: Possible side-effect:
 	//       If you pass a html string as selector, jQuery function will return a new extended DOM node.
-}
+};
 
 var STD=new Standardizer();
 STD.addEventListener(window);
