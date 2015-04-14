@@ -90,7 +90,7 @@ TTDefaultEditor.prototype.initialize = function(textarea) {
 		getObject('attachManagerSelectNest').style.visibility = 'visible';
 	};
 	this.resizer.initialize();
-}
+};
 
 // finalize the editor, with removing things added by initialize method (required!)
 TTDefaultEditor.prototype.finalize = function() {
@@ -100,12 +100,12 @@ TTDefaultEditor.prototype.finalize = function() {
 	textarea.removeEventListener("select", this.textareaEventHandler_bounded, false);
 	textarea.removeEventListener("click", this.textareaEventHandler_bounded, false);
 	textarea.removeEventListener("keyup", this.textareaEventHandler_bounded, false);
-}
+};
 
 // if necessary, synchronize textarea to other editor elements
 TTDefaultEditor.prototype.syncTextarea = function() {
 	// do nothing
-}
+};
 
 // add given objects (e.g. image, gallery, jukebox) to the editor
 TTDefaultEditor.prototype.addObject = function(data) {
@@ -135,7 +135,7 @@ TTDefaultEditor.prototype.addObject = function(data) {
 		return false;
 	}
 	return false;
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
