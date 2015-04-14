@@ -196,8 +196,8 @@ function analysis(msg,mode) {
 			var temp ='<table  cellspacing="0">';
 			for(var name in msg) {
 				temp +='<tr>';
-				temp +='<td>'+name+'</td><td>'
-				temp += msg[name]
+				temp +='<td>'+name+'</td><td>';
+				temp += msg[name];
 				temp +='</td>';
 				temp +='</tr>';
 			}
@@ -359,12 +359,12 @@ if(isMoz) {
 			oElement = oResult.iterateNext();
 		}
 		return result;
-	}
+	};
 	XMLDocument.prototype.selectSingleNode = function(path) {
 		var oEvaluator = new XPathEvaluator();
 		var oResult = oEvaluator.evaluate(path, this, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
 		return oResult.singleNodeValue;
-	}
+	};
 	Node.prototype.__defineGetter__("xml",function() {
 		var os = new XMLSerializer();
 		return os.serializeToString(this,"text/xml");
@@ -415,7 +415,7 @@ var loading = false;
 
 function getResponse(uri,content) {
 	try {
-		loading = true
+		loading = true;
 		var body = document.body;
 		var oHttp = createHttp();
 		if(uri.indexOf('?') ==-1) aux = '?';
@@ -434,7 +434,7 @@ function getResponse(uri,content) {
 					if(resultNodes.item(i).firstChild != null)
 						result[resultNodes.item(i).nodeName]=resultNodes.item(i).firstChild.nodeValue;
 				}
-			loading = false
+			loading = false;
 			delete oHttp;
 			return result;
 		} else if(isIE) {
@@ -443,11 +443,11 @@ function getResponse(uri,content) {
 			for(var i=0; i<resultNodes.length; i++) {
 				result[resultNodes[i].nodeName] = resultNodes[i].text;
 			}
-			loading = false
+			loading = false;
 			delete oHttp;
 			return result;
 		} else {
-			loading = false
+			loading = false;
 			var returnValue = oHttp.responseXML.selectNodes("/response/descendant::*");
 			delete oHttp;
 			return returnValue;
@@ -455,7 +455,7 @@ function getResponse(uri,content) {
 		delete oHttp;
 	} catch(e) {
 		alert("exception");
-		loading = false
+		loading = false;
 		var escapeSpace = document.getElementsByName('body');
 		var iframeElement = document.createElement('div');
 		document.body.appendChild(iframeElement);
@@ -634,8 +634,8 @@ function scroller(target, acceleration) {
 	try {
 		var target = document.getElementById(target);
 		var dest = document.body.scrollTop;
-		status = target.scrollTop+'  '+document.body.scrollTop+'  '+acceleration+' = '+((target.offsetTop - document.body.scrollTop)/acceleration)
-		dest += (target.offsetTop - document.body.scrollTop)/acceleration
+		status = target.scrollTop+'  '+document.body.scrollTop+'  '+acceleration+' = '+((target.offsetTop - document.body.scrollTop)/acceleration);
+		dest += (target.offsetTop - document.body.scrollTop)/acceleration;
 		if ( document.body.scrollTop == dest)
 			clearInterval(scrollerId);
 		window.scroll(0, dest);
@@ -791,13 +791,13 @@ function writeCode2(str, id) {
 }
 
 var StringBuffer = function()
-{ this.buffer = new Array(); }
+{ this.buffer = new Array(); };
 
-StringBuffer.prototype.append=function(str)
-{ this.buffer[this.buffer.length] = str; }
+StringBuffer.prototype.append = function(str)
+{ this.buffer[this.buffer.length] = str; };
 
 StringBuffer.prototype.toString = function()
-{ return this.buffer.join(""); }
+{ return this.buffer.join(""); };
 
 if(!Array.prototype.push) {
 	Array.prototype.push = function() {
@@ -806,12 +806,12 @@ if(!Array.prototype.push) {
 			this[startLength + i] = arguments[i];
 
 		return this.length;
-	}
+	};
 }
 
 if(!String.prototype.trim) {
 	String.prototype.trim = function()
-	{ return this.replace(new RegExp("(^\\s*)|(\\s*$)", "g"), ""); }
+	{ return this.replace(new RegExp("(^\\s*)|(\\s*$)", "g"), ""); };
 }
 
 if(!String.prototype.replaceAll) {
@@ -819,7 +819,7 @@ if(!String.prototype.replaceAll) {
         source = source.replace(new RegExp("(\\W)", "g"), "\\$1");
         target = target.replace(new RegExp("\\$", "g"), "$$$$");
         return this.replace(new RegExp(source, "gm"), target);
-    }
+    };
 }
 
 if(!String.prototype.count) {
@@ -829,7 +829,7 @@ if(!String.prototype.count) {
 		else
 			var matches = this.match(search);
 		return matches ? matches.length : 0;
-	}
+	};
 }
 
 if(!String.prototype.indexOfCaseInsensitive) {
@@ -837,7 +837,7 @@ if(!String.prototype.indexOfCaseInsensitive) {
 		var string = (typeof from == "undefined") ? this : this.substring(from, this.length);
 		var result = (typeof search == "string") ? new RegExp(search.replace(new RegExp("(\\W)", "g"), "\\$1"), "i").exec(string) : search.exec(string);
 		return result ? result.index + ((typeof from == "number") ? from : 0) : -1;
-	}
+	};
 }
 
 function getTagChunks(string, tagName, callback) {
@@ -877,7 +877,7 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
         var txtMore2 = txtMore.replace(/&/g,'&amp;');
         var txtLess2 = txtLess.replace(/&/g,'&amp;');
 
-        oLess.innerHTML = '<span style="cursor: pointer;" onclick="toggleMoreLess(this, \'' + num + '\', \'' + txtMore2 + '\', \'' + txtLess2 + '\'); return false;">' + txtLess + '<\/span>';
+        oLess.innerHTML = "<span style=\"cursor: pointer;\" onclick=\"toggleMoreLess(this, '" + num + "', '" + txtMore2 + "', '" + txtLess2 + "'); return false;\">" + txtLess + "</span>";
 
         after = oContent.nextSibling;
         oContent.parentNode.insertBefore(oLess, after);
@@ -1195,11 +1195,11 @@ function recallLastComment(caller,entryId) {
 
 	var request = new HTTPRequest("POST", action);
 	request.onSuccess = function () {
-	}
+	};
 
 	request.onError = function() {
 		alert(this.getText("/response/description"));
-	}
+	};
 }
 
 function loadComment(entryId, page, force, listOnly) {
@@ -1329,9 +1329,9 @@ function getMoreLineStream(page,lines,mode) {
 		buttonView = this.getText("/response/buttonView");
 		if(page == 1 && lines == 1) buttonView = "";
 		updateStream(contentView, buttonView, mode);
-	}
+	};
 	request.onError = function () {
-	}
+	};
 	request.send("page="+page
 		+"&lines="+lines);
 }
@@ -1380,10 +1380,10 @@ function deleteTrackback(id, entryId) {
 			obj = document.getElementById("recentTrackbacks");
 			if(obj != null) obj.innerHTML = this.getText("/response/recentTrackbacks");
 		} catch(e) { }
-	}
+	};
 	request.onError = function() {
 		alert(messages.operationFailed);
-	}
+	};
 	request.send();
 }
 
@@ -1393,7 +1393,7 @@ function changeVisibility(id, visibility) {
 	var request = new HTTPRequest("GET", blogURL + "/owner/entry/visibility/" + id + "?visibility=" + visibility);
 	request.onSuccess = function() {
 		window.location.reload();
-	}
+	};
 	request.send();
 }
 
@@ -1407,7 +1407,7 @@ function deleteEntry(id) {
 	if ((blogURL == null) || (blogURL.length <= 0)) redirectedURL = "/";
 	request.onSuccess = function() {
 		window.location.href = redirectedURL;
-	}
+	};
 	request.send();
 }
 

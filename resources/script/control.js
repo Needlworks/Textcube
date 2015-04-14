@@ -107,7 +107,7 @@ function ctlUserSuggest(container, disable)
 		this.instance.typingText = "";
 		this.instance.setValue(this.value);
 		this.instance.isFocused = false;
-	}
+	};
 	this.input.onfocus = function() {
 		if(this.instance.isFocused)
 			return;
@@ -117,7 +117,7 @@ function ctlUserSuggest(container, disable)
 		this.instance.isTyping = true;
 		this.instance.typingText = this.value;
 		this.instance.requestSuggestion();
-	}
+	};
 	this.input.onkeydown = function(event) {
 		var instance = this.instance;
 
@@ -153,7 +153,7 @@ function ctlUserSuggest(container, disable)
 		try { event.preventDefault(); } catch(e) { }
 
 		return false;
-	}
+	};
 
 	this.input.onkeypress = function(event) { return preventEnter(event); };
 	
@@ -176,7 +176,7 @@ function ctlUserSuggest(container, disable)
 		try { event.preventDefault(); } catch(e) { }
 
 		return false;
-	}
+	};
 	
 	// 10ms마다 input box의 값이 변했는지 체크
 	setInterval("ctlUserSuggestFunction_WatchInputBox('" + this.container.id + "')", 10);
@@ -196,7 +196,7 @@ ctlUserSuggest.prototype.setValue = function(str, focusOnInput)
 	this.input.value = str;
 	this.typingText = str;	
 	this.isSettingValue = false;
-}
+};
 
 // input box로 포커스를 이동시킨다
 ctlUserSuggest.prototype.focusOnInput = function()
@@ -206,19 +206,19 @@ ctlUserSuggest.prototype.focusOnInput = function()
 
 	// 가끔씩 IE에서 포커스가 안가는 문제
 	try { setTimeout("document.getElementById('" + this.container.id + "').instance.input.focus()", 1); } catch(e) { }
-}
+};
 
 ctlUserSuggest.prototype.getValue = function()
 {
 	return this.input.value;
-}
+};
 
 // suggestion window의 항목을 클릭하면 값을 세팅한다
 ctlUserSuggest.prototype.suggestionMouseClick = function(obj)
 {
 	this.setValue(obj.innerHTML.replace(new RegExp("<\/?em>", "gi"), "").replaceAll("&amp;", "&").match("^[^ ]*"), true);
 	this.hideSuggestion();
-}
+};
 
 // suggestion window를 숨긴다
 ctlUserSuggest.prototype.hideSuggestion = function()
@@ -226,7 +226,7 @@ ctlUserSuggest.prototype.hideSuggestion = function()
 	this.isSuggestionShown = false;
 	this.suggestion.style.display = "none";
 	this.suggestion.selectedIndex = 0;
-}
+};
 
 // suggestion window 커서를 위로 이동
 ctlUserSuggest.prototype.moveUp = function()
@@ -241,7 +241,7 @@ ctlUserSuggest.prototype.moveUp = function()
 
 		this.highlightRow();
 	}
-}
+};
 
 
 // suggestion window 커서를 아래로 이동
@@ -257,7 +257,7 @@ ctlUserSuggest.prototype.moveDown = function()
 
 		this.highlightRow();
 	}
-}
+};
 
 // 이동 후에 현재 열의 style class를 변경한다
 ctlUserSuggest.prototype.highlightRow = function()
@@ -271,7 +271,7 @@ ctlUserSuggest.prototype.highlightRow = function()
 		// 선택된 열의 값을 input box에 채운다
 		this.input.value = this.typingText = this.suggestion.childNodes[this.suggestion.selectedIndex-1].innerHTML.replace(new RegExp("<\/?em>", "gi"), "").unhtmlspecialchars().match("^[^ ]*");
 	}
-}
+};
 
 ctlUserSuggest.prototype.requestSuggestion = function()
 {
@@ -288,7 +288,7 @@ ctlUserSuggest.prototype.requestSuggestion = function()
 	var script = document.createElement("script");
 	script.setAttribute("src", blogURL + "/control/action/user/suggest/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&input=" + encodeURIComponent(instance.input.value) + (STD.isSafari ? "&encode=1" : ""));
 	document.body.appendChild(script);
-}
+};
 
 
 // cross browser event
@@ -301,7 +301,7 @@ ctlUserSuggest.prototype.adjustEventCompatibility = function(event)
 	}
 
 	return event;
-}
+};
 
 // 이하 잡 유틸들
 
@@ -312,27 +312,27 @@ function getOffsetLeft(obj)
 { return obj ? obj.offsetLeft + getOffsetLeft(obj.offsetParent) : 0; }
 
 var StringBuffer = function()
-{ this.buffer = new Array(); }
+{ this.buffer = new Array(); };
 
 StringBuffer.prototype.append=function(str)
-{ this.buffer[this.buffer.length] = str; }
+{ this.buffer[this.buffer.length] = str; };
 
 StringBuffer.prototype.toString = function()
-{ return this.buffer.join(""); }
+{ return this.buffer.join(""); };
 
 if(!String.prototype.trim) {
 	String.prototype.trim = function()
-	{ return this.replace(new RegExp("(^\\s*)|(\\s*$)", "g"), ""); }
+	{ return this.replace(new RegExp("(^\\s*)|(\\s*$)", "g"), ""); };
 }
 
 if(!String.prototype.htmlspecialchars) {
 	String.prototype.htmlspecialchars = function()
-	{ return this.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("<", "&gt;"); }
+	{ return this.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("<", "&gt;"); };
 }
 
 if(!String.prototype.unhtmlspecialchars) {
 	String.prototype.unhtmlspecialchars = function()
-	{ return this.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">"); }
+	{ return this.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">"); };
 }
 
 var x=0;
@@ -346,11 +346,11 @@ function sendUserAddInfo(name,email) {
 	request.onSuccess = function() {
 		PM.showMessage(_t('새로운 사용자가 추가되었습니다.'), "right", "top");
 		ctlRefresh();
-	}
+	};
 	request.onError = function() {
 		msg = this.getText("/response/result");
 		alert(_t('사용자를 추가하지 못했습니다.') + "\r\nError : " + msg);
-	}
+	};
 	request.send();
 }
 
@@ -359,11 +359,11 @@ function sendBlogAddInfo(owner,identify) {
 	request.onSuccess = function() {
 		PM.showMessage(_t('새로운 블로그가 추가되었습니다.'), "right", "top");
 		ctlRefresh();
-	}
+	};
 	request.onError = function() {
 		msg = this.getText("/response/result");
 		alert(_t('블로그를 추가하지 못했습니다.') + "\r\nError : " + msg);
-	}
+	};
 	request.send();
 }
 
@@ -373,12 +373,12 @@ function cleanUser(uid) {
 	request.onSuccess = function() {
 		PM.removeRequest(this);
 		window.location.href = '../';
-	}
+	};
 	request.onError = function() {
 		PM.removeRequest(this);
 		msg = this.getText("/response/result");
 		alert(_t('사용자 삭제에 실패하였습니다.') + "\r\nError : " + msg);
-	}
+	};
 	PM.addRequest(request, _t("사용자 삭제중"));
 	request.send();
 }
