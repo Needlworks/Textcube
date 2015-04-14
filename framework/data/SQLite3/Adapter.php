@@ -20,8 +20,19 @@ class DBAdapter implements IAdapter {
 			$database['server'] = $port[0];
 			$database['port'] = $port[1];
 		}
+<<<<<<< HEAD
 		self::$db = new SQLite3(__TEXTCUBE_CACHE_DIR__.'/'.$database['database'].'.sqlite');
 		
+=======
+		if(!defined('__TEXTCUBE_DATA_DIR__')){
+			define('__TEXTCUBE_DATA_DIR__',__TEXTCUBE_CACHE_DIR__);
+		}
+		if(!file_exists(__TEXTCUBE_DATA_DIR__)) {
+			@mkdir(__TEXTCUBE_DATA_DIR__);
+		}
+		self::$db = new SQLite3(__TEXTCUBE_DATA_DIR__.'/'.$database['database'].'.db',SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
+
+>>>>>>> 1f05f5a...  refs #1575 : added - TEXTCUBE_DATA for sqlite file.
 		if(!self::$db) return false;
 
 		return true;
