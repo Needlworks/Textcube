@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.link");
+importlib("model.blog.link");
 
 if (!$link = getLinkCategory($blogid, $suri['id']))
 	Respond::ErrorPage(_t('링크 정보가 존재하지 않습니다.'));

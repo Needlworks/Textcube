@@ -107,7 +107,7 @@ switch( $_GET['mode'] ) {
 		break;
 	case 'add':
 	default:
-		requireModel( 'common.plugin' );
+		importlib('model.common.plugin');
 		activatePlugin( 'CL_OpenID' );
 		addOpenID();
 		break;

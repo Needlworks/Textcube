@@ -9,7 +9,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.response.remote");
+importlib("model.blog.remoteresponse");
 
 requireStrictRoute();
 

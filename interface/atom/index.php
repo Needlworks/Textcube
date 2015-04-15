@@ -8,8 +8,8 @@ define('__TEXTCUBE_LOGIN__',true);
 define('__TEXTCUBE_CUSTOM_HEADER__', true);
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.feed");
-requireModel("blog.entry");
+importlib("model.blog.feed");
+importlib("model.blog.entry");
 
 requireStrictBlogURL();
 
@@ -24,6 +24,6 @@ fireEvent('FeedOBStart');
 echo fireEvent('ViewATOM', $result);
 fireEvent('FeedOBEnd');
 
-requireModel("blog.cron");
+importlib("model.blog.cron");
 checkCronJob();
 ?>

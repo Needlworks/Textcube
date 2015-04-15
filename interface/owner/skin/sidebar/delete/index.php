@@ -11,7 +11,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 importlib('blogskin');
-requireModel("blog.sidebar");
+importlib("model.blog.sidebar");
 $ctx = Model_Context::getInstance();
 
 $skin = new Skin($ctx->getProperty('skin.skin'));

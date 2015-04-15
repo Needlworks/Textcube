@@ -13,7 +13,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.link");
+importlib("model.blog.link");
 
 requireStrictRoute();
 Respond::ResultPage(updateLink($blogid, $_POST));

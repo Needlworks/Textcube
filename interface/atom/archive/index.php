@@ -15,7 +15,7 @@ $blogid = getBlogId();
 $cache = pageCache::getInstance();
 $cache->reset('archiveAtom-'.$period);
 if(!$cache->load()) {
-	requireModel("blog.feed");
+	importlib("model.blog.feed");
 	list($entries, $paging) = getEntriesWithPagingByPeriod($blogid, $period, 1, 1, 1);	
 	//var_dump($entries);
 	if(empty($entries)) {

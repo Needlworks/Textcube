@@ -11,7 +11,7 @@ $IV = array (
 		);
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.trash");
+importlib("model.blog.trash");
 
 requireStrictRoute();
 

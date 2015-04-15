@@ -885,11 +885,11 @@ function getUniqueSlogan($blogid, $slogan, $id = null, $keepOriginal = false) {
 function addEntry($blogid, $entry, $userid = null) {
     global $gCacheStorage;
     $pool = DBModel::getInstance();
-    requireModel("blog.attachment");
-    requireModel("blog.feed");
-    requireModel("blog.category");
-    requireModel("blog.tag");
-    requireModel("blog.locative");
+    importlib("model.blog.attachment");
+    importlib("model.blog.feed");
+    importlib("model.blog.category");
+    importlib("model.blog.tag");
+    importlib("model.blog.locative");
 
     if (empty($userid)) {
         $entry['userid'] = getUserId();
@@ -1366,10 +1366,10 @@ function deleteEntry($blogid, $id) {
     $ctx = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
-    requireModel("blog.feed");
-    requireModel("blog.category");
-    requireModel("blog.attachment");
-    requireModel("blog.tag");
+    importlib("model.blog.feed");
+    importlib("model.blog.category");
+    importlib("model.blog.attachment");
+    importlib("model.blog.tag");
 
     $target = getEntry($blogid, $id);
     if (is_null($target)) {
@@ -1407,8 +1407,8 @@ function deleteEntry($blogid, $id) {
 function changeCategoryOfEntries($blogid, $entries, $category) {
     $ctx = Model_Context::getInstance();
     $pool = DBModel::getInstance();
-    requireModel("blog.category");
-    requireModel("blog.feed");
+    importlib("model.blog.category");
+    importlib("model.blog.feed");
 
     $targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
     $effectedCategories = array();
@@ -1496,7 +1496,7 @@ function changeCategoryOfEntries($blogid, $entries, $category) {
 }
 
 function changeAuthorOfEntries($blogid, $entries, $userid) {
-    requireModel("blog.feed");
+    importlib("model.blog.feed");
 	$pool = DBModel::getInstance();
 
     $targets = array_unique(preg_split('/,/', $entries, -1, PREG_SPLIT_NO_EMPTY));
@@ -1513,8 +1513,8 @@ function changeAuthorOfEntries($blogid, $entries, $userid) {
 }
 
 function setEntryVisibility($id, $visibility) {
-    requireModel("blog.feed");
-    requireModel("blog.category");
+    importlib("model.blog.feed");
+    importlib("model.blog.category");
     $blogid = getBlogId();
     if (($visibility < 0) || ($visibility > 3)) {
         return false;

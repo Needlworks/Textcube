@@ -1,6 +1,6 @@
 <?php
 
-requireModel( "common.setting" );
+importlib("model.common.setting" );
 
 class Moblog
 {
@@ -267,7 +267,7 @@ class Moblog
 		//unset($post->slogan);
 
 		if( isset( $mail['attachments'] ) && count($mail['attachments']) ) {
-			requireModel( "blog.api" );
+			importlib("model.blog.api" );
 			$post->content .= "<div class=\"moblog-attachments\">\n";
 			foreach( $mail['attachments'] as $mail_att ) {
 				$this->log( "* ". _t("첨부")." : {$mail_att['filename']}" );

@@ -20,10 +20,10 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.entry");
-requireModel("blog.tag");
-requireModel("blog.locative");
-requireModel("blog.attachment");
+importlib("model.blog.entry");
+importlib("model.blog.tag");
+importlib("model.blog.locative");
+importlib("model.blog.attachment");
 
 $context = Model_Context::getInstance();
 

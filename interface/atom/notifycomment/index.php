@@ -16,8 +16,8 @@ $IV = array(
 		)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.feed");
-requireModel("blog.entry");
+importlib("model.blog.feed");
+importlib("model.blog.entry");
 
 requireStrictBlogURL();
 validateAPIKey(getBlogId(),$_POST['loginid'],$_POST['key']);

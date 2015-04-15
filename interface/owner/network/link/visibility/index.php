@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.link");
+importlib("model.blog.link");
 requireStrictRoute();
 $respond = array();
 list($result,$visibility) = toggleLinkVisibility($blogid, $suri['id'],$_POST['visibility']);

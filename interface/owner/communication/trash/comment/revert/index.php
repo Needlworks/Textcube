@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.comment");
+importlib("model.blog.comment");
 
 
 if(isset($suri['id'])) {

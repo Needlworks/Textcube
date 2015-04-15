@@ -15,7 +15,7 @@ $ajaxcall = (isset($_REQUEST['ajaxcall']) && $_REQUEST['ajaxcall'] == true) ? tr
 	
 require ROOT . '/library/preprocessor.php';
 importlib('blogskin');
-requireModel("blog.sidebar");
+importlib("model.blog.sidebar");
 requireStrictRoute();
 $ctx = Model_Context::getInstance();
 

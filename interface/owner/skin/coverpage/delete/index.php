@@ -11,8 +11,8 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 importlib('blogskin');
-requireModel("blog.sidebar");
-requireModel("blog.coverpage");
+importlib("model.blog.sidebar");
+importlib("model.blog.coverpage");
 
 
 $skin = new Skin($skinSetting['skin']);

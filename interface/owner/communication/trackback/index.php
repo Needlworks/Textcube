@@ -33,7 +33,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.response.remote");
+importlib("model.blog.remoteresponse");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_POST['site']) ? '' : $_POST['site'];

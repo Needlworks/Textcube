@@ -24,7 +24,7 @@ if(empty($entries)) {
 $cache = pageCache::getInstance();
 $cache->reset('searchATOM-'.$search);
 if(!$cache->load()) {
-	requireModel("blog.feed");
+	importlib("model.blog.feed");
 	$result = getSearchFeedByKeyword(getBlogId(),$search,'atom',$search);
 	if($result !== false) {
 		$cache->reset('searchATOM-'.$search);

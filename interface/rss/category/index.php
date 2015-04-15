@@ -7,7 +7,7 @@ define('__TEXTCUBE_CUSTOM_HEADER__', true);
 define('__TEXTCUBE_LOGIN__',true);
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.category");
+importlib("model.blog.category");
 
 requireStrictBlogURL();
 
@@ -36,7 +36,7 @@ if(!$cache->load()) {
 			$categoryIds = array_merge($categoryIds, $children);
 		}
 	}
-	requireModel("blog.feed");
+	importlib("model.blog.feed");
 	$result = getCategoryFeedByCategoryId(getBlogId(),$categoryIds,'rss',$categoryTitle);
 	if($result !== false) {
 		$cache->reset('categoryRSS-'.$categoryId);

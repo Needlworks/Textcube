@@ -30,8 +30,8 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.response.remote");
-requireModel("blog.trash");
+importlib("model.blog.remoteresponse");
+importlib("model.blog.trash");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $site = empty($_POST['site']) ? '' : $_POST['site'];

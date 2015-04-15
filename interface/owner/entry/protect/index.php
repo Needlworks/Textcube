@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.entry");
+importlib("model.blog.entry");
 
 requireStrictRoute();
 Respond::ResultPage(protectEntry($suri['id'], isset($_POST['password']) ? $_POST['password'] : ''));

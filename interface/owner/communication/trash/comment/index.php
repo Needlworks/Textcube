@@ -28,8 +28,8 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.comment");
-requireModel("blog.trash");
+importlib("model.blog.comment");
+importlib("model.blog.trash");
 
 $categoryId = empty($_POST['category']) ? 0 : $_POST['category'];
 $name = isset($_GET['name']) && !empty($_GET['name']) ? $_GET['name'] : '';
