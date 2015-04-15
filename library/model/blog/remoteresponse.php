@@ -365,15 +365,24 @@ function getRemoteResponseCount($blogid, $entryId = null, $type = null) {
     $pool->reset("Entries");
     $pool->setQualifier('blogid', 'eq', $blogid);
     $pool->setQualifier("draft", "eq", 0);
-    if (!is_null($type)) {
-        $pool->setQualifier("responsetype", "eq", $type, true);
-    }
     if (is_null($entryId)) {
-        $result = $pool->getRow("SUM(trackbacks) AS t, SUM(pingbacks) AS p");
-        return $result['t'] + $result ['p'];
+		$result = $pool->getRow("SUM(trackbacks) AS t, SUM(pingbacks) AS p");
+		if (!is_null($type)) {
+			switch($type) {
+				case 'trackback': return $result['t'];
+				case 'pingback': return $result['p'];
+			}
+		} 
+		return $result['t'] + $result['p'];
     } else {
         $pool->setQualifier('id', 'eq', $entryId);
-        $result = $pool->getRow('trackbacks, pingbacks');
+		$result = $pool->getRow('trackbacks, pingbacks');
+		if (!is_null($type)) {
+			switch($type) {
+				case 'trackback': return $result['trackbacks'];
+				case 'pingback': return $result['pingbacks'];
+			}
+		} 
         return $result['trackbacks'] + $result['pingbacks'];
     }
 }
