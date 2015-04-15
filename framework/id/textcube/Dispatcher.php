@@ -9,8 +9,9 @@ final class Dispatcher {
     public $uri, $service, $interfacePath;
 
     public function __construct() {
-        $this->pathSelector();
+        //$this->pathSelector();
         $this->URIinterpreter();
+        $this->pathSelector();
     }
 
     final protected static function _getInstance($p = null) {

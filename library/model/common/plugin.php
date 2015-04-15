@@ -75,7 +75,7 @@ function activatePlugin($name) {
 
 function deactivatePlugin($name) {
     $context = Model_Context::getInstance();
-    if (!in_array($name, $context->getProperty("plugin.activePlugins"))) {
+    if (!in_array($name, $context->getProperty("plugin.activePlugins",array()))) {
         return false;
     }
     $pool = DBModel::getInstance();

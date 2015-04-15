@@ -171,7 +171,9 @@ if ($context->getProperty('blog.useiPhoneUI', true) && ($browserUtil->isMobile()
     }
 } else {
     $_SESSION['displaymode'] = 'desktop';
-    define('__TEXTCUBE_SKIN_DIR__', ROOT . '/skin/blog');
+    if(!defined('__TEXTCUBE_SKIN_DIR__')) {
+        define('__TEXTCUBE_SKIN_DIR__', ROOT . '/skin/blog');
+    }
     if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
 		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
 	} else {
