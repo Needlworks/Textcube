@@ -355,7 +355,7 @@ function moblog_check()
 
 function moblog_logrotate()
 {
-	requireLibrary( "function/logrotate" );
+	importlib("function.logrotate");
 	cutlog( ROOT.DS."cache".DS."moblog.txt", 1024*1024 );
 	cutlog( ROOT.DS."cache".DS."pop3uidl.txt", 1024*1024 );
 }
