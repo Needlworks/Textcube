@@ -182,7 +182,7 @@ final class Model_Line extends DBModel {
         return false;
     }
 
-    protected $structure = array(
+    public $structure = array(
         "id" => array(
             "type" => "integer",
             "isNull" => false
