@@ -9,7 +9,10 @@ final class Dispatcher {
     public $uri, $service, $interfacePath;
 
     public function __construct() {
-        //$this->pathSelector();
+		//$this->pathSelector();
+		if (!defined('__TEXTCUBE_CONFIG_FILE__')) {
+			define('__TEXTCUBE_CONFIG_FILE__', ROOT . '/config.php');
+		}
         $this->URIinterpreter();
         $this->pathSelector();
     }
@@ -29,7 +32,7 @@ final class Dispatcher {
     }
 
     private function pathSelector() {
-        define('__TEXTCUBE_CONFIG_FILE__', ROOT . '/config.php');
+        //define('__TEXTCUBE_CONFIG_FILE__', ROOT . '/config.php');
         if (!defined('__TEXTCUBE_CACHE_DIR__')) {
             define('__TEXTCUBE_CACHE_DIR__', ROOT . '/cache');
         }
