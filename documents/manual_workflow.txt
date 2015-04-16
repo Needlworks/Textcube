@@ -1,5 +1,5 @@
 
-Textcube 1.10 Simple task flow
+Textcube 2.0 Simple task flow
 =========================
                                                                         By J.K.Shin (inureyes@gmail.com)
 
@@ -16,9 +16,7 @@ Dispatching                                           +------+------+
                                                              |
                                                         rewrite.php
                                                              |
-                                                        /framework/Dispatcher.php
-                                                             |
-                                                        /framework/id/textcube/config.default.php
+                                                        /framework/id/textcube/Dispatcher.php
                                                              |
                                           (Context / URL / configuration loading)
                                                              |
@@ -39,6 +37,8 @@ Dispatching                                           +------+------+
                                               + URI information validation
                                                              |
                                           Config, context object initialization.
+                                                        /framework/id/[textcube]/config.default.php
+											[textcube] can be changed via /framework/id/load
                                                 (Automatic initialization via first instanciation)
                                                              |
 ------------                                                 |

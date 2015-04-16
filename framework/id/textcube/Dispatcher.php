@@ -14,7 +14,7 @@ final class Dispatcher {
 			define('__TEXTCUBE_CONFIG_FILE__', ROOT . '/config.php');
 		}
         $this->URIinterpreter();
-        $this->pathSelector();
+        //$this->pathSelector();
     }
 
     final protected static function _getInstance($p = null) {
