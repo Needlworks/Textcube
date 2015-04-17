@@ -74,14 +74,15 @@ $context = Model_Context::getInstance(); // automatic initialization via first i
 $config = Model_Config::getInstance();
 $uri = Model_URIHandler::getInstance();
 /// Setting basic paths
-if (!defined('__TEXTCUBE_CONFIG_FILE__')) {
-    define('__TEXTCUBE_CONFIG_FILE__', ROOT . '/config.php');
-}
-if (!defined('__TEXTCUBE_CACHE_DIR__')) {
-    define('__TEXTCUBE_CACHE_DIR__', ROOT . '/cache');
-}
-if (!defined('__TEXTCUBE_ATTACH_DIR__')) {
-    define('__TEXTCUBE_ATTACH_DIR__', ROOT . '/attach');
+$predefinedPaths = array(
+    '__TEXTCUBE_CONFIG_FILE__'=> ROOT . '/config.php',
+    '__TEXTCUBE_CACHE_DIR__'=> ROOT . '/cache',
+    '__TEXTCUBE_ATTACH_DIR__'=>ROOT . '/attach'
+);
+foreach ($predefinedPaths as $symbol=>$location) {
+    if(!defined($symbol)) {
+        define($symbol, $location);
+    }
 }
 /// Loading debug module
 if ($context->getProperty('service.debugmode') == true) {
