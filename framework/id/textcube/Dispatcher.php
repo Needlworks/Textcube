@@ -9,7 +9,6 @@ final class Dispatcher {
     public $uri, $service, $interfacePath;
 
     public function __construct() {
-		//$this->pathSelector();
 		if (!defined('__TEXTCUBE_CONFIG_FILE__')) {
 			define('__TEXTCUBE_CONFIG_FILE__', ROOT . '/config.php');
 		}
