@@ -12,8 +12,12 @@ function getTeamBlogInitConfigVal( &$data ){
 }
 
 function getTeamAuthorStyle($target, $mother){
-	global $database, $entry;
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =" . getBlogId() . " AND userid=" . $entry['userid']);
+	global $entry;
+	$pool = DBModel::getInstance();
+	$pool->reset("TeamUserSettings");
+	$pool->setProperty("blogid","eq",getBlogId());
+	$pool->setProperty("userid","eq",$entry['userid']);
+	$row = $pool->getRow("style, image, profile");
 	$authorStyle = '';
 	if($row['style']){
 		$style = explode("|", $row['style']);
@@ -42,6 +46,7 @@ function getTeamAuthorStyle($target, $mother){
 
 function getTeamProfileView($target, $mother){
 	global $suri, $entry, $entryView, $configVal;
+	$context = Model_Context::getInstance();
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && empty($data['p2']) ) {
@@ -81,6 +86,8 @@ function getTeamProfile($userid){
 function getTeamBlogSettings() {
 	global $database, $service, $serviceURL, $pluginURL, $configVal;
 	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+
 	getTeamBlogInitConfigVal($data);
 ?>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/plugin-main.js"></script>
@@ -124,12 +131,12 @@ function getTeamBlogSettings() {
 		if(isset($style[4]) && !empty($style[4])){
 			$authorStyle .= "font-family:{$style[4]};";
 			$family = explode(",",$style[4]);
-			
+
 		}
 		if(isset($style[5]) && !empty($style[5])){
 			$authorStyle .= "font-size:{$style[5]}pt;";
 			$size = $style[5];
-			
+
 		}
 	} else {
 		$style = array();
@@ -141,7 +148,7 @@ function getTeamBlogSettings() {
 ?>
 	<div id="part-setting-teams" class="part">
 		<h2 class="caption"><span class="main-text"><?php echo _t('팀블로그 정보를 설정합니다');?></span></h2>
-		
+
 		<div class="data-inbox">
 				<div  class="sectionGroup">
 					<fieldset class="container">
@@ -160,7 +167,7 @@ function getTeamBlogSettings() {
 											var familyCheck;
 											var sizeCheck;
 											var html = ////
-												'<input type="text" id="fontColor" class="input-text2" style="<?php echo empty($color) ? '' : 'color:$color'; ?>;" value="<?php echo $color;?>" />' + 
+												'<input type="text" id="fontColor" class="input-text2" style="<?php echo empty($color) ? '' : 'color:$color'; ?>;" value="<?php echo $color;?>" />' +
 												'<select id="fontColorList" style="width:80px;height:19px;" onchange="styleExecCommand(\'fontColor\', \'fontcolor\', this.value);">' +
 													'<option class="head-option" value=""><?php echo _t('글자색'); ?><\/option>';
 											for (var i = 0; i < colors.length; ++i) {
@@ -170,7 +177,7 @@ function getTeamBlogSettings() {
 												html += '<option style="color:#' + colors[i] + ';" value="#' + colors[i] + '" ' + colorCheck + '>#' + colors[i] + '<\/option>';
 											}
 											html += '<\/select>';
-											
+
 											html += ////
 												'<select id="fontFamilyList" style="width:120px;height:19px;" onchange="styleExecCommand(\'\', \'fontname\', this.value); ">' +
 													'<option class="head-option" value=""><?php echo _t('글자체'); ?><\/option>';
@@ -243,10 +250,10 @@ function getTeamBlogSettings() {
 				</div>
 		</div>
 	</div>
-	
+
 	<div class="clear"></div>
 
-<?php 
+<?php
 }
 
 function getTeamContentsSave($target){
@@ -295,7 +302,7 @@ function getImageFileUpload($target){
 			}
 		}
 	}
-	
+
 	$script  = '<script type="text/javascript">//<![CDATA'.CRLF;
 	if($errcode != 1){
 		$script .= '	window.parent.top.document.getElementById("teamImage").src = "'.$result.'";';
@@ -308,6 +315,8 @@ function getImageFileUpload($target){
 
 function getAddAttachment($file){
 	global $database, $serviceURL;
+	$context = Model_Context::getInstance();
+
 	Attachment::confirmFolder();
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
@@ -342,6 +351,8 @@ function getAddAttachment($file){
 
 function getDeleteAttachment($filename){
 	global $database, $serviceURL;
+	$context = Model_Context::getInstance();
+
 	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
 	if($tmpImage){
 		POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
@@ -354,9 +365,10 @@ function getDeleteAttachment($filename){
 function getTeamBlogStyle($target) {
 	global $blogURL, $configVal;
 	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
 	getTeamBlogInitConfigVal($data);
 	if($data['cssSelect'] == 1){
-		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$blogURL}/plugin/teamBlogStyle/\" />".CRLF;
+		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$context->getProperty("uri.blog")."/plugin/teamBlogStyle/\" />".CRLF;
 	}
 	return $target;
 }
@@ -375,8 +387,8 @@ function getTeamBlogStyleSet($target){
 		.teamProfile legend { font-weight:bold; margin:0 0 0 5px;}
 		*html .teamProfile legend { margin:0; padding:0 !important;}
 		*:first-child+html .teamProfile legend { margin:0; padding:0 !important;}
-		
-		.teamProfile .teamMain  {margin:0px 6px;} 
+
+		.teamProfile .teamMain  {margin:0px 6px;}
 		.teamProfile .teamImage {margin:5px 0px 0px 0px; float:'.$data['imagePosition'].';}
 		.teamProfile .teamImage img {padding:2px; border:1px solid '.$lineColor.'; width:'.$data['imageSize'].'px; background-color:#fff;}
 		.teamProfile .teamDesc  {margin:5px 0px 0px 0px; float:'.$data['imagePosition'].';}

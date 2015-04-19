@@ -4,7 +4,7 @@
   <title xml:lang="ko">팀블로그 설정</title>
   <title xml:lang="ja">チームブログ設定</title>
   <link>http://needlworks.org/</link>
-  <version>1.7</version>
+  <version>2.0</version>
   <description xml:lang="en"><![CDATA[Adds some detail settings for team blog use.]]></description>
   <description xml:lang="ko"><![CDATA[팀블로그를 사용할 경우 사용자 프로필 등의 다양한 기능을 텍스트큐브에 추가합니다.]]></description>
   <description xml:lang="ja"><![CDATA[チームブログ機能を設定します。]]></description>
@@ -15,16 +15,18 @@
   <author xml:lang="ko" link="http://chakani.net"><![CDATA[박용주 / 박용선 (J.Parker / chakani)]]></author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.7</textcube>
+    <textcube>
+        <minVersion>2.0</minVersion>
+    </textcube>
   </requirements>
   <binding>
   	<tag name="SKIN_head_end" handler="getTeamBlogStyle" />
-	<listener event="ViewPostAuthor">getTeamAuthorStyle</listener>
-	<listener event="ViewPostContent">getTeamProfileView</listener>
-	<listener event="ViewNoticeContent">getTeamProfileView</listener>
-	<listener event="/plugin/teamContentsSave/">getTeamContentsSave</listener>
-	<listener event="/plugin/teamFileUpload/">getImageFileUpload</listener>
-	<listener event="/plugin/teamBlogStyle/">getTeamBlogStyleSet</listener>
+	<listener event="ViewPostAuthor" handler="getTeamAuthorStyle" />
+	<listener event="ViewPostContent" handler="getTeamProfileView" />
+	<listener event="ViewNoticeContent" handler="getTeamProfileView" />
+	<listener event="/plugin/teamContentsSave/" handler="getTeamContentsSave" />
+	<listener event="/plugin/teamFileUpload/" handler="getImageFileUpload" />
+	<listener event="/plugin/teamBlogStyle/" handler="getTeamBlogStyleSet" />
 	<config dataValHandler = "getTeamBlog_DataSet" >
 		<window width="500" height="550" />
 		<fieldset legend="Writer profile" >
