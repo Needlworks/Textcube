@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="2.0">
+	<title xml:lang="en">Test suite</title>
+	<version>0.1</version>
+	<description xml:lang="en">Receive and autoupdate Textcube code from main repository.</description>
+	<license>GPL</license>
+	<link>http://forest.nubimaru.com</link>
+	<author link="http://forest.nubimaru.com"><![CDATA[Jeongkyu Shin (inureyes)]]></author>
+	<safety changeData="no" exposeData="yes" accessLocal="yes" accessRemote="yes" accessRaw="yes" />
+	<requirements>
+		<textcube>
+			<minVersion>2.0</minVersion>
+		</textcube>
+	</requirements>
+	<binding>
+		<config xml:lang="en" dataValHandler="TestSuite_DataHandler">
+			<window width="500" height="525" />
+			<fieldset legend="Repository">
+				<field title="repos" type="radio" name="repos">
+					<op value="master" checked="checked"><![CDATA[Newest bleeding edge code.]]></op>
+					<op value="unstable"><![CDATA[Unstable branch]]></op>
+					<op value="stable"><![CDATA[Stable branch]]></op>
+				</field>
+			</fieldset>
+		</config>
+	</binding>
+</plugin>
