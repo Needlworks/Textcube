@@ -23,7 +23,7 @@ if(empty($entries)) {
 $cache = pageCache::getInstance();
 $cache->reset('searchRSS-'.$search);
 if(!$cache->load()) {
-	requireModel("blog.feed");
+	importlib("model.blog.feed");
 	$result = getSearchFeedByKeyword(getBlogId(),$search,'rss',$search);
 	if($result !== false) {
 		$cache->reset('searchRSS-'.$search);

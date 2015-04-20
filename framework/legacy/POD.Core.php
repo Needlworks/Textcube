@@ -797,7 +797,6 @@ class POD extends DBQuery {
     /** NOTICE : PARTS BELOW EXTENDS DBQuery Class WHICH IS THE BASE OF POD
      * AND WORKS ONLY WITH 'PageCache' Component in Textcube **/
     function queryWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
-//		requireComponent('Needlworks.Cache.PageCache');
         $cache = new queryCache($query, $prefix);
         if (!$cache->load()) {
             $cache->contents = POD::query($query, $type, $count);
@@ -807,7 +806,6 @@ class POD extends DBQuery {
     }
 
     function queryAllWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
-//		requireComponent('Needlworks.Cache.PageCache');
         $cache = new queryCache($query, $prefix);
         if (!$cache->load()) {
             $cache->contents = POD::queryAllWithCache($query, $type, $count);
@@ -817,7 +815,6 @@ class POD extends DBQuery {
     }
 
     function queryRowWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
-//		requireComponent('Needlworks.Cache.PageCache');
         $cache = new queryCache($query, $prefix);
         if (!$cache->load()) {
             $cache->contents = POD::queryRow($query, $type, $count);
@@ -827,7 +824,6 @@ class POD extends DBQuery {
     }
 
     function queryColumnWithDBCache($query, $prefix = null, $type = MYSQL_BOTH, $count = -1) {
-//		requireComponent('Needlworks.Cache.PageCache');
         $cache = new queryCache($query, $prefix);
         if (!$cache->load()) {
             $cache->contents = POD::queryColumn($query, $type, $count);

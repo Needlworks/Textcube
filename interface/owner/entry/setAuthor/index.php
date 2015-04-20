@@ -11,7 +11,7 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-requireModel("blog.entry");
+importlib("model.blog.entry");
 
 $username = User::getName($_POST['userid']);
 if(Acl::check('group.administrators')) {

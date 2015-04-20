@@ -5,7 +5,7 @@
 define('__TEXTCUBE_LOGIN__',true);
 require ROOT . '/library/preprocessor.php';
 
-requireModel( "blog.api" );
+importlib("model.blog.api" );
 
 /*--------- API main ---------------*/
 

@@ -654,7 +654,6 @@ function dressStaticElements(& $view) {
     dress('localog_link', $ctx->getProperty('uri.blog') . "/location", $view);
     dress('taglog_link', $ctx->getProperty('uri.blog') . "/tag", $view);
     dress('guestbook_link', $ctx->getProperty('uri.blog') . "/guestbook", $view);
-
     if ($ctx->getProperty('blog.rssURL', null) != null) {
         dress('rss_url', $ctx->getProperty('blog.rssURL'), $view);
     } else {

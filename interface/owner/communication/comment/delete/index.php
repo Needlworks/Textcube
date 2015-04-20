@@ -10,7 +10,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.comment");
+importlib("model.blog.comment");
 requireStrictRoute();
 
 $isAjaxRequest = checkAjaxRequest();

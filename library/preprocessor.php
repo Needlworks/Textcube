@@ -73,6 +73,17 @@ global $context, $uri;
 $context = Model_Context::getInstance(); // automatic initialization via first instanciation
 $config = Model_Config::getInstance();
 $uri = Model_URIHandler::getInstance();
+/// Setting basic paths
+$predefinedPaths = array(
+    '__TEXTCUBE_CONFIG_FILE__'=> ROOT . '/config.php',
+    '__TEXTCUBE_CACHE_DIR__'=> ROOT . '/cache',
+    '__TEXTCUBE_ATTACH_DIR__'=>ROOT . '/attach'
+);
+foreach ($predefinedPaths as $symbol=>$location) {
+    if(!defined($symbol)) {
+        define($symbol, $location);
+    }
+}
 /// Loading debug module
 if ($context->getProperty('service.debugmode') == true) {
     require_once(ROOT . "/library/debug.php");
@@ -171,7 +182,9 @@ if ($context->getProperty('blog.useiPhoneUI', true) && ($browserUtil->isMobile()
     }
 } else {
     $_SESSION['displaymode'] = 'desktop';
-    define('__TEXTCUBE_SKIN_DIR__', ROOT . '/skin/blog');
+    if(!defined('__TEXTCUBE_SKIN_DIR__')) {
+        define('__TEXTCUBE_SKIN_DIR__', ROOT . '/skin/blog');
+    }
     if (!defined('__TEXTCUBE_SKIN_STORAGE__')) {
 		define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
 	} else {

@@ -16,19 +16,19 @@ function getBlogVersion() {
 		return $version;
 	}
 	if (!file_exists(__TEXTCUBE_CHECKUP_FILE__)) {
-		return '0';
+		return '0.0';
 	}
 	return trim(file_get_contents(__TEXTCUBE_CHECKUP_FILE__));
 }
 
 function setBlogVersion() {
 	global $database;
-	$version = TEXTCUBE_VERSION;
+	$version = TEXTCUBE_VERSION_ID;
 	if (defined('__TEXTCUBE_GAE__')) {
 		$query = "INSERT into {$database['prefix']}ServiceSettings " .
 				     "  (name, value) VALUES ('blogVersion', '{$version}')" .
 		         "  ON DUPLICATE KEY UPDATE value=VALUES(value)";
-		POD::Execute($query);
+		POD::execute($query);
 		return;
 	}
 	$fp = fopen(__TEXTCUBE_CHECKUP_FILE__, 'w');
@@ -41,7 +41,7 @@ function setBlogVersion() {
 
 function isNeededCheckupBlogVersion() {
 	$current_version = getBlogVersion();
-	return ($current_version != TEXTCUBE_VERSION);
+	return ($current_version != TEXTCUBE_VERSION_ID);
 }
 
 function printScriptCheckTextcubeVersion($ctx) {

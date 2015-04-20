@@ -13,7 +13,7 @@ if(count($_POST) > 0) {
 	);
 }
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.attachment");
+importlib("model.blog.attachment");
 
 requireStrictRoute();
 $context = Model_Context::getInstance();

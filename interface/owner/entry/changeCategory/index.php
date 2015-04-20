@@ -10,7 +10,7 @@ $IV = array(
 );
 require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
-requireModel("blog.entry");
+importlib("model.blog.entry");
 
 
 if(changeCategoryOfEntries($blogid, $_POST['targets'], $_POST['category'])) {

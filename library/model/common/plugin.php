@@ -75,7 +75,7 @@ function activatePlugin($name) {
 
 function deactivatePlugin($name) {
     $context = Model_Context::getInstance();
-    if (!in_array($name, $context->getProperty("plugin.activePlugins"))) {
+    if (!in_array($name, $context->getProperty("plugin.activePlugins",array()))) {
         return false;
     }
     $pool = DBModel::getInstance();
@@ -583,7 +583,7 @@ function handleSidebars(& $sval, & $obj, $previewMode) {
 function handleCoverpages(& $obj, $previewMode = false) {
     global $service, $pluginURL, $pluginPath, $pluginName, $configVal, $configMappings;
     $context = Model_Context::getInstance();
-    requireModel("blog.coverpage");
+    importlib("model.blog.coverpage");
     // [coverpage id][element id](type, id, parameters)
     // type : 3=plug-in
     // id : type1=coverpage i, type2=handler id, type3=plug-in handler name

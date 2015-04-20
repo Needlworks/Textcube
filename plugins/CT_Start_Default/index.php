@@ -23,7 +23,7 @@
 
 */
 function CT_Start_Default($target) {
-	requireModel("blog.attachment");
+	importlib("model.blog.attachment");
 	$context = Model_Context::getInstance();
 	$blogURL = $context->getProperty('uri.blog');
 	$blogid = $context->getProperty('blog.id');

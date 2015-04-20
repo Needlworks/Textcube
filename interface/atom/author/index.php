@@ -16,7 +16,7 @@ $blogid = getBlogId();
 $cache = pageCache::getInstance();
 $cache->reset('authorATOM-'.$authorId);
 if(!$cache->load()) {
-	requireModel("blog.feed");
+	importlib("model.blog.feed");
 	list($entries, $paging) = getEntriesWithPagingByAuthor($blogid, $author, 1, 1, 1);	
 	if(empty($entries)) {
 		header ("Location: ".$context->getProperty('uri.host').$context->getProperty('uri.blog')."/atom");

@@ -7,7 +7,7 @@ define('__TEXTCUBE_LOGIN__',true);
 define('__TEXTCUBE_CUSTOM_HEADER__', true);
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.feed");
+importlib("model.blog.feed");
 
 requireStrictBlogURL();
 

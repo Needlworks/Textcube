@@ -8,7 +8,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.response.remote");
+importlib("model.blog.remoteresponse");
 
 requireStrictRoute();
 Respond::ResultPage(!empty($_GET['url']) && sendTrackback($blogid, $suri['id'], trim($_GET['url'])));

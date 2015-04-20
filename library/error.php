@@ -38,7 +38,7 @@ function errorExit($code) {
     echo "<html><head><body>$error_header</body></html>";
 
     /* This noise is the power of our cron engine, thank you! */
-//	requireModel("blog.cron");
+//	importlib("model.blog.cron");
 //	checkCronJob();
     exit;
 }

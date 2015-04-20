@@ -14,7 +14,7 @@ $IV = array(
 if (!empty($_GET['TSSESSION']))
 	$_COOKIE['TSSESSION'] = $_GET['TSSESSION'];
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.attachment");
+importlib("model.blog.attachment");
 $context = Model_Context::getInstance();
 $file = array_pop($_FILES);
 $attachment = addAttachment($context->getProperty('blog.id'), $context->getProperty('suri.id'), $file);

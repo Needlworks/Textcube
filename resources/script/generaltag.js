@@ -126,7 +126,7 @@ function tcTagFunction_showLocalSuggestion(id, cursor, filter)
 					}
 				} catch(e) { }
 			}
-		}
+		};
 		xmlhttp.send(null);
 		delete xmlhttp;
 	}
@@ -257,7 +257,7 @@ function Tag(container, language, disable)
 
 	// tag list first child
 	var listItem = document.createElement("li");
-	listItem.className = "lastChild"
+	listItem.className = "lastChild";
 	listItem.appendChild(this.inputOnLast);
 
 	this.tagList.appendChild(listItem);
@@ -269,20 +269,20 @@ function Tag(container, language, disable)
 Tag.prototype.isTemporaryEditing = function()
 {
 	return (this.inputTemporary != null);
-}
+};
 
 Tag.prototype.setInputClassName = function(str)
 {
 	this.inputClassName = str;
 	this.inputOnLast.className = str;
 	if(this.inputTemporary) this.inputTemporary.className = str;
-}
+};
 
 // 현재 편집중인 input box
 Tag.prototype.getInput = function()
 {
 	return (this.inputTemporary == null) ? this.inputOnLast : this.inputTemporary;
-}
+};
 
 // cross browser event
 Tag.prototype.adjustEventCompatibility = function(event)
@@ -294,7 +294,7 @@ Tag.prototype.adjustEventCompatibility = function(event)
 	}
 
 	return event;
-}
+};
 
 // input box를 생성한다
 Tag.prototype.createSuggestInput = function()
@@ -309,7 +309,7 @@ Tag.prototype.createSuggestInput = function()
 		instance.isTyping = false;
 		instance.hideSuggestion();
 		instance.setValue(this.value);
-	}
+	};
 	input.onclick = this.requestSuggestion;
 	input.onkeydown = function(event) {
 		var instance = this.instance;
@@ -358,12 +358,12 @@ Tag.prototype.createSuggestInput = function()
 		try { event.preventDefault(); } catch(e) { }
 
 		return false;
-	}
+	};
 	
 	input.onkeypress = function(event) { return preventEnter(event); };
 
 	return input;
-}
+};
 
 // suggestion window의 항목을 클릭하면 값을 세팅한다
 Tag.prototype.suggestionMouseClick = function(obj)
@@ -372,7 +372,7 @@ Tag.prototype.suggestionMouseClick = function(obj)
 
 	this.hideSuggestion();
 	this.setValue(obj.innerHTML.replace(new RegExp("<\/?strong>", "gi"), "").replaceAll("&amp;", "&"));
-}
+};
 
 // script의 src를 변경해 서버로부터 tag 리스트를 전송받는다
 Tag.prototype.requestSuggestion = function()
@@ -383,14 +383,14 @@ Tag.prototype.requestSuggestion = function()
 	instance.cursor++;
 
 	if(!instance.allowEolinSuggestion || (instance.getInput().value.trim() == "")) {
-		tcTagFunction_showLocalSuggestionWithoutQuery(instance.container.getAttribute("id"), instance.cursor, instance.getInput().value)
+		tcTagFunction_showLocalSuggestionWithoutQuery(instance.container.getAttribute("id"), instance.cursor, instance.getInput().value);
 		return;
 	}
 
 	var script = document.createElement("script");
 	script.setAttribute("src", "http://suggest.tc.com/tag/tatter/?id=" + instance.container.getAttribute("id") + "&cursor=" + instance.cursor + "&language=" + instance.language + "&word=" + encodeURIComponent(instance.getInput().value) + (STD.isSafari ? "&encode=1" : ""));
 	document.body.appendChild(script);
-}
+};
 
 // tag list의 이전 항목으로 이동
 Tag.prototype.moveBack = function()
@@ -408,7 +408,7 @@ Tag.prototype.moveBack = function()
 		this.tagList.lastChild.className = "lastChild";
 		this.getInput().value = text;
 	}
-}
+};
 
 // suggestion window 커서를 위로 이동
 Tag.prototype.moveUp = function()
@@ -423,7 +423,7 @@ Tag.prototype.moveUp = function()
 
 		this.highlightRow();
 	}
-}
+};
 
 // suggestion window 커서를 아래로 이동
 Tag.prototype.moveDown = function()
@@ -438,7 +438,7 @@ Tag.prototype.moveDown = function()
 
 		this.highlightRow();
 	}
-}
+};
 
 // 이동 후에 현재 열의 style class를 변경한다
 Tag.prototype.highlightRow = function()
@@ -452,7 +452,7 @@ Tag.prototype.highlightRow = function()
 		// 선택된 열의 값을 input box에 채운다
 		this.getInput().value = this.typingText = this.suggestion.childNodes[this.suggestion.selectedIndex-1].innerHTML.replace(new RegExp("<\/?strong>", "gi"), "").unhtmlspecialchars();
 	}
-}
+};
 
 // 노드의 값을 배열로 반환한다
 Tag.prototype.getValues = function()
@@ -463,7 +463,7 @@ Tag.prototype.getValues = function()
 		values[i] = this.tagList.childNodes[i].innerHTML.trim().unhtmlspecialchars();
 
 	return values;
-}
+};
 
 // 마지막 노드의 input box에 값을 추가하거나 임시 input box의 값을 tag list에 세팅한다
 Tag.prototype.setValue = function(str)
@@ -508,7 +508,7 @@ Tag.prototype.setValue = function(str)
 	this.tagList.lastChild.className = "lastChild";
 
 	this.isSettingValue = false;
-}
+};
 
 // tag list를 마우스로 클릭하면 input box로 변신시키기 위한 이벤트 핸들러
 Tag.prototype.tagListMouseClick = function()
@@ -525,7 +525,7 @@ Tag.prototype.tagListMouseClick = function()
 
 	instance.focusOnInput();
 	instance.requestSuggestion();
-}
+};
 
 // suggestion window를 숨긴다
 Tag.prototype.hideSuggestion = function()
@@ -539,14 +539,14 @@ Tag.prototype.hideSuggestion = function()
 		document.getElementById("previewSelected").style.visibility = "visible";
 		document.getElementById("TCfilelist").style.visibility = "visible";
 	} catch(e) { }*/
-}
+};
 
 // 적절한 input box로 포커스를 이동시킨다
 Tag.prototype.focusOnInput = function()
 {
 	this.getInput().focus();
 	this.getInput().select();
-}
+};
 
 // 이하 잡 유틸들
 
@@ -557,27 +557,27 @@ function getOffsetLeft(obj)
 { return obj ? obj.offsetLeft + getOffsetLeft(obj.offsetParent) : 0; }
 
 var StringBuffer = function()
-{ this.buffer = new Array(); }
+{ this.buffer = new Array(); };
 
 StringBuffer.prototype.append=function(str)
-{ this.buffer[this.buffer.length] = str; }
+{ this.buffer[this.buffer.length] = str; };
 
 StringBuffer.prototype.toString = function()
-{ return this.buffer.join(""); }
+{ return this.buffer.join(""); };
 
 if(!String.prototype.trim) {
 	String.prototype.trim = function()
-	{ return this.replace(new RegExp("(^\\s*)|(\\s*$)", "g"), ""); }
+	{ return this.replace(new RegExp("(^\\s*)|(\\s*$)", "g"), ""); };
 }
 
 if(!String.prototype.htmlspecialchars) {
 	String.prototype.htmlspecialchars = function()
-	{ return this.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("<", "&gt;"); }
+	{ return this.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll("<", "&gt;"); };
 }
 
 if(!String.prototype.unhtmlspecialchars) {
 	String.prototype.unhtmlspecialchars = function()
-	{ return this.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">"); }
+	{ return this.replaceAll("&amp;", "&").replaceAll("&lt;", "<").replaceAll("&gt;", ">"); };
 }
 
 var x=0;

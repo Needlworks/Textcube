@@ -48,18 +48,18 @@ TTReader.prototype.setShownEntries = function(count)
 {
 	this.entriesShown = count;
 	getObject("entriesShown").innerHTML = count;
-}
+};
 
 TTReader.prototype.setTotalEntries = function(count)
 {
 	this.entriesTotal = count;
 	getObject("entriesTotal").innerHTML = count;
-}
+};
 
 TTReader.prototype.setBlogTitle = function(title)
 {
 	getObject("blogTitle").innerHTML = title;
-}
+};
 
 TTReader.prototype.togglePannel = function(event)
 {
@@ -86,7 +86,7 @@ TTReader.prototype.togglePannel = function(event)
 	getObject("floatingList").style.top = "0px";
 	this.floatingListOffset = getObject("floatingList").offsetTop;
 	this.isPannelCollapsed = !this.isPannelCollapsed;
-}
+};
 
 TTReader.prototype.toggleConfigure = function()
 {
@@ -106,7 +106,7 @@ TTReader.prototype.toggleConfigure = function()
 	}
 	getObject("floatingList").style.top = "0px";
 	this.floatingListOffset = getObject("floatingList").offsetTop;
-}
+};
 
 TTReader.prototype.startResizing = function(event)
 {
@@ -119,12 +119,12 @@ TTReader.prototype.startResizing = function(event)
 		Reader.resizeScroll = STD.getScrollTop();
 		Reader.resizeHeight = parseInt(getObject("groupBox").style.height);
 	}
-}
+};
 
 TTReader.prototype.returnFalse = function()
 {
 	return false;
-}
+};
 
 TTReader.prototype.finishResizing = function()
 {
@@ -137,7 +137,7 @@ TTReader.prototype.finishResizing = function()
 		getObject("floatingList").style.top = "0px";
 		this.floatingListOffset = getObject("floatingList").offsetTop;
 	}
-}
+};
 
 TTReader.prototype.doResizing = function(event)
 {
@@ -147,7 +147,7 @@ TTReader.prototype.doResizing = function(event)
 		getObject("groupBox").style.height = height + "px";
 		getObject("feedBox").style.height = height + "px";
 	}
-}
+};
 
 TTReader.prototype.selectGroup = function(caller, id)
 {
@@ -161,7 +161,7 @@ TTReader.prototype.selectGroup = function(caller, id)
 	this.selectedGroupObject = caller.parentNode.parentNode;
 	this.selectedGroupObject.className = this.selectedGroupObject.className.replace(' rollover-class', ' active-class');
 	extraClass = this.selectedGroupObject.className;
-}
+};
 
 TTReader.prototype.selectFeed = function(caller, id)
 {
@@ -173,7 +173,7 @@ TTReader.prototype.selectFeed = function(caller, id)
 	this.selectedFeedObject = caller;
 	this.selectedFeedObject.className = this.selectedFeedObject.className.replace(' rollover-class', ' active-class');
 	extraClass = this.selectedFeedObject.className;
-}
+};
 
 TTReader.prototype.selectEntry = function(id)
 {
@@ -182,7 +182,7 @@ TTReader.prototype.selectEntry = function(id)
 	document.getElementById("entrytitleList" + this.selectedEntry).className = tempClass.replace(/active-class/, "inactive-class");
 	this.selectedEntry = id;
 	this.selectEntryObject(id);
-}
+};
 
 TTReader.prototype.selectEntryObject = function(id)
 {
@@ -197,7 +197,7 @@ TTReader.prototype.selectEntryObject = function(id)
 	}
 	else
 		setTimeout("Reader.selectEntryObject(" + id + ")", 100);
-}
+};
 
 TTReader.prototype.startScroll = function(id, offset)
 {
@@ -210,7 +210,7 @@ TTReader.prototype.startScroll = function(id, offset)
 		if(obj.scrollTop < (obj.scrollHeight - obj.offsetHeight))
 			setTimeout("Reader.startScroll('" + id + "')", 10);
 	}
-}
+};
 
 TTReader.prototype.refreshFeedGroup = function()
 {
@@ -219,16 +219,16 @@ TTReader.prototype.refreshFeedGroup = function()
 		Reader.selectedGroup = 0;
 		Reader.selectedGroupObject = null;
 		getObject("groupBox").innerHTML = this.getText("/response/view");
-	}
+	};
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
 				PM.showErrorMessage(s_unknownError + " (refreshFeedGroup)", "center", "bottom");
 		}
-	}
+	};
 	request.send("group=0&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
-}
+};
 
 TTReader.prototype.refreshFeedList = function(group)
 {
@@ -237,16 +237,16 @@ TTReader.prototype.refreshFeedList = function(group)
 		Reader.selectedFeed = 0;
 		Reader.selectedFeedObject = null;
 		getObject("feedBox").innerHTML = this.getText("/response/view");
-	}
+	};
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
 				PM.showErrorMessage(s_unknownError + " (refreshFeedList)", "center", "bottom");
 		}
-	}
+	};
 	request.send("group=" + group + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
-}
+};
 
 TTReader.prototype.refreshEntryList = function(group, feed)
 {	
@@ -261,16 +261,16 @@ TTReader.prototype.refreshEntryList = function(group, feed)
 		}
 		Reader.setShownEntries(parseInt(this.getText("/response/entriesShown")));
 		Reader.setTotalEntries(parseInt(this.getText("/response/entriesTotal")));
-	}
+	};
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
 				PM.showErrorMessage(s_unknownError + " (refreshEntryList)", "center", "bottom");
 		}
-	}
+	};
 	request.send("group=" + (group == undefined ? 0  : group) + "&feed=" + ( feed == undefined ? 0 : feed) + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
-}
+};
 
 TTReader.prototype.imageLoadingFailed = function(event)
 {
@@ -283,7 +283,7 @@ TTReader.prototype.imageLoadingFailed = function(event)
 	obj.removeEventListener("error", Reader.imageLoadingFailed, false);
 
 	obj.src = Reader.blogURL + "/owner/reader/imageLoader/?url=" + encodeURIComponent(obj.src);
-}
+};
 
 TTReader.prototype.doPostProcessingOnEntry = function()
 {
@@ -303,7 +303,7 @@ TTReader.prototype.doPostProcessingOnEntry = function()
 			nodes[i].target = "_blank";
 		}
 	}
-}
+};
 
 TTReader.prototype.refreshEntry = function(group, feed, entry)
 {
@@ -319,16 +319,16 @@ TTReader.prototype.refreshEntry = function(group, feed, entry)
 		Reader.setListPosition(true);
 		Reader.doPostProcessingOnEntry();
 		window.scrollTo(0, getOffsetTop(getObject("scrollPoint")));
-	}
+	};
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
 				PM.showErrorMessage(s_unknownError + " (refreshEntry)", "center", "bottom");
 		}
-	}
+	};
 	request.send("group=" + (group == undefined ? 0 : group) + "&feed=" + ( feed == undefined ? 0 : feed) + "&entry=" + entry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
-}
+};
 
 TTReader.prototype.prevEntry = function()
 {
@@ -341,16 +341,16 @@ TTReader.prototype.prevEntry = function()
 		else {
 			PM.showErrorMessage(s_notFoundPrevPost, "center", "bottom");
 		}
-	}
+	};
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
 				PM.showErrorMessage(s_unknownError + " (prevEntry)", "center", "bottom");
 		}
-	}
+	};
 	request.send("group=" + this.selectedGroup + "&feed=" + this.selectedFeed + "&entry=" + this.selectedEntry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
-}
+};
 
 TTReader.prototype.nextEntry = function()
 {
@@ -365,16 +365,16 @@ TTReader.prototype.nextEntry = function()
 		else {
 			PM.showErrorMessage(s_notFoundNextPost, "center", "bottom");
 		}
-	}
+	};
 	request.onError= function () {
 		switch(parseInt(this.getText("/response/error")))
 		{
 			default:
 				PM.showErrorMessage(s_unknownError + " (nextEntry)", "center", "bottom");
 		}
-	}
+	};
 	request.send("group=" + this.selectedGroup + "&feed=" + this.selectedFeed + "&entry=" + this.selectedEntry + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword);
-}
+};
 
 TTReader.prototype.addGroup = function(title)
 {
@@ -385,7 +385,7 @@ TTReader.prototype.addGroup = function(title)
 		getObject("groupBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_groupAdded, "center", "bottom");
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -399,10 +399,10 @@ TTReader.prototype.addGroup = function(title)
 			default:
 				PM.showErrorMessage(s_unknownError + " (addGroup)", "center", "bottom");
 		}
-	}
+	};
 	PM.addRequest(request, s_addingGroup);
 	request.send("title=" + encodeURIComponent(title) + "&current=" + this.selectedGroup);
-}
+};
 
 TTReader.prototype.editGroup = function(id, title)
 {
@@ -413,14 +413,14 @@ TTReader.prototype.editGroup = function(id, title)
 	getObject("groupEditor").style.display = "block";
 	getObject("changeGroupTitle").value = title;
 	getObject("changeGroupTitle").select();
-}
+};
 
 TTReader.prototype.cancelEditGroup = function()
 {
 	getObject("groupList").style.display = "";
 	getObject("groupAdder").style.display = "";
 	getObject("groupEditor").style.display = "none";
-}
+};
 
 TTReader.prototype.editGroupExecute = function()
 {
@@ -431,7 +431,7 @@ TTReader.prototype.editGroupExecute = function()
 		getObject("groupBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_groupModified, "center", "bottom");
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -444,10 +444,10 @@ TTReader.prototype.editGroupExecute = function()
 			default:
 				PM.showErrorMessage(s_unknownError + " (editGroupExecute)", "center", "bottom");
 		}
-	}
+	};
 	PM.addRequest(request, s_editingGroup);
 	request.send("id=" + this.editingGroupId + "&title=" + encodeURIComponent(getObject("changeGroupTitle").value) + "&current=" + this.selectedGroup);
-}
+};
 
 TTReader.prototype.deleteGroup = function()
 {
@@ -460,7 +460,7 @@ TTReader.prototype.deleteGroup = function()
 		getObject("groupBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_groupRemoved, "center", "bottom");
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -471,10 +471,10 @@ TTReader.prototype.deleteGroup = function()
 			default:
 				PM.showErrorMessage(s_unknownError + " (deleteGroup)", "center", "bottom");
 		}
-	}
+	};
 	PM.addRequest(request, s_removingGroup);
 	request.send("id=" + this.editingGroupId + "&current=" + this.selectedGroup);
-}
+};
 
 TTReader.prototype.addFeed = function(url)
 {
@@ -487,7 +487,7 @@ TTReader.prototype.addFeed = function(url)
 		PM.removeRequest(this);
 		Reader.refreshEntryList(this.selectedGroup, this.selectedFeed);
 		Reader.refreshEntry(this.selectedGroup, this.selectedFeed, 0);
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -504,10 +504,10 @@ TTReader.prototype.addFeed = function(url)
 			default:
 				PM.showErrorMessage(s_unknownError + " (addFeed)", "center", "bottom");
 		}
-	}
+	};
 	PM.addRequest(request, s_requestFeed);
 	request.send("group=" + this.selectedGroup + "&url=" + encodeURIComponent(url));
-}
+};
 
 TTReader.prototype.editFeed = function(id, url)
 {
@@ -519,14 +519,14 @@ TTReader.prototype.editFeed = function(id, url)
 	getObject("changeFeedGroup").value = this.selectedGroup;
 	getObject("changeFeedURL").value = url;
 	getObject("changeFeedURL").select();	
-}
+};
 
 TTReader.prototype.cancelEditFeed = function()
 {
 	getObject("feedList").style.display = "";
 	getObject("feedAdder").style.display = "";
 	getObject("feedEditor").style.display = "none";
-}
+};
 
 TTReader.prototype.editFeedExecute = function()
 {
@@ -537,7 +537,7 @@ TTReader.prototype.editFeedExecute = function()
 		getObject("feedBox").innerHTML = this.getText("/response/view");
 		PM.removeRequest(this);
 		PM.showMessage(s_feedModified, "center", "bottom");
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -550,10 +550,10 @@ TTReader.prototype.editFeedExecute = function()
 			default:
 				PM.showErrorMessage(s_unknownError + " (editFeedExecute)", "center", "bottom");
 		}
-	}
+	};
 	PM.addRequest(request, s_editingFeed);
 	request.send("id=" + this.editingFeedId + "&old_group=" + this.selectedGroup + "&new_group=" + getObject("changeFeedGroup").value + "&url=" + encodeURIComponent(getObject("changeFeedURL").value));
-}
+};
 
 TTReader.prototype.deleteFeed = function()
 {
@@ -568,7 +568,7 @@ TTReader.prototype.deleteFeed = function()
 		PM.showMessage(s_feedRemoved, "center", "bottom");
 		Reader.refreshEntryList(this.selectedGroup, this.selectedFeed);
 		Reader.refreshEntry(this.selectedGroup, this.selectedFeed, 0);
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -576,10 +576,10 @@ TTReader.prototype.deleteFeed = function()
 			default:
 				PM.showErrorMessage(s_unknownError + " (deleteFeed)", "center", "bottom");
 		}
-	}
+	};
 	PM.addRequest(request, s_removingFeed);
 	request.send("id=" + this.editingFeedId + "&group=" + this.selectedGroup);
-}
+};
 
 TTReader.prototype.saveSetting = function()
 {
@@ -589,7 +589,7 @@ TTReader.prototype.saveSetting = function()
 		getObject("configure").style.display = "none";
 		getObject("settingLabel").innerHTML = '<span class="text">' + configureLabel + '<\/span>';
 		PM.showMessage(s_saved, "center", "bottom");
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -597,7 +597,7 @@ TTReader.prototype.saveSetting = function()
 			default:
 				PM.showErrorMessage(s_unknownError + " (saveSetting)", "center", "bottom");
 		}
-	}
+	};
 	var f = document.getElementById('reader-section');
 	var updateCycle = f.updateCycle ? f.updateCycle.value : "";
 	var feedLife = f.feedLife ? f.feedLife.value : "";
@@ -607,7 +607,7 @@ TTReader.prototype.saveSetting = function()
 	request.send("updateCycle=" + updateCycle + "&feedLife=" + feedLife + "&loadImage=" + loadImage + "&allowScript=" + allowScript + "&newWindow=" + newWindow);
 	Reader.optionForceLoadImage = (document.getElementById('loadImage1') && document.getElementById('loadImage1').checked) ? true : false;
 	Reader.optionForceNewWindow = (f.newWindow[1] && f.newWindow[1].checked) ? true : false;
-}
+};
 
 TTReader.prototype.markAsUnread = function(id)
 {
@@ -615,9 +615,9 @@ TTReader.prototype.markAsUnread = function(id)
 	request.presetProperty(getObject("entrytitleList" + id), "className", "unread active-class");
 	request.onSuccess = function () {
 		PM.showMessage(s_markedAsUnread, "center", "bottom");
-	}
+	};
 	request.send("id=" + id);
-}
+};
 
 TTReader.prototype.markAsReadAll = function()
 {
@@ -625,9 +625,9 @@ TTReader.prototype.markAsReadAll = function()
 	request.onSuccess = function () {
 		Reader.showUnreadOnly();
 		PM.showMessage(s_markedAsReadAll, "center", "bottom");
-	}
+	};
 	request.send();
-}
+};
 
 TTReader.prototype.toggleStarred = function(id)
 {
@@ -641,18 +641,18 @@ TTReader.prototype.toggleStarred = function(id)
 			request.onSuccess = function() {
 				getObject("star" + id).className = getObject("star" + id).className.replace('-on-', '-off-');
 				getObject("star" + id).innerHTML = '<span class="text">' + disscrapedPostText + '<\/span>';
-			}
+			};
 		} else {
 			var request = new HTTPRequest("POST", this.blogURL + "/owner/reader/action/mark/star/");
 			request._ttreader = this;
 			request.onSuccess = function() {
 				getObject("star" + id).className = getObject("star" + id).className.replace('-off-', '-on-');
 				getObject("star" + id).innerHTML = '<span class="text">' + scrapedPostText + '<\/span>';
-			}
+			};
 		}
 		request.send("id=" + id);
 	}
-}
+};
 
 TTReader.prototype.showUnreadOnly = function()
 {
@@ -663,7 +663,7 @@ TTReader.prototype.showUnreadOnly = function()
 	this.refreshFeedList(this.selectedGroup);
 	this.refreshEntryList(this.selectedGroup, this.selectedFeed);
 	this.refreshEntry(this.selectedGroup, this.selectedFeed, 0);
-}
+};
 
 TTReader.prototype.showStarredOnly = function()
 {
@@ -682,7 +682,7 @@ TTReader.prototype.showStarredOnly = function()
 	this.refreshFeedList(0);
 	this.refreshEntryList(0, 0);
 	this.refreshEntry(0, 0, 0);
-}
+};
 
 TTReader.prototype.showSearch = function()
 {
@@ -692,7 +692,7 @@ TTReader.prototype.showSearch = function()
 	this.refreshFeedList(0);
 	this.refreshEntryList(0, 0);
 	this.refreshEntry(0, 0, 0);
-}
+};
 
 TTReader.prototype.listScroll = function(force)
 {
@@ -711,7 +711,7 @@ TTReader.prototype.listScroll = function(force)
 			getObject("additionalFeedContainer").appendChild(div);
 			if(Reader.entriesShown == Reader.entriesTotal)			
 				getObject("iconMoreEntries").style.display = "none";
-		}
+		};
 		request.onError= function () {
 			PM.removeRequest(this);
 			Reader.areEntriesLoading = false;
@@ -721,11 +721,11 @@ TTReader.prototype.listScroll = function(force)
 				default:
 					PM.showErrorMessage(s_unknownError + " (listScroll)", "center", "bottom");
 			}
-		}
+		};
 		PM.addRequest(request, s_loadingList);
 		request.send("group=" + this.selectedGroup + "&feed=" + this.selectedFeed + "&unread=" + (this.unreadOnly?1:0) + "&starred=" + (this.starredOnly?1:0) + "&keyword=" + this.searchKeyword + "&loaded=" + this.entriesShown);			
 	}
-}
+};
 
 TTReader.prototype.setListPosition = function(setTop)
 {
@@ -742,12 +742,12 @@ TTReader.prototype.setListPosition = function(setTop)
 		else
 			list.style.top = "0px";
 	}
-}
+};
 
 TTReader.prototype.openEntryInNewWindow = function()
 {
 	window.open(getObject("entryPermalink").href);
-}
+};
 
 TTReader.prototype.updateFeed = function(id, message)
 {
@@ -760,7 +760,7 @@ TTReader.prototype.updateFeed = function(id, message)
 		Reader.refreshFeedList(Reader.selectedGroup);
 		Reader.refreshEntryList(Reader.selectedGroup, Reader.selectedFeed);
 		PM.showMessage(message, "center", "bottom");
-	}
+	};
 	request.onError= function () {
 		getObject("iconFeedStatus" + id).className = "failure-button button";
 		getObject("iconFeedStatus" + id).innerHTML = '<span>' + this.feedFailure + '<\/span>';
@@ -778,20 +778,20 @@ TTReader.prototype.updateFeed = function(id, message)
 			default:
 				PM.showErrorMessage(s_unknownError + " (updateFeed)", "center", "bottom");
 		}
-	}
+	};
 	request.send();
-}
+};
 
 TTReader.prototype.updateAllFeeds = function()
 {
 	var frame = getObject("hiddenFrame");
 	frame.src = this.blogURL + "/owner/reader/update/?__T__=" + (new Date().getTime());
-}
+};
 
 TTReader.prototype.importOPMLUpload = function()
 {
 	document.getElementById("opml-section").submit();
-}
+};
 
 TTReader.prototype.importOPMLURL = function()
 {
@@ -807,7 +807,7 @@ TTReader.prototype.importOPMLURL = function()
 		} else {
 			alert(this.getText("/response/total") + s_opmlUploadCompleteMulti);
 		}
-	}
+	};
 	request.onError= function () {
 		PM.removeRequest(this);
 		switch(parseInt(this.getText("/response/error")))
@@ -824,10 +824,10 @@ TTReader.prototype.importOPMLURL = function()
 			default:
 				PM.showErrorMessage(s_unknownError + " (importOPMLURL)", "center", "bottom");
 		}
-	}
+	};
 	PM.addRequest(request, s_loadingOPML);
 	request.send("url=" + encodeURIComponent(getObject("opmlRequestValue").value));
-}
+};
 
 TTReader.prototype.exportOPML = function()
 {

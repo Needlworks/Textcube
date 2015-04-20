@@ -13,14 +13,14 @@ $IV = array(
 	);
 require ROOT . '/library/preprocessor.php';
 importlib('blogskin');
-requireModel("blog.sidebar");
+importlib("model.blog.sidebar");
 importlib('model.blog.entry');
-requireModel("blog.archive");
-requireModel("blog.tag");
-requireModel("blog.notice");
-requireModel("blog.comment");
-requireModel("blog.response.remote");
-requireModel("blog.link");
+importlib("model.blog.archive");
+importlib("model.blog.tag");
+importlib("model.blog.notice");
+importlib("model.blog.comment");
+importlib("model.blog.remoteresponse");
+importlib("model.blog.link");
 
 requireStrictRoute();
 

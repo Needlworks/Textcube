@@ -5,7 +5,7 @@
 
 header('Content-Type: text/html; charset=utf-8');
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.cron");
+importlib("model.blog.cron");
 doCronJob();
 echo "\r\n<!-- cron -->";
 ?>

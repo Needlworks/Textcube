@@ -275,9 +275,9 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
         $entry['id'] = 0;
     }
     $blogid = getBlogId();
-    requireModel("common.setting");
-    requireModel("blog.entry");
-    requireModel("blog.comment");
+    importlib("model.common.setting");
+    importlib("model.blog.entry");
+    importlib("model.blog.comment");
     importlib('blogskin');
     $authorized = doesHaveOwnership();
     $useAjaxBlock = $context->getProperty('blog.useAjaxComment', true);

@@ -12,7 +12,7 @@ $IV = array(
 	)
 );
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.link");
+importlib("model.blog.link");
 
 requireStrictRoute();
 if(strpos($_POST['rss'],'http://') !== 0) $_POST['rss'] = 'http://'.$_POST['rss'];

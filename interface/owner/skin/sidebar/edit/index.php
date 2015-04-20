@@ -16,7 +16,7 @@ $IV = array(
 
 require ROOT . '/library/preprocessor.php';
 importlib('blogskin');
-requireModel("blog.sidebar");
+importlib("model.blog.sidebar");
 requireStrictRoute();
 $ctx = Model_Context::getInstance();
 

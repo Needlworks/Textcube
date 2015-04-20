@@ -12,8 +12,8 @@ function MT_Cover_getRecentEntries($parameters){
 	$context = Model_Context::getInstance();
 	$data = Setting::fetchConfigVal($configVal);
 
-	requireModel("blog.entry");
-	requireModel("blog.tag");
+	importlib("model.blog.entry");
+	importlib("model.blog.tag");
 	$data['coverMode']	= !isset($data['coverMode']) ? 1 : $data['coverMode'];
 	if(Misc::isMetaBlog() != true) $data['coverMode'] = 1;
 	$data['screenshot']	= !isset($data['screenshot']) ? 1 : $data['screenshot'];

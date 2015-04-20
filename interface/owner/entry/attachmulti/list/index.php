@@ -9,7 +9,7 @@ $IV = array(
 );
 
 require ROOT . '/library/preprocessor.php';
-requireModel("blog.attachment");
+importlib("model.blog.attachment");
 $file = array_pop($_FILES);
 $attachment = getAttachmentByLabel($blogid, $suri['id'], $_GET['name']);
 $result = escapeJSInCData(getPrettyAttachmentLabel($attachment)) . '!^|' . escapeJSInCData(getAttachmentValue($attachment));
