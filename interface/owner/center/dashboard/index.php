@@ -195,7 +195,7 @@ if (isset($_REQUEST['edit'])) {
 									document.getElementById("form-quilt").submit();
 								}
 <?php
-printScriptCheckTextcubeVersion($ctx);
+printScriptCheckTextcubeVersion();
 if(Acl::check("group.administrators")) {
 ?>
 								function cleanupCache() {

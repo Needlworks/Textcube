@@ -44,7 +44,8 @@ function isNeededCheckupBlogVersion() {
 	return ($current_version != TEXTCUBE_VERSION_ID);
 }
 
-function printScriptCheckTextcubeVersion($ctx) {
+function printScriptCheckTextcubeVersion() {
+	$context = Model_Context::getInstance();
 	if (isNeededCheckupBlogVersion()) {
 		$message = _t('텍스트큐브 시스템 점검이 필요합니다. 지금 점검하시겠습니까?');
 		if (getBlogVersion() == '0') {
@@ -54,7 +55,7 @@ function printScriptCheckTextcubeVersion($ctx) {
 		window.addEventListener("load", checkTextcubeVersion, false);
 		function checkTextcubeVersion() {
 			if (confirm("<?php echo $message;?>"))
-				window.location.href = "<?php echo $ctx->getProperty('uri.blog');?>/checkup";
+				window.location.href = "<?php echo $context->getProperty('uri.blog');?>/checkup";
 		}
 <?php
 	}
