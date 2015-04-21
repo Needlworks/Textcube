@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin version="2.0">
 	<title xml:lang="en">Test suite</title>
+	<title xml:lang="en"><![CDATA[테스트 도구]]></title>
 	<version>0.1</version>
 	<description xml:lang="en">Receive and autoupdate Textcube code from main repository.</description>
+	<description xml:lang="ko"><![CDATA[자동 업데이트, 버그 레포트 및 상태 보고서 생성을 포함한 테스트용 도구 기능을 제공합니다.]]></description>
 	<license>GPL</license>
 	<link>http://forest.nubimaru.com</link>
 	<author link="http://forest.nubimaru.com"><![CDATA[Jeongkyu Shin (inureyes)]]></author>
@@ -13,7 +15,10 @@
 		</textcube>
 	</requirements>
 	<binding>
-        <listener event="Cron5m" handler="TestSuite_upgrade_repos" />
+		<listener event="Cron5m" handler="TestSuite_upgrade_repos" />
+		<center handler="TestSuite_manual_upgrade_button" />
+		<listener event="/plugin/TestSuiteForTextcube.js" handler="TestSuite_manual_upgrade_javascript" />
+		<listener event="/plugin/TestSuiteManualUpdate" handler="TestSuite_upgrade_repos_via_user" />
 		<config xml:lang="en" dataValHandler="TestSuite_DataHandler">
 			<window width="500" height="525" />
 			<fieldset legend="Repository">
