@@ -72,10 +72,14 @@ function TestSuite_upgrade_repos_via_user() {
 function TestSuite_manual_upgrade_button($target) {
     /* TODO : add manual upgrade button on dashboard */
     $context = Model_Context::getInstance();
-    $blogURL = $context->getProperty('uri.blog');
+	$blogURL = $context->getProperty('uri.blog');
+	$config = $context->getProperty('plugin.config');
+	$repos = $config['repos'];
     $view = <<<EOS
     <script type="text/javascript" src="{$blogURL}/plugin/TestSuiteForTextcube.js"></script>
-    <div id="TestSuite-manual-upgrade">
+	<div id="TestSuite-manual-upgrade">
+		<h4>Update Textcube Source</h4>
+        <p>Current branch : {$repos}</p>
         <button class="input-button" value="Update source" onclick="TestSuite_manual_upgrade();return false;">Update source code</button>
     </div>
 EOS;
@@ -114,7 +118,7 @@ EOS;
 function TestSuite_DataHandler($data) {
     $context = Model_Context::getInstance();
     $config = $context->getProperty('plugin.config');
-
+	return true;
     if (!array_key_exists('repos', $config)) {
         return false;
     } else {
