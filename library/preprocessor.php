@@ -110,6 +110,10 @@ if (!defined('__TEXTCUBE_CUSTOM_HEADER__')) {
         header('Content-Type: text/html; charset=utf-8');
     }
 }
+// Enabling HSTS when SSL is enabled.
+if ($context->getProperty('service.useSSL',false) == true) {
+	header("strict-transport-security: max-age=".$context->getProperty("service.timeout",3600));
+}
 
 /** INITIALIZE : Database I/O
  * -------------------------
