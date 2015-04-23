@@ -17,8 +17,8 @@
 	<binding>
 		<listener event="Cron5m" handler="TestSuite_upgrade_repos" />
 		<center handler="TestSuite_manual_upgrade_button" />
-		<listener event="/plugin/TestSuiteForTextcube.js" handler="TestSuite_manual_upgrade_javascript" />
-		<listener event="/plugin/TestSuiteManualUpdate" handler="TestSuite_upgrade_repos_via_user" />
+		<listener event="/plugin/TestSuiteForTextcube.js" handler="TestSuite_manual_upgrade_javascript" scope="owner" />
+		<listener event="/plugin/TestSuiteManualUpdate" handler="TestSuite_upgrade_repos_via_user" scope="owner" />
 		<config xml:lang="en" dataValHandler="TestSuite_DataHandler">
 			<window width="500" height="525" />
 			<fieldset legend="Repository">
