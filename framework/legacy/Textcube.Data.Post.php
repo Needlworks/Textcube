@@ -120,7 +120,7 @@ class Post {
 
 		if (empty($this->starred))
 			$this->starred = 0;
-		if (!$query = $this->_buildQuery())
+//		if (!$query = $this->_buildQuery())
 		if (!isset($this->published))
 			$query->setAttribute('published', 'UNIX_TIMESTAMP()');
 		if (!isset($this->created))
