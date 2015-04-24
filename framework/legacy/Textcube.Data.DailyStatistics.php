@@ -9,6 +9,7 @@ class DailyStatistics {
 
 	function reset() {
 		$this->date =
+		$this->datemark = // After textcube 1.8, date is changed to datemark. (for DBMS compatibility issue)
 		$this->visits =
 			null;
 	}
