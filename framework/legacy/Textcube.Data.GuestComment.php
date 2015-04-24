@@ -88,7 +88,8 @@ class GuestComment {
 			return $this->_error('content');
 		if (!isset($this->ip))
 			$this->ip = $_SERVER['REMOTE_ADDR'];
-		
+		if (!isset($this->isfiltered))
+			$this->isfiltered = 0;	
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!$query->hasAttribute('written'))
