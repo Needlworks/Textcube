@@ -15,8 +15,8 @@ function getTeamAuthorStyle($target, $mother){
 	global $entry;
 	$pool = DBModel::getInstance();
 	$pool->reset("TeamUserSettings");
-	$pool->setProperty("blogid","eq",getBlogId());
-	$pool->setProperty("userid","eq",$entry['userid']);
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",$entry['userid']);
 	$row = $pool->getRow("style, image, profile");
 	$authorStyle = '';
 	if($row['style']){

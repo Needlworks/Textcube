@@ -155,6 +155,7 @@ If the accessible URL is http://www.example.org, run the installation program by
 * [Commiter/Reporter List](https://github.com/Needlworks/Textcube/wiki/contributorList)
 
 * [Developing references](https://github.com/Needlworks/Textcube/wiki/devReference)
+* [Textcube 1.10/2.0 changes for Plugin Developers](https://docs.google.com/document/d/1oEBmbT5t7_wDzJLxLg9tfjAu2QULCW6E9I00nKzV6jw/pub)
 * [Textcube 1.8 changes for Plugin Developers](http://docs.google.com/View?id=dgc24tzr_136ckbg4ngn)
 * [Textcube 1.8 changes for Skin Designers](http://docs.google.com/View?id=dgc24tzr_138hhfbmwdg)
 * [Textcube 1.8 changes for Server administrators and service hosts / maintainers](http://docs.google.com/View?id=dgc24tzr_137gr9xpdfb)

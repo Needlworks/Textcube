@@ -79,214 +79,188 @@ class Post {
             foreach ($row as $name => $value) {
 //				if ($name == 'blogid')
 //					continue;
-                switch ($name) {
-                    case 'visibility':
-                        if ($value == -2) {
-                            $value = 'appointed';
-                        } else {
-                            if ($value == 0) {
-                                $value = 'private';
-                            } else {
-                                if ($value == 1) {
-                                    $value = 'protected';
-                                } else {
-                                    if ($value == 2) {
-                                        $value = 'public';
-                                    } else {
-                                        $value = 'syndicated';
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case 'category': /*@backward-compatibility@*/
-                        if (empty($value)) {
-                            $value = null;
-                        }
-                        break;
-                    case 'acceptcomment':
-                    case 'accepttrackback':
-                        $value = $value ? true : false;
-                        break;
-                }
-                $this->$name = $value;
-            }
-            return true;
-        }
-        return false;
-    }
+				switch ($name) {
+					case 'visibility':
+						if ($value == -2)
+							$value = 'appointed';
+						else if ($value == 0)
+							$value = 'private';
+						else if ($value == 1)
+							$value = 'protected';
+						else if ($value == 2)
+							$value = 'public';
+						else
+							$value = 'syndicated';
+						break;
+					case 'category': /*@backward-compatibility@*/
+						if (empty($value))
+							$value = null;
+						break;
+					case 'acceptcomment':
+					case 'accepttrackback':
+						$value = $value ? true : false;
+						break;
+				}
+				$this->$name = $value;
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	function add($userid = null) {
+		global $database;
+		$this->init();
+		if (isset($this->id) && !Validator::number($this->id, 1))
+			return $this->_error('id');
+		if (isset($this->category) && !Validator::number($this->category, 0))
+			return $this->_error('category');
+		$this->title = trim($this->title);
+		if (empty($this->title))
+			return $this->_error('title');
+		if (empty($this->content))
+			return $this->_error('content');
+		if (!$query = $this->_buildQuery())
+			return false;
+		if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
+			$this->id = $this->nextEntryId(); // Added (#300)
+		}
+		$query->setQualifier('id', 'equals', $this->id);
 
-    function add($userid = null) {
-        global $database;
-        $this->init();
-        if (isset($this->id) && !Validator::number($this->id, 1)) {
-            return $this->_error('id');
-        }
-        if (isset($this->category) && !Validator::number($this->category, 0)) {
-            return $this->_error('category');
-        }
-        $this->title = trim($this->title);
-        if (empty($this->title)) {
-            return $this->_error('title');
-        }
-        if (empty($this->content)) {
-            return $this->_error('content');
-        }
-        if (!$query = $this->_buildQuery()) {
-            return false;
-        }
-        if (!isset($this->id) || $query->doesExist() || $this->doesExist($this->id)) {
-            $this->id = $this->nextEntryId(); // Added (#300)
-        }
-        $query->setQualifier('id', 'equals', $this->id);
+		if (empty($this->starred))
+			$this->starred = 0;
+//		if (!$query = $this->_buildQuery())
+		if (!isset($this->published))
+			$query->setAttribute('published', 'UNIX_TIMESTAMP()');
+		if (!isset($this->created))
+			$query->setAttribute('created', 'UNIX_TIMESTAMP()');
+		if (!isset($this->modified))
+			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
+		$query->setAttribute('blogid',$this->blogid);
+		if (!isset($this->userid)){
+			$this->userid = getUserId();
+			$query->setAttribute('userid',$this->userid);
+		}
+		if (!$query->insert())
+			return $this->_error('insert');
+		
+		if (isset($this->category)) {
+			$target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
+			if (isset($this->visibility) && ($this->visibility != 'private'))
+				@POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesinlogin = entriesinlogin + 1 WHERE blogid = ".getBlogId()." AND " . $target);
+			else
+				@POD::query("UPDATE {$database['prefix']}Categories SET entriesinlogin = entriesinlogin + 1 WHERE blogid = ".$this->blogid." AND " . $target);
+		}
+		$this->saveSlogan();
+		$this->addTags();
+		if (($this->visibility == 'public') || ($this->visibility == 'syndicated')) {
+			requireComponent('Textcube.Control.RSS');
+			RSS::refresh();
+		}
+		if ($this->visibility == 'syndicated') {
+			requireComponent('Eolin.API.Syndication');
+			if (!Syndication::join($this->getLink())) {
+				$query->resetAttributes();
+				$query->setAttribute('visibility', 2);
+				$this->visibility = 'public';
+				$query->update();
+			}
+		}
+		return true;
+	}
+	
+	function remove($id = null) { // attachment & category is own your risk!
+		global $database, $gCacheStorage;
+		$this->init();
+		if(!empty($id)) $this->id = $id;
+		// step 0. Get Information
+		if (!isset($this->id) || !Validator::number($this->id, 1))
+			return $this->_error('id');
 
-        if (empty($this->starred)) {
-            $this->starred = 0;
-        }
-        if (!$query = $this->_buildQuery()) {
-            if (!isset($this->published)) {
-                $query->setAttribute('published', 'UNIX_TIMESTAMP()');
-            }
-        }
-        if (!isset($this->created)) {
-            $query->setAttribute('created', 'UNIX_TIMESTAMP()');
-        }
-        if (!isset($this->modified)) {
-            $query->setAttribute('modified', 'UNIX_TIMESTAMP()');
-        }
-        $query->setAttribute('blogid', $this->blogid);
-        if (!isset($this->userid)) {
-            $this->userid = getUserId();
-            $query->setAttribute('userid', $this->userid);
-        }
-        if (!$query->insert()) {
-            return $this->_error('insert');
-        }
+		if (!$query = $this->_buildQuery())
+			return false;
+			
+		if (!$entry = $query->getRow('category, visibility'))
+			return $this->_error('id');
+			
+		// step 1. Check Syndication
+		if ($entry['visibility'] == 3) {
+			requireComponent('Eolin.API.Syndication');
+			Syndication::leave($this->getLink());
+		}
+		
+		CacheControl::flushEntry($this->id);
+		CacheControl::flushDBCache('entry');
+		CacheControl::flushDBCache('comment');
+		CacheControl::flushDBCache('trackback');
+		$gCacheStorage->purge();
+		
+		// step 2. Delete Entry
+		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".$this->blogid." AND id = ".$this->id;
+		if (POD::queryCount($sql)) {
+		// step 3. Delete Comment
+			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+		
+		// step 4. Delete Trackback
+			POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+		
+		// step 5. Delete Trackback Logs
+			POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
+		
+		// step 6. update Category
+			if (isset($entry['category'])) {
+				$target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
 
-        if (isset($this->category)) {
-            $target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
-            if (isset($this->visibility) && ($this->visibility != 'private')) {
-                @POD::query("UPDATE {$database['prefix']}Categories SET entries = entries + 1, entriesinlogin = entriesinlogin + 1 WHERE blogid = " . getBlogId() . " AND " . $target);
-            } else {
-                @POD::query("UPDATE {$database['prefix']}Categories SET entriesinlogin = entriesinlogin + 1 WHERE blogid = " . $this->blogid . " AND " . $target);
-            }
-        }
-        $this->saveSlogan();
-        $this->addTags();
-        if (($this->visibility == 'public') || ($this->visibility == 'syndicated')) {
-            RSS::refresh();
-        }
-        if ($this->visibility == 'syndicated') {
-            if (!Utils_Syndication::join($this->getLink())) {
-                $query->resetAttributes();
-                $query->setAttribute('visibility', 2);
-                $this->visibility = 'public';
-                $query->update();
-            }
-        }
-        return true;
-    }
+				if (isset($entry['visibility']) && ($entry['visibility'] != 1))
+					POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesinlogin = entriesinlogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
+				else
+					POD::query("UPDATE {$database['prefix']}Categories SET entriesinlogin = entriesinlogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
+			}
+		
+		// step 7. Delete Attachment
+			$attachNames = POD::queryColumn("SELECT name FROM {$database['prefix']}Attachments
+				WHERE blogid = ".getBlogId()." AND parent = ".$this->id);
+			if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = ".getBlogId()." AND parent = ".$this->id)) {
+				foreach($attachNames as $attachName) {
+					if( file_exists( __TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/$attachName") ) {
+						@unlink(__TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/$attachName");
+					}
+				}
+			}
+	
+		// step 8. Delete Tags
+			$this->deleteTags();
+		
+		// step 9. Clear RSS
+			requireComponent('Textcube.Control.RSS');
+			RSS::refresh();
 
-    function remove($id = null) { // attachment & category is own your risk!
-        global $database, $gCacheStorage;
-        $this->init();
-        if (!empty($id)) {
-            $this->id = $id;
-        }
-        // step 0. Get Information
-        if (!isset($this->id) || !Validator::number($this->id, 1)) {
-            return $this->_error('id');
-        }
+			return true;
+		}
+		return false;
+	}
+	
+	function update() { // attachment & category is own your risk!
+		if (!isset($this->id) || !Validator::number($this->id, 1))
+			return $this->_error('id');
 
-        if (!$query = $this->_buildQuery()) {
-            return false;
-        }
-
-        if (!$entry = $query->getRow('category, visibility')) {
-            return $this->_error('id');
-        }
-
-        // step 1. Check Syndication
-        if ($entry['visibility'] == 3) {
-            Utils_Syndication::leave($this->getLink());
-        }
-
-        CacheControl::flushEntry($this->id);
-        CacheControl::flushDBCache('entry');
-        CacheControl::flushDBCache('comment');
-        CacheControl::flushDBCache('trackback');
-        $gCacheStorage->purge();
-
-        // step 2. Delete Entry
-        $sql = "DELETE FROM " . $database['prefix'] . "Entries WHERE blogid = " . $this->blogid . " AND id = " . $this->id;
-        if (POD::queryCount($sql)) {
-            // step 3. Delete Comment
-            POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = " . $this->blogid . " AND entry = " . $this->id);
-
-            // step 4. Delete Trackback
-            POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = " . $this->blogid . " AND entry = " . $this->id);
-
-            // step 5. Delete Trackback Logs
-            POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = " . $this->blogid . " AND entry = " . $this->id);
-
-            // step 6. update Category
-            if (isset($entry['category'])) {
-                $target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
-
-                if (isset($entry['visibility']) && ($entry['visibility'] != 1)) {
-                    POD::query("UPDATE {$database['prefix']}Categories SET entries = entries - 1, entriesinlogin = entriesinlogin - 1 WHERE blogid = " . $this->blogid . " AND " . $target);
-                } else {
-                    POD::query("UPDATE {$database['prefix']}Categories SET entriesinlogin = entriesinlogin - 1 WHERE blogid = " . $this->blogid . " AND " . $target);
-                }
-            }
-
-            // step 7. Delete Attachment
-            $attachNames = POD::queryColumn("SELECT name FROM {$database['prefix']}Attachments
-				WHERE blogid = " . getBlogId() . " AND parent = " . $this->id);
-            if (POD::execute("DELETE FROM {$database['prefix']}Attachments WHERE blogid = " . getBlogId() . " AND parent = " . $this->id)) {
-                foreach ($attachNames as $attachName) {
-                    if (file_exists(__TEXTCUBE_ATTACH_DIR__ . "/" . getBlogId() . "/$attachName")) {
-                        @unlink(__TEXTCUBE_ATTACH_DIR__ . "/" . getBlogId() . "/$attachName");
-                    }
-                }
-            }
-
-            // step 8. Delete Tags
-            $this->deleteTags();
-
-            // step 9. Clear RSS
-            RSS::refresh();
-
-            return true;
-        }
-        return false;
-    }
-
-    function update() { // attachment & category is own your risk!
-        if (!isset($this->id) || !Validator::number($this->id, 1)) {
-            return $this->_error('id');
-        }
-
-        if (!$query = $this->_buildQuery()) {
-            return false;
-        }
-        if (!$old = $query->getRow('category, visibility')) {
-            return $this->_error('id');
-        }
-
-        $bChangedCategory = ($old['category'] != $this->category);
-
-        if ($old['visibility'] == 3) {
-            Utils_Syndication::leave($this->getLink());
-        }
-        if (!isset($this->modified)) {
-            $query->setAttribute('modified', 'UNIX_TIMESTAMP()');
-        }
-
-        if (!$query->update()) {
-            return $this->_error('update');
-        }
-
+		if (!$query = $this->_buildQuery())
+			return false;
+		if (!$old = $query->getRow('category, visibility'))
+			return $this->_error('id');
+			
+		$bChangedCategory = ($old['category'] != $this->category);
+		
+		if ($old['visibility'] == 3) {
+			requireComponent('Eolin.API.Syndication');
+			Syndication::leave($this->getLink());
+		}
+		if (!isset($this->modified))
+			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
+		
+		if (!$query->update())
+			return $this->_error('update');
+			
 //		if ($bChangedCategory) {
 //			// TODO : Recalculate Category
 //		}
@@ -576,7 +550,7 @@ class Post {
             }
         }
         return $succeeded;
-    }
+				}
 
     function makeSlogan($title) {
         $slogan = preg_replace('/-+/', ' ', $title);

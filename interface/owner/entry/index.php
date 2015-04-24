@@ -141,7 +141,7 @@ require ROOT . '/interface/common/owner/header.php';
 						<script type="text/javascript">
 							//<![CDATA[
 <?php
-printScriptCheckTextcubeVersion($ctx);
+printScriptCheckTextcubeVersion();
 ?>
 								function setEntryVisibility(entry, visibility) {
 									if ((visibility < 0) || (visibility > 3))

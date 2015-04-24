@@ -283,8 +283,8 @@ function importer($path, $node, $line) {
 			else $post->starred = 0;
 			$post->title = $node['title'][0]['.value'];
 			$post->content = $node['content'][0]['.value'];
-			$post->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : 'ttml';
-			$post->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : 'modern';
+			$post->contentformatter = isset($node['content'][0]['.attributes']['formatter']) ? $node['content'][0]['.attributes']['formatter'] : 'ttml';
+			$post->contenteditor = isset($node['content'][0]['.attributes']['editor']) ? $node['content'][0]['.attributes']['editor'] : 'modern';
 			$post->location = $node['location'][0]['.value'];
 			$post->password = isset($node['password'][0]['.value']) ? $node['password'][0]['.value'] : null;
 			$post->acceptcomment = $node['acceptComment'][0]['.value'];
@@ -508,9 +508,9 @@ function importer($path, $node, $line) {
 			else $notice->starred = 0;
 			$notice->title = $node['title'][0]['.value'];
 			$notice->content = $node['content'][0]['.value'];
-			$notice->contentformatter = isset($node['content']['.attributes']['formatter']) ? $node['content']['.attributes']['formatter'] : getDefaultFormatter();
-			$notice->contenteditor = isset($node['content']['.attributes']['editor']) ? $node['content']['.attributes']['editor'] : getDefaultEditor();
-			$notice->published = $node['published'][0]['.value'];
+			$notice->contentformatter = isset($node['content'][0]['.attributes']['formatter']) ? $node['content'][0]['.attributes']['formatter'] : getDefaultFormatter();
+			$notice->contenteditor = isset($node['content'][0]['.attributes']['editor']) ? $node['content'][0]['.attributes']['editor'] : getDefaultEditor();
+			$notice->published = intval($node['published'][0]['.value']);
 			$notice->created = @$node['created'][0]['.value'];
 			$notice->modified = @$node['modified'][0]['.value'];
 			if (floatval(Setting::getServiceSettingGlobal('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)
@@ -564,9 +564,9 @@ function importer($path, $node, $line) {
 			else $keyword->starred = 0;
 			$keyword->name = $node['name'][0]['.value'];
 			$keyword->description = $node['description'][0]['.value'];
-			$keyword->descriptionEditor = isset($node['description']['.attributes']['editor']) ? $node['description']['.attributes']['editor'] : getDefaultEditor();
-			$keyword->descriptionFormatter = isset($node['description']['.attributes']['formatter']) ? $node['description']['.attributes']['formatter'] : getDefaultFormatter();
-			$keyword->published = $node['published'][0]['.value'];
+			$keyword->descriptionEditor = isset($node['description'][0]['.attributes']['editor']) ? $node['description'][0]['.attributes']['editor'] : getDefaultEditor();
+			$keyword->descriptionFormatter = isset($node['description'][0]['.attributes']['formatter']) ? $node['description'][0]['.attributes']['formatter'] : getDefaultFormatter();
+			$keyword->published = intval($node['published'][0]['.value']);
 			$keyword->created = @$node['created'][0]['.value'];
 			$keyword->modified = @$node['modified'][0]['.value'];
 			if (floatval(Setting::getServiceSettingGlobal('newlineStyle')) >= 1.1 && floatval(@$node['.attributes']['format']) < 1.1)

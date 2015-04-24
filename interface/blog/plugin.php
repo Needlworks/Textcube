@@ -6,6 +6,6 @@
 define('__TEXTCUBE_CUSTOM_HEADER__',true);
 require ROOT . '/library/preprocessor.php';
 fireEvent($suri['directive'] . '/' . $suri['value']);
-if (!headers_sent())
+if (!headers_sent() && error_get_last()==NULL)
 	Respond::NotFoundPage();
 ?>

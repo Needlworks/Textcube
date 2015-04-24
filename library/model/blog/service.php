@@ -37,25 +37,29 @@ function getSkinSettings($blogid, $forceReload = false) {
 
 function getDefaultURL($blogid) {
     $context = Model_Context::getInstance();
-    $blog = Setting::getBlogSettingsGlobal($blogid);    // Load specific blog's setting
+	$blog = Setting::getBlogSettingsGlobal($blogid);    // Load specific blog's setting
+	$prefix = $context->getProperty('service.useSSL',false) ? 'https://' : 'http://';
+
     switch ($context->getProperty('service.type')) {
         case 'domain':
             if (!empty($blog['defaultDomain']) && !empty($blog['secondaryDomain'])) {
-                return ('http://' . $blog['secondaryDomain'] . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
+                return ($prefix . $blog['secondaryDomain'] . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
             } else {
-                return ('http://' . $blog['name'] . '.' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
+                return ($prefix . $blog['name'] . '.' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
             }
         case 'path':
-            return ('http://' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path') . '/' . $blog['name']);
+            return ($prefix . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path') . '/' . $blog['name']);
         case 'single':
         default:
-            return ('http://' . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
+            return ($prefix . $context->getProperty('service.domain') . ($context->getProperty('service.port') ? ':' . $context->getProperty('service.port') : '') . $context->getProperty('service.path'));
     }
 }
 
 function getBlogURL($name = null, $domain = null, $path = null, $type = null) {
     $context = Model_Context::getInstance();
-    $context->useNamespace('service');
+	$context->useNamespace('service');
+	$prefix = $context->getProperty('service.useSSL',false) ? 'https://' : 'http://';
+
     if ($type === null) {
         $type = $context->getProperty('type');
     }
@@ -70,12 +74,12 @@ function getBlogURL($name = null, $domain = null, $path = null, $type = null) {
     }
     switch ($type) {
         case 'domain':
-            return "http://$name.$domain$path";
+            return $prefix.$name.$domain.$path;
         case 'path':
-            return "http://$domain$path/$name";
+            return $prefix.$domain.$path.'/'.$name;
         case 'single':
         default:
-            return "http://$domain$path" . getFancyURLpostfix();
+            return $prefix.$domain.$path.getFancyURLpostfix();
     }
 }
 
@@ -99,7 +103,8 @@ function getFancyURLpostfix() {
 
 function getBlogURLRule($domain = null, $path = null, $type = null) {
     $context = Model_Context::getInstance();
-    $context->useNamespace('service');
+	$context->useNamespace('service');
+	$prefix = $context->getProperty('service.useSSL',false) ? 'https://' : 'http://';
     if ($type === null) {
         $type = $context->getProperty('type');
     }
@@ -111,12 +116,12 @@ function getBlogURLRule($domain = null, $path = null, $type = null) {
     }
     switch ($type) {
         case 'domain':
-            return array('http://', ".$domain$path");
+            return array($prefix, ".$domain$path");
         case 'path':
-            return array("http://$domain$path/", '');
+            return array($prefix.$domain.$path."/", '');
         case 'single':
         default:
-            return array("http://$domain$path", '');
+            return array($prefix.$domain.$path, '');
     }
 }
 
