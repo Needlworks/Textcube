@@ -45,27 +45,32 @@ function getTeamAuthorStyle($target, $mother){
 }
 
 function getTeamProfileView($target, $mother){
-	global $suri, $entry, $entryView, $configVal;
+	global $entry, $entryView, $configVal;
 	$context = Model_Context::getInstance();
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
-	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && empty($data['p2']) ) {
+	if ($context->getProperty("suri.directive") != "/rss" && $context->getProperty("suri.directive") != "/sync" && $data['p1'] && empty($data['p2']) ) {
 		$target .= getTeamProfile($entry['userid']);
 	}
-	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && !empty($data['p2']) ) {
+	if ($context->getProperty("suri.directive") != "/rss" && $context->getProperty("suri.directive") != "/sync" && $data['p1'] && !empty($data['p2']) ) {
 		Misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
 	}
 	return $target;
 }
 
 function getTeamProfile($userid){
-	global $database, $serviceURL, $configVal;
+	global $configVal;
 	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
 	getTeamBlogInitConfigVal($data);
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." AND userid=".$userid);
+	$pool = DBModel::getInstance();
+	$pool->init("TeamUserSettings");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",$userid);
+	$row = $pool->getRow("style, image, profile");
 	$imageStyle = $imageTag = $html = '';
 	if(!empty($row['image'])){
-		$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
+		$imageSrc = $context->getProperty("uri.service")."/attach/".getBlogId()."/team/".$row['image'];
 		$imageTag = "<img src=\"".$imageSrc."\" alt=\"author image\" align=\"top\" />";
 		$imageStyle = "style=\"width:".($data['imageSize']+6)."px; margin-right:10px;\"";
 	}
