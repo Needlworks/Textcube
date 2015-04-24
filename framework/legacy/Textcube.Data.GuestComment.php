@@ -133,6 +133,7 @@ class GuestComment {
 				return $this->_error('id');
 			$query->setQualifier('id', 'equals', $this->id);
 		}
+		$query->setAttribute('entry',0);
 		if (isset($this->parent)) {
 			if (!Validator::number($this->parent, 1))
 				return $this->_error('parent');
