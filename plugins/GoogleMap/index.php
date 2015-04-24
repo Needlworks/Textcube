@@ -26,7 +26,7 @@ function GoogleMap_Header($target) {
 		$use_sensor = (isset($config['useSensor']) && $config['useSensor']) ? 'true' : 'false';
 		$target .= <<<EOS
 <link rel="stylesheet" type="text/css" href="$plugin_uri/styles/common.css" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=$use_sensor"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=$use_sensor"></script>
 <script type="text/javascript" src="$plugin_uri/scripts/common.js"></script>
 <script type="text/javascript">
 //<![CDATA[
@@ -47,7 +47,7 @@ function GoogleMap_AdminHeader($target) {
 		$use_sensor = $config['useSensor'] ? 'true' : 'false';
 		$target .= <<<EOS
 <link rel="stylesheet" type="text/css" href="$plugin_uri/styles/common.css" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=$use_sensor"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=$use_sensor"></script>
 <script type="text/javascript" src="$plugin_uri/scripts/common.js"></script>
 <script type="text/javascript" src="$plugin_uri/scripts/editor.js"></script>
 <script type="text/javascript">
@@ -155,7 +155,7 @@ function GoogleMap_View($target, $mother) {
 
 		// Mobile & iPhone (differences between these will be handled later.)
 		if (defined('__TEXTCUBE_MOBILE__') || defined('__TEXTCUBE_IPHONE__')) {
-			$staticimg = "http://maps.google.co.kr/staticmap?";
+			$staticimg = "//maps.google.co.kr/staticmap?";
 			$json = json_decode($matches[2][0], true);
 			switch ($json['type']) {
 			case 'G_SATELLITE_MAP':
@@ -212,7 +212,7 @@ function GoogleMap_View($target, $mother) {
 		$target .= <<<EOS
 <div class="googlemap-geolocation-attached">
 	<h5>Location</h5>
-	<a href="http://maps.google.com/maps?iwloc=exact&amp;q={$row['latitude']},{$row['longitude']}&amp;z=15"><img src="http://maps.google.com/maps/api/staticmap?center={$row['latitude']},{$row['longitude']}&zoom=12&size=260x120&maptype=roadmap&sensor=true&markers=color:red|size:small|{$row['latitude']},{$row['longitude']}" /></a>
+	<a href="//maps.google.com/maps?iwloc=exact&amp;q={$row['latitude']},{$row['longitude']}&amp;z=15"><img src="//maps.google.com/maps/api/staticmap?center={$row['latitude']},{$row['longitude']}&zoom=12&size=260x120&maptype=roadmap&sensor=true&markers=color:red|size:small|{$row['latitude']},{$row['longitude']}" /></a>
 </div>
 EOS;
 	}
@@ -426,9 +426,9 @@ function _GMap_printHeaderForUI($title, $jsName, $use_sensor) {
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Google Map Plugin: <?php echo $title;?></title>
 	<link rel="stylesheet" type="text/css" href="<?php echo $plugin_uri;?>/styles/popup.css">
-	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="//code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=true"></script>
 	<script type="text/javascript" src="<?php echo $plugin_uri;?>/scripts/common.js"></script>
 	<script type="text/javascript" src="<?php echo $plugin_uri;?>/scripts/<?php echo $jsName;?>.js"></script>
 	<script type="text/javascript">
