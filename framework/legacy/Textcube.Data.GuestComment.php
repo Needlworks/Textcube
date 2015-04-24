@@ -22,7 +22,7 @@ class GuestComment {
 		$this->written =
 			null;
 	}
-	
+
 	function open($filter = '', $fields = '*', $sort = 'id') {
 		global $database;
 		if (is_numeric($filter))
@@ -32,10 +32,10 @@ class GuestComment {
 		if (!empty($sort))
 			$sort = 'ORDER BY ' . $sort;
 		$this->close();
-		$this->_result = POD::query("SELECT $fields 
-			FROM {$database['prefix']}Comments 
-			WHERE blogid = ".getBlogId()." 
-				AND entry = 0 
+		$this->_result = POD::query("SELECT $fields
+			FROM {$database['prefix']}Comments
+			WHERE blogid = ".getBlogId()."
+				AND entry = 0
 				$filter $sort");
 		if ($this->_result) {
 			if ($this->_count = POD::num_rows($this->_result))
@@ -46,7 +46,7 @@ class GuestComment {
 		unset($this->_result);
 		return false;
 	}
-	
+
 	function close() {
 		if (isset($this->_result)) {
 			POD::free($this->_result);
@@ -55,7 +55,7 @@ class GuestComment {
 		$this->_count = 0;
 		$this->reset();
 	}
-	
+
 	function shift() {
 		$this->reset();
 		if ($this->_result && ($row = POD::fetch($this->_result))) {
@@ -76,7 +76,7 @@ class GuestComment {
 		}
 		return false;
 	}
-	
+
 	function add() {
 		global $database;
 		if (!isset($this->id))
@@ -89,22 +89,23 @@ class GuestComment {
 		if (!isset($this->ip))
 			$this->ip = $_SERVER['REMOTE_ADDR'];
 		if (!isset($this->isfiltered))
-			$this->isfiltered = 0;	
+			$this->isfiltered = 0;
+		$this->entry = 0;
 		if (!$query = $this->_buildQuery())
 			return false;
 		if (!$query->hasAttribute('written'))
 			$query->setAttribute('written', 'UNIX_TIMESTAMP()');
-		
+
 		if (!$query->insert()) {
 			return $this->_error('insert');
 		}
 		return true;
 	}
-	
+
 	function getCount() {
 		return (isset($this->_count) ? $this->_count : 0);
 	}
-	
+
 	function getChildren() {
 		if (!Validator::number($this->id, 1))
 			return null;
@@ -112,7 +113,7 @@ class GuestComment {
 		if ($comment->open('parent = ' . $this->id))
 			return $comment;
 	}
-	
+
 	function nextId($id = 0) {
 		global $database;
 		$maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Comments WHERE blogid = ".getBlogId());
@@ -121,7 +122,7 @@ class GuestComment {
 		else
 			 return ($maxId > $id ? $maxId + 1: $id);
 	}
-	
+
 	function _buildQuery() {
 		global $database;
 		$query = DBModel::getInstance();
@@ -133,7 +134,9 @@ class GuestComment {
 				return $this->_error('id');
 			$query->setQualifier('id', 'equals', $this->id);
 		}
-		$query->setAttribute('entry',0);
+		if (isset($this->entry) && $this->entry == 0) {
+			$query->setAttribute('entry', 0);
+		}
 		if (isset($this->parent)) {
 			if (!Validator::number($this->parent, 1))
 				return $this->_error('parent');
