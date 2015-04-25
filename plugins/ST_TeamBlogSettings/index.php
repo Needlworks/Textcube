@@ -92,13 +92,18 @@ function getTeamBlogSettings() {
 	global $database, $service, $serviceURL, $pluginURL, $configVal;
 	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
-
+	$pool = DBModel::getInstance();
 	getTeamBlogInitConfigVal($data);
 ?>
 	<script type="text/javascript" src="<?php echo $pluginURL;?>/plugin-main.js"></script>
 <?php
-	$teamblog_user = POD::queryRow("SELECT name, loginid FROM {$database['prefix']}Users WHERE userid=".getUserId());
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".getUserId());
+	$pool->reset("Users");
+	$pool->setQualifier("userid","eq",getUserId());
+	$teamblog_user = $pool->getRow("name, loginid");
+	$pool->reset("TeamUserSettings");
+	$pool->setQualifier("userid","eq",getUserId());
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$row = $pool->getRow("style, image, profile");
 	if(!$row){
 		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES(".getBlogId().",".getUserId().",'','', '',UNIX_TIMESTAMP())");
 	}
