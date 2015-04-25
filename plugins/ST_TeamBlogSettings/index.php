@@ -89,13 +89,13 @@ function getTeamProfile($userid){
 }
 
 function getTeamBlogSettings() {
-	global $database, $service, $serviceURL, $pluginURL, $configVal;
+	global $configVal;
 	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
 	$pool = DBModel::getInstance();
 	getTeamBlogInitConfigVal($data);
 ?>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/plugin-main.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('plugin.uri');?>/plugin-main.js"></script>
 <?php
 	$pool->reset("Users");
 	$pool->setQualifier("userid","eq",getUserId());
@@ -105,13 +105,20 @@ function getTeamBlogSettings() {
 	$pool->setQualifier("blogid","eq",getBlogId());
 	$row = $pool->getRow("style, image, profile");
 	if(!$row){
-		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES(".getBlogId().",".getUserId().",'','', '',UNIX_TIMESTAMP())");
+		$pool->reset("TeamUserSettings");
+		$pool->setAttribute("blogid",getBlogId());
+		$pool->setAttribute("userid",getUserId());
+		$pool->setAttribute("style","",true);
+		$pool->setAttribute("image","",true);
+		$pool->setAttribute("profile","",true);
+		$pool->setAttribute("updated",Timestamp::getUNIXtime());
+		$pool->insert();
 	}
 	if($row['image']){
-		$image = "{$service['path']}/attach/".getBlogId()."/team/".$row['image'];
+		$image = $context->getProperty("service.path")."/attach/".getBlogId()."/team/".$row['image'];
 		$imageRemoveCheck = "";
 	}else{
-		$image = "{$service['path']}/resources/image/spacer.gif";
+		$image = $context->getProperty("service.path")."/resources/image/spacer.gif";
 		$imageRemoveCheck = " disabled ";
 	}
 
