@@ -274,18 +274,28 @@ function getTeamBlogSettings() {
 }
 
 function getTeamContentsSave($target){
-	global $database;
+	$pool = DBModel::getInstance();
 	$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
 	$style = isset($_POST['fontstyle']) ? $_POST['fontstyle'] : '';
 	$profile = isset($_POST['profile']) ? $_POST['profile'] : '';
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
-			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+			$pool->reset("TeamUserSettings");
+			$pool->setAttribute("style",$style,true);
+			$pool->setAttribute("updated",Timestamp::getUNIXtime());
+			$pool->setQualifier("blogid","eq",getBlogId());
+			$pool->setQualifier("userid","eq",getUserId());
+			if($pool->update()) {
 				Respond::ResultPage(0);
 			}
 		}else if($flag == "profile"){
-			$profile = POD::escapeString(Utils_Unicode::lessenAsEncoding($profile, 65535));
-			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+			$profile = Utils_Unicode::lessenAsEncoding($profile, 65535);
+			$pool->reset("TeamUserSettings");
+			$pool->setAttribute("profile",$profile,true);
+			$pool->setAttribute("updated",Timestamp::getUNIXtime());
+			$pool->setQualifier("blogid","eq",getBlogId());
+			$pool->setQualifier("userid","eq",getUserId());
+			if($pool->update()) {
 				Respond::ResultPage(0);
 			}
 		}
@@ -294,7 +304,6 @@ function getTeamContentsSave($target){
 }
 
 function getImageFileUpload($target){
-	global $database;
 	if(doesHaveOwnership() && doesHaveMembership()){
 		$type = $_POST['type'];
 		$file = $_FILES['teamImageFile'];
@@ -309,7 +318,10 @@ function getImageFileUpload($target){
 				$errmsg = _t('새로운 프로필 사진을 저장 했습니다.');
 			}
 		}else if($type == "delete"){
-			$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+			$pool->reset("TeamUserSettings");
+			$pool->setQualifier("blogid","eq",getBlogId());
+			$pool->setQualifier("userid","eq",getUserId());
+			$tmpImage = $pool->getCell("image");
 			if($tmpImage){
 				$result = getDeleteAttachment();
 				$errmsg = _t('등록된 프로필 사진을 삭제 하였습니다.');
@@ -331,9 +343,8 @@ function getImageFileUpload($target){
 }
 
 function getAddAttachment($file){
-	global $database, $serviceURL;
 	$context = Model_Context::getInstance();
-
+	$pool = DBModel::getInstance();
 	Attachment::confirmFolder();
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
@@ -354,12 +365,21 @@ function getAddAttachment($file){
 	if(!move_uploaded_file($file['tmp_name'],$attachment['path']))
 		return false;
 	@chmod($attachment['path'],0666);
-	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
-	if(!POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+	$pool->reset("TeamUserSettings");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",getUserId());
+	$tmpImage = $pool->getCell("image");
+
+	$pool->reset("TeamUserSettings");
+	$pool->setAttribute("image",$attachment['name'],true);
+	$pool->setAttribute("updated",Timestamp::getUNIXtime());
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",getUserId());
+	if(!$pool->update()) {
 		@unlink($attachment['path']);
-		$result = "{$serviceURL}/resources/image/spacer.gif";
+		$result = $context->getProperty("uri.service")."/resources/image/spacer.gif";
 	}else{
-		$result = "{$serviceURL}/attach/".getBlogId()."/team/".$attachment['name'];
+		$result = $context->getProperty("uri.service")."/attach/".getBlogId()."/team/".$attachment['name'];
 	}
 	if(!empty($tmpImage))
 	@unlink($path."/".$tmpImage);
@@ -367,12 +387,20 @@ function getAddAttachment($file){
 }
 
 function getDeleteAttachment($filename){
-	global $database, $serviceURL;
 	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 
-	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+	$pool->reset("TeamUserSettings");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",getUserId());
+	$tmpImage = $pool->getCell("image");
 	if($tmpImage){
-		POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
+		$pool->reset("TeamUserSettings");
+		$pool->setAttribute("image","",true);
+		$pool->setAttribute("updated",Timestamp::getUNIXtime());
+		$pool->setQualifier("blogid","eq",getBlogId());
+		$pool->setQualifier("userid","eq",getUserId());
+		$pool->update();
 		@unlink(__TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/team/".$tmpImage);
 	}
 	$result = "{$serviceURL}/resources/image/spacer.gif";
@@ -380,7 +408,7 @@ function getDeleteAttachment($filename){
 }
 
 function getTeamBlogStyle($target) {
-	global $blogURL, $configVal;
+	global $configVal;
 	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
 	getTeamBlogInitConfigVal($data);
@@ -391,7 +419,7 @@ function getTeamBlogStyle($target) {
 }
 
 function getTeamBlogStyleSet($target){
-	global $pluginURL, $configVal;
+	global $configVal;
 	$data = Setting::fetchConfigVal($configVal);
 	getTeamBlogInitConfigVal($data);
 	$lineColor = (strpos($data['lineColor'], "#")===0)?$data['lineColor']:"#".$data['lineColor'];
