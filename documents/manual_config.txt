@@ -11,15 +11,15 @@ $database['database'] = 'noname';   // Database name
 $database['username'] = 'noname';   // user name to estiblish database connection
 $database['password'] = 'noname';   // password to establish database connection
 $database['prefix'] = 'tt_';        // prefix (useful when you try to install two or more textcubes in one database.
-$service['type'] = 'path';          // Service type. 
-// 'path'   : path-based    e.g.) http://www.example.com/blog1 , 
+$service['type'] = 'path';          // Service type.
+// 'path'   : path-based    e.g.) http://www.example.com/blog1 ,
 // 'domain' : domain-based. e.g.) http://blog1.example.com
 // If you installed Textcube on http://www.example.com/tc, )
-$service['domain'] = 'domain.ext';  // Default service domain. (e.g.) http://www.example.com 
+$service['domain'] = 'domain.ext';  // Default service domain. (e.g.) http://www.example.com
 $service['path'] = '/path1/path2';  // URI path where textcube is installed (e.g.) /tc
 $service['skin'] = 'periwinkle';     // Default blog skin name.
 $service['timeout'] = 3600;                 // Session timeout limit (sec.)
-$service['disableEolinSuggestion'] = false; // Disable auto-suggestion using EOLIN server. 
+$service['disableEolinSuggestion'] = false; // Disable auto-suggestion using EOLIN server.
 //Usually it searches local tag by default.
 // From Tattertools 1.1
 $service['useEncodedURL'] = false; // URL encoding using RFC1738
@@ -44,7 +44,7 @@ $service['externalresources'] = false;  // Loads resources from external storage
 $service['resourcepath'] = 'http://example.com/resource';	// Specify the full URI of external resource.
 $service['favicon_daily_traffic'] = 10; // Set favicon traffic limitation. default is 10MB.
 // From Textcube 1.7
-$service['skincache'] = true;        // Use skin pre-fetching. 
+$service['skincache'] = true;        // Use skin pre-fetching.
 // Textcube will parse static elements (blog name, title…) only when you change skin.
 // From Textcube 1.8
 $database['port'] = 3639;            // Database port number
@@ -54,8 +54,8 @@ $memcached['server'] = 'localhost';  // Where memcache server is.
 // From Textcube 1.8.4
 $service['requirelogin'] = false;    // Force log-in process to every blogs. (for private blog service)
 // From Textcube 1.9.3
-$service['useSSL'] = false;         // Use SSL connection. Every http:// will be replaced with https://
+$service['useSSL'] = false;         // Use SSL connection. Every http:// will be replaced with https:// or //. When SSL is enabled, every connection header will contain HSTS.
 // From Textcube 2.0
-$service['jqueryURL'] = '';		// Add URL if you want to use external jquery via CDN. e.g.) Microsoft's CDN: http://ajax.aspnetcdn.com/ajax/jQuery/ 
-$service['lodashURL'] = '';		// Add URL if you want to use external lo-dash via CDN.  
+$service['jqueryURL'] = '';		// Add URL if you want to use external jquery via CDN. e.g.) Microsoft's CDN: http://ajax.aspnetcdn.com/ajax/jQuery/
+$service['lodashURL'] = '';		// Add URL if you want to use external lo-dash via CDN.
 ?>
