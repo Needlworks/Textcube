@@ -1,4 +1,5 @@
 <?php
+
 /// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
@@ -70,6 +71,18 @@ final class Model_Context extends Singleton {
         } else {
             return $defaultValue;
         }
+    }
+
+    public function saveProperty($key, $namespace = null) {
+    }
+
+    public function loadProperty($key, $namespace = null) {
+    }
+
+    public function saveAllFromNamespace($ns) {
+    }
+
+    public function loadAllFromNamespace($ns) {
     }
 
     public function useNamespace($ns = null) {
