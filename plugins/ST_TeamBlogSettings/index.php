@@ -45,9 +45,9 @@ function getTeamAuthorStyle($target, $mother){
 }
 
 function getTeamProfileView($target, $mother){
-	global $entry, $entryView, $configVal;
+	global $entry, $entryView;
 	$context = Model_Context::getInstance();
-	$data = Setting::fetchConfigVal($configVal);
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
 	if ($context->getProperty("suri.directive") != "/rss" && $context->getProperty("suri.directive") != "/sync" && $data['p1'] && empty($data['p2']) ) {
 		$target .= getTeamProfile($entry['userid']);
@@ -59,9 +59,8 @@ function getTeamProfileView($target, $mother){
 }
 
 function getTeamProfile($userid){
-	global $configVal;
-	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
 	$pool = DBModel::getInstance();
 	$pool->init("TeamUserSettings");
@@ -89,9 +88,8 @@ function getTeamProfile($userid){
 }
 
 function getTeamBlogSettings() {
-	global $configVal;
-	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	$pool = DBModel::getInstance();
 	getTeamBlogInitConfigVal($data);
 ?>
@@ -408,9 +406,8 @@ function getDeleteAttachment($filename){
 }
 
 function getTeamBlogStyle($target) {
-	global $configVal;
-	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
 	if($data['cssSelect'] == 1){
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$context->getProperty("uri.blog")."/plugin/teamBlogStyle/\" />".CRLF;
@@ -419,8 +416,8 @@ function getTeamBlogStyle($target) {
 }
 
 function getTeamBlogStyleSet($target){
-	global $configVal;
-	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
 	$lineColor = (strpos($data['lineColor'], "#")===0)?$data['lineColor']:"#".$data['lineColor'];
 	header('Content-type: text/css; charset=utf-8');
