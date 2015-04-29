@@ -122,7 +122,7 @@ function clearCache() {
 
 					<ul class="version">
 						<li><?php echo _textf('기존 버전 - %1',$currentVersion);?></li>
-						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION);?></li>
+						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION_ID);?></li>
 					</ul>
 <?php
 	if(version_compare($currentVersion,'1.9.0','<')) {
@@ -194,6 +194,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		$pool->structure = array(
 			"blogid" => array(
 				"type" => "integer",
+				"length" => 11,
 				"isNull" => false
 			),
 			"namespace" => array(
@@ -212,7 +213,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 				"isNull" => false
 			)
 		);
-		$pool->option['primary'] = array("blogid","namespace","k");
+		$pool->option['primary'] = array("blogid","namespace","keyname");
 		if($pool->create())
 			showCheckupMessage(true);
 		else
