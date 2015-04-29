@@ -65,7 +65,8 @@ final class Model_Context extends Singleton {
         } else {
             $str = explode('.', $key);
             $this->__currentNamespace = $str[0];
-            $this->__currentKey = implode('.',array_shift($str));
+            array_shift($str);
+            $this->__currentKey = implode('.',$str);
         }
         return $key;
     }
@@ -85,7 +86,7 @@ final class Model_Context extends Singleton {
         $pool->init("Properties");
         $pool->setAttribute("blogid",getBlogId());
         $pool->setAttribute("namespace",$this->__currentNamespace,true);
-        $pool->setAttribute("key",$this->__currentKey,true);
+        $pool->setAttribute("keyname",$this->__currentKey,true);
         $pool->setAttribute("value",$this->__property[$key],true);
         return $pool->replace();
     }
@@ -96,7 +97,7 @@ final class Model_Context extends Singleton {
         $pool->init("Properties");
         $pool->setQualifier("blogid","eq",getBlogId());
         $pool->setQualifier("namespace","eq",$this->__currentNamespace,true);
-        $pool->setQualifier("key","eq",$this->__currentKey,true);
+        $pool->setQualifier("keyname","eq",$this->__currentKey,true);
         $value = $pool->getCell("value");
         return $this->setProperty($key, $value);
     }
@@ -114,9 +115,9 @@ final class Model_Context extends Singleton {
         $pool->init("Properties");
         $pool->setQualifier("blogid",getBlogId());
         $pool->setQualifier("namespace","eq",$ns);
-        $results = $pool->getAll("key, value");
+        $results = $pool->getAll("keyname, value");
         foreach($results as $pair) {
-            $this->setProperty($pair['key'],$pair['value'],$ns);
+            $this->setProperty($pair['keyname'],$pair['value'],$ns);
         }
     }
 

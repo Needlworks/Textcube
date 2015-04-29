@@ -319,9 +319,9 @@ CREATE TABLE [##_dbPrefix_##]Privileges (
 CREATE TABLE [##_dbPrefix_##]Properties (
   blogid int(11) NOT NULL default '0',
   namespace varchar(32) NOT NULL default '',
-  key varchar(32) NOT NULL default '',
+  keyname varchar(32) NOT NULL default '',
   value text NOT NULL,
-  PRIMARY KEY (blogid, namespace, key)
+  PRIMARY KEY (blogid, namespace, keyname)
 ) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]RefererLogs (
   blogid int(11) NOT NULL default '0',
