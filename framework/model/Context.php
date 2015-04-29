@@ -1,11 +1,11 @@
 <?php
-
 /// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 final class Model_Context extends Singleton {
     private $__property, $__namespace;
+    private $__currentNamespace, $__currentKey;
 
     function __construct() {
     }
@@ -48,18 +48,24 @@ final class Model_Context extends Singleton {
         global $pluginName;
         if (strpos($key, '.') === false) {    // If key contains namespace, use it.
             if (!is_null($namespace)) {
-                $key = $namespace . '.' . $key;
+                $this->__currentNamespace = $namespace;
             } else {
                 if (!empty($this->__namespace)) {
-                    $key = $this->__namespace . '.' . $key;
+                    $this->__currentNamespace = $this->__namespace;
                 } else {
                     if (!empty($pluginName)) {
-                        $key = $pluginName . '.' . $key;
+                        $this->__currentNamespace = $pluginName;
                     } else {
-                        $key = 'global.' . $key;
+                        $this->__currentNamespace = 'global';
                     }
                 }
             }
+            $this->__currentKey = $key;
+            $key = $this->__currentNamespace.'.'.$key;
+        } else {
+            $str = explode('.', $key);
+            $this->__currentNamespace = $str[0];
+            $this->__currentKey = implode('.',array_shift($str));
         }
         return $key;
     }
@@ -74,6 +80,13 @@ final class Model_Context extends Singleton {
     }
 
     public function saveProperty($key, $namespace = null) {
+        $pool = DBModel::getInstance();
+        $key = $this->__getKey($key, $namespace);
+        $pool->init("Properties");
+        $pool->setAttribute("namespace",$this->__currentNamespace,true);
+        $pool->setAttribute("key",$this->__currentKey,true);
+        $pool->setAttribute("value",$this->__property[$key],true);
+        return $pool->replace();
     }
 
     public function loadProperty($key, $namespace = null) {
