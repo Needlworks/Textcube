@@ -83,6 +83,7 @@ final class Model_Context extends Singleton {
         $pool = DBModel::getInstance();
         $key = $this->__getKey($key, $namespace);
         $pool->init("Properties");
+        $pool->setAttribute("blogid",getBlogId());
         $pool->setAttribute("namespace",$this->__currentNamespace,true);
         $pool->setAttribute("key",$this->__currentKey,true);
         $pool->setAttribute("value",$this->__property[$key],true);
@@ -90,12 +91,33 @@ final class Model_Context extends Singleton {
     }
 
     public function loadProperty($key, $namespace = null) {
+        $pool = DBModel::getInstance();
+        $key = $this->__getKey($key, $namespace);
+        $pool->init("Properties");
+        $pool->setQualifier("blogid","eq",getBlogId());
+        $pool->setQualifier("namespace","eq",$this->__currentNamespace,true);
+        $pool->setQualifier("key","eq",$this->__currentKey,true);
+        $value = $pool->getCell("value");
+        return $this->setProperty($key, $value);
     }
 
     public function saveAllFromNamespace($ns) {
+        $candidates = $this->getAllFromNamespace($ns);
+        foreach($candidates as $k => $v) {
+            $this->saveProperty($key, $ns);
+        }
+        return true;
     }
 
     public function loadAllFromNamespace($ns) {
+        $pool = DBModel::getInstance();
+        $pool->init("Properties");
+        $pool->setQualifier("blogid",getBlogId());
+        $pool->setQualifier("namespace","eq",$ns);
+        $results = $pool->getAll("key, value");
+        foreach($results as $pair) {
+            $this->setProperty($pair['key'],$pair['value'],$ns);
+        }
     }
 
     public function useNamespace($ns = null) {
