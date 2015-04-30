@@ -3,6 +3,8 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
+// Context 3.0 (04/30/2015)
+//
 final class Model_Context extends Singleton {
     private $__property, $__namespace;
     private $__currentNamespace, $__currentKey;
