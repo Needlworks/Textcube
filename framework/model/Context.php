@@ -3,8 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-// Context 3.0 (04/30/2015)
+// Context 3.1 (05/01/2015)
 //
+
 final class Model_Context extends Singleton {
     private $__property, $__namespace;
     private $__currentNamespace, $__currentKey;
@@ -44,33 +45,6 @@ final class Model_Context extends Singleton {
     public function unsetProperty($key, $namespace = null) {
         $key = $this->__getKey($key, $namespace);
         unset($this->__property[$key]);
-    }
-
-    private function __getKey($key, $namespace) {
-        global $pluginName;
-        if (strpos($key, '.') === false) {    // If key contains namespace, use it.
-            if (!is_null($namespace)) {
-                $this->__currentNamespace = $namespace;
-            } else {
-                if (!empty($this->__namespace)) {
-                    $this->__currentNamespace = $this->__namespace;
-                } else {
-                    if (!empty($pluginName)) {
-                        $this->__currentNamespace = $pluginName;
-                    } else {
-                        $this->__currentNamespace = 'global';
-                    }
-                }
-            }
-            $this->__currentKey = $key;
-            $key = $this->__currentNamespace.'.'.$key;
-        } else {
-            $str = explode('.', $key);
-            $this->__currentNamespace = $str[0];
-            array_shift($str);
-            $this->__currentKey = implode('.',$str);
-        }
-        return $key;
     }
 
     public function getProperty($key, $defaultValue = null) {
@@ -126,11 +100,20 @@ final class Model_Context extends Singleton {
         $pool = DBModel::getInstance();
         $pool->init("Properties");
         $pool->setQualifier("blogid",getBlogId());
-        $pool->setQualifier("namespace","eq",$ns);
+        $pool->setQualifier("namespace","eq",$ns,true);
         $results = $pool->getAll("keyname, value");
         foreach($results as $pair) {
             $this->setProperty($pair['keyname'],$pair['value'],$ns);
         }
+    }
+
+    public function purgeAllFromNamespace($ns = null) {
+        if (empty($ns)) return false;
+        $pool = DBModel::getInstance();
+        $pool->init("Properties");
+        $pool->setQualifier("blogid","eq",getBlogId());
+        $pool->setQualifier("namespace","eq",$ns,true);
+        return $pool->delete();
     }
 
     public function useNamespace($ns = null) {
@@ -154,6 +137,33 @@ final class Model_Context extends Singleton {
             }
         }
         return $result;
+    }
+
+    private function __getKey($key, $namespace) {
+        global $pluginName;
+        if (strpos($key, '.') === false) {    // If key contains namespace, use it.
+            if (!is_null($namespace)) {
+                $this->__currentNamespace = $namespace;
+            } else {
+                if (!empty($this->__namespace)) {
+                    $this->__currentNamespace = $this->__namespace;
+                } else {
+                    if (!empty($pluginName)) {
+                        $this->__currentNamespace = $pluginName;
+                    } else {
+                        $this->__currentNamespace = 'global';
+                    }
+                }
+            }
+            $this->__currentKey = $key;
+            $key = $this->__currentNamespace.'.'.$key;
+        } else {
+            $str = explode('.', $key);
+            $this->__currentNamespace = $str[0];
+            array_shift($str);
+            $this->__currentKey = implode('.',$str);
+        }
+        return $key;
     }
 
     function __destruct() {
