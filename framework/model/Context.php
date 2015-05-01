@@ -104,6 +104,16 @@ final class Model_Context extends Singleton {
         return $this->setProperty($key, $value);
     }
 
+    public function purgeProperty($key, $namespace = null) {
+        $pool = DBModel::getInstance();
+        $key = $this->__getKey($key, $namespace);
+        $pool->init("Properties");
+        $pool->setQualifier("blogid","eq",getBlogId());
+        $pool->setQualifier("namespace","eq",$this->__currentNamespace,true);
+        $pool->setQualifier("keyname","eq",$this->__currentKey,true);
+        return $pool->delete();
+    }
+
     public function saveAllFromNamespace($ns) {
         $candidates = $this->getAllFromNamespace($ns);
         foreach($candidates as $k => $v) {
