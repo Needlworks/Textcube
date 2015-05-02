@@ -35,6 +35,15 @@ class Misc {
         return $array[$key];
     }
 
+    static function isSecureProtocol() {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+            return true;
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' || !empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+            return true;
+        }
+        return false;
+    }
+
     static function getAttributesFromString($str, $caseSensitive = false) {
         $attributes = array();
         preg_match_all('/([^=\s]+)\s*=\s*"([^"]*)/', $str, $matches);

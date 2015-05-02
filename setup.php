@@ -62,7 +62,6 @@ $context->setProperty('import.library', array(
 	'function.javascript',
 	'function.html',
 	'function.xml',
-	'function.misc',
 	'function.mail'));
 if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
@@ -1314,7 +1313,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
     else if ($step == 8) {
         if ($check)
             return true;
-        $useSSL = isSecureProtocol() ? 'true' : 'false';
+        $useSSL = Misc::isSecureProtocol() ? 'true' : 'false';
         $filename = $root . '/config.php';
         $fp = fopen($filename, 'w+');
 		// For first entry addition
