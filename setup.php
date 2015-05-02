@@ -57,13 +57,13 @@ if (isset($_POST['dbPrefix']) && $_POST['dbPrefix'] == '') {
 }
 $context = Model_Context::getInstance();
 $context->setProperty('import.library', array(
-	'function/string',
-	'function/time',
-	'function/javascript',
-	'function/html',
-	'function/xml',
-	'function/misc',
-	'function/mail'));
+	'function.string',
+	'function.time',
+	'function.javascript',
+	'function.html',
+	'function.xml',
+	'function.misc',
+	'function.mail'));
 if(isset($_POST['dbms'])) $database['dbms'] = $_POST['dbms'];
 require ROOT.'/library/include.php';
 
@@ -1314,7 +1314,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
     else if ($step == 8) {
         if ($check)
             return true;
-
+        $useSSL = isSecureProtocol() ? 'true' : 'false';
         $filename = $root . '/config.php';
         $fp = fopen($filename, 'w+');
 		// For first entry addition
@@ -1340,6 +1340,7 @@ ini_set('display_errors', 'off');
 \$service['path'] = '$path';
 \$service['skin'] = 'periwinkle';
 \$service['favicon_daily_traffic'] = 10; // 10MB
+\$service['useSSL'] = '{$useSSL}';  // Force SSL protocol (via https)
 //\$serviceURL = 'http://{$_POST['domain']}{$path}' ; // for path of Skin, plugin and etc.
 //\$service['reader'] = true; // Use Textcube reader. You can set it to false if you do not use Textcube reader, and want to decrease DB load.
 //\$service['debugmode'] = true; // uncomment for debugging, e.g. displaying DB Query or Session info
