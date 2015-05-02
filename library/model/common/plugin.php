@@ -122,7 +122,7 @@ function updatePluginConfig($name, $setVal) {
     }
     $pluginName = $name;
     $name = Utils_Unicode::lessenAsEncoding($name, 255);
-    $setting = serialize(Setting::fetchConfigXML($setVal));
+    $setting = serialize(fetchConfigXML($setVal));
     $pool = DBModel::getInstance();
     $pool->reset('Plugins');
     $pool->setQualifier('blogid', 'eq', getBlogId());
@@ -698,7 +698,7 @@ function handleDataSet($plugin, $DATA) {
                 }
             }
 
-            $reSetting = call_user_func($configMappings[$plugin]['dataValHandler'], serialize(Setting::fetchConfigXML($DATA)));
+            $reSetting = call_user_func($configMappings[$plugin]['dataValHandler'], serialize(fetchConfigXML($DATA)));
             $pluginURL = $pluginPath = $pluginName = "";
             $context->unsetProperty('plugin.uri');
             $context->unsetProperty('plugin.path');
@@ -927,4 +927,25 @@ function radioTreat($cmd, $dfVal, $name) {
     return $DSP;
 }
 
+function fetchConfigXML($DATA) {
+    $xmls = new XMLStruct();        // else, parse them...
+    $outVal = array();
+    if (!$xmls->open($DATA)) {
+        unset($xmls);
+        return null;
+    }
+    if (is_null($xmls->selectNodes('/config/field'))) {
+        unset($xmls);
+        return null;
+    }
+    foreach ($xmls->selectNodes('/config/field') as $field) {
+        if (empty($field['.attributes']['name']) || empty($field['.attributes']['type'])) {
+            unset($xmls);
+            return null;
+        }
+        $outVal[$field['.attributes']['name']] = $field['.value'];
+    }
+    unset($xmls);
+    return ($outVal);
+}
 ?>

@@ -14,28 +14,6 @@ class Setting {
 //		return Setting::fetchConfigVal_Legacy($DATA);
     }
 
-    static function fetchConfigXML($DATA) {
-        $xmls = new XMLStruct();        // else, parse them...
-        $outVal = array();
-        if (!$xmls->open($DATA)) {
-            unset($xmls);
-            return null;
-        }
-        if (is_null($xmls->selectNodes('/config/field'))) {
-            unset($xmls);
-            return null;
-        }
-        foreach ($xmls->selectNodes('/config/field') as $field) {
-            if (empty($field['.attributes']['name']) || empty($field['.attributes']['type'])) {
-                unset($xmls);
-                return null;
-            }
-            $outVal[$field['.attributes']['name']] = $field['.value'];
-        }
-        unset($xmls);
-        return ($outVal);
-    }
-
     // For Blog-scope setting
     static function getBlogSettingGlobal($name, $default = null, $blogid = null, $directAccess = false) {
         if (is_null($blogid)) {
