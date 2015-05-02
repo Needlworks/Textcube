@@ -311,6 +311,13 @@ CREATE TABLE [##_dbPrefix_##]Privileges (
   lastlogin integer NOT NULL default 0,
   PRIMARY KEY (blogid,userid)
 ) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]Properties (
+  blogid integer NOT NULL default 0,
+  namespace varchar(32) NOT NULL default '',
+  keyname varchar(32) NOT NULL default '',
+  value text NOT NULL,
+  PRIMARY KEY (blogid, namespace, keyname)
+) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]RefererLogs (
   blogid integer NOT NULL default 0,
   host varchar(64) NOT NULL default '',

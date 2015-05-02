@@ -303,6 +303,13 @@ CREATE TABLE [##_dbPrefix_##]Plugins (
   settings varchar,
   PRIMARY KEY  (blogid,name)
 ) [##_charset_##];
+CREATE TABLE [##_dbPrefix_##]Properties (
+  blogid integer default 0 NOT NULL,
+  namespace varchar(32) default '' NOT NULL,
+  "keyname" varchar(32) default '' NOT NULL,
+  "value" varchar NOT NULL,
+  PRIMARY KEY (blogid, namespace, keyname)
+) [##_charset_##];
 CREATE TABLE [##_dbPrefix_##]RefererLogs (
   blogid integer default 0 NOT NULL,
   host varchar(64) default '' NOT NULL,

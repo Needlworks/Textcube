@@ -45,27 +45,31 @@ function getTeamAuthorStyle($target, $mother){
 }
 
 function getTeamProfileView($target, $mother){
-	global $suri, $entry, $entryView, $configVal;
+	global $entry, $entryView;
 	$context = Model_Context::getInstance();
-	$data = Setting::fetchConfigVal($configVal);
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
-	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && empty($data['p2']) ) {
+	if ($context->getProperty("suri.directive") != "/rss" && $context->getProperty("suri.directive") != "/sync" && $data['p1'] && empty($data['p2']) ) {
 		$target .= getTeamProfile($entry['userid']);
 	}
-	if ($suri['directive'] != "/rss" && $suri['directive'] != "/sync" && $data['p1'] && !empty($data['p2']) ) {
+	if ($context->getProperty("suri.directive") != "/rss" && $context->getProperty("suri.directive") != "/sync" && $data['p1'] && !empty($data['p2']) ) {
 		Misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
 	}
 	return $target;
 }
 
 function getTeamProfile($userid){
-	global $database, $serviceURL, $configVal;
-	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." AND userid=".$userid);
+	$pool = DBModel::getInstance();
+	$pool->init("TeamUserSettings");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",$userid);
+	$row = $pool->getRow("style, image, profile");
 	$imageStyle = $imageTag = $html = '';
 	if(!empty($row['image'])){
-		$imageSrc = "{$serviceURL}/attach/".getBlogId()."/team/".$row['image'];
+		$imageSrc = $context->getProperty("uri.service")."/attach/".getBlogId()."/team/".$row['image'];
 		$imageTag = "<img src=\"".$imageSrc."\" alt=\"author image\" align=\"top\" />";
 		$imageStyle = "style=\"width:".($data['imageSize']+6)."px; margin-right:10px;\"";
 	}
@@ -84,24 +88,35 @@ function getTeamProfile($userid){
 }
 
 function getTeamBlogSettings() {
-	global $database, $service, $serviceURL, $pluginURL, $configVal;
-	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
-
+	$data = $context->getProperty('plugin.config');
+	$pool = DBModel::getInstance();
 	getTeamBlogInitConfigVal($data);
 ?>
-	<script type="text/javascript" src="<?php echo $pluginURL;?>/plugin-main.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('plugin.uri');?>/plugin-main.js"></script>
 <?php
-	$teamblog_user = POD::queryRow("SELECT name, loginid FROM {$database['prefix']}Users WHERE userid=".getUserId());
-	$row = POD::queryRow("SELECT style, image, profile FROM {$database['prefix']}TeamUserSettings WHERE blogid =".getBlogId()." and userid=".getUserId());
+	$pool->reset("Users");
+	$pool->setQualifier("userid","eq",getUserId());
+	$teamblog_user = $pool->getRow("name, loginid");
+	$pool->reset("TeamUserSettings");
+	$pool->setQualifier("userid","eq",getUserId());
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$row = $pool->getRow("style, image, profile");
 	if(!$row){
-		POD::execute("INSERT INTO {$database['prefix']}TeamUserSettings (blogid,userid,style,image,profile,updated) VALUES(".getBlogId().",".getUserId().",'','', '',UNIX_TIMESTAMP())");
+		$pool->reset("TeamUserSettings");
+		$pool->setAttribute("blogid",getBlogId());
+		$pool->setAttribute("userid",getUserId());
+		$pool->setAttribute("style","",true);
+		$pool->setAttribute("image","",true);
+		$pool->setAttribute("profile","",true);
+		$pool->setAttribute("updated",Timestamp::getUNIXtime());
+		$pool->insert();
 	}
 	if($row['image']){
-		$image = "{$service['path']}/attach/".getBlogId()."/team/".$row['image'];
+		$image = $context->getProperty("service.path")."/attach/".getBlogId()."/team/".$row['image'];
 		$imageRemoveCheck = "";
 	}else{
-		$image = "{$service['path']}/resources/image/spacer.gif";
+		$image = $context->getProperty("service.path")."/resources/image/spacer.gif";
 		$imageRemoveCheck = " disabled ";
 	}
 
@@ -257,18 +272,28 @@ function getTeamBlogSettings() {
 }
 
 function getTeamContentsSave($target){
-	global $database;
+	$pool = DBModel::getInstance();
 	$flag = isset($_POST['flag']) ? $_POST['flag'] : '';
 	$style = isset($_POST['fontstyle']) ? $_POST['fontstyle'] : '';
 	$profile = isset($_POST['profile']) ? $_POST['profile'] : '';
 	if(doesHaveOwnership() && doesHaveMembership()){
 		if($flag == "style"){
-			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET style=\"{$style}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+			$pool->reset("TeamUserSettings");
+			$pool->setAttribute("style",$style,true);
+			$pool->setAttribute("updated",Timestamp::getUNIXtime());
+			$pool->setQualifier("blogid","eq",getBlogId());
+			$pool->setQualifier("userid","eq",getUserId());
+			if($pool->update()) {
 				Respond::ResultPage(0);
 			}
 		}else if($flag == "profile"){
-			$profile = POD::escapeString(Utils_Unicode::lessenAsEncoding($profile, 65535));
-			if(POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET profile=\"{$profile}\", updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+			$profile = Utils_Unicode::lessenAsEncoding($profile, 65535);
+			$pool->reset("TeamUserSettings");
+			$pool->setAttribute("profile",$profile,true);
+			$pool->setAttribute("updated",Timestamp::getUNIXtime());
+			$pool->setQualifier("blogid","eq",getBlogId());
+			$pool->setQualifier("userid","eq",getUserId());
+			if($pool->update()) {
 				Respond::ResultPage(0);
 			}
 		}
@@ -277,7 +302,6 @@ function getTeamContentsSave($target){
 }
 
 function getImageFileUpload($target){
-	global $database;
 	if(doesHaveOwnership() && doesHaveMembership()){
 		$type = $_POST['type'];
 		$file = $_FILES['teamImageFile'];
@@ -292,7 +316,10 @@ function getImageFileUpload($target){
 				$errmsg = _t('새로운 프로필 사진을 저장 했습니다.');
 			}
 		}else if($type == "delete"){
-			$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+			$pool->reset("TeamUserSettings");
+			$pool->setQualifier("blogid","eq",getBlogId());
+			$pool->setQualifier("userid","eq",getUserId());
+			$tmpImage = $pool->getCell("image");
 			if($tmpImage){
 				$result = getDeleteAttachment();
 				$errmsg = _t('등록된 프로필 사진을 삭제 하였습니다.');
@@ -314,9 +341,8 @@ function getImageFileUpload($target){
 }
 
 function getAddAttachment($file){
-	global $database, $serviceURL;
 	$context = Model_Context::getInstance();
-
+	$pool = DBModel::getInstance();
 	Attachment::confirmFolder();
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
@@ -337,12 +363,21 @@ function getAddAttachment($file){
 	if(!move_uploaded_file($file['tmp_name'],$attachment['path']))
 		return false;
 	@chmod($attachment['path'],0666);
-	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
-	if(!POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='".$attachment['name']."', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId())){
+	$pool->reset("TeamUserSettings");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",getUserId());
+	$tmpImage = $pool->getCell("image");
+
+	$pool->reset("TeamUserSettings");
+	$pool->setAttribute("image",$attachment['name'],true);
+	$pool->setAttribute("updated",Timestamp::getUNIXtime());
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",getUserId());
+	if(!$pool->update()) {
 		@unlink($attachment['path']);
-		$result = "{$serviceURL}/resources/image/spacer.gif";
+		$result = $context->getProperty("uri.service")."/resources/image/spacer.gif";
 	}else{
-		$result = "{$serviceURL}/attach/".getBlogId()."/team/".$attachment['name'];
+		$result = $context->getProperty("uri.service")."/attach/".getBlogId()."/team/".$attachment['name'];
 	}
 	if(!empty($tmpImage))
 	@unlink($path."/".$tmpImage);
@@ -350,12 +385,20 @@ function getAddAttachment($file){
 }
 
 function getDeleteAttachment($filename){
-	global $database, $serviceURL;
 	$context = Model_Context::getInstance();
+	$pool = DBModel::getInstance();
 
-	$tmpImage = POD::queryCell("SELECT image FROM {$database['prefix']}TeamUserSettings WHERE blogid=".getBlogId()." and userid=".getUserId());
+	$pool->reset("TeamUserSettings");
+	$pool->setQualifier("blogid","eq",getBlogId());
+	$pool->setQualifier("userid","eq",getUserId());
+	$tmpImage = $pool->getCell("image");
 	if($tmpImage){
-		POD::execute("UPDATE {$database['prefix']}TeamUserSettings SET image='', updated=UNIX_TIMESTAMP() WHERE blogid=".getBlogId()." and userid=".getUserId());
+		$pool->reset("TeamUserSettings");
+		$pool->setAttribute("image","",true);
+		$pool->setAttribute("updated",Timestamp::getUNIXtime());
+		$pool->setQualifier("blogid","eq",getBlogId());
+		$pool->setQualifier("userid","eq",getUserId());
+		$pool->update();
 		@unlink(__TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/team/".$tmpImage);
 	}
 	$result = "{$serviceURL}/resources/image/spacer.gif";
@@ -363,9 +406,8 @@ function getDeleteAttachment($filename){
 }
 
 function getTeamBlogStyle($target) {
-	global $blogURL, $configVal;
-	$data = Setting::fetchConfigVal($configVal);
 	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
 	if($data['cssSelect'] == 1){
 		$target .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$context->getProperty("uri.blog")."/plugin/teamBlogStyle/\" />".CRLF;
@@ -374,8 +416,8 @@ function getTeamBlogStyle($target) {
 }
 
 function getTeamBlogStyleSet($target){
-	global $pluginURL, $configVal;
-	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	getTeamBlogInitConfigVal($data);
 	$lineColor = (strpos($data['lineColor'], "#")===0)?$data['lineColor']:"#".$data['lineColor'];
 	header('Content-type: text/css; charset=utf-8');

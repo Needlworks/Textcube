@@ -19,21 +19,26 @@ importlib('model.blog.version');
 $currentVersion = getBlogVersion();
 
 function setSkinSettingForMigration($blogid, $name, $value, $mig = null) {
-	global $database;
+	$pool = DBModel::getInstance();
 	$name = POD::escapeString($name);
 	$value = POD::escapeString($value);
-	if($mig === null)
-		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettingsMig VALUES('$blogid', '$name', '$value')");
-	else
-		return POD::execute("REPLACE INTO {$database['prefix']}SkinSettings VALUES('$blogid', '$name', '$value')");
+	if($mig === null) {
+		$pool->reset("SkinSettingsMig");
+	} else {
+		$pool->reset("SkinSettings");
+	}
+	$pool->setAttribute("blogid",$blogid);
+	$pool->setAttribute("name",$name,true);
+	$pool->setAttribute("value",$value,true);
+	return $pool->replace();
 }
 
 function getSkinSettingForMigration($blogid, $name, $default = null) {
-	global $database;
-	$value = POD::queryCell("SELECT value
-		FROM {$database['prefix']}SkinSettingsMig
-		WHERE blogid = '$blogid'
-		AND name = '".POD::escapeString($name)."'");
+	$pool = DBModel::getInstance();
+	$pool->reset("SkinSettingsMig");
+	$pool->setQualifier("blogid","eq",$blogid);
+	$pool->setQualifier("name","eq",$name,true);
+	$value = $pool->getCell("value");
 	return ($value === null) ? $default : $value;
 }
 
@@ -95,10 +100,10 @@ function clearCache() {
 }
 
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo _text('텍스트큐브를 점검합니다.');?></title>
 	<link rel="stylesheet" media="screen" type="text/css" href="<?php echo $context->getProperty('service.path')?>/resources/style/setup/style.css" />
 </head>
@@ -117,7 +122,7 @@ function clearCache() {
 
 					<ul class="version">
 						<li><?php echo _textf('기존 버전 - %1',$currentVersion);?></li>
-						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION);?></li>
+						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION_ID);?></li>
 					</ul>
 <?php
 	if(version_compare($currentVersion,'1.9.0','<')) {
@@ -139,26 +144,34 @@ $changed = false;
 global $succeed;
 $succeed = true;
 if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','MySQLi'))) {
+	$pool = DBModel::getInstance();
 	/* From Textcube 1.9 */
 	if (version_compare($currentVersion, '1.9.1','<')) {
 		$changed = true;
 		echo '<li>', _text('기본 에디터를 변경합니다.'), ': ';
-		$query = DBModel::getInstance();
-		$query->reset('BlogSettings');
-		$query->setQualifier('name','equals','defaultEditor',true);
-		$query->setQualifier('value','equals','modern',true);
-		$query->setAttribute('value','tinyMCE',true);
-		if($query->update())
+		$pool->reset('BlogSettings');
+		$pool->setQualifier('name','equals','defaultEditor',true);
+		$pool->setQualifier('value','equals','modern',true);
+		$pool->setAttribute('value','tinyMCE',true);
+		if($pool->update())
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
 	}
 	/* From Textcube 2.0 */
-	$result = DBAdapter::queryAll("SELECT blogid, userid, id FROM {$database['prefix']}Entries WHERE contentformatter='ttml' and contenteditor='modern'");
+	$pool->reset("Entries");
+	$pool->setQualifier("contentformatter","eq","ttml",true);
+	$pool->setQualifier("contenteditor","eq","modern",true);
+	$result = $pool->getAll("blogid, userid, id");
 	if ($result) {
 		$changed = true;
 		echo '<li>', _text('기존 에디터로 작성된 글을 새 에디터로 편집 가능하도록 이전합니다.'), ': ';
-		if (DBAdapter::execute("UPDATE {$database['prefix']}Entries SET contentformatter='ttml', contenteditor='tinyMCE' WHERE contentformatter='ttml' and contenteditor='modern'"))
+		$pool->reset("Entries");
+		$pool->setAttribute("contentformatter","ttml",true);
+		$pool->setAttribute("contenteditor","tinyMCE",true);
+		$pool->setQualifier("contentformatter","eq","ttml",true);
+		$pool->setQualifier("contenteditor","eq","modern",true);
+		if ($pool->update())
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
@@ -168,6 +181,40 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		$changed = true;
 		echo '<li>', _text('자동 로그인을 위해 세션 테이블 구조를 수정합니다.'), ': ';
 		if (DBAdapter::execute("ALTER TABLE {$database['prefix']}Sessions ADD expires int(11) NOT NULL DEFAULT 0 AFTER updated"))
+			showCheckupMessage(true);
+		else
+			showCheckupMessage(false);
+	}
+
+	if (!doesExistTable($database['prefix']. "Properties")) {
+		$changed = true;
+		echo '<li>', _text('프로퍼티 저장을 위한 테이블을 추가합니다.'), ': ';
+		$pool = DBModel::getInstance();
+		$pool->reset("Properties");
+		$pool->structure = array(
+			"blogid" => array(
+				"type" => "integer",
+				"length" => 11,
+				"isNull" => false
+			),
+			"namespace" => array(
+				"type" => "varchar",
+				"length" => 32,
+				"isNull" => false,
+				"default" => 'global'
+			),
+			"keyname" => array(
+				"type" => "varchar",
+				"length" => 32,
+				"isNull" => false
+			),
+			"value" => array(
+				"type" => "text",
+				"isNull" => false
+			)
+		);
+		$pool->option['primary'] = array("blogid","namespace","keyname");
+		if($pool->create())
 			showCheckupMessage(true);
 		else
 			showCheckupMessage(false);
