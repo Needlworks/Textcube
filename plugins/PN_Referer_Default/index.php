@@ -60,7 +60,7 @@ function PN_Referer_Default()
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="rank"><?php echo $i + 1;?>.</td>
-										<td class="site"><a href="http://<?php echo Misc::escapeJSInAttribute($record['host']);?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($record['host']);?></a> <span class="count">(<?php echo $record['count'];?>)</span></td>
+										<td class="site"><a href="http://<?php echo Utils_Misc::escapeJSInAttribute($record['host']);?>" onclick="window.open(this.href); return false;"><?php echo htmlspecialchars($record['host']);?></a> <span class="count">(<?php echo $record['count'];?>)</span></td>
 									</tr>
 <?php
 	}
@@ -93,7 +93,7 @@ function PN_Referer_Default()
 ?>
 									<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')">
 										<td class="date"><?php echo Timestamp::formatDate($record['referred']);?></td>
-										<td class="address"><a href="<?php echo Misc::escapeJSInAttribute($record['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url']);?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(Utils_Unicode::lessenAsEm($record['url'], 70)), $record);?></a></td>
+										<td class="address"><a href="<?php echo Utils_Misc::escapeJSInAttribute($record['url']);?>" onclick="window.open(this.href); return false;" title="<?php echo htmlspecialchars($record['url']);?>"><?php echo fireEvent('ViewRefererURL', htmlspecialchars(Utils_Unicode::lessenAsEm($record['url'], 70)), $record);?></a></td>
 									</tr>
 <?php
 	}
@@ -114,7 +114,7 @@ function PN_Referer_Default()
 										</span>
 									</div>
 									<div class="page-count">
-										<?php echo Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 0);?>
+										<?php echo Utils_Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 0);?>
 										<select name="perPage" onchange="document.getElementById('part-statistics-log').submit()">					
 <?php
 	for ($i = 10; $i <= 30; $i += 5) {
@@ -130,7 +130,7 @@ function PN_Referer_Default()
 	}
 ?>
 										</select>
-										<?php echo Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 1);?>
+										<?php echo Utils_Misc::getArrayValue(explode('%1', '한 페이지에 목록 %1건 표시'), 1);?>
 									</div>
 								</div>
 							</div>

@@ -77,7 +77,7 @@ function printOwnerEditorScript($entryId = false) {
     if ($browser->isMobile()) {
         $contentWidth = 270;
     } else {
-        $contentWidth = Misc::getContentWidth();
+        $contentWidth = Utils_Misc::getContentWidth();
         /*
         if($skin = $context->getProperty('skin.skin')) {
             if($xml = @file_get_contents(ROOT."/skin/blog/$skin/index.xml")) {
@@ -981,15 +981,15 @@ function getAttachmentValue($attachment) {
 
 function getPrettyAttachmentLabel($attachment) {
     if (strpos($attachment['mime'], 'image') === 0) {
-        return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / " . Misc::getSizeHumanReadable($attachment['size']) . ')';
+        return "{$attachment['label']} ({$attachment['width']}x{$attachment['height']} / " . Utils_Misc::getSizeHumanReadable($attachment['size']) . ')';
     } else {
         if (strpos($attachment['mime'], 'audio') !== 0 && strpos($attachment['mime'], 'video') !== 0) {
             if ($attachment['downloads'] > 0) {
-                return "{$attachment['label']} (" . Misc::getSizeHumanReadable($attachment['size']) . ' / ' . _t('다운로드') . ':' . $attachment['downloads'] . ')';
+                return "{$attachment['label']} (" . Utils_Misc::getSizeHumanReadable($attachment['size']) . ' / ' . _t('다운로드') . ':' . $attachment['downloads'] . ')';
             }
         }
     }
-    return "{$attachment['label']} (" . Misc::getSizeHumanReadable($attachment['size']) . ')';
+    return "{$attachment['label']} (" . Utils_Misc::getSizeHumanReadable($attachment['size']) . ')';
 }
 
 ?>

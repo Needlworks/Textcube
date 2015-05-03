@@ -439,7 +439,7 @@ function refererkeyword() {
                         <td class="<?php echo $urlClassName; ?>"></td>
                         <td class="refererurl">
                         <?php
-                        echo "<a href=\"" . Misc::escapeJSInAttribute($splitRefererURL) . "\" onclick=\"window.open(this.href); return false;\">" . Utils_Unicode::lessenAsEm(htmlspecialchars($decodeURL), 90) . "</a>";
+                        echo "<a href=\"" . Utils_Misc::escapeJSInAttribute($splitRefererURL) . "\" onclick=\"window.open(this.href); return false;\">" . Utils_Unicode::lessenAsEm(htmlspecialchars($decodeURL), 90) . "</a>";
                         $j++;
                     }
 

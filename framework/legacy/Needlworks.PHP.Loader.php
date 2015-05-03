@@ -37,11 +37,11 @@ class Autoload_Legacy {
             'HTTPRequest', 'XMLRPC', 'XMLRPCFault',
             'XMLCustomType', 'XMLTree', 'Pop3', 'CommunicationFeed');
         $this->function = array(
-            'Image', 'Setting', 'Respond', 'Misc');
+            'Image', 'Setting', 'Respond');
         $this->openid = array(
             'OpenID', 'OpenIDSession', 'OpenIDConsumer');
         $this->control = array(
-            'Session', 'RSS');
+			'Session', 'RSS');
     }
 
     public function load($name) {
@@ -52,36 +52,26 @@ class Autoload_Legacy {
         }
         if (in_array($name, $this->data)) {
             require_once(ROOT . "/framework/legacy/Textcube.Data." . $name . ".php");
-        } else {
-            if (in_array($name, $this->model)) {
-                require_once(ROOT . "/framework/legacy/Textcube.Model." . $name . ".php");
+        } elseif (in_array($name, $this->model)) {
+            require_once(ROOT . "/framework/legacy/Textcube.Model." . $name . ".php");
+        } elseif (in_array($name, $this->base)) {
+            if (in_array($name, array('XMLRPC', 'XMLRPCFault', 'XMLCustomType'))) {
+                require_once(ROOT . "/framework/legacy/Needlworks.PHP.XMLRPC.php");
             } else {
-                if (in_array($name, $this->base)) {
-                    if (in_array($name, array('XMLRPC', 'XMLRPCFault', 'XMLCustomType'))) {
-                        require_once(ROOT . "/framework/legacy/Needlworks.PHP.XMLRPC.php");
-                    } else {
-                        require_once(ROOT . "/framework/legacy/Needlworks.PHP." . $name . ".php");
-                    }
-                } else {
-                    if (in_array($name, $this->function)) {
-                        require_once(ROOT . "/framework/legacy/Textcube.Function." . $name . ".php");
-                    } else {
-                        if (in_array($name, $this->openid)) {
-                            require_once(ROOT . "/framework/legacy/Textcube.Control.Openid.php");
-                        } else {
-                            if (in_array($name, $this->control)) {
-                                if ($name == 'Session' && isset($service['memcached']) && $service['memcached'] == true) {
-                                    require_once(ROOT . "/framework/legacy/Textcube.Control." . $name . ".Memcached.php");
-                                } else {
-                                    require_once(ROOT . "/framework/legacy/Textcube.Control." . $name . ".php");
-                                }
-                            } else {
-//			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class from legacy repository : $name<br/>\n";
-                            }
-                        }
-                    }
-                }
+                require_once(ROOT . "/framework/legacy/Needlworks.PHP." . $name . ".php");
             }
+        } elseif (in_array($name, $this->function)) {
+            require_once(ROOT . "/framework/legacy/Textcube.Function." . $name . ".php");
+        } elseif (in_array($name, $this->openid)) {
+            require_once(ROOT . "/framework/legacy/Textcube.Control.Openid.php");
+        } elseif (in_array($name, $this->control)) {
+            if ($name == 'Session' && isset($service['memcached']) && $service['memcached'] == true) {
+                require_once(ROOT . "/framework/legacy/Textcube.Control." . $name . ".Memcached.php");
+            } else {
+                require_once(ROOT . "/framework/legacy/Textcube.Control." . $name . ".php");
+            }
+        } else {
+//			if(defined('TCDEBUG')) print "TC: Unregisterred auto load class from legacy repository : $name<br/>\n";
         }
     }
 }

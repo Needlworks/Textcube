@@ -517,7 +517,7 @@ print Paging::getPagingView($paging, $pagingTemplate, $pagingItemTemplate, false
 											<span id="total-count"><?php echo _f('총 %1건', empty($paging['total']) ? "0" : $paging['total']);?></span>
 										</div>
 										<div class="page-count">
-											<?php echo Misc::getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0);?>
+											<?php echo Utils_Misc::getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 0);?>
 											<select name="perPage" onchange="document.getElementById('list-form').page.value=1; document.getElementById('list-form').submit()">
 <?php
 for ($i = 10; $i <= 30; $i += 5) {
@@ -533,7 +533,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 }
 ?>
 											</select>
-											<?php echo Misc::getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1);?>
+											<?php echo Utils_Misc::getArrayValue(explode('%1', _t('한 페이지에 글 %1건 표시')), 1);?>
 										</div>
 									</div>
 								</div>

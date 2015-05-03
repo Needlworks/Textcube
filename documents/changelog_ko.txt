@@ -1614,10 +1614,10 @@ a3 * 설치     - DB 제거시 XMLRPCPingSettings 가 삭제되지 않는 문제
  </requirements>
  와 같이 지정할 수 있습니다.
 
- 또한 플러그인에서 현재 블로그가 전체 메타 페이지인지 개인 블로그인지 구분해서 동작하기 위해서는 misc::isMetaBlog를 사용하실 수 있습니다.
-   requireComponent('Textcube.Function.misc');
-   $isMetaBlog = misc::isMetaBlog();
+ 또한 플러그인에서 현재 블로그가 전체 메타 페이지인지 개인 블로그인지 구분해서 동작하기 위해서는 Utils_Misc::isMetaBlog를 사용하실 수 있습니다.
+   $isMetaBlog = Utils_Misc::isMetaBlog();
  와 같이 사용하면 됩니다.
+
 
  * 관리자 플러그인의 도움말 편집
  텍스트큐브 도움말 위키를 이용하여 관리자 플러그인들의 도움말 페이지를 만들 수 있습니다. 관리자 화면의 메뉴 막대 우측의 '도우미' 링크가 이제는 관리자 플러그인 화면인 상태에서도 현재 관리자 플러그인 주소로 링크되어 동작합니다. 위키에 사용자 등록을 하신 후 도움말 페이지를 등록할 수 있습니다.
@@ -1987,7 +1987,7 @@ Gifts
 2 	function TattertoolsBirthday_TattertoolsBirthday($target) {
 3 	        global $configVal;
 4 	        requireComponent('Textcube.Function.misc');
-5 	        $data = misc::fetchConfigVal( $configVal);
+5 	        $data = Utils_Misc::fetchConfigVal( $configVal);
 
 ### 스킨
 #### 댓글/ 트랙백의 복수형 지원

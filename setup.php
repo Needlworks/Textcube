@@ -1313,7 +1313,7 @@ INSERT INTO {$_POST['dbPrefix']}Entries (blogid, userid, id, category, visibilit
     else if ($step == 8) {
         if ($check)
             return true;
-        $useSSL = Misc::isSecureProtocol() ? 'true' : 'false';
+        $useSSL = Utils_Misc::isSecureProtocol() ? 'true' : 'false';
         $filename = $root . '/config.php';
         $fp = fopen($filename, 'w+');
 		// For first entry addition
