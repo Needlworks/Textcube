@@ -37,7 +37,7 @@ class Autoload_Legacy {
             'HTTPRequest', 'XMLRPC', 'XMLRPCFault',
             'XMLCustomType', 'XMLTree', 'Pop3', 'CommunicationFeed');
         $this->function = array(
-            'Image', 'Setting', 'Respond');
+            'Image', 'Setting', 'Respond', 'Misc');
         $this->openid = array(
             'OpenID', 'OpenIDSession', 'OpenIDConsumer');
         $this->control = array(
