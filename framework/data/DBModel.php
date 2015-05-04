@@ -36,11 +36,12 @@ function doesExistTable($tablename) {
 
 /* DBModel : lightweight database abstraction implementation for codeball / Textcube.
 
-   2.4.1.20150212
+   2.5.0.20150504
    Needlworks / Tatter Network Foundation. (http://www.needlworks.org)
 */
 
 /*
+  2.5.0 (2015.5.4)   : Added - aliases for ontology approaches.
   2.4.2 (2015.2.19)  : Added - Affirmation / Negation
   2.4.1 (2015.2.12)  : Added - setProjection accepts comma-separated input string.
   2.4.0 (2015.2.10)  : Added - store / restore method to keep track of nested queries.
@@ -666,6 +667,21 @@ class DBModel extends Singleton implements IModel {
         return false;
     }
 
+    /* POD-oriented ontology approaches (basics) */
+    public function define() {
+        return $this->create();
+    }
+
+    public function purge(){
+        return $this->delete();
+    }
+
+    public function getStructure() {
+        $this->structure = POD::structure();
+        return $this->structure;
+    }
+
+    /* Private methods */
     private function _getTableName($table = null) {
         if (is_null($table)) {
             $table = $this->table;
