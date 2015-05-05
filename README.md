@@ -16,8 +16,8 @@ Supports import/export individual data via XML compatible with other solutions i
 
 [![License](https://img.shields.io/badge/license-GPLv2-green.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![Unstable](https://img.shields.io/badge/unstable-2.0a1-red.svg)](https://github.com/Needlworks/Textcube/archive/latest-unstable.zip)
-[![Stable-test](https://img.shields.io/badge/stable--test-1.10.7b1-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-stable.zip)
-[![Latest release](https://img.shields.io/badge/latest%20release-1.10.6-blue.svg)](https://github.com/Needlworks/Textcube/archive/v1.10.6.zip)
+[![Testing](https://img.shields.io/badge/testing-1.10.7b1-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-testing.zip)
+[![Stable](https://img.shields.io/badge/stable-1.10.6-blue.svg)](https://github.com/Needlworks/Textcube/archive/latest-stable.zip)
 
 ## HISTORY
 
