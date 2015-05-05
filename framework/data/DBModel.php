@@ -681,6 +681,15 @@ class DBModel extends Singleton implements IModel {
         return $this->structure;
     }
 
+    public function restrict() {
+        $args = func_get_args();
+        if (is_array($args[0])) {
+            return $this->setQualifierSet($args);
+        } else {
+            return $this->setQualifier($args);
+        }
+    }
+
     /* Private methods */
     private function _getTableName($table = null) {
         if (is_null($table)) {
