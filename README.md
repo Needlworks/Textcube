@@ -13,6 +13,9 @@ Supports import/export individual data via XML compatible with other solutions i
 * Expandable from individual blog to blog service platform.
 * Supports easy backup and restore via TTXML format, which is supported by various platforms of 'Project Tattertools.'
 
+
+[![License](https://img.shields.io/badge/license-GPLv2-green.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
+
 ## HISTORY
 
 Textcube is based on online publishing platform 'Tattertools,' started by JH in 2004, developed by TNC in 2005 and GPLized in 2006. Tatter Network Foundation (TNF) developed Tattertools with TNC from Apr. 2006. Needlworks/TNF was dedicated to Tattertools' development from Nov. 2006, and started developing 'Project S2' as its successor. 'Textcube' was named by YJ Park, and made its debut in Aug. 2007.
