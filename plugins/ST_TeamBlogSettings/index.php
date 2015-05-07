@@ -53,7 +53,7 @@ function getTeamProfileView($target, $mother){
 		$target .= getTeamProfile($entry['userid']);
 	}
 	if ($context->getProperty("suri.directive") != "/rss" && $context->getProperty("suri.directive") != "/sync" && $data['p1'] && !empty($data['p2']) ) {
-		Misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
+		Utils_Misc::dress('TeamBlogProfileTag', getTeamProfile($entry['userid']), $entryView);
 	}
 	return $target;
 }
@@ -347,7 +347,7 @@ function getAddAttachment($file){
 	if(empty($file['name'])||($file['error']!=0))
 		return false;
 	$attachment = array();
-	$attachment['ext'] = Misc::getFileExtension(Path::getBaseName($file['name']));
+	$attachment['ext'] = Utils_Misc::getFileExtension(Path::getBaseName($file['name']));
 	$path = __TEXTCUBE_ATTACH_DIR__."/".getBlogId()."/team";
 	if(!is_dir($path)){
 		mkdir($path);

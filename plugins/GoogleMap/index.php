@@ -226,7 +226,7 @@ function GoogleMap_LocationLogView($target) {
 	$context->setProperty('is_used', true);
     $config = $context->getProperty('plugin.config');
 	$locatives =  getEntries($blogId, 'id, title, slogan, location, longitude, latitude','((length(location)>1 AND category > -1) OR (`longitude` IS NOT NULL AND `latitude` IS NOT NULL))', 'location');
-	$width = Misc::getContentWidth();
+	$width = Utils_Misc::getContentWidth();
 	$height = intval($width * 1.2);
 	$default_type = isset($config['locative_maptype']) ? _GMap_convertLegacyMapType($config['locative_maptype']) : 'ROADMAP';
 	$id = 'LocationMap';
@@ -371,7 +371,7 @@ function GoogleMapUI_InsertMap() {
 	$lat = $config['latitude'];
 	$lng = $config['longitude'];
 	$default_type = 'ROADMAP';
-	$default_width = min(Misc::getContentWidth(), 500);
+	$default_width = min(Utils_Misc::getContentWidth(), 500);
 	$default_height = 400;
 	$zoom = 10;
 	_GMap_printHeaderForUI(_t('구글맵 삽입하기'), 'insert', $config['useSensor'] ? 'true' : 'false');

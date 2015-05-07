@@ -10,7 +10,6 @@ $context->setProperty('import.library', array(
     'function.javascript',
     'function.html',
     'function.xml',
-    'function.misc',
     'function.mail',
     'DEBUG : Basic functions loaded.',
     'blogskin',

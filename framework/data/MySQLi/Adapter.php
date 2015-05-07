@@ -374,6 +374,42 @@ class DBAdapter implements IAdapter {
         }
     }
 
+    public static function structure($tableName) {
+        $result = self::queryAll("DESCRIBE ".$tableName);
+        $structure = array();
+        foreach ($result as $r) {
+            $structure[$r['Field']] = array();
+            preg_match('/(.*)\((\d+)\)/si',$r['Type'], $match);
+            switch (count($match)) {
+                case 2:
+                    $type = array_search($match[1],self::$typeTable);
+                    break;
+                case 3:
+                    $type = array_search($match[1],self::$typeTable);
+                    $structure[$r['Field']]['length'] = $match[2];
+                    break;
+            }
+            $structure[$r['Field']]['type'] = $type;
+            if ($r['Null'] == 'NO') {
+                $structure[$r['Field']]['isNull'] = false;
+            } else {
+                $structure[$r['Field']]['isNull'] = true;
+            }
+            if ($r['Key'] == 'PRI') {
+                if (!isset($this->option['primary'])) {
+                    $this->option['primary'] = array();
+                }
+                array_push($this->option['primary'], $r['Field']);
+            } elseif ($r['Key'] == 'MUL') {
+                $structure[$r['Field']]['index'] = true;
+            }
+            if ($r['Default'] != 'NULL') {
+                $structure[$r['Field']]['default'] = $r['Default'];
+            }
+        }
+        return $structure;
+    }
+
     private static $typeTable = array(
         "integer" => "int",
         "int" => "int",

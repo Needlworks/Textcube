@@ -2,7 +2,7 @@
 
 application: [# project instance name without quotes : test-voice-123 #]
 version: 1
-runtime: php
+runtime: php55
 api_version: 1
 
 handlers:

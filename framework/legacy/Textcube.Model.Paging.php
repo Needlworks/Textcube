@@ -25,14 +25,14 @@ class Paging {
         ob_start();
         if (isset($paging['first'])) {
             $itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-            Misc::dress('paging_rep_link_num', '<span>1</span>', $itemView, $useCache);
-            Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix{$paging['first']}$postfix'", $itemView, $useCache);
+            Utils_Misc::dress('paging_rep_link_num', '<span>1</span>', $itemView, $useCache);
+            Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix{$paging['first']}$postfix'", $itemView, $useCache);
             print ($itemView);
         } else {
             if ($paging['page'] > 5) {
                 $itemView = "$itemTemplate <span class=\"interword\">...</span> ";
-                Misc::dress('paging_rep_link_num', '<span>1</span>', $itemView, $useCache);
-                Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url{$prefix}1$postfix'", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link_num', '<span>1</span>', $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url{$prefix}1$postfix'", $itemView, $useCache);
                 print ($itemView);
             }
         }
@@ -44,67 +44,67 @@ class Paging {
         if (isset($paging['before'])) {
             foreach ($paging['before'] as $value) {
                 $itemView = $itemTemplate;
-                Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
-                Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$value$postfix'", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$value$postfix'", $itemView, $useCache);
                 print ($itemView);
                 $page++;
             }
         } else {
             for ($i = 0; ($i < 4) && ($page < $paging['page']); $i++) {
                 $itemView = $itemTemplate;
-                Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
-                Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$page$postfix'", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$page$postfix'", $itemView, $useCache);
                 print ($itemView);
                 $page++;
             }
         }
         if (($page == $paging['page']) && ($page <= $paging['pages'])) {
             $itemView = $itemTemplate;
-            Misc::dress('paging_rep_link_num', "<span class=\"selected\" >$page</span>", $itemView, $useCache);
-            Misc::dress('paging_rep_link', '', $itemView, $useCache);
+            Utils_Misc::dress('paging_rep_link_num', "<span class=\"selected\" >$page</span>", $itemView, $useCache);
+            Utils_Misc::dress('paging_rep_link', '', $itemView, $useCache);
             print ($itemView);
             $page++;
         }
         if (isset($paging['before'])) {
             foreach ($paging['after'] as $value) {
                 $itemView = $itemTemplate;
-                Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
-                Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$value$postfix'", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$value$postfix'", $itemView, $useCache);
                 print ($itemView);
                 $page++;
             }
         } else {
             for ($i = 0; ($i < 4) && ($page <= $paging['pages']); $i++) {
                 $itemView = $itemTemplate;
-                Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
-                Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$page$postfix'", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link_num', "<span>$page</span>", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix$page$postfix'", $itemView, $useCache);
                 print ($itemView);
                 $page++;
             }
         }
         if (isset($paging['last'])) {
             $itemView = " <span class=\"interword\">...</span> $itemTemplate";
-            Misc::dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView, $useCache);
-            Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix{$paging['last']}$postfix'", $itemView, $useCache);
+            Utils_Misc::dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView, $useCache);
+            Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix{$paging['last']}$postfix'", $itemView, $useCache);
             print ($itemView);
         } else {
             if (($paging['pages'] - $paging['page']) > 4) {
                 $itemView = " <span class=\"interword\">...</span> $itemTemplate";
-                Misc::dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView, $useCache);
-                Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix{$paging['pages']}$postfix'", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link_num', "<span>{$paging['pages']}</span>", $itemView, $useCache);
+                Utils_Misc::dress('paging_rep_link', ($mode == 'href' ? "href='" : "href='#' onclick='") . "$url$prefix{$paging['pages']}$postfix'", $itemView, $useCache);
                 print ($itemView);
             }
         }
         $itemsView = ob_get_contents();
         ob_end_clean();
         $view = $template;
-        Misc::dress('prev_page', isset($paging['prev']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"") . "$url$prefix{$paging['prev']}$postfix\" rel=\"prev\"" : '', $view, $useCache);
-        Misc::dress('prev_page_title', isset($paging['prev_title']) ? $paging['prev_title'] : '', $view, $useCache);
-        Misc::dress('paging_rep', $itemsView, $view, $useCache);
-        Misc::dress('next_page', isset($paging['next']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"") . "$url$prefix{$paging['next']}$postfix\" rel=\"next\"" : '', $view, $useCache);
-        Misc::dress('next_page_title', isset($paging['next_title']) ? $paging['next'] : '', $view, $useCache);
-        Misc::dress('no_more_prev', isset($paging['prev']) ? '' : 'no-more-prev', $view, $useCache);
-        Misc::dress('no_more_next', isset($paging['next']) ? '' : 'no-more-next', $view, $useCache);
+        Utils_Misc::dress('prev_page', isset($paging['prev']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"") . "$url$prefix{$paging['prev']}$postfix\" rel=\"prev\"" : '', $view, $useCache);
+        Utils_Misc::dress('prev_page_title', isset($paging['prev_title']) ? $paging['prev_title'] : '', $view, $useCache);
+        Utils_Misc::dress('paging_rep', $itemsView, $view, $useCache);
+        Utils_Misc::dress('next_page', isset($paging['next']) ? ($mode == 'href' ? "href=\"" : "href=\"#\" onclick=\"") . "$url$prefix{$paging['next']}$postfix\" rel=\"next\"" : '', $view, $useCache);
+        Utils_Misc::dress('next_page_title', isset($paging['next_title']) ? $paging['next'] : '', $view, $useCache);
+        Utils_Misc::dress('no_more_prev', isset($paging['prev']) ? '' : 'no-more-prev', $view, $useCache);
+        Utils_Misc::dress('no_more_next', isset($paging['next']) ? '' : 'no-more-next', $view, $useCache);
 
         return $view;
     }

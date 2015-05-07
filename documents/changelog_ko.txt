@@ -53,13 +53,17 @@
 [TODO]
 
 ## v1.10.7 배포 요약
+### 추가된 점
+ * 설치     : HTTPS 로 설치시 자동으로 SSL 옵션 추가 (#1669)
+
 ### 변경된 점
  * 일반     : SSL 사용시 플러그인들 일부가 http 프로토콜을 사용하여 warning 이 뜨는 부분 수정 (#1669)
 
 ### 버그 수정
  * 플러그인  : 플러그인이 다이나믹 리소스를 URL로 뿌려주는 경우 헤더에 404가 붙어서 날아가는 문제 수정 (#1799)
- * 백업/복원 : 포매터 및 에디터 정보가 복원할 때 무조건 ttml 및 modern 이 되어버리는 문제 수정 (#1801)
- 
+ * 백업/복원 : 포매터 및 에디터 정보 복원시 무조건 ttml 및 modern 이 되어버리는 문제 수정 (#1801)
+ * 백업/복원 : 오래된 텍스트큐브 버전에서 백업한 파일을 복원할 때 방명록이 누락될 수 있는 문제 수정 (#1802)
+
 
 ## v1.10.6 배포 요약
 ### 추가된 점
@@ -1614,10 +1618,10 @@ a3 * 설치     - DB 제거시 XMLRPCPingSettings 가 삭제되지 않는 문제
  </requirements>
  와 같이 지정할 수 있습니다.
 
- 또한 플러그인에서 현재 블로그가 전체 메타 페이지인지 개인 블로그인지 구분해서 동작하기 위해서는 misc::isMetaBlog를 사용하실 수 있습니다.
-   requireComponent('Textcube.Function.misc');
-   $isMetaBlog = misc::isMetaBlog();
+ 또한 플러그인에서 현재 블로그가 전체 메타 페이지인지 개인 블로그인지 구분해서 동작하기 위해서는 Utils_Misc::isMetaBlog를 사용하실 수 있습니다.
+   $isMetaBlog = Utils_Misc::isMetaBlog();
  와 같이 사용하면 됩니다.
+
 
  * 관리자 플러그인의 도움말 편집
  텍스트큐브 도움말 위키를 이용하여 관리자 플러그인들의 도움말 페이지를 만들 수 있습니다. 관리자 화면의 메뉴 막대 우측의 '도우미' 링크가 이제는 관리자 플러그인 화면인 상태에서도 현재 관리자 플러그인 주소로 링크되어 동작합니다. 위키에 사용자 등록을 하신 후 도움말 페이지를 등록할 수 있습니다.
@@ -1987,7 +1991,7 @@ Gifts
 2 	function TattertoolsBirthday_TattertoolsBirthday($target) {
 3 	        global $configVal;
 4 	        requireComponent('Textcube.Function.misc');
-5 	        $data = misc::fetchConfigVal( $configVal);
+5 	        $data = Utils_Misc::fetchConfigVal( $configVal);
 
 ### 스킨
 #### 댓글/ 트랙백의 복수형 지원

@@ -692,7 +692,7 @@ if (file_exists(__TEXTCUBE_ATTACH_DIR__."/$blogid/index.gif")) {
 										<dl id="post-count-line" class="line">
 											<dt><span class="label"><?php echo _t('글 개수');?></span></dt>
 											<dd>
-												<?php echo getArrayValue(explode('%1', _t('최근 %1 개의 블로그 글을 피드로 내보냅니다.')), 0);?>
+												<?php echo Utils_Misc::getArrayValue(explode('%1', _t('최근 %1 개의 블로그 글을 피드로 내보냅니다.')), 0);?>
 												<select id="entriesOnRSS" name="entriesOnRSS">
 <?php
 for ($i = 5; $i <= 50; $i += 5) {
@@ -701,10 +701,10 @@ for ($i = 5; $i <= 50; $i += 5) {
 <?php
 }
 ?>
-												</select><?php echo getArrayValue(explode('%1', _t('최근 %1 개의 글을 피드로 내보냅니다.')), 1);?>
+												</select><?php echo Utils_Misc::getArrayValue(explode('%1', _t('최근 %1 개의 글을 피드로 내보냅니다.')), 1);?>
 											</dd>
 											<dd>
-												<?php echo getArrayValue(explode('%1', _t('최근 %1 개의 댓글, 걸린글(트랙백) 및 답변을 피드로 내보냅니다.')), 0);?>
+												<?php echo Utils_Misc::getArrayValue(explode('%1', _t('최근 %1 개의 댓글, 걸린글(트랙백) 및 답변을 피드로 내보냅니다.')), 0);?>
 												<select id="commentsOnRSS" name="commentsOnRSS">
 <?php
 for ($i = 5; $i <= 30; $i += 5) {
@@ -713,17 +713,17 @@ for ($i = 5; $i <= 30; $i += 5) {
 <?php
 }
 ?>
-												</select><?php echo getArrayValue(explode('%1', _t('최근 %1 개의 댓글, 걸린글(트랙백) 및 답변을 피드로 내보냅니다.')), 1);?>
+												</select><?php echo Utils_Misc::getArrayValue(explode('%1', _t('최근 %1 개의 댓글, 걸린글(트랙백) 및 답변을 피드로 내보냅니다.')), 1);?>
 											</dd>
 
 										</dl>
 										<dl id="open-range-line" class="line">
 											<dt><span class="label"><?php echo _t('공개 범위');?></span></dt>
-											<dd><?php echo getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 0);?>
+											<dd><?php echo Utils_Misc::getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 0);?>
 												<select id="publishWholeOnRSS" name="publishWholeOnRSS">
 													<option value="1"<?php echo ($blog['publishWholeOnRSS'] ? ' selected="selected"' : '');?>><?php echo _t('전체공개');?></option>
 													<option value="0"<?php echo ($blog['publishWholeOnRSS'] ? '' : ' selected="selected"');?>><?php echo _t('부분공개');?></option>
-												</select><?php echo getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 1);?>
+												</select><?php echo Utils_Misc::getArrayValue(explode('%1', _t('RSS 파일의 글 본문은 %1를 원칙으로 합니다.')), 1);?>
 											</dd>
 
 										</dl>

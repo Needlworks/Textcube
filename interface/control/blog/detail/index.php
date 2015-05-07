@@ -146,7 +146,7 @@ $pool = DBModel::getInstance();
                                     <li><?php echo _f('이 블로그에는 총 %1개의 댓글이 있습니다.', $numberOfComments);?></li>
                                     <li><?php 
 		if(empty($attachmentSum)) echo _t('이 블로그에는 첨부파일이 없습니다.');
-		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Misc::getSizeHumanReadable($attachmentSum));?></li>
+		else echo _f('이 블로그가 사용중인 첨부파일의 총 용량은 %1입니다.', Utils_Misc::getSizeHumanReadable($attachmentSum));?></li>
                                 </ul>
 							</div>
 								

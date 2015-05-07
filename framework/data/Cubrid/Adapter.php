@@ -90,11 +90,11 @@ class DBAdapter implements IAdapter {
             $query = str_replace('UNIX_TIMESTAMP()', Timestamp::getUNIXtime(), $query); // compatibility issue.
             if (stripos($query, "ORDER BY") !== false) {
                 $origPagingInst = array(
-                    '/(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
-                    '/(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+                    '/(ASC|DESC) LIMIT (\d+) OFFSET 0/si',
+                    '/(ASC|DESC) LIMIT (\d+) OFFSET (\d+)/si',
                     '/(ASC|DESC) LIMIT 1(^[0-9])/si',
-                    '/(ASC|DESC) LIMIT ([0-9]+)/si',
-                    '/RAND\(\) LIMIT ([0-9]+)/si'
+                    '/(ASC|DESC) LIMIT (\d+)/si',
+                    '/RAND\(\) LIMIT (\d+)/si'
                 );
                 $descPagingInst = array(
                     '$1 FOR ORDERBY_NUM() BETWEEN 1 AND $2',
@@ -106,11 +106,11 @@ class DBAdapter implements IAdapter {
             } else {
                 if (stripos($query, "GROUP BY") !== false) {
                     $origPagingInst = array(
-                        '/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET 0/si',
-                        '/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+                        '/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT (\d+) OFFSET 0/si',
+                        '/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT (\d+) OFFSET ([0-9]+)/si',
                         '/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT 1(^[0-9])/si',
-                        '/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT ([0-9]+)/si',
-                        '/GROUP BY(.*)(ORDER BY)(.*)RAND\(\) LIMIT ([0-9]+)/si'
+                        '/GROUP BY(.*)(ORDER BY)(.*)(ASC|DESC) LIMIT (\d+)/si',
+                        '/GROUP BY(.*)(ORDER BY)(.*)RAND\(\) LIMIT (\d+)/si'
                     );
                     $descPagingInst = array(
                         'GROUP BY $1 HAVING GROUPBY_NUM() = $5 $2 $3 $4',
@@ -121,10 +121,10 @@ class DBAdapter implements IAdapter {
                     );
                 } else {
                     $origPagingInst = array(
-                        '/WHERE(.*)LIMIT ([0-9]+) OFFSET 0/si',
-                        '/WHERE(.*)LIMIT ([0-9]+) OFFSET ([0-9]+)/si',
+                        '/WHERE(.*)LIMIT (\d+) OFFSET 0/si',
+                        '/WHERE(.*)LIMIT (\d+) OFFSET ([0-9]+)/si',
                         '/WHERE(.*)LIMIT 1(^[0-9])/si',
-                        '/WHERE(.*)LIMIT ([0-9]+)/si',
+                        '/WHERE(.*)LIMIT (\d+)/si',
                         '/SUM\((size|value)\)/si'
                     );
                     $descPagingInst = array(
@@ -444,6 +444,42 @@ class DBAdapter implements IAdapter {
         if (isset(self::$typeTable[$abstractType])) {
             return self::$typeTable[$abstractType];
         }
+    }
+
+    public static function structure($tableName) {
+        $result = self::queryAll("DESCRIBE ".$tableName);
+        $structure = array();
+        foreach ($result as $r) {
+            $structure[$r['Field']] = array();
+            preg_match('/(.*)\((\d+)\)/si',$r['Type'], $match);
+            switch (count($match)) {
+                case 2:
+                    $type = array_search($match[1],self::$typeTable);
+                    break;
+                case 3:
+                    $type = array_search($match[1],self::$typeTable);
+                    $structure[$r['Field']]['length'] = $match[2];
+                    break;
+            }
+            $structure[$r['Field']]['type'] = $type;
+            if ($r['Null'] == 'NO') {
+                $structure[$r['Field']]['isNull'] = false;
+            } else {
+                $structure[$r['Field']]['isNull'] = true;
+            }
+            if ($r['Key'] == 'PRI') {
+                if (!isset($this->option['primary'])) {
+                    $this->option['primary'] = array();
+                }
+                array_push($this->option['primary'], $r['Field']);
+            } elseif ($r['Key'] == 'MUL') {
+                $structure[$r['Field']]['index'] = true;
+            }
+            if ($r['Default'] != 'NULL') {
+                $structure[$r['Field']]['default'] = $r['Default'];
+            }
+        }
+        return $structure;
     }
 
     static $typeTable = array(

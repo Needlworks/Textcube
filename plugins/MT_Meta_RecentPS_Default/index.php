@@ -15,7 +15,7 @@ function MT_Cover_getRecentEntries($parameters){
 	importlib("model.blog.entry");
 	importlib("model.blog.tag");
 	$data['coverMode']	= !isset($data['coverMode']) ? 1 : $data['coverMode'];
-	if(Misc::isMetaBlog() != true) $data['coverMode'] = 1;
+	if(Utils_Misc::isMetaBlog() != true) $data['coverMode'] = 1;
 	$data['screenshot']	= !isset($data['screenshot']) ? 1 : $data['screenshot'];
 	$data['screenshotSize']	= !isset($data['screenshotSize']) ? 90 : $data['screenshotSize'];
 	$data['paging'] = !isset($data['paging'])?'2':$data['paging'];
@@ -53,7 +53,7 @@ function MT_Cover_getRecentEntries($parameters){
 		}
 	}
 
-	if((Misc::isMetaBlog() == true) && doesHaveOwnership() && $context->getProperty('service.type','single') != 'single') {
+	if((Utils_Misc::isMetaBlog() == true) && doesHaveOwnership() && $context->getProperty('service.type','single') != 'single') {
 		$visibility = 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
 	} else {
 		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
@@ -255,7 +255,7 @@ function MT_Cover_getHTTPRemoteImage($remoteImage) {
 }
 
 function MT_Cover_getRemoteImageFilename($filename) {
-	$filename = md5($filename) . "." . Misc::getFileExtension($filename);
+	$filename = md5($filename) . "." . Utils_Misc::getFileExtension($filename);
 	return $filename;
 }
 

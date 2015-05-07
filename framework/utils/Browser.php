@@ -46,7 +46,7 @@ final class Utils_Browser extends Singleton {
                 $this->browserName = 'Webkit';
             } else if (strpos($_SERVER['HTTP_USER_AGENT'],'IEMobile')) {
                 $this->browserName = 'IEMobile';
-            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'MSIE')) {
+            } else if (strpos($_SERVER['HTTP_USER_AGENT'],'MSIE') || strpos($_SERVER['HTTP_USER_AGENT'], 'Trident')) {
                 $this->browserName = 'IE';
             } else if (strpos($_SERVER['HTTP_USER_AGENT'],'Opera Mini')) {
                 $this->browserName = 'OperaMini';

@@ -13,6 +13,12 @@ Supports import/export individual data via XML compatible with other solutions i
 * Expandable from individual blog to blog service platform.
 * Supports easy backup and restore via TTXML format, which is supported by various platforms of 'Project Tattertools.'
 
+
+[![License](https://img.shields.io/badge/license-GPLv2-green.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
+[![Unstable](https://img.shields.io/badge/unstable-2.0a1-red.svg)](https://github.com/Needlworks/Textcube/archive/latest-unstable.zip)
+[![Testing](https://img.shields.io/badge/testing-1.10.7b1-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-testing.zip)
+[![Stable](https://img.shields.io/badge/stable-1.10.6-blue.svg)](https://github.com/Needlworks/Textcube/archive/latest-stable.zip)
+
 ## HISTORY
 
 Textcube is based on online publishing platform 'Tattertools,' started by JH in 2004, developed by TNC in 2005 and GPLized in 2006. Tatter Network Foundation (TNF) developed Tattertools with TNC from Apr. 2006. Needlworks/TNF was dedicated to Tattertools' development from Nov. 2006, and started developing 'Project S2' as its successor. 'Textcube' was named by YJ Park, and made its debut in Aug. 2007.
@@ -21,20 +27,22 @@ Textcube is based on online publishing platform 'Tattertools,' started by JH in 
 Textcube supports various environments. However, you need at least one webserver supporting PHP environments, one database engine
 
 * Web servers (Need at least one environment)
- * Apache 2.1 or above
+ * Apache > 2.1
   * fancyURL support with mod_rewrite module (recommended)
- * Nginx 1.1
- * IIS 5.0 or above
+ * Nginx > 1.1
+ * Lighttpd > 1.4
+ * PHP built-in Web Server > 5.5.7
+ * IIS > 5.0
   * with ISAPI Rewrite Filter
 * Language
- * PHP 5.5 or above
+ * PHP > 5.5
   * with iconv (for TTXML character converting from old servers) / gd module (for image resampling)
 * Database Management System (Need at least one environment)
- * MySQL > 5.0 / MariaDB 5.1 with UTF-8 character set and collation setting
+ * MySQL > 5.0 / MariaDB > 5.1 with UTF-8 character set and collation setting
   * With PHP MySQLi extension (MySQLnd support is in development stage.)
- * Cubrid R2008 or above
- * PostgreSQL 8.3 or above
- * Sqlite 3 or above
+ * Cubrid > R2008
+ * PostgreSQL > 8.3
+ * Sqlite > 3.0
 
 For massive service / Heavy load environments
 
@@ -47,10 +55,10 @@ are strongly recommended.
 ## REQUIREMENTS (OLD VERSIONS)
 
 * Web servers (Need at least one environment)
- * Apache 1.3 or above
+ * Apache > 1.3
   * fancyURL support with mod_rewrite module
 * Language
- * (Till Textcube 1.7) PHP 4.3~5.1, (Till Textcube 1.10) ~PHP 5.3
+ * (Till Textcube 1.7) PHP 4.3~5.1, (Till Textcube 1.10) PHP 5.0~5.3
   * with iconv / gd module
 * Database Management System (Need at least one environment)
  * (Till Textcube 1.7) MySQL > 4.1 / MariaDB > 5 (lower version with UTF-8 emulation routine in Textcube)
@@ -73,7 +81,7 @@ This is apache setting ( < 2.4).
         DocumentRoot /var/www/textcube/
         <Directory /var/www/textcube>
             AllowOverride FileInfo
-            Require all granted (+for apache > 2.4)
+            Require all granted (+needed for apache > 2.4)
             Order allow,deny
             allow from all
         </Directory>

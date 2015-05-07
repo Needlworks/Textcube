@@ -89,7 +89,7 @@ class Utils_Image extends Singleton {
         }
 
         list($originWidth, $originHeight, $type, $attr) = getimagesize($originSrc);
-        $attributes = Misc::getAttributesFromString($property, false);
+        $attributes = Utils_Misc::getAttributesFromString($property, false);
 
         // 단위 변환.
         $onclickFlag = false;
