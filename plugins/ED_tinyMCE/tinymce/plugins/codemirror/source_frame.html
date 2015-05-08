@@ -197,7 +197,7 @@ function submit()
 		doc.setLine(pos.line, curLineHTML);
 	}
 
-	// Submit HTML to TinyMCE:
+	// Submit HTML to TinyMCE
 	editor.setContent(codemirror.getValue().replace(cc, '<span id="CmCaReT"></span>'));
 	editor.isNotDirty = !isDirty;
 	if (isDirty) {

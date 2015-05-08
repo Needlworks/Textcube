@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.4.4.20150323
+ * Version 2.5.0.20150508
  *
  * Created       : May 30, 2011
- * Last modified : Mar 3, 2015
+ * Last modified : May 8, 2015
  *
  * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.

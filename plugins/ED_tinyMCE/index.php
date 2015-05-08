@@ -51,8 +51,9 @@ function tinyMCE_editorinit($editor) {
 				toolbar_items_size: 'small',
 				relative_urls: false,
 				convert_urls: false,
+                remove_linebreaks : false,
 				//schema: "html5",
-        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],object",
+        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],pre[*],code[*],object",
 
 <?php
 	if($config['editormode'] == 'simple') {
@@ -97,7 +98,8 @@ function tinyMCE_editorinit($editor) {
 					],
 					cssFiles: [
 						'theme/<?php echo $config['srctheme'] ?>.css'
-					]
+					],
+                    showMarkdownLineBreaks: true
 				},
 				// content CSS
 				content_css : "<?php echo (file_exists(__TEXTCUBE_SKIN_DIR__.'/'.$context->getProperty('skin.skin').'/wysiwyg.css') ? $context->getProperty('uri.service').'/skin/blog/'.$context->getProperty('skin.skin').'/wysiwyg.css' : $context->getProperty('uri.service').'/resources/style/default-wysiwyg.css');?>",
@@ -146,6 +148,9 @@ function tinyMCE_editorinit($editor) {
 				this.destroy();
 			};
 			editor.syncTextarea = function(){
+                if (this.doesCodeMirrorEditorEnabled == true) {
+                    this.plugins.codemirror.syncToTinyMCE();
+                }
 				this.save();
 			};
 			editor.syncEditorWindow = function() {
