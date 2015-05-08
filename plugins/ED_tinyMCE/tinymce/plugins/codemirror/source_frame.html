@@ -124,8 +124,13 @@ function start()
 	//head.appendChild(div);
 
 	// Set CodeMirror cursor to same position as cursor was in TinyMCE:
+	//var html = editor.getContent({format: 'text'});
 	var html = editor.getContent({source_view: true});
 	html = html.replace(/<span\s+class="CmCaReT"([^>]*)>([^<]*)<\/span>/gm, String.fromCharCode(chr));
+	if (editor.tcformatter == 'markdown') {
+		html = html.replace("<br />", "\r\n").replace("&lt;br /&gt;", "\r\n");
+	}
+
 	editor.dom.remove(editor.dom.select('.CmCaReT'));
 
 	CodeMirror.defineInitHook(function(inst)
@@ -198,7 +203,11 @@ function submit()
 	}
 
 	// Submit HTML to TinyMCE
-	editor.setContent(codemirror.getValue().replace(cc, '<span id="CmCaReT"></span>'));
+	var content = codemirror.getValue().replace(cc, '<span id="CmCaReT"></span>');
+	if (editor.tcformatter == 'markdown') {
+		content = content.replace(new RegExp("\r\n", "gi"), "<br />").replace(new RegExp("\r", "gi"), "<br />").replace(new RegExp("\n", "gi"), "<br />");
+	}
+	editor.setContent(content);
 	editor.isNotDirty = !isDirty;
 	if (isDirty) {
     try {

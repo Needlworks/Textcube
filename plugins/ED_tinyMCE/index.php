@@ -23,11 +23,11 @@ function tinyMCE_editorinit($editor) {
 	$config['formatter'] = null;
 	if($context->getProperty('formatter.key') == 'markdown') {
 		$config['formatter'] = 'markdown';
-        $config['codemirror_jsfiles'] = array('mode/markdown/markdown.js');
+        $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/markdown/markdown.js');
 		$config['width'] = 'full';
 	} else {
         $config['formatter'] = 'htmlmixed';
-        $config['codemirror_jsfiles'] = array('mode/htmlmixed/htmlmixed.js');
+        $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/javascript/javascript.js','mode/css/css.js','mode/htmlmixed/htmlmixed.js');
     }
 	ob_start();
 ?>
@@ -51,7 +51,8 @@ function tinyMCE_editorinit($editor) {
 				toolbar_items_size: 'small',
 				relative_urls: false,
 				convert_urls: false,
-                remove_linebreaks : false,
+				remove_linebreaks : false,
+                //convert_newlines_to_brs: true,
 				//schema: "html5",
         extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],pre[*],code[*],object",
 
@@ -131,7 +132,7 @@ function tinyMCE_editorinit($editor) {
 				    ]}
 				],
 				fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt",
-				forced_root_block : false,
+				forced_root_block : <?php echo $config['formatter'] == 'markdown' ? 'false' : "'p'";?>,
 				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
@@ -149,7 +150,7 @@ function tinyMCE_editorinit($editor) {
 			};
 			editor.syncTextarea = function(){
                 if (this.doesCodeMirrorEditorEnabled == true) {
-                    this.plugins.codemirror.syncToTinyMCE();
+					this.plugins.codemirror.syncToTinyMCE();
                 }
 				this.save();
 			};
@@ -159,6 +160,7 @@ function tinyMCE_editorinit($editor) {
 			editor.on('keyup',editorChanged);
 			editor.on('mousedown',editorChanged);
 			editor.propertyFilePath = "<?php echo $context->getProperty('uri.service');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
+            editor.tcformatter = '<?php echo $config['formatter'];?>';
 			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
 			return editor;
 <?php
