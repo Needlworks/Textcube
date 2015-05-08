@@ -56,7 +56,7 @@ function tinyMCE_editorinit($editor) {
 					"codemirror"
 				],
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
-				toolbar2: "undo redo | tcattach image media charmap | hr link unlink anchor | table | removeformat | code visualblocks",
+				toolbar2: "undo redo | tcattach image media charmap | hr link unlink anchor | table | removeformat | tcsourcecodeedit code visualblocks",
 <?php
 	} else {
 ?>
@@ -69,7 +69,7 @@ function tinyMCE_editorinit($editor) {
 				],
 
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
-				toolbar2: "undo redo | searchreplace | tcattach image media charmap insertdatetime | subscript superscript ltr rtl cite abbr acronym del ins | hr link unlink anchor | table | cut copy paste pastetext| removeformat code visualblocks",
+				toolbar2: "undo redo | searchreplace | tcattach image media charmap insertdatetime | subscript superscript ltr rtl cite abbr acronym del ins | hr link unlink anchor | table | cut copy paste pastetext| removeformat | tcsourcecodeedit code visualblocks",
 <?php
 	}
 ?>
