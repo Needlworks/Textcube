@@ -21,6 +21,7 @@
 			<format>FM_Markdown_format</format>
 			<summary>FM_Markdown_summary</summary>
 			<usedFor editor="modern" />
+			<usedFor editor="tinyMCE" />
 		</formatter>
 	</binding>
 </plugin>

@@ -1,3 +1,16 @@
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: http://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+"use strict";
+
 CodeMirror.defineMode("sql", function(config, parserConfig) {
   "use strict";
 
@@ -177,7 +190,7 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
 
     indent: function(state, textAfter) {
       var cx = state.context;
-      if (!cx) return 0;
+      if (!cx) return CodeMirror.Pass;
       var closing = textAfter.charAt(0) == cx.type;
       if (cx.align) return cx.col + (closing ? 0 : 1);
       else return cx.indent + (closing ? 0 : config.indentUnit);
@@ -200,7 +213,8 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
     while ((ch = stream.next()) != null) {
       if (ch == "`" && !stream.eat("`")) return "variable-2";
     }
-    return null;
+    stream.backUp(stream.current().length - 1);
+    return stream.eatWhile(/\w/) ? "variable-2" : null;
   }
 
   // variable token
@@ -266,7 +280,7 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
   CodeMirror.defineMIME("text/x-mssql", {
     name: "sql",
     client: set("charset clear connect edit ego exit go help nopager notee nowarning pager print prompt quit rehash source status system tee"),
-    keywords: set(sqlKeywords + "begin trigger proc view index for add constraint key primary foreign collate clustered nonclustered"),
+    keywords: set(sqlKeywords + "begin trigger proc view index for add constraint key primary foreign collate clustered nonclustered declare"),
     builtin: set("bigint numeric bit smallint decimal smallmoney int tinyint money float real char varchar text nchar nvarchar ntext binary varbinary image cursor timestamp hierarchyid uniqueidentifier sql_variant xml table "),
     atoms: set("false true null unknown"),
     operatorChars: /^[*+\-%<>!=]/,
@@ -313,9 +327,9 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
   CodeMirror.defineMIME("text/x-cassandra", {
     name: "sql",
     client: { },
-    keywords: set("use select from using consistency where limit first reversed first and in insert into values using consistency ttl update set delete truncate begin batch apply create keyspace with columnfamily primary key index on drop alter type add any one quorum all local_quorum each_quorum"),
-    builtin: set("ascii bigint blob boolean counter decimal double float int text timestamp uuid varchar varint"),
-    atoms: set("false true"),
+    keywords: set("add all allow alter and any apply as asc authorize batch begin by clustering columnfamily compact consistency count create custom delete desc distinct drop each_quorum exists filtering from grant if in index insert into key keyspace keyspaces level limit local_one local_quorum modify nan norecursive nosuperuser not of on one order password permission permissions primary quorum rename revoke schema select set storage superuser table three to token truncate ttl two type unlogged update use user users using values where with writetime"),
+    builtin: set("ascii bigint blob boolean counter decimal double float frozen inet int list map static text timestamp timeuuid tuple uuid varchar varint"),
+    atoms: set("false true infinity NaN"),
     operatorChars: /^[<>=]/,
     dateSQL: { },
     support: set("commentSlashSlash decimallessFloat"),
@@ -345,14 +359,14 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
   });
 }());
 
+});
+
 /*
   How Properties of Mime Types are used by SQL Mode
   =================================================
 
   keywords:
     A list of keywords you want to be highlighted.
-  functions:
-    A list of function names you want to be highlighted.
   builtin:
     A list of builtin types you want to be highlighted (if you want types to be of class "builtin" instead of "keyword").
   operatorChars:

@@ -19,6 +19,16 @@ function tinyMCE_editorinit($editor) {
 	if(empty($config['editormode'])) $config['editormode'] = 'simple';
 	if(empty($config['width'])) $config['width'] = 'skin';
 	if(empty($config['srctheme'])) $config['srctheme'] = 'default';
+	if($config['srctheme'] == 'default') $config['srctheme'] = 'elegant';
+	$config['formatter'] = null;
+	if($context->getProperty('formatter.key') == 'markdown') {
+		$config['formatter'] = 'markdown';
+        $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/markdown/markdown.js');
+		$config['width'] = 'full';
+	} else {
+        $config['formatter'] = 'htmlmixed';
+        $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/javascript/javascript.js','mode/css/css.js','mode/htmlmixed/htmlmixed.js');
+    }
 	ob_start();
 ?>
 			var editor = new tinymce.Editor('editWindow', {
@@ -41,8 +51,10 @@ function tinyMCE_editorinit($editor) {
 				toolbar_items_size: 'small',
 				relative_urls: false,
 				convert_urls: false,
+				remove_linebreaks : false,
+                //convert_newlines_to_brs: true,
 				//schema: "html5",
-        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],object",
+        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],pre[*],code[*],object",
 
 <?php
 	if($config['editormode'] == 'simple') {
@@ -54,7 +66,7 @@ function tinyMCE_editorinit($editor) {
 					"codemirror"
 				],
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
-				toolbar2: "undo redo | tcattach image media charmap | hr link unlink anchor | table | removeformat | code visualblocks",
+				toolbar2: "undo redo | tcattach image media charmap | hr link unlink anchor | table | removeformat | tcsourcecodeedit code visualblocks",
 <?php
 	} else {
 ?>
@@ -67,9 +79,7 @@ function tinyMCE_editorinit($editor) {
 				],
 
 				toolbar1: "tcsave print | bold italic underline strikethrough | styleselect formatselect fontselect fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote hr tcmoreless",
-				toolbar2: "undo redo | searchreplace | tcattach image media charmap insertdatetime | subscript superscript ltr rtl cite abbr acronym del ins | hr link unlink anchor | table | cut copy paste pastetext| removeformat code visualblocks",
-
-
+				toolbar2: "undo redo | searchreplace | tcattach image media charmap insertdatetime | subscript superscript ltr rtl cite abbr acronym del ins | hr link unlink anchor | table | cut copy paste pastetext| removeformat | tcsourcecodeedit code visualblocks",
 <?php
 	}
 ?>
@@ -78,20 +88,19 @@ function tinyMCE_editorinit($editor) {
 					indentOnInit: true, // Whether or not to indent code on init.
 					path: 'CodeMirror', // Path to CodeMirror distribution
 					config: {           // CodeMirror config object
-					mode: 'application/x-httpd-php',
-					lineNumbers: true,
-					tabSize: 4,
-					indentWithTabs: true,
-					theme: '<?php echo $config['srctheme'] ?>'
-
+    					mode: '<?php echo $config['formatter'];?>',
+    					lineNumbers: true,
+    					tabSize: 4,
+    					indentWithTabs: true,
+    					theme: '<?php echo $config['srctheme'] ?>'
 					},
 					jsFiles: [          // Additional JS files to load
-					'mode/clike/clike.js',
-					'mode/php/php.js'
+					'<?php echo implode('\',\'',$config['codemirror_jsfiles']);?>'
 					],
 					cssFiles: [
 						'theme/<?php echo $config['srctheme'] ?>.css'
-					]
+					],
+                    showMarkdownLineBreaks: true
 				},
 				// content CSS
 				content_css : "<?php echo (file_exists(__TEXTCUBE_SKIN_DIR__.'/'.$context->getProperty('skin.skin').'/wysiwyg.css') ? $context->getProperty('uri.service').'/skin/blog/'.$context->getProperty('skin.skin').'/wysiwyg.css' : $context->getProperty('uri.service').'/resources/style/default-wysiwyg.css');?>",
@@ -122,10 +131,17 @@ function tinyMCE_editorinit($editor) {
 				        {title: 'figure', block: 'figure', wrapper: true}
 				    ]}
 				],
-				forced_root_block : false,
+				fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt",
+				forced_root_block : <?php echo $config['formatter'] == 'markdown' ? 'false' : "'p'";?>,
 				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
+<?php if ($config['formatter'] == 'markdown') {
+?>
+				editor.on('postRender', function (e) { editor.plugins.codemirror.showSourceEditorFrame(); });
+<?php
+			}
+?>
 				this.render();
 			};
 			editor.addObject = function(data) {
@@ -139,6 +155,9 @@ function tinyMCE_editorinit($editor) {
 				this.destroy();
 			};
 			editor.syncTextarea = function(){
+                if (this.doesCodeMirrorEditorEnabled == true) {
+					this.plugins.codemirror.syncToTinyMCE();
+                }
 				this.save();
 			};
 			editor.syncEditorWindow = function() {
@@ -147,6 +166,7 @@ function tinyMCE_editorinit($editor) {
 			editor.on('keyup',editorChanged);
 			editor.on('mousedown',editorChanged);
 			editor.propertyFilePath = "<?php echo $context->getProperty('uri.service');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
+            editor.tcformatter = '<?php echo $config['formatter'];?>';
 			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
 			return editor;
 <?php

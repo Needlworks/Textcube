@@ -1,8 +1,13 @@
 /**
- * plugin.js
+ * CodeMirror plugin for Textcube editor
+ * Needlworks / TNF (http://www.needlworks.org)
  *
- * Copyright 2013 Web Power, www.webpower.nl
- * @author Arjan Haverkamp
+ * Based on tinyMCE codemirror plugin.js, created by Arjan Havorkamp (www.webpower.nl)
+ *
+ * History
+ * -------
+ * 2.1.0 (05/10/2015) : add - complete markdown editing support
+ * 2.0.0 (05/09/2015) : add - codemirror editor overlay mode
  */
 
 /*jshint unused:false */
@@ -11,37 +16,49 @@
 tinymce.PluginManager.requireLangPack('codemirror');
 
 tinymce.PluginManager.add('codemirror', function(editor, url) {
-
-	function showSourceEditor() {
-		// Insert caret marker
-		editor.focus();
-		editor.selection.collapse(true);
-		editor.selection.setContent('<span class="CmCaReT" style="display:none">&#0;</span>');
-
-		// Open editor window
-		var win = editor.windowManager.open({
-			title: 'HTML source code',
-			url: url + '/source.html',
-			width: 800,
-			height: 550,
-			resizable : true,
-			maximizable : true,
-			buttons: [
-				{ text: 'Ok', subtype: 'primary', onclick: function(){
-					var doc = document.querySelectorAll('.mce-container-body>iframe')[0];
-					doc.contentWindow.submit();
-					win.close();
-				}},
-				{ text: 'Cancel', onclick: 'close' }
-			]
-		});
+	var t = this;
+	t.name="CodeMirrorPlugin";
+	editor.doesCodeMirrorEditorEnabled = false;
+	t.showSourceEditorFrame = function () {
+		if (editor.doesCodeMirrorEditorEnabled == false) {
+			// Insert caret marker
+			editor.focus();
+			editor.selection.collapse(true);
+			editor.selection.setContent('<span class="CmCaReT" style="display:none">&#0;</span>');
+			jQuery(".mce-edit-area").hide();
+			jQuery(".mce-statusbar").hide();
+			jQuery('<iframe />', {
+				id: 'codeMirrorEditor',
+				name:'codeMirrorEditor',
+				src:url + '/source_frame.html',
+				width:'100%',
+				height:'450px',
+				style:'width:100%; height:450px; border: 1px solid #eee; box-shadow:0 0 5px rgba(0,0,0,0.3);'
+			}).appendTo('.editorbox-container');
+			editor.doesCodeMirrorEditorEnabled = true;
+		} else {
+			var node = document.getElementById('codeMirrorEditor');
+			node.contentWindow.submit();
+			node.parentNode.removeChild(node);
+			var cmInst = document.getElementById('CodeMirrorInstruction');
+			cmInst.parentNode.removeChild(cmInst);
+			jQuery(".mce-edit-area").show();
+			jQuery(".mce-statusbar").show();
+			editor.doesCodeMirrorEditorEnabled = false;
+		}
 	};
-
+	t.syncToTinyMCE = function () {
+		var node = document.getElementById('codeMirrorEditor');
+		node.contentWindow.syncEditorContent();
+	};
 	// Add a button to the button bar
+	function toggleEditor() {
+		t.showSourceEditorFrame();
+	};
 	editor.addButton('code', {
 		title: 'Source code',
 		icon: 'code',
-		onclick: showSourceEditor
+		onclick: toggleEditor
 	});
 
 	// Add a menu item to the tools menu
@@ -49,6 +66,6 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 		icon: 'code',
 		text: 'Source code',
 		context: 'tools',
-		onclick: showSourceEditor
+		onclick: toggleEditor
 	});
 });

@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.4.4.20150323
+ * Version 2.5.0.20150508
  *
  * Created       : May 30, 2011
- * Last modified : Mar 3, 2015
+ * Last modified : May 8, 2015
  *
  * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
@@ -17,7 +17,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         t.propertyFilePath = ed.propertyFilePath;
         t.propertyNames = ["propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
         t.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + servicePath + '/resources/image/extension/unknown.gif\')"';
-
+        t.editorMode = 'wysiwyg';
         ed.on('LoadContent', function (e) {
             e.content = t.TTMLtoHTML(e.content);
         });
@@ -74,6 +74,10 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             t.command('MoreLessBlock');
             return false;
         });
+        ed.addCommand('textcubeToggleSourceCodeEditor', function () {
+            t.command('ToggleTextarea');
+            return false;
+        });
         ed.addButton('tcattach', {
             title: 'Upload and insert files',
             cmd: 'textcubeToggleUploadDlg',
@@ -89,6 +93,12 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             cmd: 'textcubeMoreLessBlock',
             icon: 'pagebreak'
         });
+        //ed.addButton('tcsourcecodeedit', {
+        //    title: 'Source code editor',
+        //    cmd: 'textcubeToggleSourceCodeEditor',
+        //    icon: 'code'
+        //});
+
         var div = document.createElement('div');
         div.id = 'tinyMCEeditor-textbox';
         div.className = 'container';
@@ -1779,6 +1789,22 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 selectedContent = editor.selection.getContent();
                 editor.execCommand('mceInsertContent', false, value1 + selectedContent + value2);
                 break;
+            case "ToggleTextarea":
+                if (t.editorMode == 'wysiwyg') {
+                    editor.save();
+                    jQuery(".mce-edit-area").hide();
+                    jQuery(".mce-statusbar").hide();
+                    document.getElementById('editWindow').style.display = "block";
+                    document.getElementById('editWindow').style.width = "100%";
+                    t.editorMode = 'raw';
+                } else {
+                    editor.load();
+                    document.getElementById('editWindow').style.display = "none";
+                    jQuery(".mce-edit-area").show();
+                    jQuery(".mce-statusbar").show();
+                    t.editorMode = 'wysiwyg';
+                }
+                break;
         }
     },
     /** Plugin information **/
@@ -1788,7 +1814,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             author: 'Jeongkyu Shin',
             authorurl: 'https://www.textcube.org',
             infourl: 'http://github.com/needlworks/textcube',
-            version: "2.4.4"
+            version: "2.5.0"
         };
     }
 });
