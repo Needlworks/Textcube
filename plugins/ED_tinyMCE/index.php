@@ -20,7 +20,11 @@ function tinyMCE_editorinit($editor) {
     if(empty($config['editormode'])) $config['editormode'] = 'simple';
 	if(empty($config['width'])) $config['width'] = 'skin';
 	if(empty($config['srctheme'])) $config['srctheme'] = 'default';
-	if($context->getProperty('formatter.key') == 'markdown') $config['width'] = 'full';
+	$config['formatter'] = null;
+	if($context->getProperty('formatter.key') == 'markdown') {
+		$config['formatter'] = 'markdown';
+		$config['width'] = 'full';
+	}
 	ob_start();
 ?>
 			var editor = new tinymce.Editor('editWindow', {
@@ -78,7 +82,7 @@ function tinyMCE_editorinit($editor) {
 					indentOnInit: true, // Whether or not to indent code on init.
 					path: 'CodeMirror', // Path to CodeMirror distribution
 					config: {           // CodeMirror config object
-					mode: 'application/x-httpd-php',
+					mode: '<?php echo ($config['formatter'] ? $config['formatter'] :  'htmlmixed');?>',
 					lineNumbers: true,
 					tabSize: 4,
 					indentWithTabs: true,

@@ -93,11 +93,11 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             cmd: 'textcubeMoreLessBlock',
             icon: 'pagebreak'
         });
-        ed.addButton('tcsourcecodeedit', {
-            title: 'Source code editor',
-            cmd: 'textcubeToggleSourceCodeEditor',
-            icon: 'code'
-        });
+        //ed.addButton('tcsourcecodeedit', {
+        //    title: 'Source code editor',
+        //    cmd: 'textcubeToggleSourceCodeEditor',
+        //    icon: 'code'
+        //});
 
         var div = document.createElement('div');
         div.id = 'tinyMCEeditor-textbox';
