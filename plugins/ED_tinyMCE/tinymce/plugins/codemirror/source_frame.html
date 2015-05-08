@@ -45,7 +45,7 @@ function inArray(key, arr)
 			lineNumbers: true,
 			lineWrapping: true,
 			indentUnit: 1,
-			tabSize: 1,
+			tabSize: 4,
 			matchBrackets: true,
 			styleActiveLine: true
 		},
@@ -125,10 +125,10 @@ function start()
 
 	// Set CodeMirror cursor to same position as cursor was in TinyMCE:
 	//var html = editor.getContent({format: 'text'});
-	var html = editor.getContent({source_view: true});
+	var html = editor.getContent({source_view: true,format: 'html'});
 	html = html.replace(/<span\s+class="CmCaReT"([^>]*)>([^<]*)<\/span>/gm, String.fromCharCode(chr));
 	if (editor.tcformatter == 'markdown') {
-		html = html.replace("<br />", "\r\n").replace("&lt;br /&gt;", "\r\n");
+		html = html.replace(new RegExp("<br />", "gi"), "\r\n");
 	}
 
 	editor.dom.remove(editor.dom.select('.CmCaReT'));
@@ -220,6 +220,23 @@ function submit()
 		editor.selection.scrollIntoView(el);
 		editor.selection.setCursorLocation(el,0);
 		editor.dom.remove(el);
+	}
+}
+
+function synchornize()
+{
+	"use strict";
+
+	// Submit HTML to TinyMCE
+	if (editor.tcformatter == 'markdown') {
+		content = content.replace(new RegExp("\r\n", "gi"), "<br />").replace(new RegExp("\r", "gi"), "<br />").replace(new RegExp("\n", "gi"), "<br />");
+	}
+	editor.setContent(content);
+	editor.isNotDirty = !isDirty;
+	if (isDirty) {
+    try {
+      editor.nodeChanged();
+    } catch (ex) {}
 	}
 }
 

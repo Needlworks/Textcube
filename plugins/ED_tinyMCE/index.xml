@@ -28,14 +28,14 @@
 		<editor xml:lang="ko" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
 			<usedFor formatter="ttml" />
-			<!--usedFor formatter="markdown" />
-			<usedFor formatter="textile" />-->
+			<usedFor formatter="markdown" />
+			<!--<usedFor formatter="textile" />-->
 		</editor>
 		<editor xml:lang="ja" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
 			<usedFor formatter="ttml" />
-			<!--usedFor formatter="markdown" />
-			<usedFor formatter="textile" />-->
+			<usedFor formatter="markdown" />
+			<!--<usedFor formatter="textile" />-->
 		</editor>
 		<config xml:lang="ko" dataValHandler="tinyMCE_handleconfig">
 			<window width="500" height="450" />
