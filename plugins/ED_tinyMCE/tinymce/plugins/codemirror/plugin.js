@@ -1,8 +1,12 @@
 /**
- * plugin.js
+ * CodeMirror plugin for Textcube editor
+ *
+ * Based on tinyMCE codemirror plugin.js
  *
  * Copyright 2013 Web Power, www.webpower.nl
  * @author Arjan Haverkamp
+ *
+ * Modified by Needlworks / TNF (http://www.needlworks.org)
  */
 
 /*jshint unused:false */
@@ -13,7 +17,7 @@ tinymce.PluginManager.requireLangPack('codemirror');
 tinymce.PluginManager.add('codemirror', function(editor, url) {
 	var t = this;
 	t.show = false;
-	function showSourceEditor() {
+	function showSourceEditorPopup() {
 		// Insert caret marker
 		editor.focus();
 		editor.selection.collapse(true);
@@ -47,19 +51,20 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 			jQuery(".mce-edit-area").hide();
 			jQuery(".mce-statusbar").hide();
 			jQuery('<iframe />', {
-				id: 'codeMirror',
-				name:'codeMirror',
+				id: 'codeMirrorEditor',
+				name:'codeMirrorEditor',
 				src:url + '/source_frame.html',
 				width:'100%',
 				height:'450px',
-				style:'width:100%; height:450px; border: 1px solid #ccc;'
+				style:'width:100%; height:450px; border: 1px solid #eee; box-shadow:0 0 5px rgba(0,0,0,0.3);'
 			}).appendTo('.editorbox-container');
-			alert(t.codeMirrorFrame);
 			t.show = true;
 		} else {
-			node = document.getElementById('codeMirror');
+			node = document.getElementById('codeMirrorEditor');
 			node.contentWindow.submit();
 			node.parentNode.removeChild(node);
+			cmInst = document.getElementById('CodeMirrorInstruction');
+			cmInst.parentNode.removeChild(cmInst);
 			jQuery(".mce-edit-area").show();
 			jQuery(".mce-statusbar").show();
 			t.show = false;

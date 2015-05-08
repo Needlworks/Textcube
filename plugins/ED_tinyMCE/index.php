@@ -23,8 +23,12 @@ function tinyMCE_editorinit($editor) {
 	$config['formatter'] = null;
 	if($context->getProperty('formatter.key') == 'markdown') {
 		$config['formatter'] = 'markdown';
+        $config['codemirror_jsfiles'] = array('mode/markdown/markdown.js');
 		$config['width'] = 'full';
-	}
+	} else {
+        $config['formatter'] = 'htmlmixed';
+        $config['codemirror_jsfiles'] = array('mode/htmlmixed/htmlmixed.js');
+    }
 	ob_start();
 ?>
 			var editor = new tinymce.Editor('editWindow', {
@@ -82,16 +86,14 @@ function tinyMCE_editorinit($editor) {
 					indentOnInit: true, // Whether or not to indent code on init.
 					path: 'CodeMirror', // Path to CodeMirror distribution
 					config: {           // CodeMirror config object
-					mode: '<?php echo ($config['formatter'] ? $config['formatter'] :  'htmlmixed');?>',
-					lineNumbers: true,
-					tabSize: 4,
-					indentWithTabs: true,
-					theme: '<?php echo $config['srctheme'] ?>'
-
+    					mode: '<?php echo $config['formatter'];?>',
+    					lineNumbers: true,
+    					tabSize: 4,
+    					indentWithTabs: true,
+    					theme: '<?php echo $config['srctheme'] ?>'
 					},
 					jsFiles: [          // Additional JS files to load
-					'mode/clike/clike.js',
-					'mode/php/php.js'
+					'<?php echo implode('\',\'',$config['codemirror_jsfiles']);?>'
 					],
 					cssFiles: [
 						'theme/<?php echo $config['srctheme'] ?>.css'
