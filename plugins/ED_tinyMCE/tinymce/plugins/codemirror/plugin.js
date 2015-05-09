@@ -45,9 +45,11 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 			editor.doesCodeMirrorEditorEnabled = false;
 		}
 	};
-
+	t.getCodeMirror = function() {
+		t.showSourceEditorFrame();
+	}
 	t.syncToTinyMCE = function () {
-		document.getElementById('codeMirrorEditor').contentWindow.submit();
+		document.getElementById('codeMirrorEditor').contentWindow.synchronize();
 	};
 	// Add a button to the button bar
 	editor.addButton('code', {

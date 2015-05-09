@@ -137,6 +137,12 @@ function tinyMCE_editorinit($editor) {
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
 				this.render();
+<?php if ($config['formatter'] == 'markdown') {
+?>
+				this.plugins.codemirror.getCodeMirror();
+<?php
+				}
+?>
 			};
 			editor.addObject = function(data) {
 				this.plugins.TTMLsupport.addObject(data);
