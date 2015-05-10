@@ -20,6 +20,7 @@ function tinyMCE_editorinit($editor) {
     if(empty($config['editormode'])) $config['editormode'] = 'simple';
 	if(empty($config['width'])) $config['width'] = 'skin';
 	if(empty($config['srctheme'])) $config['srctheme'] = 'default';
+	if($config['srctheme'] == 'default') $config['srctheme'] = 'elegant';
 	$config['formatter'] = null;
 	if($context->getProperty('formatter.key') == 'markdown') {
 		$config['formatter'] = 'markdown';
@@ -136,13 +137,13 @@ function tinyMCE_editorinit($editor) {
 				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
-				this.render();
 <?php if ($config['formatter'] == 'markdown') {
 ?>
-				this.plugins.codemirror.getCodeMirror();
+				editor.on('postRender', function (e) { editor.plugins.codemirror.showSourceEditorFrame(); });
 <?php
-				}
+			}
 ?>
+				this.render();
 			};
 			editor.addObject = function(data) {
 				this.plugins.TTMLsupport.addObject(data);

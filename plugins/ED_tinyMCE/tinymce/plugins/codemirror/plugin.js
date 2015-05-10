@@ -1,12 +1,13 @@
 /**
  * CodeMirror plugin for Textcube editor
+ * Needlworks / TNF (http://www.needlworks.org)
  *
- * Based on tinyMCE codemirror plugin.js
+ * Based on tinyMCE codemirror plugin.js, created by Arjan Havorkamp (www.webpower.nl)
  *
- * Copyright 2013 Web Power, www.webpower.nl
- * @author Arjan Haverkamp
- *
- * Modified by Needlworks / TNF (http://www.needlworks.org)
+ * History
+ * -------
+ * 2.1.0 (05/10/2015) : add - complete markdown editing support
+ * 2.0.0 (05/09/2015) : add - codemirror editor overlay mode
  */
 
 /*jshint unused:false */
@@ -16,8 +17,9 @@ tinymce.PluginManager.requireLangPack('codemirror');
 
 tinymce.PluginManager.add('codemirror', function(editor, url) {
 	var t = this;
+	t.name="CodeMirrorPlugin";
 	editor.doesCodeMirrorEditorEnabled = false;
-	function showSourceEditorFrame() {
+	t.showSourceEditorFrame = function () {
 		if (editor.doesCodeMirrorEditorEnabled == false) {
 			// Insert caret marker
 			editor.focus();
@@ -35,27 +37,28 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 			}).appendTo('.editorbox-container');
 			editor.doesCodeMirrorEditorEnabled = true;
 		} else {
-			node = document.getElementById('codeMirrorEditor');
+			var node = document.getElementById('codeMirrorEditor');
 			node.contentWindow.submit();
 			node.parentNode.removeChild(node);
-			cmInst = document.getElementById('CodeMirrorInstruction');
+			var cmInst = document.getElementById('CodeMirrorInstruction');
 			cmInst.parentNode.removeChild(cmInst);
 			jQuery(".mce-edit-area").show();
 			jQuery(".mce-statusbar").show();
 			editor.doesCodeMirrorEditorEnabled = false;
 		}
 	};
-	t.getCodeMirror = function() {
-		t.showSourceEditorFrame();
-	}
 	t.syncToTinyMCE = function () {
-		document.getElementById('codeMirrorEditor').contentWindow.synchronize();
+		var node = document.getElementById('codeMirrorEditor');
+		node.contentWindow.syncEditorContent();
 	};
 	// Add a button to the button bar
+	function toggleEditor() {
+		t.showSourceEditorFrame();
+	};
 	editor.addButton('code', {
 		title: 'Source code',
 		icon: 'code',
-		onclick: showSourceEditorFrame
+		onclick: toggleEditor
 	});
 
 	// Add a menu item to the tools menu
@@ -63,6 +66,6 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 		icon: 'code',
 		text: 'Source code',
 		context: 'tools',
-		onclick: showSourceEditorFrame
+		onclick: toggleEditor
 	});
 });
