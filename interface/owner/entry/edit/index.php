@@ -258,6 +258,7 @@ if (isset($_GET['returnURL'])) {
 										} catch(e) {
 										}
 										var content = trim(oForm.content.value);
+alert(content);
 										if (check && (content.length == 0)) {
 											if (self.changeEditor == true) {
 												content = "&nbsp;";
