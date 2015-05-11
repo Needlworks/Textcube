@@ -151,14 +151,18 @@ function tinyMCE_editorinit($editor) {
 				this.plugins.TTMLsupport.command(command,value1,value2);
 			};
 			editor.finalize = function() {
-				this.syncTextarea();
-				this.destroy();
-			};
-			editor.syncTextarea = function(){
+                this.destroy();
+            };
+            editor.syncTextarea = function(){
                 if (this.doesCodeMirrorEditorEnabled == true) {
-					this.plugins.codemirror.syncToTinyMCE();
+                    this.plugins.codemirror.syncToTinyMCE();
                 }
-				this.save();
+                this.save();
+                if (entryManager.nowsaving == true && editor.tcformatter == 'markdown') {
+                    var htmlcontent = document.getElementById('editWindow').value;
+                    htmlcontent = htmlcontent.replace(new RegExp("<br />", "gi"), "\r\n");
+                    document.getElementById('editWindow').value = htmlcontent;
+                }
 			};
 			editor.syncEditorWindow = function() {
 				this.load();
