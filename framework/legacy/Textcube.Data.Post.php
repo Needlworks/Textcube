@@ -158,8 +158,7 @@ class Post {
 			RSS::refresh();
 		}
 		if ($this->visibility == 'syndicated') {
-			requireComponent('Eolin.API.Syndication');
-			if (!Syndication::join($this->getLink())) {
+			if (!Utils_Syndication::join($this->getLink())) {
 				$query->resetAttributes();
 				$query->setAttribute('visibility', 2);
 				$this->visibility = 'public';
@@ -185,8 +184,7 @@ class Post {
 			
 		// step 1. Check Syndication
 		if ($entry['visibility'] == 3) {
-			requireComponent('Eolin.API.Syndication');
-			Syndication::leave($this->getLink());
+			Utils_Syndication::leave($this->getLink());
 		}
 		
 		CacheControl::flushEntry($this->id);
@@ -252,8 +250,7 @@ class Post {
 		$bChangedCategory = ($old['category'] != $this->category);
 		
 		if ($old['visibility'] == 3) {
-			requireComponent('Eolin.API.Syndication');
-			Syndication::leave($this->getLink());
+			Utils_Syndication::leave($this->getLink());
 		}
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
@@ -344,7 +341,7 @@ class Post {
             $query->setAttribute('slogan', $checkSlogan, true);
             if (!POD::queryExistence(
                 "SELECT id FROM {$database['prefix']}Entries "
-                . "WHERE blogid = " . $this->blogid . " AND id <> {$this->id} AND slogan ='{$checkSlogan}'")
+                . "WHERE blogid = " . $this->blogid . " AND id <> {$this->id} AND slogan ='".POD::escapeString($checkSlogan)."'")
             ) {
                 if (!$query->update()) {
                     return $this->_error('update');
