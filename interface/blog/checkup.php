@@ -827,7 +827,7 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		}
 	}
 	/* From Textcube 1.9 */
-	if (version_compare($currentVersion, '1.9.1','<')) {
+	if (version_compare($currentVersion, '1.10.7','<')) {
 		$changed = true;
 		echo '<li>', _text('기본 에디터를 변경합니다.'), ': ';
 		$query = DBModel::getInstance();
@@ -844,7 +844,6 @@ if($currentVersion != TEXTCUBE_VERSION && in_array(POD::dbms(),array('MySQL','My
 		$query = DBModel::getInstance();
 		$query->reset('Entries');
 		$query->setQualifier('contenteditor','equals','modern',true);
-		$query->setQualifier('contentformatter','equals','ttml',true);
 		$query->setAttribute('contenteditor','tinyMCE',true);
 		if($query->update())
 			showCheckupMessage(true);
