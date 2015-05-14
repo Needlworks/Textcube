@@ -28,14 +28,14 @@
 		<editor xml:lang="ko" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
 			<usedFor formatter="ttml" />
-			<!--usedFor formatter="markdown" />
-			<usedFor formatter="textile" />-->
+			<usedFor formatter="markdown" />
+			<!--<usedFor formatter="textile" />-->
 		</editor>
 		<editor xml:lang="ja" id="tinyMCE" name="tinyMCE">
 			<initialize>tinyMCE_editorinit</initialize>
 			<usedFor formatter="ttml" />
-			<!--usedFor formatter="markdown" />
-			<usedFor formatter="textile" />-->
+			<usedFor formatter="markdown" />
+			<!--<usedFor formatter="textile" />-->
 		</editor>
 		<config xml:lang="ko" dataValHandler="tinyMCE_handleconfig">
 			<window width="500" height="450" />
@@ -58,19 +58,29 @@
 					<op value="base16-dark"><![CDATA[base16 Dark]]></op>
 					<op value="base16-light"><![CDATA[base16 Light]]></op>
 					<op value="cobalt"><![CDATA[Cobalt]]></op>
+					<op value="colorforth"><![CDATA[Colorforth]]></op>
 					<op value="eclipse"><![CDATA[Eclipse]]></op>
 					<op value="elegant"><![CDATA[Elegant]]></op>
+					<op value="liquibyte"><![CDATA[Liquibyte]]></op>
 					<op value="mdn-like"><![CDATA[MDN-Like]]></op>
 					<op value="monokai"><![CDATA[Monokai]]></op>
 					<op value="neat"><![CDATA[Neat]]></op>
 					<op value="neo"><![CDATA[Neo]]></op>
+					<op value="night"><![CDATA[Night]]></op>
 					<op value="paraiso-light"><![CDATA[paraiso-light]]></op>
 					<op value="paraiso-dark"><![CDATA[paraiso-dark]]></op>
+					<op value="pastel-on-dark"><![CDATA[Pastel on dark]]></op>
 					<op value="rubyblue"><![CDATA[rubyblue]]></op>
+					<op value="solarized"><![CDATA[Solarized]]></op>
+					<op value="the-matrix"><![CDATA[The matrix]]></op>
 					<op value="tomorrow-night"><![CDATA[Tomorrow Night]]></op>
 					<op value="tomorrow-night-bright"><![CDATA[Tomorrow Night Bright]]></op>
 					<op value="tomorrow-night-eighties"><![CDATA[Tomorrow Night Eighties]]></op>
 					<op value="twilight"><![CDATA[Twilight]]></op>
+					<op value="vibrant-ink"><![CDATA[vibrant-ink]]></op>
+					<op value="xq-dark"><![CDATA[xq-dark]]></op>
+					<op value="xq-light"><![CDATA[xq-light]]></op>
+					<op value="zenburn"><![CDATA[Zenburn]]></op>
 				</field>
 			</fieldset>
 		</config>
@@ -95,19 +105,29 @@
 					<op value="base16-dark"><![CDATA[base16 Dark]]></op>
 					<op value="base16-light"><![CDATA[base16 Light]]></op>
 					<op value="cobalt"><![CDATA[Cobalt]]></op>
+					<op value="colorforth"><![CDATA[Colorforth]]></op>
 					<op value="eclipse"><![CDATA[Eclipse]]></op>
 					<op value="elegant"><![CDATA[Elegant]]></op>
+					<op value="liquibyte"><![CDATA[Liquibyte]]></op>
 					<op value="mdn-like"><![CDATA[MDN-Like]]></op>
 					<op value="monokai"><![CDATA[Monokai]]></op>
 					<op value="neat"><![CDATA[Neat]]></op>
 					<op value="neo"><![CDATA[Neo]]></op>
+					<op value="night"><![CDATA[Night]]></op>
 					<op value="paraiso-light"><![CDATA[paraiso-light]]></op>
 					<op value="paraiso-dark"><![CDATA[paraiso-dark]]></op>
+					<op value="pastel-on-dark"><![CDATA[Pastel on dark]]></op>
 					<op value="rubyblue"><![CDATA[rubyblue]]></op>
+					<op value="solarized"><![CDATA[Solarized]]></op>
+					<op value="the-matrix"><![CDATA[The matrix]]></op>
 					<op value="tomorrow-night"><![CDATA[Tomorrow Night]]></op>
 					<op value="tomorrow-night-bright"><![CDATA[Tomorrow Night Bright]]></op>
 					<op value="tomorrow-night-eighties"><![CDATA[Tomorrow Night Eighties]]></op>
 					<op value="twilight"><![CDATA[Twilight]]></op>
+					<op value="vibrant-ink"><![CDATA[vibrant-ink]]></op>
+					<op value="xq-dark"><![CDATA[xq-dark]]></op>
+					<op value="xq-light"><![CDATA[xq-light]]></op>
+					<op value="zenburn"><![CDATA[Zenburn]]></op>
 				</field>
 			</fieldset>
 		</config>
@@ -132,19 +152,29 @@
 					<op value="base16-dark"><![CDATA[base16 Dark]]></op>
 					<op value="base16-light"><![CDATA[base16 Light]]></op>
 					<op value="cobalt"><![CDATA[Cobalt]]></op>
+					<op value="colorforth"><![CDATA[Colorforth]]></op>
 					<op value="eclipse"><![CDATA[Eclipse]]></op>
 					<op value="elegant"><![CDATA[Elegant]]></op>
+					<op value="liquibyte"><![CDATA[Liquibyte]]></op>
 					<op value="mdn-like"><![CDATA[MDN-Like]]></op>
 					<op value="monokai"><![CDATA[Monokai]]></op>
 					<op value="neat"><![CDATA[Neat]]></op>
 					<op value="neo"><![CDATA[Neo]]></op>
+					<op value="night"><![CDATA[Night]]></op>
 					<op value="paraiso-light"><![CDATA[paraiso-light]]></op>
 					<op value="paraiso-dark"><![CDATA[paraiso-dark]]></op>
+					<op value="pastel-on-dark"><![CDATA[Pastel on dark]]></op>
 					<op value="rubyblue"><![CDATA[rubyblue]]></op>
+					<op value="solarized"><![CDATA[Solarized]]></op>
+					<op value="the-matrix"><![CDATA[The matrix]]></op>
 					<op value="tomorrow-night"><![CDATA[Tomorrow Night]]></op>
 					<op value="tomorrow-night-bright"><![CDATA[Tomorrow Night Bright]]></op>
 					<op value="tomorrow-night-eighties"><![CDATA[Tomorrow Night Eighties]]></op>
 					<op value="twilight"><![CDATA[Twilight]]></op>
+					<op value="vibrant-ink"><![CDATA[vibrant-ink]]></op>
+					<op value="xq-dark"><![CDATA[xq-dark]]></op>
+					<op value="xq-light"><![CDATA[xq-light]]></op>
+					<op value="zenburn"><![CDATA[Zenburn]]></op>
 				</field>
 			</fieldset>
 		</config>

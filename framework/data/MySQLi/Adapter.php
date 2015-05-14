@@ -251,7 +251,7 @@ class DBAdapter implements IAdapter {
     }
 
     public static function query($query) {
-        if (function_exists('__tcSqlLogBegin')) {
+		if (function_exists('__tcSqlLogBegin')) {
             __tcSqlLogBegin($query);
             $result = self::$db->query($query);
             __tcSqlLogEnd($result, 0);
