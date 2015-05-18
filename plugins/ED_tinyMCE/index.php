@@ -52,10 +52,8 @@ function tinyMCE_editorinit($editor) {
 				toolbar_items_size: 'small',
 				relative_urls: false,
 				convert_urls: false,
-				remove_linebreaks : false,
-                //convert_newlines_to_brs: true,
 				//schema: "html5",
-        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],pre[*],code[*],object",
+        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],pre[*],code[*],object,br",
 
 <?php
 	if($config['editormode'] == 'simple') {
@@ -86,7 +84,7 @@ function tinyMCE_editorinit($editor) {
 ?>
 				// codemirror settings
 				codemirror: {
-					indentOnInit: true, // Whether or not to indent code on init.
+					indentOnInit: false, // Whether or not to indent code on init.
 					path: 'CodeMirror', // Path to CodeMirror distribution
 					config: {           // CodeMirror config object
     					mode: '<?php echo $config['formatter'];?>',
@@ -133,13 +131,27 @@ function tinyMCE_editorinit($editor) {
 				    ]}
 				],
 				fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt",
-				forced_root_block : <?php echo $config['formatter'] == 'markdown' ? 'false' : "'p'";?>,
+				paste_auto_cleanup_on_paste: true,
+				paste_convert_headers_to_strong: false,
+				paste_remove_spans: true,
+<?php if ($config['formatter'] == 'markdown') { ?>
+				apply_source_formatting: false,
+				forced_root_block: false,
+<?php }  else { ?>
+				forced_root_block : 'p',
+
+<?php } ?>
 				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
 <?php if ($config['formatter'] == 'markdown') {
 ?>
-				editor.on('postRender', function (e) { editor.plugins.codemirror.showSourceEditorFrame(); });
+			editor.on('postRender', function (e) { editor.plugins.codemirror.showSourceEditorFrame(); });
+			editor.on('BeforeSetContent', function(e) {
+				if (e.initial) {
+					e.content = e.content.replace(/\r?\n/g, '<br />');
+				}
+			});
 <?php
 			}
 ?>
@@ -159,9 +171,9 @@ function tinyMCE_editorinit($editor) {
                     this.plugins.codemirror.syncToTinyMCE();
                 }
                 this.save();
-                if (entryManager.nowsaving == true && editor.tcformatter == 'markdown') {
+				if (entryManager.nowsaving == true && editor.tcformatter == 'markdown') {
                     var htmlcontent = document.getElementById('editWindow').value;
-                    htmlcontent = htmlcontent.replace(new RegExp("<br />", "gi"), "\r\n");
+					htmlcontent = htmlcontent.replace(new RegExp("<br />", "gi"), "\r\n");
                     document.getElementById('editWindow').value = htmlcontent;
                 }
 			};

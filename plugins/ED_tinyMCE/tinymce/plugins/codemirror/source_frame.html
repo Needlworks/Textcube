@@ -105,7 +105,7 @@ function inArray(key, arr)
 function start()
 {// Initialise (on load)
 	"use strict";
-
+	
 	if (typeof(window.CodeMirror) !== 'function') {
 		alert('CodeMirror not found in "' + CMsettings.path + '", aborting...');
 		return;
@@ -119,7 +119,6 @@ function start()
 	div.innerHTML = '<table cellspacing="0" cellpadding="0" style="border-spacing:4px"><tr>' + td1 + (isMac ? '&#8984;-F' : 'Ctrl-F</td>') + td2 + tinymce.translate('Start search') + '</td>' + td1 + (isMac ? '&#8984;-G' : 'Ctrl-G') + '</td>' + td2 + tinymce.translate('Find next') + '</td>' + td1 + (isMac ? '&#8984;-Alt-F' : 'Shift-Ctrl-F') + '</td>' + td2 + tinymce.translate('Find previous') + '</td></tr>' + '<tr>' + td1 + (isMac ? '&#8984;-Alt-F' : 'Shift-Ctrl-F') + '</td>' + td2 + tinymce.translate('Replace') + '</td>' + td1 + (isMac ? 'Shift-&#8984;-Alt-F' : 'Shift-Ctrl-R') +'</td>' + td2 + tinymce.translate('Replace all') + '</td></tr></table>';
 	div.style.left = div.style.top = div.style.bottom = '5px';
 	div.id = 'CodeMirrorInstruction';
-	parent.document.getElementById('textarea-section').appendChild(div);
 
 	// Set CodeMirror cursor to same position as cursor was in TinyMCE:
 	var html = editor.getContent({source_view: true,format: 'html'});
@@ -151,13 +150,13 @@ function start()
 	});
 
 	CMsettings.config.value = html;
-
 	// Instantiante CodeMirror:
 	codemirror = CodeMirror(document.body, CMsettings.config);
 	codemirror.isDirty = false;
 	codemirror.on('change', function(inst) {
 		inst.isDirty = true;
 	});
+	parent.document.getElementById('textarea-section').appendChild(div);
 }
 
 function findDepth(haystack, needle)
