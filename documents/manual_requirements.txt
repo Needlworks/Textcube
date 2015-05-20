@@ -1,47 +1,31 @@
-Textcube 1.8 Requirements
+Textcube 2.0 Requirements
 -------------------------
 
-1. For Linux Systems :
+ * Web servers (Need at least one environment)
+  * Apache > 2.1
+   * fancyURL support with mod_rewrite module (recommended)
+  * Nginx > 1.1
+  * Lighttpd > 1.4
+  * PHP built-in Web Server > 5.5.7
+  * IIS > 5.0
+   * with ISAPI Rewrite Filter
+ * Language
+  * PHP > 5.5
+   * with iconv (for TTXML character converting from old servers) / gd module (for image resampling)
+ * Database Management System (Need at least one environment)
+  * MySQL > 5.0 / MariaDB > 5.1 with UTF-8 character set and collation setting
+   * With PHP MySQLi extension (MySQLnd support is in development stage.)
+  * Cubrid > R2008
+  * PostgreSQL > 8.3
+  * Sqlite > 3.0
 
- Minimum requirements :
-  * WebServer
-   * Apache 1.3 or above
-    * with mod_rewrite module
-   * Nginx 1.5 or above
-   * lighttpd 
-  * PHP 5.5 or above
-  * Database Management System
-   * MySQL 5.1 / MariaDB 5 or above
-     * with UTF-8 emulation routine in Textcube
-   * Cubrid R2008 or above
-   * PostgreSQL 8.3 or above
-   * SQLite 3 or above (experimental)
+ For massive service / Heavy load environments
 
- Suggested environment :
-  * WebServer
-   * Apache 2.2 or above
-    * with mod_rewrite module
-   * Nginx 1.6 or above
-   * lighttpd 
-  * PHP 5.5 or above
-    * with iconv / gd module
-  * MySQL 5.5 / MariaDB 10.0 or above
-    * with UTF-8 character set and collation settings
- 
- For massive service or heavy load :
-  * APC (Alternative PHP Cache) pecl package with PHP PEAR
-  * FastCGI module with Apache2
-    (Need to modify config.php. referer 'config' in DOC directory.)
-  * InnoDB with Entries / Tags / TagRelations table.
+ * APC (Alternative PHP Cache) pecl package with PHP PEAR
+ * FastCGI module with Apache2
+  - (Need to modify config.php. referer 'config' in DOC directory.)
+ * InnoDB with Entries / Tags / TagRelations table.
+ * XCache
+ * memcached module
 
-
-2. For Microsoft Windows :
-
-  * IIS 5.0 or above
-    * with ISAPI Rewrite Filter
-  * PHP 5.5 or above
-    * with iconv / gd module
-  * MySQL 5.0 or above
-    * with UTF-8 character set and collation settings
-
-  Refer INSTALL to know how to set up on this environment.
+  Refer INSTALL to know how to set up on this environment. (especially Microsoft Windows environment)

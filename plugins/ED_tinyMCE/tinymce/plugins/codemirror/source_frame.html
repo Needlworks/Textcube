@@ -6,10 +6,12 @@
 
 /**
  * CodeMirror plugin for Textcube editor
- *
- * Based on tinyMCE codemirror plugin.js
- * source.html
- *
+ * Needlworks / Tatter Network Foundation
+ * @author Jeongkyu Shin
+ * 
+ * Based on tinyMCE codemirror plugin.js / source.html
+ * 
+ * Original CodeMirror plugin for tinyMCE
  * Copyright 2013-2014 Web Power, www.webpower.nl
  * @author Arjan Haverkamp
  */
@@ -103,7 +105,7 @@ function inArray(key, arr)
 function start()
 {// Initialise (on load)
 	"use strict";
-
+	
 	if (typeof(window.CodeMirror) !== 'function') {
 		alert('CodeMirror not found in "' + CMsettings.path + '", aborting...');
 		return;
@@ -111,26 +113,19 @@ function start()
 
 	// Create legend for keyboard shortcuts for find & replace:
 
-	//var head = parent.document.querySelectorAll('.mce-foot')[0],
 	var div = parent.document.createElement('div'),
 		td1 = '<td style="font-size:11px;background:#777;color:#fff;padding:0 4px">',
 		td2 = '<td style="font-size:11px;padding-right:5px">';
 	div.innerHTML = '<table cellspacing="0" cellpadding="0" style="border-spacing:4px"><tr>' + td1 + (isMac ? '&#8984;-F' : 'Ctrl-F</td>') + td2 + tinymce.translate('Start search') + '</td>' + td1 + (isMac ? '&#8984;-G' : 'Ctrl-G') + '</td>' + td2 + tinymce.translate('Find next') + '</td>' + td1 + (isMac ? '&#8984;-Alt-F' : 'Shift-Ctrl-F') + '</td>' + td2 + tinymce.translate('Find previous') + '</td></tr>' + '<tr>' + td1 + (isMac ? '&#8984;-Alt-F' : 'Shift-Ctrl-F') + '</td>' + td2 + tinymce.translate('Replace') + '</td>' + td1 + (isMac ? 'Shift-&#8984;-Alt-F' : 'Shift-Ctrl-R') +'</td>' + td2 + tinymce.translate('Replace all') + '</td></tr></table>';
-	//div.style.position = 'absolute';
 	div.style.left = div.style.top = div.style.bottom = '5px';
 	div.id = 'CodeMirrorInstruction';
-	parent.document.getElementById('textarea-section').appendChild(div);
-
-	//head.appendChild(div);
 
 	// Set CodeMirror cursor to same position as cursor was in TinyMCE:
-	//var html = editor.getContent({format: 'text'});
 	var html = editor.getContent({source_view: true,format: 'html'});
 	html = html.replace(/<span\s+class="CmCaReT"([^>]*)>([^<]*)<\/span>/gm, String.fromCharCode(chr));
 	if (editor.tcformatter == 'markdown') {
 		html = html.replace(new RegExp("<br />", "gi"), "\r\n");
 	}
-
 	editor.dom.remove(editor.dom.select('.CmCaReT'));
 
 	CodeMirror.defineInitHook(function(inst)
@@ -155,13 +150,13 @@ function start()
 	});
 
 	CMsettings.config.value = html;
-
 	// Instantiante CodeMirror:
 	codemirror = CodeMirror(document.body, CMsettings.config);
 	codemirror.isDirty = false;
 	codemirror.on('change', function(inst) {
 		inst.isDirty = true;
 	});
+	parent.document.getElementById('textarea-section').appendChild(div);
 }
 
 function findDepth(haystack, needle)
@@ -217,7 +212,7 @@ function submit()
 	if (findDepth(curLineHTML, cc) !== 0) {
 		// Cursor is inside a <tag>, don't set cursor:
 		curLineHTML = curLineHTML.replace(cc, '');
-		doc.setLine(pos.line, curLineHTML);
+		doc.replaceRange(curLineHTML, CodeMirror.Pos(pos.line, 0), CodeMirror.Pos(pos.line));
 	}
 
 	// Submit HTML to TinyMCE

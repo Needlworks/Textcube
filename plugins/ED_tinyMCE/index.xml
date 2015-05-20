@@ -14,7 +14,7 @@
 	<author xml:lang="ko" link="https://github.com/zvuc"><![CDATA[zvuc]]></author>
 	<safety changeData="yes" exposeData="no" accessLocal="yes" accessRemote="no" accessRaw="yes" />
 	<requirements>
-		<textcube>1.10</textcube>
+		<textcube>1.10.7</textcube>
 	</requirements>
 	<binding>
 		<listener event="ShowAdminHeader" handler="tinyMCE_adminheader" />

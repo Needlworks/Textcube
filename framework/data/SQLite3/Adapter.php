@@ -26,7 +26,7 @@ class DBAdapter implements IAdapter {
 		if(!file_exists(__TEXTCUBE_DATA_DIR__)) {
 			@mkdir(__TEXTCUBE_DATA_DIR__);
 		}
-		self::$db = new SQLite3(__TEXTCUBE_DATA_DIR__.'/'.$database['database'].'.db',SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
+		self::$db = new SQLite3(__TEXTCUBE_DATA_DIR__.'/'.$database['database'].'.sqlite',SQLITE3_OPEN_READWRITE | SQLITE3_OPEN_CREATE);
 
 		if(!self::$db) return false;
 

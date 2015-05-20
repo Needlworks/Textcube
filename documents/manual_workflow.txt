@@ -16,7 +16,7 @@ Dispatching                                           +------+------+
                                                              |
                                                         rewrite.php
                                                              |
-                                                        /framework/id/textcube/Dispatcher.php
+                         /framework/id/[content in file 'load' / textcube (Default)]/Dispatcher.php
                                                              |
                                           (Context / URL / configuration loading)
                                                              |
