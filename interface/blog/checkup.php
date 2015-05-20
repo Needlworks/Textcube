@@ -119,13 +119,22 @@ function clearCache() {
 
 				<div id="content">
 					<h3><?php echo _text('버전 검사');?></h3>
-
 					<ul class="version">
+<?php
+	if ($currentVersion == '0.0') {
+?>
+						<li><?php echo _text('첫 점검입니다.');?></li>
+<?php
+	} else {
+?>
 						<li><?php echo _textf('기존 버전 - %1',$currentVersion);?></li>
 						<li><?php echo _textf('현재 버전 - %1',TEXTCUBE_VERSION_ID);?></li>
+<?php
+	}
+?>
 					</ul>
 <?php
-	if(version_compare($currentVersion,'1.9.0','<')) {
+	if($currentVersion != '0.0' && version_compare($currentVersion,'1.9.0','<')) {
 ?>
 					<h3><?php echo _text('업그레이드 안내');?></h3>
 					<ul id="upgradeInstruction">
