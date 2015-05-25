@@ -50,6 +50,10 @@
 					<op value="skin"><![CDATA[스킨 지정 폭]]></op>
 					<op value="full" checked="checked"><![CDATA[화면 폭]]></op>
 				</field>
+				<field title="문단을 구별하기 위하여 사용할 태그" type="select" name="paragraphdelim">
+					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
+					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
+				</field>
 			</fieldset>
 			<fieldset legend="소스코드 에디터 테마">
 				<field title="테마" type="select" name="srctheme">
@@ -97,6 +101,10 @@
 					<op value="skin"><![CDATA[Skin-specified]]></op>
 					<op value="full" checked="checked"><![CDATA[Full-screen width]]></op>
 				</field>
+				<field title="Tag to separate paragraphs" type="select" name="paragraphdelim">
+					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
+					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
+				</field>
 			</fieldset>
 			<fieldset legend="Source code editor theme">
 				<field title="Theme" type="select" name="srctheme">
@@ -143,6 +151,10 @@
 				<field title="Width" type="select" name="width">
 					<op value="skin"><![CDATA[Skin-specified]]></op>
 					<op value="full" checked="checked"><![CDATA[Full-screen width]]></op>
+				</field>
+				<field title="段落区分用タグ" type="select" name="paragraphdelim">
+					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
+					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
 				</field>
 			</fieldset>
 			<fieldset legend="Source code editor theme">
