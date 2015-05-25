@@ -138,12 +138,13 @@ function tinyMCE_editorinit($editor) {
 <?php if ($config['formatter'] == 'markdown') { ?>
 				apply_source_formatting: false,
 				forced_root_block: false,
-<?php }  else if ($config['paragraphdelim'] == 'P') { ?>
+<?php } else if ($config['paragraphdelim'] == 'P') { ?>
 				forced_root_block : 'p',
 <?php } else { ?>
                 forced_root_block : false,
 <?php
-    }
+	}
+?>
 				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
