@@ -3,7 +3,7 @@
 	<title xml:lang="en">tinyMCE Editor</title>
 	<title xml:lang="ko">tinyMCE 편집기</title>
 	<link>http://needlworks.org/</link>
-	<version>1.10</version>
+	<version>1.10.7</version>
 	<description xml:lang="en">Provides an easy-to-use WYSIWYG editor interface.</description>
 	<description xml:lang="ko">사용하기 쉬운 편집기 환경을 제공합니다.</description>
 	<description xml:lang="ja">tinyMCE WYSIWYGに編集環境を転換</description>
