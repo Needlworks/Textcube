@@ -63,12 +63,21 @@ function getMIMEType($ext, $filename = null) {
 				return 'application/vnd.oasis.opendocument.spreadsheet';	
 			case 'odp':case 'otp':
 				return 'application/vnd.oasis.opendocument.presentation';
+<<<<<<< HEAD
 			case 'sxw':case 'stw':	
 				return '	application/vnd.sun.xml.writer';
 			case 'sxc':case 'stc':	
 				return '	application/vnd.sun.xml.calc';
 			case 'sxi':case 'sti':	
 				return '	application/vnd.sun.xml.impress';
+=======
+			case 'sxw':case 'stw':
+				return 'application/vnd.sun.xml.writer';
+			case 'sxc':case 'stc':
+				return 'application/vnd.sun.xml.calc';
+			case 'sxi':case 'sti':
+				return 'application/vnd.sun.xml.impress';
+>>>>>>> e4f8324...  refs #1816 : bugfix - contenttype support contains unused tab
 			case 'doc':
 				return 'application/vnd.ms-word';
 			case 'xls':case 'xla':case 'xlt':
