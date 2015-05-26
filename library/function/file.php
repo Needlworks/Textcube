@@ -64,11 +64,11 @@ function getMIMEType($ext, $filename = null) {
 			case 'odp':case 'otp':
 				return 'application/vnd.oasis.opendocument.presentation';
 			case 'sxw':case 'stw':
-				return '	application/vnd.sun.xml.writer';
+				return 'application/vnd.sun.xml.writer';
 			case 'sxc':case 'stc':
-				return '	application/vnd.sun.xml.calc';
+				return 'application/vnd.sun.xml.calc';
 			case 'sxi':case 'sti':
-				return '	application/vnd.sun.xml.impress';
+				return 'application/vnd.sun.xml.impress';
 			case 'doc':
 				return 'application/vnd.ms-word';
 			case 'xls':case 'xla':case 'xlt':
