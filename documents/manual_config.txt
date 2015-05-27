@@ -19,7 +19,7 @@ $service['domain'] = 'domain.ext';  // Default service domain. (e.g.) http://www
 $service['path'] = '/path1/path2';  // URI path where textcube is installed (e.g.) /tc
 $service['skin'] = 'periwinkle';     // Default blog skin name.
 $service['timeout'] = 3600;                 // Session timeout limit (sec.)
-$service['disableEolinSuggestion'] = false; // Disable auto-suggestion using EOLIN server.
+$service['disableEolinSuggestion'] = false; // DEPRECATED: Disable auto-suggestion using EOLIN server. 
 //Usually it searches local tag by default.
 // From Tattertools 1.1
 $service['useEncodedURL'] = false; // URL encoding using RFC1738
