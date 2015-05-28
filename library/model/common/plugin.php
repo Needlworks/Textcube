@@ -15,7 +15,6 @@ function clearPluginSettingCache() {
 }
 
 function activatePlugin($name) {
-    global $gCacheStorage;
     $context = Model_Context::getInstance();
     if (in_array($name, $context->getProperty("plugin.activePlugins"))) {
         return true;

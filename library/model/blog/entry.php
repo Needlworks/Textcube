@@ -883,7 +883,7 @@ function getUniqueSlogan($blogid, $slogan, $id = null, $keepOriginal = false) {
 }
 
 function addEntry($blogid, $entry, $userid = null) {
-    global $gCacheStorage;
+    $gCacheStorage = globalCacheStorage::getInstance();
     $pool = DBModel::getInstance();
     importlib("model.blog.attachment");
     importlib("model.blog.feed");
@@ -1023,7 +1023,7 @@ function addEntry($blogid, $entry, $userid = null) {
 }
 
 function updateEntry($blogid, $entry, $updateDraft = 0) {
-    global $gCacheStorage;
+    $gCacheStorage = globalCacheStorage::getInstance();
     $pool = DBModel::getInstance();
 
     importlib('model.blog.tag');
@@ -1362,7 +1362,7 @@ function updateRemoteResponsesOfEntry($blogid, $id) {
 }
 
 function deleteEntry($blogid, $id) {
-    global $gCacheStorage;
+    $gCacheStorage = globalCacheStorage::getInstance();
     $ctx = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 

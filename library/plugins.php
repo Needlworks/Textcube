@@ -26,7 +26,8 @@ $editorMappings = array('plain' => array('name' => _t('편집기 없음')));
 list($currentTextcubeVersion) = explode(' ', TEXTCUBE_VERSION, 2);
 
 if (getBlogId()) {
-    if ($gCacheStorage->getContent('activePlugins')) {
+	$gCacheStorage = globalCacheStorage::getInstance();
+	if ($gCacheStorage->getContent('activePlugins')) {
         $activePlugins = $gCacheStorage->getContent('activePlugins');
     } else {
         $pool = DBModel::getInstance();
