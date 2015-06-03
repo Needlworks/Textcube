@@ -1257,12 +1257,12 @@ function saveDraftEntry($blogid, $entry) {
     $tags = getTagsWithEntryString($entry['tag']);
     Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 
-    $location = POD::escapeString($entry['location']);
+    $location = $entry['location'];
     $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
     $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
-    $content = POD::escapeString($entry['content']);
-    $contentformatter = POD::escapeString($entry['contentformatter']);
-    $contenteditor = POD::escapeString($entry['contenteditor']);
+    $content = $entry['content'];
+    $contentformatter = $entry['contentformatter'];
+    $contenteditor = $entry['contenteditor'];
     switch ($entry['published']) {
         case 0:
             $published = $origEntry['published'];
