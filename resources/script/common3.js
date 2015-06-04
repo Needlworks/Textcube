@@ -1060,7 +1060,7 @@ function addComment(caller, entryId) {
 				if (getObject("commentCount" + entryId) != null)
 					$("#commentCount" + entryId).html($(data).find("response commentView").text());
 				if (getObject("commentCountOnRecentEntries" + entryId) != null)
-					$("#commentCountOnRecentEntries" + entryId).html("(" + $(data).find("response commentCount").text() + ")");
+					$("#commentCountOnRecentEntries" + entryId).html($(data).find("response commentCount").text());
 			} else {
 				alert($(data).find("response description").text());
 			}
