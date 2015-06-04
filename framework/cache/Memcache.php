@@ -43,7 +43,7 @@ class Cache_Memcache extends Singleton {
 	}
 	public function purge($key) {
 		if(strpos($key,'.') === false) {	// If key doesn't contain namespace,
-			if (!empty($this->__namespace)) $key = $this->__namespace.'.'.$key;
+			if (!empty($this->__namespace)) $key = $this->getNamespaceHash().'.'.$key;
 			else $key = $this->getNamespaceHash('global').'.'.$key;
 		}
 		return $this->memcache->delete($key);
