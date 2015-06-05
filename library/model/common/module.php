@@ -56,7 +56,8 @@ function getDefaultFormatter() {
 
 function& getAllFormatters() {
     $context = Model_Context::getInstance();
-    return $context->getProperty('plugin.formatterMappings');
+	$formatters = $context->getProperty('plugin.formatterMappings');
+	return $formatters;
 }
 
 function getFormatterInfo($formatter) {

@@ -316,8 +316,6 @@ function api_addAttachment($blogid, $parent, $file) {
 
     $oldFile = $pool->getCell('name');
 
-//	$oldFile = POD::queryCell("SELECT name FROM {$database['prefix']}Attachments WHERE blogid=$blogid AND parent=$parent AND label = '$label'");
-
     if ($oldFile !== null) {
         $attachment['name'] = $oldFile;
     } else {

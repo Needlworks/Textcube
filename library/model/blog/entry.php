@@ -883,7 +883,7 @@ function getUniqueSlogan($blogid, $slogan, $id = null, $keepOriginal = false) {
 }
 
 function addEntry($blogid, $entry, $userid = null) {
-    global $gCacheStorage;
+    $gCacheStorage = globalCacheStorage::getInstance();
     $pool = DBModel::getInstance();
     importlib("model.blog.attachment");
     importlib("model.blog.feed");
@@ -937,8 +937,8 @@ function addEntry($blogid, $entry, $userid = null) {
 
     $slogan = getUniqueSlogan($blogid, $slogan);
     $userid = $entry['userid'];
-    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
-    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
+    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : null;
+    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : null;
     if (!isset($entry['firstEntry']) && isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
         $published = $entry['published'];
         $entry['visibility'] = 0 - $entry['visibility'];
@@ -1023,7 +1023,7 @@ function addEntry($blogid, $entry, $userid = null) {
 }
 
 function updateEntry($blogid, $entry, $updateDraft = 0) {
-    global $gCacheStorage;
+    $gCacheStorage = globalCacheStorage::getInstance();
     $pool = DBModel::getInstance();
 
     importlib('model.blog.tag');
@@ -1089,8 +1089,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
     $tags = getTagsWithEntryString($entry['tag']);
     Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 
-    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
-    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
+    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : null;
+    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : null;
     switch ($entry['published']) {
         case 0:
             $published = $oldEntry['published'];
@@ -1257,12 +1257,12 @@ function saveDraftEntry($blogid, $entry) {
     $tags = getTagsWithEntryString($entry['tag']);
     Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 
-    $location = POD::escapeString($entry['location']);
-    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
-    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
-    $content = POD::escapeString($entry['content']);
-    $contentformatter = POD::escapeString($entry['contentformatter']);
-    $contenteditor = POD::escapeString($entry['contenteditor']);
+    $location = $entry['location'];
+    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : null;
+    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : null;
+    $content = $entry['content'];
+    $contentformatter = $entry['contentformatter'];
+    $contenteditor = $entry['contenteditor'];
     switch ($entry['published']) {
         case 0:
             $published = $origEntry['published'];
@@ -1362,7 +1362,7 @@ function updateRemoteResponsesOfEntry($blogid, $id) {
 }
 
 function deleteEntry($blogid, $id) {
-    global $gCacheStorage;
+    $gCacheStorage = globalCacheStorage::getInstance();
     $ctx = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 

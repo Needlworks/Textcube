@@ -35,6 +35,10 @@ if(isset($_POST['useiPhoneUI'])) {
 	else $useiPhoneUI = false;
 	if(Setting::setBlogSettingGlobal('useiPhoneUI',$useiPhoneUI)) $result = true;
 }
-if($result)	{$gCacheStorage->purge();Respond::ResultPage(0);}
+if($result)	{
+	$gCacheStorage = globalCacheStorage::getInstance();
+	$gCacheStorage->purge();
+	Respond::ResultPage(0);
+}
 else Respond::ResultPage(-1);
 ?>

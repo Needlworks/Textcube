@@ -37,7 +37,8 @@ class Setting {
     }
 
     static function getBlogSettingsGlobal($blogid = null) {
-        global $database, $service, $__gCacheBlogSettings, $gCacheStorage;
+		global $database, $service, $__gCacheBlogSettings;
+		$gCacheStorage = globalCacheStorage::getInstance();
         if (empty($__gCacheBlogSettings)) {
             $__gCacheBlogSettings = array();
         }
@@ -116,7 +117,7 @@ class Setting {
 
     static function setBlogSettingGlobal($name, $value, $blogid = null) {
         global $__gCacheBlogSettings;
-        global $gCacheStorage;
+        $gCacheStorage = globalCacheStorage::getInstance();
 
         if (is_null($blogid)) {
             $blogid = getBlogId();
@@ -173,9 +174,8 @@ class Setting {
     }
 
     static function removeBlogSettingGlobal($name, $blogid = null) {
-        global $database;
         global $__gCacheBlogSettings; // share blog.service.php
-        global $gCacheStorage;
+        $gCacheStorage = globalCacheStorage::getInstance();
 
         if (is_null($blogid)) {
             $blogid = getBlogId();
@@ -363,7 +363,8 @@ class Setting {
     }
 
     static function getSkinSettings($blogid, $forceReload = false) {
-        global $database, $service, $__gCacheSkinSettings, $gCacheStorage;
+		global $database, $service, $__gCacheSkinSettings;
+		$gCacheStorage = globalCacheStorage::getInstance();
         $context = Model_Context::getInstance();
         if (empty($__gCacheSkinSettings)) {
             $__gCacheSkinSettings = array();
@@ -461,7 +462,7 @@ class Setting {
     static function setSkinSetting($name, $value, $blogid = null) {
         global $__gCacheSkinSettings;
         global $__gCacheBlogSettings;
-        global $gCacheStorage;
+        $gCacheStorage = globalCacheStorage::getInstance();
 
         if (is_null($blogid)) {
             $blogid = getBlogId();
