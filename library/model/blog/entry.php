@@ -937,8 +937,8 @@ function addEntry($blogid, $entry, $userid = null) {
 
     $slogan = getUniqueSlogan($blogid, $slogan);
     $userid = $entry['userid'];
-    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
-    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
+    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : null;
+    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : null;
     if (!isset($entry['firstEntry']) && isset($entry['published']) && is_numeric($entry['published']) && ($entry['published'] >= 2)) {
         $published = $entry['published'];
         $entry['visibility'] = 0 - $entry['visibility'];
@@ -1089,8 +1089,8 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
     $tags = getTagsWithEntryString($entry['tag']);
     Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 
-    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
-    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
+    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : null;
+    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : null;
     switch ($entry['published']) {
         case 0:
             $published = $oldEntry['published'];
@@ -1258,8 +1258,8 @@ function saveDraftEntry($blogid, $entry) {
     Tag::modifyTagsWithEntryId($blogid, $entry['id'], $tags);
 
     $location = $entry['location'];
-    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : 'NULL';
-    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : 'NULL';
+    $latitude = isset($entry['latitude']) && !is_null($entry['latitude']) ? $entry['latitude'] : null;
+    $longitude = isset($entry['longitude']) && !is_null($entry['longitude']) ? $entry['longitude'] : null;
     $content = $entry['content'];
     $contentformatter = $entry['contentformatter'];
     $contenteditor = $entry['contenteditor'];
