@@ -753,7 +753,7 @@ function updateRandomFeed() {
     $updatecycle = POD::queryCell("SELECT updatecycle FROM {$database['prefix']}FeedSettings LIMIT 1");
     if ($updatecycle != 0) {
         if ($feed = POD::queryRow("SELECT * FROM {$database['prefix']}Feeds WHERE modified < " . (gmmktime() - ($updatecycle * 60)) . " ORDER BY RAND() LIMIT 1")) {
-            setServiceSetting('lastFeedUpdate', gmmktime());
+            Setting::setServiceSetting('lastFeedUpdate', gmmktime(),true);
             return array(updateFeed($feed), $feed['xmlurl']);
         }
     }

@@ -391,7 +391,6 @@ class Auth {
             }
         } else {
             if ($blogapi && !empty($blogApiPassword)) {    // BlogAPI login
-                $password = POD::escapeString($password);
                 $pool->setQualifierSet(array("password","eq",md5($password),true),"OR",array($password,"eq",$blogApiPassword,true));
             } else {    // Normal login
                 $pool->setQualifier("password","eq",md5($password),true);

@@ -41,8 +41,8 @@ if (empty($suri['id']) || !is_null($entry)) {
 	$entry['starred']    = $_POST['starred'];
 	$entry['category']   = $_POST['category'];
 	$entry['location']   = empty($_POST['location']) ? '/' : $_POST['location'];
-	$entry['latitude'] = empty($_POST['latitude']) ? null : $_POST['latitude'];
-	$entry['longitude'] = empty($_POST['longitude']) ? null : $_POST['longitude'];
+	$entry['latitude'] = (empty($_POST['latitude']) || $_POST['latitude'] == "null") ? null : $_POST['latitude'];
+	$entry['longitude'] = (empty($_POST['longitude']) || $_POST['longitude'] == "null") ? null : $_POST['longitude'];
 	$entry['tag']        = empty($_POST['tag']) ? '' : $_POST['tag'];
 	$entry['title']      = $_POST['title'];
 	$entry['content']    = $_POST['content'];
@@ -56,7 +56,7 @@ if (empty($suri['id']) || !is_null($entry)) {
 	$entry['published'] = empty($_POST['published']) ? 0 : $_POST['published'];
 	$entry['draft'] = 0;
 	if(strpos($entry['slogan'],'TCDraftPost') === 0) $entry['slogan'] = $entry['title'];
-	
+
 	if(empty($suri['id'])) {
 		if ($id = addEntry($blogid, $entry)) {
 			fireEvent('AddPost', $id, $entry);

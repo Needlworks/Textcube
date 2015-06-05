@@ -133,8 +133,6 @@ function requirePrivilege($AC) {
 }
 
 function validateAPIKey($blogid, $loginid, $key) {
-    $loginid = POD::escapeString($loginid);
-    $key = POD::escapeString($key);
     $userid = User::getUserIdByEmail($loginid);
     if ($userid === false) {
         return false;

@@ -5,8 +5,8 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION_ID', '2.0 : Alpha 2');
-define('TEXTCUBE_REVISION', 'root-main-branch2.0-r40');
+define('TEXTCUBE_VERSION_ID', '2.0 : Alpha 3');
+define('TEXTCUBE_REVISION', 'root-main-branch2.0-r41');
 define('TEXTCUBE_CODENAME', 'Sprout');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID . ' : ' . TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2015. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');

@@ -169,7 +169,8 @@ class Post {
 	}
 	
 	function remove($id = null) { // attachment & category is own your risk!
-		global $database, $gCacheStorage;
+		global $database;
+		$gCacheStorage = globalCacheStorage::getInstance();
 		$this->init();
 		if(!empty($id)) $this->id = $id;
 		// step 0. Get Information

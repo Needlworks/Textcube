@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.5.0.20150508
+ * Version 2.6.0.20150530
  *
  * Created       : May 30, 2011
- * Last modified : May 8, 2015
+ * Last modified : May 30, 2015
  *
  * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
@@ -384,6 +384,20 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         }
         return result + string.substring(pos2, string.length);
     },
+    objectSerialize: function(str) {
+    	str = str.replace(new RegExp("<br\\s*/?>", "gi"), "");
+    	str = str.replace(new RegExp("\r?\n", "g"), "");
+    	str = str.replace(new RegExp("<", "g"), "__LT__");
+    	str = str.replace(new RegExp(">", "g"), "__GT__");
+    	str = str.replace(new RegExp('"', "g"), "__QUOT__");
+    	return str;
+    },
+    objectUnSerialize: function(str) {
+    	str = str.replaceAll("__QUOT__", '"');
+    	str = str.replaceAll("__GT__", ">");
+    	str = str.replaceAll("__LT__", "<");
+    	return str;
+    },
     parseAttribute: function (str, name) {
         var t = this;
 
@@ -474,6 +488,9 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
     // &quot; -> " / &#39; -> '
     removeQuot: function (str) {
         return str.replace(new RegExp("&quot;", "gi"), '"').replace(new RegExp("&#39;", "g"), "'");
+    },
+    nl2br: function(str) {
+    	return str.replace(new RegExp("\r\n", "gi"), "<br />").replace(new RegExp("\r", "gi"), "<br />").replace(new RegExp("\n", "gi"), "<br />");
     },
     // Determine whether the file is image or not.
     _isImageFile: function (filename) {
@@ -1814,7 +1831,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             author: 'Jeongkyu Shin',
             authorurl: 'https://www.textcube.org',
             infourl: 'http://github.com/needlworks/textcube',
-            version: "2.5.0"
+            version: "2.6.0"
         };
     }
 });

@@ -1,6 +1,6 @@
 <?php
 function getTeamBlogInitConfigVal( &$data ){
-	$postHeaderDefault = '<fieldset><legend>Writer profile</legend>';
+	$postHeaderDefault = '<fieldset><legend>'._t('필자 소개').'</legend>';
 	$postFooterDefault = '</fieldset>';
 	$data['p1'] = !isset($data['p1'])?true:$data['p1'];
 	$data['postHeader']	= !isset($data['postHeader'])?$postHeaderDefault:$data['postHeader'];

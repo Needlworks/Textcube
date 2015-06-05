@@ -10,6 +10,7 @@ function tinyMCE_handleconfig($configVal) {
     $context = Model_Context::getInstance();
     $config = $context->getProperty('plugin.config');
     if (isset($config['editormode']) && $config['editormode'] != 'simple' && $config['editormode'] != 'advanced') return false;
+	if (isset($config['paragraphdelim']) && $config['paragraphdelim'] != 'P' && $config['paragraphdelim'] != 'BR') return false;
 	return true;
 }
 
@@ -22,6 +23,7 @@ function tinyMCE_editorinit($editor) {
 	if(empty($config['srctheme'])) $config['srctheme'] = 'default';
 	if($config['srctheme'] == 'default') $config['srctheme'] = 'elegant';
 	$config['formatter'] = null;
+    if(empty($config['paragraphdelim'])) $config['paragraphdelim'] = 'BR';
 	if($context->getProperty('formatter.key') == 'markdown') {
 		$config['formatter'] = 'markdown';
         $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/markdown/markdown.js');
@@ -137,10 +139,13 @@ function tinyMCE_editorinit($editor) {
 <?php if ($config['formatter'] == 'markdown') { ?>
 				apply_source_formatting: false,
 				forced_root_block: false,
-<?php }  else { ?>
+<?php } else if ($config['paragraphdelim'] == 'P') { ?>
 				forced_root_block : 'p',
-
-<?php } ?>
+<?php } else { ?>
+                forced_root_block : false,
+<?php
+	}
+?>
 				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {

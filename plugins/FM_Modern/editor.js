@@ -1507,6 +1507,8 @@ TTModernEditor.prototype.command = function(command, value1, value2) {
 						case "mpg":
 						case "mpeg": type = "video/x-ms-mpeg"; break;
 						case "wmv": type = "video/x-ms-wmv"; break;
+						case "mp4": type = "video/mp4"; break;
+						case "mkv": type = "video/x-matroska"; break;
 						case "wm": type = "video/x-ms-wm"; break;
 						case "wvx": type = "video/x-ms-wvx"; break;
 					}
