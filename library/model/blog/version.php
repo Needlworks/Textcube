@@ -6,10 +6,8 @@
 define('__TEXTCUBE_CHECKUP_FILE__', __TEXTCUBE_CACHE_DIR__ . '/CHECKUP');
 
 function getBlogVersion() {
-	global $database;
 	if (defined('__TEXTCUBE_GAE__')) {
-		$query = "SELECT value FROM {$database['prefix']}ServiceSettings WHERE name = 'blogVersion'";
-		$version = POD::queryCell($query);
+		$version = Setting::getServiceSetting('blogVersion',null,true);
 		if (is_null($version)) {
 			$version = '0';
 		}
@@ -22,13 +20,9 @@ function getBlogVersion() {
 }
 
 function setBlogVersion() {
-	global $database;
 	$version = TEXTCUBE_VERSION_ID;
 	if (defined('__TEXTCUBE_GAE__')) {
-		$query = "INSERT into {$database['prefix']}ServiceSettings " .
-				     "  (name, value) VALUES ('blogVersion', '{$version}')" .
-		         "  ON DUPLICATE KEY UPDATE value=VALUES(value)";
-		POD::execute($query);
+		Setting::setServiceSetting('blogVersion',$version,true);
 		return;
 	}
 	$fp = fopen(__TEXTCUBE_CHECKUP_FILE__, 'w');
