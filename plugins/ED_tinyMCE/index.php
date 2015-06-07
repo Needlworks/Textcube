@@ -18,20 +18,20 @@ function tinyMCE_editorinit($editor) {
     $context = Model_Context::getInstance();
     $config = $context->getProperty('plugin.config');
 
-    if(empty($config['editormode'])) $config['editormode'] = 'simple';
-	if(empty($config['width'])) $config['width'] = 'skin';
-	if(empty($config['srctheme'])) $config['srctheme'] = 'default';
-	if($config['srctheme'] == 'default') $config['srctheme'] = 'elegant';
-	$config['formatter'] = null;
-    if(empty($config['paragraphdelim'])) $config['paragraphdelim'] = 'BR';
-	if($context->getProperty('formatter.key') == 'markdown') {
-		$config['formatter'] = 'markdown';
-        $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/markdown/markdown.js');
-		$config['width'] = 'full';
-	} else {
+  if(empty($config['editormode'])) $config['editormode'] = 'simple';
+  if(empty($config['width'])) $config['width'] = 'skin';
+  if(empty($config['srctheme'])) $config['srctheme'] = 'default';
+  if($config['srctheme'] == 'default') $config['srctheme'] = 'elegant';
+  $config['formatter'] = null;
+  if(empty($config['paragraphdelim'])) $config['paragraphdelim'] = 'BR';
+  if($context->getProperty('formatter.key') == 'markdown') {
+    $config['formatter'] = 'markdown';
+    $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/markdown/markdown.js');
+    $config['width'] = 'full';
+  } else {
         $config['formatter'] = 'htmlmixed';
         $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/javascript/javascript.js','mode/css/css.js','mode/htmlmixed/htmlmixed.js');
-    }
+  }
 	ob_start();
 ?>
 			var editor = new tinymce.Editor('editWindow', {
@@ -190,6 +190,8 @@ function tinyMCE_editorinit($editor) {
 			editor.propertyFilePath = "<?php echo $context->getProperty('uri.service');?>/attach/<?php echo $context->getProperty('blog.id');?>/";
             editor.tcformatter = '<?php echo $config['formatter'];?>';
 			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
+      editor.originalTextarea = document.getElementById('editWindow');
+      editor.editorMode = 'wysiwyg';
 			return editor;
 <?php
 	$result = ob_get_contents();

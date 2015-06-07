@@ -1,9 +1,9 @@
 /**
  * Textcube editor support for tinyMCE 4
- * Version 2.6.0.20150530
+ * Version 3.0.0.20150607
  *
  * Created       : May 30, 2011
- * Last modified : May 30, 2015
+ * Last modified : June 7, 2015
  *
  * Copyright 2011, 2015 Jeongkyu Shin <inureyes@gmail.com>
  * Released under LGPL License.
@@ -17,7 +17,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         t.propertyFilePath = ed.propertyFilePath;
         t.propertyNames = ["propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
         t.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + servicePath + '/resources/image/extension/unknown.gif\')"';
-        t.editorMode = 'wysiwyg';
+        ed.editorMode = 'wysiwyg';
         ed.on('LoadContent', function (e) {
             e.content = t.TTMLtoHTML(e.content);
         });
@@ -1606,33 +1606,35 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             case 'Image2C':
             case 'Image3C':
                 try {
-                    var src = servicePath + adminSkin + "/image/spacer.gif";
-                    var moreattrs = '';
-                    var longdesc;
-                    if (data.mode == 'Image1L' || data.mode == 'Image1C' || data.mode == 'Image1R') {
-                        if (new RegExp("\.(jpe?g|gif|png|bmp|webm|svg)$", "i").test(objects[0][0])) {
-                            src = t.propertyFilePath + objects[0][0];
-                            moreattrs = objects[0][1];
+                    if (editor.editorMode == 'wysiwyg') {
+                        var src = servicePath + adminSkin + "/image/spacer.gif";
+                        var moreattrs = '';
+                        var longdesc;
+                        if (data.mode == 'Image1L' || data.mode == 'Image1C' || data.mode == 'Image1R') {
+                            if (new RegExp("\.(jpe?g|gif|png|bmp|webm|svg)$", "i").test(objects[0][0])) {
+                                src = t.propertyFilePath + objects[0][0];
+                                moreattrs = objects[0][1];
+                            } else {
+                                objects[0][1] = '';
+                                moreattrs = t.styleUnknown;
+                            }
+                            longdesc = data.mode.substr(5) + '|' + objects[0][0] + '|' + objects[0][1] + '|' + objects[0][2].replaceAll("|", "");
                         } else {
-                            objects[0][1] = '';
-                            moreattrs = t.styleUnknown;
+                            moreattrs = 'width="' + (parseInt(data.mode.substr(5)) * 100) + '" height="100"';
+                            longdesc = data.mode.substr(5);
+                            for (var i = 0; objects[i]; ++i) {
+                                longdesc += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
+                            }
                         }
-                        longdesc = data.mode.substr(5) + '|' + objects[0][0] + '|' + objects[0][1] + '|' + objects[0][2].replaceAll("|", "");
-                    } else {
-                        moreattrs = 'width="' + (parseInt(data.mode.substr(5)) * 100) + '" height="100"';
-                        longdesc = data.mode.substr(5);
-                        for (var i = 0; objects[i]; ++i) {
-                            longdesc += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
-                        }
+    
+                        var className = {
+                            Image1L: 'tatterImageLeft', Image1C: 'tatterImageCenter', Image1R: 'tatterImageRight',
+                            Image2C: 'tatterImageDual', Image3C: 'tatterImageTriple'
+                        }[data.mode];
+                        var prefix = '<img class="' + className + '" src="' + src + '" ' + moreattrs + ' longdesc="' + t.addQuot(longdesc) + '" />';
+                        t.command("Raw", prefix);
+                        return true;
                     }
-
-                    var className = {
-                        Image1L: 'tatterImageLeft', Image1C: 'tatterImageCenter', Image1R: 'tatterImageRight',
-                        Image2C: 'tatterImageDual', Image3C: 'tatterImageTriple'
-                    }[data.mode];
-                    var prefix = '<img class="' + className + '" src="' + src + '" ' + moreattrs + ' longdesc="' + t.addQuot(longdesc) + '" />';
-                    t.command("Raw", prefix);
-                    return true;
                 } catch (e) {
                 }
 
@@ -1640,14 +1642,18 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 for (var i = 0; objects[i]; ++i) {
                     code += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
                 }
-                //insertTag(t.textarea, '[##_' + code + '_##]', "");
+                insertTag(editor.originalTextarea, '[##_' + code + '_##]', "");
                 return true;
 
             case 'ImageFree':
 
                 var prefix = '';
                 for (var i = 0; objects[i]; ++i) {
-                    prefix += '<img class="tatterImageFree" src="' + t.propertyFilePath + objects[i][0] + '" longdesc="[##_ATTACH_PATH_##]/' + objects[i][0] + '" ' + objects[i][1] + ' />';
+                    if(editor.editorMode == 'wysiwyg') {
+                        prefix += '<img class="tatterImageFree" src="' + t.propertyFilePath + objects[i][0] + '" longdesc="[##_ATTACH_PATH_##]/' + objects[i][0] + '" ' + objects[i][1] + ' />';
+                    } else {
+                        prefix += '<img src="[##_ATTACH_PATH_##]/' + objects[i][0] + '" ' + objects[i][1] + ' />';
+                    }
                 }
                 t.command("Raw", prefix);
                 return true;
@@ -1672,13 +1678,15 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 }
 
                 try {
-                    var className = 'tatter' + data.mode;
-                    var widthheight = (data.mode == 'Jukebox' ? 'width="200" height="30"' : 'width="400" height="300"');
-                    t.command("Raw", '<img class="' + className + '" src="' + servicePath + adminSkin + '/image/spacer.gif" ' + widthheight + ' longdesc="' + code + '" />');
-                    return true;
+                    if(editor.editorMode == 'wysiwyg') {
+                        var className = 'tatter' + data.mode;
+                        var widthheight = (data.mode == 'Jukebox' ? 'width="200" height="30"' : 'width="400" height="300"');
+                        t.command("Raw", '<img class="' + className + '" src="' + servicePath + adminSkin + '/image/spacer.gif" ' + widthheight + ' longdesc="' + code + '" />');
+                        return true;
+                    }
                 } catch (e) {
                 }
-                //insertTag(t.textarea, '[##_' + code + '_##]', '');
+                insertTag(editor.originalTextarea, '[##_' + code + '_##]', '');
                 return true;
         }
         return false;
@@ -1688,7 +1696,11 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 
         switch (command) {
             case "MoreLessBlock":
-                t.command("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
+                if(editor.editorMode == 'wysiwyg') {
+                    t.command("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
+                } else {
+                    insertTag(editor.originalTextarea, "[#M_ more.. | less.. | ", "_M#]");
+                }
                 break;
             case "InsertObject":
                 if (getObject(t.id + "propertyInsertObject_type").value == "url") {
@@ -1797,29 +1809,37 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                         return;
                     }
                 }
-                t.command("Raw", '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + t.parseImageSize(code, "string", "css") + ' longDesc="' + t.objectSerialize(code) + '" />', "");
+                if (editor.editorMode == 'wysiwyg') {
+                    t.command("Raw", '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + t.parseImageSize(code, "string", "css") + ' longDesc="' + t.objectSerialize(code) + '" />', "");
+                } else {
+                    insertTag(editor.originalTextarea, code, "");
+                }
                 getObject(t.id + "propertyInsertObject").style.display = "none";
                 break;
 
             case "Raw":
                 value2 = (typeof value2 == "undefined") ? "" : value2;
-                selectedContent = editor.selection.getContent();
-                editor.execCommand('mceInsertContent', false, value1 + selectedContent + value2);
+                if (editor.editorMode == 'wysiwyg') {
+                    selectedContent = editor.selection.getContent();
+                    editor.execCommand('mceInsertContent', false, value1 + selectedContent + value2);
+                } else {
+                    insertTag(editor.originalTextarea, value1, value2);
+                }
                 break;
             case "ToggleTextarea":
-                if (t.editorMode == 'wysiwyg') {
+                if (editor.editorMode == 'wysiwyg') {
                     editor.save();
                     jQuery(".mce-edit-area").hide();
                     jQuery(".mce-statusbar").hide();
                     document.getElementById('editWindow').style.display = "block";
                     document.getElementById('editWindow').style.width = "100%";
-                    t.editorMode = 'raw';
+                    editor.editorMode = 'raw';
                 } else {
                     editor.load();
                     document.getElementById('editWindow').style.display = "none";
                     jQuery(".mce-edit-area").show();
                     jQuery(".mce-statusbar").show();
-                    t.editorMode = 'wysiwyg';
+                    editor.editorMode = 'wysiwyg';
                 }
                 break;
         }
@@ -1831,7 +1851,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             author: 'Jeongkyu Shin',
             authorurl: 'https://www.textcube.org',
             infourl: 'http://github.com/needlworks/textcube',
-            version: "2.6.0"
+            version: "3.0.0"
         };
     }
 });
