@@ -425,13 +425,11 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             if (target.style.width && target.style.height) {
                 width = parseInt(target.style.width);
                 height = parseInt(target.style.height);
-            }
-            else {
+            } else {
                 width = target.width;
                 height = target.height;
             }
-        }
-        else {
+        } else {
             target = target.replace(new RegExp('longdesc=".*?"', "gi"), "");
             target = target.replace(new RegExp("longdesc='.*?'", "gi"), "");
 
@@ -453,17 +451,16 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 height = sizeHeight[1];
         }
 
-        if (type == "array")
+        if (type == "array") {
             return new Array(width, height);
-        else if (mode == "css") {
+        } else if (mode == "css") {
             var size = ' style="';
             if (width > 0)
                 size += 'width: ' + width + 'px;';
             if (height > 0)
                 size += 'height: ' + height + 'px;';
             return size + '"';
-        }
-        else {
+        } else {
             var size = ' ';
             if (width > 0)
                 size += 'width="' + width + '" ';
@@ -1642,7 +1639,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 for (var i = 0; objects[i]; ++i) {
                     code += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
                 }
-                insertTag(editor.originalTextarea, '[##_' + code + '_##]', "");
+                t.insert_tag(editor.originalTextarea, '[##_' + code + '_##]', "");
                 return true;
 
             case 'ImageFree':
@@ -1686,7 +1683,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                     }
                 } catch (e) {
                 }
-                insertTag(editor.originalTextarea, '[##_' + code + '_##]', '');
+                t.insert_tag(editor.originalTextarea, '[##_' + code + '_##]', '');
                 return true;
         }
         return false;
@@ -1699,7 +1696,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 if(editor.editorMode == 'wysiwyg') {
                     t.command("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
                 } else {
-                    insertTag(editor.originalTextarea, "[#M_ more.. | less.. | ", "_M#]");
+                    t.insert_tag(editor.originalTextarea, "[#M_ more.. | less.. | ", "_M#]");
                 }
                 break;
             case "InsertObject":
@@ -1812,7 +1809,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 if (editor.editorMode == 'wysiwyg') {
                     t.command("Raw", '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + t.parseImageSize(code, "string", "css") + ' longDesc="' + t.objectSerialize(code) + '" />', "");
                 } else {
-                    insertTag(editor.originalTextarea, code, "");
+                    t.insert_tag(editor.originalTextarea, code, "");
                 }
                 getObject(t.id + "propertyInsertObject").style.display = "none";
                 break;
@@ -1823,7 +1820,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                     selectedContent = editor.selection.getContent();
                     editor.execCommand('mceInsertContent', false, value1 + selectedContent + value2);
                 } else {
-                    insertTag(editor.originalTextarea, value1, value2);
+                    t.insert_tag(editor.originalTextarea, value1, value2);
                 }
                 break;
             case "ToggleTextarea":
@@ -1844,6 +1841,36 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 break;
         }
     },
+    insert_tag: function(oTextarea, prefix, postfix) {
+        if (isSafari && !isMinSafari3)
+            var selection = window.getSelection;
+        else
+            var selection = document.selection;
+        
+        if (selection) {
+            if (oTextarea.createTextRange && oTextarea.currentPos) {
+                oTextarea.currentPos.text = prefix + oTextarea.currentPos.text + postfix;
+                oTextarea.focus();
+                savePosition(oTextarea);
+            }
+            else
+                oTextarea.value = oTextarea.value + prefix + postfix;
+        }
+        else if (oTextarea.selectionStart != null && oTextarea.selectionEnd != null) {
+            var s1 = oTextarea.value.substring(0, oTextarea.selectionStart);
+            var s2 = oTextarea.value.substring(oTextarea.selectionStart, oTextarea.selectionEnd);
+            var s3 = oTextarea.value.substring(oTextarea.selectionEnd);
+            oTextarea.value = s1 + prefix + s2 + postfix + s3;
+        }
+        else
+            oTextarea.value += prefix + postfix;
+            
+        return true;
+    },
+    savePosition: function(oTextarea) {
+        if (oTextarea.createTextRange)
+            oTextarea.currentPos = document.selection.createRange().duplicate();
+    },
     /** Plugin information **/
     getInfo: function () {
         return {
@@ -1851,7 +1878,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             author: 'Jeongkyu Shin',
             authorurl: 'https://www.textcube.org',
             infourl: 'http://github.com/needlworks/textcube',
-            version: "3.0.0"
+            version: "3.1.0"
         };
     }
 });
