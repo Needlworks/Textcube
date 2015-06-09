@@ -18,20 +18,20 @@ function tinyMCE_editorinit($editor) {
     $context = Model_Context::getInstance();
     $config = $context->getProperty('plugin.config');
 
-  if(empty($config['editormode'])) $config['editormode'] = 'simple';
-  if(empty($config['width'])) $config['width'] = 'skin';
-  if(empty($config['srctheme'])) $config['srctheme'] = 'default';
-  if($config['srctheme'] == 'default') $config['srctheme'] = 'elegant';
-  $config['formatter'] = null;
-  if(empty($config['paragraphdelim'])) $config['paragraphdelim'] = 'BR';
-  if($context->getProperty('formatter.key') == 'markdown') {
-    $config['formatter'] = 'markdown';
-    $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/markdown/markdown.js');
-    $config['width'] = 'full';
-  } else {
+    if(empty($config['editormode'])) $config['editormode'] = 'simple';
+    if(empty($config['width'])) $config['width'] = 'skin';
+    if(empty($config['srctheme'])) $config['srctheme'] = 'default';
+    if($config['srctheme'] == 'default') $config['srctheme'] = 'elegant';
+    $config['formatter'] = null;
+    if(empty($config['paragraphdelim'])) $config['paragraphdelim'] = 'BR';
+    if($context->getProperty('formatter.key') == 'markdown') {
+        $config['formatter'] = 'markdown';
+        $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/markdown/markdown.js');
+        $config['width'] = 'full';
+    } else {
         $config['formatter'] = 'htmlmixed';
         $config['codemirror_jsfiles'] = array('mode/xml/xml.js','mode/javascript/javascript.js','mode/css/css.js','mode/htmlmixed/htmlmixed.js');
-  }
+    }
 	ob_start();
 ?>
 			var editor = new tinymce.Editor('editWindow', {
@@ -89,11 +89,11 @@ function tinyMCE_editorinit($editor) {
 					indentOnInit: false, // Whether or not to indent code on init.
 					path: 'CodeMirror', // Path to CodeMirror distribution
 					config: {           // CodeMirror config object
-    					mode: '<?php echo $config['formatter'];?>',
-    					lineNumbers: true,
-    					tabSize: 4,
-    					indentWithTabs: true,
-    					theme: '<?php echo $config['srctheme'] ?>'
+						mode: '<?php echo $config['formatter'];?>',
+						lineNumbers: true,
+						tabSize: 4,
+						indentWithTabs: true,
+						theme: '<?php echo $config['srctheme'] ?>'
 					},
 					jsFiles: [          // Additional JS files to load
 					'<?php echo implode('\',\'',$config['codemirror_jsfiles']);?>'
@@ -108,29 +108,29 @@ function tinyMCE_editorinit($editor) {
 
 				// Style formats
 				style_formats: [
-				    {title: 'Headers', items: [
-				        {title: 'h1', block: 'h1'},
-				        {title: 'h2', block: 'h2'},
-				        {title: 'h3', block: 'h3'},
-				        {title: 'h4', block: 'h4'},
-				        {title: 'h5', block: 'h5'},
-				        {title: 'h6', block: 'h6'}
-				    ]},
+					{title: 'Headers', items: [
+						{title: 'h1', block: 'h1'},
+						{title: 'h2', block: 'h2'},
+						{title: 'h3', block: 'h3'},
+						{title: 'h4', block: 'h4'},
+						{title: 'h5', block: 'h5'},
+						{title: 'h6', block: 'h6'}
+					]},
 
-				    {title: 'Blocks', items: [
-				        {title: 'p', block: 'p'},
-				        {title: 'div', block: 'div'},
-				        {title: 'pre', block: 'pre'}
-				    ]},
+					{title: 'Blocks', items: [
+						{title: 'p', block: 'p'},
+						{title: 'div', block: 'div'},
+						{title: 'pre', block: 'pre'}
+					]},
 
-				    {title: 'Containers', items: [
-				        {title: 'section', block: 'section', wrapper: true, merge_siblings: false},
-				        {title: 'article', block: 'article', wrapper: true, merge_siblings: false},
-				        {title: 'blockquote', block: 'blockquote', wrapper: true},
-				        {title: 'hgroup', block: 'hgroup', wrapper: true},
-				        {title: 'aside', block: 'aside', wrapper: true},
-				        {title: 'figure', block: 'figure', wrapper: true}
-				    ]}
+					{title: 'Containers', items: [
+						{title: 'section', block: 'section', wrapper: true, merge_siblings: false},
+						{title: 'article', block: 'article', wrapper: true, merge_siblings: false},
+						{title: 'blockquote', block: 'blockquote', wrapper: true},
+						{title: 'hgroup', block: 'hgroup', wrapper: true},
+						{title: 'aside', block: 'aside', wrapper: true},
+						{title: 'figure', block: 'figure', wrapper: true}
+					]}
 				],
 				fontsize_formats: "8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 36pt",
 				paste_auto_cleanup_on_paste: true,
