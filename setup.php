@@ -297,7 +297,6 @@ function checkStep($step, $check = true) {
     //<![CDATA[
      function suggestDefaultPort(db) {
 		switch(db) {
-			case 'MySQL':
 			case 'MySQLi':
 			default:
 				port = 3306;
@@ -327,7 +326,6 @@ function checkStep($step, $check = true) {
         <td>
 <?php
 $dbmsSupport = array();
-if(function_exists('mysql_connect')) array_push($dbmsSupport,'MySQL');
 if(function_exists('mysqli_connect')) array_push($dbmsSupport,'MySQLi');
 if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(class_exists('SQLite3')) array_push($dbmsSupport,'SQLite3');
@@ -1155,7 +1153,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 		$baseLanguage = POD::escapeString( $_POST['Lang']);
 		$baseTimezone = POD::escapeString( substr(_t('default:Asia/Seoul'),8));
 
-		if(POD::dbms() == 'MySQL' || POD::dbms() == 'MySQLi') {
+		if(POD::dbms() == 'MySQLi') {
 	        $charset = 'DEFAULT CHARSET=utf8';
 //    	    if (!@POD::query('SET CHARACTER SET utf8'))
   //      	    $charset = 'TYPE=MyISAM';
