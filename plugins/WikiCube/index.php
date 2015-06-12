@@ -1,10 +1,10 @@
 <?php
 /* WikiCube
    ----------------------------------
-   Version 0.14
+   Version 0.15
    Starts at        : Apr. 5, 2006
-   Last modified at : Mar. 12, 2015 (WIP)
-   
+   Last modified at : June. 12, 2015 (WIP)
+
    Jeongkyu Shin.
    E-mail : inureyes@gmail.com
 
@@ -19,6 +19,7 @@
  the Free Software Foundation; either version 2 of the License, or
  (at your option) any later version.
 
+ 15. Prepare for raw editor support.
  14. 2.0-compatible fixes.
  13. user-custom link added. [[printWord|realLink]]
  12. category link added.
@@ -71,8 +72,10 @@ function WikiCube_AddButton($target) {
         ?>
         <script type="text/javascript">
             editor.addCommand('wikicubeAddLink', function () {
-                selectedContent = editor.selection.getContent();
-                editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
+                if (editor.editormode == 'wysiwyg') {
+                  selectedContent = editor.selection.getContent();
+                  editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
+                }
             });
             editor.addButton('wikicubeAddWikiLink', {
                 title: 'Add Wiki Link',
@@ -80,8 +83,10 @@ function WikiCube_AddButton($target) {
                 icon: 'save'
             });
             editor.addCommand('wikicubeAddTagLink', function () {
-                selectedContent = editor.selection.getContent();
-                editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
+                if (editor.editormode == 'wysiwyg') {
+                    selectedContent = editor.selection.getContent();
+                    editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
+                }
             });
             editor.addButton('wikicubeAddTagLink', {
                 title: 'Add Wiki Tag Link',
@@ -89,8 +94,10 @@ function WikiCube_AddButton($target) {
                 icon: 'save'
             });
             editor.addCommand('wikicubeAddCategoryLink', function () {
-                selectedContent = editor.selection.getContent();
-                editor.execCommand('mceInsertContent', false, "[[ct:" + selectedContent + "]]");
+                if (editor.editormode == 'wysiwyg') {
+                    selectedContent = editor.selection.getContent();
+                    editor.execCommand('mceInsertContent', false, "[[ct:" + selectedContent + "]]");
+                }
             });
             editor.addButton('wikicubeAddCategoryLink', {
                 title: 'Add Wiki Link',
