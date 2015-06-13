@@ -1639,7 +1639,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 for (var i = 0; objects[i]; ++i) {
                     code += '|' + objects[i][0] + '|' + objects[i][1] + '|' + objects[i][2];
                 }
-                t.insert_tag(editor.originalTextarea, '[##_' + code + '_##]', "");
+                t.insert_tag(codemirror, '[##_' + code + '_##]', "");
                 return true;
 
             case 'ImageFree':
@@ -1683,7 +1683,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                     }
                 } catch (e) {
                 }
-                t.insert_tag(editor.originalTextarea, '[##_' + code + '_##]', '');
+                t.insert_tag(codemirror, '[##_' + code + '_##]', '');
                 return true;
         }
         return false;
@@ -1696,7 +1696,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 if(editor.editorMode == 'wysiwyg') {
                     t.command("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
                 } else {
-                    t.insert_tag(editor.originalTextarea, "[#M_ more.. | less.. | ", "_M#]");
+                    t.insert_tag(codemirror, "[#M_ more.. | less.. | ", "_M#]");
                 }
                 break;
             case "InsertObject":
@@ -1809,7 +1809,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 if (editor.editorMode == 'wysiwyg') {
                     t.command("Raw", '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + t.parseImageSize(code, "string", "css") + ' longDesc="' + t.objectSerialize(code) + '" />', "");
                 } else {
-                    t.insert_tag(editor.originalTextarea, code, "");
+                    t.insert_tag(codemirror, code, "");
                 }
                 getObject(t.id + "propertyInsertObject").style.display = "none";
                 break;
@@ -1820,7 +1820,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                     selectedContent = editor.selection.getContent();
                     editor.execCommand('mceInsertContent', false, value1 + selectedContent + value2);
                 } else {
-                    t.insert_tag(editor.originalTextarea, value1, value2);
+                    t.insert_tag(codemirror, value1, value2);
                 }
                 break;
             case "ToggleTextarea":
@@ -1841,7 +1841,15 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 break;
         }
     },
-    insert_tag: function(oTextarea, prefix, postfix) {
+    insert_tag: function(cm, prefix, postfix) {
+        selection = cm.getSelection();
+        if (selection) {
+            cm.replaceSelection(prefix+selection+postfix);
+        } else {
+            cm.setValue(cm.getValue()+prefix+postfix);
+        }
+        return true;
+/*
         if (isSafari && !isMinSafari3)
             var selection = window.getSelection;
         else
@@ -1865,7 +1873,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         else
             oTextarea.value += prefix + postfix;
             
-        return true;
+        return true;*/
     },
     savePosition: function(oTextarea) {
         if (oTextarea.createTextRange)
