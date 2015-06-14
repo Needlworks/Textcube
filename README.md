@@ -70,7 +70,20 @@ Before you start, you need to
 * know the port / username / password of your database
 * have the permission to modify webserver configuration.
 
+### Download
+
 Uncompress the downloaded file, locate them to the web-accessible location. Assume that the textcube location is /var/www/textcube.
+
+### Bower
+
+You can download latest stable version via bower by
+
+```
+bower install textcube
+
+```
+
+### Server configuration
 
 This is apache setting ( < 2.4).
 
