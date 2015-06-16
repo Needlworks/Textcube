@@ -93,7 +93,6 @@ function getArchives($blogid, $option = 'yearmonth') {
                     array_push($archives, $archive);
             }
             break;
-        case 'MySQL':
         case 'MySQLi':
         default:
             if ($option == 'year') {
