@@ -13,7 +13,7 @@ require ROOT . '/library/preprocessor.php';
 
 $pool = DBModel::getInstance();
 $context = Model_Context::getInstance();
-$context->setProperty('service.admin_script','control.min.js');
+$context->setProperty('service.admin_script','control.js');
 require ROOT . '/interface/common/control/header.php';
 
 requirePrivilege('group.creators');

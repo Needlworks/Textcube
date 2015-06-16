@@ -27,7 +27,7 @@ $context = Model_Context::getInstance();
 		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/editor.ie7.css" /><![endif]-->
 		<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 		<script type="text/javascript">jQuery.noConflict();</script>
-		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.min.js"></script>
+		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
 		<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/common3.min.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
