@@ -1251,7 +1251,7 @@ function openCenteredWindow(url, name, width, height, scrollbars) {
 
 function openCenteredDialog(url, dialogId, width, height) {
     var $ = jQuery;
-    tcDialog = jQuery('#tcDialog').bPopup({
+    tcDialog = $('#tcDialog').bPopup({
         content:'iframe',
         positionStyle: 'fixed',
         loadUrl:url,
@@ -1263,7 +1263,7 @@ function openCenteredDialog(url, dialogId, width, height) {
         escClose:false,
         modalClose:false,
         loadCallback: function() {
-            jQuery('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
+            $('#tcDialog iframe').contents().find('#commentSubmit').on('click', function(e) {
             });
         }
     });
