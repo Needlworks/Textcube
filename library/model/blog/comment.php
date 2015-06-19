@@ -758,7 +758,7 @@ function updateComment($blogid, $comment, $password) {
         }
     }
 
-    $replier = is_null($comment['replier']) ? 'NULL' : "'{$comment['replier']}'";
+    $replier = is_null($comment['replier']) ? NULL : $comment['replier'];
 
     $pool->setAttribute('name', $name, true);
     $pool->setAttribute('homepage', $homepage, true);
