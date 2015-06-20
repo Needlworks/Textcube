@@ -39,10 +39,11 @@ if( !empty($_COOKIE['openid']) ) {
 	$cookie_openid = '';
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html><head>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
 <title><?php echo _text('텍스트큐브') .":". _text('오픈아이디 인증'); ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/basic.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/login.css" />
 <!--[if lte IE 6]>
@@ -66,10 +67,10 @@ if( !empty($_COOKIE['openid']) ) {
 						<div id="logo-box">
 							<img src="<?php echo $context->getProperty('service.path');?>/skin/admin/whitedream/image/logo_textcube.png" alt="<?php echo _text('텍스트큐브 로고'); ?>" />
 			            </div>
-			            
+
 			            <div class="field-box">
 							<h1><?php echo _text('오픈아이디 게스트 로그인'); ?></h1>
-							
+
 			            	<dl id="email-line">
 			            		<dt><label for="loginid"><?php echo _text('오픈아이디'); ?></label></dt>
 			            		<dd><input type="text" class="input-text openid-identifier-guest-login" id="openid_identifier" name="openid_identifier" value="<?php echo $cookie_openid ?>" maxlength="256" tabindex="1" /></dd>
@@ -78,12 +79,12 @@ if( !empty($_COOKIE['openid']) ) {
 								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
 			            		<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check ?> /><label for="openid_remember"><?php echo _text('오픈아이디 기억') ?></label></dd>
 							</dl>
-							
+
 							<div class="button-box">
 								<input type="submit" class="login-button input-button" name="openid_login" value="<?php echo _text('로그인');?>" />
 								<input type="submit" class="input-button" name="openid_cancel" value="<?php echo _text('취소') ?>" />
 							</div>
-							
+
 		            		<ul>
 								<?php if( !empty( $openid_help_link ) ) { ?>
 								<li id="openid-help"><a href="<?php echo $openid_help_link; ?>" ><?php echo _text('오픈아이디란?') ?></a></li>

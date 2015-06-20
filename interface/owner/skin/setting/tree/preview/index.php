@@ -13,7 +13,7 @@ $IV = array(
 		'labelLength' => array('string', 'mandatory' => false),
 		'showValue' => array('string', 'mandatory' => false)
 	)
-); 
+);
 
 require ROOT . '/library/preprocessor.php';
 importlib('model.blog.entry');
@@ -37,12 +37,12 @@ if (isset($_GET['labelLength']))
 	$skinSetting['labelLengthOnTree'] = $_GET['labelLength'];
 if (isset($_GET['showValue']))
 	$skinSetting['showValueOnTree'] = $_GET['showValue'];
-?> 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+?>
+<!DOCTYPE html>
+<html>
 <head>
+	<meta charset="utf-8">
 	<title>Tree Structure Preview</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/skin.css" />
 	<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path').$context->getProperty('panel.skin');?>/skin.ie.css" /><![endif]-->
 	<script type="text/javascript">

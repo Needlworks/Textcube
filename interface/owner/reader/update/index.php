@@ -6,8 +6,8 @@ require ROOT . '/library/preprocessor.php';
 requireStrictRoute();
 
 if(isset($suri['id'])) {
-	if ($feed = POD::queryRow("SELECT * 
-		FROM {$database['prefix']}Feeds 
+	if ($feed = POD::queryRow("SELECT *
+		FROM {$database['prefix']}Feeds
 		WHERE id = {$suri['id']}")) {
 		Respond::ResultPage(updateFeed($feed));
 		exit;
@@ -20,11 +20,11 @@ if(isset($suri['id'])) {
 set_time_limit(360);
 ob_implicit_flush();
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
-	<head>
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
 		<title>Update all feeds</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<script type="text/javascript" src="<?php echo $context->getProperty('uri.service');?>/resources/script/common3.min.js"></script>
 		<script type="text/javascript">
 			//<![CDATA[
@@ -43,14 +43,14 @@ ob_implicit_flush();
 			//]]>
 		</script>
 <?php
-$feeds = POD::queryAll("SELECT f.* 
-		FROM {$database['prefix']}Feeds f, 
-			{$database['prefix']}FeedGroups g, 
-			{$database['prefix']}FeedGroupRelations gr 
-		WHERE g.blogid = $blogid 
-			AND gr.feed = f.id 
-			AND gr.blogid = g.blogid 
-			AND gr.groupid = g.id 
+$feeds = POD::queryAll("SELECT f.*
+		FROM {$database['prefix']}Feeds f,
+			{$database['prefix']}FeedGroups g,
+			{$database['prefix']}FeedGroupRelations gr
+		WHERE g.blogid = $blogid
+			AND gr.feed = f.id
+			AND gr.blogid = g.blogid
+			AND gr.groupid = g.id
 		ORDER BY f.title");
 $count = 0;
 foreach ($feeds as $feed) {
@@ -65,7 +65,7 @@ foreach ($feeds as $feed) {
 					icon.src = servicePath + "/resources/style/default/image/reader/iconUpdateIng.gif";
 				}
 			//]]>
-		</script>		
+		</script>
 <?php
 	$count++;
 	$result = updateFeed($feed);
@@ -80,11 +80,11 @@ foreach ($feeds as $feed) {
 							break;
 						default:
 							icon.src = servicePath + "/resources/style/default/image/reader/iconFailure.gif";
-					}			
+					}
 				}
 				progress.innerHTML = "(<?php echo sprintf('%.1f', $count * 100 / sizeof($feeds));?>%)";
 			//]]>
-		</script>		
+		</script>
 <?php
 }
 ?>
@@ -94,6 +94,6 @@ foreach ($feeds as $feed) {
 				parent.Reader.refreshEntryList(parent.Reader.selectedGroup, parent.Reader.selectedFeed);
 				setTimeout("parent.document.getElementById('progress').innerHTML = ''", 1000);
 			//]]>
-		</script>		
+		</script>
 	</body>
 </html>
