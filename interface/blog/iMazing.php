@@ -16,16 +16,15 @@
 
 $images = explode('*!',$_GET['i']);
 $imageStr = '';
-define('ROOT', '../../..');
-require ROOT . '/library/preprocessor.php';
 foreach($images as $value) {
 	$imageStr .= $value.'*!';
 }
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<script type="text/javascript" src="<?php echo $context->getProperty('service.path').'/resources/script/flash.js';?>"></script>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style type="text/css">
 			/*<![CDATA[*/
 				body
