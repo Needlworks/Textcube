@@ -17,7 +17,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
         t.propertyFilePath = ed.propertyFilePath;
         t.propertyNames = ["propertyInsertObject", "propertyImage1", "propertyImage2", "propertyImage3", "propertyObject", "propertyObject1", "propertyObject2", "propertyiMazing", "propertyGallery", "propertyJukebox", "propertyEmbed", "propertyFlash", "propertyMoreLess"];
         t.styleUnknown = 'style="width: 90px; height: 30px; border: 2px outset #796; background-color: #efd; background-repeat: no-repeat; background-position: center center; background-image: url(\'' + servicePath + '/resources/image/extension/unknown.gif\')"';
-        ed.editorMode = 'wysiwyg';
+        ed.editorMode = 'tinymce';
         ed.on('LoadContent', function (e) {
             e.content = t.TTMLtoHTML(e.content);
         });
@@ -1603,7 +1603,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
             case 'Image2C':
             case 'Image3C':
                 try {
-                    if (editor.editorMode == 'wysiwyg') {
+                    if (editor.editorMode == 'tinymce') {
                         var src = servicePath + adminSkin + "/image/spacer.gif";
                         var moreattrs = '';
                         var longdesc;
@@ -1646,7 +1646,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 
                 var prefix = '';
                 for (var i = 0; objects[i]; ++i) {
-                    if(editor.editorMode == 'wysiwyg') {
+                    if(editor.editorMode == 'tinymce') {
                         prefix += '<img class="tatterImageFree" src="' + t.propertyFilePath + objects[i][0] + '" longdesc="[##_ATTACH_PATH_##]/' + objects[i][0] + '" ' + objects[i][1] + ' />';
                     } else {
                         prefix += '<img src="[##_ATTACH_PATH_##]/' + objects[i][0] + '" ' + objects[i][1] + ' />';
@@ -1675,7 +1675,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 }
 
                 try {
-                    if(editor.editorMode == 'wysiwyg') {
+                    if(editor.editorMode == 'tinymce') {
                         var className = 'tatter' + data.mode;
                         var widthheight = (data.mode == 'Jukebox' ? 'width="200" height="30"' : 'width="400" height="300"');
                         t.command("Raw", '<img class="' + className + '" src="' + servicePath + adminSkin + '/image/spacer.gif" ' + widthheight + ' longdesc="' + code + '" />');
@@ -1693,7 +1693,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 
         switch (command) {
             case "MoreLessBlock":
-                if(editor.editorMode == 'wysiwyg') {
+                if(editor.editorMode == 'tinymce') {
                     t.command("Raw", '<div class="tattermoreless" more=" more.. " less=" less.. ">&nbsp;', "</div>");
                 } else {
                     t.insert_tag(codemirror, "[#M_ more.. | less.. | ", "_M#]");
@@ -1806,7 +1806,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                         return;
                     }
                 }
-                if (editor.editorMode == 'wysiwyg') {
+                if (editor.editorMode == 'tinymce') {
                     t.command("Raw", '<img class="tatterObject" src="' + servicePath + adminSkin + '/image/spacer.gif"' + t.parseImageSize(code, "string", "css") + ' longDesc="' + t.objectSerialize(code) + '" />', "");
                 } else {
                     t.insert_tag(codemirror, code, "");
@@ -1816,7 +1816,7 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
 
             case "Raw":
                 value2 = (typeof value2 == "undefined") ? "" : value2;
-                if (editor.editorMode == 'wysiwyg') {
+                if (editor.editorMode == 'tinymce') {
                     selectedContent = editor.selection.getContent();
                     editor.execCommand('mceInsertContent', false, value1 + selectedContent + value2);
                 } else {
@@ -1824,19 +1824,19 @@ tinymce.create('tinymce.Textcube.TTMLsupport', {
                 }
                 break;
             case "ToggleTextarea":
-                if (editor.editorMode == 'wysiwyg') {
+                if (editor.editorMode == 'tinymce') {
                     editor.save();
                     jQuery(".mce-edit-area").hide();
                     jQuery(".mce-statusbar").hide();
                     document.getElementById('editWindow').style.display = "block";
                     document.getElementById('editWindow').style.width = "100%";
-                    editor.editorMode = 'raw';
+                    editor.editorMode = 'codemirror';
                 } else {
                     editor.load();
                     document.getElementById('editWindow').style.display = "none";
                     jQuery(".mce-edit-area").show();
                     jQuery(".mce-statusbar").show();
-                    editor.editorMode = 'wysiwyg';
+                    editor.editorMode = 'tinymce';
                 }
                 break;
         }

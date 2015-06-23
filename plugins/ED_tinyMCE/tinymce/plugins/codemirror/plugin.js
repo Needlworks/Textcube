@@ -37,7 +37,7 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 				style:'width:100%; height:450px; border: 1px solid #eee; box-shadow:0 0 5px rgba(0,0,0,0.3);'
 			}).appendTo('.editorbox-container');
 			editor.doesCodeMirrorEditorEnabled = true;
-			editor.editorMode = 'raw';
+			editor.editorMode = 'codemirror';
 		} else {
 			var node = document.getElementById('codeMirrorEditor');
 			node.contentWindow.submit();
@@ -47,7 +47,7 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 			jQuery(".mce-edit-area").show();
 			jQuery(".mce-statusbar").show();
 			editor.doesCodeMirrorEditorEnabled = false;
-			editor.editorMode = 'wysiwyg';
+			editor.editorMode = 'tinymce';
 		}
 	};
 	t.syncToTinyMCE = function () {

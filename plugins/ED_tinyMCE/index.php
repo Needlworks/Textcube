@@ -204,7 +204,7 @@ function tinyMCE_editorinit($editor) {
     editor.tcformatter = '<?php echo $config['formatter']; ?>';
     editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0); ?>;
     editor.originalTextarea = document.getElementById('editWindow');
-    editor.editorMode = 'wysiwyg';
+    editor.editorMode = 'tinymce';
     return editor;
     <?php
     $result = ob_get_contents();
