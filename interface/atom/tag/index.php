@@ -13,6 +13,7 @@ requireStrictBlogURL();
 $blogid = getBlogId();
 $children = array();
 $cache = pageCache::getInstance();
+$context = Model_Context::getInstance();
 if(!empty($suri['id'])) {
 	$tagId = $suri['id'];
 	$tagTitle = getTagById($blogid, $tagId);
