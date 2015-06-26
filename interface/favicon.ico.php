@@ -57,8 +57,7 @@ if( !empty($_SERVER["HTTP_REFERER"]) && $icon_size > 0 ) {
 }
 
 if( !$approvedToSend ) {
-	header( "HTTP/1.0 503 Service Unavailable" );
-	exit;
+	errorExit(503);
 }
 dumpWithEtag( $icon_path );
 ?>
