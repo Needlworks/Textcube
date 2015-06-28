@@ -5,7 +5,6 @@
 
 $context = Model_Context::getInstance();
 $confirmString = '';
-$context = Model_Context::getInstance();
 
 if (empty($comment['name'])) {
     if (isset($_SESSION['openid']['nickname'])) {
