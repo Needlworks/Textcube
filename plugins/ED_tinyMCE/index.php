@@ -53,7 +53,7 @@ function tinyMCE_editorinit($editor) {
         selector : "textarea#editWindow",
         mode : 'exact',
         theme : 'modern',
-        skin : 'light',
+        skin : 'textcube',
     <?php
     if (file_exists($context->getProperty("plugin.path", "") . '/tinymce/langs/' . $context->getProperty('blog.language') . '.js')) {
         ?>
