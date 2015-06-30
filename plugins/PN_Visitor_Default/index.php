@@ -1,14 +1,14 @@
 <?php
-/* Visitor statistics plugin for Textcube 1.7
-   ----------------------------------
-   Version 1.7
+/* Visitor statistics plugin for Textcube 2.0
+   ------------------------------------------
+   Version 2.0
    Tatter and Friends development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2009.6.17
+   Last modified at : 2015.6.30
  
  This plugin shows visitor statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -25,7 +25,7 @@
 */
 function PN_Visitor_Default()
 {
-	global $pluginMenuURL, $pluginHandlerURL;
+	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$stats = Statistics::getStatistics($blogid);
 	$date = isset($_GET['date']) ? $_GET['date'] : date('Ym', strtotime("now"));
@@ -37,11 +37,11 @@ function PN_Visitor_Default()
 	if(Acl::check('group.owners')) {
 ?>
 								function setTotalStatistics() {
-									if (confirm("방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?")) {
-										var request = new HTTPRequest("GET", "<?php echo $pluginHandlerURL;?>/PN_Visitor_Default_set&ajaxcall");
+									if (confirm(_t('방문자의 수를 초기화하면 방문객의 수가 0이 됩니다.\n정말 초기화하시겠습니까?'))) {
+										var request = new HTTPRequest("GET", "<?php echo $context->getProperty('plugin.uri.handler');?>/PN_Visitor_Default_set&ajaxcall");
 										request.onSuccess = function() {
 											//document.getElementById("total").innerHTML = 0;
-											window.location = '<?php echo $pluginMenuURL;?>';
+											window.location = '<?php echo $context->getProperty('plugin.uri.menu');?>';
 											return true;
 										}
 										request.onError = function() {
@@ -77,20 +77,20 @@ function PN_Visitor_Default()
 							//]]>
 						</script>
 					 		
-					 	<form method="post" action="<?php echo $pluginHandlerURL;?>PN_Visitor_Default_set">
+					 	<form method="post" action="<?php echo $context->getProperty('plugin.uri.handler');?>PN_Visitor_Default_set">
 					 		<div id="part-statistics-visitor" class="part">
-					 			<h2 class="caption"><span class="main-text">방문자 통계정보를 보여줍니다</span></h2>
+					 			<h2 class="caption"><span class="main-text"><?php echo _t('방문자 통계정보를 보여줍니다');?></span></h2>
 					 			
 						 		<div id="statistics-counter-inbox" class="data-inbox">
 									<div class="title">
-										<span class="label"><span class="text">현재까지의 방문자 수</span></span>
+										<span class="label"><span class="text"><?php echo _t('현재까지의 방문자 수');?></span></span>
 										<span class="divider"> : </span>
 										<span id="total"><?php echo number_format($stats['total']);?></span>
 									</div>
 <?php
 	if(Acl::check('group.owners')) {
 ?>
-									<a class="init-button button" href="<?php echo $pluginHandlerURL;?>/PN_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
+									<a class="init-button button" href="<?php echo $context->getProperty('plugin.uri.handler');?>/PN_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
 <?php
 	}
 ?>
@@ -101,7 +101,7 @@ function PN_Visitor_Default()
 								<table id="statistics-month-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th colspan="2"><span class="text">월별 방문자 수</span></th>
+											<th colspan="2"><span class="text"><?php echo _t('월별 방문자 수');?></span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -113,9 +113,9 @@ for ($i=0; $i<sizeof($temp); $i++) {
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
-										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>'">
-											<td class="date"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>"><?php echo Timestamp::formatDate2(Utils_Misc::getTimeFromPeriod($record['datemark']));?></a></td>
-											<td class="count"><a href="<?php echo $pluginMenuURL;?>&amp;date=<?php echo $record['datemark'];?>"><?php echo $record['visits'];?></a></td>
+										<tr class="<?php echo $className;?> inactive-class" onmouseover="rolloverClass(this, 'over')" onmouseout="rolloverClass(this, 'out')" onclick="window.location.href='<?php echo $context->getProperty('plugin.uri.menu');?>&amp;date=<?php echo $record['datemark'];?>'">
+											<td class="date"><a href="<?php echo $context->getProperty('plugin.uri.menu');?>&amp;date=<?php echo $record['datemark'];?>"><?php echo Timestamp::formatDate2(Utils_Misc::getTimeFromPeriod($record['datemark']));?></a></td>
+											<td class="count"><a href="<?php echo $context->getProperty('plugin.uri.menu');?>&amp;date=<?php echo $record['datemark'];?>"><?php echo $record['visits'];?></a></td>
 										</tr>
 <?php
 }
