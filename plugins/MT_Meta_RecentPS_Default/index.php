@@ -4,10 +4,10 @@
 		====================================
 		Created by : J.Parker
 
-		Last modified at : 2014.01.07 (for 2.0)
+		Last modified at : 2015.07.01 (for 2.0)
 */
 function MT_Cover_getRecentEntries($parameters){
-	global $database, $suri, $configVal, $skin;
+	global $configVal, $skin;
 
 	$context = Model_Context::getInstance();
 	$data = Setting::fetchConfigVal($configVal);
@@ -53,23 +53,31 @@ function MT_Cover_getRecentEntries($parameters){
 		}
 	}
 
-	if((Utils_Misc::isMetaBlog() == true) && doesHaveOwnership() && $context->getProperty('service.type','single') != 'single') {
-		$visibility = 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
-	} else {
-		$visibility = doesHaveOwnership() ? '' : 'AND e.visibility > 1 AND (c.visibility > 1 OR e.category = 0)';
+	$pool = DBModel::getInstance();
+	$pool->reset("BlogSettings");
+	$pool->setQualifier("name","eq",'visibility',true);
+	$pool->setQualifier("value","<",2);
+	$privateBlogId = $pool->getCell("blogid");
+	
+	$pool->reset("Entries");
+	$pool->join("Categories","left",array(array("e.blogid","eq","c.blogid"),array("e.category","eq","c.id")));
+	$pool->setQualifier("e.draft","eq",0);
+	$pool->setQualifier("e.category","beq",0);
+	if($privateBlogId) {
+		$pool->setQualifier("e.blogid","hasnoneof",$privateBlogId);
 	}
-	$multiple = ($data['coverMode']==2) ? '' : 'e.blogid = ' . $context->getProperty('blog.id') . ' AND';
-	$privateBlogId = POD::queryColumn("SELECT blogid
-		FROM {$database['prefix']}BlogSettings
-		WHERE name = 'visibility'
-		AND value < 2");
-	if(!empty($privateBlogId)) $privateBlogs = ' AND e.blogid NOT IN ('.implode(',',$privateBlogId).')';
-	else $privateBlogs = '';
-	list($entries, $paging) = Paging::fetch("SELECT e.blogid, e.id, e.userid, e.title, e.content, e.slogan, e.category, e.published, e.contentformatter, c.label
-		FROM {$database['prefix']}Entries e
-		LEFT JOIN {$database['prefix']}Categories c ON e.blogid = c.blogid AND e.category = c.id
-		WHERE $multiple e.draft = 0 $visibility AND e.category >= 0 $privateBlogs
-		ORDER BY published DESC", $page, $entryLength);
+	
+	if((Utils_Misc::isMetaBlog() == true) && doesHaveOwnership() && $context->getProperty('service.type','single') != 'single') {
+		$pool->setQualifier("e.visibility",">",1);
+		$pool->setQualifierSet(array("c.visibility",">",1),"OR",array("e.category","eq",0));	
+	} else if (!doesHaveOwnership()) {
+		$pool->setQualifier("e.visibility",">",1);
+		$pool->setQualifierSet(array("c.visibility",">",1),"OR",array("e.category","eq",0));	
+	}
+	if ($data['coverMode'] != 2) {
+		$pool->setQualifier("e.blogid","eq",$context->getProperty("blog.id"));
+	}
+	list($entries,$paging) = Paging::fetch($pool, $page, $entryLength);
 
 	$html = '';
 	foreach ((array)$entries as $entry){
