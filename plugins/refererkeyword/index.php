@@ -1,7 +1,7 @@
 <?php
 /* Referer keywords for Textcube
    ----------------------------------
-   Version 1.10.3
+   Version 2.0
    Tatter and Friends.
 
    Creator          : Chiri (http://moonmelody.com)
@@ -10,7 +10,7 @@
    Created at       : 2006.9.13
    Last modified at : 2008.3.19 by gendoh (http://gendoh.com)
                       2008.3.21 by Chiri (http://moonmelody.com)
-                      2015.2.16 by inureyes (http://forest.nubimaru.com)
+                      2015.7.3 by inureyes (http://forest.nubimaru.com)
  
  This plugin shows referer keyword statistics for a week on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -135,11 +135,9 @@ function bringSearchWord($originalURL, $originalHost) {
 
 
 function refererkeyword() {
-    global $pluginMenuURL, $pluginSelfParam, $configVal;
 
-
-    $data = Setting::fetchConfigVal($configVal);
-
+	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 
     $showURL = 0;
     $limitRank = 5;
@@ -232,7 +230,7 @@ function refererkeyword() {
             }
             ?>
         </div>
-        <form id="refererkeyword-option" class="part" method="post" action="<?php echo $pluginMenuURL;?>">
+        <form id="refererkeyword-option" class="part" method="post" action="<?php echo $context->getProperty('plugin.uri.menu');?>">
             <div class="title">
                 <span class="label"><?php echo _t('검색어 순위 출력은');?></span>
 										<span class="label"><select name="showKeywordlistLight"

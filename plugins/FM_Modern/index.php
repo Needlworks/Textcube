@@ -1,6 +1,7 @@
 <?php
-function FM_Modern_handleconfig($configVal) {
-	$config = Setting::fetchConfigVal($configVal);
+function FM_Modern_handleconfig($config) {
+	$context = Model_Context::getInstance();
+	$config = $context->getProperty('plugin.config');
 	if (isset($config['defaultmode']) && $config['defaultmode'] != 'WYSIWYG' && $config['defaultmode'] != 'TEXTAREA') return false;
 	if (isset($config['paragraphdelim']) && $config['paragraphdelim'] != 'P' && $config['paragraphdelim'] != 'BR') return false;
 	return true;
