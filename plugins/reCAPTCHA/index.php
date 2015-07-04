@@ -118,8 +118,8 @@ EOS;
 }
 
 function Recaptcha_Footer($target) {
-	global $configVal, $pluginURL;
-	$config = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$config = $context->getProperty('plugin.config');
 	if (!is_null($config) && isset($config['siteKey'])) {
 		$target .= <<<EOS
 <script type="text/javascript">
