@@ -931,6 +931,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			$rewrite = 0;
 		}
     	$domain = $rewrite == 3 ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.') + 1) : $_SERVER['HTTP_HOST'];
+
+        $blogProtocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+        $blogDefaultPort = isset($_SERVER['HTTPS']) ? 443 : 80;
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
@@ -979,15 +982,15 @@ RewriteRule ^testrewrite$ setup.php [L]"
         <th style="padding-top:20px"><?php echo _t('블로그 주소 예시');?></th>
         <td style="padding-top:20px; height:100px">
         <ul id="typeDomain"<?php echo ($rewrite >= 2 ? '' : ' style="display:none"');?>>
-          <li>http://<b>blog1</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
-          <li>http://<b>blog2</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
+          <li><?php echo $blogProtocol;?>://<b>blog1</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
+          <li><?php echo $blogProtocol;?>://<b>blog2</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
         </ul>
         <ul id="typePath"<?php echo ($rewrite == 1 ? '' : ' style="display:none"');?>>
-          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog1</b></li>
-          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog2</b></li>
+          <li><?php echo $blogProtocol;?>://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog1</b></li>
+          <li><?php echo $blogProtocol;?>://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog2</b></li>
         </ul>
         <ul id="typeSingle" <?php echo (empty($_POST['disableRewrite']) ? 'style="display:none"' : '');?>>
-          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<?php echo (empty($_POST['disableRewrite']) ? '' : 'blog/');?></li>
+          <li><?php echo $blogProtocol;?>://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<?php echo (empty($_POST['disableRewrite']) ? '' : 'blog/');?></li>
         </ul>
         </td>
       </tr>
@@ -1417,15 +1420,18 @@ EOF;
     	    }
 		}
 
+        $blogProtocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+        $blogDefaultPort = isset($_SERVER['HTTPS']) ? 443 : 80;
+
         switch ($_POST['type']) {
             case 'domain':
-                $blogURL = "http://{$_POST['blog']}.{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
+                $blogURL = "$blogProtocol://{$_POST['blog']}.{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != $blogDefaultPort ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
             case 'path':
-                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?')."/{$_POST['blog']}";
+                $blogURL = "$blogProtocol://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != $blogDefaultPort ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?')."/{$_POST['blog']}";
                 break;
             case 'single':
-                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
+                $blogURL = "$blogProtocol://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != $blogDefaultPort ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
         }
 ?>
