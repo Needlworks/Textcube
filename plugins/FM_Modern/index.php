@@ -8,13 +8,15 @@ function FM_Modern_handleconfig($config) {
 }
 
 function FM_Modern_editorinit($editor) {
-	global $service, $configVal, $entry;
+	global $entry;
+	$context = Model_Context::getInstance();
+
 	$blogid = getBlogId();
-	if (is_null($configVal) || empty($configVal)) {
+	if (is_null($context->getProperty('plugin.config',null))) {
 		$config = array('paragraphdelim' => 'BR',
 			'defaultmode' => 'WYSIWYG');
 	} else {
-		$config = Setting::fetchConfigVal($configVal);
+		$config = $context->getProperty('plugin.config');
 	}
 	if (in_array(Setting::getBlogSettingGlobal('defaultFormatter','html'),array('markdown','textile')) ||
 		in_array($entry['contentformatter'],array('markdown','textile'))) {
@@ -29,7 +31,7 @@ function FM_Modern_editorinit($editor) {
 			var editor = new TTModernEditor();
 			editor.fixPosition = <?php echo Setting::getBlogSettingGlobal('editorPropertyPositionFix', 0);?>;
 			editor.hasGD = <?php echo extension_loaded('gd') ? 'true' : 'false';?>;
-			editor.propertyFilePath = "<?php echo $service['path'];?>/attach/<?php echo $blogid;?>/";
+			editor.propertyFilePath = "<?php echo $context->getProperty('service.path');?>/attach/<?php echo $blogid;?>/";
 			editor.editMode = "<?php echo $config['defaultmode'];?>";
 			editor.newLineToParagraph = <?php echo (isset($config['paragraphdelim']) && $config['paragraphdelim'] == 'P' ? 'true' : 'false');?>;
 			return editor;
@@ -40,12 +42,11 @@ function FM_Modern_editorinit($editor) {
 }
 
 function FM_Modern_adminheader($target, $mother) {
-	global $suri, $pluginURL;
     $context = Model_Context::getInstance();
 	if ($context->getProperty('editor.key') == 'modern') {
-		if ($suri['directive'] == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
-			$target .= "\t<link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"$pluginURL/editor.css\" />\n";
-			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/editor.js\"></script>\n";
+		if ($context->getProperty('suri.directive') == '/owner/entry/post' || $context->getProperty('suri.directive') == '/owner/entry/edit') {
+			$target .= "\t<link rel=\"stylesheet\" media=\"screen\" type=\"text/css\" href=\"".$context->getProperty('plugin.uri')."/editor.css\" />\n";
+			$target .= "\t<script type=\"text/javascript\" src=\"".$context->getProperty('plugin.uri')."/editor.js\"></script>\n";
 		}
 	}
 	return $target;

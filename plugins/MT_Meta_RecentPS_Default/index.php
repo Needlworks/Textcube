@@ -7,10 +7,10 @@
 		Last modified at : 2015.07.01 (for 2.0)
 */
 function MT_Cover_getRecentEntries($parameters){
-	global $configVal, $skin;
+	global $skin;
 
 	$context = Model_Context::getInstance();
-	$data = Setting::fetchConfigVal($configVal);
+	$data = $context->getProperty('plugin.config');
 
 	importlib("model.blog.entry");
 	importlib("model.blog.tag");
@@ -281,11 +281,11 @@ function MT_Cover_getAttachmentExtract($content){
 }
 
 function MT_Cover_getRecentEntryStyle($target){
-	global $pluginURL, $configVal;
-	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	$data['cssSelect']	= !isset($data['cssSelect'])?1:$data['cssSelect'];
 	if($data['cssSelect'] == 1){
-		$target .= '<link rel="stylesheet" media="screen" type="text/css" href="' . $pluginURL . '/style.css" />' . CRLF;
+		$target .= '<link rel="stylesheet" media="screen" type="text/css" href="' .$context->getProperty('plugin.uri') . '/style.css" />' . CRLF;
 	}
 	return $target;
 }
