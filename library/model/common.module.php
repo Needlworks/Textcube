@@ -25,10 +25,13 @@ function getEditorInfo($editor) {
 		$pluginURL = $context->getProperty('service.path').'/plugins/'.$editorMappings[$editor]['plugin'];
 		$pluginName = $editorMappings[$editor]['plugin'];
 		$pluginPath = ROOT . "/plugins/{$pluginName}";
-		if( !empty( $configMappings[$pluginName]['config'] ) )
+		if( !empty( $configMappings[$pluginName]['config'] ) ) {
 			$configVal = getCurrentSetting($pluginName);
-		else
+			$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+		} else {
 			$configVal = null;
+			$context->setProperty('plugin.config',array());
+		}
 		include_once ROOT . "/plugins/{$editorMappings[$editor]['plugin']}/index.php";
 	}
 	return $editorMappings[$editor];

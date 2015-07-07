@@ -299,10 +299,13 @@ for ($i=0; $i<$coverpageCount; $i++) {
 			}
 			if (function_exists($handler))
 			{
-				if( !empty( $configMappings[$plugin]['config'] ) ) 				
+				if( !empty( $configMappings[$plugin]['config'] ) ) {
 					$configVal = getCurrentSetting($plugin);
-				else
+					$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+				} else {
 					$configVal ='';
+					$context->setProperty('plugin.config',array());
+				}
 ?>
 												<li class="coverpage-module coverpage-plugin-module" id="coverpage-element-<?php echo "{$i}-{$j}";?>">
 													<h4 class="module-title"><?php echo $coverpagePluginArray[$sidbarPluginIndex]['display'], '::', $coverpagePluginArray[$sidbarPluginIndex]['title'];?></h4>

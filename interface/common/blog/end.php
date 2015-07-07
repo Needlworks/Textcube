@@ -117,13 +117,18 @@ if(!empty($sidebarElements)) {
 		$pluginData = $skin->sidebarStorage[$element];
 		$plugin = $pluginData['plugin'];
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
-		$pluginURL = "{$service['path']}/plugins/{$plugin}";
-		$pluginPath = ROOT . "/plugins/{$plugin}";
-		if( !empty( $configMappings[$plugin]['config'] ) ) 				
-			$configVal = getCurrentSetting($plugin);
-		else
+		$pluginURL = $context->getProperty('service.path')."/plugins/{$plugin}"; // LEGACY SUPPORT
+		$pluginPath = ROOT . "/plugins/{$plugin}"; // LEGACY SUPPORT
+		$context->setProperty('plugin.uri', $context->getProperty('service.path')."/plugins/{$plugin}");
+		$context->setProperty('plugin.path', ROOT . "/plugins/{$plugin}");
+		$context->setProperty('plugin.name', ROOT . $plugin);
+		if( !empty( $configMappings[$plugin]['config'] ) ) {	
+			$configVal = getCurrentSetting($plugin); // LEGACY SUPPORT
+			$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+		} else {
 			$configVal ='';
-
+			$context->setProperty('plugin.config',array());
+		}
 		dress($element, call_user_func($pluginData['handler'], $pluginData['parameters']), $view);
 	}
 }

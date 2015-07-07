@@ -56,10 +56,13 @@ if ((isset($_REQUEST['name'])) && (isset($adminHandlerMappings[$_REQUEST['name']
 
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler)) {
-			if( !empty( $configMappings[$plugin]['config'] ) )
+			if( !empty( $configMappings[$plugin]['config'] ) ) {
 				$configVal = getCurrentSetting($plugin);
-			else
+				$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+			} else {
 				$configVal ='';
+				$context->setProperty('plugin.config',array());
+			}
 
 			call_user_func($handler);
 		}
