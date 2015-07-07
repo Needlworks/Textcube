@@ -198,9 +198,13 @@ if (($_REQUEST['coverpageNumber'] >= 0) 	&& ($_REQUEST['coverpageNumber'] < $cov
 		if (array_key_exists($sidbarPluginIndex,  $coverpagePluginArray)) {
 			$pluginURL = $context->getProperty('service.path')."/plugins/{$target['id']['plugin']}";
 			include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
-			if(!empty( $configMappings[$target['id']['plugin']]['config'] ))
+			if(!empty( $configMappings[$target['id']['plugin']]['config'] )) {
 				$configVal = getCurrentSetting($target['id']['plugin']);
-			else $configVal = '';
+				$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+			} else {
+				$configVal = '';
+				$context->setProperty('plugin.config',array());
+			}
 			echo pretty_dress(call_user_func($target['id']['handler'], $target['parameters']));
 		}
 	}

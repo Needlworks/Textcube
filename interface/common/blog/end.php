@@ -123,11 +123,13 @@ if(!empty($sidebarElements)) {
 		$context->setProperty('plugin.uri', $context->getProperty('service.path')."/plugins/{$plugin}");
 		$context->setProperty('plugin.path', ROOT . "/plugins/{$plugin}");
 		$context->setProperty('plugin.name', ROOT . $plugin);
-		if( !empty( $configMappings[$plugin]['config'] ) ) 				
-			$configVal = getCurrentSetting($plugin);
-		else
+		if( !empty( $configMappings[$plugin]['config'] ) ) {	
+			$configVal = getCurrentSetting($plugin); // LEGACY SUPPORT
+			$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+		} else {
 			$configVal ='';
-
+			$context->setProperty('plugin.config',array());
+		}
 		dress($element, call_user_func($pluginData['handler'], $pluginData['parameters']), $view);
 	}
 }

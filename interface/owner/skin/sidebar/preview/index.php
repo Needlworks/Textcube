@@ -197,9 +197,13 @@ if (($_REQUEST['sidebarNumber'] >= 0) 	&& ($_REQUEST['sidebarNumber'] < $sidebar
 		if (array_key_exists($sidbarPluginIndex,  $sidebarPluginArray)) {
 			$pluginURL = $context->getProperty('service.path')."/plugins/{$target['id']['plugin']}";
 			include_once (ROOT . "/plugins/{$target['id']['plugin']}/index.php");
-			if(!empty( $configMappings[$target['id']['plugin']]['config'] ))
+			if(!empty( $configMappings[$target['id']['plugin']]['config'] )) {
 				$configVal = getCurrentSetting($target['id']['plugin']);
-			else $configVal = '';
+				$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+			} else {
+				$configVal = '';
+				$context->setProperty('plugin.config',array());
+			}
 			echo pretty_dress(call_user_func($target['id']['handler'], $target['parameters']));
 		}
 	}

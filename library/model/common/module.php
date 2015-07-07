@@ -36,9 +36,11 @@ function getEditorInfo($editor) {
         $context->setProperty('plugin.name', $editorMappings[$editor]['plugin']);
         $context->setProperty('plugin.path',ROOT . "/plugins/{$pluginName}");
         if (!empty($configMappings[$pluginName]['config'])) {
-            $configVal = getCurrentSetting($pluginName);
+			$configVal = getCurrentSetting($pluginName);
+			$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
         } else {
-            $configVal = null;
+			$configVal = null;
+			$context->setProperty('plugin.config',array());
         }
         include_once ROOT . "/plugins/{$editorMappings[$editor]['plugin']}/index.php";
     }

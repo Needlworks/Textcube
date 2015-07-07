@@ -338,10 +338,13 @@ for ($i=0; $i<$sidebarCount; $i++) {
 			}
 			//if (function_exists($handler))
 			{
-				if( !empty( $configMappings[$plugin]['config'] ) ) 				
+				if( !empty( $configMappings[$plugin]['config'] ) ) {	
 					$configVal = getCurrentSetting($plugin);
-				else
+					$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+				} else {
 					$configVal ='';
+					$context->setProperty('plugin.config',array());
+				}
 ?>
 												<li class="sidebar-module sidebar-plugin-module" id="sidebar-element-<?php echo "{$i}-{$j}";?>">
 													<h4 class="module-title"><?php echo $sidebarPluginArray[$sidbarPluginIndex]['display'], '::', $sidebarPluginArray[$sidbarPluginIndex]['title'];?></h4>
