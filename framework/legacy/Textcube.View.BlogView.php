@@ -11,10 +11,10 @@
 class BlogView {
     private $buf, $skin, $view;
 
-    function __construct() {
-        global $skinSetting;
+	function __construct() {
+		$context = Model_Context::getInstance();
         $this->buf = new Utils_OutputWriter;
-        $this->skin = new Skin($skinSetting['skin']);
+        $this->skin = new Skin($context->getProperty('skin.skin'));
         $this->view = $this->skin->outter;
     }
 }
