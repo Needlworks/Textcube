@@ -99,13 +99,6 @@ class UserInfo {
         return $this->loginid;
     }
 
-    /*	function getPassword() { // deprecated
-            exit;
-            if (is_null($this->password))
-                $this->getUser();
-            return $this->password;
-        }*/
-
     function getName() {
         if (is_null($this->name)) {
             $this->getUser();
