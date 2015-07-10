@@ -85,7 +85,7 @@ Uncompress the downloaded file, locate them to the web-accessible location. Assu
 
 [![Stable](https://img.shields.io/badge/stable-1.10.7-blue.svg)](https://github.com/Needlworks/Textcube/archive/latest-stable.zip)
 [![Unstable](https://img.shields.io/badge/unstable-2.0a2-red.svg)](https://github.com/Needlworks/Textcube/archive/latest-unstable.zip)
-[![Testing](https://img.shields.io/badge/testing-1.10.7-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-testing.zip)
+[![Testing](https://img.shields.io/badge/testing-1.10.8rc1-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-testing.zip)
 
 We recommend using stable version.
 
