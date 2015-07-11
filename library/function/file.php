@@ -51,7 +51,7 @@ function getMIMEType($ext, $filename = null) {
 				return 'text/sgml';
 			case 'xml':case 'xsl':
 				return 'text/xml';
-			case 'hwp':case 'hwpml':
+			case 'hwp':case 'hwpx':case 'hwpml':
 				return 'application/x-hwp';
 			case 'pdf':
 				return 'application/pdf';
