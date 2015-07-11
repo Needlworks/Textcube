@@ -118,6 +118,7 @@ class Utils_Misc {
                 case 'xsl':
                     return 'text/xml';
                 case 'hwp':
+                case 'hwpx':
                 case 'hwpml':
                     return 'application/x-hwp';
                 case 'pdf':
