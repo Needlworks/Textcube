@@ -3,10 +3,9 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Utils_OutputWriter {
-    var $type = 'stdout';
-
     public function __construct() {
-        $this->_buffer = null;
+		$this->_buffer = null;
+		$this->type = 'stdout';
     }
 
     public function openStdout() {
