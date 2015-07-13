@@ -9,7 +9,7 @@ ini_set('display_errors', 'on');
 
 define('ROOT','.');
 //if (!defined('__TEXTCUBE_CACHE_DIR__')) {
-	define('__TEXTCUBE_CACHE_DIR__', ROOT . '/cache');
+	define('__TEXTCUBE_CACHE_DIR__', ROOT . '/cache');≈x
 //}
 require ROOT.'/framework/id/textcube/config.default.php';
 
@@ -744,7 +744,25 @@ xml_set_object
             array_push($commands, 'chmod 0777 '.$root);
         }
 
-        $filename = $root . '/attach';
+        $filename = $root . '/user';
+        if (file_exists($filename)) {
+            if (is_dir($filename) && is_writable($filename))
+               echo '<li>', _t('사용자 데이터 디렉토리'), ': OK</li>';
+            else {
+                $error = 12;
+                echo '<li style="color:red">', _t('사용자 데이터 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+                array_push($commands, 'chmod 0777 '.$filename);
+            }
+        } else if (mkdir($filename)) {
+            @chmod($filename, 0777);
+            echo '<li>', _t('사용자 데이터 디렉토리'), ': OK</li>';
+        } else {
+            $error = 13;
+            echo '<li style="color:red">', _t('사용자 데이터 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'user', '0777'), '</li>';
+            array_push($commands, 'chmod 0777 '.$root);
+        }
+
+        $filename = $root . '/user/attach';
         if (file_exists($filename)) {
             if (is_dir($filename) && is_writable($filename))
                echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
@@ -754,15 +772,15 @@ xml_set_object
                 array_push($commands, 'chmod 0777 '.$filename);
             }
         } else if (mkdir($filename)) {
-			@chmod($filename, 0777);
-           echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
+            @chmod($filename, 0777);
+            echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
             echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '</li>';
             array_push($commands, 'chmod 0777 '.$root);
         }
 
-        $filename = $root . '/cache';
+        $filename = $root . '/user/cache';
         if (is_dir($filename)) {
             if (is_writable($filename))
                echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
