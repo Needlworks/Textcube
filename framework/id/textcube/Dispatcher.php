@@ -38,7 +38,7 @@ final class Dispatcher {
         if (!defined('__TEXTCUBE_ATTACH_DIR__')) {
             define('__TEXTCUBE_ATTACH_DIR__', ROOT . '/user/attach');
         }
-        //define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/blog');
+        //define('__TEXTCUBE_SKIN_DIR__',ROOT.'/user/skin/blog');
         //define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
     }
 
