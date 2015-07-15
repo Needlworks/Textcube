@@ -722,7 +722,7 @@ class CacheControl {
                 unset($tag);
             }
 //			if ($xmls->doesExist('/plugin/binding/sidebar')) {
-//			TODO:	사이드바 캐시때 처리하도록 하지요.				
+//			TODO:	사이드바 캐시때 처리하도록 하지요.
 //			}
             if ($xmls->doesExist('/plugin/binding/formatter[lang()]')) {
                 CacheControl::flushCategory();

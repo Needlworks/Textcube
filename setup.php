@@ -9,7 +9,7 @@ ini_set('display_errors', 'on');
 
 define('ROOT','.');
 //if (!defined('__TEXTCUBE_CACHE_DIR__')) {
-	define('__TEXTCUBE_CACHE_DIR__', ROOT . '/user/cache');≈x
+	define('__TEXTCUBE_CACHE_DIR__', ROOT . '/user/cache');
 //}
 require ROOT.'/framework/id/textcube/config.default.php';
 
