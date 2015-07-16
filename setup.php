@@ -1390,8 +1390,9 @@ ini_set('display_errors', 'off');
 				// Users must copy these rules to IsapiRewrite4.ini
 				$htaccessContent = <<<EOF
 RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L,U]
+RewriteRule ^{$path}/attach/([0-9]+/.+)\$ {$path}/user/attach/\$1 [L,U]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^{$path}/(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L,U]
+RewriteRule ^{$path}/user+/+(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L,U]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L,U]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1404,8 +1405,9 @@ EOF;
 				// Users must import these rules into URL Rewrite module.
 				$htaccessContent = <<<EOF
 RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L]
+RewriteRule ^{$path}/attach/([0-9]+/.+)\$ {$path}/user/attach/\$1 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^{$path}/(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
+RewriteRule ^{$path}/user+/+(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1422,8 +1424,9 @@ EOF;
 RewriteEngine On
 RewriteBase {$path}/
 RewriteRule ^(thumbnail)/([0-9]+/.+)\$ cache/\$1/\$2 [L]
+RewriteRule ^attach/([0-9]+/.+)\$ user/attach/\$1 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
+RewriteRule ^user+/+(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])\$ \$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
