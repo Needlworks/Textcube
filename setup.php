@@ -1423,13 +1423,13 @@ EOF;
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase {$path}/
-RewriteRule ^(thumbnail)/([0-9]+/.+)\$ cache/\$1/\$2 [L]
-RewriteRule ^attach/([0-9]+/.+)\$ user/attach/\$1 [L]
 RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^user+/+(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])\$ \$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(thumbnail)/([0-9]+/.+)\$ cache/\$1/\$2 [L]
+RewriteRule ^attach/([0-9]+/.+)\$ user/attach/\$1 [L]
 RewriteRule ^(.*)\$ rewrite.php [L,QSA]
 EOF;
 			}
