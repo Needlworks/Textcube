@@ -9,7 +9,7 @@
 
    Created at       : 2006.9.21
    Last modified at : 2015.6.30
- 
+
  This plugin shows visitor statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
 
@@ -45,7 +45,7 @@ function PN_Visitor_Default()
 											return true;
 										}
 										request.onError = function() {
-											alert("저장하지 못했습니다.");
+											alert("<?php echo _t('저장하지 못했습니다.');?>");
 											return false;
 										}
 										request.send();
@@ -54,7 +54,7 @@ function PN_Visitor_Default()
 <?php
 	}
 ?>
-								
+
 								function addCommas(nStr) {
 									nStr += '';
 									x = nStr.split('.');
@@ -66,9 +66,9 @@ function PN_Visitor_Default()
 									}
 									return x1 + x2;
 								}
-								
+
 								window.addEventListener("load", execLoadFunction, false);
-								
+
 								function execLoadFunction() {
 									tempDiv = document.createElement("DIV");
 									tempDiv.style.clear = "both";
@@ -76,11 +76,11 @@ function PN_Visitor_Default()
 								}
 							//]]>
 						</script>
-					 		
+
 					 	<form method="post" action="<?php echo $context->getProperty('plugin.uri.handler');?>PN_Visitor_Default_set">
 					 		<div id="part-statistics-visitor" class="part">
 					 			<h2 class="caption"><span class="main-text"><?php echo _t('방문자 통계정보를 보여줍니다');?></span></h2>
-					 			
+
 						 		<div id="statistics-counter-inbox" class="data-inbox">
 									<div class="title">
 										<span class="label"><span class="text"><?php echo _t('현재까지의 방문자 수');?></span></span>
@@ -90,14 +90,14 @@ function PN_Visitor_Default()
 <?php
 	if(Acl::check('group.owners')) {
 ?>
-									<a class="init-button button" href="<?php echo $context->getProperty('plugin.uri.handler');?>/PN_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text">초기화</span></a>
+									<a class="init-button button" href="<?php echo $context->getProperty('plugin.uri.handler');?>/PN_Visitor_Default_set" onclick="setTotalStatistics(); return false;"><span class="text"><?php echo _t('초기화');?></span></a>
 <?php
 	}
 ?>
 								</div>
-							
+
 								<hr class="hidden" />
-								
+
 								<table id="statistics-month-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
@@ -109,7 +109,7 @@ function PN_Visitor_Default()
 $temp = Statistics::getMonthlyStatistics($blogid);
 for ($i=0; $i<sizeof($temp); $i++) {
 	$record = $temp[$i];
-	
+
 	$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 	$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
@@ -122,13 +122,13 @@ for ($i=0; $i<sizeof($temp); $i++) {
 ?>
 									</tbody>
 								</table>
-								
+
 								<hr class="hidden" />
-								
+
 								<table id="statistics-day-inbox" class="data-inbox" cellspacing="0" cellpadding="0">
 									<thead>
 										<tr>
-											<th colspan="2"><span class="text">일별 방문자 수</span></th>
+											<th colspan="2"><span class="text"><?php echo _t('일별 방문자 수');?></span></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -137,7 +137,7 @@ if (isset($date)) {
 	$temp = Statistics::getDailyStatistics($date);
 	for ($i=0; $i<sizeof($temp); $i++) {
 		$record = $temp[$i];
-		
+
 		$className = ($i % 2) == 1 ? 'even-line' : 'odd-line';
 		$className .= ($i == sizeof($temp) - 1) ? ' last-line' : '';
 ?>
@@ -151,11 +151,11 @@ if (isset($date)) {
 ?>
 									</tbody>
 								</table>
-								
+
 							</div>
 						</form>
-						
-<?php 
+
+<?php
 }
 
 function PN_Visitor_Default_set()
