@@ -226,7 +226,8 @@ function getTagFrequency($tag, $max, $min) {
 }
 
 function suggestLocalTags($blogid, $filter) {
-    $tags = array();
+	$tags =	array();
+	$pool = DBModel::getInstance();
     $pool->init("Tags");
     $pool->setAlias("Tags", "t");
     $pool->setAlias("TagRelations", "r");
@@ -250,7 +251,6 @@ function suggestLocalTags($blogid, $filter) {
 }
 
 function deleteTagById($blogid, $id) {
-    global $database;
     $pool = DBModel::getInstance();
 
     $pool->init("TagRelations");
