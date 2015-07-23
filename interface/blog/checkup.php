@@ -241,7 +241,8 @@ if (!defined('__TEXTCUBE_GAE__')) {
 	if ((preg_match('@rewrite\.php@', $content) == 0 ) ||
 			(strpos($content,'[OR]') !== false) ||
 			(strpos($content,' -d') == false) ||
-			(strpos($content,'(cache|xml|txt|log)') == false)
+			(strpos($content,'(cache|xml|txt|log)') == false) ||
+			(strpos($content,'user/attach') == false)
 			) {
 		echo '<li>', _textf('htaccess 규칙을 수정합니다.'), ': ';
 		$fp = fopen($filename.'_backup_'.Timestamp::format('%Y%m%d'), "w");
