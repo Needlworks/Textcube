@@ -6,6 +6,8 @@
 require ROOT . '/library/preprocessor.php';
 
 $cache = pageCache::getInstance();
+$context = Model_Context::getInstance();
+$suri = $context->getAllFromNamespace('suri');
 if (strlen($suri['value'])) {
 	if(!isset($suri['id']) || (Setting::getBlogSettingGlobal('useSloganOnTag',1) == 1)) {
 		$tag = getTagId($blogid, $suri['value']);
