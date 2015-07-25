@@ -31,7 +31,7 @@ define("OPENID_PASSWORD", "-OPENID-");
 define('JQUERY_VERSION', '1.11.3.min');
 define('JQUERY_BPOPUP_VERSION', '0.10.0.min');
 define('JQUERY_UI_VERSION', '1.11.2.min');
-define('LODASH_VERSION', '2.4.1.min');
+define('LODASH_VERSION', '3.10.0.min');
 
 // Define global variable for legacy support.
 // This settings are set to default for configuration.
