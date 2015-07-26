@@ -3,7 +3,7 @@
    ----------------------------------
    Version 0.15
    Starts at        : Apr. 5, 2006
-   Last modified at : June. 29, 2015 (WIP)
+   Last modified at : July. 27, 2015 (WIP)
 
    Jeongkyu Shin.
    E-mail : inureyes@gmail.com
@@ -36,7 +36,6 @@ function WikiCube_FormatContent($target, $mother) {
         $config['mode'] = 'entry';
     }
 
-    $context = Model_Context::getInstance();
     $pattern = array(
         '/\[\[(.*?)\|(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/' . $config['mode'] . '/$2' . '">$1</a>',
         '/\[\[tg:(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/tag/$1' . '">$1</a>',
@@ -56,7 +55,6 @@ function WikiCube_FormatErrorPage($target) {
         $config['mode'] = 'entry';
     }
 
-    $context = Model_Context::getInstance();
     $additional = '<div style="border:none;width:100%;text-align:center;"><a href="' . $context->getProperty('uri.blog') .
         '/owner/entry/post?slogan=' . $context->getProperty('suri.value') .
         ($config['mode'] == 'entry' ? '' : '&category=-3') .
@@ -122,9 +120,8 @@ function WikiCube_DataHandler($data) {
 
     if (!array_key_exists('mode', $config)) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 ?>
