@@ -78,7 +78,7 @@ function WikiCube_AddButton($target) {
             editor.addButton('wikicubeAddWikiLink', {
                 title: 'Add Wiki Link',
                 cmd: 'wikicubeAddLink',
-                icon: 'save'
+                icon: 'link'
             });
             editor.addCommand('wikicubeAddTagLink', function () {
                 if (editor.editormode == 'wysiwyg') {
@@ -89,7 +89,7 @@ function WikiCube_AddButton($target) {
             editor.addButton('wikicubeAddTagLink', {
                 title: 'Add Wiki Tag Link',
                 cmd: 'wikicubeAddTagLink',
-                icon: 'save'
+                icon: 'bookmark'
             });
             editor.addCommand('wikicubeAddCategoryLink', function () {
                 if (editor.editormode == 'wysiwyg') {
@@ -100,7 +100,7 @@ function WikiCube_AddButton($target) {
             editor.addButton('wikicubeAddCategoryLink', {
                 title: 'Add Wiki Link',
                 cmd: 'wikicubeAddCategoryLink',
-                icon: 'save'
+                icon: 'link'
             });
             editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
             editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddTagLink';
