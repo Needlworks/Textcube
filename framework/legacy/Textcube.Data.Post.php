@@ -154,8 +154,9 @@ class Post {
 		$this->saveSlogan();
 		$this->addTags();
 		if (($this->visibility == 'public') || ($this->visibility == 'syndicated')) {
-			requireComponent('Textcube.Control.RSS');
+			requireComponent('Textcube.Control.Feed');
 			RSS::refresh();
+			ATOM::refresh();
 		}
 		if ($this->visibility == 'syndicated') {
 			if (!Utils_Syndication::join($this->getLink())) {
@@ -231,8 +232,9 @@ class Post {
 			$this->deleteTags();
 		
 		// step 9. Clear RSS
-			requireComponent('Textcube.Control.RSS');
+			requireComponent('Textcube.Control.Feed');
 			RSS::refresh();
+			ATOM::refresh();
 
 			return true;
 		}

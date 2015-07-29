@@ -10,4 +10,11 @@ class RSS {
     }
 }
 
+class ATOM {
+    function refresh() {
+        if (file_exists(__TEXTCUBE_CACHE_DIR__ . "/atom/" . getBlogId() . ".xml")) {
+            @unlink(__TEXTCUBE_CACHE_DIR__ . "/atom/" . getBlogId() . ".xml");
+        }
+    }
+}
 ?>
