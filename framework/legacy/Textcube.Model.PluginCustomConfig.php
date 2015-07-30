@@ -6,7 +6,7 @@
 class PluginCustomConfig {
     var $usable = false;
 
-    function PluginCustomConfig($blogid, $pluginName) {
+    function __construct($blogid, $pluginName) {
         $this->blogid = $blogid;
         $this->pluginName = $pluginName;
         $this->reset();
