@@ -208,7 +208,7 @@ function getScriptsOnFoot() {
 }
 
 function getTrackbacksView($entry, $skin, $accepttrackback) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     importlib('model.blog.remoteresponse');
     importlib('blogskin');
 
@@ -235,11 +235,11 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
         $trackbacksContainer = '';
     }
 
-    if ($ctx->getProperty('skin.expandTrackback') == 1 ||
-        (($ctx->getProperty('suri.url') != $ctx->getProperty('uri.blog') . '/index.php' &&
-                $ctx->getProperty('suri.url') != $ctx->getProperty('service.path') . '/index.php') &&
-            ($ctx->getProperty('suri.directive') == '/' ||
-                $ctx->getProperty('suri.directive') == '/entry') && $ctx->getProperty('suri.value') != '')
+    if ($context->getProperty('skin.expandTrackback') == 1 ||
+        (($context->getProperty('suri.url') != $context->getProperty('uri.blog') . '/index.php' &&
+                $context->getProperty('suri.url') != $context->getProperty('service.path') . '/index.php') &&
+            ($context->getProperty('suri.directive') == '/' ||
+                $context->getProperty('suri.directive') == '/entry') && $context->getProperty('suri.value') != '')
     ) {
         $style = 'block';
     } else {
@@ -248,10 +248,10 @@ function getTrackbacksView($entry, $skin, $accepttrackback) {
     $trackbacksView = "<div id=\"entry{$entry['id']}Trackback\" style=\"display:$style\">" . str_replace('[##_tb_container_##]', $trackbacksContainer, $skin->trackbacks) . '</div>';
 
 
-    if ($ctx->getProperty('blog.acceptTrackbacks', 1) && $accepttrackback) {
+    if ($context->getProperty('blog.acceptTrackbacks', 1) && $accepttrackback) {
         // Blocked. (Too many encoding issues with various trackback sender.)
-        //$trackbackAddress = $ctx->getProperty('uri.default')."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
-        $trackbackAddress = $ctx->getProperty('uri.default') . "/trackback/" . $entry['id'];
+        //$trackbackAddress = $context->getProperty('uri.default')."/trackback/".($blog['useSloganOnPost'] ? $entry['slogan'] : $entry['id']);
+        $trackbackAddress = $context->getProperty('uri.default') . "/trackback/" . $entry['id'];
         dress('tb_address', "<span onclick=\"copyUrl('$trackbackAddress', this)\">$trackbackAddress</span>", $trackbacksView);
     } else {
         dress('tb_address', _t('이 글에는 트랙백을 보낼 수 없습니다'), $trackbacksView);
@@ -548,14 +548,14 @@ function getCommentView($entry, $skin, $inputBlock = true, $page = 1, $count = n
 }
 
 function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     importlib('model.blog.category');
     importlib('blogskin');
     $blogid = getBlogId();
     $categoryCount = 0;
     $categoryCountAll = 0;
     $parentCategoryCount = 0;
-    $tree = array('id' => 0, 'label' => getCategoryNameById($blogid, 0), 'value' => $totalPosts, 'link' => $ctx->getProperty('uri.blog') . "/category", 'children' => array());
+    $tree = array('id' => 0, 'label' => getCategoryNameById($blogid, 0), 'value' => $totalPosts, 'link' => $context->getProperty('uri.blog') . "/category", 'children' => array());
     foreach ($categories as $category1) {
         $children = array();
         if (doesHaveOwnership() || getCategoryVisibility($blogid, $category1['id']) > 1) {
@@ -565,9 +565,9 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
                         array('id' => $category2['id'],
                             'label' => $category2['name'],
                             'value' => (doesHaveOwnership() ? $category2['entriesinlogin'] : $category2['entries']),
-                            'link' => $ctx->getProperty('uri.blog') . "/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'], $ctx->getProperty('service.useEncodedURL')) : $category2['id']),
-                            'rsslink' => $ctx->getProperty('uri.blog') . "/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'], $ctx->getProperty('service.useEncodedURL')) : $category2['id']),
-                            'atomlink' => $ctx->getProperty('uri.blog') . "/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'], $ctx->getProperty('service.useEncodedURL')) : $category2['id']),
+                            'link' => $context->getProperty('uri.blog') . "/category/" . ($context->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'], $context->getProperty('service.useEncodedURL')) : $category2['id']),
+                            'rsslink' => $context->getProperty('uri.blog') . "/rss/category/" . ($context->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'], $context->getProperty('service.useEncodedURL')) : $category2['id']),
+                            'atomlink' => $context->getProperty('uri.blog') . "/atom/category/" . ($context->getProperty('blog.useSloganOnCategory') ? URL::encode($category2['label'], $context->getProperty('service.useEncodedURL')) : $category2['id']),
                             'children' => array()
                         )
                     );
@@ -581,9 +581,9 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
                     array('id' => $category1['id'],
                         'label' => $category1['name'],
                         'value' => $categoryCount + $parentCategoryCount,
-                        'link' => $ctx->getProperty('uri.blog') . "/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'], $ctx->getProperty('service.useEncodedURL')) : $category1['id']),
-                        'rsslink' => $ctx->getProperty('uri.blog') . "/rss/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'], $ctx->getProperty('service.useEncodedURL')) : $category1['id']),
-                        'atomlink' => $ctx->getProperty('uri.blog') . "/atom/category/" . ($ctx->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'], $ctx->getProperty('service.useEncodedURL')) : $category1['id']),
+                        'link' => $context->getProperty('uri.blog') . "/category/" . ($context->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'], $context->getProperty('service.useEncodedURL')) : $category1['id']),
+                        'rsslink' => $context->getProperty('uri.blog') . "/rss/category/" . ($context->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'], $context->getProperty('service.useEncodedURL')) : $category1['id']),
+                        'atomlink' => $context->getProperty('uri.blog') . "/atom/category/" . ($context->getProperty('blog.useSloganOnCategory') ? URL::encode($category1['label'], $context->getProperty('service.useEncodedURL')) : $category1['id']),
                         'children' => $children)
                 );
             }
@@ -600,23 +600,23 @@ function getCategoriesView($totalPosts, $categories, $selected, $xhtml = false) 
 }
 
 function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $blogid = getBlogId();
     importlib('model.blog.category');
     importlib('blogskin');
     // Initialize root category.
-    $tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => $ctx->getProperty('uri.blog') . "/owner/entry/category", 'children' => array());
+    $tree = array('id' => 0, 'label' => getCategoryNameById(getBlogId(), 0), 'value' => $totalPosts, 'link' => $context->getProperty('uri.blog') . "/owner/entry/category", 'children' => array());
     foreach ($categories as $category1) {
         $children = array();
         foreach ($category1['children'] as $category2) {
             if (getCategoryVisibility($blogid, $category1['id']) == 2) {
-                array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $ctx->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+                array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
             } else {
-                array_push($children, array('id' => $category2['id'], 'label' => '[!] ' . (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $ctx->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+                array_push($children, array('id' => $category2['id'], 'label' => '[!] ' . (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
             }
         }
         if ($category1['id'] != 0) {
-            array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id']) == 2 ? $category1['name'] : _t('(비공개)') . ' ' . $category1['name']), 'value' => $category1['entriesinlogin'], 'link' => $ctx->getProperty('uri.blog') . "/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+            array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id']) == 2 ? $category1['name'] : _t('(비공개)') . ' ' . $category1['name']), 'value' => $category1['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
         }
     }
     ob_start();
@@ -650,19 +650,19 @@ function getCategoriesViewInSkinSetting($totalPosts, $categories, $selected) {
 function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
     importlib('blogskin');
     importlib('model.blog.entry');
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if ($embedJava == false) { // not from getCategoriesViewInSkinSetting
         $skin = getCategoriesSkin();
     } else {
-        $skin = getCategoriesSkin($ctx->getAllFromNamespace('skin'));
+        $skin = getCategoriesSkin($context->getAllFromNamespace('skin'));
     }
     if ($xhtml) {
         echo '<ul>' . CRLF;
         $isSelected = ($tree['id'] === $selected) ? ' class="selected"' : '';
 
         echo "<li$isSelected>" . CRLF;
-        if ($ctx->getProperty('blog.useFeedViewOnCategory')) {
-            echo ' <a href="' . $ctx->getProperty('uri.default') . '/atom" class="categoryFeed"><span class="text">ATOM</span></a>' . CRLF;
+        if ($context->getProperty('blog.useFeedViewOnCategory')) {
+            echo ' <a href="' . $context->getProperty('uri.default') . '/atom" class="categoryFeed"><span class="text">ATOM</span></a>' . CRLF;
         }
         echo "<a href=\"", htmlspecialchars($tree['link']), '" class="categoryItem">', htmlspecialchars($tree['label']);
         if ($skin['showValue']) {
@@ -682,7 +682,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
                 $isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 
                 echo "<li$isSelected>" . CRLF;
-                if ($ctx->getProperty('blog.useFeedViewOnCategory')) {
+                if ($context->getProperty('blog.useFeedViewOnCategory')) {
                     echo ' <a href="' . $child['atomlink'] . '" class="categoryFeed"><span class="text">ATOM</span></a>' . CRLF;
                 }
                 echo "<a href=\"", htmlspecialchars($child['link']), '" class="categoryItem">', htmlspecialchars($child['label']);
@@ -704,7 +704,7 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
                         $isSelected = count($classNames) > 0 ? ' class="' . implode(' ', $classNames) . '"' : '';
 
                         echo "<li$isSelected>" . CRLF;
-                        if ($ctx->getProperty('blog.useFeedViewOnCategory')) {
+                        if ($context->getProperty('blog.useFeedViewOnCategory')) {
                             echo '<a href="' . $leaf['atomlink'] . '" class="categoryFeed"><span class="text">ATOM</span></a>' . CRLF;
                         }
                         echo "<a href=\"", htmlspecialchars($leaf['link']), '" class="categoryItem">', htmlspecialchars($leaf['label']);
@@ -999,11 +999,11 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
 }
 
 function getArchivesView($archives, $template) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     ob_start();
     foreach ($archives as $archive) {
         $view = "$template";
-        dress('archive_rep_link', $ctx->getProperty('uri.blog') . "/archive/{$archive['period']}", $view);
+        dress('archive_rep_link', $context->getProperty('uri.blog') . "/archive/{$archive['period']}", $view);
         dress('archive_rep_date', fireEvent('ViewArchiveDate', getPeriodLabel($archive['period']), $archive['period']), $view);
         dress('archive_rep_count', $archive['count'], $view);
         print $view;
@@ -1014,7 +1014,7 @@ function getArchivesView($archives, $template) {
 }
 
 function getCalendarView($calendar) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $current = $calendar['year'] . $calendar['month'];
     $previous = addPeriod($current, -1);
     $next = addPeriod($current, 1);
@@ -1028,13 +1028,13 @@ function getCalendarView($calendar) {
     ?>
     <table class="tt-calendar" cellpadding="0" cellspacing="1" style="width: 100%; table-layout: fixed">
         <caption class="cal_month">
-            <a href="<?php echo $ctx->getProperty('uri.blog'); ?>/archive/<?php echo $previous; ?>"
+            <a href="<?php echo $context->getProperty('uri.blog'); ?>/archive/<?php echo $previous; ?>"
                title="<?php echo _text('1개월 앞의 달력을 보여줍니다.'); ?>">&laquo;</a>
             &nbsp;
-            <a href="<?php echo $ctx->getProperty('uri.blog'); ?>/archive/<?php echo $current; ?>"
+            <a href="<?php echo $context->getProperty('uri.blog'); ?>/archive/<?php echo $current; ?>"
                title="<?php echo _text('현재 달의 달력을 보여줍니다.'); ?>"><?php echo $currentMonthStr; ?></a>
             &nbsp;
-            <a href="<?php echo $ctx->getProperty('uri.blog'); ?>/archive/<?php echo $next; ?>"
+            <a href="<?php echo $context->getProperty('uri.blog'); ?>/archive/<?php echo $next; ?>"
                title="<?php echo _text('1개월 뒤의 달력을 보여줍니다.'); ?>">&raquo;</a>
         </caption>
         <thead>
@@ -1064,7 +1064,7 @@ function getCalendarView($calendar) {
 
             for ($weekday = 0; $weekday < 7; $weekday++) {
                 $day++;
-                $dayString = isset($calendar['days'][$day]) ? '<a class="cal_click" href="' . $ctx->getProperty('uri.blog') . '/archive/' . $current . ($day > 9 ? $day : "0$day") . '">' . $day . '</a>' : $day;
+                $dayString = isset($calendar['days'][$day]) ? '<a class="cal_click" href="' . $context->getProperty('uri.blog') . '/archive/' . $current . ($day > 9 ? $day : "0$day") . '">' . $day . '</a>' : $day;
 
                 // 일요일, 평일, 토요일별로 class를 부여한다.
                 switch ($weekday) {
@@ -1122,11 +1122,11 @@ function getCalendarView($calendar) {
 
 function getAuthorListView($authorInfo, $template) {
     ob_start();
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (!empty($authorInfo)) {
         foreach ($authorInfo as $user) {
             $view = "$template";
-            $permalink = $ctx->getProperty('uri.blog') . "/author/" . rawurlencode($user['name']);
+            $permalink = $context->getProperty('uri.blog') . "/author/" . rawurlencode($user['name']);
             dress('author_rep_link', $permalink, $view);
             dress('author_rep_name', $user['name'], $view);
 //		dress('author_rep_post_count', $user['postcount'], $view);
@@ -1149,14 +1149,14 @@ function getRecentPagesView($pages, $pageView, $pageItemView) {
 }
 
 function getRecentItemsView($entries, $entryView, $entryItemView, $type = 'Notice') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $prefix = strtolower($type);
     if (sizeof($entries) > 0) {
         $itemsView = '';
         foreach ($entries as $entry) {
             $itemView = $entryItemView;
-            dress($prefix . '_rep_title', htmlspecialchars(fireEvent('View' . $prefix . 'Title', Utils_Unicode::lessenAsEm($entry['title'], $ctx->getProperty('skin.recent' . $type . 'Length')), $entry['id'])), $itemView);
-            if ($ctx->getProperty('blog.useSloganOnPost')) {
+            dress($prefix . '_rep_title', htmlspecialchars(fireEvent('View' . $prefix . 'Title', Utils_Unicode::lessenAsEm($entry['title'], $context->getProperty('skin.recent' . $type . 'Length')), $entry['id'])), $itemView);
+            if ($context->getProperty('blog.useSloganOnPost')) {
                 if (isset($entry['slogan']) && !empty($entry['slogan'])) {
                     $entryURL = URL::encode($entry['slogan']);
                 } else {
@@ -1166,37 +1166,37 @@ function getRecentItemsView($entries, $entryView, $entryItemView, $type = 'Notic
                 $entryURL = $entry['id'];
             }
             $name = User::getName($entry['userid']);
-            dress($prefix . '_rep_link', $ctx->getProperty('uri.blog') . "/" . $prefix . "/$entryURL", $itemView);
+            dress($prefix . '_rep_link', $context->getProperty('uri.blog') . "/" . $prefix . "/$entryURL", $itemView);
             dress($prefix . '_rep_author', $name, $itemView);
-            dress($prefix . '_rep_author', $ctx->getProperty('uri.blog') . "/author/" . rawurlencode($name), $itemView);
+            dress($prefix . '_rep_author', $context->getProperty('uri.blog') . "/author/" . rawurlencode($name), $itemView);
             $itemsView .= $itemView;
         }
         dress('rct_' . $prefix . '_rep', $itemsView, $entryView);
         // IE webslice support
-        if ($ctx->getProperty('blog.useMicroformat', 3) == 3) {
-            $entryView = addWebSlice($entryView, 'recent' . $type . 'Webslice', htmlspecialchars($ctx->getProperty('blog.title')));
+        if ($context->getProperty('blog.useMicroformat', 3) == 3) {
+            $entryView = addWebSlice($entryView, 'recent' . $type . 'Webslice', htmlspecialchars($context->getProperty('blog.title')));
         }
     }
     return $entryView;
 }
 
 function getRecentEntriesView($entries, $entriesView = null, $template = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     global $contentContainer;
     $recentEntriesView = '';
     if (is_null($template)) {
-        $skin = new Skin($ctx->getProperty('skin.skin'));
+        $skin = new Skin($context->getProperty('skin.skin'));
         $template = $skin->recentEntryItem;
     }
     foreach ($entries as $entry) {
         $view = "$template";
-        $permalink = $ctx->getProperty('uri.blog') . "/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($entry['slogan'], $ctx->getProperty('service.useEncodedURL')) : $entry['id']);
+        $permalink = $context->getProperty('uri.blog') . "/" . ($context->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($entry['slogan'], $context->getProperty('service.useEncodedURL')) : $entry['id']);
         dress('rctps_rep_link', $permalink, $view);
-        $contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(Utils_Unicode::lessenAsEm($entry['title'], $ctx->getProperty('skin.recentEntryLength')));
+        $contentContainer["recent_entry_{$entry['id']}"] = htmlspecialchars(Utils_Unicode::lessenAsEm($entry['title'], $context->getProperty('skin.recentEntryLength')));
         dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
         $name = User::getName($entry['userid']);
         dress('rctps_rep_author', $name, $view);
-        dress('rctps_rep_author_link', $ctx->getProperty('uri.blog') . "/author/" . rawurlencode($name), $view);
+        dress('rctps_rep_author_link', $context->getProperty('uri.blog') . "/author/" . rawurlencode($name), $view);
         dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
         dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">" . ($entry['comments'] > 0 ? "{$entry['comments']}" : '') . '</span>', $view);
         $recentEntriesView .= $view;
@@ -1204,8 +1204,8 @@ function getRecentEntriesView($entries, $entriesView = null, $template = null) {
     if (!is_null($entriesView)) {
         dress('rctps_rep', $recentEntriesView, $entriesView);
         // IE webslice support
-        if ($ctx->getProperty('blog.useMicroformat', 3) == 3) {
-            $recentEntriesView = addWebSlice($entriesView, 'recentEntriesWebslice', htmlspecialchars($ctx->getProperty('blog.title') . ' - ' . _t('최근 글')));
+        if ($context->getProperty('blog.useMicroformat', 3) == 3) {
+            $recentEntriesView = addWebSlice($entriesView, 'recentEntriesWebslice', htmlspecialchars($context->getProperty('blog.title') . ' - ' . _t('최근 글')));
         } else {
             return $entriesView;
         }
@@ -1214,27 +1214,27 @@ function getRecentEntriesView($entries, $entriesView = null, $template = null) {
 }
 
 function getRecentCommentsView($comments, $commentView = null, $template = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     global $contentContainer;
     $recentCommentView = '';
     if (is_null($template)) {
-        $skin = new Skin($ctx->getProperty('skin.skin'));
+        $skin = new Skin($context->getProperty('skin.skin'));
         $template = $skin->recentCommentItem;
     }
     foreach ($comments as $comment) {
         $view = "$template";
-        dress('rctrp_rep_link', $ctx->getProperty('uri.blog') . "/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($comment['slogan'], $ctx->getProperty('service.useEncodedURL')) : $comment['entry']) . "?commentId=" . $comment['id'] . "#comment{$comment['id']}", $view);
-        $contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(Utils_Unicode::lessenAsEm(strip_tags($comment['comment']), $ctx->getProperty('skin.recentCommentLength')));
+        dress('rctrp_rep_link', $context->getProperty('uri.blog') . "/" . ($context->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($comment['slogan'], $context->getProperty('service.useEncodedURL')) : $comment['entry']) . "?commentId=" . $comment['id'] . "#comment{$comment['id']}", $view);
+        $contentContainer["recent_comment_{$comment['id']}"] = htmlspecialchars(Utils_Unicode::lessenAsEm(strip_tags($comment['comment']), $context->getProperty('skin.recentCommentLength')));
         dress('rctrp_rep_desc', setTempTag("recent_comment_{$comment['id']}"), $view);
         dress('rctrp_rep_time', fireEvent('ViewRecentCommentDate', Timestamp::format2($comment['written']), $comment['written']), $view);
-        dress('rctrp_rep_name', htmlspecialchars(Utils_Unicode::lessenAsEm($comment['name'], $ctx->getProperty('skin.recentCommentLength'))), $view);
+        dress('rctrp_rep_name', htmlspecialchars(Utils_Unicode::lessenAsEm($comment['name'], $context->getProperty('skin.recentCommentLength'))), $view);
         $recentCommentView .= $view;
     }
     if (!is_null($commentView)) {
         dress('rctrp_rep', $recentCommentView, $commentView);
         // IE webslice support
-        if ($ctx->getProperty('blog.useMicroformat', 3) == 3) {
-            $recentCommentView = addWebSlice($commentView, 'recentCommentWebslice', htmlspecialchars($ctx->getProperty('blog.title') . ' - ' . _t('최근 댓글')));
+        if ($context->getProperty('blog.useMicroformat', 3) == 3) {
+            $recentCommentView = addWebSlice($commentView, 'recentCommentWebslice', htmlspecialchars($context->getProperty('blog.title') . ' - ' . _t('최근 댓글')));
         } else {
             return $commentView;
         }
@@ -1243,26 +1243,26 @@ function getRecentCommentsView($comments, $commentView = null, $template = null)
 }
 
 function getRecentTrackbacksView($trackbacks, $trackbackView = null, $template = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $recentTrackbackView = '';
     if (is_null($template)) {
-        $skin = new Skin($ctx->getProperty('skin.skin'));
+        $skin = new Skin($context->getProperty('skin.skin'));
         $template = $skin->recentTrackbackItem;
     }
     foreach ($trackbacks as $trackback) {
         $view = "$template";
-        dress('rcttb_rep_link', $ctx->getProperty('uri.blog') . "/" . ($ctx->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($trackback['slogan'], $ctx->getProperty('service.useEncodedURL')) : $trackback['entry']) . "#trackback{$trackback['id']}", $view);
+        dress('rcttb_rep_link', $context->getProperty('uri.blog') . "/" . ($context->getProperty('blog.useSloganOnPost') ? "entry/" . URL::encode($trackback['slogan'], $context->getProperty('service.useEncodedURL')) : $trackback['entry']) . "#trackback{$trackback['id']}", $view);
 
-        dress('rcttb_rep_desc', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['subject'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
+        dress('rcttb_rep_desc', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['subject'], $context->getProperty('skin.recentTrackbackLength'))), $view);
         dress('rcttb_rep_time', fireEvent('ViewRecentTrackbackDate', Timestamp::format2($trackback['written']), $trackback['written']), $view);
-        dress('rcttb_rep_name', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['site'], $ctx->getProperty('skin.recentTrackbackLength'))), $view);
+        dress('rcttb_rep_name', htmlspecialchars(Utils_Unicode::lessenAsEm($trackback['site'], $context->getProperty('skin.recentTrackbackLength'))), $view);
         $recentTrackbackView .= $view;
     }
     if (!is_null($trackbackView)) {
         dress('rcttb_rep', $recentTrackbackView, $trackbackView);
         // IE webslice support
-        if ($ctx->getProperty('blog.useMicroformat', 3) == 3) {
-            $recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($ctx->getProperty('blog.title') . ' - ' . _t('최근 트랙백')));
+        if ($context->getProperty('blog.useMicroformat', 3) == 3) {
+            $recentTrackbackView = addWebSlice($trackbackView, 'recentCommentWebslice', htmlspecialchars($context->getProperty('blog.title') . ' - ' . _t('최근 트랙백')));
         } else {
             return $trackbackView;
         }
@@ -1283,14 +1283,14 @@ function addXfnAttrs($url, $xfn, & $view) {
 }
 
 function getLinksView($links, $template) {
-    $ctx = Model_Context::getInstance();
-    if (rtrim($ctx->getProperty('suri.url'), '/') == $ctx->getProperty('uri.path')) {
+    $context = Model_Context::getInstance();
+    if (rtrim($context->getProperty('suri.url'), '/') == $context->getProperty('uri.path')) {
         $home = true;
     } else {
         $home = false;
     }
     ob_start();
-    $showXfn = ($ctx->getProperty('blog.useMicroformat', 3) > 1);
+    $showXfn = ($context->getProperty('blog.useMicroformat', 3) > 1);
     foreach ($links as $link) {
         if ((!doesHaveOwnership() && $link['visibility'] == 0) ||
             (!doesHaveMembership() && $link['visibility'] < 2)
@@ -1303,7 +1303,7 @@ function getLinksView($links, $template) {
         if ($showXfn && $home && $link['xfn']) {
             addXfnAttrs(htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $view);
         }
-        dress('link_site', fireEvent('ViewLink', htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength')))), $view);
+        dress('link_site', fireEvent('ViewLink', htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $context->getProperty('skin.linkLength')))), $view);
         print $view;
     }
     $view = ob_get_contents();
@@ -1312,8 +1312,8 @@ function getLinksView($links, $template) {
 }
 
 function getLinkListView($links) {
-    $ctx = Model_Context::getInstance();
-    if (rtrim($ctx->getProperty('suri.url'), '/') == $ctx->getProperty('uri.path')) {
+    $context = Model_Context::getInstance();
+    if (rtrim($context->getProperty('suri.url'), '/') == $context->getProperty('uri.path')) {
         $home = true;
     } else {
         $home = false;
@@ -1338,7 +1338,7 @@ function getLinkListView($links) {
         if ($showXfn && $home && $link['xfn']) {
             addXfnAttrs(htmlspecialchars($link['url']), htmlspecialchars($link['xfn']), $link['url']);
         }
-        $buffer .= '<li><a href="' . htmlspecialchars($link['url']) . '">' . fireEvent('ViewLink', htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $ctx->getProperty('skin.linkLength')))) . '</a></li>' . CRLF;
+        $buffer .= '<li><a href="' . htmlspecialchars($link['url']) . '">' . fireEvent('ViewLink', htmlspecialchars(Utils_Unicode::lessenAsEm($link['name'], $context->getProperty('skin.linkLength')))) . '</a></li>' . CRLF;
     }
     if (!empty($categoryName)) {
         $buffer .= '</ul>' . CRLF . '</li>' . CRLF;
@@ -1348,12 +1348,12 @@ function getLinkListView($links) {
 }
 
 function getRandomTagsView($tags, $template) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     ob_start();
     list($maxTagFreq, $minTagFreq) = getTagFrequencyRange();
     foreach ($tags as $tag) {
         $view = $template;
-        dress('tag_link', $ctx->getProperty('uri.blog') . "/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag', true) ? URL::encode($tag['name'], $ctx->getProperty('service.useEncodedURL')) : $tag['id']), $view);
+        dress('tag_link', $context->getProperty('uri.blog') . "/tag/" . (Setting::getBlogSettingGlobal('useSloganOnTag', true) ? URL::encode($tag['name'], $context->getProperty('service.useEncodedURL')) : $tag['id']), $view);
         dress('tag_name', htmlspecialchars($tag['name']), $view);
         dress('tag_class', "cloud" . getTagFrequency($tag, $maxTagFreq, $minTagFreq), $view);
         print $view;
@@ -1364,7 +1364,7 @@ function getRandomTagsView($tags, $template) {
 }
 
 function getEntryContentView($blogid, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = true, $bRssMode = false) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     importlib('model.blog.attachment');
     importlib('model.blog.keyword');
     importlib('blogskin');
@@ -1826,7 +1826,7 @@ function printScript($filename, $obfuscate = true) {
 }
 
 function addOpenIDPannel($comment, $prefix) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (!isActivePlugin('CL_OpenID')) {
         return $comment;
     }
@@ -1836,15 +1836,15 @@ function addOpenIDPannel($comment, $prefix) {
     $lastcomment = '';
 
     $openidOnlySettingNotice = '';
-    if ($ctx->getProperty('blog.AddCommentMode', '') == 'openid') {
+    if ($context->getProperty('blog.AddCommentMode', '') == 'openid') {
         $openidOnlySettingNotice = "<b>" . _text('오픈아이디로만 댓글을 남길 수 있습니다') . "</b>";
     }
 
-    $tag_login = '<a href="' . $ctx->getProperty('uri.blog') . '/login/openid/guest?requestURI=' .
+    $tag_login = '<a href="' . $context->getProperty('uri.blog') . '/login/openid/guest?requestURI=' .
         urlencode($_SERVER["REQUEST_URI"]) .
         '"><span style="color:#ff6200">' . _text('로그인') . '</span></a>';
 
-    $tag_logoff = '<a href="' . $ctx->getProperty('uri.blog') . '/login/openid?action=logout&requestURI=' .
+    $tag_logoff = '<a href="' . $context->getProperty('uri.blog') . '/login/openid?action=logout&requestURI=' .
         urlencode($_SERVER["REQUEST_URI"]) .
         '"><span style="">' . _text('로그아웃') . '</span></a>';
 
@@ -1870,7 +1870,7 @@ function addOpenIDPannel($comment, $prefix) {
     $pannel_style = "style=\"width:100%; text-align:left\"";
     $radio_style = "style=\"width:15px;vertical-align:text-bottom;height:15px;border:0px;margin:0px;padding:0px;\"";
     $label_style = "style=\"display:inline;margin-top:0px;padding-left:0px;cursor:pointer\"";
-    $openid_input_style = 'style="padding-left:21px;width:165px;background-image:url(' . $ctx->getProperty('service.path') . '/resources/image/icon_openid.gif' . ');' .
+    $openid_input_style = 'style="padding-left:21px;width:165px;background-image:url(' . $context->getProperty('service.path') . '/resources/image/icon_openid.gif' . ');' .
         'background-repeat:no-repeat;background-position:0px center"';
 
     if ($openid_identity) {

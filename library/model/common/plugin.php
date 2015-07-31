@@ -299,11 +299,11 @@ function deletePluginTable($name) {
 
 function getPluginTableName() {
     importlib('model.common.setting');
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $likeEscape = array('/_/', '/%/');
     $likeReplace = array('\\_', '\\%');
-    $escapename = preg_replace($likeEscape, $likeReplace, $ctx->getProperty('database.prefix'));
+    $escapename = preg_replace($likeEscape, $likeReplace, $context->getProperty('database.prefix'));
 
     $dbtables = POD::tableList($escapename);
 

@@ -636,43 +636,43 @@ class KeylogSkin {
 }
 
 function dressStaticElements(& $view) {
-    $ctx = Model_Context::getInstance();
-    $blogid = $ctx->getProperty('blog.id');
+    $context = Model_Context::getInstance();
+    $blogid = $context->getProperty('blog.id');
     $writer = User::getBlogOwnerName($blogid);
 
-    dress('title', htmlspecialchars($ctx->getProperty('blog.title')), $view);
+    dress('title', htmlspecialchars($context->getProperty('blog.title')), $view);
     dress('blogger', htmlspecialchars($writer), $view);
-    dress('desc', htmlspecialchars($ctx->getProperty('blog.description')), $view);
-    $logo = $ctx->getProperty('blog.logo');
+    dress('desc', htmlspecialchars($context->getProperty('blog.description')), $view);
+    $logo = $context->getProperty('blog.logo');
     if (!empty($logo)) {
-        dress('image', $ctx->getProperty('uri.service') . "/attach/$blogid/" . $ctx->getProperty('blog.logo'), $view);
+        dress('image', $context->getProperty('uri.service') . "/attach/$blogid/" . $context->getProperty('blog.logo'), $view);
     } else {
-        dress('image', $ctx->getProperty('uri.service') . "/resources/image/spacer.gif", $view);
+        dress('image', $context->getProperty('uri.service') . "/resources/image/spacer.gif", $view);
     }
-    dress('blog_link', $ctx->getProperty('uri.blog') . "/", $view);
-    dress('keylog_link', $ctx->getProperty('uri.blog') . "/keylog", $view);
-    dress('localog_link', $ctx->getProperty('uri.blog') . "/location", $view);
-    dress('taglog_link', $ctx->getProperty('uri.blog') . "/tag", $view);
-    dress('guestbook_link', $ctx->getProperty('uri.blog') . "/guestbook", $view);
-    if ($ctx->getProperty('blog.rssURL', null) != null) {
-        dress('rss_url', $ctx->getProperty('blog.rssURL'), $view);
+    dress('blog_link', $context->getProperty('uri.blog') . "/", $view);
+    dress('keylog_link', $context->getProperty('uri.blog') . "/keylog", $view);
+    dress('localog_link', $context->getProperty('uri.blog') . "/location", $view);
+    dress('taglog_link', $context->getProperty('uri.blog') . "/tag", $view);
+    dress('guestbook_link', $context->getProperty('uri.blog') . "/guestbook", $view);
+    if ($context->getProperty('blog.rssURL', null) != null) {
+        dress('rss_url', $context->getProperty('blog.rssURL'), $view);
     } else {
-        dress('rss_url', $ctx->getProperty('uri.default') . "/rss", $view);
+        dress('rss_url', $context->getProperty('uri.default') . "/rss", $view);
     }
-    dress('response_rss_url', $ctx->getProperty('uri.default') . "/rss/response", $view);
-    dress('comment_rss_url', $ctx->getProperty('uri.default') . "/rss/comment", $view);
-    dress('trackback_rss_url', $ctx->getProperty('uri.default') . "/rss/trackback", $view);
+    dress('response_rss_url', $context->getProperty('uri.default') . "/rss/response", $view);
+    dress('comment_rss_url', $context->getProperty('uri.default') . "/rss/comment", $view);
+    dress('trackback_rss_url', $context->getProperty('uri.default') . "/rss/trackback", $view);
 
-    if ($ctx->getProperty('blog.atomURL', null) != null) {
-        dress('atom_url', $ctx->getProperty('blog.atomURL'), $view);
+    if ($context->getProperty('blog.atomURL', null) != null) {
+        dress('atom_url', $context->getProperty('blog.atomURL'), $view);
     } else {
-        dress('atom_url', $ctx->getProperty('uri.default') . "/atom", $view);
+        dress('atom_url', $context->getProperty('uri.default') . "/atom", $view);
     }
-    dress('response_atom_url', $ctx->getProperty('uri.default') . "/atom/response", $view);
-    dress('comment_atom_url', $ctx->getProperty('uri.default') . "/atom/comment", $view);
-    dress('trackback_atom_url', $ctx->getProperty('uri.default') . "/atom/trackback", $view);
+    dress('response_atom_url', $context->getProperty('uri.default') . "/atom/response", $view);
+    dress('comment_atom_url', $context->getProperty('uri.default') . "/atom/comment", $view);
+    dress('trackback_atom_url', $context->getProperty('uri.default') . "/atom/trackback", $view);
 
-    dress('owner_url', $ctx->getProperty('uri.blog') . "/owner", $view);
+    dress('owner_url', $context->getProperty('uri.blog') . "/owner", $view);
     dress('textcube_name', TEXTCUBE_NAME, $view);
     dress('textcube_version', TEXTCUBE_VERSION, $view);
     dress('tattertools_name', TEXTCUBE_NAME, $view); // For skin legacy.

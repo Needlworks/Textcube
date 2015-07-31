@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function getPagingView(& $paging, & $template, & $itemTemplate, $useSkinCache = false) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (($paging === false) || empty($paging['page'])) {
         $paging['url'] = NULL;
         $paging['prefix'] = NULL;
@@ -15,7 +15,7 @@ function getPagingView(& $paging, & $template, & $itemTemplate, $useSkinCache = 
         $paging['next'] = NULL;
     }
 
-    $url = str_replace('/%3F/', '/?/', URL::encode($paging['url'], $ctx->getProperty('service.useEncodedURL')));
+    $url = str_replace('/%3F/', '/?/', URL::encode($paging['url'], $context->getProperty('service.useEncodedURL')));
     $prefix = $paging['prefix'];
     $postfix = isset($paging['postfix']) ? $paging['postfix'] : '';
     ob_start();

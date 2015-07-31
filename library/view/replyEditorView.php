@@ -29,7 +29,7 @@ $context = Model_Context::getInstance();
 $pageHeadTitle = $pageTitle;
 if (Acl::getIdentity('openid')) {
     $pageHeadTitle = $pageTitle;
-    $pageTitle = "$pageTitle ( <img src=\"" . $ctx->getProperty('service.path') . "/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> " . OpenID::getDisplayName(Acl::getIdentity('openid')) . ")";
+    $pageTitle = "$pageTitle ( <img src=\"" . $context->getProperty('service.path') . "/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> " . OpenID::getDisplayName(Acl::getIdentity('openid')) . ")";
 }
 ?>
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ if (Acl::getIdentity('openid')) {
         //]]>
     </script>
     <script type="text/javascript"
-            src="<?php echo(doesHaveOwnership() ? $ctx->getProperty('service.path') . '/resources' : $ctx->getProperty('service.resourcepath')); ?>/script/common3.min.js"></script>
+            src="<?php echo(doesHaveOwnership() ? $context->getProperty('service.path') . '/resources' : $context->getProperty('service.resourcepath')); ?>/script/common3.min.js"></script>
     <script type="text/javascript">
         //<![CDATA[
         function submitComment() {

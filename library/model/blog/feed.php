@@ -91,23 +91,23 @@ function refreshFeed($blogid, $mode = 'both') {
 }
 
 function initializeRSSchannel($blogid = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     if (empty($blogid)) {
         $blogid = getBlogId();
     }
 
     $channel = array();
-    $channel['title'] = RSSMessage($ctx->getProperty('blog.title'));
-    $channel['link'] = $ctx->getProperty('uri.default') . "/";
-    $channel['description'] = RSSMessage($ctx->getProperty('blog.description'));
-    $channel['language'] = $ctx->getProperty('blog.language');
+    $channel['title'] = RSSMessage($context->getProperty('blog.title'));
+    $channel['link'] = $context->getProperty('uri.default') . "/";
+    $channel['description'] = RSSMessage($context->getProperty('blog.description'));
+    $channel['language'] = $context->getProperty('blog.language');
     $channel['pubDate'] = Timestamp::getUNIXtime();
     $channel['generator'] = TEXTCUBE_NAME . ' ' . TEXTCUBE_VERSION;
 
-    if ((Setting::getBlogSettingGlobal('visibility', 2) == 2) && ($ctx->getProperty('blog.logo')) && file_exists(__TEXTCUBE_ATTACH_DIR__ . "/$blogid/" . $ctx->getProperty('blog.logo'))) {
-        $logoInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__ . "/$blogid/" . $ctx->getProperty('blog.logo'));
-        $channel['url'] = $ctx->getProperty('uri.service') . "/attach/" . $blogid . "/" . $ctx->getProperty('blog.logo');
+    if ((Setting::getBlogSettingGlobal('visibility', 2) == 2) && ($context->getProperty('blog.logo')) && file_exists(__TEXTCUBE_ATTACH_DIR__ . "/$blogid/" . $context->getProperty('blog.logo'))) {
+        $logoInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__ . "/$blogid/" . $context->getProperty('blog.logo'));
+        $channel['url'] = $context->getProperty('uri.service') . "/attach/" . $blogid . "/" . $context->getProperty('blog.logo');
         $channel['width'] = $logoInfo[0];
         $channel['height'] = $logoInfo[1];
     }
@@ -115,15 +115,15 @@ function initializeRSSchannel($blogid = null) {
 }
 
 function getFeedItemByEntries($entries) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $channelItems = array();
     $pool = DBModel::getInstance();
     foreach ($entries as $row) {
-        $entryURL = $ctx->getProperty('uri.default') . '/' . ($ctx->getProperty('blog.useSloganOnPost') ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
+        $entryURL = $context->getProperty('uri.default') . '/' . ($context->getProperty('blog.useSloganOnPost') ? 'entry/' . rawurlencode($row['slogan']) : $row['id']);
 
         $content = getEntryContentView($row['blogid'], $row['id'], $row['content'], $row['contentformatter'], true, 'Post', true, true);
         $content = preg_replace('/<a href=("|\')(#[^\1]+)\1/i', '<a href=$1' . htmlspecialchars($entryURL) . '$2$1', $content);
-        if ($ctx->getProperty('blog.publishWholeOnRSS')) {
+        if ($context->getProperty('blog.publishWholeOnRSS')) {
             $content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "\">" . _t('글 전체보기') . "</a></strong></p>";
         } else {
             $content .= "<p><strong><a href=\"" . htmlspecialchars($entryURL) . "?commentInput=true#entry" . $row['id'] . "WriteComment\">" . _t('댓글 쓰기') . "</a></strong></p>";
@@ -149,15 +149,15 @@ function getFeedItemByEntries($entries) {
             'pubDate' => $row['published'],
             'updDate' => $row['modified'],
             'comments' => $entryURL . '#entry' . $row['id'] . 'comment',
-            'guid' => $ctx->getProperty('uri.default') . "/" . $row['id'],
+            'guid' => $context->getProperty('uri.default') . "/" . $row['id'],
             'replies' => array(
                 'count' => $row['repliesCount'])
         );
         if (!empty($row['email'])) {
             $item['email'] = RSSMessage($row['email']);
         }
-        if ($ctx->getProperty('service.useNumericURLonRSS')) {
-            $item['link'] = $ctx->getProperty('uri.default') . "/" . $row['id'];
+        if ($context->getProperty('service.useNumericURLonRSS')) {
+            $item['link'] = $context->getProperty('uri.default') . "/" . $row['id'];
         }
         if (!empty($row['id'])) {
             $pool->reset("Attachments");
@@ -166,7 +166,7 @@ function getFeedItemByEntries($entries) {
             $pool->setQualifier("enclosure", "eq", 1);
             $attaches = $pool->getRow("name, size, mime");
             if (count($attaches) > 0) {
-                $item['enclosure'] = array('url' => $ctx->getProperty('uri.service') . "/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
+                $item['enclosure'] = array('url' => $context->getProperty('uri.service') . "/attach/$blogid/{$attaches['name']}", 'length' => $attaches['size'], 'type' => $attaches['mime']);
             }
         }
         array_push($item['categories'], $row['categoryName']);
@@ -187,10 +187,10 @@ function getFeedItemByEntries($entries) {
 }
 
 function getFeedItemByLines($lines) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $channelItems = array();
     foreach ($lines as $row) {
-        $entryURL = $ctx->getProperty('uri.default') . '/line#' . ($row['id']);
+        $entryURL = $context->getProperty('uri.default') . '/line#' . ($row['id']);
         $content = $row['content'];
         $item = array(
             'id' => $row['id'],
@@ -209,12 +209,12 @@ function getFeedItemByLines($lines) {
 }
 
 function getResponseFeedTotal($blogid, $mode = 'rss') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (empty($blogid)) {
         $blogid = getBlogId();
     }
     $channel = initializeRSSchannel($blogid);
-    $channel['title'] = $ctx->getProperty('blog.title') . ': ' . _text('최근 댓글/트랙백 목록');
+    $channel['title'] = $context->getProperty('blog.title') . ': ' . _text('최근 댓글/트랙백 목록');
 
     $recentComment = getCommentFeedTotal($blogid, true, $mode);
     $recentTrackback = getTrackbackFeedTotal($blogid, true, $mode);
@@ -232,7 +232,7 @@ function getResponseFeedTotal($blogid, $mode = 'rss') {
 }
 
 function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (empty($blogid)) {
         $blogid = getBlogId();
     }
@@ -253,7 +253,7 @@ function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
     $channel = array();
 
     $channel = initializeRSSchannel($blogid);
-    $channel['title'] = RSSMessage($ctx->getProperty('blog.title') . ': ' . _textf('%1에 달린 최근 댓글/트랙백 목록', $entry['slogan']));
+    $channel['title'] = RSSMessage($context->getProperty('blog.title') . ': ' . _textf('%1에 달린 최근 댓글/트랙백 목록', $entry['slogan']));
 
     $recentComment = getCommentFeedByEntryId($blogid, $entryId, true, $mode);
     $recentTrackback = getTrackbackFeedByEntryId($blogid, $entryId, true, $mode);
@@ -272,9 +272,9 @@ function getResponseFeedByEntryId($blogid, $entryId, $mode = 'rss') {
 }
 
 function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $channel = initializeRSSchannel($blogid);
-    $channel['title'] = $ctx->getProperty('blog.title') . ': ' . _text('최근 댓글 목록');
+    $channel['title'] = $context->getProperty('blog.title') . ': ' . _text('최근 댓글 목록');
 
     $result = getRecentComments($blogid, Setting::getBlogSettingGlobal('commentsOnRSS', 20), false, true);
     if (!$result) {
@@ -283,7 +283,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 
     $channel['items'] = array();
     foreach ($result as $row) {
-        $commentURL = $ctx->getProperty('uri.default') . "/" . $row['entry'] . "#comment";
+        $commentURL = $context->getProperty('uri.default') . "/" . $row['entry'] . "#comment";
         $content = htmlspecialchars($row['comment']);
         $item = array(
             'id' => $row['id'],
@@ -315,7 +315,7 @@ function getCommentFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 }
 
 function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mode = 'rss') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     if (empty($blogid)) {
         $blogid = getBlogId();
@@ -337,11 +337,11 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
     }
 
     $channel = initializeRSSchannel($blogid);
-    $channel['title'] = RSSMessage($ctx->getProperty('blog.title') . ': ' . _textf('%1 에 달린 댓글', $entry['title']));
-    if ($ctx->getProperty('blog.useSloganOnPost')) {
-        $channel['link'] = $ctx->getProperty('uri.default') . "/entry/" . URL::encode($entry['slogan'], true);
+    $channel['title'] = RSSMessage($context->getProperty('blog.title') . ': ' . _textf('%1 에 달린 댓글', $entry['title']));
+    if ($context->getProperty('blog.useSloganOnPost')) {
+        $channel['link'] = $context->getProperty('uri.default') . "/entry/" . URL::encode($entry['slogan'], true);
     } else {
-        $channel['link'] = $ctx->getProperty('uri.default') . "/" . $entryId;
+        $channel['link'] = $context->getProperty('uri.default') . "/" . $entryId;
     }
     $pool->reset("Comments");
     $pool->setQualifier("blogid", "eq", $blogid);
@@ -387,12 +387,12 @@ function getCommentFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mo
 
 
 function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (empty($blogid)) {
         $blogid = getBlogId();
     }
     $channel = initializeRSSchannel($blogid);
-    $channel['title'] = RSSMessage($ctx->getProperty('blog.title') . ': ' . _text('최근 트랙백 목록'));
+    $channel['title'] = RSSMessage($context->getProperty('blog.title') . ': ' . _text('최근 트랙백 목록'));
     $result = getRecentTrackbacks($blogid, Setting::getBlogSettingGlobal('commentsOnRSS', 20), true);
     if (!$result) {
         $result = array();
@@ -400,7 +400,7 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 
     $channel['items'] = array();
     foreach ($result as $row) {
-        $trackbackURL = $ctx->getProperty('uri.default') . "/" . $row['entry'] . "#trackback";
+        $trackbackURL = $context->getProperty('uri.default') . "/" . $row['entry'] . "#trackback";
         $content = htmlspecialchars($row['excerpt']);
         $item = array(
             'id' => $row['id'],
@@ -429,7 +429,7 @@ function getTrackbackFeedTotal($blogid, $rawMode = false, $mode = 'rss') {
 }
 
 function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $mode = 'rss') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (empty($blogid)) {
         $blogid = getBlogId();
     }
@@ -451,11 +451,11 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
     $channel = array();
 
     $channel = initializeRSSchannel($blogid);
-    $channel['title'] = RSSMessage($ctx->getProperty('blog.title') . ': ' . _textf('%1 에 달린 트랙백', $entry['slogan']));
-    if ($ctx->getProperty('blog.useSloganOnPost')) {
-        $channel['link'] = $ctx->getProperty('uri.default') . "/entry/" . URL::encode($entry['slogan'], true);
+    $channel['title'] = RSSMessage($context->getProperty('blog.title') . ': ' . _textf('%1 에 달린 트랙백', $entry['slogan']));
+    if ($context->getProperty('blog.useSloganOnPost')) {
+        $channel['link'] = $context->getProperty('uri.default') . "/entry/" . URL::encode($entry['slogan'], true);
     } else {
-        $channel['link'] = $ctx->getProperty('uri.default') . "/" . $entryId;
+        $channel['link'] = $context->getProperty('uri.default') . "/" . $entryId;
     }
 
     $pool->reset("RemoteResponses");
@@ -501,12 +501,12 @@ function getTrackbackFeedByEntryId($blogid = null, $entryId, $rawMode = false, $
 }
 
 function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (empty($blogid)) {
         $blogid = getBlogId();
     }
     $channel = initializeRSSchannel($blogid);
-    $channel['title'] = RSSMessage($ctx->getProperty('blog.title') . ': ' . _text('최근 댓글 알리미 목록'));
+    $channel['title'] = RSSMessage($context->getProperty('blog.title') . ': ' . _text('최근 댓글 알리미 목록'));
     $mergedComments = array();
     list($comments, $paging) = getCommentsNotifiedWithPagingForOwner($blogid, '', '', '', '', 1, 20);
     for ($i = 0; $i < count($comments); $i++) {
@@ -548,7 +548,7 @@ function getCommentNotifiedFeedTotal($blogid, $mode = 'rss') {
 }
 
 function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $channel = array();
     $channel = initializeRSSchannel($blogid);
 
@@ -566,11 +566,11 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 
     $pool->setQualifier("e.blogid", "eq", $blogid);
     $pool->setQualifier("e.draft", "eq", 0);
-    $pool->setQualifier("e.visibility", ">=", ($ctx->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
+    $pool->setQualifier("e.visibility", ">=", ($context->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
     $pool->setQualifier("c.visibility", ">", 1);
     $pool->setQualifier("t.tag", "eq", $tagId);
     $pool->setOrder("e.published", "desc");
-    $pool->setLimit($ctx->getProperty('blog.entriesOnRSS'));
+    $pool->setLimit($context->getProperty('blog.entriesOnRSS'));
     $entries = $pool->getAll("e.*,c.name AS categoryName, u.name as author, u.loginid AS email");
 
     if (!$entries) {
@@ -580,7 +580,7 @@ function getTagFeedByTagId($blogid, $tagId, $mode = 'rss', $tagTitle = null) {
 }
 
 function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $channel = array();
     $channel = initializeRSSchannel($blogid);
     $search = escapeSearchString($search);
@@ -597,12 +597,12 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 
     $pool->setQualifier("e.blogid", "eq", $blogid);
     $pool->setQualifier("e.draft", "eq", 0);
-    $pool->setQualifier("e.visibility", ">=", ($ctx->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
+    $pool->setQualifier("e.visibility", ">=", ($context->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
     $pool->setQualifier("c.visibility", ">", 1);
     $pool->setQualifierSet(array("e.title", "like", $search, true), "OR", array("e.content", "like", $search, true));
 
     $pool->setOrder("e.published", "desc");
-    $pool->setLimit($ctx->getProperty('blog.entriesOnRSS'));
+    $pool->setLimit($context->getProperty('blog.entriesOnRSS'));
 
     $entries = $pool->getAll("e.*,c.name AS categoryName, u.name as author, u.loginid AS email");
 
@@ -613,7 +613,7 @@ function getSearchFeedByKeyword($blogid, $search, $mode = 'rss', $title = null) 
 }
 
 function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $categoryTitle = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $channel = array();
     $channel = initializeRSSchannel($blogid);
 
@@ -629,11 +629,11 @@ function getCategoryFeedByCategoryId($blogid, $categoryIds, $mode = 'rss', $cate
 
     $pool->setQualifier("e.blogid", "eq", $blogid);
     $pool->setQualifier("e.draft", "eq", 0);
-    $pool->setQualifier("e.visibility", ">=", ($ctx->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
+    $pool->setQualifier("e.visibility", ">=", ($context->getProperty('blog.publishEolinSyncOnRSS') ? 2 : 3));
     $pool->setQualifier("e.category", "hasoneof", $categoryIds);
 
     $pool->setOrder("e.published", "desc");
-    $pool->setLimit($ctx->getProperty('blog.entriesOnRSS'));
+    $pool->setLimit($context->getProperty('blog.entriesOnRSS'));
 
     $entries = $pool->getAll("e.*, c.name AS categoryName, u.name as author, u.loginid AS email");
 

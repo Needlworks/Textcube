@@ -214,10 +214,10 @@ function getPrivateCategoryExclusionQualifier($pool, $blogid = null) {
 }
 
 function getCategoriesSkin($setting = null) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	if(is_null($setting)) $setting = Setting::getSkinSettings(getBlogId());
     $skin = array('name' => "{$setting['skin']}",
-        'url' => $ctx->getProperty('service.path') . "/skin/tree/{$setting['tree']}",
+        'url' => $context->getProperty('service.path') . "/skin/tree/{$setting['tree']}",
         'labelLength' => $setting['labelLengthOnTree'],
         'showValue' => $setting['showValueOnTree'],
         'itemColor' => "{$setting['colorOnTree']}",
@@ -374,7 +374,7 @@ function deleteCategory($blogid, $id) {
 }
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     importlib('model.blog.feed');
     if ($id == 0) {
         checkRootCategoryExistence($blogid);
@@ -541,7 +541,7 @@ function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $para
 }
 
 function updateEntriesOfCategory($blogid, $categoryId = -1) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     clearCategoryCache();
 
     $pool = DBModel::getInstance();
@@ -630,7 +630,7 @@ function updateEntriesOfCategory($blogid, $categoryId = -1) {
 }
 
 function moveCategory($blogid, $id, $direction) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     if ($direction == 'up') {
