@@ -12,7 +12,7 @@ final class Model_Line extends DBModel {
         $this->reset();
     }
 
-    public function reset($param = null) {
+    public function reset() {
         parent::reset('Lines');
         $this->id = null;
         $this->blogid = getBlogId();
