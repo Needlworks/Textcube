@@ -31,7 +31,7 @@ class Autoload_Legacy {
             'SubscriptionStatistics', 'Tag', 'Trackback', 'TrackbackLog', 'UserInfo', 'UserSetting'
         );
         $this->model = array(
-            'Message', 'Paging', 'PluginCustomConfig', 'Statistics', 'User'
+            'Paging', 'PluginCustomConfig', 'Statistics', 'User'
         );
         $this->base = array(
             'HTTPRequest', 'XMLRPC', 'XMLRPCFault',

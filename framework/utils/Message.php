@@ -6,7 +6,7 @@
 /**
  * This class implements message queue.
  */
-class Message extends Singleton {
+class Utils_Message extends Singleton {
     private static $__storageTemplate = array(
         'id' => 0,
         'status' => 'OK',
