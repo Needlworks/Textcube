@@ -45,7 +45,7 @@ class FeedGroup {
 }
 
 class Feed {
-    function Feed() {
+    function __construct() {
         $this->reset();
     }
 
@@ -198,7 +198,7 @@ class Feed {
 }
 
 class FeedItem {
-    function FeedItem() {
+    function __construct() {
         $this->reset();
     }
 
@@ -229,8 +229,8 @@ class FeedItem {
         }
         $this->close();
         $this->_result = POD::query("SELECT $fields
-				FROM {$database['prefix']}FeedItems i 
-				JOIN {$database['prefix']}FeedGroupRelations g ON i.feed = g.feed 
+				FROM {$database['prefix']}FeedItems i
+				JOIN {$database['prefix']}FeedGroupRelations g ON i.feed = g.feed
 				WHERE g.blogid = $blogid $filter $sort");
         if ($this->_result) {
             if ($this->_count = POD::num_rows($this->_result)) {

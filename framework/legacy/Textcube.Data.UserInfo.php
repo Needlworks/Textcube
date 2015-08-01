@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class UserInfo {
 
-    function UserInfo() {
+    function __construct() {
         $this->reset();
     }
 

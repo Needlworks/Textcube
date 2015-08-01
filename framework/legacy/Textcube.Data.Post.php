@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Post {
-    function Post() {
+    function __construct() {
         $this->reset();
     }
 
@@ -107,7 +107,7 @@ class Post {
 		}
 		return false;
 	}
-	
+
 	function add($userid = null) {
 		global $database;
 		$this->init();
@@ -143,7 +143,7 @@ class Post {
 		}
 		if (!$query->insert())
 			return $this->_error('insert');
-		
+
 		if (isset($this->category)) {
 			$target = ($parentCategory = Category::getParent($this->category)) ? '(id = ' . $this->category . ' OR id = ' . $parentCategory . ')' : 'id = ' . $this->category;
 			if (isset($this->visibility) && ($this->visibility != 'private'))
@@ -168,7 +168,7 @@ class Post {
 		}
 		return true;
 	}
-	
+
 	function remove($id = null) { // attachment & category is own your risk!
 		global $database;
 		$gCacheStorage = globalCacheStorage::getInstance();
@@ -180,33 +180,33 @@ class Post {
 
 		if (!$query = $this->_buildQuery())
 			return false;
-			
+
 		if (!$entry = $query->getRow('category, visibility'))
 			return $this->_error('id');
-			
+
 		// step 1. Check Syndication
 		if ($entry['visibility'] == 3) {
 			Utils_Syndication::leave($this->getLink());
 		}
-		
+
 		CacheControl::flushEntry($this->id);
 		CacheControl::flushDBCache('entry');
 		CacheControl::flushDBCache('comment');
 		CacheControl::flushDBCache('trackback');
 		$gCacheStorage->purge();
-		
+
 		// step 2. Delete Entry
 		$sql = "DELETE FROM ".$database['prefix']."Entries WHERE blogid = ".$this->blogid." AND id = ".$this->id;
 		if (POD::queryCount($sql)) {
 		// step 3. Delete Comment
 			POD::execute("DELETE FROM {$database['prefix']}Comments WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
-		
+
 		// step 4. Delete Trackback
 			POD::execute("DELETE FROM {$database['prefix']}RemoteResponses WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
-		
+
 		// step 5. Delete Trackback Logs
 			POD::execute("DELETE FROM {$database['prefix']}RemoteResponseLogs WHERE blogid = ".$this->blogid." AND entry = ".$this->id);
-		
+
 		// step 6. update Category
 			if (isset($entry['category'])) {
 				$target = ($parentCategory = Category::getParent($entry['category'])) ? '(id = ' . $entry['category'] . ' OR id = ' . $parentCategory . ')' : 'id = ' . $entry['category'];
@@ -216,7 +216,7 @@ class Post {
 				else
 					POD::query("UPDATE {$database['prefix']}Categories SET entriesinlogin = entriesinlogin - 1 WHERE blogid = ".$this->blogid." AND " . $target);
 			}
-		
+
 		// step 7. Delete Attachment
 			$attachNames = POD::queryColumn("SELECT name FROM {$database['prefix']}Attachments
 				WHERE blogid = ".getBlogId()." AND parent = ".$this->id);
@@ -227,10 +227,10 @@ class Post {
 					}
 				}
 			}
-	
+
 		// step 8. Delete Tags
 			$this->deleteTags();
-		
+
 		// step 9. Clear RSS
 			requireComponent('Textcube.Control.Feed');
 			RSS::refresh();
@@ -240,7 +240,7 @@ class Post {
 		}
 		return false;
 	}
-	
+
 	function update() { // attachment & category is own your risk!
 		if (!isset($this->id) || !Validator::number($this->id, 1))
 			return $this->_error('id');
@@ -249,18 +249,18 @@ class Post {
 			return false;
 		if (!$old = $query->getRow('category, visibility'))
 			return $this->_error('id');
-			
+
 		$bChangedCategory = ($old['category'] != $this->category);
-		
+
 		if ($old['visibility'] == 3) {
 			Utils_Syndication::leave($this->getLink());
 		}
 		if (!isset($this->modified))
 			$query->setAttribute('modified', 'UNIX_TIMESTAMP()');
-		
+
 		if (!$query->update())
 			return $this->_error('update');
-			
+
 //		if ($bChangedCategory) {
 //			// TODO : Recalculate Category
 //		}
@@ -365,7 +365,7 @@ class Post {
         }
         $this->tags = array();
         if ($result = POD::queryColumn("SELECT name FROM {$database['prefix']}TagRelations
-			LEFT JOIN {$database['prefix']}Tags ON id = tag 
+			LEFT JOIN {$database['prefix']}Tags ON id = tag
 			WHERE blogid = " . $this->blogid . " AND entry = {$this->id}
 			ORDER BY name")
         ) {
@@ -490,7 +490,7 @@ class Post {
             return false;
         }
         return POD::queryExistence("SELECT id
-			FROM {$database['prefix']}Entries 
+			FROM {$database['prefix']}Entries
 			WHERE blogid = " . $this->blogid . " AND id = $id AND draft = 0 AND visibility > 0 AND category >= 0 AND accepttrackback = 1");
     }
 

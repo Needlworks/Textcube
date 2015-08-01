@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Notice {
-    function Notice() {
+    function __construct() {
         $this->reset();
     }
 
