@@ -18,7 +18,7 @@ class pageCache {
         var $absoluteFilePathOwner;
         var $absoluteFilePathGuest;
         var $error;*/
-    function pageCache($name = null) {
+    function __construct($name = null) {
         $this->reset();
         if ($name != null) {
             $this->name = $name;
@@ -219,7 +219,7 @@ class queryCache {
         var $contents;
         var $prefix;
         var $error;*/
-    function queryCache($query = null, $prefix = null) {
+    function __construct($query = null, $prefix = null) {
         $this->reset();
         $this->query = $query;
         $this->prefix = $prefix;
@@ -321,7 +321,7 @@ class queryCache {
 // blogSettings, ServiceSettings, activePlugins, etc..
 // Textcube will use it as global object.
 class globalCacheStorage extends pageCache {
-    function globalCacheStorage($blogid = null) {
+    function __construct($blogid = null) {
         $this->_isChanged = false;
         $this->_gCacheStorage = array();
         if (is_null($blogid)) {
@@ -621,7 +621,7 @@ class CacheControl {
                 unset($tag);
             }
 //			if ($xmls->doesExist('/plugin/binding/sidebar')) {
-//			TODO:	사이드바 캐시때 처리하도록 하지요.				
+//			TODO:	사이드바 캐시때 처리하도록 하지요.
 //			}
             if ($xmls->doesExist('/plugin/binding/formatter[lang()]')) {
                 CacheControl::flushCategory();
