@@ -69,17 +69,6 @@ function getUserId() {
     return intval(Acl::getIdentity('textcube'));
 }
 
-/*
-function getBlogId() {
-	global $blogid;
-	return intval($blogid);
-}*/
-
-function setBlogId($id) {
-    global $blogid;
-    $blogid = $id;
-}
-
 function doesHaveOwnership($extra_aco = null) {
     return Acl::check(array("group.administrators", "group.writers"), $extra_aco);
 }
