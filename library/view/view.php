@@ -148,32 +148,6 @@ function getUpperView() {
         document.onkeydown = processShortcut;
         //]]>
     </script>
-    <?php
-    if ($context->getProperty('service.flashclipboardpoter') == true) {
-        ?>
-        <div style="position:absolute;top:0;left:0; background-color:transparent;background-image:none">
-            <script type="text/javascript">
-                //<![CDATA[
-                AC_FL_RunContent(
-                    'codebase', 'http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0',
-                    'width', '1',
-                    'height', '1',
-                    'id', 'clipboardPoter',
-                    'src', '<?php echo $context->getProperty('service.path');?>/resources/script/clipboardPoter/clipboardPoter',
-                    'wmode', 'transparent',
-                    'name', 'clipboardPoter',
-                    'allowscriptaccess', 'sameDomain',
-                    'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
-                    'movie', '<?php echo $context->getProperty('service.path');?>/resources/script/clipboardPoter/clipboardPoter',
-                    'flashvars', 'callback=onClipBoard'
-                );
-                window.clipboardPoter = document.getElementById("clipboardPoter");
-                //]]>
-            </script>
-        </div>
-    <?php
-    }
-    ?>
     <div id="tcDialog" style="display:none;"></div>
     <?php
     $view = ob_get_contents();
