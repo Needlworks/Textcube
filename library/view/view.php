@@ -91,7 +91,6 @@ function getScriptsOnHead($paging, $entryIds = null) {
     <script type="text/javascript"
             src="<?php echo $context->getProperty('service.resourcepath'); ?>/script/flash.js"></script>
     <script type="text/javascript">
-        //<![CDATA[
         var servicePath = "<?php echo $context->getProperty('service.path');?>";
         var serviceURL = "<?php echo $context->getProperty('uri.service');?>";
         var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
@@ -117,7 +116,6 @@ function getScriptsOnHead($paging, $entryIds = null) {
             "confirmEntryDelete": "<?php echo _text('이 글 및 이미지 파일을 완전히 삭제합니다. 계속 하시겠습니까?');?>",
             "onSaving": "<?php echo _text('저장하고 있습니다');?>"
         }
-        //]]>
     </script>
     <?php
     $view = ob_get_contents();
@@ -144,9 +142,7 @@ function getUpperView() {
     }
     ?>
     <script type="text/javascript">
-        //<![CDATA[
         document.onkeydown = processShortcut;
-        //]]>
     </script>
     <div id="tcDialog" style="display:none;"></div>
     <?php
@@ -168,9 +164,7 @@ function getScriptsOnFoot() {
     if (($context->getProperty('service.reader') != false) && (gmmktime() - Setting::getServiceSetting('lastFeedUpdate', 0, true) > 180)) {
         ?>
         <script type="text/javascript">
-            //<![CDATA[
             updateFeed();
-            //]]>
         </script>
         <?php
         $view = ob_get_contents();
@@ -700,7 +694,6 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
     $action = 0;
     ?>
     <script type="text/javascript">
-        //<![CDATA[
         var expanded = false;
         function expandTree() {
             <?php
@@ -814,7 +807,6 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
                 alert(e.message);
             }
         }
-        //]]>
     </script>
     <?php
     if ($skin['itemBgColor'] == "") {
@@ -954,7 +946,6 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
     if (is_numeric($selected)) {
         ?>
         <script type="text/javascript">
-            //<![CDATA[
             function execOnLoadSelect() {
                 <?php
                         if ($parentOfSelected) {
@@ -966,7 +957,6 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
                 selectNode(<?php echo $selected;?>);
             }
             window.addEventListener("load", execOnLoadSelect, false);
-            //]]>
         </script>
     <?php
     }
@@ -1578,10 +1568,8 @@ function printFeeds($blogid, $group = 0, $starredOnly = false, $searchKeyword = 
 function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $starredOnly = false, $searchKeyword = null) {
     ?>
     <script type="text/javascript">
-        //<![CDATA[
         var scrapedPostText = "<?php echo _t('스크랩 포스트');?>";
         var disscrapedPostText = "<?php echo _t('미스크랩 포스트');?>";
-        //]]>
     </script>
 
     <table cellpadding="0" cellspacing="0">
@@ -1641,7 +1629,6 @@ function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $
     </div>
 
     <script type="text/javascript">
-        //<![CDATA[
         Reader.setShownEntries(<?php echo $count;?>);
         Reader.setTotalEntries(<?php echo getFeedEntriesTotalCount($blogid, $group, $feed, $unreadOnly, $starredOnly, $searchKeyword);?>);
         <?php
@@ -1651,7 +1638,6 @@ function printFeedEntries($blogid, $group = 0, $feed = 0, $unreadOnly = false, $
         <?php
             }
         ?>
-        //]]>
     </script>
     <?php
     return $count;
@@ -1748,11 +1734,9 @@ function printFeedEntry($blogid, $group = 0, $feed = 0, $entry = 0, $unreadOnly 
     </div>
 
     <script type="text/javascript">
-        //<![CDATA[
         Reader.selectedEntry = <?php echo escapeJSInAttribute($entry['id']);?>;
         Reader.setBlogTitle("<?php echo escapeJSInAttribute($entry['blog_title']);?>");
         Reader.doPostProcessingOnEntry();
-        //]]>
     </script>
 
     <div id="entryFoot">
@@ -1792,11 +1776,11 @@ function printScript($filename, $obfuscate = true) {
     if (!$file = @file_get_contents(ROOT . "/resources/script/$filename")) {
         return '';
     }
-    $file = "<script type=\"text/javascript\">//<![CDATA[" . CRLF
+    $file = "<script type=\"text/javascript\">" . CRLF
         . $file;
 //	if ($obfuscate) {
 //	}
-    return "$file //]]></script>";
+    return "$file </script>";
 }
 
 function addOpenIDPannel($comment, $prefix) {
