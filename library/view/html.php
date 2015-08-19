@@ -25,13 +25,11 @@ function printSimpleHtmlFooter() {
 function printScriptStart() {
 ?>
 <script type="text/javascript">
-    //<![CDATA[
     <?php
     }
 
     function printScriptEnd() {
     ?>
-    //]]>
 </script>
 <?php
 }

@@ -99,18 +99,18 @@ function avoidFlashBorder($html, $tag='object') {
 		$pos2 = $pos1;
 		while(true) {
 			if(($pos2 = strpos($str, "</$tag>", $pos2)) === false) {
-				return $result . '<script type="text/javascript">//<![CDATA[' . CRLF
+				return $result . '<script type="text/javascript">' . CRLF
 				    .'writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObject(substr($html, $pos1))) . '")'.CRLF
-				    .'//]]></script>';
+				    .'</script>';
 			}
 			$pos2 += strlen($tag) + 3;
 			$chunk = substr($str, $pos1, $pos2 - $pos1);
 			if(substr_count($chunk, "<$tag") == substr_count($chunk, "</$tag>"))
 				break;
 		}
-		$result .= '<script type="text/javascript">//<![CDATA['. CRLF
+		$result .= '<script type="text/javascript">'. CRLF
 		    .'writeCode2("' . str_replace(array('"', "\r", "\n"), array('\"', '', "\\\r\n"), decorateSrcInObject(substr($html, $pos1, $pos2 - $pos1))) . '")'.CRLF
-		    .'//]]></script>';
+		    .'</script>';
 	}
 	return $result . substr($html, $pos2);
 }

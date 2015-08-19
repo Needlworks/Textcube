@@ -2,7 +2,6 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
-//<![CDATA[
 function check_all_Checkbox(form, checked) {
 	var objects = form.elements.tags("input");
 	for (i = 0; objects[i]; i ++) {
@@ -102,4 +101,3 @@ function toggleDialog(content,popWidth) {
 	});
 	return false;
 }
-//]]>

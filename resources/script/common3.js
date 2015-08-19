@@ -1,7 +1,6 @@
 /// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
-//<![CDATA[
 var sUserAgent = navigator.userAgent;
 var fAppVersion = parseFloat(navigator.appVersion);
 
@@ -550,7 +549,6 @@ function open_img(img_src) {
 		'	<title> :: View :: <\/title>\n' +
 		'	<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n' +
 		'	<script type="text/javascript">\n' +
-		'	//<![CDATA\n' +
 		'		function getWindowCleintHeight() {\n' +
 		'			return (window.innerHeight != null) ? window.innerHeight : document.documentElement.clientHeight;\n' +
 		'		}\n' +
@@ -581,7 +579,6 @@ function open_img(img_src) {
         '              window.resizeBy(iWidth, iHeight);\n' +
 		'			window.moveTo(positionX, positionY);\n' +
 		'		}\n' +
-		'		\/\/]]>\n' +
 		'	<\/script>\n' +
 		'<\/head>\n' +
 		'<body style="margin: 0px; padding: 0;">\n' +

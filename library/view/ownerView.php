@@ -6,7 +6,6 @@
 function printFormatterSelectScript() {
     ?>
     <script type="text/javascript">
-        //<![CDATA[
         function getEditorsForFormatter(key) {
             switch (key) {
                 <?php
@@ -63,7 +62,6 @@ function printFormatterSelectScript() {
             select.prevSelectedIndex = select.selectedIndex;
             return true;
         }
-        //]]>
     </script>
 <?php
 }
@@ -92,7 +90,6 @@ function printOwnerEditorScript($entryId = false) {
 
     ?>
     <script type="text/javascript">
-        //<![CDATA[
         var entryId = <?php echo $entryId ? $entryId : 0;?>;
         var skinContentWidth = <?php echo $contentWidth;?>;
 
@@ -205,7 +202,6 @@ function printOwnerEditorScript($entryId = false) {
             }
             window.location = url;
         }
-        //]]>
     </script>
     <?php
 
@@ -294,7 +290,6 @@ function printEntryFileList($attachments, $param) {
 											</div>
 
 											<script type="text/javascript">
-												//<![CDATA[
 												  function addAttachment() {
 <?php
   if (!defined('__TEXTCUBE_GAE__')) {
@@ -829,7 +824,6 @@ function printEntryFileList($attachments, $param) {
 														}
 													}
 													refreshAttachFormSize();
-												//]]>
 											</script>
 
 <?php
@@ -838,7 +832,6 @@ function printEntryFileList($attachments, $param) {
 ?>
 
 												<script type="text/javascript">
-													//<![CDATA[
 <?php
 	if (defined('__TEXTCUBE_GAE__')) {
 ?>
@@ -892,7 +885,6 @@ function printEntryFileList($attachments, $param) {
 														window.uploader= document.getElementById('uploader');
 														refreshUploadButton();
 													}
-													//]]>
 												</script>
 											<div id="uploaderNest">
 											</div>
@@ -905,8 +897,6 @@ function printEntryFileUploadButton($entryId) {
     $blogid = getBlogId();
     ?>
 											<script type="text/javascript">
-												//<![CDATA[
-
 													var fileUploadNestOriginal = false;
 
 													function makeCrossDamainSubmit(uri,userAgent) {
@@ -949,7 +939,6 @@ function printEntryFileUploadButton($entryId) {
 															}
 														}
 													}
-												//]]>
 											</script>
 										<div id="fileUploadNest" class="container">
 											<div id="fileSize">
@@ -960,13 +949,11 @@ echo getAttachmentSizeLabel($blogid, $entryId);
 											<div id="fileDownload" class="system-message" style="display: none;"></div>
 										</div>
 										<script type="text/javascript">
-										//<![CDATA[
 										if (!DetectFlashVer(8, 0, 0) || !(isIE || isMoz || isMinSafari3) || <?php echo ($context->getProperty('service.flashuploader', true) ? 'false' : 'true');?>) {
 											var deleteButtonContainer = document.getElementById('fileUploadNest');
 											deleteButtonContainer.innerHTML = '<input type="button" id="deleteBtn" class="input-button" value="<?php echo _t('삭제하기');?>" onclick="deleteAttachment();return false" />' + deleteButtonContainer.innerHTML;
 											deleteButtonContainer.style.marginTop = '5px';
 										}
-										//]]>
 										</script>
 <?php
 }

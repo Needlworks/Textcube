@@ -4,7 +4,6 @@
 
 // Depends on jQuery 1.2.6 or later (from 2008/12/05, r7131)
 
-//<![CDATA[
 function getObject(target) {
 	try {
 		switch(typeof(target)) {
@@ -649,4 +648,3 @@ PageHolder.prototype.hold = function() {
 PageHolder.prototype.release=function() {
 	this._holding=false;
 };
-//]]>
