@@ -143,9 +143,9 @@ class DBAdapter implements IAdapter {
     public static function queryCell($query, $field = 0, $useCache = true) {
         $type = MYSQL_BOTH;
         if (is_numeric($field)) {
-            $type = MYSQL_NUM;
+            $type = MYSQLI_NUM;
         } else {
-            $type = MYSQL_ASSOC;
+            $type = MYSQLI_ASSOC;
         }
 
         if ($useCache) {
@@ -359,12 +359,12 @@ class DBAdapter implements IAdapter {
     public static function __queryType($type) {
         switch (strtolower($type)) {
             case 'num':
-                return MYSQL_NUM;
+                return MYSQLI_NUM;
             case 'assoc':
-                return MYSQL_ASSOC;
+                return MYSQLI_ASSOC;
             case 'both':
             default:
-                return MYSQL_BOTH;
+                return MYSQLI_BOTH;
         }
     }
 
