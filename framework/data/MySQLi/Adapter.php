@@ -141,7 +141,7 @@ class DBAdapter implements IAdapter {
     }
 
     public static function queryCell($query, $field = 0, $useCache = true) {
-        $type = MYSQL_BOTH;
+        $type = MYSQLI_BOTH;
         if (is_numeric($field)) {
             $type = MYSQLI_NUM;
         } else {
