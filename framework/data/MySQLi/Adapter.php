@@ -7,7 +7,7 @@
 
 global $fileCachedResult;
 
-class DBAdapter implements IAdapter {	
+class DBAdapter implements IAdapter {
 	static $db;
 	static $cachedResult, $dbProperties, $escapeTag, $lastQueryType;
 	public static function bind($database) {
@@ -25,7 +25,7 @@ class DBAdapter implements IAdapter {
 		} else {
 			self::$db = new mysqli($database['server'], $database['username'], $database['password'], $database['database']);
 		}
-		if(!self::$db) return false; 
+		if(!self::$db) return false;
 		if(!self::$db->select_db($database['database']))
 			die("Connection error :".self::$db->errorno." - ".self::$db->error);
 		//self::$db->autocommit(false);	// Turns off autocommit.
@@ -37,7 +37,7 @@ class DBAdapter implements IAdapter {
 		@self::query('SET SESSION collation_connection = \'utf8_general_ci\'');
 		return true;
 	}
-	
+
 	public static function unbind() {
 		self::$db->close();
 		return true;
@@ -61,7 +61,7 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function tableList($condition = null) {
-		if (!array_key_exists('tableList', self::$dbProperties)) { 
+		if (!array_key_exists('tableList', self::$dbProperties)) {
 			$tableData = self::queryAll('SHOW TABLES');
 			self::$dbProperties['tableList'] = array();
 			foreach($tableData as $tbl) {
@@ -81,19 +81,19 @@ class DBAdapter implements IAdapter {
 			return self::$dbProperties['tableList'];
 		}
 	}
-	
+
 	public static function setTimezone($time) {
 		return self::query('SET time_zone = \'' . Timezone::getCanonical() . '\'');
 	}
-	
+
 	public static function reservedFieldNames() {
 		return null;
 	}
-	
+
 	public static function reservedFunctionNames() {
 		return array('UNIX_TIMESTAMP()');
 	}
-	
+
 	public static function queryExistence($query) {
 		if ($result = self::query($query)) {
 			if ($result->num_rows > 0) {
@@ -104,7 +104,7 @@ class DBAdapter implements IAdapter {
 		}
 		return false;
 	}
-	
+
 	public static function queryCount($query) {
 		$count = 0;
 		$query = trim($query);
@@ -130,11 +130,11 @@ class DBAdapter implements IAdapter {
 	}
 
 	public static function queryCell($query, $field = 0, $useCache=true) {
-		$type = MYSQL_BOTH;
+		$type = MYSQLI_BOTH;
 		if (is_numeric($field)) {
-			$type = MYSQL_NUM;
+			$type = MYSQLI_NUM;
 		} else {
-			$type = MYSQL_ASSOC;
+			$type = MYSQLI_ASSOC;
 		}
 
 		if( $useCache ) {
@@ -147,7 +147,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result[0][$field];
 	}
-	
+
 	public static function queryRow($query, $type = 'both', $useCache=true) {
 		if( $useCache ) {
 			$result = self::queryAllWithCache($query, $type, 1);
@@ -159,7 +159,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result[0];
 	}
-	
+
 	public static function queryColumn($query, $useCache=true) {
 		$cacheKey = "{$query}_queryColumn";
 		if( $useCache && isset( self::$cachedResult[$cacheKey] ) ) {
@@ -174,7 +174,7 @@ class DBAdapter implements IAdapter {
 		$column = null;
 		if ($result = self::query($query)) {
 			$column = array();
-			
+
 			while ($row = $result->fetch_row())
 				array_push($column, $row[0]);
 			$result->free();
@@ -185,7 +185,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $column;
 	}
-	
+
 	public static function queryAll ($query, $type = 'both', $count = -1) {
 		return self::queryAllWithCache($query, $type, $count);
 		//return self::queryAllWithoutCache($query, $type, $count);  // Your choice. :)
@@ -202,7 +202,7 @@ class DBAdapter implements IAdapter {
 		}
 		return null;
 	}
-	
+
 	public static function queryAllWithCache($query, $type = 'both', $count = -1) {
 		$cacheKey = "{$query}_{$type}_{$count}";
 		if( isset( $cachedResult[$cacheKey] ) ) {
@@ -217,7 +217,7 @@ class DBAdapter implements IAdapter {
 		self::$cachedResult[$cacheKey] = array( 1, $all );
 		return $all;
 	}
-	
+
 	public static function execute($query) {
 		return self::query($query) ? true : false;
 	}
@@ -252,7 +252,7 @@ class DBAdapter implements IAdapter {
 		}
 		return $result;
 	}
-	
+
 	public static function escapeString($string, $link = null){
 		if(is_null(self::$escapeTag)) {
 			if (self::$db->real_escape_string('ㅋ') == 'ㅋ') {
@@ -280,23 +280,23 @@ class DBAdapter implements IAdapter {
 	public static function cacheLoad() {
 		global $fileCachedResult;
 	}
-	
+
 	public static function cacheSave() {
 		global $fileCachedResult;
 	}
 	public static function rollback() {
 		return self::$db->rollback();
 	}
-	public static function commit() { 
+	public static function commit() {
 		self::$db->commit(); // Auto commit.
 		return true;
 	}
-		
+
 /*** Raw functions (to easier adoptation from traditional queries) ***/
 	public static function insertId() {
 		return self::$db->insert_id;
 	}
-	
+
 	public static function num_rows($handle = null) {
 		switch(self::$lastQueryType) {
 			case 'select':
@@ -308,38 +308,38 @@ class DBAdapter implements IAdapter {
 		}
 		return null;
 	}
-	
+
 	public static function free($handle = null) {
 		mysqli_free_result($handle);
 	}
-	
+
 	public static function fetch($handle = null, $type = 'assoc') {
 		if($type == 'array') return mysqli_fetch_array($handle); // Can I use mysqli_fetch_row instead?
 		else if ($type == 'row') return mysqli_fetch_row($handle);
 		else return mysqli_fetch_assoc($handle);
 	}
-	
+
 	public static function error($err = null) {
 		return mysqli_error($err);
 	}
-	
+
 	public static function stat($stat = null) {
 		if($stat === null) return self::$db->stat();
 		else return self::$db->stat($stat);
 	}
-	
+
 	public static function __queryType($type) {
 		switch(strtolower($type)) {
 			case 'num':
-				return MYSQL_NUM;
+				return MYSQLI_NUM;
 			case 'assoc':
-				return MYSQL_ASSOC;				
+				return MYSQLI_ASSOC;
 			case 'both':
 			default:
-				return MYSQL_BOTH;
+				return MYSQLI_BOTH;
 		}
 	}
-	
+
 	public static function fieldType($abstractType) {
 		if(isset($typeTable[$abstractType])) return $typeTable[$abstractType];
 	}
