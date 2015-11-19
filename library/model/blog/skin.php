@@ -287,6 +287,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
         deltree(getSkinPath("customize/$blogid"));
         copyRecusive(getSkinPath($context->getProperty('skin.skin')), getSkinPath("customize/$blogid"));
     }
+    $file = basename($file);
     $skinSetting['skin'] = "customize/$blogid";    // Legacy global support. TODO: DELETE THIS LINE AFTER CHECK EVERY REFERENCES IN WHOLE SOURCE
     $context->setProperty('skin.skin', "customize/" . $blogid);
     if (!Setting::setSkinSetting('skin', $context->getProperty('skin.skin'), $blogid)) {
