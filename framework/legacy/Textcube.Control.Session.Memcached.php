@@ -183,8 +183,8 @@ final class Session {
 
 	public static function authorize($blogid, $userid) {
 		if(is_null(self::$mc)) self::initialize();
-		$blogid = int($blogid);
-		$userid = int($userid);
+		$blogid = intval($blogid);
+		$userid = intval($userid);
 		$session_cookie_path = "/";
 		if( !is_null(self::$context->getProperty('service.session_cookie_path') )) {
 			$session_cookie_path = self::$context->getProperty('service.session_cookie_path');
