@@ -50,6 +50,7 @@ final class Session {
             self::initialize();
         }
         $current = Timestamp::getUNIXtime();
+        $id = POD::escapeString($id);
 
         $sql = "SELECT privilege, updated, expires FROM " . self::$context->getProperty('database.prefix') . "Sessions WHERE id = '$id' AND expires > $current";
         if ($result = self::query('row', $sql)) {
@@ -78,6 +79,7 @@ final class Session {
         if (empty($userid)) {
             $userid = 'null';
         }
+        $id = POD::escapeString($id);
         $data = POD::escapeString($data);
         $server = POD::escapeString($_SERVER['HTTP_HOST']);
         $request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
@@ -98,6 +100,7 @@ final class Session {
         if (is_null(self::$context)) {
             self::initialize();
         }
+        $id = POD::escapeString($id);
         self::query('query', "DELETE FROM " . self::$context->getProperty('database.prefix') . "Sessions " .
 //			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
             "WHERE id = '$id'");
@@ -177,11 +180,12 @@ final class Session {
         if (is_null(self::$context)) {
             self::initialize();
         }
+        $id = POD::escapeString($id);
 
         $result = self::query('cell', "SELECT id
 			FROM " . self::$context->getProperty('database.prefix') . "Sessions
 			WHERE id = '$id' "
-//				AND address = '{$_SERVER['REMOTE_ADDR']}' 
+//				AND address = '{$_SERVER['REMOTE_ADDR']}'
             . "AND (userid IS NOT NULL OR preexistence IS NOT NULL)");
         if ($result) {
             return true;
@@ -193,6 +197,7 @@ final class Session {
         if (is_null(self::$context)) {
             self::initialize();
         }
+        $id = POD::escapeString($id);
         $result = self::query('cell', "SELECT id
 			FROM " . self::$context->getProperty('database.prefix') . "Sessions
 			WHERE id = '$id'" .
@@ -225,6 +230,8 @@ final class Session {
         if (is_null(self::$context)) {
             self::initialize();
         }
+        $blogid = int($blogid);
+        $userid = int($userid);
         if (!Validator::isInteger($expires, 0)) {
             return false;
         }
@@ -258,7 +265,7 @@ final class Session {
         for ($i = 0; $i < 3; $i++) {
             $id = dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF)) . dechex(rand(0x10000000, 0x7FFFFFFF));
             $result = self::query('execute', "INSERT INTO " . self::$context->getProperty('database.prefix') . "Sessions
-				(id, address, userid, created, updated, expires) 
+				(id, address, userid, created, updated, expires)
 				VALUES('$id', '{$_SERVER['REMOTE_ADDR']}', $userid, $current, $current, $expires)");
             if ($result) {
                 @session_id($id);
