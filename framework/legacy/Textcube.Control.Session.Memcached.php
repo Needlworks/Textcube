@@ -46,6 +46,7 @@ final class Session {
 
 	public static function write($id, $data) {
 		if(is_null(self::$mc)) self::initialize();
+		$id = POD::escapeString($id);
 		//return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}/{$_SERVER['REMOTE_ADDR']}",$data,0,self::$context->getProperty('service.timeout'));
 		return self::$mc->set(self::$context->getProperty('service.domain')."/sessions/{$id}",$data,0,self::$context->getProperty('service.timeout'));
 	}
@@ -150,6 +151,7 @@ final class Session {
 		if(is_null(self::$mc)) self::initialize();
 		/* OpenID and Admin sessions are treated as authorized ones*/
 		//$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
+		$id = POD::escapeString($id);
 		$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}");
 		if(!empty($userid)) return true;
 		else return false;
@@ -157,6 +159,7 @@ final class Session {
 
 	public static function isGuestOpenIDSession($id) {
 		if(is_null(self::$mc)) self::initialize();
+		$id = POD::escapeString($id);
 		//$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}/{$_SERVER['REMOTE_ADDR']}");
 		$userid = self::$mc->get(self::$context->getProperty('service.domain')."/authorizedSession/{$id}");
 		if(!empty($userid) && $userid < 0) return true;
@@ -180,6 +183,8 @@ final class Session {
 
 	public static function authorize($blogid, $userid) {
 		if(is_null(self::$mc)) self::initialize();
+		$blogid = int($blogid);
+		$userid = int($userid);
 		$session_cookie_path = "/";
 		if( !is_null(self::$context->getProperty('service.session_cookie_path') )) {
 			$session_cookie_path = self::$context->getProperty('service.session_cookie_path');

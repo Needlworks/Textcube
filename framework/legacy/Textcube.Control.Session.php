@@ -45,6 +45,7 @@ final class Session {
 
 	public static function read($id) {
 		if(is_null(self::$context)) self::initialize();
+		$id = POD::escapeString($id);
 
 		if ($result = self::query('cell',"SELECT privilege FROM ".self::$context->getProperty('database.prefix')."Sessions ".
 ///			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}' AND updated >= (".(Timestamp::getUNIXtime() - self::$context->getProperty('service.timeout')).")")) {
@@ -64,6 +65,7 @@ final class Session {
 			$userid = Acl::getIdentity('openid') ? SESSION_OPENID_USERID : '';
 		}
 		if( empty($userid) ) $userid = 'null';
+		$id = POD::escapeString($id);
 		$data    = POD::escapeString($data);
 		$server  = POD::escapeString($_SERVER['HTTP_HOST']);
 		$request = POD::escapeString(substr($_SERVER['REQUEST_URI'], 0, 255));
@@ -81,6 +83,7 @@ final class Session {
 
 	public static function destroy($id, $setCookie = false) {
 		if(is_null(self::$context)) self::initialize();
+		$id = POD::escapeString($id);
 		self::query('query',"DELETE FROM ".self::$context->getProperty('database.prefix')."Sessions ".
 //			WHERE id = '$id' AND address = '{$_SERVER['REMOTE_ADDR']}'");
 			"WHERE id = '$id'");
@@ -153,6 +156,7 @@ final class Session {
 	public static function isAuthorized($id) {
 		/* OpenID and Admin sessions are treated as authorized ones*/
 		if(is_null(self::$context)) self::initialize();
+		$id = POD::escapeString($id);
 
 		$result = self::query('cell',"SELECT id
 			FROM ".self::$context->getProperty('database.prefix')."Sessions
@@ -194,7 +198,8 @@ final class Session {
 
 	public static function authorize($blogid, $userid) {
 		if(is_null(self::$context)) self::initialize();
-
+		$blogid = int($blogid);
+		$userid = int($userid);
 		$session_cookie_path = "/";
 		$t = self::$context->getProperty('service.session_cookie_path');
 		if( !empty($t)) {
