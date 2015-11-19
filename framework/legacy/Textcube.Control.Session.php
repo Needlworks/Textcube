@@ -230,8 +230,8 @@ final class Session {
         if (is_null(self::$context)) {
             self::initialize();
         }
-        $blogid = int($blogid);
-        $userid = int($userid);
+        $blogid = intval($blogid);
+        $userid = intval($userid);
         if (!Validator::isInteger($expires, 0)) {
             return false;
         }
