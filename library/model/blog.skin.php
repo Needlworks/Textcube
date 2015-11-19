@@ -188,7 +188,7 @@ function selectSkin($blogid, $skinName) {
 			}
 		} else {
 			Setting::setBlogSetting('useiPhoneUI',1,true);
-		}	
+		}
 		// none/single/multiple
 		$value = $xmls->getValue('/skin/default/commentMessage/none');
 		if (is_null($value))
@@ -242,6 +242,7 @@ function writeSkinHtml($blogid, $contents, $mode, $file) {
 		deltree(__TEXTCUBE_SKIN_CUSTOM_DIR__."/$blogid");
 		copyRecusive(__TEXTCUBE_SKIN_DIR__."/{$skinSetting['skin']}", __TEXTCUBE_SKIN_CUSTOM_DIR__."/$blogid");
 	}
+	$file = basename($file);
 	$skinSetting['skin'] = "customize/$blogid";
 	Setting::setSkinSetting('skin',$skinSetting['skin'],$blogid);
 	if (!Setting::setSkinSetting('skin',$skinSetting['skin'],$blogid))
