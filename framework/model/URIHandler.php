@@ -8,7 +8,7 @@ class URIError extends Exception {};
 final class Model_URIHandler extends Singleton
 {
 	public $uri, $suri;
-	public static $blogid;
+	public $blogid;
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}

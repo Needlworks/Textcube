@@ -5,9 +5,9 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION_ID', '1.10.8');
-define('TEXTCUBE_REVISION', 'root-main-branch1.10-r41');
-define('TEXTCUBE_CODENAME', ': Tempo primo');
+define('TEXTCUBE_VERSION_ID', '1.10.9');
+define('TEXTCUBE_REVISION', 'root-main-branch1.10-r42');
+define('TEXTCUBE_CODENAME', ': Beta 1');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
 define('TEXTCUBE_COPYRIGHT', 'Copyright &copy; 2004-2015. Needlworks / Tatter Network Foundation. All rights reserved. Licensed under the GPL.');
 define('TEXTCUBE_HOMEPAGE', 'http://www.textcube.org/');

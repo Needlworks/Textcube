@@ -106,7 +106,7 @@ class Privilege {
 	group.readers:        Readers to $blogids's blog.
 	group.guests:         Guests
 */
-	function Privilege() {
+	function __construct() {
 	}
 
 	function expand($priv) {
@@ -162,7 +162,7 @@ class Privilege {
 
 /* Access Control Object: i.e. uri, components, functions */
 class Aco {
-	function Aco() {
+	function __construct() {
 	}
 
 	function adjust( $priv, $otherPriv ) {

@@ -69,7 +69,7 @@ $authResult = fireEvent('LOGIN_try_auth', false);
 if (doesHaveOwnership() || doesHaveMembership()) {
 	if (doesHaveOwnership() && !empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
-		if ($url && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $context->getProperty('service.domain')))
+		if ($url && isset($url['host']) && !StringUtil::endsWith( '.' . $url['host'], '.' . $context->getProperty('service.domain')))
 			$redirect = $context->getProperty('uri.blog')."/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id());
 		else
 			$redirect = $_POST['requestURI'];

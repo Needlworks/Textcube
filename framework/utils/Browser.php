@@ -4,7 +4,7 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 final class Utils_Browser extends Singleton {
-    private static $browserName;
+    private $browserName;
 
     public static function getInstance() {
         return self::_getInstance(__CLASS__);

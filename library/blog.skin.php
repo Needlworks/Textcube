@@ -589,7 +589,7 @@ class KeylogSkin {
 	var $keylog;
 	var $keylogItem;
 
-	function KeylogSkin($filename) {
+	function __construct($filename) {
 		global $service, $serviceURL;
 		if (!$sval = file_get_contents($filename))
 			Respond::ErrorPage("KeywordSkin");
