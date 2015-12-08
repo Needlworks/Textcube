@@ -766,7 +766,7 @@ class MMCache {
     /*var $variable;*/
 
     //Variable must be the table form. (2-dimensional recursive structure)
-    function queryRow($var, $key, $value) {
+    static function queryRow($var, $key, $value) {
         foreach ($var as $row) {
             if (isset($row[$key]) && $row[$key] == $value) {
                 return $row;
@@ -775,7 +775,7 @@ class MMCache {
         return false;
     }
 
-    function queryAll($var, $key, $value) {
+    static function queryAll($var, $key, $value) {
         $result = array();
         foreach ($var as $row) {
             if (isset($row[$key]) && $row[$key] == $value) {
@@ -785,7 +785,7 @@ class MMCache {
         return $result;
     }
 
-    function queryColumn($var, $key, $value, $column) {
+    static function queryColumn($var, $key, $value, $column) {
         $result = array();
         foreach ($var as $row) {
             if (isset($row[$key]) && $row[$key] == $value) {

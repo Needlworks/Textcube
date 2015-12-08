@@ -598,12 +598,7 @@ class Skin {
 }
 
 class KeylogSkin {
-    var $outter;
-    var $skin;
-    var $keylog;
-    var $keylogItem;
-
-    function KeylogSkin($filename) {
+    function __construct($filename) {
         $context = Model_Context::getInstance();
         if (!$sval = file_get_contents($filename)) {
             Respond::ErrorPage("KeywordSkin");

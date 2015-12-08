@@ -37,7 +37,7 @@ class Singleton {
 }
 
 /// String manipulation class
-final class String {
+final class Utils_String {
     static function endsWith($string, $end) {
         $longer = strlen($string) - strlen($end);
         if ($longer < 0) {

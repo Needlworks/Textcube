@@ -7,7 +7,7 @@ class Paging {
         return array('url' => rtrim($url, '?'), 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
     }
 
-    function getPagingView(& $paging, & $template, & $itemTemplate, $useCache = false, $mode = 'href') {
+    static function getPagingView(& $paging, & $template, & $itemTemplate, $useCache = false, $mode = 'href') {
         $ctx = Model_Context::getInstance();
         if (($paging === false) || empty($paging['page'])) {
             $paging['url'] = NULL;
@@ -109,7 +109,7 @@ class Paging {
         return $view;
     }
 
-    function fetch($sqlmodel, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
+    static function fetch($sqlmodel, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
         $context = Model_Context::getInstance();
         if ($url === null) {
             $url = $context->getProperty('uri.folder');

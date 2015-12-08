@@ -102,7 +102,7 @@ class KeywordBinder {
     var $_replaceOnce;
     var $_binded = array();
 
-    function KeywordBinder($replaceOnce = true) {
+    function __construct($replaceOnce = true) {
         $this->_replaceOnce = $replaceOnce;
     }
 
