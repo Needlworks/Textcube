@@ -733,7 +733,7 @@ class XMLStruct {
 	/* static helper function */
 
 	/*@static@*/
-	function getValueByLocale($param)
+	static function getValueByLocale($param)
 	{
 		if (!is_array($param)) return $param;
 		for ($i = 0; $i < count($param); $i++) {

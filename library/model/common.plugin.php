@@ -95,7 +95,7 @@ function getCurrentSetting($name) {
     if (empty($pluginSetting)) {
         $settings = POD::queryAllWithCache("SELECT name, settings
 				FROM {$database['prefix']}Plugins 
-				WHERE blogid = " . getBlogId(), MYSQL_NUM);
+				WHERE blogid = " . getBlogId(), 'num');
         foreach ($settings as $k => $v) {
             $pluginSetting[$v[0]] = $v[1];
         }

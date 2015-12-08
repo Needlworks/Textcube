@@ -3,11 +3,11 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Paging {
-	function init($url, $prefix = '?page=') {
+	static function init($url, $prefix = '?page=') {
 		return array('url' => rtrim($url,'?'), 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
 	}
 	
-	function getPagingView( & $paging, & $template, & $itemTemplate, $useCache = false, $mode = 'href') {
+	static function getPagingView( & $paging, & $template, & $itemTemplate, $useCache = false, $mode = 'href') {
 		$ctx = Model_Context::getInstance();	
 		if (($paging === false) || empty($paging['page'])) {
 			$paging['url'] = NULL;
@@ -104,7 +104,7 @@ class Paging {
 		return $view;
 	}
 	
-	function fetch($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
+	static function fetch($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
 		$context = Model_Context::getInstance();
 		if ($url === null)
 			$url = $context->getProperty('uri.folder');
@@ -137,11 +137,11 @@ class Paging {
 	}
 	/** Legacy methods **/
 
-	function initPaging($url, $prefix = '?page=') {
+	static function initPaging($url, $prefix = '?page=') {
 		return self::init($url, $prefix);
 	}
 
-	function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
+	static function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
 		return self::fetch($sql, $page, $count, $url, $prefix, $countItem, $onclick);
 	}
 }
