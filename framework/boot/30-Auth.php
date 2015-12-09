@@ -264,11 +264,11 @@ class Acl {
         return;
     }
 
-    function setBasicAcl($userid) {
+    static function setBasicAcl($userid) {
         /* Remain for compatibility */
     }
 
-    function setTeamAcl($userid) {
+    static function setTeamAcl($userid) {
         /* Remain for compatibility */
     }
 
@@ -358,7 +358,7 @@ class Acl {
 }
 
 class Auth {
-    function login($loginid, $password) {
+    static function login($loginid, $password) {
         $context = Model_Context::getInstance();
         if (Auth::authenticate($context->getProperty('blog.id'), $loginid, $password, true) === false) {
             return false;
@@ -366,7 +366,7 @@ class Auth {
         return true;
     }
 
-    function authenticate($blogid, $loginid, $password, $blogapi = false) {
+    static function authenticate($blogid, $loginid, $password, $blogapi = false) {
         $session = array();
         Acl::clearAcl();
         $pool = DBModel::getInstance();

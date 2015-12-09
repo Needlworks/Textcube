@@ -3,7 +3,7 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Paging {
-    function init($url, $prefix = '?page=') {
+    static function init($url, $prefix = '?page=') {
         return array('url' => rtrim($url, '?'), 'prefix' => $prefix, 'postfix' => '', 'total' => 0, 'pages' => 0, 'page' => 0, 'before' => array(), 'after' => array());
     }
 
@@ -177,11 +177,11 @@ class Paging {
 
     /** Legacy methods **/
 
-    function initPaging($url, $prefix = '?page=') {
+    static function initPaging($url, $prefix = '?page=') {
         return self::init($url, $prefix);
     }
 
-    function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
+    static function fetchWithPaging($sql, $page, $count, $url = null, $prefix = '?page=', $countItem = null, $onclick = null) {
         return self::fetch($sql, $page, $count, $url, $prefix, $countItem, $onclick);
     }
 }
