@@ -479,10 +479,6 @@ copy
 count
 dechex
 dir
-ereg
-ereg_replace
-eregi
-eregi_replace
 explode
 fclose
 feof
