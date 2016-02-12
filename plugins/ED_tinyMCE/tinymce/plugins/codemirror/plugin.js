@@ -6,6 +6,7 @@
  *
  * History
  * -------
+ * 3.0.0 (06/07/2015) : add - file / object addition via toolbar button
  * 2.1.0 (05/10/2015) : add - complete markdown editing support
  * 2.0.0 (05/09/2015) : add - codemirror editor overlay mode
  */
@@ -36,6 +37,7 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 				style:'width:100%; height:450px; border: 1px solid #eee; box-shadow:0 0 5px rgba(0,0,0,0.3);'
 			}).appendTo('.editorbox-container');
 			editor.doesCodeMirrorEditorEnabled = true;
+			editor.editorMode = 'codemirror';
 		} else {
 			var node = document.getElementById('codeMirrorEditor');
 			node.contentWindow.submit();
@@ -45,6 +47,7 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 			jQuery(".mce-edit-area").show();
 			jQuery(".mce-statusbar").show();
 			editor.doesCodeMirrorEditorEnabled = false;
+			editor.editorMode = 'tinymce';
 		}
 	};
 	t.syncToTinyMCE = function () {

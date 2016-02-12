@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -36,9 +36,11 @@ function getEditorInfo($editor) {
         $context->setProperty('plugin.name', $editorMappings[$editor]['plugin']);
         $context->setProperty('plugin.path',ROOT . "/plugins/{$pluginName}");
         if (!empty($configMappings[$pluginName]['config'])) {
-            $configVal = getCurrentSetting($pluginName);
+			$configVal = getCurrentSetting($pluginName);
+			$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
         } else {
-            $configVal = null;
+			$configVal = null;
+			$context->setProperty('plugin.config',array());
         }
         include_once ROOT . "/plugins/{$editorMappings[$editor]['plugin']}/index.php";
     }

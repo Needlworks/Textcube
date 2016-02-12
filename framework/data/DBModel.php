@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -17,7 +17,7 @@ function doesExistTable($tablename) {
 
     $dbCaseInsensitive = Setting::getServiceSetting('lowercaseTableNames', null, 'global');
     if ($dbCaseInsensitive === null) {
-        if (in_array(POD::dbms(), array('MySQL', 'MySQLi'))) {
+        if (in_array(POD::dbms(), array('MySQLnd', 'MySQLi'))) {
             $result = POD::queryRow("SHOW VARIABLES LIKE 'lower_case_table_names'");
             $dbCaseInsensitive = ($result['Value'] == 1) ? 1 : 0;
         } else {
@@ -559,7 +559,7 @@ class DBModel extends Singleton implements IModel {
             $pairs[$key] = 'NULL';
         }
         $attributeFields = $this->_capsulateFields(array_keys($attributes));
-        if (in_array(POD::dbms(), array('MySQL', 'MySQLi', 'SQLite3'))) { // Those supports 'REPLACE'
+        if (in_array(POD::dbms(), array('MySQLnd', 'MySQLi', 'SQLite3'))) { // Those supports 'REPLACE'
             $this->_query = 'REPLACE INTO ' . $this->_getTableName() . ' (' . implode(',', $attributeFields) . ') VALUES(' . implode(',', $pairs) . ')';
             if ($option == 'count') {
                 return POD::queryCount($this->_query);

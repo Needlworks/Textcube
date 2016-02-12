@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -33,12 +33,12 @@ final class Dispatcher {
     private function pathSelector() {
         //define('__TEXTCUBE_CONFIG_FILE__', ROOT . '/config.php');
         if (!defined('__TEXTCUBE_CACHE_DIR__')) {
-            define('__TEXTCUBE_CACHE_DIR__', ROOT . '/cache');
+            define('__TEXTCUBE_CACHE_DIR__', ROOT . '/user/cache');
         }
         if (!defined('__TEXTCUBE_ATTACH_DIR__')) {
-            define('__TEXTCUBE_ATTACH_DIR__', ROOT . '/attach');
+            define('__TEXTCUBE_ATTACH_DIR__', ROOT . '/user/attach');
         }
-        //define('__TEXTCUBE_SKIN_DIR__',ROOT.'/skin/blog');
+        //define('__TEXTCUBE_SKIN_DIR__',ROOT.'/user/skin/blog');
         //define('__TEXTCUBE_SKIN_CUSTOM_DIR__',__TEXTCUBE_SKIN_DIR__.'/customize');
     }
 

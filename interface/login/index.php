@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 $IV = array(
@@ -25,7 +25,7 @@ $IV = array(
 define('__TEXTCUBE_LOGIN__',true);
 define('__TEXTCUBE_ADMINPANEL__',true);
 require ROOT . '/library/preprocessor.php';
-$context = Model_Context::getInstance(); 
+$context = Model_Context::getInstance();
 
 if (isset($_GET['loginid']))
 	$_POST['loginid'] = $_GET['loginid'];
@@ -49,13 +49,13 @@ if (isset($_GET['session']) && isset($_GET['requestURI'])) {
 } else if (!empty($_POST['loginid']) && !empty($_POST['reset'])) {
 	if (resetPassword($blogid, $_POST['loginid']))
 		$message = _text('지정된 이메일로 로그인 정보가 전달되었습니다.');
-	else 
+	else
 		$message = _text('권한이 없습니다.');
 } else if (!empty($_POST['loginid']) && !empty($_POST['password'])) {
 	if(!empty($_POST['autologin'])) {
 		$isLogin = login($_POST['loginid'],$_POST['password'],(Timestamp::getUNIXtime() + $context->getProperty('service.autologinTimeout')));
 	} else {
-		$isLogin = login($_POST['loginid'],$_POST['password'],(Timestamp::getUNIXtime() + $context->getProperty('service.timeout')));		
+		$isLogin = login($_POST['loginid'],$_POST['password'],(Timestamp::getUNIXtime() + $context->getProperty('service.timeout')));
 	}
 	if (!$isLogin) {
 		$message = _text('아이디 또는 비밀번호가 틀렸습니다.');
@@ -72,7 +72,7 @@ $authResult = fireEvent('LOGIN_try_auth', false);
 if (doesHaveOwnership() || doesHaveMembership()) {
 	if (doesHaveOwnership() && !empty($_POST['requestURI'])) {
 		$url = parse_url($_POST['requestURI']);
-		if ($url && isset($url['host']) && !String::endsWith( '.' . $url['host'], '.' . $context->getProperty('service.domain')))
+		if ($url && isset($url['host']) && !Utils_String::endsWith( '.' . $url['host'], '.' . $context->getProperty('service.domain')))
 			$redirect = $context->getProperty('uri.blog')."/login?requestURI=" . rawurlencode($_POST['requestURI']) . '&session=' . rawurlencode(session_id());
 		else
 			$redirect = $_POST['requestURI'];
@@ -87,10 +87,11 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 	header('Location: '.$redirect);
 	exit;
 }
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+?>
+<!DOCTYPE html>
+<html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8">
 	<title><?php echo _text('Textcube - Login');?></title>
 <?php
 	$browser = Utils_Browser::getInstance();
@@ -112,7 +113,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 	<![endif]-->
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common3.min.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -121,7 +122,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
 
 			window.addEventListener("load", execLoadFunction, false);
-			
+
 			function execLoadFunction() {
 				document.forms[0].<?php echo (empty($_COOKIE['TSSESSION_LOGINID']) ? 'loginid' : 'password');?>.focus();
 <?php
@@ -164,7 +165,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 									<?php echo ($showPasswordReset ? '<div id="password_int"><input type="checkbox" class="checkbox" id="reset" name="reset" /><label for="reset">' . _text('암호 초기화') . '</label></div>'.CRLF : '');?>
 								</dd>
 							</dl>
-							
+
 							<div class="button-box">
 								<input type="submit" class="login-button input-button" name="button_login" value="<?php echo _text('로그인');?>" />
 							</div>
@@ -173,8 +174,8 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 							</div>
 						</div>
 					</form>
-						
-<?php if( isActivePlugin('CL_OpenID') ) { 
+
+<?php if( isActivePlugin('CL_OpenID') ) {
 	if( !empty($_COOKIE['openid']) ) {
 		$openid_remember_check = "checked";
 		$cookie_openid = $_COOKIE['openid'];
@@ -189,7 +190,7 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 						<input type="hidden" name="refererURI" value="<?php echo htmlspecialchars($_POST['refererURI']); ?>" />
 						<input type="hidden" name="need_writers" value="1" />
 						<input type="hidden" name="action" value="try_auth" />
-						
+
 						<div id="openid-field-box" class="field-box">
 							<dl id="openid-line">
 								<dt><label for="openid_identifier"><?php echo _text('관리자 계정과 연결된 오픈아이디');?></label></dt>
@@ -202,11 +203,11 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 								<dt><span class="label"><?php echo _text('선택사항');?></span></dt>
 								<dd><input type="checkbox" class="checkbox" id="openid_remember" name="openid_remember" <?php echo $openid_remember_check; ?> /><label for="openid_remember"><?php echo _text('오픈아이디 저장'); ?></label></dd>
 							</dl>
-							
+
 							<div class="button-box">
 								<input type="submit" class="login-button input-button" id="openid-login-button" name="openid_login" value="<?php echo _text('로그인'); ?>" />
 							</div>
-							
+
 							<?php if (!empty($openid_help_link) || !empty($openid_signup_link)) { ?>
 							<ul id="openid-intro">
 								<?php if( !empty( $openid_help_link ) ) { ?>
@@ -220,8 +221,8 @@ if (doesHaveOwnership() || doesHaveMembership()) {
 						</div>
 					</form>
 					<script type="text/javascript">
-					//<![CDATA[ 
-						function focus_openid(){ 
+					//<![CDATA[
+						function focus_openid(){
 							document.getElementById("openid_identifier").focus();}
 					//]]>
 					</script>
@@ -241,7 +242,7 @@ if (!empty($message)) {
 		</div> <!-- all-wrap -->
 	</div> <!-- temp-wrap -->
 <?php
-	if( function_exists('__tcSqlLogDump') ) { 
+	if( function_exists('__tcSqlLogDump') ) {
 		__tcSqlLogDump();
 	}
 ?>

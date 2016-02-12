@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 require ROOT . '/library/preprocessor.php';
@@ -31,7 +31,7 @@ if (isset($suri['id']) || (isset($suri['value']) && strlen($suri['value']) > 0))
 	fireEvent('OBEnd');
 } else {
 	if(!empty($freeSlogan)) {
-		header("HTTP/1.1 404 Not Found");exit;
+		errorExit(404);
 	}
 	list($entries, $paging) = getEntriesWithPagingByPage($blogid, $suri['page'], $blog['entriesOnPage']);
 	fireEvent('OBStart');

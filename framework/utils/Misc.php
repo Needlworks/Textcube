@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class Utils_Misc {
@@ -89,6 +89,11 @@ class Utils_Misc {
                     return 'image/tiff';
                 case 'bmp':
                     return 'image/bmp';
+                case 'svg':
+                case 'svgz':
+                    return 'image/svg+xml';
+                case 'webp':
+                    return 'image/webp';
                 // Sound
                 case 'wav':
                     return 'audio/x-wav';
@@ -118,6 +123,7 @@ class Utils_Misc {
                 case 'xsl':
                     return 'text/xml';
                 case 'hwp':
+                case 'hwpx':
                 case 'hwpml':
                     return 'application/x-hwp';
                 case 'pdf':
@@ -133,13 +139,13 @@ class Utils_Misc {
                     return 'application/vnd.oasis.opendocument.presentation';
                 case 'sxw':
                 case 'stw':
-                    return '	application/vnd.sun.xml.writer';
+                    return 'application/vnd.sun.xml.writer';
                 case 'sxc':
                 case 'stc':
-                    return '	application/vnd.sun.xml.calc';
+                    return 'application/vnd.sun.xml.calc';
                 case 'sxi':
                 case 'sti':
-                    return '	application/vnd.sun.xml.impress';
+                    return 'application/vnd.sun.xml.impress';
                 case 'doc':
                     return 'application/vnd.ms-word';
                 case 'xls':
@@ -165,6 +171,8 @@ class Utils_Misc {
                     return 'application/vnd.openxmlformats';
                 case 'csv':
                     return 'text/comma-separated-values';
+                case 'md':
+                    return 'text/markdown';
                 // Multimedia
                 case 'mpeg':
                 case 'mpg':
@@ -176,6 +184,8 @@ class Utils_Misc {
                 case 'avi':
                 case 'wmv':
                     return 'video/x-msvideo';
+                case 'webm':
+                    return 'video/webm';
                 // Compression
                 case 'bz2':
                     return 'application/x-bzip2';

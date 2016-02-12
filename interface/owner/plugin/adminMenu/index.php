@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -64,10 +64,13 @@ if ((isset($_REQUEST['name'])) && (isset($adminMenuMappings[$_REQUEST['name']]))
 		}
 		include_once (ROOT . "/plugins/{$plugin}/index.php");
 		if (function_exists($handler)) {
-			if( !empty( $configMappings[$plugin]['config'] ) )
+			if( !empty( $configMappings[$plugin]['config'] ) ) {
 				$configVal = getCurrentSetting($plugin);
-			else
+				$context->setProperty('plugin.config',Setting::fetchConfigVal($configVal));
+			} else {
 				$configVal ='';
+				$context->setProperty('plugin.config',array());
+			}
 			call_user_func($handler);
 		}
 		/// unload.

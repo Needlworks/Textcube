@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -51,7 +51,7 @@ function getMIMEType($ext, $filename = null) {
 				return 'text/sgml';
 			case 'xml':case 'xsl':
 				return 'text/xml';
-			case 'hwp':case 'hwpml':
+			case 'hwp':case 'hwpx':case 'hwpml':
 				return 'application/x-hwp';
 			case 'pdf':
 				return 'application/pdf';

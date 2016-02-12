@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -107,10 +107,10 @@ class Privilege {
         group.readers:        Readers to $blogids's blog.
         group.guests:         Guests
     */
-    function Privilege() {
+    function __construct() {
     }
 
-    function expand($priv) {
+    static function expand($priv) {
         global $sAcoPredefinedChain;
         $predefined_aros = array_keys($sAcoPredefinedChain);
         do {
@@ -143,7 +143,7 @@ class Privilege {
         return $arranged_objs;
     }
 
-    function adjust($priv) {
+    static function adjust($priv) {
         $blogid = getBlogId();
         if (!Acl::isAvailable($blogid)) {
             Acl::setAcl($blogid);
@@ -163,10 +163,10 @@ class Privilege {
 /* Access Control Object: i.e. uri, components, functions */
 
 class Aco {
-    function Aco() {
+    function __construct() {
     }
 
-    function adjust($priv, $otherPriv) {
+    static function adjust($priv, $otherPriv) {
         // $priv is an string array
         if (!empty($otherPriv)) {
             if (is_array($otherPriv)) {
@@ -181,7 +181,7 @@ class Aco {
         return $priv;
     }
 
-    function getRequiredPrivFromUrl($testingUri) {
+    static function getRequiredPrivFromUrl($testingUri) {
         global $requiredPrivFromUri;
         if (substr($testingUri, 0, 6) != "/owner") {
             return array();
@@ -212,7 +212,7 @@ class Acl {
         $this->context = Model_Context::getInstance();
     }
 
-    function authorize($domain, $userid) {
+    static function authorize($domain, $userid) {
         $context = Model_Context::getInstance();
         if (!isset($_SESSION['identity'])) {
             $_SESSION['identity'] = array();
@@ -264,11 +264,11 @@ class Acl {
         return;
     }
 
-    function setBasicAcl($userid) {
+    static function setBasicAcl($userid) {
         /* Remain for compatibility */
     }
 
-    function setTeamAcl($userid) {
+    static function setTeamAcl($userid) {
         /* Remain for compatibility */
     }
 
@@ -279,7 +279,7 @@ class Acl {
         return $_SESSION['identity'][$domain];
     }
 
-    function check($requiredPriv = null, $otherPriv = null) {
+    static function check($requiredPriv = null, $otherPriv = null) {
         if (!is_array($requiredPriv)) {
             $requiredPriv = array($requiredPriv);
         }
@@ -300,7 +300,7 @@ class Acl {
         return false;
     }
 
-    function setAcl($blogid, $priv = null, $add = false) {
+    static function setAcl($blogid, $priv = null, $add = false) {
 
         if (!isset($_SESSION['acl'])) {
             $_SESSION['acl'] = array();
@@ -325,7 +325,7 @@ class Acl {
         $_SESSION['acl']["blog.$blogid"] = Privilege::expand($priv);
     }
 
-    function getCurrentPrivilege($blogid = null) {
+    static function getCurrentPrivilege($blogid = null) {
         if (is_null($blogid)) {
             $blogid = getBlogId();
         }
@@ -335,7 +335,7 @@ class Acl {
         return array();
     }
 
-    function clearAcl() {
+    static function clearAcl() {
         if (isset($_SESSION['acl'])) {
             unset($_SESSION['acl']);
         }
@@ -344,7 +344,7 @@ class Acl {
         }
     }
 
-    function isAvailable($blogid) {
+    static function isAvailable($blogid) {
         if (!isset($_SESSION['acl']) ||
             !is_array($_SESSION['acl']) ||
             !isset($_SESSION['acl']["blog.$blogid"])
@@ -358,7 +358,7 @@ class Acl {
 }
 
 class Auth {
-    function login($loginid, $password) {
+    static function login($loginid, $password) {
         $context = Model_Context::getInstance();
         if (Auth::authenticate($context->getProperty('blog.id'), $loginid, $password, true) === false) {
             return false;
@@ -366,7 +366,7 @@ class Auth {
         return true;
     }
 
-    function authenticate($blogid, $loginid, $password, $blogapi = false) {
+    static function authenticate($blogid, $loginid, $password, $blogapi = false) {
         $session = array();
         Acl::clearAcl();
         $pool = DBModel::getInstance();

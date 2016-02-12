@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -16,16 +16,15 @@
 
 $images = explode('*!',$_GET['i']);
 $imageStr = '';
-define('ROOT', '../../..');
-require ROOT . '/library/preprocessor.php';
 foreach($images as $value) {
 	$imageStr .= $value.'*!';
 }
 ?>
+<!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="utf-8">
 		<script type="text/javascript" src="<?php echo $context->getProperty('service.path').'/resources/script/flash.js';?>"></script>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style type="text/css">
 			/*<![CDATA[*/
 				body

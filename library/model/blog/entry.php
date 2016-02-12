@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -185,7 +185,7 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
     if (!doesHaveOwnership() && getCategoryVisibility($blogid, $category) < 2 && $category != 0) {
         return array();
     }
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     if ($category > 0) {
@@ -218,11 +218,11 @@ function getEntryListWithPagingByCategory($blogid, $category, $page, $count) {
     $pool->setProjection("e.blogid", "e.userid", "e.id", "e.title", "e.comments", "e.slogan", "e.published");
     $pool->setOrder("e.published", "desc");
 
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . ((!$ctx->getProperty('blog.useSloganOnCategory', true) && $ctx->getProperty('suri.id', null) != null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . ((!$context->getProperty('blog.useSloganOnCategory', true) && $context->getProperty('suri.id', null) != null) ? $context->getProperty('suri.id') : $context->getProperty('suri.value')));
 }
 
 function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if ($author === null) {
         return array();
     }
@@ -245,11 +245,11 @@ function getEntryListWithPagingByAuthor($blogid, $author, $page, $count) {
     }
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.blogid", "e.userid", "e.id", "e.title", "e.comments", "e.slogan", "e.published");
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'));
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'));
 }
 
 function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     if ($tag === null) {
         return array(array(), array('url' => '', 'prefix' => '', 'postfix' => ''));
@@ -279,11 +279,11 @@ function getEntryListWithPagingByTag($blogid, $tag, $page, $count) {
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.blogid", "e.userid", "e.id", "e.title", "e.comments", "e.slogan", "e.published");
 
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . ((!Setting::getBlogSettingGlobal('useSloganOnTag', true) && ($ctx->getProperty('suri.id') != null)) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')));
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . ((!Setting::getBlogSettingGlobal('useSloganOnTag', true) && ($context->getProperty('suri.id') != null)) ? $context->getProperty('suri.id') : $context->getProperty('suri.value')));
 }
 
 function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $pool = DBModel::getInstance();
     $pool->init("Entries");
@@ -304,14 +304,14 @@ function getEntryListWithPagingByPeriod($blogid, $period, $page, $count) {
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.blogid", "e.userid", "e.id", "e.title", "e.comments", "e.slogan", "e.published");
 
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'));
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'));
 }
 
 function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $search = escapeSearchString($search);
     if (strlen($search) == 0) {
-        return Paging::fetch(null, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'));
+        return Paging::fetch(null, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'));
     }
     $pool = DBModel::getInstance();
     $pool->init("Entries");
@@ -332,7 +332,7 @@ function getEntryListWithPagingBySearch($blogid, $search, $page, $count) {
     $pool->setQualifierSet(array("e.title", "like", $search, true), "OR", array("e.content", "like", $search, true));
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.blogid", "e.userid", "e.id", "e.title", "e.comments", "e.slogan", "e.published");
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'));
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'));
 }
 
 function getEntriesWithPaging($blogid, $page, $count) {
@@ -358,9 +358,9 @@ function getEntriesWithPaging($blogid, $page, $count) {
 }
 
 function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $countItem) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if ($category === null) {
-        return Paging::fetch(null, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'));
+        return Paging::fetch(null, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'));
     }
     $pool = DBModel::getInstance();
     if ($category > 0) {
@@ -390,14 +390,14 @@ function getEntriesWithPagingByCategory($blogid, $category, $page, $count, $coun
     }
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.*", "c.label AS categoryLabel");
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . ((!$ctx->getProperty('blog.useSloganOnCategory', true) && $ctx->getProperty('suri.id', null) != null) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')), "?page=", $countItem);
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . ((!$context->getProperty('blog.useSloganOnCategory', true) && $context->getProperty('suri.id', null) != null) ? $context->getProperty('suri.id') : $context->getProperty('suri.value')), "?page=", $countItem);
 }
 
 function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     if ($tag === null) {
-        return Paging::fetch(null, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'));
+        return Paging::fetch(null, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'));
     }
     $pool = DBModel::getInstance();
     $pool->init("Entries");
@@ -426,11 +426,11 @@ function getEntriesWithPagingByTag($blogid, $tag, $page, $count, $countItem = nu
     $pool->setProjection("e.*", "c.label AS categoryLabel");
     $pool->setOrder("e.published", "DESC");
 
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . ((!Setting::getBlogSettingGlobal('useSloganOnTag', true) && ($ctx->getProperty('suri.id') != null)) ? $ctx->getProperty('suri.id') : $ctx->getProperty('suri.value')), "?page=", $countItem);
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . ((!Setting::getBlogSettingGlobal('useSloganOnTag', true) && ($context->getProperty('suri.id') != null)) ? $context->getProperty('suri.id') : $context->getProperty('suri.value')), "?page=", $countItem);
 }
 
 function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $pool = DBModel::getInstance();
     $pool->init("Entries");
@@ -445,11 +445,11 @@ function getEntriesWithPagingByNotice($blogid, $page, $count, $countItem = null)
     $pool->setProjection("*");
     $pool->setOrder("published", "DESC");
 
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'), "?page=", $countItem);
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'), "?page=", $countItem);
 }
 
 function getEntriesWithPagingByPage($blogid, $page, $count, $countItem = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $pool = DBModel::getInstance();
     $pool->init("Entries");
@@ -464,11 +464,11 @@ function getEntriesWithPagingByPage($blogid, $page, $count, $countItem = null) {
     $pool->setProjection("*");
     $pool->setOrder("published", "DESC");
 
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'), "?page=", $countItem);
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'), "?page=", $countItem);
 }
 
 function getEntriesWithPagingByPeriod($blogid, $period, $page, $count, $countItem = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $pool = DBModel::getInstance();
     $pool->init("Entries");
@@ -494,16 +494,16 @@ function getEntriesWithPagingByPeriod($blogid, $period, $page, $count, $countIte
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.*", "c.label AS categoryLabel");
 
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'), $countItem);
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'), $countItem);
 }
 
 function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countItem) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $search = escapeSearchString($search);
 
     if (strlen($search) == 0) {
-        return Paging::fetch(null, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'));
+        return Paging::fetch(null, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'));
     }
 
     $pool = DBModel::getInstance();
@@ -532,11 +532,11 @@ function getEntriesWithPagingBySearch($blogid, $search, $page, $count, $countIte
     );
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.*", "c.label AS categoryLabel");
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'), "?page=", $countItem);
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'), "?page=", $countItem);
 }
 
 function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countItem = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $userid = User::getUserIdByName($author);
 
@@ -562,7 +562,7 @@ function getEntriesWithPagingByAuthor($blogid, $author, $page, $count, $countIte
 
     $pool->setOrder("e.published", "DESC");
     $pool->setProjection("e.*", "c.label AS categoryLabel");
-    return Paging::fetch($pool, $page, $count, $ctx->getProperty('uri.folder') . "/" . $ctx->getProperty('suri.value'), "?page=", $countItem);
+    return Paging::fetch($pool, $page, $count, $context->getProperty('uri.folder') . "/" . $context->getProperty('suri.value'), "?page=", $countItem);
 }
 
 function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count, $visibility = null, $starred = null, $draft = null, $tag = null) {
@@ -626,11 +626,11 @@ function getEntriesWithPagingForOwner($blogid, $category, $search, $page, $count
 }
 
 function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId = false) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     importlib('model.blog.category');
     $entries = array();
-    $paging = Paging::init($ctx->getProperty('uri.folder'), '/');
+    $paging = Paging::init($context->getProperty('uri.folder'), '/');
 
     if ($categoryId !== false) {
         if ($categoryId != 0) {    // Not a 'total' category.
@@ -725,12 +725,12 @@ function getEntryWithPaging($blogid, $id, $isSpecialEntry = false, $categoryId =
 
 function getEntryWithPagingBySlogan($blogid, $slogan, $isSpecialEntry = false, $categoryId = false) {
     importlib('model.blog.category');
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
 
     importlib('model.blog.category');
     $entries = array();
-    $paging = $isSpecialEntry ? ($isSpecialEntry == 'page' ? Paging::init($ctx->getProperty('uri.blog') . "/page", '/') : Paging::init($ctx->getProperty('uri.blog') . "/notice", '/')) : Paging::init($ctx->getProperty('uri.blog') . "/entry", '/');
+    $paging = $isSpecialEntry ? ($isSpecialEntry == 'page' ? Paging::init($context->getProperty('uri.blog') . "/page", '/') : Paging::init($context->getProperty('uri.blog') . "/notice", '/')) : Paging::init($context->getProperty('uri.blog') . "/entry", '/');
 
     if ($categoryId !== false) {
         if ($categoryId != 0) {    // Not a 'total' category.
@@ -833,7 +833,7 @@ function getSlogan($slogan) {
 }
 
 function getRecentEntries($blogid) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
     $pool->init("Entries");
     $pool->setAlias("Entries", "e");
@@ -845,7 +845,7 @@ function getRecentEntries($blogid) {
         $pool = getPrivateCategoryExclusionQualifier($pool, $blogid);
     }
     $pool->setOrder("e.published", "DESC");
-    $pool->setLimit($ctx->getProperty('skin.entriesOnRecent'));
+    $pool->setLimit($context->getProperty('skin.entriesOnRecent'));
     $result = $pool->getAll("e.id, e.userid, e.title, e.slogan, e.comments, e.published");
     if ($result) {
         return $result;
@@ -1168,7 +1168,7 @@ function updateEntry($blogid, $entry, $updateDraft = 0) {
 }
 
 function saveDraftEntry($blogid, $entry) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     importlib('model.blog.tag');
@@ -1363,7 +1363,7 @@ function updateRemoteResponsesOfEntry($blogid, $id) {
 
 function deleteEntry($blogid, $id) {
     $gCacheStorage = globalCacheStorage::getInstance();
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     importlib("model.blog.feed");
@@ -1405,7 +1405,7 @@ function deleteEntry($blogid, $id) {
 }
 
 function changeCategoryOfEntries($blogid, $entries, $category) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
     importlib("model.blog.category");
     importlib("model.blog.feed");
@@ -1649,7 +1649,7 @@ function syndicateEntry($id, $mode) {
 }
 
 function publishEntries() {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
     $blogid = getBlogId();
     $closestReservedTime = Setting::getBlogSettingGlobal('closestReservedPostTime', INT_MAX);

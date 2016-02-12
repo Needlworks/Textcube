@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -13,23 +13,23 @@ if (is_null($entry)) {
 	exit;
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html>
 <head>
+	<meta charset="utf-8">
 	<title><?php echo _text('글걸기 시도');?></title>
-	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/popup-trackback.css" />
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.jqueryURL');?>jquery-<?php echo JQUERY_VERSION;?>.js"></script>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/common3.min.js"></script>
-	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.min.js"></script>
+	<script type="text/javascript" src="<?php echo $context->getProperty('service.path');?>/resources/script/EAF4.js"></script>
 	<!-- script type="text/javascript" src="<?php echo $context->getProperty('service.resourcepath');?>/script/EAF4.js"></script -->
 	<script type="text/javascript">
 		//<![CDATA[
 			var servicePath = "<?php echo $context->getProperty('$service.path');?>";
 			var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
 			var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
-			
+
 			function onclick_send(form) {
 				trim_all(form);
 				if (isNull(form.url,"<?php echo _text('전송할 주소를 입력하세요');?>")) return false;
@@ -44,7 +44,7 @@ if (is_null($entry)) {
 				form.exenum.value = num;
 				form.submit();
 			}
-			
+
 			function sendTrackback(id) {
 				try {
 					var trackbackField = document.getElementById('url');
@@ -62,7 +62,7 @@ if (is_null($entry)) {
 					alert(e.message);
 				}
 			}
-			
+
 			function showTrackbackSender(id) {
 				var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/" + id);
 				request.onSuccess = function() {
@@ -78,7 +78,7 @@ if (is_null($entry)) {
 						str += '			<th class="delete"><span class="text"><?php echo _text('삭제');?></span></th>\n';
 						str += '		</tr>\n';
 						str += '	</thead>\n';
-						
+
 						for (var i=0; i<resultRow.length-1 ; i++) {
 							field = resultRow[i].split(',');
 							str += '	<tbody>\n';
@@ -88,14 +88,14 @@ if (is_null($entry)) {
 							str += '			<td class="delete"><a class="delete-button button" href="#void" onclick="removeTrackbackLog('+field[0]+','+id+');"><span class="text"><?php echo _text('삭제');?></span></a></td>\n'
 							str += '		</tr>\n';
 							str += '	</tbody>\n';
-						}			
+						}
 						str += '</table>\n';
 					}
 					document.getElementById('logs_'+id).innerHTML = str;
 				}
 				request.send();
 			}
-			
+
 			function removeTrackbackLog(id,entry) {
 				if(confirm("<?php echo _text('선택된 걸린글을 지웁니다. 계속 하시겠습니까?');?>")) {
 					var request = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.blog');?>/owner/communication/trackback/log/remove/" + id);
@@ -122,10 +122,10 @@ if (is_null($entry)) {
 </head>
 <body>
 	<form name="trackback" method="post" action="<?php echo $context->getProperty('suri.url');?>">
-	
+
 		<div id="trackback-box">
 			<img src="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin');?>/image/img_comment_popup_logo.gif" alt="<?php echo _text('텍스트큐브 로고');?>" />
-			
+
 			<div class="title"><span class="text"><?php echo _text('글걸기를 시도합니다');?></span></div>
 	      	<div id="command-box">
 	      		<dl class="title-line">
@@ -139,10 +139,10 @@ if (is_null($entry)) {
 						<input type="button" class="input-button" name="Submit" value="<?php echo _text('전송');?>" onclick="sendTrackback(<?php echo $context->getProperty('suri.id');?>); return false;" />
 					</dd>
 				</dl>
-				
+
 				<div id="logs_<?php echo $context->getProperty('suri.id');?>"></div>
 			</div>
-			
+
 			<div class="button-box">
 				<input type="button" class="input-button" value="<?php echo _text('닫기');?>" onclick="window.close()" />
 			</div>

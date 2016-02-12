@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -118,12 +118,12 @@ function setPrimaryDomain($blogid, $name) {
 }
 
 function setSecondaryDomain($blogid, $domain) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     importlib('model.blog.feed');
     $domain = Utils_Unicode::lessenAsEncoding(strtolower(trim($domain)), 64);
-    if ($domain == $ctx->getProperty('blog.secondaryDomain')) {
+    if ($domain == $context->getProperty('blog.secondaryDomain')) {
         return 0;
     }
     if (empty($domain)) {
@@ -142,37 +142,37 @@ function setSecondaryDomain($blogid, $domain) {
             return 2;
         }
     }
-    $ctx->setProperty('blog.secondaryDomain', $domain);
+    $context->setProperty('blog.secondaryDomain', $domain);
     clearFeed();
     return 0;
 }
 
 function setDefaultDomain($blogid, $default) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $default = $default == 1 ? 1 : 0;
-    if ($ctx->getProperty('blog.secondaryDomain') && $default == 1) {
+    if ($context->getProperty('blog.secondaryDomain') && $default == 1) {
         return false;
     }
-    if ($default == $ctx->getProperty('blog.defaultDomain')) {
+    if ($default == $context->getProperty('blog.defaultDomain')) {
         return true;
     }
     if (Setting::setBlogSettingGlobal('defaultDomain', $default) === false) {
         return false;
     }
-    $ctx->setProperty('blog.defaultDomain', $default);
+    $context->setProperty('blog.defaultDomain', $default);
     importlib('model.blog.feed');
     clearFeed();
     return true;
 }
 
 function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSloganOnTag) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $useSloganOnPost = $useSloganOnPost ? 1 : 0;
     $useSloganOnCategory = $useSloganOnCategory ? 1 : 0;
     $useSloganOnTag = $useSloganOnTag ? 1 : 0;
-    if ($useSloganOnPost == $ctx->getProperty('blog.useSloganOnPost')
-        && $useSloganOnCategory == $ctx->getProperty('blog.useSloganOnCategory')
-        && $useSloganOnTag == $ctx->getProperty('blog.useSloganOnTag')
+    if ($useSloganOnPost == $context->getProperty('blog.useSloganOnPost')
+        && $useSloganOnCategory == $context->getProperty('blog.useSloganOnCategory')
+        && $useSloganOnTag == $context->getProperty('blog.useSloganOnTag')
     ) {
         return true;
     }
@@ -186,9 +186,9 @@ function useBlogSlogan($blogid, $useSloganOnPost, $useSloganOnCategory, $useSlog
     Setting::setBlogSettingGlobal('useSloganOnCategory', $useSloganOnCategory);
     Setting::setBlogSettingGlobal('useSloganOnTag', $useSloganOnTag);
 
-    $ctx->setProperty('blog.useSloganOnPost', $useSloganOnPost);
-    $ctx->setProperty('blog.useSloganOnCategory', $useSloganOnCategory);
-    $ctx->setProperty('blog.useSloganOnTag', $useSloganOnTag);
+    $context->setProperty('blog.useSloganOnPost', $useSloganOnPost);
+    $context->setProperty('blog.useSloganOnCategory', $useSloganOnCategory);
+    $context->setProperty('blog.useSloganOnTag', $useSloganOnTag);
 
     importlib('model.blog.feed');
     CacheControl::flushCategory();
@@ -214,14 +214,14 @@ function setEntriesOnRSS($blogid, $entriesOnRSS) {
 }
 
 function setCommentsOnRSS($blogid, $commentsOnRSS) {
-    $ctx = Model_Context::getInstance();
-    if ($commentsOnRSS == $ctx->getProperty('blog.commentsOnRSS')) {
+    $context = Model_Context::getInstance();
+    if ($commentsOnRSS == $context->getProperty('blog.commentsOnRSS')) {
         return true;
     }
     if (Setting::setBlogSettingGlobal('commentsOnRSS', $commentsOnRSS) === false) {
         return false;
     }
-    $ctx->setProperty('blog.commentsOnRSS', $commentsOnRSS);
+    $context->setProperty('blog.commentsOnRSS', $commentsOnRSS);
     $cache = pageCache::getInstance();
     $cache->name = 'commentRSS';
     $cache->purge();
@@ -229,15 +229,15 @@ function setCommentsOnRSS($blogid, $commentsOnRSS) {
 }
 
 function setBlogLanguage($blogid, $language, $blogLanguage) {
-    $ctx = Model_Context::getInstance();
-    if (($language == $ctx->getProperty('blog.language')) && ($blogLanguage == $ctx->getProperty('blog.blogLanguage'))) {
+    $context = Model_Context::getInstance();
+    if (($language == $context->getProperty('blog.language')) && ($blogLanguage == $context->getProperty('blog.blogLanguage'))) {
         return true;
     }
     $language = Utils_Unicode::lessenAsEncoding($language, 5);
     $blogLanguage = Utils_Unicode::lessenAsEncoding($blogLanguage, 5);
     if (Setting::setBlogSettingGlobal('language', $language) && Setting::setBlogSettingGlobal('blogLanguage', $blogLanguage)) {
-        $ctx->setProperty('blog.language', $language);
-        $ctx->setProperty('blog.blogLanguage', $blogLanguage);
+        $context->setProperty('blog.language', $language);
+        $context->setProperty('blog.blogLanguage', $blogLanguage);
         importlib('model.blog.feed');
         clearFeed();
         return true;
@@ -258,7 +258,7 @@ function setGuestbook($blogid, $write, $comment) {
 }
 
 function addBlog($blogid, $userid, $identify) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     if (empty($userid)) {
@@ -340,9 +340,9 @@ function addBlog($blogid, $userid, $identify) {
             'acceptTrackbacks' => 1,
             'visibility' => 2,
             'created' => Timestamp::getUNIXtime(),
-            'language' => $ctx->getProperty('service.language'),
-            'blogLanguage' => $ctx->getProperty('service.language'),
-            'timezone' => $ctx->getProperty('service.timezone'));
+            'language' => $context->getProperty('service.language'),
+            'blogLanguage' => $context->getProperty('service.language'),
+            'timezone' => $context->getProperty('service.timezone'));
         $isFalse = false;
         foreach ($basicInformation as $fieldname => $fieldvalue) {
             if (Setting::setBlogSettingDefault($fieldname, $fieldvalue, $blogid) === false) {
@@ -358,7 +358,7 @@ function addBlog($blogid, $userid, $identify) {
         $pool->reset('SkinSettings');
         $pool->setAttribute('blogid', $blogid);
         $pool->setAttribute('name', 'skin', true);
-        $pool->setAttribute('value', $ctx->getProperty('service.skin'), true);
+        $pool->setAttribute('value', $context->getProperty('service.skin'), true);
         if (!$pool->insert()) {
             deleteBlog($blogid);
             return 13;
@@ -449,7 +449,7 @@ function getAuthToken($userid) {
 }
 
 function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $senderEmail) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     if (empty($blogid)) {
@@ -490,7 +490,7 @@ function sendInvitationMail($blogid, $userid, $name, $comment, $senderName, $sen
     $message = file_get_contents(ROOT . "/resources/style/letter/letter.html");
     $message = str_replace('[##_title_##]', _text('초대장'), $message);
     $message = str_replace('[##_content_##]', $comment, $message);
-    $message = str_replace('[##_images_##]', $ctx->getProperty('uri.service') . "/resources/style/letter", $message);
+    $message = str_replace('[##_images_##]', $context->getProperty('uri.service') . "/resources/style/letter", $message);
     $message = str_replace('[##_link_##]', getInvitationLink(getBlogURL($blogName), $email, $password, $authtoken), $message);
     $message = str_replace('[##_go_blog_##]', getBlogURL($blogName), $message);
     $message = str_replace('[##_link_title_##]', _text('블로그 바로가기'), $message);
@@ -542,7 +542,7 @@ function cancelInvite($userid, $clean = true) {
 function changePassword($userid, $pwd, $prevPwd, $forceChange = false) {
     $pool = DBModel::getInstance();
     $pool->reset('UserSettings');
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     if (!strlen($pwd) || (!strlen($prevPwd) && !$forceChange)) {
         return false;
@@ -609,7 +609,7 @@ function deleteBlog($blogid) {
 
 function removeBlog($blogid) {
     $pool = DBModel::getInstance();
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     if (Setting::getServiceSetting("defaultBlogId", 1, true) == $blogid) {
         return false;
     }

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 function replace_num_entity($ord) {
@@ -52,11 +52,11 @@ class XMLRPC {
 
     var $useOldXmlRPC = false; // for 2003-before-version
 
-    function XMLRPC() {
+    function __construct() {
         $this->_registry = array();
     }
 
-    function call() {
+    public function call() {
         if (func_num_args() < 1) {
             return false;
         }
@@ -103,13 +103,13 @@ class XMLRPC {
         return true;
     }
 
-    function registerMethod($method, $function) {
-        if (function_exists($function)) {
-            $this->_registry[$method] = $function;
+    public function registerMethod($method, $public function) {
+        if (public function_exists($public function)) {
+            $this->_registry[$method] = $public function;
         }
     }
 
-    function receive($xml = null) {
+    public function receive($xml = null) {
         if (empty($xml)) {
             if (empty($_SERVER['CONTENT_TYPE']) || empty($GLOBALS['HTTP_RAW_POST_DATA']) || ($_SERVER['CONTENT_TYPE'] != 'text/xml')) {
                 return false;
@@ -154,7 +154,7 @@ class XMLRPC {
         return true;
     }
 
-    function sendResponse($param = null) {
+    public function sendResponse($param = null) {
         header('Content-Type: text/xml');
         echo '<?xml version="1.0" encoding="utf-8"?><methodResponse><params>';
         if (!is_null($param)) {
@@ -165,7 +165,7 @@ class XMLRPC {
         echo '</params></methodResponse>';
     }
 
-    function sendFault($code = 0, $string = 'Error') {
+    public function sendFault($code = 0, $string = 'Error') {
         header('Content-Type: text/xml');
         echo '<?xml version="1.0" encoding="utf-8"?>';
         echo '<methodResponse><fault><value><struct><member><name>faultCode</name><value><i4>';
@@ -175,7 +175,7 @@ class XMLRPC {
         echo '</string></value></member></struct></value></fault></methodResponse>';
     }
 
-    function _encodeValue($value) {
+    private function _encodeValue($value) {
         echo '<value>';
         if (is_a($value, 'XMLCustomType')) {
             echo "<{$value->name}>";
@@ -241,7 +241,7 @@ class XMLRPC {
         echo '</value>';
     }
 
-    function _decodeValue(&$value) {
+    private function _decodeValue(&$value) {
         if (isset($value[0])) {
             return null;
         }
@@ -296,7 +296,7 @@ class XMLRPC {
         return null;
     }
 
-    function encodingStringEx($text) {
+    public function encodingStringEx($text) {
         $l = strlen($text);
         $retString = '';
         // ### TODO: Use a buffer rather than going character by
@@ -387,7 +387,7 @@ class XMLRPC {
 class XMLRPCFault {
     var $code, $string;
 
-    function XMLRPCFault($code = 0, $string = 'Error') {
+    public function __construct($code = 0, $string = 'Error') {
         $this->code = $code;
         $this->string = $string;
     }
@@ -396,7 +396,7 @@ class XMLRPCFault {
 class XMLCustomType {
     var $value, $name;
 
-    function XMLCustomType($varString, $varName) {
+    public function __construct($varString, $varName) {
         $this->name = $varName;
         $this->value = $varString;
     }

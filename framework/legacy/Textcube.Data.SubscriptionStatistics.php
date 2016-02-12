@@ -1,7 +1,7 @@
 <?php
 
 class SubscriptionStatistics {
-    function SubscriptionStatistics() {
+    function __construct() {
         $this->reset();
     }
 

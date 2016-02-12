@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -9,7 +9,7 @@ ini_set('display_errors', 'on');
 
 define('ROOT','.');
 //if (!defined('__TEXTCUBE_CACHE_DIR__')) {
-	define('__TEXTCUBE_CACHE_DIR__', ROOT . '/cache');
+	define('__TEXTCUBE_CACHE_DIR__', ROOT . '/user/cache');
 //}
 require ROOT.'/framework/id/textcube/config.default.php';
 
@@ -297,7 +297,6 @@ function checkStep($step, $check = true) {
     //<![CDATA[
      function suggestDefaultPort(db) {
 		switch(db) {
-			case 'MySQL':
 			case 'MySQLi':
 			default:
 				port = 3306;
@@ -327,7 +326,6 @@ function checkStep($step, $check = true) {
         <td>
 <?php
 $dbmsSupport = array();
-if(function_exists('mysql_connect')) array_push($dbmsSupport,'MySQL');
 if(function_exists('mysqli_connect')) array_push($dbmsSupport,'MySQLi');
 if(function_exists('pg_connect')) array_push($dbmsSupport,'PostgreSQL');
 if(class_exists('SQLite3')) array_push($dbmsSupport,'SQLite3');
@@ -481,10 +479,6 @@ copy
 count
 dechex
 dir
-ereg
-ereg_replace
-eregi
-eregi_replace
 explode
 fclose
 feof
@@ -610,11 +604,6 @@ xml_set_object
         else {
            echo '<li style="color:navy">Character Set: ', _t('UTF8 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
         }
-/*        if (POD::query('SET SESSION collation_connection = \'utf8_general_ci\''))
-           echo '<li>Collation: OK</li>';
-        else {
-           echo '<li style="color:navy">Collation: ', _t('UTF8 General 미지원 (경고: 한글 지원이 불완전할 수 있습니다.)'), '</li>';
-        }*/
         if (POD::query("CREATE TABLE {$_POST['dbPrefix']}Setup (a INT NOT NULL)")) {
             POD::query("DROP TABLE {$_POST['dbPrefix']}Setup");
            echo '<li>', _t('테이블 생성 권한'), ': OK</li>';
@@ -751,7 +740,25 @@ xml_set_object
             array_push($commands, 'chmod 0777 '.$root);
         }
 
-        $filename = $root . '/attach';
+        $filename = $root . '/user';
+        if (file_exists($filename)) {
+            if (is_dir($filename) && is_writable($filename))
+               echo '<li>', _t('사용자 데이터 디렉토리'), ': OK</li>';
+            else {
+                $error = 12;
+                echo '<li style="color:red">', _t('사용자 데이터 디렉토리'), ': ', _f('"%1"에 접근할 수 없습니다. 퍼미션을 %2(으)로 수정해 주십시오.', $filename, '0777'), '</li>';
+                array_push($commands, 'chmod 0777 '.$filename);
+            }
+        } else if (mkdir($filename)) {
+            @chmod($filename, 0777);
+            echo '<li>', _t('사용자 데이터 디렉토리'), ': OK</li>';
+        } else {
+            $error = 13;
+            echo '<li style="color:red">', _t('사용자 데이터 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'user', '0777'), '</li>';
+            array_push($commands, 'chmod 0777 '.$root);
+        }
+
+        $filename = $root . '/user/attach';
         if (file_exists($filename)) {
             if (is_dir($filename) && is_writable($filename))
                echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
@@ -761,15 +768,15 @@ xml_set_object
                 array_push($commands, 'chmod 0777 '.$filename);
             }
         } else if (mkdir($filename)) {
-			@chmod($filename, 0777);
-           echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
+            @chmod($filename, 0777);
+            echo '<li>', _t('첨부 디렉토리'), ': OK</li>';
         } else {
             $error = 13;
             echo '<li style="color:red">', _t('첨부 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'attach', '0777'), '</li>';
             array_push($commands, 'chmod 0777 '.$root);
         }
 
-        $filename = $root . '/cache';
+        $filename = $root . '/user/cache';
         if (is_dir($filename)) {
             if (is_writable($filename))
                echo '<li>', _t('캐시 디렉토리'), ': OK</li>';
@@ -803,7 +810,7 @@ xml_set_object
            echo '<li style="color:red">', _t('원격 설치 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', $root, 'cache', '0777'), '</li>';
         }*/
 
-        $filename = $root . '/skin/blog/customize';
+        $filename = $root . '/user/skin/blog/customize';
         if (is_dir($filename)) {
             if (is_writable($filename))
                echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
@@ -817,8 +824,8 @@ xml_set_object
            echo '<li>', _t('스킨 디렉토리'), ': OK</li>';
         } else {
             $error = 15;
-            echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/skin/blog", 'customize', '0777'), '</li>';
-            array_push($commands, 'chmod 0777 '."$root/skin/blog");
+            echo '<li style="color:red">', _t('스킨 디렉토리'), ': ', _f('"%1"에 %2 디렉토리를 생성할 수 없습니다. "%1"의 퍼미션을 %3(으)로 수정해 주십시오.', "$root/user/skin/blog", 'customize', '0777'), '</li>';
+            array_push($commands, 'chmod 0777 '."$root/user/skin/blog");
         }
 
 ?>
@@ -938,6 +945,9 @@ RewriteRule ^testrewrite$ setup.php [L]"
 			$rewrite = 0;
 		}
     	$domain = $rewrite == 3 ? substr($_SERVER['HTTP_HOST'], strpos($_SERVER['HTTP_HOST'], '.') + 1) : $_SERVER['HTTP_HOST'];
+
+        $blogProtocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+        $blogDefaultPort = isset($_SERVER['HTTPS']) ? 443 : 80;
 ?>
   <input type="hidden" name="step" value="<?php echo $step;?>" />
   <input type="hidden" name="mode" value="<?php echo $_POST['mode'];?>" />
@@ -986,15 +996,15 @@ RewriteRule ^testrewrite$ setup.php [L]"
         <th style="padding-top:20px"><?php echo _t('블로그 주소 예시');?></th>
         <td style="padding-top:20px; height:100px">
         <ul id="typeDomain"<?php echo ($rewrite >= 2 ? '' : ' style="display:none"');?>>
-          <li>http://<b>blog1</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
-          <li>http://<b>blog2</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
+          <li><?php echo $blogProtocol;?>://<b>blog1</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
+          <li><?php echo $blogProtocol;?>://<b>blog2</b>.<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/</li>
         </ul>
         <ul id="typePath"<?php echo ($rewrite == 1 ? '' : ' style="display:none"');?>>
-          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog1</b></li>
-          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog2</b></li>
+          <li><?php echo $blogProtocol;?>://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog1</b></li>
+          <li><?php echo $blogProtocol;?>://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<b>blog2</b></li>
         </ul>
         <ul id="typeSingle" <?php echo (empty($_POST['disableRewrite']) ? 'style="display:none"' : '');?>>
-          <li>http://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == 80 ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<?php echo (empty($_POST['disableRewrite']) ? '' : 'blog/');?></li>
+          <li><?php echo $blogProtocol;?>://<?php echo $domain;?><?php echo ($_SERVER['SERVER_PORT'] == $blogDefaultPort ? '' : ":{$_SERVER['SERVER_PORT']}");?><?php echo $path;?>/<?php echo (empty($_POST['disableRewrite']) ? '' : 'blog/');?></li>
         </ul>
         </td>
       </tr>
@@ -1155,7 +1165,7 @@ RewriteRule ^testrewrite$ setup.php [L]"
 		$baseLanguage = POD::escapeString( $_POST['Lang']);
 		$baseTimezone = POD::escapeString( substr(_t('default:Asia/Seoul'),8));
 
-		if(POD::dbms() == 'MySQL' || POD::dbms() == 'MySQLi') {
+		if(POD::dbms() == 'MySQLi') {
 	        $charset = 'DEFAULT CHARSET=utf8';
 //    	    if (!@POD::query('SET CHARACTER SET utf8'))
   //      	    $charset = 'TYPE=MyISAM';
@@ -1376,8 +1386,9 @@ ini_set('display_errors', 'off');
 				// Users must copy these rules to IsapiRewrite4.ini
 				$htaccessContent = <<<EOF
 RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L,U]
+RewriteRule ^{$path}/attach/([0-9]+/.+)\$ {$path}/user/attach/\$1 [L,U]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^{$path}/(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L,U]
+RewriteRule ^{$path}/user+/+(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L,U]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L,U]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1390,8 +1401,9 @@ EOF;
 				// Users must import these rules into URL Rewrite module.
 				$htaccessContent = <<<EOF
 RewriteRule ^{$path}/(thumbnail)/([0-9]+/.+)\$ {$path}/cache/\$1/\$2 [L]
+RewriteRule ^{$path}/attach/([0-9]+/.+)\$ {$path}/user/attach/\$1 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^{$path}/(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
+RewriteRule ^{$path}/user+/+(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^{$path}/([^?]+[^/])\$ {$path}/\$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1408,8 +1420,9 @@ EOF;
 RewriteEngine On
 RewriteBase {$path}/
 RewriteRule ^(thumbnail)/([0-9]+/.+)\$ cache/\$1/\$2 [L]
+RewriteRule ^attach/([0-9]+/.+)\$ user/attach/\$1 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
+RewriteRule ^user+/+(cache)+/+(.+[^/]).(cache|xml|txt|log)\$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])\$ \$1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f
@@ -1424,15 +1437,18 @@ EOF;
     	    }
 		}
 
+        $blogProtocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+        $blogDefaultPort = isset($_SERVER['HTTPS']) ? 443 : 80;
+
         switch ($_POST['type']) {
             case 'domain':
-                $blogURL = "http://{$_POST['blog']}.{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
+                $blogURL = "$blogProtocol://{$_POST['blog']}.{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != $blogDefaultPort ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
             case 'path':
-                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?')."/{$_POST['blog']}";
+                $blogURL = "$blogProtocol://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != $blogDefaultPort ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?')."/{$_POST['blog']}";
                 break;
             case 'single':
-                $blogURL = "http://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != 80 ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
+                $blogURL = "$blogProtocol://{$_POST['domain']}" . ($_SERVER['SERVER_PORT'] != $blogDefaultPort ? ":{$_SERVER['SERVER_PORT']}" : '') . "$path".(empty($_POST['disableRewrite']) ? '' : '/index.php?');
                 break;
         }
 ?>

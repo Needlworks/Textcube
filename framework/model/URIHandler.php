@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -8,7 +8,7 @@ class URIError extends Exception {};
 final class Model_URIHandler extends Singleton
 {
 	public $uri, $suri;
-	public static $blogid;
+	public $blogid;
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}

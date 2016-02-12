@@ -1,14 +1,14 @@
 <?php
-/* Subscription statistics plugin for Textcube 1.10
+/* Subscription statistics plugin for Textcube 2.0
    ----------------------------------
-   Version 2.5
+   Version 2.6
    Needlworks development team.
 
    Creator          : inureyes
    Maintainer       : gendoh, inureyes, graphittie
 
    Created at       : 2006.9.21
-   Last modified at : 2015.1.20
+   Last modified at : 2015.7.2
 
  This plugin shows RSS subscription statistics on administration menu.
  For the detail, visit http://forum.tattersite.com/ko
@@ -25,8 +25,9 @@
 */
 function PN_Subscription_Default()
 {
-	global $pluginMenuURL, $pluginSelfParam, $totalSubscribers, $updatedSubscribers;
+	global $totalSubscribers, $updatedSubscribers;
 
+	$context = Model_Context::getInstance();
 	$blogid = getBlogId();
 	$temp = getSubscriptionStatistics($blogid);
 	$aggregatorInfo = organizeAggregatorInfo($temp);

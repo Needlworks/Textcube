@@ -1,10 +1,10 @@
 <?php
 /* WikiCube
    ----------------------------------
-   Version 0.14
+   Version 0.15
    Starts at        : Apr. 5, 2006
-   Last modified at : Mar. 12, 2015 (WIP)
-   
+   Last modified at : July. 27, 2015 (WIP)
+
    Jeongkyu Shin.
    E-mail : inureyes@gmail.com
 
@@ -19,6 +19,7 @@
  the Free Software Foundation; either version 2 of the License, or
  (at your option) any later version.
 
+ 15. Prepare for raw editor support.
  14. 2.0-compatible fixes.
  13. user-custom link added. [[printWord|realLink]]
  12. category link added.
@@ -35,7 +36,6 @@ function WikiCube_FormatContent($target, $mother) {
         $config['mode'] = 'entry';
     }
 
-    $context = Model_Context::getInstance();
     $pattern = array(
         '/\[\[(.*?)\|(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/' . $config['mode'] . '/$2' . '">$1</a>',
         '/\[\[tg:(.*?)\]\]/' => '<a href="' . $context->getProperty('uri.blog') . '/tag/$1' . '">$1</a>',
@@ -55,7 +55,6 @@ function WikiCube_FormatErrorPage($target) {
         $config['mode'] = 'entry';
     }
 
-    $context = Model_Context::getInstance();
     $additional = '<div style="border:none;width:100%;text-align:center;"><a href="' . $context->getProperty('uri.blog') .
         '/owner/entry/post?slogan=' . $context->getProperty('suri.value') .
         ($config['mode'] == 'entry' ? '' : '&category=-3') .
@@ -71,31 +70,37 @@ function WikiCube_AddButton($target) {
         ?>
         <script type="text/javascript">
             editor.addCommand('wikicubeAddLink', function () {
-                selectedContent = editor.selection.getContent();
-                editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
+                if (editor.editormode == 'wysiwyg') {
+                  selectedContent = editor.selection.getContent();
+                  editor.execCommand('mceInsertContent', false, "[[" + selectedContent + "]]");
+                }
             });
             editor.addButton('wikicubeAddWikiLink', {
                 title: 'Add Wiki Link',
                 cmd: 'wikicubeAddLink',
-                icon: 'save'
+                icon: 'link'
             });
             editor.addCommand('wikicubeAddTagLink', function () {
-                selectedContent = editor.selection.getContent();
-                editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
+                if (editor.editormode == 'wysiwyg') {
+                    selectedContent = editor.selection.getContent();
+                    editor.execCommand('mceInsertContent', false, "[[tg:" + selectedContent + "]]");
+                }
             });
             editor.addButton('wikicubeAddTagLink', {
                 title: 'Add Wiki Tag Link',
                 cmd: 'wikicubeAddTagLink',
-                icon: 'save'
+                icon: 'bookmark'
             });
             editor.addCommand('wikicubeAddCategoryLink', function () {
-                selectedContent = editor.selection.getContent();
-                editor.execCommand('mceInsertContent', false, "[[ct:" + selectedContent + "]]");
+                if (editor.editormode == 'wysiwyg') {
+                    selectedContent = editor.selection.getContent();
+                    editor.execCommand('mceInsertContent', false, "[[ct:" + selectedContent + "]]");
+                }
             });
             editor.addButton('wikicubeAddCategoryLink', {
                 title: 'Add Wiki Link',
                 cmd: 'wikicubeAddCategoryLink',
-                icon: 'save'
+                icon: 'link'
             });
             editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddWikiLink';
             editor.settings.toolbar2 = editor.settings.toolbar2 + ' wikicubeAddTagLink';
@@ -115,9 +120,8 @@ function WikiCube_DataHandler($data) {
 
     if (!array_key_exists('mode', $config)) {
         return false;
-    } else {
-        return true;
     }
+    return true;
 }
 
 ?>

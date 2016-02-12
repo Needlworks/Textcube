@@ -1,12 +1,12 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 class PluginCustomConfig {
     var $usable = false;
 
-    function PluginCustomConfig($blogid, $pluginName) {
+    function __construct($blogid, $pluginName) {
         $this->blogid = $blogid;
         $this->pluginName = $pluginName;
         $this->reset();
