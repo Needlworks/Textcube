@@ -24,8 +24,10 @@ class Utils_Misc {
             } else {
                 if ($size < 1073741824) {
                     return sprintf("%0.2f", $size / 1048576) . " MB";
-                } else {
+                } else if ($size < 1099511627776) {
                     return sprintf("%0.2f", $size / 1073741824) . " GB";
+                } else {
+                    return sprintf("%0.2f", $size / 1099511627776) . " TB";
                 }
             }
         }
