@@ -89,6 +89,11 @@ class Utils_Misc {
                     return 'image/tiff';
                 case 'bmp':
                     return 'image/bmp';
+                case 'svg':
+                case 'svgz':
+                    return 'image/svg+xml';
+                case 'webp':
+                    return 'image/webp';
                 // Sound
                 case 'wav':
                     return 'audio/x-wav';
@@ -166,6 +171,8 @@ class Utils_Misc {
                     return 'application/vnd.openxmlformats';
                 case 'csv':
                     return 'text/comma-separated-values';
+                case 'md':
+                    return 'text/markdown';
                 // Multimedia
                 case 'mpeg':
                 case 'mpg':
