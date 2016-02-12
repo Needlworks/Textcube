@@ -177,6 +177,8 @@ class Utils_Misc {
                 case 'avi':
                 case 'wmv':
                     return 'video/x-msvideo';
+                case 'webm':
+                    return 'video/webm';
                 // Compression
                 case 'bz2':
                     return 'application/x-bzip2';
