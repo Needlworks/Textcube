@@ -271,7 +271,7 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 					list($newProperty, $onclickFlag) = FM_TTML_createNewProperty($attributes[1], $contentWidth, $attributes[2]);
 
 					if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
-						$buf = '<div class="imageblock center">' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty, $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div>$attributes[3]</div>";
+						$buf = '<div class="imageblock center">' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty, $folderPath, $folderURL, 1, $useAbsolutePath) . "</div><div class=\"cap1\">$attributes[3]</div>";
 					} else {
 						if (trim($attributes[3]) == '') {
 							$caption = '';
@@ -298,8 +298,8 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 					list($newProperty1, $onclickFlag1) = FM_TTML_createNewProperty($attributes[1], $eachImageWidth, $attributes[2]);
 					list($newProperty2, $onclickFlag2) = FM_TTML_createNewProperty($attributes[4], $eachImageWidth, $attributes[5]);
 					if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
-						$buf = '<div>' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
-						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
+						$buf = '<div>' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div class=\"cap1\">$attributes[3]</div>";
+						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div class=\"cap1\">$attributes[6]</div>";
 					} else {
 						$cap1 = strlen(trim($attributes[3])) > 0 ? '<p class="cap1">' . $attributes[3] . '</p>' : '';
 						$cap2 = strlen(trim($attributes[6])) > 0 ? '<p class="cap1">' . $attributes[6] . '</p>' : '';
@@ -314,9 +314,9 @@ function FM_TTML_bindAttachments($entryId, $folderPath, $folderURL, $content, $u
 					list($newProperty2, $onclickFlag2) = FM_TTML_createNewProperty($attributes[4], $eachImageWidth, $attributes[5]);
 					list($newProperty3, $onclickFlag3) = FM_TTML_createNewProperty($attributes[7], $eachImageWidth, $attributes[8]);
 					if ($context->getProperty('blog.displaymode','desktop')=='mobile') {
-						$buf = '<div>' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[3]</div>";
-						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[6]</div>";
-						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[7],$newProperty3, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div>$attributes[9]</div>";
+						$buf = '<div>' . FM_TTML_getAttachmentBinder($attributes[1], $newProperty1, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div class=\"cap1\">$attributes[3]</div>";
+						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[4], $newProperty2, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div class=\"cap1\">$attributes[6]</div>";
+						$buf .= '<div>' . FM_TTML_getAttachmentBinder($attributes[7],$newProperty3, $folderPath, $folderURL, 1, $useAbsolutePath, $bRssMode) . "</div><div class=\"cap1\">$attributes[9]</div>";
 					} else {
 						$cap1 = strlen(trim($attributes[3])) > 0 ? '<p class="cap1">' . $attributes[3] . '</p>' : '';
 						$cap2 = strlen(trim($attributes[6])) > 0 ? '<p class="cap1">' . $attributes[6] . '</p>' : '';
