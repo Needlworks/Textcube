@@ -1,0 +1,19 @@
+Stand-alone mode
+=====================
+
+From version 2.0, Textcube supports stand-alone runtime mode. Stand-alone mode does not require web servers and databases. It uses sqlite as a database backend, and PHP webserver as a web server.
+
+Stand-alone mode requires:
+
+ * PHP with server support
+ * SQLite support in PHP interpreter
+ * Correct configuration for the runtime environment
+
+Textcube desktop mode
+=====================
+
+Based on stand-alone mode, Textcube can run as desktop app with an appropriate container and settings.
+
+Sample configurations are prepared at `framework/id/textcubedesktop`. By adding `load` file in framework/id, you can enable textcube desktop mode. `load` contains the configuration directory name. (Same as camouflage feature in Textcube.)
+
+We will distribute Textcube desktop app soon after testing. Stay tuned. :)

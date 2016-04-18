@@ -9,9 +9,6 @@ $__serviceSetting = array();
 class Setting {
     static function fetchConfigVal($DATA) {
         return is_null($DATA) ? null : unserialize($DATA);
-//		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.		
-//		if (is_array($DATA)) return $DATA;
-//		return Setting::fetchConfigVal_Legacy($DATA);
     }
 
     // For Blog-scope setting
