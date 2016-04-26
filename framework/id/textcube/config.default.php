@@ -5,7 +5,7 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'Textcube');
-define('TEXTCUBE_VERSION_ID', '1.10.9');
+define('TEXTCUBE_VERSION_ID', '1.10.10');
 define('TEXTCUBE_REVISION', 'root-main-branch1.10-r42');
 define('TEXTCUBE_CODENAME', 'Tempo primo');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID.' : '.TEXTCUBE_CODENAME);
