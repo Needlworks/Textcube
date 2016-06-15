@@ -348,7 +348,7 @@ function endProgress() {
 
 
 if(isMoz) {
-	XMLDocument.prototype.selectNodes= function(path) {
+	XMLDocument.prototype.selectNodes = function(path) {
 		var oEvaluator = new XPathEvaluator();
 		var oResult = oEvaluator.evaluate(path, this, null, XPathResult.ORDERER_NODE_ITERATOR_TYPE, null);
 		var result = new Array();
