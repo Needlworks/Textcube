@@ -290,7 +290,7 @@ class DBAdapter implements IAdapter {
 		return self::$db->rollback();
 	}
 	public static function commit() {
-		self::$db->commit(); // Auto commit.
+		//self::$db->commit(); // Auto commit.
 		return true;
 	}
 
