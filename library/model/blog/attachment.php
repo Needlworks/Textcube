@@ -33,9 +33,13 @@ function getAttachments($blogid, $parent, $orderBy = null, $sort = 'ASC') {
 function getAttachmentsFromCache($blogid, $value, $filter = 'parent') {
     global $__gCacheAttachment;
     $result = array();
-	if (!empty($__gCacheAttachment)) {
+	if (!empty($__gCacheAttachment) && gettype($__gCacheAttachment) == "array") {
 		foreach ($__gCacheAttachment as $id => $info) {
-            $row = array_search($value, $info);
+			if (gettype($info) == "array") {
+	            $row = array_search($value, $info);
+			} else {
+				$row = FALSE;
+			}
             if ($row !== FALSE) {
                 array_push($result, $__gCacheAttachment[$id]);
             }
@@ -46,9 +50,13 @@ function getAttachmentsFromCache($blogid, $value, $filter = 'parent') {
 
 function getAttachmentFromCache($blogid, $value, $filter = 'name') {
     global $__gCacheAttachment;
-    if (!empty($__gCacheAttachment)) {
+	if (!empty($__gCacheAttachment) && gettype($__gCacheAttachment) == "array") {
         foreach ($__gCacheAttachment as $id => $info) {
-            $row = array_search($value, $info);
+			if (gettype($info) == "array") {
+            	$row = array_search($value, $info);
+			} else {
+				$row = FALSE;
+			}
             //if($row && $row == $filter) return $__gCacheAttachment[$id];
             if ($row !== FALSE) {
                 return $__gCacheAttachment[$id];
