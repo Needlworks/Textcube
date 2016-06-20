@@ -14,7 +14,7 @@
   <author xml:lang="ja" link="http://create74.com">Yong-ju, Park (J.Parker / Needlworks)</author>
   <safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="yes" />
   <requirements>
-    <textcube>1.7</textcube>
+    <textcube>2.0</textcube>
   </requirements>
   <binding>
   	<listener event="AddPost">MT_Cover_getRecentEntries_purgeCache</listener>
