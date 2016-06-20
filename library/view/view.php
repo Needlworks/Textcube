@@ -578,13 +578,13 @@ function getCategoriesViewInOwner($totalPosts, $categories, $selected) {
         $children = array();
         foreach ($category1['children'] as $category2) {
             if (getCategoryVisibility($blogid, $category1['id']) == 2) {
-                array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+                array_push($children, array('id' => $category2['id'], 'label' => (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . URL::encode($category2['name']) . "&name2=" . URL::encode($category2['name']), 'children' => array()));
             } else {
-                array_push($children, array('id' => $category2['id'], 'label' => '[!] ' . (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category2['name']) . "&name2=" . rawurlencode($category2['name']), 'children' => array()));
+                array_push($children, array('id' => $category2['id'], 'label' => '[!] ' . (getCategoryVisibility($blogid, $category2['id']) == 2 ? $category2['name'] : _t('(비공개)') . ' ' . $category2['name']), 'value' => $category2['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?id={$category2['id']}&entries={$category2['entries']}&priority={$category1['priority']}&name1=" . URL::encode($category2['name']) . "&name2=" . URL::encode($category2['name']), 'children' => array()));
             }
         }
         if ($category1['id'] != 0) {
-            array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id']) == 2 ? $category1['name'] : _t('(비공개)') . ' ' . $category1['name']), 'value' => $category1['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . rawurlencode($category1['name']), 'children' => $children));
+            array_push($tree['children'], array('id' => $category1['id'], 'label' => (getCategoryVisibility($blogid, $category1['id']) == 2 ? $category1['name'] : _t('(비공개)') . ' ' . $category1['name']), 'value' => $category1['entriesinlogin'], 'link' => $context->getProperty('uri.blog') . "/owner/entry/category/?&id={$category1['id']}&entries={$category1['entries']}&priority={$category1['priority']}&name1=" . URL::encode($category1['name']), 'children' => $children));
         }
     }
     ob_start();
@@ -1090,7 +1090,7 @@ function getAuthorListView($authorInfo, $template) {
     if (!empty($authorInfo)) {
         foreach ($authorInfo as $user) {
             $view = "$template";
-            $permalink = $context->getProperty('uri.blog') . "/author/" . rawurlencode($user['name']);
+            $permalink = $context->getProperty('uri.blog') . "/author/" . URL::encode($user['name']);
             dress('author_rep_link', $permalink, $view);
             dress('author_rep_name', $user['name'], $view);
 //		dress('author_rep_post_count', $user['postcount'], $view);
@@ -1132,7 +1132,7 @@ function getRecentItemsView($entries, $entryView, $entryItemView, $type = 'Notic
             $name = User::getName($entry['userid']);
             dress($prefix . '_rep_link', $context->getProperty('uri.blog') . "/" . $prefix . "/$entryURL", $itemView);
             dress($prefix . '_rep_author', $name, $itemView);
-            dress($prefix . '_rep_author', $context->getProperty('uri.blog') . "/author/" . rawurlencode($name), $itemView);
+            dress($prefix . '_rep_author', $context->getProperty('uri.blog') . "/author/" . URL::encode($name), $itemView);
             $itemsView .= $itemView;
         }
         dress('rct_' . $prefix . '_rep', $itemsView, $entryView);
@@ -1160,7 +1160,7 @@ function getRecentEntriesView($entries, $entriesView = null, $template = null) {
         dress('rctps_rep_title', setTempTag("recent_entry_{$entry['id']}"), $view);
         $name = User::getName($entry['userid']);
         dress('rctps_rep_author', $name, $view);
-        dress('rctps_rep_author_link', $context->getProperty('uri.blog') . "/author/" . rawurlencode($name), $view);
+        dress('rctps_rep_author_link', $context->getProperty('uri.blog') . "/author/" . URL::encode($name), $view);
         dress('rctps_rep_time', fireEvent('ViewRecentPostDate', Timestamp::format2($entry['published']), $entry['published']), $view);
         dress('rctps_rep_rp_cnt', "<span id=\"commentCountOnRecentEntries{$entry['id']}\">" . ($entry['comments'] > 0 ? "{$entry['comments']}" : '') . '</span>', $view);
         $recentEntriesView .= $view;
