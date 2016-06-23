@@ -755,18 +755,18 @@ printScriptCheckTextcubeVersion();
 												<option value="-4"<?php echo ($categoryId == -4 ? ' selected="selected"' : '');?>><?php echo _t('서식');?></option>
 											</optgroup>
 											<optgroup class="category" label="<?php echo _t('분류');?>">
-												<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'));?></option>
+												<option value="0"<?php echo ($categoryId == 0 ? ' selected="selected"' : '');?>><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'), ENT_QUOTES, "UTF-8");?></option>
 	<?php
 	foreach (getCategories($blogid) as $category) {
 		if ($category['id'] != 0) {
 	?>
-												<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+												<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $categoryId ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?></option>
 	<?php
 		}
 		foreach ($category['children'] as $child) {
 			if ($category['id'] != 0) {
 	?>
-												<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+												<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $categoryId ? ' selected="selected"' : '');?>>&nbsp;― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name'], ENT_QUOTES, "UTF-8");?></option>
 	<?php
 			}
 		}
@@ -805,13 +805,13 @@ if (count($categories) >0) {
 foreach ($categories as $category) {
 	if ($category['id']!= 0) {
 ?>
-										<option class="parent-category" value="category_<?php echo $category['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>"><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+										<option class="parent-category" value="category_<?php echo $category['id'];?>" label="<?php echo htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?>"><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 	}
 	foreach ($category['children'] as $child) {
 		if ($category['id']!= 0) {
 ?>
-										<option class="child-category" value="category_<?php echo $child['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>/<?php echo htmlspecialchars($child['name']);?>">― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+										<option class="child-category" value="category_<?php echo $child['id'];?>" label="<?php echo htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?>/<?php echo htmlspecialchars($child['name'], ENT_QUOTES, "UTF-8");?>">― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 		}
 	}
@@ -934,9 +934,9 @@ if (sizeof($entries) == 0) {
 <?php
 	$editmode = 'entry';
 	$entryModifyLink = $entry['id'];
-	$contentLength = 75-Utils_Unicode::lengthAsEm(htmlspecialchars($entry['title']));
+	$contentLength = 75-Utils_Unicode::lengthAsEm(htmlspecialchars($entry['title'], ENT_QUOTES, "UTF-8"));
 ?>
-												<a href="<?php echo $context->getProperty('uri.blog');?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>" onclick="document.getElementById('list-form').action='<?php echo $context->getProperty('uri.blog');?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title']);?></a>
+												<a href="<?php echo $context->getProperty('uri.blog');?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>" onclick="document.getElementById('list-form').action='<?php echo $context->getProperty('uri.blog');?>/owner/<?php echo $editmode;?>/edit/<?php echo $entryModifyLink;?>'<?php echo ($entry['draft'] ? ("+(confirm('" . _t('임시 저장본을 보시겠습니까?') . "') ? '?draft' : '')") : '');?>; document.getElementById('list-form').submit(); return false;"><?php echo htmlspecialchars($entry['title'], ENT_QUOTES, "UTF-8");?></a>
 												<span class="description"><?php echo (($contentLength > 0) ? Utils_Unicode::lessenAsEm(removeAllTags(strip_tags($entry['content'])),$contentLength) : '');?></span>
 											</td>
 											<td class="category">
@@ -947,7 +947,7 @@ if (sizeof($entries) == 0) {
 <?php
 	} else if (!empty($entry['categoryLabel'])) {
 ?>
-												<a id="category_<?php echo $entry['id'];?>" class="categorized" href="<?php echo $context->getProperty('uri.blog');?>/owner/entry?category=<?php echo $entry['category'];?>"><?php echo htmlspecialchars($entry['categoryLabel']);?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
+												<a id="category_<?php echo $entry['id'];?>" class="categorized" href="<?php echo $context->getProperty('uri.blog');?>/owner/entry?category=<?php echo $entry['category'];?>"><?php echo htmlspecialchars($entry['categoryLabel'], ENT_QUOTES, "UTF-8");?><?php echo ($entry['visibility'] < 0 ? '('._t('예약된 글').')' : '');?></a>
 <?php
 	} else if ($entry['category'] == -3) {
 ?>
@@ -1078,13 +1078,13 @@ if($entry['category'] < 0) {
 		foreach ($categories as $category) {
 			if ($category['id']!= 0) {
 ?>
-												<option class="parent-category" value="category_<?php echo $category['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>"><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+												<option class="parent-category" value="category_<?php echo $category['id'];?>" label="<?php echo htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?>"><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 			}
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-												<option class="child-category" value="category_<?php echo $child['id'];?>" label="<?php echo htmlspecialchars($category['name']);?>/<?php echo htmlspecialchars($child['name']);?>">― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+												<option class="child-category" value="category_<?php echo $child['id'];?>" label="<?php echo htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?>/<?php echo htmlspecialchars($child['name'], ENT_QUOTES, "UTF-8");?>">― <?php echo ($category['visibility'] > 1 && $child['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 				}
 			}
@@ -1181,7 +1181,7 @@ for ($i = 10; $i <= 30; $i += 5) {
 
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($searchKeyword);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($searchKeyword, ENT_QUOTES, "UTF-8");?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
