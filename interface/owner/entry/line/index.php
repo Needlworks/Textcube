@@ -100,7 +100,7 @@ EOS
 								request.send("page="+page
 									+"&lines="+lines<?php
 	if(isset($conditions['category'])) echo '+"&category='.$conditions['category'].'"';
-	if(isset($conditions['keyword'])) echo '+"&keyword='.htmlspecialchars($searchKeyword).'"';
+	if(isset($conditions['keyword'])) echo '+"&keyword='.htmlspecialchars($searchKeyword, ENT_QUOTES, "UTF-8").'"';
 ?>);
 							}
 							
@@ -176,7 +176,7 @@ EOS
 								
 								<div class="section">
 									<label for="search"><?php echo _t('제목');?>, <?php echo _t('내용');?></label>
-									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($searchKeyword);?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
+									<input type="text" id="search" class="input-text" name="search" value="<?php echo htmlspecialchars($searchKeyword, ENT_QUOTES, "UTF-8");?>" onkeydown="if (event.keyCode == '13') { document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit(); }" />
 									<input type="hidden" name="withSearch" value="" />
 									<input type="submit" class="search-button input-button" value="<?php echo _t('검색');?>" onclick="document.getElementById('search-form').withSearch.value = 'on'; document.getElementById('search-form').submit();" />
 								</div>
