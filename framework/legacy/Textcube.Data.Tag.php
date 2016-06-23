@@ -14,7 +14,7 @@ class Tag {
     }
 
     /*@static@*/
-    function addTagsWithEntryId($blogid, $entry, /*string array*/
+    static function addTagsWithEntryId($blogid, $entry, /*string array*/
                                 $taglist) {
         global $database;
 
@@ -72,7 +72,7 @@ class Tag {
     }
 
     /*@static@*/
-    function modifyTagsWithEntryId($blogid, $entry, /*string array*/
+    static unction modifyTagsWithEntryId($blogid, $entry, /*string array*/
                                    $taglist) {
         global $database;
 
@@ -89,7 +89,7 @@ class Tag {
 
         // step 1. Get deleted Tag
         $tmpoldtaglist = POD::queryColumn("SELECT name FROM {$database['prefix']}Tags
-			LEFT JOIN {$database['prefix']}TagRelations ON tag = id 
+			LEFT JOIN {$database['prefix']}TagRelations ON tag = id
 			WHERE blogid = $blogid AND entry = $entry");
         if ($tmpoldtaglist === null) {
             $tmpoldtaglist = array();
@@ -179,7 +179,7 @@ class Tag {
     }
 
     /*@static@*/
-    function deleteTagsWithEntryId($blogid, $entry) {
+    static function deleteTagsWithEntryId($blogid, $entry) {
         global $database;
         $taglist = POD::queryColumn("SELECT tag FROM {$database['prefix']}TagRelations WHERE blogid = $blogid AND entry = $entry");
         if (!is_null($taglist)) {
@@ -200,7 +200,7 @@ class Tag {
         }
     }
 
-    function getTagsWithEntryId($blogid, $entry) {
+    static function getTagsWithEntryId($blogid, $entry) {
         global $database;
         $tags = array();
         foreach (POD::queryAll("SELECT DISTINCT name FROM {$database['prefix']}Tags, {$database['prefix']}TagRelations WHERE id = tag AND blogid = $blogid AND entry = {$entry['id']} ORDER BY name") as $tag) {
@@ -209,7 +209,7 @@ class Tag {
         return $tags;
     }
 
-    function _getMaxId() {
+    static function _getMaxId() {
         global $database;
         $maxId = POD::queryCell("SELECT max(id) FROM {$database['prefix']}Tags");
         if ($maxId) {

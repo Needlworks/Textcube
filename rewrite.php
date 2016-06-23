@@ -3,7 +3,12 @@
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 define('ROOT',dirname(__FILE__));
-require_once(ROOT.'/framework/id/textcube/Dispatcher.php');
+if (file_exists(ROOT . '/framework/id/load')) {
+	$app_id = trim(file_get_contents(ROOT . '/framework/id/load'));
+} else {
+	$app_id = 'textcube';
+}
+require_once(ROOT.'/framework/id/'.$app_id.'/Dispatcher.php');
 /** Dispatching Interface request via URI */
 $dispatcher = Dispatcher::getInstance();
 /** Interface Loading */

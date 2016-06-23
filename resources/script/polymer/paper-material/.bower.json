@@ -40,6 +40,5 @@
   },
   "_source": "git://github.com/polymerelements/paper-material.git",
   "_target": "^1.0.6",
-  "_originalSource": "polymerelements/paper-material",
-  "_direct": true
+  "_originalSource": "polymerelements/paper-material"
 }

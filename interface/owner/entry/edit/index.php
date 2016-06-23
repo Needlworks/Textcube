@@ -105,7 +105,7 @@ if (defined('__TEXTCUBE_POST__')) {
 						<script type="text/javascript">
 							//<![CDATA[
 								var enclosured = "<?php echo getEnclosure($entry['id']);?>";
-								var originalPermalink = "<?php echo htmlspecialchars($entry['slogan']);?>";
+								var originalPermalink = "<?php echo htmlspecialchars($entry['slogan'], ENT_QUOTES, "UTF-8");?>";
 
 								window.onerror = function(errType, errURL,errLineNum) {
 									window.status = "Error: " + errType +" (on line " + errLineNum + " of " + errURL + ")";
@@ -657,7 +657,7 @@ if (defined('__TEXTCUBE_POST__')) {
 												<div id="starred" class="<?php echo ($entry['starred'] == 2 ? 'star-icon' : 'unstar-icon');?>">
 													<a href="#void" onclick="setStar(); return false;" title="<?php echo _t('별표를 줍니다.');?>"><span class="text"><?php echo _t('별표');?></span></a>
 												</div>
-												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title']);?>" onkeypress="return preventEnter(event);" size="60" />
+												<input type="text" id="title" class="input-text" name="title" value="<?php echo htmlspecialchars($entry['title'], ENT_QUOTES, "UTF-8");?>" onkeypress="return preventEnter(event);" size="60" />
 											</dd>
 										</dl>
 									</div>
@@ -673,18 +673,18 @@ if (defined('__TEXTCUBE_POST__')) {
 												<div class="entrytype-post">
 													<input type="radio" id="type_post" class="radio" name="entrytype" value="0" onclick="checkCategory('type_post')"<?php echo ($entry['category'] >= 0 ? ' checked="checked"' : '');?> /><label for="type_post"><?php echo _t('글');?></label>
 													<select id="category" name="category"<?php if($isKeyword) echo ' disabled="disabled"';?>>
-														<option value="0"><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'));?></option>
+														<option value="0"><?php echo htmlspecialchars(getCategoryNameById($blogid,0) ? getCategoryNameById($blogid,0) : _t('전체'), ENT_QUOTES, "UTF-8");?></option>
 <?php
 		foreach (getCategories($blogid) as $category) {
 			if ($category['id']!= 0) {
 ?>
-														<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $entry['category'] ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name']);?></option>
+														<option value="<?php echo $category['id'];?>"<?php echo ($category['id'] == $entry['category'] ? ' selected="selected"' : '');?>><?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($category['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 			}
 			foreach ($category['children'] as $child) {
 				if ($category['id']!= 0) {
 ?>
-														<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $entry['category'] ? ' selected="selected"' : '');?>>&nbsp;― <?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name']);?></option>
+														<option value="<?php echo $child['id'];?>"<?php echo ($child['id'] == $entry['category'] ? ' selected="selected"' : '');?>>&nbsp;― <?php echo ($category['visibility'] > 1 ? '' : _t('(비공개)')).htmlspecialchars($child['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 				}
 			}
@@ -705,7 +705,7 @@ if (defined('__TEXTCUBE_POST__')) {
 <?php
 	foreach (getAllFormatters() as $key => $formatter) {
 ?>
-												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contentformatter'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($formatter['name']);?></option>
+												<option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8");?>"<?php echo ($entry['contentformatter'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($formatter['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 	}
 ?>
@@ -715,14 +715,14 @@ if (defined('__TEXTCUBE_POST__')) {
 <?php
 	foreach ($editors as $key => $editor) {
 ?>
-												<option value="<?php echo htmlspecialchars($key);?>"<?php echo ($entry['contenteditor'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($editor['name']);?></option>
+												<option value="<?php echo htmlspecialchars($key, ENT_QUOTES, "UTF-8");?>"<?php echo ($entry['contenteditor'] == $key ? ' selected="selected"' : '');?>><?php echo htmlspecialchars($editor['name'], ENT_QUOTES, "UTF-8");?></option>
 <?php
 	}
 ?>
 											</select></dd>
 										</dl>
 										<div id="formatbox-container" class="container"></div>
-										<div class="editorbox-container"><textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content']);?></textarea></div>
+										<div class="editorbox-container"><textarea id="editWindow" name="content" cols="80" rows="20"><?php echo htmlspecialchars($entry['content'], ENT_QUOTES, "UTF-8");?></textarea></div>
 										<div id="status-container" class="container"><span id="pathStr"><?php echo _t('path');?></span><span class="divider"> : </span><span id="pathContent"></span></div>
 <?php
 	$view = fireEvent('AddPostEditorToolbox', '');
@@ -749,7 +749,7 @@ if (count($templateLists) == 0) {
 	echo '												<dd class="noItem">' . _t('등록된 서식이 없습니다.') . '</dd>' . CRLF;
 } else {
 	foreach($templateLists as $templateList) {
-		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].',\''.htmlspecialchars($templateList['title']).'\');return false;">'.htmlspecialchars($templateList['title']).'</a></dd>'.CRLF;
+		echo '												<dd><a href="#void" onclick="entryManager.loadTemplate('.$templateList['id'].',\''.htmlspecialchars($templateList['title'], ENT_QUOTES, "UTF-8").'\');return false;">'.htmlspecialchars($templateList['title'], ENT_QUOTES, "UTF-8").'</a></dd>'.CRLF;
 	}
 }
 ?>
@@ -860,7 +860,7 @@ printEntryFileUploadButton($entry['id']);
 											<dl id="permalink-line" class="line"<?php if($isKeyword) echo ' style="display: none"';?>>
 												<dt><label for="permalink"><?php echo _t('절대 주소');?></label></dt>
 												<dd class="permalink-input">
-													<samp id="permalink-prefix"><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" onkeypress="return preventEnter(event);" value="<?php echo htmlspecialchars($entry['slogan']);?>" />
+													<samp id="permalink-prefix"><?php echo _f('%1/entry/', link_cut(getBlogURL()));?></samp><input type="text" id="permalink" class="input-text" name="permalink" onkeypress="return preventEnter(event);" value="<?php echo htmlspecialchars($entry['slogan'], ENT_QUOTES, "UTF-8");?>" />
 												</dd>
 												<dd>
 													<p>* <?php echo _t('입력하지 않으면 글의 제목이 절대 주소가 됩니다.');?></p>
@@ -947,7 +947,7 @@ if (isset($_GET['popupEditor'])) {
 								<input type="hidden" name="categoryAtHome" value="<?php echo (isset($_POST['category']) ? $_POST['category'] : '0');?>" />
 								<input type="hidden" name="page" value="<?php echo $suri['page'];?>" />
 								<input type="hidden" name="withSearch" value="<?php echo (empty($_POST['search']) ? '' : 'on');?>" />
-								<input type="hidden" name="search" value="<?php echo (isset($_POST['search']) ? htmlspecialchars($_POST['search']) : '');?>" />
+								<input type="hidden" name="search" value="<?php echo (isset($_POST['search']) ? htmlspecialchars($_POST['search'], ENT_QUOTES, "UTF-8") : '');?>" />
 <?php
 if (isset($entry['latitude']) && !is_null($entry['latitude'])) {
 ?>

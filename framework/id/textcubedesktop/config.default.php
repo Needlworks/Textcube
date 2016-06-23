@@ -5,7 +5,7 @@
 
 // Define basic signatures.
 define('TEXTCUBE_NAME', 'TextcubeDesktop');
-define('TEXTCUBE_VERSION_ID', '2.0 : Alpha 4');
+define('TEXTCUBE_VERSION_ID', '2.0.0 : Beta 1')
 define('TEXTCUBE_REVISION', 'root-main-trunk');
 define('TEXTCUBE_CODENAME', 'inquieto');
 define('TEXTCUBE_VERSION', TEXTCUBE_VERSION_ID . ' : ' . TEXTCUBE_CODENAME);
@@ -28,10 +28,10 @@ define("XPATH_LIBRARY_ROOT", ROOT . "/library/contrib/phpxpath/");
 define("Auth_OpenID_NO_MATH_SUPPORT", 1);
 define("OPENID_PASSWORD", "-OPENID-");
 
-define('JQUERY_VERSION', '1.11.2.min');
+define('JQUERY_VERSION', '1.11.3.min');
 define('JQUERY_BPOPUP_VERSION', '0.10.0.min');
 define('JQUERY_UI_VERSION', '1.11.2.min');
-define('LODASH_VERSION', '2.4.1.min');
+define('LODASH_VERSION', '3.10.0.min');
 
 // App-specific intialization routine.
 /// Prepare Textcube App storage / cache / attachment storage.

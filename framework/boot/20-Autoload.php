@@ -7,7 +7,7 @@
 require_once(ROOT . '/framework/legacy/Needlworks.PHP.Loader.php');
 
 /// This function will override the current requireXXX functions.
-/// python-style import 
+/// python-style import
 function import() {
     $args = func_get_args();
     if (empty($args)) {
