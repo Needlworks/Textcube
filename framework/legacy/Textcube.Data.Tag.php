@@ -72,7 +72,7 @@ class Tag {
     }
 
     /*@static@*/
-    static unction modifyTagsWithEntryId($blogid, $entry, /*string array*/
+    static function modifyTagsWithEntryId($blogid, $entry, /*string array*/
                                    $taglist) {
         global $database;
 
