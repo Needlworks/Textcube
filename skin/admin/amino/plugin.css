@@ -1,0 +1,507 @@
+@charset "utf-8";
+/* Common ****************************************************************************************/
+
+.part .caption
+{
+	margin-bottom                    : 10px;
+}
+
+#sub-menu-plugin
+{
+	background-image                 : none !important;
+}
+
+/* Setting ***************************************************************************************/
+
+#plugin-tabs-box
+{
+/*	position                         : fixed;*/
+	position                         : relative;
+	top                              : 0;
+	margin                           : 0 200px 20px 0;
+	padding-left                     : 0;
+	z-index                          : 20;
+	background-color                 : transparent !important;
+
+}
+
+#part-plugin-list
+{
+	font-size                        : 1em;
+	padding-bottom                   : 50px;
+	position                         : relative;
+}
+
+#part-plugin-list .main-explain-box p
+{
+	margin-bottom                    : 20px;
+}
+
+#part-plugin-list fieldset
+{
+	background-image                 : none;
+	border                           : 0;
+	float: left;
+	padding-left                     : 10px;
+	width                            : 200px;
+}
+
+#part-plugin-list fieldset dl
+{
+	position                         : static;
+}
+
+#part-plugin-list fieldset dl dt
+{
+	background-color                 : #F9F9F9;
+	padding-left                     : 10px;
+	position                         : static;
+}
+
+#part-plugin-list fieldset dl dd
+{
+	border                           : 1px solid #EFEFEF;
+	margin                           : 3px 0 10px 0;
+	padding                          : 5px 10px;
+	position                         : static;
+}
+
+#part-plugin-list .line .checkbox,
+#part-plugin-list .line .radio
+{
+	margin-left                      : 5px;
+}
+
+#none-scope-label
+{
+	border-right                     : none !important;
+}
+
+#scope-line
+{
+	margin                           : 0 !important;
+}
+
+#sorting-line,
+#viewmode-line
+{
+	position                         : static;
+}
+
+#sorting-line-status, #viewmode-line-status
+{
+	padding-left                     : 10px;
+}
+
+#sorting-line-status label,
+#viewmode-line-status label
+{
+	border                           : none !important;
+	display                          : block;
+	padding                          : 0;
+}
+
+#sorting-line-align
+{
+	border                           : none !important;
+	right                            : 20px;
+	padding                          : 0 !important;
+	position                         : absolute !important;
+	text-align: right;
+	top                              : 10em;
+	width                            : 400px;
+}
+
+#viewmode-line-align
+{
+	border                           : none !important;
+	right                            : 15px;
+	padding                          : 0 !important;
+	position                         : absolute !important;
+	text-align: right;
+	top                              : 5px;
+	width                            : 400px;
+}
+
+#direct-link-line dt
+{
+	display: none;
+}
+
+#direct-link-line dd
+{
+	border                           : 3px solid #47B5D3 !important;
+}
+
+#direct-link-line dd .button
+{
+	background-image                 : url('./image/img_link_bullet2.jpg');
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	padding-left                     : 15px;
+}
+
+/* plugin list - icon view ------------------------------------- */
+#iconview-box
+{
+	font-size: 1em;
+	margin-left                      : 225px;
+	min-height                       : 15em;
+	padding-top: 10px;
+	width                            : auto;
+}
+
+#part-plugin-list ol.data-inbox
+{
+	margin                           : 0;
+	width                            : 100%;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li
+{
+	float                            : left;
+	margin                           : 2px !important;
+	width                            : 140px;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li .plugin-box
+{
+	/*background-image: url('./image/bg_plugin_box.jpg');*/
+	border                           : 1px solid #F4F4F4;
+	padding                          : 25px 0 0 0;
+	text-align                       : center;
+	vertical-align                   : middle;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li.active-class .plugin-box
+{
+	background-color                 : #EFF6FF;
+	border                           : 1px solid #C6DFFF;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li .plugin-box .plugin-icon
+{
+	background-position              : center center;
+	cursor                           : pointer;
+	height                           : 90px;
+	margin                           : 0 auto 25px auto;
+	width                            : 90px;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li .plugin-box .plugin-disabled-icon
+{
+	cursor                           : default;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li .plugin-box .plugin-icon img
+{
+	display                          : none;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li .summary
+{
+	height                           : 3em;
+	margin-bottom                    : 7px;
+	overflow                         : hidden;
+	padding-top                      : 0.5em;
+	text-align                       : center;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li .summary .plugin-buttons
+{
+	font-family                      : 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+	font-size                        : 0.9em;
+	padding-right: 5px;
+}
+
+#part-plugin-list #iconview-box ol.data-inbox li .summary .plugin-buttons .disabled,
+#part-plugin-list #iconview-box ol.data-inbox li .summary .plugin-buttons .dimmed
+{
+	color                            : #BBBBBB;
+}
+
+#part-plugin-list #iconview-box .plugin-description
+{
+	display                          : none;
+}
+
+/* plugin list - list view ------------------------------------- */
+#listview-box
+{
+	font-size: 1em;
+	float: left;
+	margin: 10px 0 0 13px;
+	min-height                       : 5em;
+	width                            : 720px;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li
+{
+	clear: both;
+	margin                           : 2px !important;
+	min-height: 102px;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .plugin-box
+{
+	border                           : 1px solid #F4F4F4;
+	float: left;
+	padding                          : 5px;
+	text-align                       : left;
+	width                            : 90px;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li.active-class
+{
+	background-color                 : #EFF6FF;
+	border                           : 1px solid #C6DFFF;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li.inactive-class
+{
+	border                           : 1px solid #fff;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .plugin-box .plugin-icon
+{
+	background-position              : center center;
+	cursor                           : pointer;
+	height                           : 90px;
+	margin                           : 0 auto;
+	vertical-align: top;
+	width                            : 90px;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .plugin-box .plugin-disabled-icon
+{
+	cursor                           : default;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .plugin-box .plugin-icon img
+{
+	display                          : none;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .summary
+{
+	
+	margin-left: 120px;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .summary .plugin-title
+{
+	font-weight: bold;
+	padding-top: 5px;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .summary ul li
+{
+	clear: none;
+	margin                           : 0 !important;
+	min-height: 0;
+	width                            : auto;
+	height                           : auto;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .summary ul li.description
+{
+	margin-top: 5px !important;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .summary ul li.description .label
+{
+	display: none;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .summary .plugin-buttons
+{
+	font-family                      : 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+	font-size                        : 0.9em;
+	padding-right: 5px;
+	text-align: right;
+}
+
+#part-plugin-list #listview-box ol.data-inbox li .summary .plugin-buttons .disabled,
+#part-plugin-list #listview-box ol.data-inbox li .summary .plugin-buttons .dimmed
+{
+	color                            : #BBBBBB;
+}
+
+/* introduction of textcube plugin download page */
+
+#part-plugin-more
+{
+	clear: both;
+	margin                           : 0 0 100px 0;
+	padding-top: 40px;
+}
+
+/* Update notifier *******************************************************************************/
+
+/* common ---------------------------------------------------------------------------------------*/
+#part-plugin-update-blog
+{
+	padding-bottom                   : 20px;
+	margin                           : 0;
+}
+
+#plugin-update-main
+{
+	margin                           : 0 0 0 10px;
+}
+
+#part-plugin-update-blog .data-inbox
+{
+	width                            : 700px !important;
+}
+
+/* information box  -----------------------------------------------------------------------------*/
+#plugin-update-info-inbox
+{
+	float                            : left;
+	background-color                 : #EFEFEF;
+	padding                          : 10px 10px 10px 10px;
+	width                            : 210px;
+}
+
+#plugin-update-info-inbox .title
+{
+	background-color                 : #ddd;
+	margin-bottom                    : 8px;
+	padding                          : 7px 0 5px 0; 
+	text-align                       : center;
+}
+
+#plugin-update-info-inbox table
+{
+}
+
+#plugin-update-info-inbox .tr
+{
+	height                           : 20px;
+}
+
+#plugin-update-info-inbox th
+{
+	text-align                       : right;
+	font-weight                      : bold;
+}
+
+#plugin-update-info-inbox #yearSelect
+{
+	width                            : 130px;
+}
+
+#plugin-update-info-inbox #monthSelect
+{
+	width                            : 77px;
+}
+
+#plugin-update-info-inbox .label
+{
+	display                          : block;
+	font-weight                      : bold;
+	text-align                       : center;
+}
+
+#plugin-update-info-inbox .divider
+{
+	display                          : none;
+}
+
+#plugin-update-info-inbox .button
+{
+	background-color                 : #FFFFFF;
+	border                           : 1px solid #999999;
+    display                          : block;
+    line-height                      : 2em;
+	margin                           : 0 auto;
+	padding                          : 3px 5px;
+	width                            : 36px;
+}
+
+/* update list  ----------------------------------------------------------------------------------*/
+#plugin-update-list
+{
+	float                            : left;
+}
+
+#plugin-update-list table
+{
+	margin                           : 1px 0 15px 10px;
+}
+
+#plugin-update-list td
+{
+	margin                           : 0;
+	padding                          : 0;
+}
+#plugin-update-list span.update
+{
+	color                            :#4444FF;
+}
+
+#plugin-update-list table.data-inbox tbody tr.active-class td.status
+{
+	background-image                 : url("./image/icon_plugin_on.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	margin                           : 0 auto;
+	color                            : #5A8FC9;
+}
+
+#plugin-update-list table.data-inbox tbody tr.inactive-class td.status
+{
+	background-image                 : url("./image/icon_plugin_off.gif");
+	background-position              : left center;
+	background-repeat                : no-repeat;
+	cursor                           : pointer;
+	margin                           : 0 auto;
+}
+
+#plugin-search-form
+{
+    background-color                 : transparent;
+    border                           : none;
+    margin                           : 0;
+    position                         : absolute;
+    right                            : 25px;
+    text-align                       : right;
+    top                              : 20px;
+    width                            : 120px !important;
+    z-index                          : 1;
+}
+
+#plugin-search-form .input-text
+{
+	width                            : 150px;
+}
+
+#plugin-search-form label
+{
+    display                          : none;
+}
+
+/* Data Management *******************************************************************************/
+
+#part-plugin-table-list table thead tr th.delete span
+{
+	display                          : none;
+}
+
+#part-plugin-table-list table tbody tr td.title
+{
+	background-position              : right bottom;
+}
+
+#part-plugin-table-list table tbody tr td.tablename
+{
+	font-family                      : "Courier New", "Courier", monospace;
+	text-align                       : left;
+}
+
+#part-plugin-table-list table tbody tr td.delete
+{
+	width                            : 12px;
+}

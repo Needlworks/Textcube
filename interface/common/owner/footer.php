@@ -1,16 +1,13 @@
-					</div>
-				</div>
-			</div>
-			
 			<hr class="hidden" />
-			
+
 			<div id="layout-footer">
 				<div id="login-information"><?php echo _f('%1 로 로그인','<strong>'.htmlspecialchars($writer).'</strong>');?></div>
 				<address><?php echo TEXTCUBE_COPYRIGHT;?></address>
 				<div id="version"><?php echo TEXTCUBE_NAME;?> <?php echo TEXTCUBE_VERSION;?></div>
 			</div>
-		</div>
 	</div>
+</app-header-layout>
+</app-drawer-layout>
 	<div id="dialog-box" class="dialog"></div>
 	<script type="text/javascript">
 		//<![CDATA[
@@ -75,22 +72,22 @@ if (defined('__TEXTCUBE_READER__')) {
 						break;
 					case 75: //K
 						window.scrollBy(0, -100);
-						break;				
-<?php 
+						break;
+<?php
 }
 if (isset($paging['prev'])) {
 ?>
 					case 65: //A
 						window.location = "<?php echo "{$paging['url']}{$paging['prefix']}{$paging['prev']}{$paging['postfix']}";?>";
 						break;
-<?php 
+<?php
 }
 if (isset($paging['next'])) {
 ?>
 					case 83: //S
 						window.location = "<?php echo "{$paging['url']}{$paging['prefix']}{$paging['next']}{$paging['postfix']}";?>";
 						break;
-<?php 
+<?php
 }
 ?>
 					case 49: //1
@@ -132,10 +129,10 @@ if (Acl::check('group.creators')) {
 					case 191: //?
 						var helpRequest = new HTTPRequest("GET", "<?php echo $context->getProperty('uri.default')."/owner/help/?subject=".$blogMenu['topMenu'].'_'.$blogMenu['contentMenu']."&lang=".$context->getProperty('blog.language');?>");
 						helpRequest.onSuccess = function () {
-							toggleDialog(this.getText(),500);	
+							toggleDialog(this.getText(),500);
 						}
 						helpRequest.onError = function () {
-							toggleDialog(this.getText(),500);	
+							toggleDialog(this.getText(),500);
 						}
 						helpRequest.send();
 						break;
@@ -154,7 +151,7 @@ if (Acl::check('group.creators')) {
 	//]]>
 	</script>
 	<?php echo fireEvent('ShowAdminFooter', ''); ?>
-<?php if( $service['type'] == 'domain' && empty($_SESSION['sso_done']) && !empty($blog['secondaryDomain']) ){ 
+<?php if( $service['type'] == 'domain' && empty($_SESSION['sso_done']) && !empty($blog['secondaryDomain']) ){
 $_SESSION['sso_done'] = true; ?>
 <iframe style="width:0;height:0;border:0" src="<?php echo getBlogURL();?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[getSessionName()];?>"></iframe>
 <iframe style="width:0;height:0;border:0" src="<?php echo "http://".$context->getProperty('blog.secondaryDomain').$context->getProperty('uri.blog');?>/login?requestURI=about:blank&session=<?php echo $_COOKIE[getSessionName()];?>"></iframe>

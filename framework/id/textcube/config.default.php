@@ -78,5 +78,5 @@ $service['jqueryURL'] = null;    // You can change this to use external CDNs. (m
 $service['lodashURL'] = null;    // You can change this to use external CDNs. (microsoft / google, etc..)
 $service['useSSL'] = false;
 $service['cookie_prefix'] = '';
-//$service['adminskin'] = 'whitedream';
+$service['adminskin'] = 'amino';
 ?>
