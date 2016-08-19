@@ -36,6 +36,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </template>
     </test-fixture>
 
+    <test-fixture id="test-empty">
+    <template>
+        <iron-collapse id="collapse" opened>
+        </iron-collapse>
+      </template>
+    </test-fixture>
+
     <script>
 
       suite('basic', function() {
@@ -137,6 +144,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           assert.equal(collapse.style.maxWidth, '');
           assert.equal(collapse.style.height, '');
           assert.equal(collapse.style.transitionProperty, 'max-width');
+        });
+
+        test('change size with updateSize', function(done) {
+          collapse.addEventListener('transitionend', function() {
+            // size should be kept after transition
+            assert.equal(collapse.style.maxHeight, "123px");
+            done();
+          });
+          collapse.updateSize("123px", true);
+        });
+
+      });
+
+      suite('empty', function() {
+
+        var collapse;
+
+        setup(function() {
+          collapse = fixture('test-empty');
+        });
+
+        test('empty&opened shows dynamically loaded content', function(done) {
+          flush(function () {
+            collapse.toggle();
+            collapse.toggle();
+            assert.equal(collapse.style.maxHeight, "");
+            done();
+          });
         });
 
       });

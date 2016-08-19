@@ -1,6 +1,6 @@
 {
   "name": "iron-collapse",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Provides a collapsable container",
   "authors": [
     "The Polymer Authors"
@@ -31,11 +31,11 @@
     "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
   },
   "main": "iron-collapse.html",
-  "_release": "1.2.0",
+  "_release": "1.2.1",
   "_resolution": {
     "type": "version",
-    "tag": "v1.2.0",
-    "commit": "3743d45099a50d8f79c06a99991f65d839441d5a"
+    "tag": "v1.2.1",
+    "commit": "5f994b1ac109925f6849b134e479229a16a752db"
   },
   "_source": "git://github.com/PolymerElements/iron-collapse.git",
   "_target": "^1.0.0",

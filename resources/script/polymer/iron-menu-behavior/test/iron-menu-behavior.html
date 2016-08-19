@@ -22,7 +22,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../web-component-tester/browser.js"></script>
     <script src="../../iron-test-helpers/mock-interactions.js"></script>
     <link rel="import" href="test-menu.html">
+    <link rel="import" href="test-nested-menu.html">
 
+    <style>
+      .ghost, [hidden] {
+        display: none;
+      }
+      .invisible {
+        visibility: hidden;
+      }
+    </style>
   </head>
   <body>
 
@@ -52,6 +61,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div>b item 3</div>
           <div disabled>c item 4</div>
         </test-menu>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="invisible">
+      <template>
+        <test-menu>
+          <div>item 1</div>
+          <div hidden>item 2</div>
+          <div class="ghost">item 3</div>
+          <div class="invisible">item 3.1</div>
+          <div>item 4</div>
+          <div hidden>item 5</div>
+          <div class="ghost">item 6</div>
+        </test-menu>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="nested-invisible">
+      <template>
+        <test-nested-menu></test-nested-menu>
       </template>
     </test-fixture>
 
@@ -148,6 +177,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           });
         });
 
+        test('focusing on next item skips invisible items', function(done) {
+          var menu = fixture('invisible');
+
+          MockInteractions.focus(menu);
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press down
+            MockInteractions.keyDownOn(menu, 40);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
+              done();
+            });
+          });
+        });
+
+        test('focusing on next item skips nested invisible items', function(done) {
+          var nestedMenu = fixture('nested-invisible');
+          var menu = nestedMenu.$.actualMenu;
+
+          MockInteractions.focus(menu);
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press down
+            MockInteractions.keyDownOn(menu, 40);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
+              done();
+            });
+          });
+        });
+
         test('focusing on next item in empty menu', function(done) {
           var menu = fixture('empty');
           MockInteractions.focus(menu);
@@ -192,6 +256,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             Polymer.Base.async(function() {
               var focusedItem = Polymer.dom(menu).node.focusedItem;
               assert.equal(focusedItem, menu.items[2], 'menu.items[2] is focused');
+              done();
+            });
+          });
+        });
+
+        test('focusing on previous item skips invisible items', function(done) {
+          var menu = fixture('invisible');
+          MockInteractions.focus(menu);
+
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press up
+            MockInteractions.keyDownOn(menu, 38);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
+              done();
+            });
+          });
+        });
+
+        test('focusing on previous item skips nested invisible items', function(done) {
+          var nestedMenu = fixture('nested-invisible');
+          var menu = nestedMenu.$.actualMenu;
+          MockInteractions.focus(menu);
+
+          // Wait for async focus
+          Polymer.Base.async(function() {
+            // Key press up
+            MockInteractions.keyDownOn(menu, 38);
+
+            Polymer.Base.async(function() {
+              var focusedItem = Polymer.dom(menu).node.focusedItem;
+              assert.equal(focusedItem, menu.items[4], 'menu.items[4] is focused');
               done();
             });
           });
