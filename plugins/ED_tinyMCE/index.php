@@ -69,7 +69,7 @@ function tinyMCE_editorinit($editor) {
         relative_urls: false,
         convert_urls: false,
         //schema: "html5",
-        extended_valid_elements : "div[class|style|align|width|height|id|more|less],img[class|src|border|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|longdesc|style],pre[*],code[*],object,br",
+        extended_valid_elements : "div[*],img[*],span[*],pre[*],code[*],object,br",
 
     <?php
     if ($config['editormode'] == 'simple') {
