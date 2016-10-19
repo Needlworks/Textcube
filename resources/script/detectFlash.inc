@@ -2,7 +2,6 @@
  All rights reserved. Licensed under the GPL.
  See the GNU General Public License for more details. (/doc/LICENSE, /doc/COPYRIGHT)-->
 											<script type="text/vbscript">
-												//<![CDATA[
 													Function VBGetSwfVer(i)
 														on error resume next
 														Dim swControl, swVersion
@@ -14,11 +13,9 @@
 														end if
 														VBGetSwfVer = swVersion
 													End Function
-												//]]>
 											</script>
 											
 											<script type="text/javascript">
-												//<![CDATA[
 													// Detect Client Browser type
 													var isIE	= (navigator.appVersion.indexOf("MSIE") != -1) ? true : false;
 													var isWin = (navigator.appVersion.toLowerCase().indexOf("win") != -1) ? true : false;
@@ -100,5 +97,4 @@
 														}	
 														return (reqVer ? false : 0.0);
 													}
-												//]]>
 											</script>

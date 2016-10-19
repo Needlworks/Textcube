@@ -15,9 +15,9 @@ Supports import/export individual data via XML compatible with other solutions i
 
 
 [![License](https://img.shields.io/badge/license-GPLv2-green.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
-[![Unstable](https://img.shields.io/badge/unstable-2.0a2-red.svg)](https://github.com/Needlworks/Textcube/archive/latest-unstable.zip)
-[![Testing](https://img.shields.io/badge/testing-1.10.7-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-testing.zip)
-[![Stable](https://img.shields.io/badge/stable-1.10.7-blue.svg)](https://github.com/Needlworks/Textcube/archive/latest-stable.zip)
+[![Unstable](https://img.shields.io/badge/unstable-2.0a4-red.svg)](https://github.com/Needlworks/Textcube/archive/latest-unstable.zip)
+[![Testing](https://img.shields.io/badge/testing-1.10.10-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-testing.zip)
+[![Stable](https://img.shields.io/badge/stable-1.10.10-blue.svg)](https://github.com/Needlworks/Textcube/archive/latest-stable.zip)
 
 ## HISTORY
 
@@ -70,7 +70,26 @@ Before you start, you need to
 * know the port / username / password of your database
 * have the permission to modify webserver configuration.
 
+### Bower
+
+You can download latest stable version via bower by
+
+```
+bower install textcube
+
+```
+
+### Manual download
+
 Uncompress the downloaded file, locate them to the web-accessible location. Assume that the textcube location is /var/www/textcube.
+
+[![Stable](https://img.shields.io/badge/stable-1.10.7-blue.svg)](https://github.com/Needlworks/Textcube/archive/latest-stable.zip)
+[![Unstable](https://img.shields.io/badge/unstable-2.0a2-red.svg)](https://github.com/Needlworks/Textcube/archive/latest-unstable.zip)
+[![Testing](https://img.shields.io/badge/testing-1.10.8rc1-green.svg)](https://github.com/Needlworks/Textcube/archive/latest-testing.zip)
+
+We recommend using stable version.
+
+### Server configuration
 
 This is apache setting ( < 2.4).
 

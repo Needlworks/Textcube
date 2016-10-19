@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -8,7 +8,7 @@ class URIError extends Exception {};
 final class Model_URIHandler extends Singleton
 {
 	public $uri, $suri;
-	public static $blogid;
+	public $blogid;
 	public static function getInstance() {
 		return self::_getInstance(__CLASS__);
 	}
@@ -178,7 +178,7 @@ final class Model_URIHandler extends Singleton
 		$this->uri['host'] = ($this->context->getProperty('service.useSSL',false) ? 'https://' : '//') . $_SERVER['HTTP_HOST'] . (!is_null($this->context->getProperty('port')) ? ':' . $this->context->getProperty('port') : '');
 		$this->uri['blog'] = $this->uri['path'].$this->__getFancyURLpostfix();
 		$this->uri['folder'] = rtrim($this->uri['blog'] . $suri['directive'], '/');
-		$this->uri['permalink'] = rtrim($this->uri['default'].rtrim($this->suri['directive'],'/').(empty($this->suri['id']) ? '/'.$this->suri['value'] : '/'.$this->suri['id']),'/');
+		$this->uri['permalink'] = rtrim($this->uri['default'].rtrim($this->suri['directive'],'/').(empty($this->suri['id']) ? '/'.URL::encode($this->suri['value']) : '/'.$this->suri['id']),'/');
 		$this->uri['basicblog'] = $this->uri['blog'];
 		if (defined('__TEXTCUBE_MOBILE__')) {
 			$this->uri['blog'] .= '/m';

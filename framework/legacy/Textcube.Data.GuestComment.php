@@ -1,9 +1,9 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class GuestComment {
-    function GuestComment() {
+    function __construct() {
         $this->reset();
     }
 
@@ -37,9 +37,9 @@ class GuestComment {
         }
         $this->close();
         $this->_result = POD::query("SELECT $fields
-			FROM {$database['prefix']}Comments 
+			FROM {$database['prefix']}Comments
 			WHERE blogid = " . getBlogId() . "
-				AND entry = 0 
+				AND entry = 0
 				$filter $sort");
         if ($this->_result) {
             if ($this->_count = POD::num_rows($this->_result)) {

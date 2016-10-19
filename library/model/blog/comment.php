@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -758,7 +758,7 @@ function updateComment($blogid, $comment, $password) {
         }
     }
 
-    $replier = is_null($comment['replier']) ? 'NULL' : "'{$comment['replier']}'";
+    $replier = is_null($comment['replier']) ? NULL : $comment['replier'];
 
     $pool->setAttribute('name', $name, true);
     $pool->setAttribute('homepage', $homepage, true);

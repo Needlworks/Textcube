@@ -1,11 +1,13 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 require ROOT . '/library/preprocessor.php';
 
 $cache = pageCache::getInstance();
+$context = Model_Context::getInstance();
+$suri = $context->getAllFromNamespace('suri');
 if (strlen($suri['value'])) {
 	if(!isset($suri['id']) || (Setting::getBlogSettingGlobal('useSloganOnTag',1) == 1)) {
 		$tag = getTagId($blogid, $suri['value']);

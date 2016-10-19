@@ -1,11 +1,11 @@
 <?php
-/* URL keeper for Tattertools 1.1 / Textcube 1.5
+/* URL keeper for Textcube 2.0
 ----------------------------------
-Version 1.0
+Version 1.1
 By Needlworks / TNF
 
 Created at       : 2006.11.23
-Last modified at : 2007.07.21
+Last modified at : 2015.07.05
  
 This plugin keeps original permalink.
 For the detail, visit http://forum.tattersite.com/ko
@@ -21,8 +21,8 @@ the Free Software Foundation; either version 2 of the License, or
 
 function URLkeeper($target)
 {
-	global $configVal;
-	$data = Setting::fetchConfigVal( $configVal);
+	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	$config  = $data['viewForm'];
 	$target .= '
 <script type="text/javascript">

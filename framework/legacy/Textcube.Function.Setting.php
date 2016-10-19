@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -9,9 +9,6 @@ $__serviceSetting = array();
 class Setting {
     static function fetchConfigVal($DATA) {
         return is_null($DATA) ? null : unserialize($DATA);
-//		if (is_null($DATA)) return null; // Compartibility. If data is stored as array (new method), return it.		
-//		if (is_array($DATA)) return $DATA;
-//		return Setting::fetchConfigVal_Legacy($DATA);
     }
 
     // For Blog-scope setting

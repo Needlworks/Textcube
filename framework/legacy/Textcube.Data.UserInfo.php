@@ -1,10 +1,10 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 class UserInfo {
 
-    function UserInfo() {
+    function __construct() {
         $this->reset();
     }
 
@@ -98,13 +98,6 @@ class UserInfo {
         }
         return $this->loginid;
     }
-
-    /*	function getPassword() { // deprecated
-            exit;
-            if (is_null($this->password))
-                $this->getUser();
-            return $this->password;
-        }*/
 
     function getName() {
         if (is_null($this->name)) {

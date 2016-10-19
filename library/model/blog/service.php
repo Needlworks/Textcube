@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -215,9 +215,10 @@ function getDefaultHtaccess($jsPrint = false) {
 #SetEnv PRELOAD_CONFIG 1
 RewriteEngine On
 RewriteBase ' . $rootURL . '/
-RewriteRule ^(thumbnail)/([0-9]+/.+)$ cache/$1/$2 [L]
+RewriteRule ^(thumbnail)/([0-9]+/.+)$ user/cache/$1/$2 [L]
+RewriteRule ^attach/([0-9]+/.+)$ user/attach/$1 [L]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^(cache)+/+(.+[^/])\.(cache|xml|txt|log)$ - [NC,F,L]
+RewriteRule ^user/(cache)+/+(.+[^/])\\.(cache|xml|txt|log)$ - [NC,F,L]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^(.+[^/])$ $1/ [L]
 RewriteCond %{REQUEST_FILENAME} !-f

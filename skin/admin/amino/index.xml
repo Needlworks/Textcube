@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adminSkin version="1.1" language="ko">
+	<information>
+		<name>Amino</name> 
+		<version>2.0.0</version>
+		<description><![CDATA[Polymer-based admin skin.]]></description>
+		<license><![CDATA[GPL]]></license>
+	</information> 
+	<author>
+		<name>Needlworks</name>
+		<homepage>http://www.needlworks.org</homepage>
+		<email>contact@needlworks.org</email>
+	</author> 
+</adminSkin>

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -76,8 +76,8 @@ $uri = Model_URIHandler::getInstance();
 /// Setting basic paths
 $predefinedPaths = array(
     '__TEXTCUBE_CONFIG_FILE__'=> ROOT . '/config.php',
-    '__TEXTCUBE_CACHE_DIR__'=> ROOT . '/cache',
-    '__TEXTCUBE_ATTACH_DIR__'=>ROOT . '/attach'
+    '__TEXTCUBE_CACHE_DIR__'=> ROOT . '/user/cache',
+    '__TEXTCUBE_ATTACH_DIR__'=>ROOT . '/user/attach'
 );
 foreach ($predefinedPaths as $symbol=>$location) {
     if(!defined($symbol)) {

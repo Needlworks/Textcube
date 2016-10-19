@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -183,7 +183,7 @@ function api_getCategoryNameById($id) {
 }
 
 function api_fix_content($content) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $new_content = "";
     if (strstr($_SERVER["HTTP_USER_AGENT"], 'Zoundry')) {
         $new_content = str_replace("</ul>\n", "</ul>", $content);
@@ -196,7 +196,7 @@ function api_fix_content($content) {
     }
     // Fix attachment URL into TTML-spcific address.
 
-    $new_content = str_replace($ctx->getProperty('uri.host') . $ctx->getProperty('service.path') . "/attach/" . $blogid, '[##_ATTACH_PATH_##]', $new_content);
+    $new_content = str_replace($context->getProperty('uri.host') . $context->getProperty('service.path') . "/attach/" . $blogid, '[##_ATTACH_PATH_##]', $new_content);
     return $new_content;
 }
 
@@ -252,7 +252,7 @@ function api_make_post($param, $ispublic, $postid = -1) {
 function api_get_post($post, $type = "bl") {
     $post->loadTags();
     //$params = func_get_args();
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     return array(
         "userid" => "",
         "dateCreated" => api_dateiso8601($post->created),
@@ -261,8 +261,8 @@ function api_get_post($post, $type = "bl") {
         "title" => api_escape_content($post->title),
         "postid" => $post->id,
         "categories" => array(api_getCategoryNameById($post->category)),
-        "link" => $ctx->getProperty('uri.host') . $ctx->getProperty('uri.blog') . "/" . $post->id,
-        "permaLink" => $ctx->getProperty('uri.host') . $ctx->getProperty('uri.blog') . "/" . $post->id,
+        "link" => $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/" . $post->id,
+        "permaLink" => $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/" . $post->id,
         "description" => ($type == "mt" ? $post->content : ""),
         "content" => $post->content,
         "mt_allow_comments" => $post->acceptcomment ? 1 : 0,
@@ -640,7 +640,7 @@ function blogger_getTemplate() {
 /*--------- MetaWebLog API functions -----------*/
 
 function metaWeblog_getCategories() {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     $params = func_get_args();
     $result = api_login($params[1], $params[2]);
@@ -655,7 +655,7 @@ function metaWeblog_getCategories() {
     $cat = array();
     while ($category->id) {
         array_push($cat, array(
-            'htmlUrl' => $ctx->getProperty('uri.host') . $ctx->getProperty('uri.blog') . "/category/" . $category->label,
+            'htmlUrl' => $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/category/" . $category->label,
             //'rssUrl' => "",
             'categoryName' => $category->label,
             'description' => $category->label,
@@ -854,7 +854,7 @@ function metaWeblog_editPost() {
 }
 
 function metaWeblog_newMediaObject() {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $params = func_get_args();
     $result = api_login($params[1], $params[2]);
     if ($result) {
@@ -872,7 +872,7 @@ function metaWeblog_newMediaObject() {
         return new XMLRPCFault(1, "Can't create file");
     }
 
-    $attachurl = array('url' => $ctx->getProperty('uri.host') . $ctx->getProperty('service.path') . "/attach/" . $blogid . "/" . $attachment['name']);
+    $attachurl = array('url' => $context->getProperty('uri.host') . $context->getProperty('service.path') . "/attach/" . $blogid . "/" . $attachment['name']);
     return $attachurl;
 }
 

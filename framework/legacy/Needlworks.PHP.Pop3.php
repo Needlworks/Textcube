@@ -4,8 +4,8 @@
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 class Pop3 {
-    function Pop3() {
-        $this->ctx = null;
+    function __construct() {
+        $this->context = null;
         $this->logger = null;
         $this->uidl_filter = null;
         $this->size_filter = null;
@@ -17,40 +17,40 @@ class Pop3 {
         $this->clearStatus();
     }
 
-    function log($msg) {
+    public function log($msg) {
         if (!$this->logger) {
             return;
         }
         call_user_func($this->logger, $msg);
     }
 
-    function connect($server, $port = 110, $bSSL = false) {
+    public function connect($server, $port = 110, $bSSL = false) {
         $this->clearStatus();
-        $this->ctx = fsockopen($bSSL ? "ssl://$server" : $server, $port);
-        if (!$this->ctx) {
+        $this->context = fsockopen($bSSL ? "ssl://$server" : $server, $port);
+        if (!$this->context) {
             return false;
         }
-        $line = fgets($this->ctx, 1024);
+        $line = fgets($this->context, 1024);
         return $this->checkStatus($line);
     }
 
-    function authorize($username, $password) {
+    public function authorize($username, $password) {
         $this->clearStatus();
         $this->log("Send: USER $username");
-        if (!fputs($this->ctx, "USER $username\r\n")) {
+        if (!fputs($this->context, "USER $username\r\n")) {
             return false;
         }
         if (!$this->receiveResult()) {
             return false;
         }
         $this->log("Send: PASS [......]");
-        if (!fputs($this->ctx, "PASS $password\r\n")) {
+        if (!fputs($this->context, "PASS $password\r\n")) {
             return false;
         }
         return $this->receiveResult();
     }
 
-    function retr($nr = false) {
+    public function retr($nr = false) {
         $this->clearStatus();
         if ($nr != false) {
             $numbers = array($nr);
@@ -60,7 +60,7 @@ class Pop3 {
 
         foreach ($numbers as $nr) {
             $this->log("Send: RETR $nr");
-            if (!fputs($this->ctx, "RETR $nr\r\n")) {
+            if (!fputs($this->context, "RETR $nr\r\n")) {
                 return false;
             }
             if (!$this->receiveResult(true)) {
@@ -74,7 +74,7 @@ class Pop3 {
         return true;
     }
 
-    function dele($nr = false) {
+    public function dele($nr = false) {
         $this->clearStatus();
         if ($nr != false) {
             $numbers = array($nr);
@@ -83,7 +83,7 @@ class Pop3 {
         }
         foreach ($numbers as $nr) {
             $this->log("Send: DELE $nr");
-            if (!fputs($this->ctx, "DELE $nr\r\n")) {
+            if (!fputs($this->context, "DELE $nr\r\n")) {
                 return false;
             }
             if (!$this->receiveResult(false)) {
@@ -93,43 +93,43 @@ class Pop3 {
         return true;
     }
 
-    function quit() {
+    public function quit() {
         $this->clearStatus();
         $this->log("Send: QUIT");
-        if (!fputs($this->ctx, "QUIT\r\n")) {
+        if (!fputs($this->context, "QUIT\r\n")) {
             return false;
         }
         return true;
     }
 
-    function setLogger($func) {
+    public function setLogger($func) {
         $this->logger =& $func;
     }
 
-    function setUidFilter($func) {
+    public function setUidFilter($func) {
         $this->uidl_filter =& $func;
     }
 
-    function setSizeFilter($func) {
+    public function setSizeFilter($func) {
         $this->size_filter =& $func;
     }
 
-    function setStatCallback($func) {
+    public function setStatCallback($func) {
         $this->stat_callback =& $func;
     }
 
-    function setRetrCallback($func) {
+    public function setRetrCallback($func) {
         $this->retr_callback =& $func;
     }
 
-    function setFallbackCharset($charset) {
+    public function setFallbackCharset($charset) {
         $this->fallback_charset = $charset;
     }
 
-    function uidl() {
+    public function uidl() {
         $this->clearStatus();
         $this->log("Send: UIDL");
-        if (!fputs($this->ctx, "UIDL\r\n")) {
+        if (!fputs($this->context, "UIDL\r\n")) {
             return false;
         }
         if (!$this->receiveResult(true)) {
@@ -152,10 +152,10 @@ class Pop3 {
         return true;
     }
 
-    function list_size() {
+    public function list_size() {
         $this->clearStatus();
         $this->log("Send: STAT");
-        if (!fputs($this->ctx, "STAT\r\n")) {
+        if (!fputs($this->context, "STAT\r\n")) {
             return false;
         }
         if (!$this->receiveResult(false)) {
@@ -173,7 +173,7 @@ class Pop3 {
         }
 
         $this->log("Send: LIST");
-        if (!fputs($this->ctx, "LIST\r\n")) {
+        if (!fputs($this->context, "LIST\r\n")) {
             return false;
         }
         if (!$this->receiveResult(true)) {
@@ -195,7 +195,7 @@ class Pop3 {
         return true;
     }
 
-    function run() {
+    public function run() {
         if (!$this->list_size()) {
             return;
         }
@@ -207,15 +207,15 @@ class Pop3 {
         }
     }
 
-    function clearStatus() {
+    public function clearStatus() {
         $this->status = '';
         $this->error = '';
         $this->results = array();
     }
 
-    function receiveResult($checkPeriod = false) {
+    public function receiveResult($checkPeriod = false) {
         $count = 1000000; /* Maximum 1000000 lines! it's enough to handle 6MB bytes */
-        $line = fgets($this->ctx, 1024);
+        $line = fgets($this->context, 1024);
         $this->log("Recv: " . trim($line));
         if (!$line) {
             return false;
@@ -228,7 +228,7 @@ class Pop3 {
         }
         $this->results = array();
         while ($count--) {
-            $line = fgets($this->ctx, 1024);
+            $line = fgets($this->context, 1024);
             $line = trim($line);
             if ($line == '.') {
                 break;
@@ -239,7 +239,7 @@ class Pop3 {
         return true;
     }
 
-    function checkStatus($line) {
+    public function checkStatus($line) {
         $this->status = substr($line, 4);
         if (substr($line, 0, 3) == '+OK') {
             return true;
@@ -248,11 +248,11 @@ class Pop3 {
         return false;
     }
 
-    function getLastError() {
+    public function getLastError() {
         return $this->error;
     }
 
-    function _decode_header_core($matches) {
+    private function _decode_header_core($matches) {
         static $rewrite_charset = array(
             'ks_c_5601-1987' => 'euc-kr'
         );
@@ -277,7 +277,7 @@ class Pop3 {
         return $content;
     }
 
-    function decode_header($hdr) {
+    public function decode_header($hdr) {
         if (strstr($hdr, "=?")) {
             $hdr = preg_replace_callback("/=\?([^?]+)\?([BbQq])\?([^?]+)\?=/", array(&$this, '_decode_header_core'), $hdr);
         } else {
@@ -288,7 +288,7 @@ class Pop3 {
         return $hdr;
     }
 
-    function parse(& $data, $begin = 0, $end = 0) {
+    public function parse(& $data, $begin = 0, $end = 0) {
         if ($end == 0) {
             $end = count($data);
         }

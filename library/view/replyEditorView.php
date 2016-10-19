@@ -1,11 +1,10 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 $context = Model_Context::getInstance();
 $confirmString = '';
-$context = Model_Context::getInstance();
 
 if (empty($comment['name'])) {
     if (isset($_SESSION['openid']['nickname'])) {
@@ -30,7 +29,7 @@ $context = Model_Context::getInstance();
 $pageHeadTitle = $pageTitle;
 if (Acl::getIdentity('openid')) {
     $pageHeadTitle = $pageTitle;
-    $pageTitle = "$pageTitle ( <img src=\"" . $ctx->getProperty('service.path') . "/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> " . OpenID::getDisplayName(Acl::getIdentity('openid')) . ")";
+    $pageTitle = "$pageTitle ( <img src=\"" . $context->getProperty('service.path') . "/resources/image/icon_openid.gif\" style=\"position:static;\" height=\"16\" width=\"16\"> " . OpenID::getDisplayName(Acl::getIdentity('openid')) . ")";
 }
 ?>
 <!DOCTYPE html>
@@ -41,18 +40,15 @@ if (Acl::getIdentity('openid')) {
     <link rel="stylesheet" type="text/css" media="screen"
           href="<?php echo $context->getProperty('service.path') . $context->getProperty('panel.skin'); ?>/popup-comment.css"/>
     <script type="text/javascript">
-        //<![CDATA[
         var servicePath = "<?php echo $context->getProperty('service.path');?>";
         var serviceURL = "<?php echo $context->getProperty('uri.service');?>";
         var blogURL = "<?php echo $context->getProperty('uri.blog');?>";
         var adminSkin = "<?php echo $context->getProperty('panel.skin');?>";
         var doesHaveOwnership = <?php echo doesHaveOwnership() ? 'true' : 'false';?>;
-        //]]>
     </script>
     <script type="text/javascript"
-            src="<?php echo(doesHaveOwnership() ? $ctx->getProperty('service.path') . '/resources' : $ctx->getProperty('service.resourcepath')); ?>/script/common3.min.js"></script>
+            src="<?php echo(doesHaveOwnership() ? $context->getProperty('service.path') . '/resources' : $context->getProperty('service.resourcepath')); ?>/script/common3.min.js"></script>
     <script type="text/javascript">
-        //<![CDATA[
         function submitComment() {
             var oForm = document.commentToComment;
             var oButton = document.getElementById('commentSubmit');
@@ -81,7 +77,6 @@ if (Acl::getIdentity('openid')) {
         function confirmOverwrite() {
             return confirm("<?php echo escapeJSInCData(_text('관리자가 방문객의 댓글을 수정하시면 작성자 이름을 관리자 아이디로 덮어 쓰게 됩니다.')).escapeJSInCData('계속 하시겠습니까?');?>");
         }
-        //]]>
     </script>
     <?php echo fireEvent('REPLY_head_end', '', $comment); ?>
 </head>

@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -214,10 +214,10 @@ function getPrivateCategoryExclusionQualifier($pool, $blogid = null) {
 }
 
 function getCategoriesSkin($setting = null) {
-	$ctx = Model_Context::getInstance();
+	$context = Model_Context::getInstance();
 	if(is_null($setting)) $setting = Setting::getSkinSettings(getBlogId());
     $skin = array('name' => "{$setting['skin']}",
-        'url' => $ctx->getProperty('service.path') . "/skin/tree/{$setting['tree']}",
+        'url' => $context->getProperty('service.path') . "/skin/tree/{$setting['tree']}",
         'labelLength' => $setting['labelLengthOnTree'],
         'showValue' => $setting['showValueOnTree'],
         'itemColor' => "{$setting['colorOnTree']}",
@@ -292,7 +292,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
         }
         $label .= '/' . $name;
     } else {
-        $parent = 'NULL';
+        $parent = NULL;
         $label = $name;
     }
 
@@ -301,7 +301,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
     $pool->reset('Categories');
     $pool->setQualifier('blogid', 'eq', $blogid);
     $pool->setQualifier('name', 'eq', $name, true);
-    if ($parent == 'NULL') {
+    if ($parent == NULL) {
         $pool->setQualifier('parent', 'eq', NULL);
     } else {
         $pool->setQualifier('parent', 'eq', $parent);
@@ -343,7 +343,7 @@ function addCategory($blogid, $parent, $name, $id = null, $priority = null) {
     $pool->reset('Categories');
     $pool->setAttribute('blogid', $blogid);
     $pool->setAttribute('id', $newId);
-    if ($parent == 'NULL') {
+    if ($parent == NULL) {
         $pool->setAttribute('parent', NULL);
     } else {
         $pool->setAttribute('parent', $parent);
@@ -374,7 +374,7 @@ function deleteCategory($blogid, $id) {
 }
 
 function modifyCategory($blogid, $id, $name, $bodyid) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     importlib('model.blog.feed');
     if ($id == 0) {
         checkRootCategoryExistence($blogid);
@@ -541,7 +541,7 @@ function updateCategoryByCategoryId($blogid, $categoryid, $action = 'add', $para
 }
 
 function updateEntriesOfCategory($blogid, $categoryId = -1) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     clearCategoryCache();
 
     $pool = DBModel::getInstance();
@@ -576,7 +576,10 @@ function updateEntriesOfCategory($blogid, $categoryId = -1) {
         $pool->setQualifier("category", "eq", $parent);
         $countParent = $pool->getCount('id');
 
-        $pool->unsetQualifier("visibility");
+        $pool->reset("Entries");
+        $pool->setQualifier("blogid", "eq", $blogid);
+        $pool->setQualifier("draft", "eq", 0);
+        $pool->setQualifier("category", "eq", $parent);
         $countInLoginParent = $pool->getCount('id');
 
         $pool->reset("Categories");
@@ -595,7 +598,10 @@ function updateEntriesOfCategory($blogid, $categoryId = -1) {
             $pool->setQualifier("category", "eq", $rowChild['id']);
             $countChild = $pool->getCount('id');
 
-            $pool->unsetQualifier("visibility");
+            $pool->reset("Entries");
+            $pool->setQualifier("blogid", "eq", $blogid);
+            $pool->setQualifier("draft", "eq", 0);
+            $pool->setQualifier("category", "eq", $rowChild['id']);
             $countInLogInChild = $pool->getCount('id');
 
             $pool->reset("Categories");
@@ -624,7 +630,7 @@ function updateEntriesOfCategory($blogid, $categoryId = -1) {
 }
 
 function moveCategory($blogid, $id, $direction) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $pool = DBModel::getInstance();
 
     if ($direction == 'up') {
@@ -650,10 +656,10 @@ function moveCategory($blogid, $id, $direction) {
     $pool->setQualifier("c.id", "eq", $id);
     $pool->setQualifier("c.blogid", "eq", $blogid);
     $row = $pool->getRow("p.id AS parentId, p.priority AS parentPriority, p.parent AS parentParent, c.priority AS myPriority, c.parent AS myParent");
-    $myParent = is_null($row['myParent']) ? 'NULL' : $row['myParent'];
-    $parentId = is_null($row['parentId']) ? 'NULL' : $row['parentId'];
-    $parentPriority = is_null($row['parentPriority']) ? 'NULL' : $row['parentPriority'];
-//	$parentParent = is_null($row['parentParent']) ? 'NULL' : $row['parentParent'];
+    $myParent = is_null($row['myParent']) ? NULL : $row['myParent'];
+    $parentId = is_null($row['parentId']) ? NULL : $row['parentId'];
+    $parentPriority = is_null($row['parentPriority']) ? NULL : $row['parentPriority'];
+//	$parentParent = is_null($row['parentParent']) ? NULL : $row['parentParent'];
     $myPriority = $row['myPriority'];
 
     $pool->reset("Categories");
@@ -666,19 +672,19 @@ function moveCategory($blogid, $id, $direction) {
     $pool->setQualifier("blogid", "eq", $blogid);
     $pool->setQualifier("id", "neq", 0);
     $pool->setQualifier("priority", $sign, $myPriority);
-    if ($parentId == 'NULL') {
+    if ($parentId == NULL) {
         $pool->setQualifier("parent", "eq", null);
     } else {
         $pool->setQualifier("parent", "eq", $parentId);
     }
     $pool->setOrder("priority", $arrange);
     $row = $pool->getRow("id, parent, priority");
-    $nextId = is_null($row['id']) ? 'NULL' : $row['id'];
-    $nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
+    $nextId = is_null($row['id']) ? NULL : $row['id'];
+    $nextPriority = is_null($row['priority']) ? NULL : $row['priority'];
     // 이동할 자신이 1 depth 카테고리일 때.
-    if ($myParent == 'NULL') {
+    if ($myParent == NULL) {
         // 자신이 2 depth를 가지고 있고, 위치를 바꿀 대상 카테고리가 있는 경우.
-        if ($myIsHaveChild && $nextId != 'NULL') {
+        if ($myIsHaveChild && $nextId != NULL) {
             $pool->reset("Categories");
             $pool->setAttribute("priority", $myPriority);
             $pool->setQualifier("id", "eq", $nextId);
@@ -718,9 +724,9 @@ function moveCategory($blogid, $id, $direction) {
                 $pool->setorder("priority", "DESC");
                 $row = $pool->getRow("id,priority");
 
-                $nextId = is_null($row['id']) ? 'NULL' : $row['id'];
-                $nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
-                if ($nextId != 'NULL') {
+                $nextId = is_null($row['id']) ? NULL : $row['id'];
+                $nextPriority = is_null($row['priority']) ? NULL : $row['priority'];
+                if ($nextId != NULL) {
                     $pool->reset("Categories");
                     $pool->setAttribute("priority", max($nextPriority, $myPriority));
                     $pool->setQualifier("id", "eq", $nextId);
@@ -751,7 +757,7 @@ function moveCategory($blogid, $id, $direction) {
         // 이동할 자신이 2 depth일 때.
     } else {
         // 위치를 바꿀 대상이 1 depth이면.
-        if ($nextId == 'NULL') {
+        if ($nextId == NULL) {
             $pool->reset("Categories");
             $pool->setQualifier("id", "eq", $myId);
             $pool->setQualifier("blogid", "eq", $blogid);
@@ -813,9 +819,9 @@ function moveCategory($blogid, $id, $direction) {
                 $pool->setOrder("priority", $arrange);
                 $row = $pool->getRow("id, priority");
 
-                $nextId = is_null($row['id']) ? 'NULL' : $row['id'];
-                $nextPriority = is_null($row['priority']) ? 'NULL' : $row['priority'];
-                if ($nextId == 'NULL') {
+                $nextId = is_null($row['id']) ? NULL : $row['id'];
+                $nextPriority = is_null($row['priority']) ? NULL : $row['priority'];
+                if ($nextId == NULL) {
                     $newParentPriority = ($direction == 'up') ? $parentPriority - 1 : $parentPriority + 1;
                     $pool->reset("Categories");
                     $pool->setAttribute("priority", $newParentPriority);

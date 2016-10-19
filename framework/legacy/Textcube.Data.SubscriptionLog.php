@@ -1,7 +1,7 @@
 <?php
 
 class SubscriptionLog {
-    function SubscriptionLog() {
+    function __construct() {
         $this->reset();
     }
 
@@ -28,7 +28,7 @@ class SubscriptionLog {
         }
         $this->close();
         $this->_result = POD::query("SELECT $fields
-			FROM {$database['prefix']}SubscriptionLogs 
+			FROM {$database['prefix']}SubscriptionLogs
 			WHERE blogid = " . getBlogId() . " $filter $sort");
         if ($this->_result) {
             if ($this->_count = POD::num_rows($this->_result)) {

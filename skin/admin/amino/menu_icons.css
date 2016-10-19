@@ -1,0 +1,84 @@
+@charset "utf-8";
+
+/* Layout override */
+
+#sub-menu li a {
+    height: 2.5em;
+}
+
+#sub-menu li:hover a {
+    background-color:rgba(222,222,222,0.8);
+}
+
+#pseudo-box {
+    padding-left: 32px;
+}
+.mce-toolbar-grp {
+    left:55px!important;
+
+}
+/* Common icon */
+#sub-menu li a:before {
+    font-family: 'FontAwesome';
+    float: left;
+    font-size:1.5em;
+    margin-left: -1em;
+    margin-right: 1em;
+    color: #666;
+}
+
+/* Center */
+#sub-menu-dashboard a:before { content: '\f0e4';}
+#sub-menu-about a:before { content: '\f05a';}
+
+/* Entry */
+#body-entry #sub-menu-entry a:before { content: '\f01c';}
+#sub-menu-line a:before { content: '\f0ae';}
+#sub-menu-post a:before { content: '\f040';}
+#sub-menu-page a:before { content: '\f040'; color: #2c335a!important;}
+#sub-menu-notice a:before { content: '\f040'; color: #8ecb54!important;}
+#sub-menu-keylog a:before { content: '\f040'; color: #ffd76b!important;}
+#sub-menu-template a:before { content: '\f040'; color: #971c10!important;}
+#sub-menu-category a:before { content: '\f00b';}
+#sub-menu-tag a:before { content: '\f02c';}
+
+/* Communication */
+#sub-menu-comment a:before { content: '\f0e5';}
+#sub-menu-guestbook a:before { content: '\f02d';}
+#sub-menu-notify a:before { content: '\f079';}
+#sub-menu-trackbackreceived a:before { content: '\f112';}
+#sub-menu-trackbacksent a:before { content: '\f1d9';}
+#sub-menu-openid a:before { content: '\f19b';}
+#sub-menu-trash a:before { content: '\f1f8';}
+#sub-menu-filter a:before { content: '\f0b0';}
+
+/* Network */
+#sub-menu-teamblog a:before { content: '\f0c0';}
+#sub-menu-link a:before { content: '\f0c1';}
+#sub-menu-reader a:before { content: '\f09e';}
+
+/* Skin */
+#sub-menu-skin a:before { content: '\f1fc';}
+#sub-menu-adminSkin a:before { content: '\f0ad';}
+#sub-menu-edit a:before { content: '\f12e';}
+#sub-menu-setting a:before { content: '\f1de';}
+#sub-menu-sidebar a:before { content: '\f1ea';}
+#sub-menu-coverpage a:before { content: '\f009';}
+
+/* Plugin */
+#sub-menu-plugin a:before { content: '\f1e6';}
+#sub-menu-tableSetting a:before { content: '\f12e';}
+
+/* Setting */
+#sub-menu-blog a:before { content: '\f013';}
+#body-setting #sub-menu-entry a:before { content: '\f044';}
+#sub-menu-account a:before { content: '\f007';}
+#sub-menu-data a:before { content: '\f1c0';}
+
+/* Others (Plugins. Can be added via plugin. These are just examples.) */
+#sub-menu-PN_Referer_Default a:before { content: '\f090';}
+#sub-menu-PN_Subscription_Default a:before { content: '\f143';}
+#sub-menu-PN_Visitor_Default a:before { content: '\f0c0';}
+#sub-menu-refererkeyword a:before { content: '\f031';}
+#sub-menu-ST_TeamBlogSettings a:before { content: '\f0c0';}
+#sub-menu-CL_Moblog a:before { content: '\f10b';}

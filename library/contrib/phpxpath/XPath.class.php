@@ -10,7 +10,7 @@
  * | What Is XPath:
  * | --------------
  * | - "What SQL is for a relational database, XPath is for an XML document." -- Sam Blum
- * | - "The primary purpose of XPath is to address parts of an XML document. In support of this 
+ * | - "The primary purpose of XPath is to address parts of an XML document. In support of this
  * |    primary purpose, it also provides basic facilities for manipulting it." -- W3C
  * |
  * | XPath in action and a very nice intro is under:
@@ -4456,7 +4456,8 @@ class XPathEngine extends XPathBase {
     $first  = $this->_handleFunction_string($first, $context);
     $second = $this->_handleFunction_string($second, $context);
     // Check whether the first string starts with the second one.
-    return  (bool) ereg('^'.$second, $first);
+    #return  (bool) ereg('^'.$second, $first);
+    return  (bool) preg_match("/^".$second."/", $first);
   }
 
   /**
@@ -4713,7 +4714,8 @@ class XPathEngine extends XPathBase {
       // Check whether the node has an language attribute.
       if (isSet($currentNode['attributes']['xml:lang'])) {
         // Check whether it's the language, the user asks for; if so return TRUE else FALSE
-        return eregi('^'.$arguments, $currentNode['attributes']['xml:lang']);
+        #return eregi('^'.$arguments, $currentNode['attributes']['xml:lang']);
+        return preg_match("/^".$arguments."/i", $currentNode['attributes']['xml:lang']);
       }
       $currentNode = $currentNode['parentNode']; // Move up to parent
     } // End while

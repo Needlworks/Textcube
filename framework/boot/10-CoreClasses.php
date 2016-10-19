@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -37,7 +37,7 @@ class Singleton {
 }
 
 /// String manipulation class
-final class String {
+final class Utils_String {
     static function endsWith($string, $end) {
         $longer = strlen($string) - strlen($end);
         if ($longer < 0) {
@@ -840,10 +840,15 @@ final class Path {
 class XMLStruct {
     var $struct, $error;
 
+    function __construct() {
+        $this->ns = array();
+        $this->baseindex = 0;
+    }
+
     /* static helper function */
 
     /*@static@*/
-    function getValueByLocale($param) {
+    static function getValueByLocale($param) {
         if (!is_array($param)) {
             return $param;
         }
@@ -892,20 +897,15 @@ class XMLStruct {
         return null;
     }
 
-    function __construct() {
-        $this->ns = array();
-        $this->baseindex = 0;
-    }
-
-    function setXPathBaseIndex($baseindex = 1) {
+    public function setXPathBaseIndex($baseindex = 1) {
         $this->baseindex = $baseindex;
     }
 
-    function setNameSpacePrefix($prefix, $url) {
+    public function setNameSpacePrefix($prefix, $url) {
         $this->ns[$prefix] = $url;
     }
 
-    function expandNS($item) {
+    public function expandNS($item) {
         if (!$this->nsenabled) {
             return $item;
         }
@@ -917,7 +917,7 @@ class XMLStruct {
         return $item;
     }
 
-    function open($xml, $encoding = null, $nsenabled = false) {
+    public function open($xml, $encoding = null, $nsenabled = false) {
         if (!empty($encoding) && (strtolower($encoding) != 'utf-8') && !Utils_Unicode::validate($xml)) {
             if (preg_match('/^<\?xml[^<]*\s+encoding=["\']?([\w-]+)["\']?/', $xml, $matches)) {
                 $encoding = $matches[1];
@@ -962,7 +962,7 @@ class XMLStruct {
         return true;
     }
 
-    function openFile($filename, $correct = false) {
+    public function openFile($filename, $correct = false) {
         if (!$fp = fopen($filename, 'r')) {
             return false;
         }
@@ -1026,18 +1026,18 @@ class XMLStruct {
         return true;
     }
 
-    function close() {
+    public function close() {
     }
 
-    function setStream($path) {
+    public function setStream($path) {
         $this->_streams[$path] = true;
     }
 
-    function setConsumer($consumer) {
+    public function setConsumer($consumer) {
         $this->_consumer = $consumer;
     }
 
-    function & selectNode($path, $lang = null) {
+    public function & selectNode($path, $lang = null) {
         $path = explode('/', $path);
         if (array_shift($path) != '') {
             $null = null;
@@ -1118,7 +1118,7 @@ class XMLStruct {
         return $cursor;
     }
 
-    function & selectNodes($path) {
+    public function & selectNodes($path) {
         /*
         if ($path{strlen($path) - 1} == ']') {
             $null = null;
@@ -1167,11 +1167,11 @@ class XMLStruct {
         return $null;
     }
 
-    function doesExist($path) {
+    public function doesExist($path) {
         return (!is_null($this->selectNode($path)));
     }
 
-    function getAttribute($path, $name, $default = null) {
+    public function getAttribute($path, $name, $default = null) {
         $n = &$this->selectNode($path);
         if ((!is_null($n)) && isset($n['.attributes'][$name])) {
             return $n['.attributes'][$name];
@@ -1180,12 +1180,12 @@ class XMLStruct {
         }
     }
 
-    function getValue($path) {
+    public function getValue($path) {
         $n = &$this->selectNode($path);
         return (isset($n['.value']) ? $n['.value'] : null);
     }
 
-    function getNodeCount($path) {
+    public function getNodeCount($path) {
         return count($this->selectNodes($path));
     }
 
@@ -1291,5 +1291,3 @@ final class URL {
         }
     }
 }
-
-?>

@@ -1,14 +1,14 @@
 <?php
-/* Spacer plugin for Textcube 1.10
+/* Spacer plugin for Textcube 2.0
    ----------------------------------
-   Version 1.10.4
+   Version 2.0
    Needlworks Tdevelopment team.
 
    Creator          : inureyes
    Maintainer       : inureyes
 
    Created at       : 2006.11.1
-   Last modified at : 2015.3.4
+   Last modified at : 2015.7.4
  
  This plugin adds space on the sidebar.
  For the detail, visit http://forum.tattersite.com/ko
@@ -25,8 +25,8 @@
 */
 function SB_Spacer($target)
 {
-	global $configVal;
-	$data = Setting::fetchConfigVal($configVal);
+	$context = Model_Context::getInstance();
+	$data = $context->getProperty('plugin.config');
 	if(!is_null($data) && array_key_exists('height', $data)){
 		$height = $data['height'];
 	} else {

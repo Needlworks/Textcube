@@ -1,4 +1,4 @@
-/// Copyright (c) 2004-2015, Tatter & Company / Tatter & Friends.
+/// Copyright (c) 2004-2016, Tatter & Company / Tatter & Friends.
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 

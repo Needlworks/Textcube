@@ -1,10 +1,10 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function dumbCronScheduler($checkOnly = true) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $now = Timestamp::getUNIXtime();
 
     $dumbCronStamps = Setting::getServiceSetting('dumbCronStamps',
@@ -42,7 +42,7 @@ function dumbCronScheduler($checkOnly = true) {
                 importlib('model.blog.trash');
                 trashVan();
             }
-            fwrite($log, date('Y-m-d H:i:s') . ' ' . $ctx->getProperty('blog.name') . " Cron$d executed ({$_SERVER['REQUEST_URI']})\r\n");
+            fwrite($log, date('Y-m-d H:i:s') . ' ' . $context->getProperty('blog.name') . " Cron$d executed ({$_SERVER['REQUEST_URI']})\r\n");
             $dumbCronStamps[$d] = $now;
         }
     }
@@ -63,13 +63,13 @@ function doCronJob() {
 }
 
 function checkCronJob() {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     /* Cron, only in single page request, not in a page dead link */
     if (!empty($_SERVER['HTTP_REFERER']) || !dumbCronScheduler(true)) {
         return;
     }
 
-    $request = new HTTPRequest('GET', $ctx->getProperty('uri.default') . '/cron');
+    $request = new HTTPRequest('GET', $context->getProperty('uri.default') . '/cron');
     $request->timeout = 2;
     $request->send();
 }

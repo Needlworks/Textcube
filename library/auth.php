@@ -1,10 +1,10 @@
 <?php
-/// Copyright (c) 2004-2015, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
 function login($loginid, $password, $expires = null) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
     $loginid = POD::escapeString($loginid);
     $blogid = getBlogId();
     $userid = Auth::authenticate($blogid, $loginid, $password);
@@ -14,9 +14,9 @@ function login($loginid, $password, $expires = null) {
     }
 
     if (empty($_POST['save'])) {
-        setcookie('TSSESSION_LOGINID', '', time() - 31536000, $ctx->getProperty('service.path') . '/', $ctx->getProperty('service.domain'));
+        setcookie('TSSESSION_LOGINID', '', time() - 31536000, $context->getProperty('service.path') . '/', $context->getProperty('service.domain'));
     } else {
-        setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $ctx->getProperty('service.path') . '/', $ctx->getProperty('service.domain'));
+        setcookie('TSSESSION_LOGINID', $loginid, time() + 31536000, $context->getProperty('service.path') . '/', $context->getProperty('service.domain'));
     }
 
     if (in_array("group.writers", Acl::getCurrentPrivilege())) {
@@ -67,17 +67,6 @@ function requireMembership() {
 
 function getUserId() {
     return intval(Acl::getIdentity('textcube'));
-}
-
-/*
-function getBlogId() {
-	global $blogid;
-	return intval($blogid);
-}*/
-
-function setBlogId($id) {
-    global $blogid;
-    $blogid = $id;
 }
 
 function doesHaveOwnership($extra_aco = null) {
@@ -172,7 +161,7 @@ function generatePassword() {
 }
 
 function resetPassword($blogid, $loginid) {
-    $ctx = Model_Context::getInstance();
+    $context = Model_Context::getInstance();
 
     if (!isLoginId($blogid, $loginid)) {
         return false;
@@ -201,11 +190,11 @@ function resetPassword($blogid, $loginid) {
     $message = file_get_contents(ROOT . "/resources/style/letter/letter.html");
     $message = str_replace('[##_title_##]', _text('텍스트큐브 블로그 로그인 정보'), $message);
     $message = str_replace('[##_content_##]', _text('블로그 로그인을 위한 임시 암호가 생성 되었습니다. 이 이메일에 로그인할 수 있는 인증 정보가 포함되어 있습니다.'), $message);
-    $message = str_replace('[##_images_##]', $ctx->getProperty('uri.service') . "/resources/style/letter", $message);
-    $message = str_replace('[##_link_##]', $ctx->getProperty('uri.host') . $ctx->getProperty('uri.blog') . "/login?loginid=" . rawurlencode($loginid) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode($ctx->getProperty('uri.host') . $ctx->getProperty('uri.blog') . "/owner/setting/account?password=" . rawurlencode($password)), $message);
+    $message = str_replace('[##_images_##]', $context->getProperty('uri.service') . "/resources/style/letter", $message);
+    $message = str_replace('[##_link_##]', $context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/login?loginid=" . rawurlencode($loginid) . '&password=' . rawurlencode($authtoken) . '&requestURI=' . rawurlencode($context->getProperty('uri.host') . $context->getProperty('uri.blog') . "/owner/setting/account?password=" . rawurlencode($password)), $message);
     $message = str_replace('[##_link_title_##]', _text('여기를 클릭하시면 로그인하여 암호를 변경하실 수 있습니다.'), $message);
     $message = str_replace('[##_sender_##]', '', $message);
-    $ret = sendEmail('Your Textcube Blog', "textcube@" . $ctx->getProperty('service.domain'), '', $loginid, encodeMail(_text('블로그 로그인 암호가 초기화되었습니다.')), $message);
+    $ret = sendEmail('Your Textcube Blog', "textcube@" . $context->getProperty('service.domain'), '', $loginid, encodeMail(_text('블로그 로그인 암호가 초기화되었습니다.')), $message);
     if (true !== $ret) {
         return false;
     }
