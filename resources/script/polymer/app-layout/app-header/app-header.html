@@ -220,7 +220,8 @@ Mixin | Description | Default
 @demo app-header/demo/music.html Reveals Demo
 @demo app-header/demo/no-effects.html Condenses and Reveals Demo
 @demo app-header/demo/notes.html Fixed with Dynamic Shadow Demo
-@demo app-header/demo/custom-sticky-element.html Custom Sticky Element Demo
+@demo app-header/demo/custom-sticky-element-1.html Custom Sticky Element Demo 1
+@demo app-header/demo/custom-sticky-element-2.html Custom Sticky Element Demo 2
 -->
 
 <dom-module id="app-header">
@@ -254,17 +255,15 @@ Mixin | Description | Default
         opacity: 1;
       }
 
-      #contentContainer > ::content [condensed-title] {
+      ::content [main-title],
+      ::content [condensed-title] {
         -webkit-transform-origin: left top;
         transform-origin: left top;
         white-space: nowrap;
-        opacity: 0;
       }
 
-      #contentContainer > ::content [main-title] {
-        -webkit-transform-origin: left top;
-        transform-origin: left top;
-        white-space: nowrap;
+      ::content [condensed-title] {
+        opacity: 0;
       }
 
       #background {
@@ -483,8 +482,6 @@ Mixin | Description | Default
        * @method resetLayout
        */
       resetLayout: function() {
-        this.fire('app-header-reset-layout');
-
         this.debounce('_resetLayout', function() {
           // noop if the header isn't visible
           if (this.offsetWidth === 0 && this.offsetHeight === 0) {
@@ -503,7 +500,6 @@ Mixin | Description | Default
           if  (!firstSetup) {
             this._updateScrollState(0, true);
           }
-
           if (this._mayMove()) {
             this._dHeight = this._stickyEl ? this._height - this._stickyEl.offsetHeight : 0;
           } else {
@@ -521,6 +517,7 @@ Mixin | Description | Default
           }
           // restore no transition
           this.disabled = currentDisabled;
+          this.fire('app-header-reset-layout');
         });
       },
 
@@ -647,9 +644,9 @@ Mixin | Description | Default
        */
       _transformHeader: function(y) {
         this.translate3d(0, (-y) + 'px', 0);
-        if (this._stickyEl && this.condenses && y >= this._stickyElTop) {
-          this.translate3d(0, (Math.min(y, this._dHeight) - this._stickyElTop) + 'px', 0,
-              this._stickyEl);
+        if (this._stickyEl) {
+          this.translate3d(0, this.condenses && y >= this._stickyElTop ?
+              (Math.min(y, this._dHeight) - this._stickyElTop) + 'px' : 0,  0, this._stickyEl);
         }
       },
 

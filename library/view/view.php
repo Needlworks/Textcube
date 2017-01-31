@@ -1,5 +1,5 @@
 <?php
-/// Copyright (c) 2004-2016, Needlworks  / Tatter Network Foundation
+/// Copyright (c) 2004-2017, Needlworks  / Tatter Network Foundation
 /// All rights reserved. Licensed under the GPL.
 /// See the GNU General Public License for more details. (/documents/LICENSE, /documents/COPYRIGHT)
 
@@ -1342,9 +1342,6 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
         $content = fireEvent('Format' . $type . 'Content', $content, $id);
         $func = ($bRssMode ? 'summarizeContent' : 'formatContent');
         $view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
-        if ($context->getProperty('blog.displaymode', 'desktop') == 'mobile') {
-            $view = stripHTML($view, array('a', 'abbr', 'acronym', 'address', 'b', 'blockquote', 'br', 'caption', 'cite', 'code', 'dd', 'del', 'dfn', 'div', 'dl', 'dt', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'iframe', 'img', 'ins', 'kbd', 'li', 'ol', 'p', 'pre', 'q', 's', 'samp', 'span', 'strike', 'strong', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'tr', 'u', 'ul', 'var'));
-        }
         if (!$useAbsolutePath) {
             $view = avoidFlashBorder($view);
         }
