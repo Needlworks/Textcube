@@ -888,7 +888,7 @@ function toggleMoreLess(obj, num, txtMore, txtLess)
         oLess = document.getElementById('less' + num);
         oContent.parentNode.removeChild(oLess);
     }
-    $(oContent).toggle({duration:350,easing:"swing"});
+    $(oContent).slideToggle({duration:350,easing:"swing"});
 }
 
 function getParentByTagName(tag, obj)
