@@ -5,7 +5,8 @@
 
 $IV = array(
 	'POST' => array(
-		'useResamplingAsDefault' => array('string', 'mandatory' => false)
+		'useResamplingAsDefault' => array('string', 'mandatory' => false),
+		'useResamplingResponsive' => array('string', 'mandatory' => false)
 		)
 	);
 
@@ -19,6 +20,13 @@ if (isset($_POST['useResamplingAsDefault']) && ($_POST['useResamplingAsDefault']
 } else {
 	Setting::removeBlogSettingGlobal("resamplingDefault");
 }
+
+if (isset($_POST['useResamplingResponsive']) && ($_POST['useResamplingResponsive'] == "yes")) {
+	Setting::setBlogSettingGlobal("resamplingResponsive", "yes");
+} else {
+	Setting::removeBlogSettingGlobal("resamplingResponsive");
+}
+
 CacheControl::flushEntry();
 
 $isAjaxRequest ? Respond::PrintResult($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);

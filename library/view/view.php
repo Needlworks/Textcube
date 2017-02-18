@@ -1264,11 +1264,6 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 					if (file_exists(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}")) {
 						$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
 						$tempOriginInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}");
-						// if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
-						// 	$image = Utils_Image::getInstance();
-
-						// 	list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-						// }
 
 						// original image
 						$absolute = isset($options['absolute']) ? $options['absolute'] : true;
@@ -1278,30 +1273,37 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 						$imageOrientation = ($tempOriginInfo[0]>=$tempOriginInfo[1] ? "landscape" : "portrait");
 
 
-
 						// generate small/medium images
-						if ($tempOriginInfo[0] > 360) { // 360px
-							$image = Utils_Image::getInstance();
-							list($smallImageURL, $smallImageWidth, $smallImageHeight, $smallImageSrc) = $image->getImageResizer($tempFileName, array('width' => 360));
-							
-							if ($tempOriginInfo[0] > 800) { // 800px
-								list($mediumImageURL, $mediumImageWidth, $mediumImageHeight, $mediumImageSrc) = $image->getImageResizer($tempFileName, array('width' => 800));
-
-								$baseImageURL = $mediumImageURL;
-								$baseImageWidth = $mediumImageWidth;
-								$baseImageHeight = $mediumImageHeight;
-								$srcset = "{$smallImageURL} 360w, {$mediumImageURL} 800w, {$origImageURL} {$tempOriginInfo[0]}w";
+						if (Setting::getBlogSettingGlobal('resamplingResponsive') == true) {
+							if ($tempOriginInfo[0] > 360) { // 360px
+								$image = Utils_Image::getInstance();
+								list($smallImageURL, $smallImageWidth, $smallImageHeight, $smallImageSrc) = $image->getImageResizer($tempFileName, array('width' => 360));
 								
-							} else {
-								$baseImageURL = $smallImageURL;
-								$baseImageWidth = $smallImageWidth;
-								$baseImageHeight = $smallImageHeight;
-								$srcset = "{$smallImageURL} 360w, {$origImageURL} {$tempOriginInfo[0]}w";
-							}
+								if ($tempOriginInfo[0] > 800) { // 800px
+									list($mediumImageURL, $mediumImageWidth, $mediumImageHeight, $mediumImageSrc) = $image->getImageResizer($tempFileName, array('width' => 800));
 
-							$newImage = "<img src=\"{$baseImageURL}\" srcset=\"{$srcset}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
-						} else {
-							$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
+									$baseImageURL = $mediumImageURL;
+									$baseImageWidth = $mediumImageWidth;
+									$baseImageHeight = $mediumImageHeight;
+									$srcset = "{$smallImageURL} 360w, {$mediumImageURL} 800w, {$origImageURL} {$tempOriginInfo[0]}w";
+									
+								} else {
+									$baseImageURL = $smallImageURL;
+									$baseImageWidth = $smallImageWidth;
+									$baseImageHeight = $smallImageHeight;
+									$srcset = "{$smallImageURL} 360w, {$origImageURL} {$tempOriginInfo[0]}w";
+								}
+
+								$newImage = "<img src=\"{$baseImageURL}\" srcset=\"{$srcset}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
+							} else {
+								$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
+							}
+						}
+						else if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
+							$image = Utils_Image::getInstance();
+
+							list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
+							$newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
 						}
 					
 					}
