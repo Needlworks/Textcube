@@ -269,7 +269,7 @@ if (extension_loaded('gd')) {
 										<dl id="resampling-default-line" class="line">
 											<dt><span class="label"><?php echo _t('기본 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (Setting::getBlogSettingGlobal("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?> </label><br /><?php echo _t('이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다.');?> <em><?php echo _t('이 기능을 사용하면 올린 이미지의 크기를 줄여 저장하는 과정에서 서버에 무리를 줄 수 있으니 주의하시기 바랍니다.');?></em>
+												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (Setting::getBlogSettingGlobal("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> onchange="document.getElementById('useResamplingResponsive').disabled = !this.checked;" /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?> </label><br /><?php echo _t('이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다.');?> <em><?php echo _t('이 기능을 사용하면 올린 이미지의 크기를 줄여 저장하는 과정에서 서버에 무리를 줄 수 있으니 주의하시기 바랍니다.');?></em>
 											</dd>
 										</dl>
 										<dl id="resampling-responsive-line" class="line">
