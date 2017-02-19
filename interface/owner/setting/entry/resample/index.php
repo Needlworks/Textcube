@@ -27,7 +27,7 @@ if (isset($_POST['useResamplingResponsive']) && ($_POST['useResamplingResponsive
 	Setting::removeBlogSettingGlobal("resamplingResponsive");
 }
 
-CacheControl::flushEntry();
+CacheControl::flushAll();
 
 $isAjaxRequest ? Respond::PrintResult($errorResult) : header("Location: ".$_SERVER['HTTP_REFERER']);
 ?>
