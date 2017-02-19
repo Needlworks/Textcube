@@ -1269,12 +1269,16 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 						$origImageSrc = __TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}";
 						$origImageURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path'))."/attach/{$blogid}/{$tempFileName}";
 						
+						// Detect orientation
 						$imageOrientation = ($tempOriginInfo[0]>=$tempOriginInfo[1] ? "landscape" : "portrait");
+
+						// Check whether original image width is larger than resized image (blog content width)
+						$imageZoomable = ($tempOriginInfo[0]>$tempAttributes['width'] ? "true" : "false"); 
 
 
 						// generate small/medium images
 						if (Setting::getBlogSettingGlobal('resamplingResponsive') == true) {
-							if ($tempOriginInfo[0] > 360) { // 360px
+							if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > 360)) { // 360px
 								$image = Utils_Image::getInstance();
 								list($smallImageURL, $smallImageWidth, $smallImageHeight, $smallImageSrc) = $image->getImageResizer($tempFileName, array('width' => 360));
 								
@@ -1293,16 +1297,16 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 									$srcset = "{$smallImageURL} 360w, {$origImageURL} {$tempOriginInfo[0]}w";
 								}
 
-								$newImage = "<img src=\"{$baseImageURL}\" srcset=\"{$srcset}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
+								$newImage = "<img src=\"{$baseImageURL}\" srcset=\"{$srcset}\" width=\"{$tempAttributes['width']}\" height=\"{$tempAttributes['height']}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\" />";
 							} else {
-								$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
+								$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempAttributes['width']}\" height=\"{$tempAttributes['height']}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
 							}
 						}
 						else if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
 							$image = Utils_Image::getInstance();
 
 							list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-							$newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\"/>";
+							$newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
 						}
 					
 					}
