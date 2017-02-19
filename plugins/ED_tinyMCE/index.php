@@ -145,7 +145,7 @@ function tinyMCE_editorinit($editor) {
 <?php
 	}
 ?>
-				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+40);?>
+				width : <?php echo ($config['width'] == 'full' ? '"100%"' : $context->getProperty('skin.contentWidth')+80);?>
 			}, tinymce.EditorManager);
 			editor.initialize = function() {
 <?php if ($config['formatter'] == 'markdown') {
