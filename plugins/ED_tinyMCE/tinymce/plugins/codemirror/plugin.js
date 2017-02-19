@@ -33,7 +33,7 @@ tinymce.PluginManager.add('codemirror', function(editor, url) {
 				src:url + '/source_frame.html',
 				width:'100%',
 				height:'450px',
-				style:'width:100%; height:450px; border: 1px solid #eee; box-shadow:0 0 5px rgba(0,0,0,0.3);'
+				style:'width: 100%; min-height: 450px; border: none;'
 			}).appendTo('.editorbox-container');
 			editor.doesCodeMirrorEditorEnabled = true;
 		} else {
