@@ -1275,39 +1275,42 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 						// Check whether original image width is larger than resized image (blog content width)
 						$imageZoomable = ($tempOriginInfo[0]>$tempAttributes['width'] ? "true" : "false"); 
 
+						if (isset($tempAttributes['width'])) {
+							$image = Utils_Image::getInstance();
 
-						// generate small/medium images
-						if (Setting::getBlogSettingGlobal('resamplingResponsive') == true) {
-							if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > 360)) { // 360px
+							// if responsive resampling option is active & larger than 360px
+							if ((Setting::getBlogSettingGlobal('resamplingResponsive') == true) && ($tempOriginInfo[0] > 360)) {
 								$image = Utils_Image::getInstance();
 								list($smallImageURL, $smallImageWidth, $smallImageHeight, $smallImageSrc) = $image->getImageResizer($tempFileName, array('width' => 360));
 								
-								if ($tempOriginInfo[0] > 800) { // 800px
+								if ($tempOriginInfo[0] > 800) { // if larger than 800px, generate additional size
 									list($mediumImageURL, $mediumImageWidth, $mediumImageHeight, $mediumImageSrc) = $image->getImageResizer($tempFileName, array('width' => 800));
 
-									$baseImageURL = $mediumImageURL;
-									$baseImageWidth = $mediumImageWidth;
-									$baseImageHeight = $mediumImageHeight;
-									$srcset = "{$smallImageURL} 360w, {$mediumImageURL} 800w, {$origImageURL} {$tempOriginInfo[0]}w";
-									
+									$srcset = "{$smallImageURL} 360w, {$mediumImageURL} 800w, {$origImageURL} {$tempOriginInfo[0]}w";			
 								} else {
-									$baseImageURL = $smallImageURL;
-									$baseImageWidth = $smallImageWidth;
-									$baseImageHeight = $smallImageHeight;
 									$srcset = "{$smallImageURL} 360w, {$origImageURL} {$tempOriginInfo[0]}w";
 								}
 
-								$newImage = "<img src=\"{$baseImageURL}\" srcset=\"{$srcset}\" width=\"{$tempAttributes['width']}\" height=\"{$tempAttributes['height']}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\" />";
-							} else {
-								$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempAttributes['width']}\" height=\"{$tempAttributes['height']}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
-							}
-						}
-						else if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
-							$image = Utils_Image::getInstance();
+								list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
 
-							list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-							$newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
+								// use default resized image for src for fallback
+								$newImage = "<img src=\"{$resizedImageURL}\" srcset=\"{$srcset}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\" />";
+							} 
+
+							// if using default option & image is larger than content
+							else if ($tempOriginInfo[0] > $tempAttributes['width']) {
+								list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
+								$newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
+							} 
+							// if image is smaller than content
+							else {
+								$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
+							}
+						
 						}
+
+						
+						
 					
 					}
 					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
