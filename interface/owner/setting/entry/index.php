@@ -269,13 +269,20 @@ if (extension_loaded('gd')) {
 										<dl id="resampling-default-line" class="line">
 											<dt><span class="label"><?php echo _t('기본 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (Setting::getBlogSettingGlobal("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> onchange="document.getElementById('useResamplingResponsive').disabled = !this.checked;" /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?> </label><br /><?php echo _t('이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다.');?> <em><?php echo _t('이 기능을 사용하면 올린 이미지의 크기를 줄여 저장하는 과정에서 서버에 무리를 줄 수 있으니 주의하시기 바랍니다.');?></em>
+												<input type="checkbox" class="checkbox" id="useResamplingAsDefault" name="useResamplingAsDefault" value="yes"<?php echo (Setting::getBlogSettingGlobal("resamplingDefault") == "yes") ? ' checked="checked"' : NULL;?> onchange="document.getElementById('useResamplingResponsive').disabled = !this.checked;" /><label for="useResamplingAsDefault"><?php echo _t('이미지 리샘플링 기능을 기본으로 사용합니다.');?> </label>
+											</dd>
+											<dd>
+												<p><?php echo _t('이미지 리샘플링을 통하여 올린 이미지의 크기를 줄여 저장한 후 출력하여 블로그의 트래픽을 줄여줍니다.');?> <strong><?php echo _t('이 기능을 사용하면 올린 이미지의 크기를 줄여 저장하는 과정에서 서버에 무리를 줄 수 있으니 주의하시기 바랍니다.');?></strong></p>
 											</dd>
 										</dl>
 										<dl id="resampling-responsive-line" class="line">
 											<dt><span class="label"><?php echo _t('고급 설정');?></span></dt>
 											<dd>
-												<input type="checkbox" class="checkbox" id="useResamplingResponsive" name="useResamplingResponsive" value="yes"<?php echo (Setting::getBlogSettingGlobal("resamplingResponsive") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useResamplingResponsive"><?php echo _t('srcset을 이용한 반응형 이미지 기능을 사용합니다.');?> </label><br /><?php echo _t('이미지의 작은 사이즈 사본을 추가적으로 생성하고, 접속한 브라우저의 화면 크기에 따라 가장 알맞은 사이즈의 이미지만 서빙하여 트래픽을 절약할 수 있습니다. IE를 제외한 모든 모던한 브라우저에서 해당 기능을 지원하며, srcset을 지원하지 않는 브라우저에서는 기본 크기의 이미지 주소를 참조합니다. 이 기능을 사용하려면, 위의 이미지 리샘플링 기능이 켜져있어야 합니다.');?></em>
+												<input type="checkbox" class="checkbox" id="useResamplingResponsive" name="useResamplingResponsive" value="yes"<?php echo (Setting::getBlogSettingGlobal("resamplingResponsive") == "yes") ? ' checked="checked"' : NULL;?> /><label for="useResamplingResponsive"><?php echo _t('srcset을 이용한 반응형 이미지 기능을 사용합니다.');?> </label>
+											</dd>
+											<dd>
+												<p><?php echo _t('이미지의 작은 사이즈 사본을 추가적으로 생성하고, 접속한 브라우저의 화면 크기에 따라 가장 알맞은 사이즈의 이미지만 서빙하여 트래픽을 절약할 수 있습니다. IE를 제외한 모든 모던한 브라우저에서 해당 기능을 지원하며, srcset을 지원하지 않는 브라우저에서는 기본 크기의 이미지 주소를 참조합니다.');?><strong><?php echo _t('이 기능을 사용하려면, 위의 이미지 리샘플링 기능이 켜져있어야 합니다.');?></strong>
+												</p>
 											</dd>
 										</dl>
 									</fieldset>
