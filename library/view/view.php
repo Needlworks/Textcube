@@ -101,7 +101,7 @@ function getScriptsOnHead($paging, $entryIds = null) {
         var isReaderEnabled = <?php echo ($context->getProperty('service.reader') ? 'true' : 'false'); ?>;
         var displayMode = "<?php echo $context->getProperty('blog.displaymode','desktop');?>";
         var workMode = "<?php echo $context->getProperty('blog.workmode','enhanced');?>";
-		var cookie_prefix = "<?php echo $context->getProperty('service.cookie_prefix','');?>";
+        var cookie_prefix = "<?php echo $context->getProperty('service.cookie_prefix','');?>";
         <?php
             if (!is_null($entryIds)) {
                 ?>
@@ -128,10 +128,10 @@ function getUpperView() {
     ob_start();
     ?>
     <!--
-	<?php echo TEXTCUBE_NAME . " " . TEXTCUBE_VERSION . CRLF; ?>
+    <?php echo TEXTCUBE_NAME . " " . TEXTCUBE_VERSION . CRLF; ?>
 
-	Homepage: <?php echo TEXTCUBE_HOMEPAGE . CRLF; ?>
-	<?php echo TEXTCUBE_COPYRIGHT . CRLF; ?>
+    Homepage: <?php echo TEXTCUBE_HOMEPAGE . CRLF; ?>
+    <?php echo TEXTCUBE_COPYRIGHT . CRLF; ?>
 -->
     <?php
     if (doesHaveOwnership()) {
@@ -753,9 +753,9 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
                 oChild.style.color = "#<?php echo $skin['itemColor'];?>";
                 <?php
                     if ($skin['itemBgColor'] != '')
-                        {echo "				oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";}
+                        {echo "             oChild.style.backgroundColor = \"#{$skin['itemBgColor']}\"";}
                     else
-                        {echo "				oChild.style.backgroundColor = \"\"";}
+                        {echo "             oChild.style.backgroundColor = \"\"";}
                 ?>
 
                 root.setAttribute('currentselectednode', category);
@@ -766,9 +766,9 @@ function printTreeView($tree, $selected, $embedJava = false, $xhtml = false) {
                 oChild.style.color = "#<?php echo $skin['activeItemColor'];?>";
                 <?php
                     if ($skin['activeItemBgColor'] != '')
-                        {echo "				oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";}
+                        {echo "             oChild.style.backgroundColor = \"#{$skin['activeItemBgColor']}\"";}
                     else
-                        {echo "				oChild.style.backgroundColor = \"\"";}
+                        {echo "             oChild.style.backgroundColor = \"\"";}
                 ?>
 
                 document.getElementById('text_' + category).style.color = "#<?php echo $skin['activeItemColor'];?>";
@@ -1021,9 +1021,9 @@ function getCalendarView($calendar) {
         for ($week = 0; $week < $lastWeek; $week++) {
             // 주중에 현재 날짜가 포함되어 있으면 주를 현재 주 class(tt-current-week)를 부여한다.
             if (($today + $firstWeekday) > $week * 7 && ($today + $firstWeekday) <= ($week + 1) * 7) {
-                echo '		<tr class="cal_week cal_current_week">' . CRLF;
+                echo '      <tr class="cal_week cal_current_week">' . CRLF;
             } else {
-                echo '		<tr class="cal_week">' . CRLF;
+                echo '      <tr class="cal_week">' . CRLF;
             }
 
             for ($weekday = 0; $weekday < 7; $weekday++) {
@@ -1052,24 +1052,24 @@ function getCalendarView($calendar) {
                     if ($weekday < $firstWeekday) {
                         $day--;
                         // 달의 첫째날이 되기 전의 빈 칸.
-                        echo '			<td class="cal_day1">&nbsp;</td>' . CRLF;
+                        echo '          <td class="cal_day1">&nbsp;</td>' . CRLF;
                     } else {
-                        echo '			<td class="' . $className . '">' . $dayString . '</td>' . CRLF;
+                        echo '          <td class="' . $className . '">' . $dayString . '</td>' . CRLF;
                     }
                 } else {
                     if ($week == ($lastWeek - 1)) {
                         if ($day <= $lastDay) {
-                            echo '			<td class="' . $className . '">' . $dayString . '</td>' . CRLF;
+                            echo '          <td class="' . $className . '">' . $dayString . '</td>' . CRLF;
                         } else {
                             // 달의 마지막날을 넘어간 날짜 빈 칸.
-                            echo '			<td class="cal_day2">&nbsp;</td>' . CRLF;
+                            echo '          <td class="cal_day2">&nbsp;</td>' . CRLF;
                         }
                     } else {
-                        echo '			<td class="' . $className . '">' . $dayString . '</td>' . CRLF;
+                        echo '          <td class="' . $className . '">' . $dayString . '</td>' . CRLF;
                     }
                 }
             }
-            echo '		</tr>' . CRLF;
+            echo '      </tr>' . CRLF;
 
             if ($day >= $lastDay) {
                 break;
@@ -1093,7 +1093,7 @@ function getAuthorListView($authorInfo, $template) {
             $permalink = $context->getProperty('uri.blog') . "/author/" . URL::encode($user['name']);
             dress('author_rep_link', $permalink, $view);
             dress('author_rep_name', $user['name'], $view);
-//		dress('author_rep_post_count', $user['postcount'], $view);
+//      dress('author_rep_post_count', $user['postcount'], $view);
 
             print $view;
         }
@@ -1328,7 +1328,6 @@ function getRandomTagsView($tags, $template) {
 }
 
 function getEntryContentView($blogid, $id, $content, $formatter, $keywords = array(), $type = 'Post', $useAbsolutePath = true, $bRssMode = false) {
-<<<<<<< HEAD
     $context = Model_Context::getInstance();
     importlib('model.blog.attachment');
     importlib('model.blog.keyword');
@@ -1378,12 +1377,49 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
                     if (file_exists(__TEXTCUBE_ATTACH_DIR__ . "/{$blogid}/{$tempFileName}")) {
                         $tempAttributes = Utils_Misc::getAttributesFromString($images[$i][2]);
                         $tempOriginInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__ . "/{$blogid}/{$tempFileName}");
-                        if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
-                            $image = Utils_Image::getInstance();
-                            list($tempImageURL, $tempImageWidth, $tempImageHeight, $tempImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-                            $newImage = "<img src=\"{$tempImageURL}\" width=\"{$tempImageWidth}\" height=\"{$tempImageHeight}\"{$attributes}/>";
-                        }
-                    }
+                        // original image
+                                    $absolute = isset($options['absolute']) ? $options['absolute'] : true;
+                                    $origImageSrc = __TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}";
+                                    $origImageURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path'))."/attach/{$blogid}/{$tempFileName}";
+
+                                    // Detect orientation
+                                    $imageOrientation = ($tempOriginInfo[0]>=$tempOriginInfo[1] ? "landscape" : "portrait");
+
+                                    // Check whether original image width is larger than resized image (blog content width)
+                                    $imageZoomable = ($tempOriginInfo[0]>$tempAttributes['width'] ? "true" : "false");
+
+                                    if (isset($tempAttributes['width'])) {
+                                        $image = Utils_Image::getInstance();
+                                        // if responsive resampling option is active & larger than 360px
+                                        if ((Setting::getBlogSettingGlobal('resamplingResponsive') == true) && ($tempOriginInfo[0] > 360)) {
+                                            $image = Utils_Image::getInstance();
+                                            list($smallImageURL, $smallImageWidth, $smallImageHeight, $smallImageSrc) = $image->getImageResizer($tempFileName, array('width' => 360));
+
+                                            if ($tempOriginInfo[0] > 800) { // if larger than 800px, generate additional size
+                                                list($mediumImageURL, $mediumImageWidth, $mediumImageHeight, $mediumImageSrc) = $image->getImageResizer($tempFileName, array('width' => 800));
+
+                                                $srcset = "{$smallImageURL} 360w, {$mediumImageURL} 800w, {$origImageURL} {$tempOriginInfo[0]}w";
+                                            } else {
+                                                $srcset = "{$smallImageURL} 360w, {$origImageURL} {$tempOriginInfo[0]}w";
+                                            }
+
+                                            list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
+
+                                            // use default resized image for src for fallback
+                                            $newImage = "<img src=\"{$resizedImageURL}\" srcset=\"{$srcset}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\" />";
+                                        }
+
+                                        // if using default option & image is larger than content
+                                        else if ($tempOriginInfo[0] > $tempAttributes['width']) {
+                                            list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
+                                            $newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
+                                        }
+                                        // if image is smaller than content
+                                        else {
+                                            $newImage = "<img src=\"{$origImageURL}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
+                                        }
+                                    }
+                                }
                     $view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
                 }
             }
@@ -1394,114 +1430,6 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
     $cache->reset();
     $view = fireEvent('View' . $type . 'Content', $view, $id);
     return $view;
-=======
-	global $hostURL, $service;
-	requireModel('blog.attachment');
-	requireModel('blog.keyword');
-	requireLibrary('blog.skin');
-	$context  = Model_Context::getInstance();
-	$cacheKey = 'entry-'.$id.'-'.$type.($bRssMode ? 'format' : 'summarize').($useAbsolutePath ? 'absoultePath' : 'relativePath').($context->getProperty('blog.displaymode','desktop'));
-	$cache = pageCache::getInstance();
-	$cache->reset($cacheKey);
-	if(!defined('__TEXTCUBE_NO_ENTRY_CACHE__') && $cache->load()) {	// If cached content exists.
-		$view = $cache->contents;
-	} else {	// No cache is found.
-		$content = fireEvent('Format' . $type . 'Content', $content, $id);
-		$func = ($bRssMode ? 'summarizeContent' : 'formatContent');
-		$view = $func($blogid, $id, $content, $formatter, $keywords, $useAbsolutePath);
-		
-		if(!$useAbsolutePath)
-			$view = avoidFlashBorder($view);
-
-		if (!empty($keywords) && is_array($keywords)) $view = bindKeywords($keywords, $view);
-
-
-		// image resampling
-		if (Setting::getBlogSettingGlobal('resamplingDefault') == true) {
-			preg_match_all("@<img.+src=['\"](.+)['\"](.*)/?>@Usi", $view, $images, PREG_SET_ORDER);
-			$view = preg_replace("@<img.+src=['\"].+['\"].*/?>@Usi", '[#####_#####_#####_image_#####_#####_#####]', $view);
-			$contentWidth = Misc::getContentWidth();
-
-			if (count($images) > 0) {
-				for ($i=0; $i<count($images); $i++) {
-					if (strtolower(Misc::getFileExtension($images[$i][1])) == 'gif') {
-						$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $images[$i][0], $view, 1);
-						continue;
-					}
-
-					$attributes = preg_match('/(style="cursor: pointer;" onclick="open_img\((.[^"]+)\); return false;")/si', $images[$i][2], $matches) ? ' '.$matches[1] : '';
-					$attributes .= preg_match('/(alt="([^"]*)")/si', $images[$i][2], $matches) ? ' '.$matches[1] : ' alt="resize"';
-					$attributes .= preg_match('/(title="([^"]*)")/si', $images[$i][2], $matches) ? $title = ' '.$matches[1] : '';
-
-					$tempFileName = array_pop(explode('/', $images[$i][1]));
-					if (preg_match('/(.+)\.w(\d{1,})\-h(\d{1,})\.(.+)/', $tempFileName, $matches))
-						$tempFileName = $matches[1].'.'.$matches[4];
-
-					$newImage = $images[$i][0];
-					if (file_exists(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}")) {
-						$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
-						$tempOriginInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}");
-
-						// original image
-						$absolute = isset($options['absolute']) ? $options['absolute'] : true;
-						$origImageSrc = __TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}";
-						$origImageURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path'))."/attach/{$blogid}/{$tempFileName}";
-						
-						// Detect orientation
-						$imageOrientation = ($tempOriginInfo[0]>=$tempOriginInfo[1] ? "landscape" : "portrait");
-
-						// Check whether original image width is larger than resized image (blog content width)
-						$imageZoomable = ($tempOriginInfo[0]>$tempAttributes['width'] ? "true" : "false"); 
-
-						if (isset($tempAttributes['width'])) {
-							$image = Utils_Image::getInstance();
-
-							// if responsive resampling option is active & larger than 360px
-							if ((Setting::getBlogSettingGlobal('resamplingResponsive') == true) && ($tempOriginInfo[0] > 360)) {
-								$image = Utils_Image::getInstance();
-								list($smallImageURL, $smallImageWidth, $smallImageHeight, $smallImageSrc) = $image->getImageResizer($tempFileName, array('width' => 360));
-								
-								if ($tempOriginInfo[0] > 800) { // if larger than 800px, generate additional size
-									list($mediumImageURL, $mediumImageWidth, $mediumImageHeight, $mediumImageSrc) = $image->getImageResizer($tempFileName, array('width' => 800));
-
-									$srcset = "{$smallImageURL} 360w, {$mediumImageURL} 800w, {$origImageURL} {$tempOriginInfo[0]}w";			
-								} else {
-									$srcset = "{$smallImageURL} 360w, {$origImageURL} {$tempOriginInfo[0]}w";
-								}
-
-								list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-
-								// use default resized image for src for fallback
-								$newImage = "<img src=\"{$resizedImageURL}\" srcset=\"{$srcset}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\" />";
-							} 
-
-							// if using default option & image is larger than content
-							else if ($tempOriginInfo[0] > $tempAttributes['width']) {
-								list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-								$newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
-							} 
-							// if image is smaller than content
-							else {
-								$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
-							}
-						
-						}
-
-						
-						
-					
-					}
-					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
-				}
-			}
-		}
-		$cache->contents = $view;
-		$cache->update();
-	}
-	$cache->reset();
-	$view = fireEvent('View' . $type . 'Content', $view, $id);
-	return $view;
->>>>>>> 787231bbd... Add option to serve responsive images through srcset (#1857)
 }
 
 function printEntryContentView($blogid, $id, $content, $formatter, $keywords = array()) {
@@ -1884,8 +1812,8 @@ function printScript($filename, $obfuscate = true) {
     }
     $file = "<script type=\"text/javascript\">" . CRLF
         . $file;
-//	if ($obfuscate) {
-//	}
+//  if ($obfuscate) {
+//  }
     return "$file </script>";
 }
 
