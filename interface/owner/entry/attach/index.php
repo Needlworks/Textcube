@@ -22,6 +22,7 @@ requireStrictRoute();
 	<head>
 		<title><?php echo _t('File Uploader');?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/basic.css" />
 		<link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.css" />
 		<!--[if lte IE 6]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie.css" /><![endif]-->
 		<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="<?php echo $service['path'].$adminSkinSetting['skin'];?>/editor.ie7.css" /><![endif]-->
@@ -34,11 +35,17 @@ requireStrictRoute();
 			margin: 0 !important;
 			padding: 0 !important;
 		}
+
+		progress {
+			display: block;
+			width: 100%;
+		}
 	</style>
 </head>
 <body id="body-editor-attachment">
 	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
-		<input type="file" id="fileUploadInput" class="input-file" name="attachment" multiple />
+		<input type="file" id="fileUploadInput" class="input-file" name="attachment" multiple style="position: absolute; width: 1px; height: 1px; opacity: 0; top: 0; left: 0;"/>
+		<label for="fileUploadInput" class="input-button"><span id="fileUploadInputButtonLabel"><?php echo _t('파일 업로드');?></span></label>
 		<progress id="uploadProgress" min="0" max="100" value="0">0% complete</progress>
 	</form>
 	<script>
@@ -177,6 +184,8 @@ requireStrictRoute();
 			for(var i=0; i<fileCount; i++){
 				var file = this.files[i];
 
+				document.getElementById('fileUploadInputButtonLabel').textContent = "Uploading " + i + "/" + fileCount;
+
 				// check filename before uploading
 				if(checkFilenameIsUnique(file) == false) {
 					console.log('Skipping upload of '+file.name);
@@ -190,6 +199,7 @@ requireStrictRoute();
 			}
 			console.log('Uploaded '+(fileCount - skippedFileCount)+' file(s).');
 			console.log('Skipped '+skippedFileCount+' file(s).');
+			document.getElementById('fileUploadInputButtonLabel').textContent = "<?php echo _t('파일 업로드');?>"
 			
 			document.getElementById('uploadForm').reset();
 		}, false);
