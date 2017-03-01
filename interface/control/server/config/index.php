@@ -27,7 +27,7 @@ $IV = array(
 		'useSessionDebugMode'    => array('int',0,1),
 		'useSkinCache'           => array('int',0,1),
 		'useMemcached'           => array('int',0,1),
-		'useSSL'           => array('int',0,1),
+		'useSSL'                 => array('int',0,1),
 		'useExternalResource'    => array('int',0,1),
 		'externalResourceURL'    => array('string', 'mandatory' => false, 'default' => '')
 		)

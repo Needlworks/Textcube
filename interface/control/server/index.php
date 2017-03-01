@@ -312,7 +312,7 @@ foreach($encodingList as $enc) {
 										<dl id="ssl-line" class="line">
 											<dt><span class="label"><?php echo _t('SSL 사용');?></span></dt>
 											<dd>
-												<input type="checkbox" id="useSSL" class="checkbox" name="useSSL"<?php echo (isset($service['SSL']) && $service['SSL']) ? ' checked="checked"' : '';?> /><label for="useSSL"><?php echo _t('SSL을 사용합니다.').' '._t('모든 http://링크가 https링크로 변환됩니다.');?></label>
+												<input type="checkbox" id="useSSL" class="checkbox" name="useSSL"<?php echo (isset($service['useSSL']) && $service['useSSL']) ? ' checked="checked"' : '';?> /><label for="useSSL"><?php echo _t('SSL을 사용합니다.').' '._t('모든 http://링크가 https링크로 변환됩니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="reader-line" class="line">
