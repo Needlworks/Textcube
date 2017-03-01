@@ -259,10 +259,11 @@ function printEntryFileList($attachments, $param) {
 		
 		$value = htmlspecialchars(getAttachmentValue($attachment));
 		$label = htmlspecialchars(getPrettyAttachmentLabel($attachment));
+		$fileName = htmlspecialchars($attachment['label']);
 		
 		$initialFileListForFlash .= escapeJSInAttribute($value.'(_!'.$label.'!^|');
 ?>
-		<option  <?php echo $style;?> value="<?php echo $value;?>"><?php echo $label;?></option>
+		<option  <?php echo $style;?> value="<?php echo $value;?>" data-filename="<?php echo $fileName;?>"><?php echo $label;?></option>
 <?php
 	}
 ?>
