@@ -34,11 +34,6 @@ requireStrictRoute();
 			margin: 0 !important;
 			padding: 0 !important;
 		}
-		
-		.input-file {
-			font-size: 75%;
-			width: 180px;
-		}
 	</style>
 </head>
 <body id="body-editor-attachment">
@@ -50,6 +45,7 @@ requireStrictRoute();
 	
 		var servicePath = "<?php echo $service['path'];?>";
 		var blogURL = "<?php echo $blogURL;?>";
+		var postId = <?php echo $suri['id'];?>;
 		var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		var oSelect = window.parent.document.getElementById('TCfilelist');
 		var progressBar = document.getElementById('uploadProgress');
@@ -75,30 +71,34 @@ requireStrictRoute();
 			}
 		}
 
-		function removeAttachOption(value) {
+		function removeAttachOption(file) {
 			for( i=0; i<oSelect.options.length; i++) {
-				if(oSelect.options[i].value == "<?php echo escapeJSInCData($_POST['fileName']);?>") {
+				if(oSelect.options[i].value == file.name) {
 					oSelect.remove(i);
 				}
 			}
 		}
 
-		function processFinishedUpload(value) {
+		function processFinishedUpload(file) {		
+			var attachment = JSON.parse(file);
+			var attachmentFileName = attachment[0].label;
+			var attachmentLabel = attachment[1]; // processed prettyAttachmentLabel
+			var attachmentValue = attachment[2]; // processed getAttachmentValue
 			var oOption = window.parent.document.createElement("option");
-			console.log('<?php echo $attachment ?>')
-			oOption.innerHTML = "<?php echo escapeJSInCData(getPrettyAttachmentLabel($attachment));?>";
-			oOption.value = "<?php echo escapeJSInCData(getAttachmentValue($attachment));?>";
+
+			oOption.innerHTML = attachmentLabel;
+			oOption.value = attachmentValue;
+			oOption.dataset.filename = attachmentFileName;
 
 			try {
-				// remove attach uploading label
 				for( i=0; i<oSelect.options.length; i++) {
 					
-					if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label']);?>") {
+					if(oSelect.options[i].value == attachmentFileName) {
 						oSelect.remove(i);
 					}
 				}
-				// oSelect.appendChild(oOption);
-				// parent.refreshFileSize();
+				oSelect.appendChild(oOption);
+				parent.refreshFileSize();
 			} catch(e) {
 				alert('['+e.message+']');
 			}
@@ -114,13 +114,13 @@ requireStrictRoute();
 				uploader = null;	
 			}
 			
-			if (uploader!=null) {
+			if (uploader != null) {
 				uploader.SetVariable('/:openBrowser','true');
 			}
 		}
 
 		function uploadFile(file){
-			var url = "../upload";
+			var url = "../upload?postId=<?php echo $suri['id']; ?>";
 			var xhr = new XMLHttpRequest();
 			var formData = new FormData();
 			xhr.open("POST", url, true);
@@ -141,40 +141,57 @@ requireStrictRoute();
 				
 				if (xhr.readyState == xhr.DONE && xhr.status == 200) {
 
-					if (xhr.responseText == 'samename') {
-						alert('<?php echo _t('동일한 이름을 가진 파일이 이미 첨부되었습니다.') ?>');
+					if (xhr.responseText == 'error') {
+						alert('<?php echo _t('첨부하지 못했습니다.'); ?>');
 						removeAttachOption();
-					} else if (xhr.responseText == 'error') {
-						alert('<?php echo _t('첨부하지 못했습니다.') ?>');
-						removeAttachOption();
-					} else if (xhr.responseText == 'success') {
-						alert('<?php echo _t('업로드 성공') ?>');
-						console.log('file uploaded.');
-						processFinishedUpload(file);
+					} else {
+						// alert('<?php echo _t('업로드 성공'); ?>');
+						processFinishedUpload(xhr.response);
 					}
+					resetProgress();
 				 }
 			};
 			formData.append('attachment', file);
 			xhr.send(formData);
 		}
 
+		function resetProgress() {
+			progressBar.value = "0";
+			progressBar.textContent = progressBar.value;
+		}
+
+		function checkFilenameIsUnique(file) {
+			for( i=0; i<oSelect.options.length; i++) {
+				if(oSelect.options[i].dataset.filename == file.name) {
+					alert('<?php echo _t('동일한 이름을 가진 파일이 이미 첨부되었습니다.'); ?> - '+file.name);
+					return false;
+				}
+			}
+		}
 
 		document.getElementById('fileUploadInput').addEventListener('change', function () {
 			var files = this.files;
-			console.log(this.files);
+			var fileCount = files.length;
+			var skippedFileCount = 0;
 
-			for(var i=0; i<files.length; i++){
+			for(var i=0; i<fileCount; i++){
 				var file = this.files[i];
-				console.log('uploading file'+i);
-				console.log(file.name);
-				addAttachOption(file.name);
-				uploadFile(file);
-			}
-			console.log('for loop done');
-			
-			progressBar.value = 0;
-			document.getElementById('uploadForm').reset();
 
+				// check filename before uploading
+				if(checkFilenameIsUnique(file) == false) {
+					console.log('Skipping upload of '+file.name);
+					skippedFileCount++;
+					continue;
+				}
+
+				addAttachOption(file.name);
+				uploadFile(file, postId);
+				console.log('Finished uploading '+ file.name);
+			}
+			console.log('Uploaded '+(fileCount - skippedFileCount)+' file(s).');
+			console.log('Skipped '+skippedFileCount+' file(s).');
+			
+			document.getElementById('uploadForm').reset();
 		}, false);
 	</script>
 </body>

@@ -6,12 +6,14 @@ requireStrictRoute();
 if (isset($_FILES['attachment'])) {
 	$file = $_FILES['attachment'];
 
-    if (getAttachmentByLabel($blogid, $suri['id'], Path::getBaseName($file['name']))) {
-		echo samename;
-	} else if (($attachment = addAttachment($blogid, $suri['id'], $file)) === false) {
+ 	if (($attachment = addAttachment($blogid, $_GET['postId'], $file)) === false) {
 		echo error;
 	} else if (!empty($attachment)) {
-		echo success;
+
+		$oOptionInnerHTML = getPrettyAttachmentLabel($attachment);
+		$oOptionValue = getAttachmentValue($attachment);
+
+		echo json_encode(array($attachment, $oOptionInnerHTML, $oOptionValue));
 	}
 
 } else {
