@@ -857,12 +857,11 @@ function printEntryFileUploadButton($entryId) {
 														property['ie']['height'] = '25px';		
 														
 														property['moz'] = new Array();
-														property['moz']['width'] = '215px';
-														property['moz']['height'] = '22px';		
-														
+														property['moz']['width'] = '100%'; // original 215px
+														property['moz']['height'] = '40px'; // original 22px														
 														property['etc'] = new Array();
-														property['etc']['width'] = '240px';
-														property['etc']['height'] = '22px';
+														property['etc']['width'] = '100%'; // original 240px
+														property['etc']['height'] = '40px'; // original 22px
 														
 														if(fileUploadNestOriginal == false) {
 															fileUploadNestOriginal = document.getElementById('fileUploadNest').innerHTML;
