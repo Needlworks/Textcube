@@ -17,8 +17,8 @@ requireModel("blog.attachment");
 
 requireStrictRoute();
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko">
+<!DOCTYPE html>
+<html>
 	<head>
 		<title><?php echo _t('File Uploader');?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -29,130 +29,153 @@ requireStrictRoute();
 		<script type="text/javascript">jQuery.noConflict();</script>
 		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/EAF4.js"></script>
 		<script type="text/javascript" src="<?php echo $service['path'];?>/resources/script/common3.js"></script>
-		<script type="text/javascript">
-			//<![CDATA[
-				var servicePath = "<?php echo $service['path'];?>";
-				var blogURL = "<?php echo $blogURL;?>";
-				var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
-				var oSelect = window.parent.document.getElementById('TCfilelist');
-				
-				function addAttachOption(value) {
-					try {
-						//window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
-						if (!isSafari) {
-							if (isWin) {
-								var fileName = value.substring(value.lastIndexOf('\\')+1);
-							} else {
-								var fileName = value.substring(value.lastIndexOf('/')+1);
-							}	
-							var oOption = window.parent.document.createElement("option");
-							oOption.text = fileName + " <?php echo _t('업로드 중..');?>";
-							oOption.value = fileName;					
-							oSelect.options.add(oOption);
-							oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
-							
-							document.getElementById('fileNameInput').setAttribute('value', fileName);
-							
-						}
-					} catch(e) {
-						alert(e.message);
-					}
-				}
-				
-				function checkUploadMode(oEvent) {
-					try {
-						if(isIE) 
-							uploader = window.parent.document.getElementById("uploader");
-						else 
-							uploader = window.parent.document.getElementById("uploader2");
-					} catch(e) {		
-						uploader = null;	
-					}
-					
-					if (uploader!=null) {
-						uploader.SetVariable('/:openBroswer','true');
-					}
-				}
-<?php
-if (count($_FILES) == 1) {
-	$file = array_pop($_FILES);
-	if (getAttachmentByLabel($blogid, $suri['id'], Path::getBaseName($file['name']))) {
-		print ('alert("' . _t('동일한 이름을 가진 파일이 이미 첨부되었습니다.') . '");');
-?>
-
-				for( i=0; i<oSelect.options.length; i++) {
-					if(oSelect.options[i].value == "<?php echo escapeJSInCData($_POST['fileName']);?>") {
-						oSelect.remove(i);
-					}
-				}
-<?php
-	} else if (($attachment = addAttachment($blogid, $suri['id'], $file)) === false) {
-		print ('alert("' . _t('첨부하지 못했습니다.') . '");');
-?>
-				
-				for( i=0; i<oSelect.options.length; i++) {
-					if(oSelect.options[i].value == "<?php echo escapeJSInCData($_POST['fileName']);?>") {
-						oSelect.remove(i);
-					}
-				}
-<?php
-	} else {
-?>
-				
-				var oOption = window.parent.document.createElement("option");	
-				oOption.innerHTML= "<?php echo escapeJSInCData(getPrettyAttachmentLabel($attachment));?>";
-				oOption.value = "<?php echo escapeJSInCData(getAttachmentValue($attachment));?>";
-				try {
-<?php
-		if (!empty($attachment)) {
-?>
-					for( i=0; i<oSelect.options.length; i++) {
-						//alert(oSelect.options[i].value+"   "+ "<?php echo escapeJSInCData($attachment['label']);?>");
-						if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label']);?>") {
-							oSelect.remove(i);
-						}
-					}
-<?php
-		}
-?>
-					oSelect.appendChild(oOption);
-					//oSelect.selectedIndex = oSelect.options.length - 1;
-					//window.parent.document.getElementById("selectedImage").src = "<?php echo (strncmp($attachment['mime'], 'image/', 6) == 0 ? "{$blogURL}/attach/$blogid/{$attachment['name']}" : "{$blogURL}/resources/image/spacer.gif");?>";
-					parent.refreshFileSize();
-				} catch(e) {
-				alert('['+e.message+']');
-			}
-<?php
-	}
-}
-?>
-		//]]>
-	</script>
 	<style type="text/css">
-		/*<![CDATA[*/
-			body,
-			form
-			{
-				margin                           : 0 !important;
-				padding                          : 0 !important;
-			}
-			
-			.input-file
-			{
-				font-size                        : 75%;
-				width:180px;
-			}
-		/*]]>*/
+		body, form {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+		
+		.input-file {
+			font-size: 75%;
+			width: 180px;
+		}
 	</style>
 </head>
 <body id="body-editor-attachment">
 	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
-		<script type="text/javascript">
-			//<![CDATA[				
-				document.write('<input type="file" class="input-file" name="attachment" size="16" onchange="addAttachOption(this.value); document.getElementById(\'uploadForm\').submit();" />');
-			//]]>	
-		</script>
-		<input type="hidden" id="fileNameInput" name="fileName" value="" />
+		<input type="file" id="fileUploadInput" class="input-file" name="attachment" multiple />
+		<progress id="uploadProgress" min="0" max="100" value="0">0% complete</progress>
 	</form>
+	<script>
+	
+		var servicePath = "<?php echo $service['path'];?>";
+		var blogURL = "<?php echo $blogURL;?>";
+		var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
+		var oSelect = window.parent.document.getElementById('TCfilelist');
+		var progressBar = document.getElementById('uploadProgress');
+
+		function addAttachOption(value) {
+			try {
+				//window.parent.makeCrossDamainSubmit("<?php echo $blogURL;?>/owner/entry/attach/<?php echo $suri['id'];?>","ie");	
+				if (isWin) {
+					var fileName = value.substring(value.lastIndexOf('\\')+1);
+				} else {
+					var fileName = value.substring(value.lastIndexOf('/')+1);
+				}	
+				var oOption = window.parent.document.createElement("option");
+				oOption.text = fileName + " <?php echo _t('업로드 중..');?>";
+				oOption.value = fileName;					
+				oSelect.options.add(oOption);
+				oSelect.setAttribute('size', Math.max(8,Math.min(oSelect.length,30)));
+				
+				// document.getElementById('fileNameInput').setAttribute('value', fileName);
+				
+			} catch(e) {
+				alert(e.message);
+			}
+		}
+
+		function removeAttachOption(value) {
+			for( i=0; i<oSelect.options.length; i++) {
+				if(oSelect.options[i].value == "<?php echo escapeJSInCData($_POST['fileName']);?>") {
+					oSelect.remove(i);
+				}
+			}
+		}
+
+		function processFinishedUpload(value) {
+			var oOption = window.parent.document.createElement("option");
+			console.log('<?php echo $attachment ?>')
+			oOption.innerHTML = "<?php echo escapeJSInCData(getPrettyAttachmentLabel($attachment));?>";
+			oOption.value = "<?php echo escapeJSInCData(getAttachmentValue($attachment));?>";
+
+			try {
+				// remove attach uploading label
+				for( i=0; i<oSelect.options.length; i++) {
+					
+					if(oSelect.options[i].value == "<?php echo escapeJSInCData($attachment['label']);?>") {
+						oSelect.remove(i);
+					}
+				}
+				// oSelect.appendChild(oOption);
+				// parent.refreshFileSize();
+			} catch(e) {
+				alert('['+e.message+']');
+			}
+		}
+
+		function checkUploadMode(oEvent) {
+			try {
+				if(isIE) 
+					uploader = window.parent.document.getElementById("uploader");
+				else 
+					uploader = window.parent.document.getElementById("uploader2");
+			} catch(e) {		
+				uploader = null;	
+			}
+			
+			if (uploader!=null) {
+				uploader.SetVariable('/:openBrowser','true');
+			}
+		}
+
+		function uploadFile(file){
+			var url = "../upload";
+			var xhr = new XMLHttpRequest();
+			var formData = new FormData();
+			xhr.open("POST", url, true);
+
+			// Listen to the upload progress.
+			xhr.upload.onprogress = function(e) {
+				if (e.lengthComputable) {
+				  progressBar.value = (e.loaded / e.total) * 100;
+				  progressBar.textContent = progressBar.value; // Fallback for unsupported browsers.
+				}
+			};
+
+			xhr.upload.onerror = function(e) {
+				removeAttachOption();
+			}
+
+			xhr.onreadystatechange = function() {
+				
+				if (xhr.readyState == xhr.DONE && xhr.status == 200) {
+
+					if (xhr.responseText == 'samename') {
+						alert('<?php echo _t('동일한 이름을 가진 파일이 이미 첨부되었습니다.') ?>');
+						removeAttachOption();
+					} else if (xhr.responseText == 'error') {
+						alert('<?php echo _t('첨부하지 못했습니다.') ?>');
+						removeAttachOption();
+					} else if (xhr.responseText == 'success') {
+						alert('<?php echo _t('업로드 성공') ?>');
+						console.log('file uploaded.');
+						processFinishedUpload(file);
+					}
+				 }
+			};
+			formData.append('attachment', file);
+			xhr.send(formData);
+		}
+
+
+		document.getElementById('fileUploadInput').addEventListener('change', function () {
+			var files = this.files;
+			console.log(this.files);
+
+			for(var i=0; i<files.length; i++){
+				var file = this.files[i];
+				console.log('uploading file'+i);
+				console.log(file.name);
+				addAttachOption(file.name);
+				uploadFile(file);
+			}
+			console.log('for loop done');
+			
+			progressBar.value = 0;
+			document.getElementById('uploadForm').reset();
+
+		}, false);
+	</script>
 </body>
 </html>
