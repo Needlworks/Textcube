@@ -1263,11 +1263,55 @@ function getEntryContentView($blogid, $id, $content, $formatter, $keywords = arr
 					if (file_exists(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}")) {
 						$tempAttributes = Misc::getAttributesFromString($images[$i][2]);
 						$tempOriginInfo = getimagesize(__TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}");
-						if (isset($tempAttributes['width']) && ($tempOriginInfo[0] > $tempAttributes['width'])) {
+
+						// original image
+						$absolute = isset($options['absolute']) ? $options['absolute'] : true;
+						$origImageSrc = __TEXTCUBE_ATTACH_DIR__."/{$blogid}/{$tempFileName}";
+						$origImageURL = ($absolute ? $context->getProperty('uri.service'):$context->getProperty('uri.path'))."/attach/{$blogid}/{$tempFileName}";
+						
+						// Detect orientation
+						$imageOrientation = ($tempOriginInfo[0]>=$tempOriginInfo[1] ? "landscape" : "portrait");
+
+						// Check whether original image width is larger than resized image (blog content width)
+						$imageZoomable = ($tempOriginInfo[0]>$tempAttributes['width'] ? "true" : "false"); 
+
+						if (isset($tempAttributes['width'])) {
 							$image = Utils_Image::getInstance();
-							list($tempImageURL, $tempImageWidth, $tempImageHeight, $tempImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
-							$newImage = "<img src=\"{$tempImageURL}\" width=\"{$tempImageWidth}\" height=\"{$tempImageHeight}\"{$attributes}/>";
+
+							// if responsive resampling option is active & larger than 360px
+							if ((Setting::getBlogSettingGlobal('resamplingResponsive') == true) && ($tempOriginInfo[0] > 360)) {
+								$image = Utils_Image::getInstance();
+								list($smallImageURL, $smallImageWidth, $smallImageHeight, $smallImageSrc) = $image->getImageResizer($tempFileName, array('width' => 360));
+								
+								if ($tempOriginInfo[0] > 800) { // if larger than 800px, generate additional size
+									list($mediumImageURL, $mediumImageWidth, $mediumImageHeight, $mediumImageSrc) = $image->getImageResizer($tempFileName, array('width' => 800));
+
+									$srcset = "{$smallImageURL} 360w, {$mediumImageURL} 800w, {$origImageURL} {$tempOriginInfo[0]}w";			
+								} else {
+									$srcset = "{$smallImageURL} 360w, {$origImageURL} {$tempOriginInfo[0]}w";
+								}
+
+								list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
+
+								// use default resized image for src for fallback
+								$newImage = "<img src=\"{$resizedImageURL}\" srcset=\"{$srcset}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\" />";
+							} 
+
+							// if using default option & image is larger than content
+							else if ($tempOriginInfo[0] > $tempAttributes['width']) {
+								list($resizedImageURL, $resizedImageWidth, $resizedImageHeight, $resizedImageSrc) = $image->getImageResizer($tempFileName, array('width' => $tempAttributes['width']));
+								$newImage = "<img src=\"{$resizedImageURL}\" width=\"{$resizedImageWidth}\" height=\"{$resizedImageHeight}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
+							} 
+							// if image is smaller than content
+							else {
+								$newImage = "<img src=\"{$origImageURL}\" width=\"{$tempOriginInfo[0]}\" height=\"{$tempOriginInfo[1]}\" {$attributes} data-orientation=\"{$imageOrientation}\" data-zoomable=\"{$imageZoomable}\"/>";
+							}
+						
 						}
+
+						
+						
+					
 					}
 					$view = preg_replace('@\[#####_#####_#####_image_#####_#####_#####\]@', $newImage, $view, 1);
 				}
