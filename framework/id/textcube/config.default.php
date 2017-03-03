@@ -62,7 +62,6 @@ $service['codecache'] = false;
 $service['skincache'] = true;
 $service['externalresources'] = false;
 $service['favicon_daily_traffic'] = 10;
-$service['flashuploader'] = true;
 $service['debug_session_dump'] = false;
 $service['debug_rewrite_module'] = false;
 $service['useNumericURLonRSS'] = false;
