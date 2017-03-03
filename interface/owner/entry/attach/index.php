@@ -50,9 +50,11 @@ requireStrictRoute();
 	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
 		<input type="file" id="fileUploadInput" class="input-file" name="attachment" multiple style="position: absolute; width: 1px; height: 1px; opacity: 0; top: 0; left: 0; overflow: hidden;"/>
 		<label for="fileUploadInput" class="input-button"><span id="fileUploadInputButtonLabel"><?php echo _t('파일 업로드');?></span></label>
-		<button type="button" id="deleteBtn" class="input-button" onclick="parent.deleteAttachment();return false"><span><?php echo _t('삭제하기');?></span></button>
-		<progress id="uploadProgress" min="0" max="100" value="0">0% complete</progress>
+		<button type="button" id="deleteBtn" class="input-button" onclick="parent.deleteAttachment();return false"><span><?php echo _t('선택한 파일 삭제');?></span></button>
 	</form>
+	<div class="upload-progress">
+		<progress id="upload-progress-bar" min="0" max="100" value="0">0% complete</progress>
+	</div>
 	<script>
 	
 		var servicePath = "<?php echo $service['path'];?>";
@@ -60,7 +62,7 @@ requireStrictRoute();
 		var postId = <?php echo $suri['id'];?>;
 		var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		var oSelect = window.parent.document.getElementById('TCfilelist');
-		var progressBar = document.getElementById('uploadProgress');
+		var progressBar = document.getElementById('upload-progress-bar');
 
 		function addAttachOption(value) {
 			try {

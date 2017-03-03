@@ -741,6 +741,7 @@ $__text['선택한 두개의 파일을 글의 중앙에 정렬합니다.'] = 'In
 $__text['선택한 링크를 삭제합니다.'] = 'Delete selected links.';
 $__text['선택한 세개의 파일을 글의 중앙에 정렬합니다.'] = 'Insert 3 files, center-aligned';
 $__text['선택한 알림을'] = 'Selected notice';
+$__text['선택한 파일 삭제'] = 'Delete Selected';
 $__text['선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.'] = 'Insert file at a custom location';
 $__text['선택한 파일을 글의 오른쪽에 정렬합니다.'] = 'Insert file, right-aligned';
 $__text['선택한 파일을 글의 왼쪽에 정렬합니다.'] = 'Insert file, left-aligned';
