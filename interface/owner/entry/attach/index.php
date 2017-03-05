@@ -41,6 +41,15 @@ requireStrictRoute();
 			width: 100%;
 		}
 
+		#fileUploadInput:disabled + label {
+			opacity: 0.5;
+			pointer-events: none;
+		}
+
+		.file-upload-btn.busy {
+			cursor: progress;
+		}
+
 		.input-button span {
 			display: block;
 		}
@@ -49,7 +58,7 @@ requireStrictRoute();
 <body id="body-editor-attachment">
 	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
 		<input type="file" id="fileUploadInput" class="input-file" name="attachment" multiple style="position: absolute; width: 1px; height: 1px; opacity: 0; top: 0; left: 0; overflow: hidden;"/>
-		<label for="fileUploadInput" class="input-button"><span id="fileUploadInputButtonLabel"><?php echo _t('파일 업로드');?></span></label>
+		<label for="fileUploadInput" class="input-button file-upload-btn"><span id="fileUploadInputButtonLabel"><?php echo _t('파일 업로드');?></span></label>
 		<button type="button" id="deleteBtn" class="input-button" onclick="parent.deleteAttachment();return false"><span><?php echo _t('선택한 파일 삭제');?></span></button>
 	</form>
 	<div class="upload-progress">
@@ -62,6 +71,7 @@ requireStrictRoute();
 		var postId = <?php echo $suri['id'];?>;
 		var adminSkin = "<?php echo $adminSkinSetting['skin'];?>";
 		var oSelect = window.parent.document.getElementById('TCfilelist');
+		var fileUploadInput = document.getElementById('fileUploadInput');
 		var progressBar = document.getElementById('upload-progress-bar');
 
 		function addAttachOption(value) {
@@ -93,47 +103,7 @@ requireStrictRoute();
 			}
 		}
 
-		function processFinishedUpload(file) {		
-			var attachment = JSON.parse(file);
-			var attachmentFileName = attachment[0].label;
-			var attachmentLabel = attachment[1]; // processed prettyAttachmentLabel
-			var attachmentValue = attachment[2]; // processed getAttachmentValue
-			var oOption = window.parent.document.createElement("option");
-
-			oOption.innerHTML = attachmentLabel;
-			oOption.value = attachmentValue;
-			oOption.dataset.filename = attachmentFileName;
-
-			try {
-				for( i=0; i<oSelect.options.length; i++) {
-					
-					if(oSelect.options[i].value == attachmentFileName) {
-						oSelect.remove(i);
-					}
-				}
-				oSelect.appendChild(oOption);
-				parent.refreshFileSize();
-			} catch(e) {
-				alert('['+e.message+']');
-			}
-		}
-
-		function checkUploadMode(oEvent) {
-			try {
-				if(isIE) 
-					uploader = window.parent.document.getElementById("uploader");
-				else 
-					uploader = window.parent.document.getElementById("uploader2");
-			} catch(e) {		
-				uploader = null;	
-			}
-			
-			if (uploader != null) {
-				uploader.SetVariable('/:openBrowser','true');
-			}
-		}
-
-		function uploadFile(file){
+		function uploadFile(file, currentFileIndex, fileCount){
 			var url = "../upload?postId=<?php echo $suri['id']; ?>";
 			var xhr = new XMLHttpRequest();
 			var formData = new FormData();
@@ -145,10 +115,14 @@ requireStrictRoute();
 				  progressBar.value = (e.loaded / e.total) * 100;
 				  progressBar.textContent = progressBar.value; // Fallback for unsupported browsers.
 				}
+				fileUploadInput.setAttribute('disabled','disabled');
+				fileUploadInput.nextElementSibling.classList.add('busy');
+				// document.getElementById('fileUploadInputButtonLabel').textContent = "Uploading " + (currentFileIndex + 1) + "/" + fileCount;
+				document.getElementById('fileUploadInputButtonLabel').textContent = "Uploading";
 			};
 
 			xhr.upload.onerror = function(e) {
-				removeAttachOption();
+				removeAttachOption(file);
 			}
 
 			xhr.onreadystatechange = function() {
@@ -157,16 +131,46 @@ requireStrictRoute();
 
 					if (xhr.responseText == 'error') {
 						alert('<?php echo _t('첨부하지 못했습니다.'); ?>');
-						removeAttachOption();
+						removeAttachOption(file);
 					} else {
 						// alert('<?php echo _t('업로드 성공'); ?>');
 						processFinishedUpload(xhr.response);
 					}
-					resetProgress();
 				 }
 			};
 			formData.append('attachment', file);
 			xhr.send(formData);
+		}
+
+		function processFinishedUpload(file) {		
+			var attachment = JSON.parse(file);
+			var attachmentFileName = attachment[0].label;
+			var attachmentLabel = attachment[1]; // processed prettyAttachmentLabel
+			var attachmentValue = attachment[2]; // processed getAttachmentValue
+			var oOption = window.parent.document.createElement("option");
+
+			oOption.innerHTML = attachmentLabel;
+			oOption.value = attachmentValue;
+			oOption.dataset.filename = attachmentFileName;
+
+			// remove tempoption from filelist
+			try {
+				for( i=0; i<oSelect.options.length; i++) {
+					
+					if(oSelect.options[i].value == attachmentFileName) {
+						oSelect.remove(i);
+					}
+				}
+				oSelect.appendChild(oOption);
+				parent.refreshFileSize();
+				console.log('Finished uploading '+ attachmentFileName);
+				document.getElementById('fileUploadInputButtonLabel').textContent = "<?php echo _t('파일 업로드');?>"
+				fileUploadInput.removeAttribute('disabled');
+				fileUploadInput.nextElementSibling.classList.remove('busy');
+				resetProgress();
+			} catch(e) {
+				alert('['+e.message+']');
+			}
 		}
 
 		function resetProgress() {
@@ -183,32 +187,25 @@ requireStrictRoute();
 			}
 		}
 
-		document.getElementById('fileUploadInput').addEventListener('change', function () {
+		fileUploadInput.addEventListener('change', function() {
 			var files = this.files;
 			var fileCount = files.length;
-			var skippedFileCount = 0;
 
 			for(var i=0; i<fileCount; i++){
+				var currentFileIndex = i;
 				var file = this.files[i];
-
-				document.getElementById('fileUploadInputButtonLabel').textContent = "Uploading " + i + "/" + fileCount;
 
 				// check filename before uploading
 				if(checkFilenameIsUnique(file) == false) {
 					console.log('Skipping upload of '+file.name);
-					skippedFileCount++;
 					continue;
+				} else {
+					addAttachOption(file.name);
+					uploadFile(file, currentFileIndex, fileCount);
 				}
-
-				addAttachOption(file.name);
-				uploadFile(file, postId);
-				console.log('Finished uploading '+ file.name);
-			}
-			console.log('Uploaded '+(fileCount - skippedFileCount)+' file(s).');
-			console.log('Skipped '+skippedFileCount+' file(s).');
-			document.getElementById('fileUploadInputButtonLabel').textContent = "<?php echo _t('파일 업로드');?>"
-			
+			}		
 			document.getElementById('uploadForm').reset();
+				
 		}, false);
 	</script>
 </body>
