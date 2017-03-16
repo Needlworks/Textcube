@@ -52,6 +52,8 @@ closedir($handler);
 								else useSkinCache = 0;
 								if(document.getElementById('useMemcached').checked) useMemcached = 1;
 								else useMemcached = 0;
+								if(document.getElementById('useSSL').checked) useSSL = 1;
+								else useSSL = 0;
 								if(document.getElementById('useExternalResource').checked) useExternalResource = 1;
 								else useExternalResource = 0;
 								if(document.getElementById('useReader').checked) useReader = 1;
@@ -79,6 +81,7 @@ closedir($handler);
 								param += 'useCodeCache='+useCodeCache+'&';
 								param += 'useSkinCache='+useSkinCache +'&';
 								param += 'useMemcached='+useMemcached +'&';
+								param += 'useSSL='+useSSL +'&';
 								param += 'useExternalResource='+useExternalResource +'&';
 								param += 'useReader='+useReader +'&';
 								param += 'useNumericRSS='+useNumericRSS +'&';
@@ -304,6 +307,12 @@ foreach($encodingList as $enc) {
 											<dt><span class="label"><?php echo _t('Memcached 사용');?></span></dt>
 											<dd>
 												<input type="checkbox" id="useMemcached" class="checkbox" name="useMemcached"<?php echo (isset($service['memcached']) && $service['memcached']) ? ' checked="checked"' : '';?> /><label for="useMemcached"><?php echo _t('Memcached 모듈을 사용합니다.').' '._t('블로그의 속도 향상을 위하여 Memcached를 사용합니다. 이 기능을 사용하기 위해서는 서버에 Memcached가 설치되어 있고, PHP가 Memcached를 사용할 수 있도록 설정되어 있어야 합니다.');?></label>
+											</dd>
+										</dl>
+										<dl id="ssl-line" class="line">
+											<dt><span class="label"><?php echo _t('SSL 사용');?></span></dt>
+											<dd>
+												<input type="checkbox" id="useSSL" class="checkbox" name="useSSL"<?php echo (isset($service['useSSL']) && $service['useSSL']) ? ' checked="checked"' : '';?> /><label for="useSSL"><?php echo _t('SSL을 사용합니다.').' '._t('모든 http://링크가 https링크로 변환됩니다.');?></label>
 											</dd>
 										</dl>
 										<dl id="reader-line" class="line">
