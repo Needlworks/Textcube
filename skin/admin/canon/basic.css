@@ -8,7 +8,7 @@
 	padding                          : 0;
 }
 
-a:link, a:visited
+a
 {
 	color                            : #666666;
 	text-decoration                  : none;
@@ -1514,6 +1514,7 @@ table.data-inbox tbody tr.empty-list
 
 .input-button
 {
+	display                          : inline-block;
 	background-color                 : #fbfbfb;
 	background-position              : left bottom;
 	background-repeat                : repeat-x;
@@ -1527,6 +1528,7 @@ table.data-inbox tbody tr.empty-list
 	background-image : -moz-linear-gradient(top, #fff, #eee);
 	background-image : -webkit-linear-gradient(top, #fff, #eee);
 	background-image : linear-gradient(top, #fff, #eee);
+	box-sizing: border-box;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
@@ -1540,6 +1542,7 @@ table.data-inbox tbody tr.empty-list
 .input-button:hover
 {
 	background-color                 : #f2f2f2;
+	color                            : #333;
 /*	background-image                 : url("./image/bg_submenu_item_selected.gif");*/
 	border                           : 1px solid #bbb;
 

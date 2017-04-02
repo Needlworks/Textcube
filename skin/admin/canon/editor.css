@@ -687,9 +687,9 @@ h3
 	overflow                         : hidden;
 	position                         : relative;
 	text-align                       : left;
-	width                            : 390px;
-	margin-top                       : -35px;
+	width                            : 500px;
 	z-index                          : 0;
+	padding                          : 10px 0;
 }
 
 #fileUploadNest iframe
@@ -732,12 +732,23 @@ h3
 /* iframe */
 #body-editor-attachment
 {
-	background-color                 : #F5F5F5;
+	background-color                 : #fff;
 }
 
 #body-editor-attachment .input-file
 {
 	font-size                        : 12px;
+}
+
+#body-editor-attachment .input-button {
+	padding: 0 7px !important;
+	height: 2em;
+	line-height: 2em;
+}
+
+#body-editor-attachment .input-button span {
+	display: inline-block;
+	vertical-align: top;
 }
 
 /* insert buttons */
@@ -956,4 +967,106 @@ dl#power-line
 #templateDialog .button-box
 {
 	padding                          : 10px 0 5px 0 !important;
+}
+
+
+
+/* Overrides to make uploader section float */
+/* Moved from override.css in tinyMCE */ 
+
+.mce-toolbar-grp {
+	position:fixed!important;
+	height:30px!important;
+	z-index:100;
+	top:80px;
+	left:175px;
+	background-color:#fff!important;
+	display:block!important;
+	border:0!important;
+	background:#fff!important;
+}
+
+.popup-editor .mce-toolbar-grp {
+	top:45px;
+	left:3px;
+}
+
+.popup-editor #save-section {
+	position:fixed;
+	top:0!important;
+	margin:0!important;
+	padding:0!important;
+}
+
+.mce-fullscreen {
+	z-index:2000!important;
+}
+
+.mce-container {
+	margin-left:auto!important;
+	margin-right:auto!important;
+}
+
+.mce-stack-layout {
+	box-shadow:none!important;
+}
+
+.mce-container-body {
+	background-color:#fff!important;
+}
+
+.mce-edit-area {
+	padding:8px!important;
+	box-shadow:0 0 5px rgba(0,0,0,0.3);
+	border:1px #eee solid!important;
+}
+
+#textarea-section {
+	background-color:transparent!important;
+}
+
+#save-section {
+	position:fixed!important;
+	top:32px;
+	height:20px!important;
+	right:15px;
+	z-index:100;
+}
+
+#save-section .button-box input {
+	height:20px!important;
+	line-height:20px!important;
+}
+
+#saveAndReturnButton {
+	background-image:linear-gradient(top, #333, #f33)!important;
+}
+
+#upload-section {
+	background-color:#FFF;
+	margin:10px 20px 10px 0;
+	display:none;
+	position:fixed;
+	z-index:140;
+	border-top:1px solid #bbb;
+	bottom:20px;
+	left:50%;
+	margin-top:-200px;
+	margin-left:-370px;
+	border:1px solid #F2F2F2;
+	width:900px;
+	border-radius:3px;
+	box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+#insert-container {
+	position:absolute;
+	margin-top:0!important;
+	top:10px;
+	left:685px;
+	width:100px;
+}
+
+#status-container,#save-section .button-box .save-button,#save-section .button-box .list-button {
+	display:none;
 }

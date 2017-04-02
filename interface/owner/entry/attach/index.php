@@ -58,8 +58,8 @@ requireStrictRoute();
 <body id="body-editor-attachment">
 	<form method="post" action="" enctype="multipart/form-data" id="uploadForm">
 		<input type="file" id="fileUploadInput" class="input-file" name="attachment" multiple style="position: absolute; width: 1px; height: 1px; opacity: 0; top: 0; left: 0; overflow: hidden;"/>
-		<label for="fileUploadInput" class="input-button file-upload-btn"><span id="fileUploadInputButtonLabel"><?php echo _t('파일 업로드');?></span></label>
-		<button type="button" id="deleteBtn" class="input-button" onclick="parent.deleteAttachment();return false"><span><?php echo _t('선택한 파일 삭제');?></span></button>
+		<label for="fileUploadInput" style="display:inline-block;"><span class="input-button file-upload-btn"><span id="fileUploadInputButtonLabel"><?php echo _t('파일 업로드');?></span></span></label>
+		<a href id="deleteBtn" class="input-button" onclick="parent.deleteAttachment();return false"><span><?php echo _t('선택한 파일 삭제');?></span></a>
 	</form>
 	<div class="upload-progress">
 		<progress id="upload-progress-bar" min="0" max="100" value="0">0% complete</progress>
