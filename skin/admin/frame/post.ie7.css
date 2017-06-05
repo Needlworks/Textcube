@@ -1,0 +1,43 @@
+@charset "utf-8";
+
+/* Common *****************************************************************************************/
+
+.part table.data-inbox tbody tr td.delete
+{
+	width                            : 12px;
+}
+
+/* Post *******************************************************************************************/
+
+#data-description dl
+{
+	font-family                      : 돋움, Dotum, sans-serif;
+	letter-spacing                   : -1px;
+}
+
+#data-description dl.eolin-description
+{
+	background-position              : 8px top;
+}
+
+#data-description dl.trackback-description
+{
+	background-position              : 6px top;
+}
+
+#data-description dl.protect-description
+{
+	background-position              : left 1px;
+}
+
+/* Tree ******************************************************************************************/
+
+#tree-preview-box .title
+{
+	background-position              : left center;
+}
+
+#treePreview
+{
+	overflow                         : scroll;
+}

@@ -1,0 +1,121 @@
+@charset "utf-8";
+
+/* Select ****************************************************************************************/
+
+#part-skin-list,
+#part-skin-current
+{
+	margin-bottom                    : 20px;
+}
+
+#skin-search-form
+{
+	left                             : 190px;
+}
+
+#part-skin-list .section .preview,
+#part-skin-current .section .preview
+{
+	float                            : left;
+	position                         : static;
+}
+
+#part-skin-current #currentInfo
+{
+	margin-top                       : 200px;
+}
+
+#part-skin-list #iconview-box .section .information
+{
+	width                            : 160px !important;
+}
+
+#part-skin-list #iconview-box .section .information .title-line
+{
+	position                         : relative;
+	top                              : 0;
+	left                             : 0;
+	width                            : 160px !important;
+	clear                            : both;
+	margin                           : 0 !important;
+	padding                          : 0 !important;
+	background-color                 : #EFEFEF;
+}
+
+#search-box
+{
+	top                              : -4px !important;
+}
+
+#viewmode-box
+{
+	top                              : -4px !important;
+}
+/* Edit ******************************************************************************************/
+
+#part-skin-edit .section ul
+{
+	height                           : 401px;
+	width                            : 120px;
+}
+
+#part-skin-edit textarea
+{
+	font-family                      : 'courier new', courier, monospace;
+}
+
+#part-skin-edit .section .button-box .input-button
+{
+	font-size                        : 0.9em;
+	line-height                      : 1.6em !important;
+}
+
+#part-skin-current .information dt,
+#part-skin-list .information dt
+{
+	top                              : -4px;
+	margin-left                      : 0 !important;
+}
+
+#part-skin-list .information dl
+{
+	left:-150px;
+}
+
+#part-skin-current .section .information .button-box .edit-button
+{
+	left                             : 42px;
+	position                         : absolute;
+	top                              : -33px;
+	width                            : 60px;
+}
+
+#part-skin-current .section .information .button-box .setting-button
+{
+	left                             : 122px;
+	position                         : absolute;
+	top                              : -33px;
+	width                            : 60px;
+}
+
+/* Setting ***************************************************************************************/
+
+#sidebar-preview-mode
+{
+	background-position              : left 19px;
+}
+
+#part-skin-setting fieldset
+{
+	padding-top                      : 2px;
+}
+
+#part-skin-setting .button-box .input-button
+{
+	padding                          : 0;
+}
+
+#part-setting-admin .button-box .input-button
+{
+	line-height                      : 2.4em;
+}

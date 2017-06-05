@@ -1,0 +1,45 @@
+@charset "utf-8";
+
+/* Basic *****************************************************************************************/
+
+#part-setting-basic .button-box .input-button,
+#part-setting-profile .button-box .input-button,
+#part-setting-rss .button-box .input-button
+{
+	height                           : 2.4em;
+	line-height                      : 2.4em;
+}
+
+/* Account ***************************************************************************************/
+
+#part-setting-account .button-box .input-button
+{
+	height                           : 2.4em;
+	line-height                      : 2.4em;
+}
+
+/* Filter ****************************************************************************************/
+
+#part-setting-filter div.data-inbox .section
+{
+	width                            : 200px;
+}
+
+#part-setting-filter div.data-inbox .section table
+{
+	width                            : 175px;
+}
+
+#part-setting-filter .button-box .add-button
+{
+	line-height                      : 2.4em;
+}
+
+/* Etc ****************************************************************************************/
+
+#part-setting-resample .button-box .input-button,
+#part-setting-language .button-box .input-button,
+#part-setting-editor .button-box .input-button
+{
+	line-height                      : 2.4em;
+}

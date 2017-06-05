@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="1.0">
+	<title xml:lang="en">Xquared WYSIWYG Editor</title>
+	<title xml:lang="ko">Xquared 위지윅 편집기</title>
+	<link>http://needlworks.org/</link>
+	<version>1.8</version>
+	<description xml:lang="en">Provides an easy-to-use WYSIWYG editor interface.</description>
+	<description xml:lang="ko">사용하기 쉬운 위지윅 편집기 환경을 제공합니다.</description>
+	<description xml:lang="ja">Xquared WYSIWYGに編集環境を転換</description>
+	<license>GPL</license>
+	<author xml:lang="en" link="http://forest.nubimaru.com/">inureyes</author>
+	<author xml:lang="ko" link="http://forest.nubimaru.com/"><![CDATA[inureyes]]></author>
+	<safety changeData="no" exposeData="no" accessLocal="no" accessRemote="no" accessRaw="no" />
+	<requirements>
+		<textcube>1.8</textcube>
+	</requirements>
+	<binding>
+		<listener event="ShowAdminHeader">Xquared_adminheader</listener>
+
+		<editor xml:lang="en" id="xquared" name="xquared">
+			<initialize>Xquared_editorinit</initialize>
+			<!--<usedFor formatter="html" />-->
+			<usedFor formatter="ttml" />
+			<usedFor formatter="markdown" />
+			<usedFor formatter="textile" />
+		</editor>
+		<editor xml:lang="ko" id="xquared" name="xquared">
+			<initialize>Xquared_editorinit</initialize>
+			<!--<usedFor formatter="html" />-->
+			<usedFor formatter="ttml" />
+			<usedFor formatter="markdown" />
+			<usedFor formatter="textile" />
+		</editor>
+		
+		<config xml:lang="ko" dataValHandler="Xquared_handleconfig">
+			<window width="500" height="525" />
+			<fieldset legend="기본 설정">
+				<field title="기본 작성 모드" type="select" name="defaultmode">
+					<op value="WYSIWYG" checked="checked"><![CDATA[위지윅 편집기]]></op>
+					<op value="TEXTAREA"><![CDATA[HTML 직접 편집]]></op>
+				</field>
+				<field title="문단을 구별하기 위하여 사용할 태그" type="select" name="paragraphdelim">
+					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
+					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
+				</field>
+			</fieldset>
+		</config>
+		<config xml:lang="en" dataValHandler="Xquared_handleconfig">
+			<window width="500" height="525" />
+			<fieldset legend="Settings">
+				<field title="Default editor mode" type="select" name="defaultmode">
+					<op value="WYSIWYG" checked="checked"><![CDATA[WYSIWYG Editor]]></op>
+					<op value="TEXTAREA"><![CDATA[HTML editor]]></op>
+				</field>
+				<field title="Tag to separate paragraphs" type="select" name="paragraphdelim">
+					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
+					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
+				</field>
+			</fieldset>
+		</config>
+		<config xml:lang="ja" dataValHandler="Xquared_handleconfig">
+			<window width="500" height="525" />
+			<fieldset legend="Settings">
+				<field title="デフォルトモード" type="select" name="defaultmode">
+					<op value="WYSIWYG" checked="checked"><![CDATA[WYSIWYG Editor]]></op>
+					<op value="TEXTAREA"><![CDATA[HTML editor]]></op>
+				</field>
+				<field title="段落区分用のタグ" type="select" name="paragraphdelim">
+					<op value="P"><![CDATA[&lt;p&gt;&lt;/p&gt;]]></op>
+					<op value="BR" checked="checked"><![CDATA[&lt;br /&gt;]]></op>
+				</field>
+			</fieldset>
+		</config>
+	</binding>
+</plugin>
