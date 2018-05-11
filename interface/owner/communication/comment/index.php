@@ -426,9 +426,9 @@ if (sizeof($comments) == 0) {
                     }
 
                     if (empty($comment['parent'])) {
-                        echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록', $comment['name']) : _f('%1 님의 댓글', $comment['name'])) . '</span>';
+                        echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록', htmlspecialchars($comment['name'])) : _f('%1 님의 댓글', htmlspecialchars($comment['name']))) . '</span>';
                     } else {
-                        echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글', $comment['parentName']) : _f('%1 님의 댓글에 대한 댓글', $comment['parentName'])) . '</span>';
+                        echo '<span class="explain">' . (isset($tabsClass['guestbook']) ? _f('%1 님의 방명록에 대한 댓글', htmlspecialchars($comment['parentName'])) : _f('%1 님의 댓글에 대한 댓글', htmlspecialchars($comment['parentName']))) . '</span>';
                     }
                     echo "</a>";
 

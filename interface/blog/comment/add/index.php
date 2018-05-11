@@ -10,7 +10,7 @@ $IV = array(
 	'POST' => array(
 		'key' => array('string', 32, 32),
 		"comment_type" => array(array('idpwd', ''), 'default' => '', 'mandatory' => false),
-		"name" => array('string', 'default' => ''),
+		"name" => array('string', 'default' => '', 'max' => 20),
 		"password" => array('string', 'default' => ''),
 		"secret" => array(array('1', 'on'), 'mandatory' => false),
 		"homepage" => array('url', 'default' => 'http://'),
