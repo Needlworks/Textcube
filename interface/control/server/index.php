@@ -68,8 +68,6 @@ closedir($handler);
 								else requireLogin = 0;
 								if(document.getElementById('flashClipboardPoter').checked) flashClipboardPoter = 1;
 								else flashClipboardPoter = 0;
-								if(document.getElementById('flashUploader').checked) flashUploader = 1;
-								else flashUploader = 0;
 								if(document.getElementById('useDebugMode').checked) useDebugMode = 1;
 								else useDebugMode = 0;
 								if(document.getElementById('useSessionDebugMode').checked) useSessionDebugMode = 1;
@@ -89,7 +87,6 @@ closedir($handler);
 								param += 'allowBlogVisibility='+allowBlogVisibilitySetting +'&';
 								param += 'requireLogin='+requireLogin +'&';
 								param += 'flashClipboardPoter='+flashClipboardPoter +'&';
-								param += 'flashUploader='+flashUploader +'&';
 								param += 'useDebugMode='+useDebugMode +'&';
 								param += 'useSessionDebugMode='+useSessionDebugMode +'&';
 								param += 'useRewriteDebugMode='+useRewriteDebugMode +'&';
@@ -352,12 +349,6 @@ foreach($encodingList as $enc) {
 											<dt><span class="label"><?php echo _t('플래시 트랙백 주소 복사 사용');?></span></dt>
 											<dd>
 												<input type="checkbox" id="flashClipboardPoter" class="checkbox" name="flashClipboardPoter"<?php echo $service['flashclipboardpoter'] ? ' checked="checked"' : '';?> /><label for="flashClipboardPoter"><?php echo _t('크로스 브라우징을 지원하는 트랙백 복사를 위한 플래시를 사용합니다.');?></label>
-											</dd>
-										</dl>
-										<dl id="flash-uploader--line" class="line">
-											<dt><span class="label"><?php echo _t('플래시 업로더 사용');?></span></dt>
-											<dd>
-												<input type="checkbox" id="flashUploader" class="checkbox" name="flashUploader"<?php echo $service['flashuploader']  ? ' checked="checked"' : '';?> /><label for="flashUploader"><?php echo _t('에디터에서 다중 파일 업로드를 지원하는 플래시 업로더를 사용합니다.');?></label>
 											</dd>
 										</dl>
 									</fieldset>

@@ -202,7 +202,6 @@ function tinyMCE_adminheader($target, $mother) {
 	if ($context->getProperty('editor.key') == 'tinyMCE') {
 		if ($context->getProperty('suri.directive') == '/owner/entry/post' || $suri['directive'] == '/owner/entry/edit') {
 			$target .= "\t<script type=\"text/javascript\" src=\"$pluginURL/tinymce/tinymce.min.js\"></script>\n";
-			$target .= "\t<link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"$pluginURL/override.css\" />\n";
 		}
 	}
 	return $target;

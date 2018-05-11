@@ -739,6 +739,7 @@ $__text['선택한 두개의 파일을 글의 중앙에 정렬합니다.'] = 'Ch
 $__text['선택한 링크를 삭제합니다.'] = 'Xóa Link đã chọn.';
 $__text['선택한 세개의 파일을 글의 중앙에 정렬합니다.'] = 'Chèn 3 File vào giữa';
 $__text['선택한 알림을'] = 'Chú ý đã chọn';
+//$__text['선택한 파일 삭제'] = 'Delete Selected';
 $__text['선택한 파일을 글에 삽입합니다. 문단의 모양에 영향을 주지 않습니다.'] = 'Chèn File vào vị trí tùy ý';
 $__text['선택한 파일을 글의 오른쪽에 정렬합니다.'] = 'Chèn File vào bên phải';
 $__text['선택한 파일을 글의 왼쪽에 정렬합니다.'] = 'Chèn File vào bên trái';
