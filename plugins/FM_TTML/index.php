@@ -1,6 +1,6 @@
 <?php
 // TTML Formatter for Textcube 1.10.3
-// (C) 2004-2016 Needlworks / Tatter Network Foundation
+// (C) 2004-2018 Needlworks / Tatter Network Foundation
 
 if(!function_exists('FM_TTML_bindAttachments')) require_once 'ttml.php';
 
